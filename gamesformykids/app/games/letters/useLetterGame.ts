@@ -268,8 +268,10 @@ export function useLetterGame(letters: Letter[]) {
     } else {
       // תשובה לא נכונה - הקראה של האות הנכונה
       setTimeout(() => {
-        speakLetterName(gameState.currentChallenge.name);
-        startRepeatTimer(gameState.currentChallenge.name); // התחלת טיימר מחדש
+        if (gameState.currentChallenge) {
+          speakLetterName(gameState.currentChallenge.name);
+          startRepeatTimer(gameState.currentChallenge.name); // התחלת טיימר מחדש
+        }
       }, 500);
     }
   };
