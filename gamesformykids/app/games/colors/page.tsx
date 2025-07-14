@@ -47,6 +47,30 @@ export default function ColorGame() {
       value: "bg-orange-500",
       sound: [330, 415, 494],
     },
+    {
+      name: "pink",
+      hebrew: "ורוד",
+      value: "bg-pink-500",
+      sound: [587, 698, 784],
+    },
+    {
+      name: "brown",
+      hebrew: "חום",
+      value: "bg-amber-600",
+      sound: [220, 277, 330],
+    },
+    {
+      name: "black",
+      hebrew: "שחור",
+      value: "bg-gray-900",
+      sound: [196, 247, 294],
+    },
+    {
+      name: "white",
+      hebrew: "לבן",
+      value: "bg-gray-100 border-2 border-gray-300",
+      sound: [659, 784, 880],
+    },
   ];
 
   const {
