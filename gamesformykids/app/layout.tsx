@@ -5,8 +5,8 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'משחקים לילדים - גיל 4',
-  description: 'משחקים חינוכיים ומהנים לילדים בגיל 4',
+  title: '2-5 משחקים לילדים ',
+  description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5',
   keywords: 'משחקים, ילדים, חינוכי, זיכרון, צבעים',
 };
 
