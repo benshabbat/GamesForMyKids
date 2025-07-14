@@ -252,6 +252,17 @@ export function useLetterGame(letters: Letter[]) {
       // תשובה נכונה
       speakLetterName(selectedLetter.name);
       playSuccessSound();
+
+      // הקראת "כל הכבוד!"
+      if (speechEnabled && 'speechSynthesis' in window) {
+        const utter = new SpeechSynthesisUtterance("כל הכבוד!");
+        utter.lang = "he-IL";
+        utter.rate = 0.9;
+        utter.volume = 1.0;
+        utter.pitch = 1.1;
+        window.speechSynthesis.speak(utter);
+      }
+
       setGameState((prev) => ({
         ...prev,
         score: prev.score + 10,

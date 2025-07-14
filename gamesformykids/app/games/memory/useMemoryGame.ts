@@ -108,6 +108,16 @@ export function useMemoryGame() {
     }
   };
 
+  // הוספת פונקציה שמדברת "כל הכבוד!"
+  const speakCongrats = () => {
+    if (!('speechSynthesis' in window)) return;
+    const utter = new SpeechSynthesisUtterance("כל הכבוד!");
+    utter.lang = "he-IL";
+    utter.rate = 0.9;
+    utter.pitch = 1.1;
+    window.speechSynthesis.speak(utter);
+  };
+
   const checkForMatch = ([firstId, secondId]: number[]) => {
     const firstCard = cards.find((c) => c.id === firstId);
     const secondCard = cards.find((c) => c.id === secondId);
@@ -117,6 +127,7 @@ export function useMemoryGame() {
     setTimeout(() => {
       if (isMatch) {
         playSuccessSound();
+        speakCongrats(); // השמעת "כל הכבוד!" בשמחה
         setCards((prev) =>
           prev.map((c) =>
             c.id === firstId || c.id === secondId

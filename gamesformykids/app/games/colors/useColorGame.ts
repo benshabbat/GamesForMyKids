@@ -208,6 +208,11 @@ export function useColorGame(colors: Color[]) {
       // תשובה נכונה
       speakColorName(selectedColor.hebrew);
       playSuccessSound();
+      // השמעת "כל הכבוד!" אחרי שם הצבע
+      setTimeout(() => {
+        speakColorName("כל הכבוד!");
+      }, 700);
+
       setGameState((prev) => ({
         ...prev,
         score: prev.score + 10,
