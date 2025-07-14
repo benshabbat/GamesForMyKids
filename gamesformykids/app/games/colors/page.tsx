@@ -1,5 +1,6 @@
+"use client";
 import React, { useState, useEffect } from 'react';
-import { Star, RotateCcw, Home, Volume2 } from 'lucide-react';
+import { RotateCcw, Home, Volume2 } from 'lucide-react';
 
 interface Color {
   name: string;
@@ -159,13 +160,13 @@ export default function ColorGame() {
 
   if (!gameState.isPlaying) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-rainbow-100 to-rainbow-200 p-4" 
+      <div className="min-h-screen p-4" 
            style={{background: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8e6cf 50%, #dcedc1 75%, #ffd3e1 100%)'}}>
         <div className="max-w-4xl mx-auto text-center">
           {/* Header */}
           <div className="mb-8">
             <button
-              onClick={() => window.history.back()}
+              onClick={() => window.location.href = '/'}
               className="mb-4 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-purple-600 hover:bg-purple-50"
             >
               <Home className="inline w-6 h-6 ml-2" />
@@ -236,7 +237,7 @@ export default function ColorGame() {
         <div className="text-center mb-8">
           <div className="flex justify-between items-center mb-6">
             <button
-              onClick={resetGame}
+              onClick={() => window.location.href = '/'}
               className="px-4 py-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-bold text-gray-600 hover:bg-gray-50"
             >
               <Home className="inline w-5 h-5 ml-2" />
@@ -267,8 +268,7 @@ export default function ColorGame() {
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
                 מצא את הצבע:
               </h2>
-              <div className="text-4xl md:text-6xl font-bold mb-4"
-                   style={{color: gameState.currentChallenge.value.replace('bg-', '').replace('-500', '')}}>
+              <div className="text-4xl md:text-6xl font-bold mb-4 text-purple-800">
                 {gameState.currentChallenge.hebrew}
               </div>
               <p className="text-xl text-gray-600">לחץ על הצבע הנכון!</p>

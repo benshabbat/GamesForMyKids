@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* RTL Support */
 * {
   direction: rtl;
 }
@@ -11,7 +10,6 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* Custom animations for kids */
 @keyframes bounce-gentle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
