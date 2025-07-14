@@ -231,34 +231,39 @@ export function useShapeGame(shapes: Shape[]) {
     
     if (selectedShape.name === gameState.currentChallenge.name) {
       // תשובה נכונה
-      speakShapeName(selectedShape.name);
-      playSuccessSound();
+      (async () => {
+        await speakShapeName(selectedShape.name);
+        playSuccessSound();
 
-      // הקראת "כל הכבוד!" בשמחה
-      if (speechEnabled && 'speechSynthesis' in window) {
-        setTimeout(() => {
-          const utter = new SpeechSynthesisUtterance("וואו! כל הכבוד!");
-          utter.lang = "he-IL";
-          utter.rate = 1.1; // מהיר יותר
-          utter.volume = 1.0;
-          utter.pitch = 1.5; // גבוה יותר
-          window.speechSynthesis.speak(utter);
-        }, 700);
-      }
+        // הקראת "כל הכבוד!" בשמחה אחרי סיום שם הצורה
+        if (speechEnabled && 'speechSynthesis' in window) {
+          await new Promise<void>((resolve) => {
+            const utter = new SpeechSynthesisUtterance("וואו! כל הכבוד!");
+            utter.lang = "he-IL";
+            utter.rate = 1.1;
+            utter.volume = 1.0;
+            utter.pitch = 1.5;
+            utter.onend = () => resolve();
+            utter.onerror = () => resolve();
+            window.speechSynthesis.speak(utter);
+          });
+        }
 
-      setGameState((prev) => ({
-        ...prev,
-        score: prev.score + 10,
-        showCelebration: true,
-      }));
-      setTimeout(() => {
         setGameState((prev) => ({
           ...prev,
-          level: prev.level + 1,
-          showCelebration: false,
+          score: prev.score + 10,
+          showCelebration: true,
         }));
-        selectRandomShape();
-      }, 1500);
+
+        setTimeout(() => {
+          setGameState((prev) => ({
+            ...prev,
+            level: prev.level + 1,
+            showCelebration: false,
+          }));
+          selectRandomShape();
+        }, 300); // זמן קצר אחרי "כל הכבוד"
+      })();
     } else {
       // תשובה לא נכונה - הקראה של הצורה הנכונה
       setTimeout(() => {
