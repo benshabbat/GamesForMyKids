@@ -40,129 +40,37 @@ export function useLetterGame(letters: Letter[]) {
     }
   }, []);
 
-  // הגייה משופרת לאותיות עבריות
-  const getImprovedPronunciation = (letterName: string): { hebrew: string; english: string; phonetic: string } => {
-    const pronunciations: { [key: string]: { hebrew: string; english: string; phonetic: string } } = {
-      'alef': { 
-        hebrew: 'אָלֶף', 
-        english: 'AH-lef', 
-        phonetic: 'AH-lef' 
-      },
-      'bet': { 
-        hebrew: 'בֵּית', 
-        english: 'BEYT', 
-        phonetic: 'BEYT' 
-      },
-      'gimel': { 
-        hebrew: 'גִּימֶל', 
-        english: 'GEE-mel', 
-        phonetic: 'GEE-mel' 
-      },
-      'dalet': { 
-        hebrew: 'דָּלֶת', 
-        english: 'DAH-let', 
-        phonetic: 'DAH-let' 
-      },
-      'hey': { 
-        hebrew: 'הֵא', 
-        english: 'HEH', 
-        phonetic: 'HEH' 
-      },
-      'vav': { 
-        hebrew: 'וָו', 
-        english: 'VAHV', 
-        phonetic: 'VAHV' 
-      },
-      'zayin': { 
-        hebrew: 'זַיִן', 
-        english: 'ZAH-yeen', 
-        phonetic: 'ZAH-yeen' 
-      },
-      'het': { 
-        hebrew: 'חֵית', 
-        english: 'KHET', 
-        phonetic: 'KHET' 
-      },
-      'tet': { 
-        hebrew: 'טֵית', 
-        english: 'TEYT', 
-        phonetic: 'TEYT' 
-      },
-      'yud': { 
-        hebrew: 'יוּד', 
-        english: 'YOOD', 
-        phonetic: 'YOOD' 
-      },
-      'kaf': { 
-        hebrew: 'כַּף', 
-        english: 'KAHF', 
-        phonetic: 'KAHF' 
-      },
-      'lamed': { 
-        hebrew: 'לָמֶד', 
-        english: 'LAH-med', 
-        phonetic: 'LAH-med' 
-      },
-      'mem': { 
-        hebrew: 'מֵם', 
-        english: 'MEHM', 
-        phonetic: 'MEHM' 
-      },
-      'nun': { 
-        hebrew: 'נוּן', 
-        english: 'NOON', 
-        phonetic: 'NOON' 
-      },
-      'samech': { 
-        hebrew: 'סָמֶךְ', 
-        english: 'SAH-mech', 
-        phonetic: 'SAH-mech' 
-      },
-      'ayin': { 
-        hebrew: 'עַיִן', 
-        english: 'AH-yeen', 
-        phonetic: 'AH-yeen' 
-      },
-      'pey': { 
-        hebrew: 'פֵּא', 
-        english: 'PEH', 
-        phonetic: 'PEH' 
-      },
-      'tzadi': { 
-        hebrew: 'צָדִי', 
-        english: 'TSAH-dee', 
-        phonetic: 'TSAH-dee' 
-      },
-      'kuf': { 
-        hebrew: 'קוּף', 
-        english: 'KOOF', 
-        phonetic: 'KOOF' 
-      },
-      'resh': { 
-        hebrew: 'רֵישׁ', 
-        english: 'REYSH', 
-        phonetic: 'REYSH' 
-      },
-      'shin': { 
-        hebrew: 'שִׁין', 
-        english: 'SHEEN', 
-        phonetic: 'SHEEN' 
-      },
-      'tav': { 
-        hebrew: 'תָּו', 
-        english: 'TAHV', 
-        phonetic: 'TAHV' 
-      }
+  // הגייה עברית לאותיות
+  const getHebrewPronunciation = (letterName: string): string => {
+    const pronunciations: { [key: string]: string } = {
+      'alef': 'אָלֶף',
+      'bet': 'בֵּית',
+      'gimel': 'גִּימֶל',
+      'dalet': 'דָּלֶת',
+      'hey': 'הֵא',
+      'vav': 'וָו',
+      'zayin': 'זַיִן',
+      'het': 'חֵית',
+      'tet': 'טֵית',
+      'yud': 'יוּד',
+      'kaf': 'כַּף',
+      'lamed': 'לָמֶד',
+      'mem': 'מֵם',
+      'nun': 'נוּן',
+      'samech': 'סָמֶךְ',
+      'ayin': 'עַיִן',
+      'pey': 'פֵּא',
+      'tzadi': 'צָדִי',
+      'kuf': 'קוּף',
+      'resh': 'רֵישׁ',
+      'shin': 'שִׁין',
+      'tav': 'תָּו'
     };
 
-    return pronunciations[letterName] || { 
-      hebrew: letterName, 
-      english: letterName.toUpperCase(), 
-      phonetic: letterName.toUpperCase() 
-    };
+    return pronunciations[letterName] || letterName;
   };
 
-  // פונקציה משופרת להקראת שמות האותיות עם הגייה נכונה
+  // הקראת שמות האותיות בעברית
   const speakLetterName = async (letterName: string): Promise<void> => {
     if (!speechEnabled || !('speechSynthesis' in window) || isSpeeching) {
       console.log('Speech not available or already speaking');
@@ -173,69 +81,75 @@ export function useLetterGame(letters: Letter[]) {
       setIsSpeeching(true);
 
       const letter = letters.find(l => l.name === letterName);
-      const pronunciation = getImprovedPronunciation(letterName);
+      const hebrewName = getHebrewPronunciation(letterName);
 
       if (!letter) {
         setIsSpeeching(false);
         return;
       }
 
-      // עצירת כל הקראה קודמת
       window.speechSynthesis.cancel();
       await new Promise(resolve => setTimeout(resolve, 200));
 
-      try {
-        const hebrewUtter = new SpeechSynthesisUtterance(pronunciation.hebrew);
-        hebrewUtter.lang = "he-IL";
-        hebrewUtter.rate = 0.6;
-        hebrewUtter.volume = 1.0;
-        hebrewUtter.pitch = 1.0;
+      const hebrewUtter = new SpeechSynthesisUtterance(hebrewName);
+      hebrewUtter.lang = "he-IL";
+      hebrewUtter.rate = 0.7;
+      hebrewUtter.volume = 1.0;
+      hebrewUtter.pitch = 1.2;
 
-        const voices = window.speechSynthesis.getVoices();
-        const hebrewVoice = voices.find(voice =>
-          voice.lang.includes('he') ||
-          voice.lang.includes('iw') ||
-          voice.name.toLowerCase().includes('hebrew')
-        );
+      const voices = window.speechSynthesis.getVoices();
+      
+      // חיפוש קול עברי נשי
+      const hebrewFemaleVoice = voices.find(voice =>
+        (voice.lang.includes('he') || voice.lang.includes('iw') || voice.name.toLowerCase().includes('hebrew')) &&
+        (voice.name.toLowerCase().includes('female') || 
+         voice.name.toLowerCase().includes('woman') ||
+         voice.name.toLowerCase().includes('carmit') ||
+         voice.name.toLowerCase().includes('dana') ||
+         !voice.name.toLowerCase().includes('male'))
+      );
 
-        if (hebrewVoice) {
-          hebrewUtter.voice = hebrewVoice;
-          console.log('Using Hebrew voice:', hebrewVoice.name);
-        }
+      const hebrewVoice = hebrewFemaleVoice || voices.find(voice =>
+        voice.lang.includes('he') ||
+        voice.lang.includes('iw') ||
+        voice.name.toLowerCase().includes('hebrew')
+      );
 
-        const hebrewPromise = new Promise<boolean>((resolve) => {
-          let resolved = false;
-
-          hebrewUtter.onend = () => {
-            if (!resolved) {
-              resolved = true;
-              console.log('Hebrew speech succeeded:', pronunciation.hebrew);
-              resolve(true);
-            }
-          };
-
-          hebrewUtter.onerror = (event) => {
-            if (!resolved) {
-              resolved = true;
-              console.log('Hebrew speech failed:', event.error);
-              resolve(false);
-            }
-          };
-
-          setTimeout(() => {
-            if (!resolved) {
-              resolved = true;
-              window.speechSynthesis.cancel();
-              resolve(false);
-            }
-          }, 3000);
-        });
-
-        window.speechSynthesis.speak(hebrewUtter);
-        await hebrewPromise;
-      } catch (error) {
-        console.log('Hebrew attempt failed:', error);
+      if (hebrewVoice) {
+        hebrewUtter.voice = hebrewVoice;
+        console.log('Using Hebrew voice:', hebrewVoice.name);
       }
+
+      const hebrewPromise = new Promise<boolean>((resolve) => {
+        let resolved = false;
+
+        hebrewUtter.onend = () => {
+          if (!resolved) {
+            resolved = true;
+            console.log('Hebrew speech succeeded:', hebrewName);
+            resolve(true);
+          }
+        };
+
+        hebrewUtter.onerror = (event) => {
+          if (!resolved) {
+            resolved = true;
+            console.log('Hebrew speech failed:', event.error);
+            resolve(false);
+          }
+        };
+
+        setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            window.speechSynthesis.cancel();
+            resolve(false);
+          }
+        }, 3000);
+      });
+
+      window.speechSynthesis.speak(hebrewUtter);
+      await hebrewPromise;
 
       setIsSpeeching(false);
 
@@ -295,7 +209,7 @@ export function useLetterGame(letters: Letter[]) {
     
     setTimeout(() => {
       speakLetterName(randomLetter.name);
-    }, 1200); // קצת יותר זמן להכנה
+    }, 1200);
   };
 
   const startGame = (): void => {
