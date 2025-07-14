@@ -9,7 +9,6 @@ type LetterOptionsProps = {
 
 export default function LetterOptions({
   options,
-  currentChallenge,
   onLetterClick,
 }: LetterOptionsProps) {
   return (
@@ -18,16 +17,7 @@ export default function LetterOptions({
         <div
           key={letter.name}
           onClick={() => onLetterClick(letter)}
-          className={`
-            aspect-square rounded-3xl cursor-pointer transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-            bg-gradient-to-br from-orange-400 to-red-400 text-white
-            border-8 border-white
-            ${
-              currentChallenge?.name === letter.name
-                ? "ring-4 ring-yellow-400 ring-offset-4"
-                : ""
-            }
-          `}
+          className="aspect-square rounded-3xl cursor-pointer transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl bg-gradient-to-br from-orange-400 to-red-400 text-white border-8 border-white"
         >
           <div className="w-full h-full flex flex-col items-center justify-center">
             <div className="text-6xl md:text-8xl font-bold mb-2">

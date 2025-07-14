@@ -9,7 +9,6 @@ type ColorGridProps = {
 
 export default function ColorGrid({
   colors,
-  currentChallenge,
   onColorClick,
 }: ColorGridProps) {
   return (
@@ -22,11 +21,6 @@ export default function ColorGrid({
             aspect-square rounded-3xl cursor-pointer transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
             ${color.value}
             border-8 border-white
-            ${
-              currentChallenge?.name === color.name
-                ? "ring-4 ring-yellow-400 ring-offset-4"
-                : ""
-            }
           `}
         >
           <div className="w-full h-full flex flex-col items-center justify-center text-white">

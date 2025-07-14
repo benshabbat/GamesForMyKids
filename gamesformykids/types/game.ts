@@ -36,7 +36,7 @@ export interface GameState {
   showCelebration: boolean;
 }
 
-// הוספת ממשק חדש למשחק אותיות
+// ממשק למשחק אותיות
 export interface Letter {
   name: string;
   hebrew: string;
@@ -51,6 +51,25 @@ export interface LetterGameState {
   isPlaying: boolean;
   showCelebration: boolean;
   options: Letter[];
+}
+
+// ממשק למשחק צורות
+export interface Shape {
+  name: string;
+  hebrew: string;
+  english: string;
+  color: string;
+  sound: number[];
+  svg: string;
+}
+
+export interface ShapeGameState {
+  currentChallenge: Shape | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Shape[];
 }
 
 export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'bubbles';

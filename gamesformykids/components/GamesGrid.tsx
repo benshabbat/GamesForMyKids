@@ -34,11 +34,11 @@ function GamesGrid() {
     {
       id: "shapes",
       title: "משחק צורות",
-      description: "למד צורות",
+      description: "למד צורות!",
       icon: <Square className="w-8 h-8" />,
       color: "bg-green-400 hover:bg-green-500",
       href: "/games/shapes",
-      available: false,
+      available: true,
     },
     {
       id: "bubbles",
