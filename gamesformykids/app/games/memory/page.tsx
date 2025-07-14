@@ -37,7 +37,7 @@ export default function MemoryGamePage() {
   // יצירת AudioContext לצלילים
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      setAudioContext(new (window.AudioContext || (window as any).webkitAudioContext)());
+      setAudioContext(new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)());
     }
   }, []);
 
