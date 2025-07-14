@@ -17,21 +17,22 @@ export function useMemoryGame() {
     { emoji: "🐼", sound: "chirp", name: "פנדה" },
   ];
 
-  const emojis: string[] = animals.map((animal) => animal.emoji);
+  const emojis = animals.map((animal) => animal.emoji);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setAudioContext(
-        new (window.AudioContext ||
-          (window as unknown as { webkitAudioContext: typeof AudioContext })
-            .webkitAudioContext)()
+        new (
+          window.AudioContext ||
+          (window as Window & typeof globalThis & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext
+        )()
       );
     }
   }, []);
 
-  const playAnimalSound = (emoji: string): void => {
+  const playAnimalSound = (emoji: string) => {
     if (!audioContext) return;
-    const frequencies: { [key: string]: number[] } = {
+    const frequencies: Record<string, number[]> = {
       "🐱": [800, 1000, 600],
       "🐶": [200, 300, 150],
       "🐰": [400, 500, 600],
@@ -39,98 +40,105 @@ export function useMemoryGame() {
       "🐻": [100, 150, 80],
       "🐼": [300, 400, 350],
     };
-    const freqs = frequencies[emoji] || [440, 550, 330];
-    freqs.forEach((freq, index) => {
+    (frequencies[emoji] || [440, 550, 330]).forEach((freq, i) => {
       const osc = audioContext.createOscillator();
       const gain = audioContext.createGain();
       osc.connect(gain);
       gain.connect(audioContext.destination);
-      osc.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.2);
+      const t = audioContext.currentTime + i * 0.2;
+      osc.frequency.setValueAtTime(freq, t);
       osc.type = "sine";
-      gain.gain.setValueAtTime(0, audioContext.currentTime + index * 0.2);
-      gain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + index * 0.2 + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.2 + 0.15);
-      osc.start(audioContext.currentTime + index * 0.2);
-      osc.stop(audioContext.currentTime + index * 0.2 + 0.15);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.3, t + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
+      osc.start(t);
+      osc.stop(t + 0.15);
     });
   };
 
-  const playSuccessSound = (): void => {
+  const playSuccessSound = () => {
     if (!audioContext) return;
-    const notes = [523, 659, 784, 1047];
-    notes.forEach((freq, index) => {
+    [523, 659, 784, 1047].forEach((freq, i) => {
       const osc = audioContext.createOscillator();
       const gain = audioContext.createGain();
       osc.connect(gain);
       gain.connect(audioContext.destination);
-      osc.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.1);
+      const t = audioContext.currentTime + i * 0.1;
+      osc.frequency.setValueAtTime(freq, t);
       osc.type = "triangle";
-      gain.gain.setValueAtTime(0, audioContext.currentTime + index * 0.1);
-      gain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + index * 0.1 + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.1 + 0.08);
-      osc.start(audioContext.currentTime + index * 0.1);
-      osc.stop(audioContext.currentTime + index * 0.1 + 0.08);
+      gain.gain.setValueAtTime(0, t);
+      gain.gain.linearRampToValueAtTime(0.2, t + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
+      osc.start(t);
+      osc.stop(t + 0.08);
     });
   };
 
-  const initializeGame = (): void => {
-    const gameCards: Card[] = [...emojis, ...emojis]
-      .map((emoji, index) => ({
-        id: index,
+  const createShuffledCards = (): Card[] =>
+    [...emojis, ...emojis]
+      .map((emoji, i) => ({
+        id: i,
         emoji,
         isFlipped: false,
         isMatched: false,
       }))
       .sort(() => Math.random() - 0.5);
-    setCards(gameCards);
+
+  const initializeGame = () => {
+    setCards(createShuffledCards());
     setFlippedCards([]);
     setMatchedPairs([]);
     setIsGameStarted(true);
   };
 
-  const handleCardClick = (cardId: number): void => {
+  const handleCardClick = (cardId: number) => {
     if (flippedCards.length >= 2) return;
     const card = cards.find((c) => c.id === cardId);
     if (!card || card.isFlipped || card.isMatched) return;
+
     playAnimalSound(card.emoji);
-    const newFlippedCards = [...flippedCards, cardId];
-    setFlippedCards(newFlippedCards);
+    const newFlipped = [...flippedCards, cardId];
+    setFlippedCards(newFlipped);
     setCards((prev) =>
       prev.map((c) => (c.id === cardId ? { ...c, isFlipped: true } : c))
     );
-    if (newFlippedCards.length === 2) {
-      const [firstId, secondId] = newFlippedCards;
-      const firstCard = cards.find((c) => c.id === firstId);
-      const secondCard = cards.find((c) => c.id === secondId);
-      if (firstCard && secondCard && firstCard.emoji === secondCard.emoji) {
-        setTimeout(() => {
-          playSuccessSound();
-          setCards((prev) =>
-            prev.map((c) =>
-              c.id === firstId || c.id === secondId
-                ? { ...c, isMatched: true }
-                : c
-            )
-          );
-          setMatchedPairs((prev) => [...prev, firstCard.emoji]);
-          setFlippedCards([]);
-        }, 1000);
-      } else {
-        setTimeout(() => {
-          setCards((prev) =>
-            prev.map((c) =>
-              c.id === firstId || c.id === secondId
-                ? { ...c, isFlipped: false }
-                : c
-            )
-          );
-          setFlippedCards([]);
-        }, 1000);
-      }
+
+    if (newFlipped.length === 2) {
+      checkForMatch(newFlipped);
     }
   };
 
-  const isGameWon: boolean = matchedPairs.length === emojis.length;
+  const checkForMatch = ([firstId, secondId]: number[]) => {
+    const firstCard = cards.find((c) => c.id === firstId);
+    const secondCard = cards.find((c) => c.id === secondId);
+    if (!firstCard || !secondCard) return;
+
+    const isMatch = firstCard.emoji === secondCard.emoji;
+    setTimeout(() => {
+      if (isMatch) {
+        playSuccessSound();
+        setCards((prev) =>
+          prev.map((c) =>
+            c.id === firstId || c.id === secondId
+              ? { ...c, isMatched: true }
+              : c
+          )
+        );
+        setMatchedPairs((prev) => [...prev, firstCard.emoji]);
+      } else {
+        setCards((prev) =>
+          prev.map((c) =>
+            c.id === firstId || c.id === secondId
+              ? { ...c, isFlipped: false }
+              : c
+          )
+        );
+      }
+      setFlippedCards([]);
+    }, 1000);
+  };
+
+  const isGameWon = matchedPairs.length === emojis.length;
 
   return {
     animals,
