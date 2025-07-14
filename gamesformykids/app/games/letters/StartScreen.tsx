@@ -8,7 +8,7 @@ type StartScreenProps = {
   onSpeak: (letterName: string) => void;
 };
 
-export default function StartScreen({ letters, onStart, onSpeak }: StartScreenProps) {
+export default function StartScreen({ letters, onStart }: StartScreenProps) {
   return (
     <div
       className="min-h-screen p-4"
