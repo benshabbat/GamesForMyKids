@@ -234,14 +234,14 @@ export function useShapeGame(shapes: Shape[]) {
       speakShapeName(selectedShape.name);
       playSuccessSound();
 
-      // הקראת "כל הכבוד!"
+      // הקראת "כל הכבוד!" בשמחה
       if (speechEnabled && 'speechSynthesis' in window) {
         setTimeout(() => {
-          const utter = new SpeechSynthesisUtterance("כל הכבוד!");
+          const utter = new SpeechSynthesisUtterance("וואו! כל הכבוד!");
           utter.lang = "he-IL";
-          utter.rate = 0.9;
+          utter.rate = 1.1; // מהיר יותר
           utter.volume = 1.0;
-          utter.pitch = 1.1;
+          utter.pitch = 1.5; // גבוה יותר
           window.speechSynthesis.speak(utter);
         }, 700);
       }
