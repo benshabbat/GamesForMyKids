@@ -25,11 +25,11 @@ export default function HomePage() {
     {
       id: 'colors',
       title: 'משחק צבעים',
-      description: 'התאם צבעים',
+      description: 'למד צבעים!',
       icon: <Circle className="w-8 h-8" />,
       color: 'bg-blue-400 hover:bg-blue-500',
       href: '/games/colors',
-      available: false
+      available: true  // ← עכשיו זמין!
     },
     {
       id: 'shapes',
@@ -93,6 +93,7 @@ export default function HomePage() {
       {/* Footer */}
       <footer className="text-center py-8 text-purple-600">
         <p className="text-lg">נוצר במיוחד לילדים בגיל 4 💜</p>
+        <p className="text-sm mt-2">2 משחקים זמינים, עוד בדרך!</p>
       </footer>
     </div>
   );
