@@ -1,4 +1,3 @@
-import React from 'react';
 import Link from 'next/link';
 import { Star, Heart, Circle, Square, Music } from 'lucide-react';
 
