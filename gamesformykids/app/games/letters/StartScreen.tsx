@@ -1,5 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
 import GameInstructions from "./GameInstructions";
+import AudioHelper from "./AudioHelper";
 import { Letter } from "@/types/game";
 
 type StartScreenProps = {
@@ -34,6 +35,9 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
           </p>
         </div>
 
+        {/* עזרה לשמע במחשב */}
+        <AudioHelper />
+
         {/* הסבר המשחק */}
         <GameInstructions />
 
@@ -45,17 +49,99 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
           בואו נתחיל! 🚀
         </button>
 
-        {/* כפתור בדיקת דיבור */}
+        {/* כפתורי הפעלת שמע */}
         <div className="mb-8">
           <button
-            onClick={() => onSpeak("alef")}
-            className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
+            onClick={async () => {
+              // טעינת קולות
+              if (typeof window !== 'undefined' && window.speechSynthesis) {
+                const voices = window.speechSynthesis.getVoices();
+                if (voices.length === 0) {
+                  // טעינת קולות
+                  window.speechSynthesis.getVoices();
+                  await new Promise(resolve => {
+                    window.speechSynthesis.onvoiceschanged = resolve;
+                  });
+                }
+                
+                // הפעלת AudioContext
+                const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+                if (AudioContextClass) {
+                  const tempCtx = new AudioContextClass();
+                  if (tempCtx.state === 'suspended') {
+                    await tempCtx.resume();
+                  }
+                  tempCtx.close();
+                }
+                
+                // בדיקת קולות זמינים
+                const availableVoices = window.speechSynthesis.getVoices();
+                const hebrewVoices = availableVoices.filter(v => 
+                  v.lang.includes('he') || v.lang.includes('iw')
+                );
+                
+                if (hebrewVoices.length > 0) {
+                  alert(`שמע הופעל! נמצאו ${hebrewVoices.length} קולות עבריים`);
+                } else {
+                  alert('שמע הופעל! לא נמצאו קולות עבריים - ישמע באנגלית');
+                }
+              }
+            }}
+            className="px-6 py-3 bg-red-500 text-white rounded-full text-lg font-bold hover:bg-red-600 transition-all duration-300 shadow-lg mr-4"
+          >
+            🚀 הפעל שמע במחשב
+          </button>
+          
+          <button
+            onClick={async () => {
+              await onSpeak("alef");
+            }}
+            className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg mr-4"
           >
             🎤 בדיקת קול
           </button>
-          <p className="text-sm text-orange-100 mt-2">
-            לחץ לבדיקה אם אתה שומע &quot;א&quot;
+
+          <button
+            onClick={() => {
+              if (typeof window !== 'undefined' && window.speechSynthesis) {
+                const voices = window.speechSynthesis.getVoices();
+                const hebrewVoices = voices.filter(v => 
+                  v.lang.includes('he') || v.lang.includes('iw')
+                );
+                const englishVoices = voices.filter(v => 
+                  v.lang.includes('en')
+                );
+                
+                let message = `סך הכל ${voices.length} קולות זמינים:\n`;
+                message += `🔹 עברית: ${hebrewVoices.length} קולות\n`;
+                message += `🔹 אנגלית: ${englishVoices.length} קולות\n\n`;
+                
+                if (hebrewVoices.length > 0) {
+                  message += 'קולות עבריים:\n';
+                  hebrewVoices.forEach(v => message += `• ${v.name} (${v.lang})\n`);
+                }
+                
+                alert(message);
+              }
+            }}
+            className="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-bold hover:bg-green-600 transition-all duration-300 shadow-lg"
+          >
+            📋 בדוק קולות
+          </button>
+          
+          <p className="text-sm text-orange-100 mt-3 max-w-md mx-auto">
+            <strong>במחשב:</strong> לחץ על הכפתור האדום קודם, ואז בדיקת קול<br/>
+            <strong>💬 תשמע שמות אותיות בעברית או באנגלית!</strong>
           </p>
+          
+          <details className="mt-4 text-xs text-orange-200">
+            <summary className="cursor-pointer hover:text-white">📋 עזרה נוספת</summary>
+            <div className="mt-2 p-2 bg-orange-600 bg-opacity-30 rounded">
+              <p>• וודא שהעוצמה מופעלת במחשב</p>
+              <p>• נסה דפדפן אחר (Chrome עובד הכי טוב)</p>
+              <p>• במקום אותיות, תשמע צלילים מוזיקליים</p>
+            </div>
+          </details>
         </div>
 
         {/* דוגמת אותיות */}
@@ -93,43 +179,6 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
           </div>
           <p className="text-orange-100 mt-4">
             לחץ על אות כדי לשמוע את השם שלה! (22 אותיות באלף-בית העברי)
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-}
-
-// app/games/letters/GameInstructions.tsx
-export default function GameInstructions() {
-  return (
-    <div className="bg-white bg-opacity-90 rounded-3xl p-8 mb-8 shadow-xl">
-      <h2 className="text-3xl font-bold text-gray-800 mb-4">
-        איך משחקים?
-      </h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
-        <div className="text-center">
-          <div className="text-4xl mb-3">👂</div>
-          <p>
-            <strong>1. תשמע</strong>
-            <br />
-            איזו אות אני אומר
-          </p>
-        </div>
-        <div className="text-center">
-          <div className="text-4xl mb-3">🤔</div>
-          <p>
-            <strong>2. תחשוב</strong>
-            <br />
-            איך נראית האות
-          </p>
-        </div>
-        <div className="text-center">
-          <div className="text-4xl mb-3">👆</div>
-          <p>
-            <strong>3. תלחץ</strong>
-            <br />
-            על האות הנכונה
           </p>
         </div>
       </div>
