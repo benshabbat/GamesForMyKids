@@ -1,8 +1,10 @@
 "use client";
 
 import { AnimalData, Card } from "@/types/game";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import MemoryGameBoard from "./MemoryGameBoard";
+import GameWinMessage from "./GameWinMessage";
+import GameHeader from "./GameHeader";
 
 export default function MemoryGamePage() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -195,48 +197,15 @@ export default function MemoryGamePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 p-4">
       <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-purple-800 mb-4">
-            משחק זיכרון 🧠
-          </h1>
-          <p className="text-xl text-purple-600 mb-6">מצא את הזוגות הזהים!</p>
-
-          {!isGameStarted ? (
-            <button
-              onClick={initializeGame}
-              className="px-8 py-4 bg-pink-500 text-white rounded-full text-2xl font-bold hover:bg-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
-            >
-              התחל משחק! 🎮
-            </button>
-          ) : (
-            <div className="mb-6">
-              <p className="text-lg text-purple-700">
-                זוגות שנמצאו: {matchedPairs.length} / {emojis.length}
-              </p>
-              <button
-                onClick={initializeGame}
-                className="mt-2 px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all duration-300"
-              >
-                משחק חדש
-              </button>
-            </div>
-          )}
-        </div>
+        <GameHeader
+          isGameStarted={isGameStarted}
+          matchedPairs={matchedPairs.length}
+          totalPairs={emojis.length}
+          onStart={initializeGame}
+        />
 
         {isGameWon && (
-          <div className="text-center mb-8 p-6 bg-yellow-200 rounded-2xl shadow-lg animate-bounce-gentle">
-            <h2 className="text-3xl font-bold text-yellow-800 mb-2">
-              🎉 כל הכבוד! 🎉
-            </h2>
-            <p className="text-xl text-yellow-700">מצאת את כל הזוגות!</p>
-            <div className="mt-4 text-2xl">
-              {animals.map((animal) => (
-                <span key={animal.emoji} className="mx-1">
-                  {animal.emoji}
-                </span>
-              ))}
-            </div>
-          </div>
+          <GameWinMessage animals={animals} />
         )}
 
         {isGameStarted && (
