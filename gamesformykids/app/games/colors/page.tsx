@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { RotateCcw, Home, Volume2 } from 'lucide-react';
@@ -343,7 +343,7 @@ export default function ColorGame() {
             >
               🎤 בדיקת קול
             </button>
-            <p className="text-sm text-gray-600 mt-2">לחץ לבדיקה אם אתה שומע "בדיקה"</p>
+            <p className="text-sm text-gray-600 mt-2">לחץ לבדיקה אם אתה שומע &quot;בדיקה&quot;</p>
           </div>
 
           {/* דוגמת צבעים */}
