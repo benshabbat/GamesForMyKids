@@ -171,10 +171,10 @@ export function useLetterGame(letters: Letter[]) {
 
     try {
       setIsSpeeching(true);
-      
+
       const letter = letters.find(l => l.name === letterName);
       const pronunciation = getImprovedPronunciation(letterName);
-      
+
       if (!letter) {
         setIsSpeeching(false);
         return;
@@ -183,24 +183,21 @@ export function useLetterGame(letters: Letter[]) {
       // עצירת כל הקראה קודמת
       window.speechSynthesis.cancel();
       await new Promise(resolve => setTimeout(resolve, 200));
-      
-      let success = false;
-      
-      // נסיון ראשון: עברית עם ניקוד
+
       try {
         const hebrewUtter = new SpeechSynthesisUtterance(pronunciation.hebrew);
         hebrewUtter.lang = "he-IL";
-        hebrewUtter.rate = 0.6; // עוד יותר איטי לבהירות
+        hebrewUtter.rate = 0.6;
         hebrewUtter.volume = 1.0;
         hebrewUtter.pitch = 1.0;
-        
+
         const voices = window.speechSynthesis.getVoices();
-        const hebrewVoice = voices.find(voice => 
-          voice.lang.includes('he') || 
+        const hebrewVoice = voices.find(voice =>
+          voice.lang.includes('he') ||
           voice.lang.includes('iw') ||
           voice.name.toLowerCase().includes('hebrew')
         );
-        
+
         if (hebrewVoice) {
           hebrewUtter.voice = hebrewVoice;
           console.log('Using Hebrew voice:', hebrewVoice.name);
@@ -208,7 +205,7 @@ export function useLetterGame(letters: Letter[]) {
 
         const hebrewPromise = new Promise<boolean>((resolve) => {
           let resolved = false;
-          
+
           hebrewUtter.onend = () => {
             if (!resolved) {
               resolved = true;
@@ -216,7 +213,7 @@ export function useLetterGame(letters: Letter[]) {
               resolve(true);
             }
           };
-          
+
           hebrewUtter.onerror = (event) => {
             if (!resolved) {
               resolved = true;
@@ -224,7 +221,7 @@ export function useLetterGame(letters: Letter[]) {
               resolve(false);
             }
           };
-          
+
           setTimeout(() => {
             if (!resolved) {
               resolved = true;
@@ -235,148 +232,13 @@ export function useLetterGame(letters: Letter[]) {
         });
 
         window.speechSynthesis.speak(hebrewUtter);
-        success = await hebrewPromise;
+        await hebrewPromise;
       } catch (error) {
         console.log('Hebrew attempt failed:', error);
       }
 
-      // נסיון שני: אנגלית עם הגייה פונטית משופרת
-      if (!success) {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        try {
-          const englishUtter = new SpeechSynthesisUtterance(pronunciation.phonetic);
-          englishUtter.lang = "en-US";
-          englishUtter.rate = 0.6; // איטי מאוד לבהירות
-          englishUtter.volume = 1.0;
-          englishUtter.pitch = 0.9; // טון מעט נמוך יותר לבהירות
-
-          // חיפוש קול אנגלי איכותי ובהיר
-          const voices = window.speechSynthesis.getVoices();
-          
-          // העדפה לקולות נקיים ובהירים
-          const preferredVoices = [
-            'Google US English',
-            'Microsoft Zira Desktop',
-            'Microsoft David Desktop', 
-            'Alex',
-            'Samantha',
-            'Karen'
-          ];
-          
-          let selectedVoice = null;
-          
-          // חיפוש קול מועדף
-          for (const voiceName of preferredVoices) {
-            selectedVoice = voices.find(voice => 
-              voice.name.includes(voiceName) && voice.lang.includes('en')
-            );
-            if (selectedVoice) break;
-          }
-          
-          // אם לא נמצא, חיפוש קול איכותי כללי
-          if (!selectedVoice) {
-            selectedVoice = voices.find(voice => 
-              voice.lang.includes('en-US') && 
-              (voice.name.toLowerCase().includes('natural') ||
-               voice.name.toLowerCase().includes('premium') ||
-               voice.name.toLowerCase().includes('neural') ||
-               voice.name.toLowerCase().includes('female'))
-            );
-          }
-          
-          if (selectedVoice) {
-            englishUtter.voice = selectedVoice;
-            console.log('Using English voice:', selectedVoice.name, 'for:', pronunciation.phonetic);
-          }
-
-          const englishPromise = new Promise<boolean>((resolve) => {
-            let resolved = false;
-            
-            englishUtter.onend = () => {
-              if (!resolved) {
-                resolved = true;
-                console.log('English speech succeeded:', pronunciation.phonetic);
-                resolve(true);
-              }
-            };
-            
-            englishUtter.onerror = (event) => {
-              if (!resolved) {
-                resolved = true;
-                console.log('English speech failed:', event.error);
-                resolve(false);
-              }
-            };
-            
-            setTimeout(() => {
-              if (!resolved) {
-                resolved = true;
-                window.speechSynthesis.cancel();
-                resolve(false);
-              }
-            }, 3000);
-          });
-
-          window.speechSynthesis.speak(englishUtter);
-          success = await englishPromise;
-        } catch (error) {
-          console.log('English attempt failed:', error);
-        }
-      }
-
-      // נסיון שלישי: עברית פשוטה ללא ניקוד
-      if (!success) {
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        try {
-          const simpleHebrewUtter = new SpeechSynthesisUtterance(letter.hebrew);
-          simpleHebrewUtter.lang = "he-IL";
-          simpleHebrewUtter.rate = 0.5; // מאוד איטי
-          simpleHebrewUtter.volume = 1.0;
-          simpleHebrewUtter.pitch = 1.0;
-
-          const simplePromise = new Promise<boolean>((resolve) => {
-            let resolved = false;
-            
-            simpleHebrewUtter.onend = () => {
-              if (!resolved) {
-                resolved = true;
-                console.log('Simple Hebrew speech succeeded:', letter.hebrew);
-                resolve(true);
-              }
-            };
-            
-            simpleHebrewUtter.onerror = (event) => {
-              if (!resolved) {
-                resolved = true;
-                console.log('Simple Hebrew speech failed:', event.error);
-                resolve(false);
-              }
-            };
-            
-            setTimeout(() => {
-              if (!resolved) {
-                resolved = true;
-                window.speechSynthesis.cancel();
-                resolve(false);
-              }
-            }, 3000);
-          });
-
-          window.speechSynthesis.speak(simpleHebrewUtter);
-          success = await simplePromise;
-        } catch (error) {
-          console.log('Simple Hebrew attempt failed:', error);
-        }
-      }
-
-      if (!success) {
-        console.log('All speech attempts failed for:', letterName);
-      }
-      
       setIsSpeeching(false);
-      
+
     } catch (error) {
       console.log('Speech failed completely:', error);
       setIsSpeeching(false);
