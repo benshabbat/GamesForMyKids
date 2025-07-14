@@ -1,15 +1,17 @@
-import { Animal } from "@/types/game";
+import { AnimalData } from "@/types/game";
 import { Home } from "lucide-react";
-
-
 
 type StartScreenProps = {
   onStart: () => void;
-  animals: Animal[];
+  animals: AnimalData[];
   onSpeak?: (name: string) => void;
 };
 
-export default function StartScreen({ onStart, animals, onSpeak }: StartScreenProps) {
+export default function StartScreen({
+  onStart,
+  animals,
+  onSpeak,
+}: StartScreenProps) {
   return (
     <div
       className="min-h-screen p-4"
@@ -37,7 +39,9 @@ export default function StartScreen({ onStart, animals, onSpeak }: StartScreenPr
 
         {/* הסבר המשחק */}
         <div className="bg-white rounded-xl shadow-md p-6 mb-8 mx-auto max-w-2xl">
-          <h2 className="text-2xl font-bold text-purple-700 mb-4">איך משחקים?</h2>
+          <h2 className="text-2xl font-bold text-purple-700 mb-4">
+            איך משחקים?
+          </h2>
           <ul className="text-lg text-gray-700 list-disc list-inside text-right">
             <li>לחץ על קלף כדי לחשוף חיה.</li>
             <li>נסה למצוא זוגות תואמים של חיות.</li>
@@ -62,7 +66,7 @@ export default function StartScreen({ onStart, animals, onSpeak }: StartScreenPr
             {animals.map((animal) => (
               <div
                 key={animal.name}
-                className={`w-20 h-20 rounded-full shadow-lg ${animal.color} flex items-center justify-center text-3xl font-bold border-4 border-white cursor-pointer`}
+                className={`w-20 h-20 rounded-full shadow-lg flex items-center justify-center text-3xl font-bold border-4 border-white cursor-pointer`}
                 onClick={() => onSpeak && onSpeak(animal.name)}
                 title={animal.name}
               >
@@ -71,7 +75,7 @@ export default function StartScreen({ onStart, animals, onSpeak }: StartScreenPr
             ))}
           </div>
           <p className="text-gray-600 mt-4">
-            לחץ על "בואו נתחיל!" כדי להתחיל לשחק ולגלות את כל החיות!
+            לחץ על &quot;בואו נתחיל!&quot; כדי להתחיל לשחק ולגלות את כל החיות!
           </p>
         </div>
       </div>

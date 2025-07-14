@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Star, Heart, Circle, Square, Music } from "lucide-react";
+import { Star, Heart, Circle, Square, Music, Type } from "lucide-react";
 import { Game } from "@/types/game";
 
 function GamesGrid() {
@@ -23,6 +23,15 @@ function GamesGrid() {
       available: true,
     },
     {
+      id: "letters",
+      title: "משחק אותיות",
+      description: "למד אותיות!",
+      icon: <Type className="w-8 h-8" />,
+      color: "bg-orange-400 hover:bg-orange-500",
+      href: "/games/letters",
+      available: true,
+    },
+    {
       id: "shapes",
       title: "משחק צורות",
       description: "למד צורות",
@@ -41,6 +50,7 @@ function GamesGrid() {
       available: false,
     },
   ];
+  
   return (
     <div className="max-w-4xl mx-auto px-4 pb-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

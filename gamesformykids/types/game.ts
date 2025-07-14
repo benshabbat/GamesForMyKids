@@ -27,6 +27,7 @@ export interface Color {
   value: string;
   sound: number[];
 }
+
 export interface GameState {
   currentChallenge: Color | null;
   score: number;
@@ -35,9 +36,21 @@ export interface GameState {
   showCelebration: boolean;
 }
 
- export type Animal = {
-  emoji: string;
+// הוספת ממשק חדש למשחק אותיות
+export interface Letter {
   name: string;
-  color: string;
-};
-export type GameType = 'memory' | 'colors' | 'shapes' | 'bubbles';
+  hebrew: string;
+  english: string;
+  sound: number[];
+}
+
+export interface LetterGameState {
+  currentChallenge: Letter | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Letter[];
+}
+
+export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'bubbles';
