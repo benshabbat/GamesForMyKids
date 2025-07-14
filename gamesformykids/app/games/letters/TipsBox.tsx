@@ -6,7 +6,7 @@ export default function TipsBox() {
           💡 טיפ: תשמע את שם האות שאני אומר!
         </h3>
         <p className="text-gray-600">
-          לחץ על האמוג'י למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות
+          לחץ על האמוג&apos;י למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות
         </p>
       </div>
     </div>

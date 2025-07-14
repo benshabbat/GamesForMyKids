@@ -71,7 +71,7 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
                     setTimeout(() => {
                       alert('✅ שמע הופעל! עכשיו נסה בדיקת קול');
                     }, 500);
-                  } catch (error) {
+                  } catch {
                     alert('❌ בעיה בהפעלת שמע. נסה דפדפן אחר');
                   }
                 }

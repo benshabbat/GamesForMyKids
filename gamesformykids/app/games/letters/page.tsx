@@ -151,7 +151,6 @@ export default function LetterGame() {
     startGame,
     handleLetterClick,
     resetGame,
-    getAvailableLetters,
   } = useLetterGame(letters);
 
   if (!gameState.isPlaying) {

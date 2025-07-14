@@ -33,11 +33,11 @@ export default function AudioHelper() {
           🚨 דפדפנים חוסמים שמע אוטומטי!
         </p>
         <div className="text-sm text-red-600 space-y-1">
-          <p>✅ <strong>שלב 1:</strong> לחץ על הכפתור האדום "הפעל שמע במחשב"</p>
+          <p>✅ <strong>שלב 1:</strong> לחץ על הכפתור האדום &quot;הפעל שמע במחשב&quot;</p>
           <p>✅ <strong>שלב 2:</strong> חכה להודעה על קולות זמינים</p>
-          <p>✅ <strong>שלב 3:</strong> לחץ על הכפתור הכחול "בדיקת קול"</p>
-          <p>✅ <strong>שלב 4:</strong> אם שמעת "Alef" או צליל - תתחיל לשחק!</p>
-          <p>🔹 <strong>בונוס:</strong> לחץ "בדוק קולות" לראות מה זמין</p>
+          <p>✅ <strong>שלב 3:</strong> לחץ על הכפתור הכחול &quot;בדיקת קול&quot;</p>
+          <p>✅ <strong>שלב 4:</strong> אם שמעת &quot;Alef&quot; או צליל - תתחיל לשחק!</p>
+          <p>🔹 <strong>בונוס:</strong> לחץ &quot;בדוק קולות&quot; לראות מה זמין</p>
         </div>
       </div>
       

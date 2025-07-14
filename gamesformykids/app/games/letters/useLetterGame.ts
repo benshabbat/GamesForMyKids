@@ -35,7 +35,7 @@ export function useLetterGame(letters: Letter[]) {
       }
       
       // יצירת AudioContext
-      const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (AudioContextClass) {
         const ctx = new AudioContextClass();
         setAudioContext(ctx);
@@ -215,45 +215,6 @@ export function useLetterGame(letters: Letter[]) {
     } catch (error) {
       console.log('Speech failed completely:', error);
       setIsSpeeching(false);
-    }
-  };
-
-  // השמעת צליל אות - משופרת עם מנגינה נעימה
-  const playLetterSound = async (letterSounds: number[]): Promise<void> => {
-    if (!audioContext) return;
-    
-    try {
-      // הפעלת AudioContext אם נדרש
-      if (audioContext.state === 'suspended') {
-        await audioContext.resume();
-      }
-      
-      // יצירת צליל מנגינה יפה
-      letterSounds.forEach((freq, i) => {
-        const osc = audioContext.createOscillator();
-        const gain = audioContext.createGain();
-        
-        // צליל חם ונעים
-        osc.type = "triangle";
-        osc.frequency.value = freq;
-        osc.connect(gain);
-        gain.connect(audioContext.destination);
-        
-        // עיצוב הצליל בצורה מוזיקלית
-        const startTime = audioContext.currentTime + i * 0.25;
-        const duration = 0.4;
-        
-        gain.gain.setValueAtTime(0, startTime);
-        gain.gain.linearRampToValueAtTime(0.25, startTime + 0.05);
-        gain.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-        
-        osc.start(startTime);
-        osc.stop(startTime + duration);
-      });
-      
-      console.log('Playing musical sound for letter');
-    } catch (error) {
-      console.log('Audio playback failed:', error);
     }
   };
 
