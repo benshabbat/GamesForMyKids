@@ -4,6 +4,7 @@ import { useMemoryGame } from "./useMemoryGame";
 import MemoryGameBoard from "./MemoryGameBoard";
 import GameWinMessage from "./GameWinMessage";
 import GameHeader from "./GameHeader";
+import StartScreen from "./StartScreen";
 
 export default function MemoryGamePage() {
   const {
@@ -25,6 +26,10 @@ export default function MemoryGamePage() {
           totalPairs={animals.length}
           onStart={initializeGame}
         />
+
+        {!isGameStarted && (
+          <StartScreen onStart={initializeGame} animals={animals} />
+        )}
 
         {isGameWon && <GameWinMessage animals={animals} />}
 

@@ -34,4 +34,10 @@ export interface GameState {
   isPlaying: boolean;
   showCelebration: boolean;
 }
+
+ export type Animal = {
+  emoji: string;
+  name: string;
+  color: string;
+};
 export type GameType = 'memory' | 'colors' | 'shapes' | 'bubbles';
