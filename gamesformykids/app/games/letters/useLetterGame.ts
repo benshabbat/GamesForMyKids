@@ -149,8 +149,11 @@ export function useLetterGame(letters: Letter[]) {
 
   // קביעת כמות האותיות לפי רמה
   const getAvailableLetters = (): Letter[] => {
-    const count = Math.min(4 + gameState.level, letters.length);
-    return letters.slice(0, count);
+    // התחלה עם 6 אותיות ראשונות, הוספת 2 אותיות כל 3 רמות
+    const baseLetters = 6;
+    const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
+    const totalLetters = Math.min(baseLetters + additionalLetters, letters.length);
+    return letters.slice(0, totalLetters);
   };
 
   return {

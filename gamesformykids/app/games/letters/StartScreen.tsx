@@ -61,24 +61,38 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
         {/* דוגמת אותיות */}
         <div className="mt-12">
           <h3 className="text-2xl font-bold text-white mb-6">
-            האותיות שנלמד:
+            כל האותיות שנלמד:
           </h3>
-          <div className="flex flex-wrap justify-center gap-4">
-            {letters.slice(0, 8).map((letter) => (
+          <div className="flex flex-wrap justify-center gap-3">
+            {letters.slice(0, 12).map((letter) => (
               <div
                 key={letter.name}
-                className="w-16 h-16 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
+                className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
                 onClick={() => onSpeak(letter.name)}
               >
                 <div className="text-center">
-                  <div className="text-xl font-bold">{letter.hebrew}</div>
-                  <Volume2 className="w-4 h-4 mx-auto opacity-70" />
+                  <div className="text-lg font-bold">{letter.hebrew}</div>
+                  <Volume2 className="w-3 h-3 mx-auto opacity-70" />
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="flex flex-wrap justify-center gap-3 mt-4">
+            {letters.slice(12, 22).map((letter) => (
+              <div
+                key={letter.name}
+                className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
+                onClick={() => onSpeak(letter.name)}
+              >
+                <div className="text-center">
+                  <div className="text-lg font-bold">{letter.hebrew}</div>
+                  <Volume2 className="w-3 h-3 mx-auto opacity-70" />
                 </div>
               </div>
             ))}
           </div>
           <p className="text-orange-100 mt-4">
-            לחץ על אות כדי לשמוע את השם שלה!
+            לחץ על אות כדי לשמוע את השם שלה! (22 אותיות באלף-בית העברי)
           </p>
         </div>
       </div>
@@ -86,3 +100,39 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
   );
 }
 
+// app/games/letters/GameInstructions.tsx
+export default function GameInstructions() {
+  return (
+    <div className="bg-white bg-opacity-90 rounded-3xl p-8 mb-8 shadow-xl">
+      <h2 className="text-3xl font-bold text-gray-800 mb-4">
+        איך משחקים?
+      </h2>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
+        <div className="text-center">
+          <div className="text-4xl mb-3">👂</div>
+          <p>
+            <strong>1. תשמע</strong>
+            <br />
+            איזו אות אני אומר
+          </p>
+        </div>
+        <div className="text-center">
+          <div className="text-4xl mb-3">🤔</div>
+          <p>
+            <strong>2. תחשוב</strong>
+            <br />
+            איך נראית האות
+          </p>
+        </div>
+        <div className="text-center">
+          <div className="text-4xl mb-3">👆</div>
+          <p>
+            <strong>3. תלחץ</strong>
+            <br />
+            על האות הנכונה
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}

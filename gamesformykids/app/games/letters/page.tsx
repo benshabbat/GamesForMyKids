@@ -1,13 +1,13 @@
 "use client";
 
 import { Letter } from "@/types/game";
+import GameHeader from "./GameHeader";
+import LetterOptions from "./LetterOptions";
 import ChallengeBox from "./ChallengeBox";
 import CelebrationBox from "./CelebrationBox";
-import { useLetterGame } from "./useLetterGame";
-import GameHeader from "./GameHeader";
 import StartScreen from "./StartScreen";
-import LetterOptions from "./LetterOptions";
 import TipsBox from "./TipsBox";
+import { useLetterGame } from "./useLetterGame";
 
 export default function LetterGame() {
   const letters: Letter[] = [
@@ -56,7 +56,7 @@ export default function LetterGame() {
     {
       name: "het",
       hebrew: "ח",
-      english: "H",
+      english: "CH",
       sound: [330, 415, 494],
     },
     {
@@ -83,6 +83,66 @@ export default function LetterGame() {
       english: "L",
       sound: [247, 311, 370],
     },
+    {
+      name: "mem",
+      hebrew: "מ",
+      english: "M",
+      sound: [233, 294, 349],
+    },
+    {
+      name: "nun",
+      hebrew: "נ",
+      english: "N",
+      sound: [220, 277, 330],
+    },
+    {
+      name: "samech",
+      hebrew: "ס",
+      english: "S",
+      sound: [208, 262, 311],
+    },
+    {
+      name: "ayin",
+      hebrew: "ע",
+      english: "A",
+      sound: [196, 247, 294],
+    },
+    {
+      name: "pey",
+      hebrew: "פ",
+      english: "P",
+      sound: [185, 233, 277],
+    },
+    {
+      name: "tzadi",
+      hebrew: "צ",
+      english: "TZ",
+      sound: [175, 220, 262],
+    },
+    {
+      name: "kuf",
+      hebrew: "ק",
+      english: "K",
+      sound: [165, 208, 247],
+    },
+    {
+      name: "resh",
+      hebrew: "ר",
+      english: "R",
+      sound: [156, 196, 233],
+    },
+    {
+      name: "shin",
+      hebrew: "ש",
+      english: "SH",
+      sound: [147, 185, 220],
+    },
+    {
+      name: "tav",
+      hebrew: "ת",
+      english: "T",
+      sound: [139, 175, 208],
+    },
   ];
 
   const {
@@ -91,6 +151,7 @@ export default function LetterGame() {
     startGame,
     handleLetterClick,
     resetGame,
+    getAvailableLetters,
   } = useLetterGame(letters);
 
   if (!gameState.isPlaying) {
