@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Letter, LetterGameState } from "@/types/game";
 
 export function useLetterGame(letters: Letter[]) {
@@ -14,6 +14,7 @@ export function useLetterGame(letters: Letter[]) {
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [speechEnabled, setSpeechEnabled] = useState(false);
   const [isSpeeching, setIsSpeeching] = useState(false);
+  const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -196,6 +197,22 @@ export function useLetterGame(letters: Letter[]) {
     return options.sort(() => Math.random() - 0.5);
   };
 
+  // פונקציה לניקוי הטיימר
+  const clearRepeatTimer = () => {
+    if (repeatTimerRef.current) {
+      clearInterval(repeatTimerRef.current);
+      repeatTimerRef.current = null;
+    }
+  };
+
+  // פונקציה להתחלת הטיימר שחוזר על המילה
+  const startRepeatTimer = (letterName: string) => {
+    clearRepeatTimer();
+    repeatTimerRef.current = setInterval(() => {
+      speakLetterName(letterName);
+    }, 4000); // חזרה כל 4 שניות
+  };
+
   const selectRandomLetter = (): void => {
     const availableLetters = getAvailableLetters();
     const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
@@ -209,10 +226,12 @@ export function useLetterGame(letters: Letter[]) {
     
     setTimeout(() => {
       speakLetterName(randomLetter.name);
+      startRepeatTimer(randomLetter.name); // התחלת הטיימר
     }, 1200);
   };
 
   const startGame = (): void => {
+    clearRepeatTimer(); // ניקוי טיימר קודם
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -227,9 +246,11 @@ export function useLetterGame(letters: Letter[]) {
   const handleLetterClick = (selectedLetter: Letter): void => {
     if (!gameState.currentChallenge) return;
     
-    speakLetterName(selectedLetter.name);
-
+    clearRepeatTimer(); // עצירת הטיימר כשעונים
+    
     if (selectedLetter.name === gameState.currentChallenge.name) {
+      // תשובה נכונה
+      speakLetterName(selectedLetter.name);
       playSuccessSound();
       setGameState((prev) => ({
         ...prev,
@@ -244,10 +265,17 @@ export function useLetterGame(letters: Letter[]) {
         }));
         selectRandomLetter();
       }, 1500);
+    } else {
+      // תשובה לא נכונה - הקראה של האות הנכונה
+      setTimeout(() => {
+        speakLetterName(gameState.currentChallenge.name);
+        startRepeatTimer(gameState.currentChallenge.name); // התחלת טיימר מחדש
+      }, 500);
     }
   };
 
   const resetGame = (): void => {
+    clearRepeatTimer(); // ניקוי הטיימר
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -257,6 +285,13 @@ export function useLetterGame(letters: Letter[]) {
       options: [],
     });
   };
+
+  // ניקוי הטיימר כשהקומפוננט נהרס
+  useEffect(() => {
+    return () => {
+      clearRepeatTimer();
+    };
+  }, []);
 
   const getAvailableLetters = (): Letter[] => {
     const baseLetters = 6;

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Color, GameState } from "@/types/game";
 
 export function useColorGame(colors: Color[]) {
@@ -11,6 +11,8 @@ export function useColorGame(colors: Color[]) {
   });
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const repeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isSpeakingRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -22,14 +24,24 @@ export function useColorGame(colors: Color[]) {
     }
   }, []);
 
+  // ניקוי הטיימר כשהמשחק נעצר
+  useEffect(() => {
+    return () => {
+      if (repeatIntervalRef.current) {
+        clearInterval(repeatIntervalRef.current);
+      }
+    };
+  }, []);
+
   // קריאת שם הצבע בעברית - עם איכות קול משופרת
   const speakColorName = async (colorName: string): Promise<void> => {
-    if (!('speechSynthesis' in window)) {
-      console.log('Speech synthesis not available');
+    if (!('speechSynthesis' in window) || isSpeakingRef.current) {
+      console.log('Speech synthesis not available or already speaking');
       return;
     }
 
     try {
+      isSpeakingRef.current = true;
       // עצירת כל הקראה קודמת
       window.speechSynthesis.cancel();
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -38,7 +50,7 @@ export function useColorGame(colors: Color[]) {
       
       // הגדרות לשיפור איכות הקול
       utterance.lang = "he-IL";
-      utterance.rate = 0.8; // קצב איטי יותר וברור יותר
+      utterance.rate = 0.7; // קצב איטי יותר וברור יותר
       utterance.volume = 1.0;
       utterance.pitch = 1.1; // טון מעט יותר גבוה ונעים
       
@@ -86,25 +98,52 @@ export function useColorGame(colors: Color[]) {
       return new Promise<void>((resolve, reject) => {
         utterance.onend = () => {
           console.log('Speech finished successfully');
+          isSpeakingRef.current = false;
           resolve();
         };
         
         utterance.onerror = (event) => {
           console.log('Speech error:', event.error);
+          isSpeakingRef.current = false;
           reject(event.error);
         };
         
         // הגבלת זמן מקסימלי
         setTimeout(() => {
           window.speechSynthesis.cancel();
+          isSpeakingRef.current = false;
           resolve();
-        }, 3000);
+        }, 4000);
         
         window.speechSynthesis.speak(utterance);
       });
 
     } catch (error) {
       console.log('Speech failed:', error);
+      isSpeakingRef.current = false;
+    }
+  };
+
+  // התחלת טיימר חזרה על המילה
+  const startRepeatTimer = (colorName: string): void => {
+    // ניקוי טיימר קודם
+    if (repeatIntervalRef.current) {
+      clearInterval(repeatIntervalRef.current);
+    }
+    
+    // הגדרת טיימר חדש שחוזר כל 4 שניות
+    repeatIntervalRef.current = setInterval(() => {
+      if (gameState.isPlaying && gameState.currentChallenge && !gameState.showCelebration) {
+        speakColorName(colorName);
+      }
+    }, 4000);
+  };
+
+  // עצירת טיימר החזרה
+  const stopRepeatTimer = (): void => {
+    if (repeatIntervalRef.current) {
+      clearInterval(repeatIntervalRef.current);
+      repeatIntervalRef.current = null;
     }
   };
 
@@ -139,9 +178,10 @@ export function useColorGame(colors: Color[]) {
       availableColors[Math.floor(Math.random() * availableColors.length)];
     setGameState((prev) => ({ ...prev, currentChallenge: randomColor }));
     
-    // השמעת שם הצבע אחרי רגע
+    // השמעת שם הצבע אחרי רגע והתחלת טיימר חזרה
     setTimeout(() => {
       speakColorName(randomColor.hebrew);
+      startRepeatTimer(randomColor.hebrew);
     }, 1000);
   };
 
@@ -157,14 +197,16 @@ export function useColorGame(colors: Color[]) {
     setTimeout(selectRandomColor, 300);
   };
 
-  // טיפול בלחיצה על צבע - ללא צלילים מוזיקליים
+  // טיפול בלחיצה על צבע
   const handleColorClick = (selectedColor: Color): void => {
     if (!gameState.currentChallenge) return;
 
-    // רק הקראת שם הצבע שנלחץ עליו
-    speakColorName(selectedColor.hebrew);
+    // עצירת טיימר החזרה
+    stopRepeatTimer();
 
     if (selectedColor.name === gameState.currentChallenge.name) {
+      // תשובה נכונה
+      speakColorName(selectedColor.hebrew);
       playSuccessSound();
       setGameState((prev) => ({
         ...prev,
@@ -179,11 +221,18 @@ export function useColorGame(colors: Color[]) {
         }));
         selectRandomColor();
       }, 1500);
+    } else {
+      // תשובה לא נכונה - חזרה על הצבע הנכון
+      setTimeout(() => {
+        speakColorName(gameState.currentChallenge!.hebrew);
+        startRepeatTimer(gameState.currentChallenge!.hebrew);
+      }, 500);
     }
   };
 
   // רענון המשחק
   const resetGame = (): void => {
+    stopRepeatTimer();
     setGameState({
       currentChallenge: null,
       score: 0,
