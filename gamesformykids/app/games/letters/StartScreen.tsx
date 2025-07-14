@@ -51,88 +51,107 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
 
         {/* כפתורי הפעלת שמע */}
         <div className="mb-8">
-          <button
-            onClick={async () => {
-              // טעינת קולות
-              if (typeof window !== 'undefined' && window.speechSynthesis) {
-                const voices = window.speechSynthesis.getVoices();
-                if (voices.length === 0) {
-                  // טעינת קולות
-                  window.speechSynthesis.getVoices();
-                  await new Promise(resolve => {
-                    window.speechSynthesis.onvoiceschanged = resolve;
-                  });
-                }
-                
-                // הפעלת AudioContext
-                const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-                if (AudioContextClass) {
-                  const tempCtx = new AudioContextClass();
-                  if (tempCtx.state === 'suspended') {
-                    await tempCtx.resume();
+          <div className="bg-yellow-400 bg-opacity-90 rounded-xl p-4 mb-4 text-black">
+            <h4 className="font-bold text-lg mb-2">🚨 חשוב למשתמשי מחשב!</h4>
+            <p className="text-sm">הדפדפן חוסם שמע אוטומטי. עקוב אחר השלבים:</p>
+          </div>
+          
+          <div className="space-y-3">
+            <button
+              onClick={async () => {
+                // הפעלה פשוטה של השמע
+                if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  try {
+                    // בדיקה פשוטה
+                    const testUtter = new SpeechSynthesisUtterance('test');
+                    testUtter.volume = 0.01; // שקט מאוד
+                    testUtter.rate = 3; // מהיר מאוד
+                    window.speechSynthesis.speak(testUtter);
+                    
+                    setTimeout(() => {
+                      alert('✅ שמע הופעל! עכשיו נסה בדיקת קול');
+                    }, 500);
+                  } catch (error) {
+                    alert('❌ בעיה בהפעלת שמע. נסה דפדפן אחר');
                   }
-                  tempCtx.close();
                 }
-                
-                // בדיקת קולות זמינים
-                const availableVoices = window.speechSynthesis.getVoices();
-                const hebrewVoices = availableVoices.filter(v => 
-                  v.lang.includes('he') || v.lang.includes('iw')
-                );
-                
-                if (hebrewVoices.length > 0) {
-                  alert(`שמע הופעל! נמצאו ${hebrewVoices.length} קולות עבריים`);
-                } else {
-                  alert('שמע הופעל! לא נמצאו קולות עבריים - ישמע באנגלית');
+              }}
+              className="block w-full max-w-sm mx-auto px-8 py-4 bg-red-500 text-white rounded-full text-xl font-bold hover:bg-red-600 transition-all duration-300 shadow-lg"
+            >
+              🎯 שלב 1: הפעל שמע
+            </button>
+            
+            <button
+              onClick={async () => {
+                // בדיקה פשוטה של עברית
+                if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  try {
+                    window.speechSynthesis.cancel();
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    
+                    const utter = new SpeechSynthesisUtterance('א');
+                    utter.lang = 'he-IL';
+                    utter.rate = 0.8;
+                    utter.volume = 1.0;
+                    
+                    utter.onerror = () => {
+                      // אם עברית נכשלת, ננסה אנגלית
+                      setTimeout(() => {
+                        const englishUtter = new SpeechSynthesisUtterance('Alef');
+                        englishUtter.lang = 'en-US';
+                        englishUtter.rate = 0.8;
+                        window.speechSynthesis.speak(englishUtter);
+                      }, 200);
+                    };
+                    
+                    window.speechSynthesis.speak(utter);
+                  } catch (error) {
+                    console.log('Test failed:', error);
+                  }
                 }
-              }
-            }}
-            className="px-6 py-3 bg-red-500 text-white rounded-full text-lg font-bold hover:bg-red-600 transition-all duration-300 shadow-lg mr-4"
-          >
-            🚀 הפעל שמע במחשב
-          </button>
-          
-          <button
-            onClick={async () => {
-              await onSpeak("alef");
-            }}
-            className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg mr-4"
-          >
-            🎤 בדיקת קול
-          </button>
+              }}
+              className="block w-full max-w-sm mx-auto px-8 py-4 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
+            >
+              🎤 שלב 2: בדיקת קול
+            </button>
 
-          <button
-            onClick={() => {
-              if (typeof window !== 'undefined' && window.speechSynthesis) {
-                const voices = window.speechSynthesis.getVoices();
-                const hebrewVoices = voices.filter(v => 
-                  v.lang.includes('he') || v.lang.includes('iw')
-                );
-                const englishVoices = voices.filter(v => 
-                  v.lang.includes('en')
-                );
-                
-                let message = `סך הכל ${voices.length} קולות זמינים:\n`;
-                message += `🔹 עברית: ${hebrewVoices.length} קולות\n`;
-                message += `🔹 אנגלית: ${englishVoices.length} קולות\n\n`;
-                
-                if (hebrewVoices.length > 0) {
-                  message += 'קולות עבריים:\n';
-                  hebrewVoices.forEach(v => message += `• ${v.name} (${v.lang})\n`);
+            <button
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  const voices = window.speechSynthesis.getVoices();
+                  const total = voices.length;
+                  const hebrew = voices.filter(v => v.lang.includes('he') || v.lang.includes('iw')).length;
+                  const english = voices.filter(v => v.lang.includes('en')).length;
+                  
+                  let message = `📊 מידע על קולות במערכת:\n\n`;
+                  message += `🔹 סך הכל: ${total} קולות\n`;
+                  message += `🔹 עברית: ${hebrew} קולות\n`;
+                  message += `🔹 אנגלית: ${english} קולות\n\n`;
+                  
+                  if (hebrew > 0) {
+                    message += '✅ יש קולות עבריים - תשמע בעברית!';
+                  } else if (english > 0) {
+                    message += '⚠️ אין עברית - תשמע באנגלית';
+                  } else {
+                    message += '❌ אין קולות זמינים';
+                  }
+                  
+                  alert(message);
                 }
-                
-                alert(message);
-              }
-            }}
-            className="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-bold hover:bg-green-600 transition-all duration-300 shadow-lg"
-          >
-            📋 בדוק קולות
-          </button>
+              }}
+              className="block w-full max-w-xs mx-auto px-6 py-3 bg-green-500 text-white rounded-full text-base font-bold hover:bg-green-600 transition-all duration-300 shadow-lg"
+            >
+              📋 מידע על קולות
+            </button>
+          </div>
           
-          <p className="text-sm text-orange-100 mt-3 max-w-md mx-auto">
-            <strong>במחשב:</strong> לחץ על הכפתור האדום קודם, ואז בדיקת קול<br/>
-            <strong>💬 תשמע שמות אותיות בעברית או באנגלית!</strong>
-          </p>
+          <div className="mt-4 text-sm text-orange-100 max-w-md mx-auto">
+            <p><strong>💡 אם עדיין לא שומע:</strong></p>
+            <p>• בדוק שהעוצמה פתוחה במחשב</p>
+            <p>• נסה דפדפן Chrome (עובד הכי טוב)</p>
+            <p>• במקרה הצורך - שחק בפלאפון</p>
+          </div>
+        </div>
           
           <details className="mt-4 text-xs text-orange-200">
             <summary className="cursor-pointer hover:text-white">📋 עזרה נוספת</summary>
@@ -181,7 +200,6 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
             לחץ על אות כדי לשמוע את השם שלה! (22 אותיות באלף-בית העברי)
           </p>
         </div>
-      </div>
     </div>
   );
 }
