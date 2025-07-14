@@ -62,7 +62,7 @@ export default function HomePage() {
           🎮 משחקים לילדים 🎮
         </h1>
         <p className="text-xl md:text-2xl text-purple-600 font-semibold">
-          משחקים מהנים לגיל 4!
+          משחקים מהנים לגיל 2-5!
         </p>
       </header>
 
