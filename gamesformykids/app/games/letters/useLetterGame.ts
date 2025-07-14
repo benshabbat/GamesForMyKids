@@ -13,15 +13,13 @@ export function useLetterGame(letters: Letter[]) {
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [speechEnabled, setSpeechEnabled] = useState(false);
-  const [isSpeeching, setIsSpeeching] = useState(false); // מניעת התנגשויות
+  const [isSpeeching, setIsSpeeching] = useState(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      // בדיקה אם Speech Synthesis זמין
       if ('speechSynthesis' in window) {
         setSpeechEnabled(true);
         
-        // טעינת קולות מראש
         const loadVoices = () => {
           const voices = window.speechSynthesis.getVoices();
           console.log('Voices loaded:', voices.length);
@@ -34,7 +32,6 @@ export function useLetterGame(letters: Letter[]) {
         }
       }
       
-      // יצירת AudioContext
       const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
       if (AudioContextClass) {
         const ctx = new AudioContextClass();
@@ -43,21 +40,129 @@ export function useLetterGame(letters: Letter[]) {
     }
   }, []);
 
-  // פונקציה להפעלת שמע עם מספר נסיונות
-  const enableAudio = async (): Promise<boolean> => {
-    try {
-      // הפעלת AudioContext
-      if (audioContext && audioContext.state === 'suspended') {
-        await audioContext.resume();
+  // הגייה משופרת לאותיות עבריות
+  const getImprovedPronunciation = (letterName: string): { hebrew: string; english: string; phonetic: string } => {
+    const pronunciations: { [key: string]: { hebrew: string; english: string; phonetic: string } } = {
+      'alef': { 
+        hebrew: 'אָלֶף', 
+        english: 'AH-lef', 
+        phonetic: 'AH-lef' 
+      },
+      'bet': { 
+        hebrew: 'בֵּית', 
+        english: 'BEYT', 
+        phonetic: 'BEYT' 
+      },
+      'gimel': { 
+        hebrew: 'גִּימֶל', 
+        english: 'GEE-mel', 
+        phonetic: 'GEE-mel' 
+      },
+      'dalet': { 
+        hebrew: 'דָּלֶת', 
+        english: 'DAH-let', 
+        phonetic: 'DAH-let' 
+      },
+      'hey': { 
+        hebrew: 'הֵא', 
+        english: 'HEH', 
+        phonetic: 'HEH' 
+      },
+      'vav': { 
+        hebrew: 'וָו', 
+        english: 'VAHV', 
+        phonetic: 'VAHV' 
+      },
+      'zayin': { 
+        hebrew: 'זַיִן', 
+        english: 'ZAH-yeen', 
+        phonetic: 'ZAH-yeen' 
+      },
+      'het': { 
+        hebrew: 'חֵית', 
+        english: 'KHET', 
+        phonetic: 'KHET' 
+      },
+      'tet': { 
+        hebrew: 'טֵית', 
+        english: 'TEYT', 
+        phonetic: 'TEYT' 
+      },
+      'yud': { 
+        hebrew: 'יוּד', 
+        english: 'YOOD', 
+        phonetic: 'YOOD' 
+      },
+      'kaf': { 
+        hebrew: 'כַּף', 
+        english: 'KAHF', 
+        phonetic: 'KAHF' 
+      },
+      'lamed': { 
+        hebrew: 'לָמֶד', 
+        english: 'LAH-med', 
+        phonetic: 'LAH-med' 
+      },
+      'mem': { 
+        hebrew: 'מֵם', 
+        english: 'MEHM', 
+        phonetic: 'MEHM' 
+      },
+      'nun': { 
+        hebrew: 'נוּן', 
+        english: 'NOON', 
+        phonetic: 'NOON' 
+      },
+      'samech': { 
+        hebrew: 'סָמֶךְ', 
+        english: 'SAH-mech', 
+        phonetic: 'SAH-mech' 
+      },
+      'ayin': { 
+        hebrew: 'עַיִן', 
+        english: 'AH-yeen', 
+        phonetic: 'AH-yeen' 
+      },
+      'pey': { 
+        hebrew: 'פֵּא', 
+        english: 'PEH', 
+        phonetic: 'PEH' 
+      },
+      'tzadi': { 
+        hebrew: 'צָדִי', 
+        english: 'TSAH-dee', 
+        phonetic: 'TSAH-dee' 
+      },
+      'kuf': { 
+        hebrew: 'קוּף', 
+        english: 'KOOF', 
+        phonetic: 'KOOF' 
+      },
+      'resh': { 
+        hebrew: 'רֵישׁ', 
+        english: 'REYSH', 
+        phonetic: 'REYSH' 
+      },
+      'shin': { 
+        hebrew: 'שִׁין', 
+        english: 'SHEEN', 
+        phonetic: 'SHEEN' 
+      },
+      'tav': { 
+        hebrew: 'תָּו', 
+        english: 'TAHV', 
+        phonetic: 'TAHV' 
       }
-      return true;
-    } catch (error) {
-      console.log('Audio activation failed:', error);
-      return false;
-    }
+    };
+
+    return pronunciations[letterName] || { 
+      hebrew: letterName, 
+      english: letterName.toUpperCase(), 
+      phonetic: letterName.toUpperCase() 
+    };
   };
 
-  // קריאת שם האות - רק דיבור, בלי צלילים
+  // פונקציה משופרת להקראת שמות האותיות עם הגייה נכונה
   const speakLetterName = async (letterName: string): Promise<void> => {
     if (!speechEnabled || !('speechSynthesis' in window) || isSpeeching) {
       console.log('Speech not available or already speaking');
@@ -67,35 +172,38 @@ export function useLetterGame(letters: Letter[]) {
     try {
       setIsSpeeching(true);
       
-      // הפעלת שמע קודם
-      await enableAudio();
-      
       const letter = letters.find(l => l.name === letterName);
-      if (!letter) return;
-
-      // עצירת כל הקראה קודמת והמתנה
-      window.speechSynthesis.cancel();
-      await new Promise(resolve => setTimeout(resolve, 300));
+      const pronunciation = getImprovedPronunciation(letterName);
       
-      // נסיון 1: עברית
+      if (!letter) {
+        setIsSpeeching(false);
+        return;
+      }
+
+      // עצירת כל הקראה קודמת
+      window.speechSynthesis.cancel();
+      await new Promise(resolve => setTimeout(resolve, 200));
+      
       let success = false;
       
+      // נסיון ראשון: עברית עם ניקוד
       try {
-        const hebrewUtter = new SpeechSynthesisUtterance(letter.hebrew);
+        const hebrewUtter = new SpeechSynthesisUtterance(pronunciation.hebrew);
         hebrewUtter.lang = "he-IL";
-        hebrewUtter.rate = 0.7;
+        hebrewUtter.rate = 0.6; // עוד יותר איטי לבהירות
         hebrewUtter.volume = 1.0;
         hebrewUtter.pitch = 1.0;
         
-        // חיפוש קול עברי
         const voices = window.speechSynthesis.getVoices();
         const hebrewVoice = voices.find(voice => 
           voice.lang.includes('he') || 
-          voice.lang.includes('iw')
+          voice.lang.includes('iw') ||
+          voice.name.toLowerCase().includes('hebrew')
         );
         
         if (hebrewVoice) {
           hebrewUtter.voice = hebrewVoice;
+          console.log('Using Hebrew voice:', hebrewVoice.name);
         }
 
         const hebrewPromise = new Promise<boolean>((resolve) => {
@@ -104,7 +212,7 @@ export function useLetterGame(letters: Letter[]) {
           hebrewUtter.onend = () => {
             if (!resolved) {
               resolved = true;
-              console.log('Hebrew speech succeeded');
+              console.log('Hebrew speech succeeded:', pronunciation.hebrew);
               resolve(true);
             }
           };
@@ -123,7 +231,7 @@ export function useLetterGame(letters: Letter[]) {
               window.speechSynthesis.cancel();
               resolve(false);
             }
-          }, 2000);
+          }, 3000);
         });
 
         window.speechSynthesis.speak(hebrewUtter);
@@ -132,43 +240,55 @@ export function useLetterGame(letters: Letter[]) {
         console.log('Hebrew attempt failed:', error);
       }
 
-      // נסיון 2: אם עברית נכשלה - ננסה אנגלית
+      // נסיון שני: אנגלית עם הגייה פונטית משופרת
       if (!success) {
-        await new Promise(resolve => setTimeout(resolve, 200));
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         try {
-          // שמות האותיות באנגלית
-          const letterNames: { [key: string]: string } = {
-            'alef': 'Alef',
-            'bet': 'Bet', 
-            'gimel': 'Gimel',
-            'dalet': 'Dalet',
-            'hey': 'Hey',
-            'vav': 'Vav',
-            'zayin': 'Zayin',
-            'het': 'Chet',
-            'tet': 'Tet',
-            'yud': 'Yud',
-            'kaf': 'Kaf',
-            'lamed': 'Lamed',
-            'mem': 'Mem',
-            'nun': 'Nun',
-            'samech': 'Samech',
-            'ayin': 'Ayin',
-            'pey': 'Pey',
-            'tzadi': 'Tzadi',
-            'kuf': 'Kuf',
-            'resh': 'Resh',
-            'shin': 'Shin',
-            'tav': 'Tav'
-          };
-
-          const englishName = letterNames[letterName] || letter.name;
-          const englishUtter = new SpeechSynthesisUtterance(englishName);
+          const englishUtter = new SpeechSynthesisUtterance(pronunciation.phonetic);
           englishUtter.lang = "en-US";
-          englishUtter.rate = 0.8;
+          englishUtter.rate = 0.6; // איטי מאוד לבהירות
           englishUtter.volume = 1.0;
-          englishUtter.pitch = 1.0;
+          englishUtter.pitch = 0.9; // טון מעט נמוך יותר לבהירות
+
+          // חיפוש קול אנגלי איכותי ובהיר
+          const voices = window.speechSynthesis.getVoices();
+          
+          // העדפה לקולות נקיים ובהירים
+          const preferredVoices = [
+            'Google US English',
+            'Microsoft Zira Desktop',
+            'Microsoft David Desktop', 
+            'Alex',
+            'Samantha',
+            'Karen'
+          ];
+          
+          let selectedVoice = null;
+          
+          // חיפוש קול מועדף
+          for (const voiceName of preferredVoices) {
+            selectedVoice = voices.find(voice => 
+              voice.name.includes(voiceName) && voice.lang.includes('en')
+            );
+            if (selectedVoice) break;
+          }
+          
+          // אם לא נמצא, חיפוש קול איכותי כללי
+          if (!selectedVoice) {
+            selectedVoice = voices.find(voice => 
+              voice.lang.includes('en-US') && 
+              (voice.name.toLowerCase().includes('natural') ||
+               voice.name.toLowerCase().includes('premium') ||
+               voice.name.toLowerCase().includes('neural') ||
+               voice.name.toLowerCase().includes('female'))
+            );
+          }
+          
+          if (selectedVoice) {
+            englishUtter.voice = selectedVoice;
+            console.log('Using English voice:', selectedVoice.name, 'for:', pronunciation.phonetic);
+          }
 
           const englishPromise = new Promise<boolean>((resolve) => {
             let resolved = false;
@@ -176,7 +296,7 @@ export function useLetterGame(letters: Letter[]) {
             englishUtter.onend = () => {
               if (!resolved) {
                 resolved = true;
-                console.log('English speech succeeded');
+                console.log('English speech succeeded:', pronunciation.phonetic);
                 resolve(true);
               }
             };
@@ -195,7 +315,7 @@ export function useLetterGame(letters: Letter[]) {
                 window.speechSynthesis.cancel();
                 resolve(false);
               }
-            }, 2000);
+            }, 3000);
           });
 
           window.speechSynthesis.speak(englishUtter);
@@ -205,9 +325,54 @@ export function useLetterGame(letters: Letter[]) {
         }
       }
 
-      // אם שום דיבור לא עבד - פשוט נגמור בשקט
+      // נסיון שלישי: עברית פשוטה ללא ניקוד
       if (!success) {
-        console.log('No speech available - silent mode');
+        await new Promise(resolve => setTimeout(resolve, 300));
+        
+        try {
+          const simpleHebrewUtter = new SpeechSynthesisUtterance(letter.hebrew);
+          simpleHebrewUtter.lang = "he-IL";
+          simpleHebrewUtter.rate = 0.5; // מאוד איטי
+          simpleHebrewUtter.volume = 1.0;
+          simpleHebrewUtter.pitch = 1.0;
+
+          const simplePromise = new Promise<boolean>((resolve) => {
+            let resolved = false;
+            
+            simpleHebrewUtter.onend = () => {
+              if (!resolved) {
+                resolved = true;
+                console.log('Simple Hebrew speech succeeded:', letter.hebrew);
+                resolve(true);
+              }
+            };
+            
+            simpleHebrewUtter.onerror = (event) => {
+              if (!resolved) {
+                resolved = true;
+                console.log('Simple Hebrew speech failed:', event.error);
+                resolve(false);
+              }
+            };
+            
+            setTimeout(() => {
+              if (!resolved) {
+                resolved = true;
+                window.speechSynthesis.cancel();
+                resolve(false);
+              }
+            }, 3000);
+          });
+
+          window.speechSynthesis.speak(simpleHebrewUtter);
+          success = await simplePromise;
+        } catch (error) {
+          console.log('Simple Hebrew attempt failed:', error);
+        }
+      }
+
+      if (!success) {
+        console.log('All speech attempts failed for:', letterName);
       }
       
       setIsSpeeching(false);
@@ -218,37 +383,43 @@ export function useLetterGame(letters: Letter[]) {
     }
   };
 
-  // צליל הצלחה
+  // צליל הצלחה נעים
   const playSuccessSound = (): void => {
     if (!audioContext) return;
-    const osc = audioContext.createOscillator();
-    const gain = audioContext.createGain();
-    osc.type = "triangle";
-    osc.frequency.value = 880;
-    osc.connect(gain);
-    gain.connect(audioContext.destination);
-    gain.gain.value = 0.3;
-    osc.start();
-    osc.stop(audioContext.currentTime + 0.3);
+    
+    const notes = [523, 659, 784]; // C-E-G chord
+    notes.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      const startTime = audioContext.currentTime + i * 0.1;
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
+      
+      osc.start(startTime);
+      osc.stop(startTime + 0.3);
+    });
   };
 
-  // יצירת 4 אפשרויות (1 נכונה + 3 לא נכונות)
   const generateOptions = (correctLetter: Letter): Letter[] => {
     const availableLetters = getAvailableLetters();
     const incorrectLetters = availableLetters.filter(
       letter => letter.name !== correctLetter.name
     );
     
-    // בחירת 3 אותיות לא נכונות באופן אקראי
     const shuffledIncorrect = incorrectLetters.sort(() => Math.random() - 0.5);
     const selectedIncorrect = shuffledIncorrect.slice(0, 3);
     
-    // יצירת מערך של 4 אפשרויות וערבוב
     const options = [correctLetter, ...selectedIncorrect];
     return options.sort(() => Math.random() - 0.5);
   };
 
-  // בחירת אות אקראית לאתגר
   const selectRandomLetter = (): void => {
     const availableLetters = getAvailableLetters();
     const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
@@ -262,10 +433,9 @@ export function useLetterGame(letters: Letter[]) {
     
     setTimeout(() => {
       speakLetterName(randomLetter.name);
-    }, 1000);
+    }, 1200); // קצת יותר זמן להכנה
   };
 
-  // התחלת המשחק
   const startGame = (): void => {
     setGameState({
       currentChallenge: null,
@@ -278,11 +448,9 @@ export function useLetterGame(letters: Letter[]) {
     setTimeout(selectRandomLetter, 300);
   };
 
-  // טיפול בלחיצה על אות
   const handleLetterClick = (selectedLetter: Letter): void => {
     if (!gameState.currentChallenge) return;
     
-    // לא נגן צליל כשלוחץ על אות - רק דיבור אם זמין
     speakLetterName(selectedLetter.name);
 
     if (selectedLetter.name === gameState.currentChallenge.name) {
@@ -303,7 +471,6 @@ export function useLetterGame(letters: Letter[]) {
     }
   };
 
-  // רענון המשחק
   const resetGame = (): void => {
     setGameState({
       currentChallenge: null,
@@ -315,9 +482,7 @@ export function useLetterGame(letters: Letter[]) {
     });
   };
 
-  // קביעת כמות האותיות לפי רמה
   const getAvailableLetters = (): Letter[] => {
-    // התחלה עם 6 אותיות ראשונות, הוספת 2 אותיות כל 3 רמות
     const baseLetters = 6;
     const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
     const totalLetters = Math.min(baseLetters + additionalLetters, letters.length);

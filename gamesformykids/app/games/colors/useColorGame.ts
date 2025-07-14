@@ -22,43 +22,114 @@ export function useColorGame(colors: Color[]) {
     }
   }, []);
 
-  // קריאת שם הצבע בעברית
-  const speakColorName = (colorName: string): void => {
-    if ("speechSynthesis" in window) {
-      const utter = new window.SpeechSynthesisUtterance(colorName);
-      utter.lang = "he-IL";
-      window.speechSynthesis.speak(utter);
+  // קריאת שם הצבע בעברית - עם איכות קול משופרת
+  const speakColorName = async (colorName: string): Promise<void> => {
+    if (!('speechSynthesis' in window)) {
+      console.log('Speech synthesis not available');
+      return;
+    }
+
+    try {
+      // עצירת כל הקראה קודמת
+      window.speechSynthesis.cancel();
+      await new Promise(resolve => setTimeout(resolve, 100));
+
+      const utterance = new SpeechSynthesisUtterance(colorName);
+      
+      // הגדרות לשיפור איכות הקול
+      utterance.lang = "he-IL";
+      utterance.rate = 0.8; // קצב איטי יותר וברור יותר
+      utterance.volume = 1.0;
+      utterance.pitch = 1.1; // טון מעט יותר גבוה ונעים
+      
+      // חיפוש קול עברי אם קיים
+      const voices = window.speechSynthesis.getVoices();
+      const hebrewVoice = voices.find(voice => 
+        voice.lang.includes('he') || 
+        voice.lang.includes('iw') ||
+        voice.name.toLowerCase().includes('hebrew')
+      );
+      
+      if (hebrewVoice) {
+        utterance.voice = hebrewVoice;
+        console.log('Using Hebrew voice:', hebrewVoice.name);
+      } else {
+        // אם אין קול עברי, נשתמש בקול איכותי באנגלית עם שמות הצבעים
+        const englishVoice = voices.find(voice => 
+          voice.lang.includes('en') && 
+          (voice.name.toLowerCase().includes('female') || 
+           voice.name.toLowerCase().includes('natural') ||
+           voice.name.toLowerCase().includes('premium'))
+        );
+        
+        if (englishVoice) {
+          utterance.voice = englishVoice;
+          // תרגום שמות הצבעים לאנגלית עם הגייה טובה
+          const colorTranslation: { [key: string]: string } = {
+            'אדום': 'Red',
+            'כחול': 'Blue', 
+            'ירוק': 'Green',
+            'צהוב': 'Yellow',
+            'סגול': 'Purple',
+            'כתום': 'Orange',
+            'ורוד': 'Pink',
+            'חום': 'Brown',
+            'שחור': 'Black',
+            'לבן': 'White'
+          };
+          utterance.text = colorTranslation[colorName] || colorName;
+          utterance.lang = "en-US";
+          console.log('Using English voice for:', utterance.text);
+        }
+      }
+
+      return new Promise<void>((resolve, reject) => {
+        utterance.onend = () => {
+          console.log('Speech finished successfully');
+          resolve();
+        };
+        
+        utterance.onerror = (event) => {
+          console.log('Speech error:', event.error);
+          reject(event.error);
+        };
+        
+        // הגבלת זמן מקסימלי
+        setTimeout(() => {
+          window.speechSynthesis.cancel();
+          resolve();
+        }, 3000);
+        
+        window.speechSynthesis.speak(utterance);
+      });
+
+    } catch (error) {
+      console.log('Speech failed:', error);
     }
   };
 
-  // השמעת צליל צבע
-  const playAnimalSound = (colorSounds: number[]): void => {
-    if (!audioContext) return;
-    colorSounds.forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      gain.gain.value = 0.2;
-      osc.start(audioContext.currentTime + i * 0.2);
-      osc.stop(audioContext.currentTime + i * 0.2 + 0.18);
-    });
-  };
-
-  // צליל הצלחה
+  // צליל הצלחה פשוט - רק צליל קצר ונעים
   const playSuccessSound = (): void => {
     if (!audioContext) return;
+    
+    // צליל הצלחה קצר ונעים
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
-    osc.type = "triangle";
-    osc.frequency.value = 880;
+    
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(523, audioContext.currentTime); // C5 note
+    osc.frequency.setValueAtTime(659, audioContext.currentTime + 0.1); // E5 note
+    osc.frequency.setValueAtTime(784, audioContext.currentTime + 0.2); // G5 note
+    
     osc.connect(gain);
     gain.connect(audioContext.destination);
-    gain.gain.value = 0.3;
-    osc.start();
-    osc.stop(audioContext.currentTime + 0.3);
+    
+    gain.gain.setValueAtTime(0, audioContext.currentTime);
+    gain.gain.linearRampToValueAtTime(0.2, audioContext.currentTime + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+    
+    osc.start(audioContext.currentTime);
+    osc.stop(audioContext.currentTime + 0.4);
   };
 
   // בחירת צבע אקראי לאתגר
@@ -67,6 +138,8 @@ export function useColorGame(colors: Color[]) {
     const randomColor =
       availableColors[Math.floor(Math.random() * availableColors.length)];
     setGameState((prev) => ({ ...prev, currentChallenge: randomColor }));
+    
+    // השמעת שם הצבע אחרי רגע
     setTimeout(() => {
       speakColorName(randomColor.hebrew);
     }, 1000);
@@ -84,10 +157,12 @@ export function useColorGame(colors: Color[]) {
     setTimeout(selectRandomColor, 300);
   };
 
-  // טיפול בלחיצה על צבע
+  // טיפול בלחיצה על צבע - ללא צלילים מוזיקליים
   const handleColorClick = (selectedColor: Color): void => {
     if (!gameState.currentChallenge) return;
-    playAnimalSound(selectedColor.sound);
+
+    // רק הקראת שם הצבע שנלחץ עליו
+    speakColorName(selectedColor.hebrew);
 
     if (selectedColor.name === gameState.currentChallenge.name) {
       playSuccessSound();

@@ -1,6 +1,5 @@
 import { Home, Volume2 } from "lucide-react";
 import GameInstructions from "./GameInstructions";
-import AudioHelper from "./AudioHelper";
 import { Letter } from "@/types/game";
 
 type StartScreenProps = {
@@ -34,9 +33,6 @@ export default function StartScreen({ letters, onStart, onSpeak }: StartScreenPr
             למד אותיות דרך שמיעה!
           </p>
         </div>
-
-        {/* עזרה לשמע במחשב */}
-        <AudioHelper />
 
         {/* הסבר המשחק */}
         <GameInstructions />
