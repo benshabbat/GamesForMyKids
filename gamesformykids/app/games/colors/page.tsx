@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Star, RotateCcw, Home, Volume2 } from 'lucide-react';
+import { RotateCcw, Home, Volume2 } from 'lucide-react';
 
 interface Color {
   name: string;
@@ -39,15 +39,135 @@ export default function ColorGame() {
     { name: 'orange', hebrew: 'כתום', value: 'bg-orange-500', sound: [330, 415, 494] }
   ];
 
-  // יצירת AudioContext
+  // יצירת AudioContext לצלילים
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setAudioContext(new (window.AudioContext || (window as any).webkitAudioContext)());
     }
   }, []);
 
-  // השמעת צליל צבע
-  const playColorSound = (colorSounds: number[]): void => {
+  // פונקציה להקראת הצבע בעברית עם Web Speech API
+  const speakColorName = (colorName: string): void => {
+    console.log('מנסה להקריא:', colorName);
+    
+    if (typeof window === 'undefined') {
+      console.log('אין window object');
+      return;
+    }
+    
+    if (!('speechSynthesis' in window)) {
+      console.log('Speech API לא נתמך, משתמש בצלילים');
+      playColorSound(colorName);
+      return;
+    }
+
+    try {
+      // עצירת דיבור קודם אם יש
+      window.speechSynthesis.cancel();
+      
+      // חכה לטעינת הקולות
+      const loadVoices = () => {
+        const voices = window.speechSynthesis.getVoices();
+        console.log('קולות זמינים:', voices.length);
+        
+        const utterance = new SpeechSynthesisUtterance(colorName);
+        utterance.lang = 'he-IL';
+        utterance.rate = 0.8;
+        utterance.pitch = 1.1;
+        utterance.volume = 1.0;
+        
+        // נסה למצוא קול עברי
+        const hebrewVoice = voices.find(voice => 
+          voice.lang.includes('he') || 
+          voice.lang.includes('iw') ||
+          voice.name.includes('Hebrew') ||
+          voice.name.includes('עברית')
+        );
+        
+        if (hebrewVoice) {
+          utterance.voice = hebrewVoice;
+          console.log('מצא קול עברי:', hebrewVoice.name);
+        } else {
+          console.log('לא מצא קול עברי, משתמש בברירת מחדל');
+          // אם אין עברית, נסה עם קול ברירת מחדל
+          if (voices.length > 0) {
+            utterance.voice = voices[0];
+          }
+        }
+        
+        // האזנה לאירועים
+        utterance.onstart = () => console.log('התחיל דיבור');
+        utterance.onend = () => console.log('סיים דיבור');
+        utterance.onerror = (e) => {
+          console.log('שגיאה בדיבור:', e);
+          playColorSound(colorName); // fallback
+        };
+        
+        console.log('מפעיל דיבור...');
+        window.speechSynthesis.speak(utterance);
+      };
+
+      // אם הקולות לא נטענו עדיין
+      const voices = window.speechSynthesis.getVoices();
+      if (voices.length === 0) {
+        console.log('ממתין לטעינת קולות...');
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        // timeout fallback
+        setTimeout(() => {
+          if (window.speechSynthesis.getVoices().length === 0) {
+            console.log('timeout - עובר לצלילים');
+            playColorSound(colorName);
+          } else {
+            loadVoices();
+          }
+        }, 1000);
+      } else {
+        loadVoices();
+      }
+      
+    } catch (error) {
+      console.error('שגיאה ב-Speech API:', error);
+      playColorSound(colorName);
+    }
+  };
+
+  // פונקציה לצליל הצבע (fallback)
+  const playColorSound = (colorName: string): void => {
+    if (!audioContext) return;
+
+    const colorSoundMap: { [key: string]: number[] } = {
+      'אדום': [440, 550, 660],
+      'כחול': [523, 659, 784], 
+      'ירוק': [349, 440, 523],
+      'צהוב': [392, 494, 587],
+      'סגול': [294, 370, 440],
+      'כתום': [330, 415, 494]
+    };
+
+    const frequencies = colorSoundMap[colorName];
+    if (!frequencies) return;
+
+    frequencies.forEach((freq, index) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      
+      osc.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.2);
+      osc.type = 'sine';
+      
+      gain.gain.setValueAtTime(0, audioContext.currentTime + index * 0.2);
+      gain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + index * 0.2 + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.2 + 0.15);
+      
+      osc.start(audioContext.currentTime + index * 0.2);
+      osc.stop(audioContext.currentTime + index * 0.2 + 0.15);
+    });
+  };
+
+  // השמעת צליל צבע כשנלחץ עליו
+  const playAnimalSound = (colorSounds: number[]): void => {
     if (!audioContext) return;
 
     colorSounds.forEach((freq, index) => {
@@ -101,10 +221,11 @@ export default function ColorGame() {
     
     setGameState(prev => ({ ...prev, currentChallenge: randomColor }));
     
-    // השמעת שם הצבע אחרי זמן קצר
+    // השמעת שם הצבע אחרי זמן יותר ארוך
     setTimeout(() => {
+      console.log('מקריא צבע חדש:', randomColor.hebrew);
       speakColorName(randomColor.hebrew);
-    }, 500);
+    }, 1000); // יותר זמן
   };
 
   // התחלת המשחק
@@ -124,7 +245,7 @@ export default function ColorGame() {
     if (!gameState.currentChallenge) return;
 
     // השמעת צליל הצבע שנלחץ
-    playColorSound(selectedColor.sound);
+    playAnimalSound(selectedColor.sound);
 
     if (selectedColor.name === gameState.currentChallenge.name) {
       // תשובה נכונה!
@@ -196,12 +317,12 @@ export default function ColorGame() {
                 <p><strong>1. תראה</strong><br/>איזה צבע אני מבקש</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-3">👆</div>
-                <p><strong>2. תלחץ</strong><br/>על הצבע הנכון</p>
+                <div className="text-4xl mb-3">🎤</div>
+                <p><strong>2. תשמע</strong><br/>את שם הצבע</p>
               </div>
               <div className="text-center">
-                <div className="text-4xl mb-3">🎉</div>
-                <p><strong>3. תחגוג</strong><br/>על כל תשובה נכונה!</p>
+                <div className="text-4xl mb-3">👆</div>
+                <p><strong>3. תלחץ</strong><br/>על הצבע הנכון</p>
               </div>
             </div>
           </div>
@@ -209,10 +330,21 @@ export default function ColorGame() {
           {/* כפתור התחלה */}
           <button
             onClick={startGame}
-            className="px-12 py-6 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-3xl font-bold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105"
+            className="px-12 py-6 bg-gradient-to-r from-pink-500 to-purple-500 text-white rounded-full text-3xl font-bold hover:from-pink-600 hover:to-purple-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 mb-6"
           >
             בואו נתחיל! 🚀
           </button>
+
+          {/* כפתור בדיקת דיבור */}
+          <div className="mb-8">
+            <button
+              onClick={() => speakColorName('בדיקה')}
+              className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
+            >
+              🎤 בדיקת קול
+            </button>
+            <p className="text-sm text-gray-600 mt-2">לחץ לבדיקה אם אתה שומע "בדיקה"</p>
+          </div>
 
           {/* דוגמת צבעים */}
           <div className="mt-12">
@@ -222,7 +354,7 @@ export default function ColorGame() {
                 <div
                   key={color.name}
                   className={`w-20 h-20 rounded-full shadow-lg ${color.value} border-4 border-white transform hover:scale-110 transition-all duration-300 cursor-pointer`}
-                  onClick={() => playColorSound(color.sound)}
+                  onClick={() => speakColorName(color.hebrew)}
                 >
                   <div className="w-full h-full flex items-center justify-center">
                     <Volume2 className="w-6 h-6 text-white opacity-70" />
@@ -230,7 +362,7 @@ export default function ColorGame() {
                 </div>
               ))}
             </div>
-            <p className="text-gray-600 mt-4">לחץ על צבע כדי לשמוע את הצליל שלו!</p>
+            <p className="text-gray-600 mt-4">לחץ על צבע כדי לשמוע את השם שלו!</p>
           </div>
         </div>
       </div>
@@ -331,10 +463,10 @@ export default function ColorGame() {
         <div className="text-center mt-8">
           <div className="bg-white bg-opacity-80 rounded-2xl p-6 shadow-lg">
             <h3 className="text-xl font-bold text-gray-700 mb-2">
-              💡 טיפ: לחץ על כל צבע כדי לשמוע את הצליל שלו!
+              💡 טיפ: תשמע את שם הצבע כשהאתגר מופיע!
             </h3>
             <p className="text-gray-600">
-              ככל שתתקדם, יתווספו צבעים חדשים למשחק
+              לחץ על שם הצבע כדי לשמוע שוב, או על הצבעים למטה לתרגול
             </p>
           </div>
         </div>
