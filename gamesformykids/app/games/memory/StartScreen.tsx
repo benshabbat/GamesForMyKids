@@ -7,10 +7,7 @@ type StartScreenProps = {
   onSpeak?: (name: string) => void;
 };
 
-export default function StartScreen({
-  onStart,
-  animals,
-}: StartScreenProps) {
+export default function StartScreen({ onStart, animals }: StartScreenProps) {
   return (
     <div
       className="min-h-screen p-4"
@@ -38,9 +35,7 @@ export default function StartScreen({
 
         {/* הסבר המשחק */}
         <div className="bg-white bg-opacity-90 rounded-3xl p-8 mb-8 shadow-xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">
-            איך משחקים?
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">איך משחקים?</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
             <div className="text-center">
               <div className="text-4xl mb-3">👀</div>
@@ -82,31 +77,42 @@ export default function StartScreen({
           <button
             onClick={() => {
               // צליל הצלחה פשוט
-              if (typeof window !== 'undefined' && window.speechSynthesis) {
+              if (typeof window !== "undefined" && window.speechSynthesis) {
                 try {
-                  const testUtter = new SpeechSynthesisUtterance('בדיקת שמע');
-                  testUtter.lang = 'he-IL';
+                  const testUtter = new SpeechSynthesisUtterance("בדיקת שמע");
+                  testUtter.lang = "he-IL";
                   testUtter.rate = 0.8;
                   testUtter.volume = 1.0;
                   window.speechSynthesis.speak(testUtter);
                 } catch {
                   // צליל גיבוי באמצעות AudioContext
                   try {
-                    const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+                    const audioContext = new (window.AudioContext ||
+                      (
+                        window as unknown as {
+                          webkitAudioContext: typeof AudioContext;
+                        }
+                      ).webkitAudioContext)();
                     const oscillator = audioContext.createOscillator();
                     const gainNode = audioContext.createGain();
-                    
+
                     oscillator.connect(gainNode);
                     gainNode.connect(audioContext.destination);
-                    
-                    oscillator.frequency.setValueAtTime(523, audioContext.currentTime);
+
+                    oscillator.frequency.setValueAtTime(
+                      523,
+                      audioContext.currentTime
+                    );
                     gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-                    
+                    gainNode.gain.exponentialRampToValueAtTime(
+                      0.01,
+                      audioContext.currentTime + 0.5
+                    );
+
                     oscillator.start(audioContext.currentTime);
                     oscillator.stop(audioContext.currentTime + 0.5);
                   } catch {
-                    alert('❌ בעיה בהפעלת שמע. נסה דפדפן אחר');
+                    alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
                   }
                 }
               }
@@ -132,10 +138,10 @@ export default function StartScreen({
                 className="w-20 h-20 rounded-full shadow-lg bg-white flex items-center justify-center text-3xl font-bold border-4 border-pink-200 cursor-pointer transform hover:scale-110 transition-all duration-300"
                 onClick={() => {
                   // הקראת שם החיה
-                  if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  if (typeof window !== "undefined" && window.speechSynthesis) {
                     window.speechSynthesis.cancel();
                     const utterance = new SpeechSynthesisUtterance(animal.name);
-                    utterance.lang = 'he-IL';
+                    utterance.lang = "he-IL";
                     utterance.rate = 0.8;
                     utterance.volume = 1.0;
                     utterance.pitch = 1.2;
