@@ -17,8 +17,17 @@ export default function MemoryGamePage() {
     handleCardClick,
   } = useMemoryGame();
 
+  if (!isGameStarted) {
+    return (
+      <StartScreen 
+        onStart={initializeGame} 
+        animals={animals}
+      />
+    );
+  }
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4">
       <div className="max-w-4xl mx-auto">
         <GameHeader
           isGameStarted={isGameStarted}
@@ -26,10 +35,6 @@ export default function MemoryGamePage() {
           totalPairs={animals.length}
           onStart={initializeGame}
         />
-
-        {!isGameStarted && (
-          <StartScreen onStart={initializeGame} animals={animals} />
-        )}
 
         {isGameWon && <GameWinMessage animals={animals} />}
 

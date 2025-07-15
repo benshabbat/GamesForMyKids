@@ -1,3 +1,4 @@
+import { Home, RotateCcw } from "lucide-react";
 
 interface GameHeaderProps {
   isGameStarted: boolean;
@@ -7,38 +8,46 @@ interface GameHeaderProps {
 }
 
 export default function GameHeader({
-  isGameStarted,
   matchedPairs,
   totalPairs,
   onStart,
 }: GameHeaderProps) {
   return (
     <div className="text-center mb-8">
-      <h1 className="text-4xl font-bold text-purple-800 mb-4">
-        משחק זיכרון 🧠
+      {/* כותרת המשחק */}
+      <h1 className="text-4xl md:text-5xl font-bold text-purple-800 mb-2">
+        🧠 משחק זיכרון 🧠
       </h1>
       <p className="text-xl text-purple-600 mb-6">מצא את הזוגות הזהים!</p>
 
-      {!isGameStarted ? (
-        <button
-          onClick={onStart}
-          className="px-8 py-4 bg-pink-500 text-white rounded-full text-2xl font-bold hover:bg-pink-600 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105"
+      {/* פקדים */}
+      <div className="flex justify-between items-center mb-6">
+        <button 
+          onClick={() => (window.location.href = "/")} 
+          className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 transition-all duration-300"
         >
-          התחל משחק! 🎮
+          <Home className="inline w-5 h-5 ml-2" /> חזרה
         </button>
-      ) : (
-        <div className="mb-6">
-          <p className="text-lg text-purple-700">
-            זוגות שנמצאו: {matchedPairs} / {totalPairs}
-          </p>
-          <button
-            onClick={onStart}
-            className="mt-2 px-4 py-2 bg-purple-500 text-white rounded-full hover:bg-purple-600 transition-all duration-300"
-          >
-            משחק חדש
-          </button>
+        
+        <div className="text-center">
+          <div className="text-2xl font-bold text-purple-800">
+            זוגות: {matchedPairs} / {totalPairs}
+          </div>
+          <div className="w-full bg-purple-200 rounded-full h-3 mt-2">
+            <div 
+              className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500"
+              style={{ width: `${(matchedPairs / totalPairs) * 100}%` }}
+            ></div>
+          </div>
         </div>
-      )}
+
+        <button 
+          onClick={onStart} 
+          className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 transition-all duration-300"
+        >
+          <RotateCcw className="inline w-5 h-5 ml-2" /> מחדש
+        </button>
+      </div>
     </div>
   );
 }
