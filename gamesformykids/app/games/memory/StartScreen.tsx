@@ -1,3 +1,4 @@
+import GameInstructions from "@/components/shared/GameInstructions";
 import { AnimalData } from "@/lib/types/game";
 import { Home } from "lucide-react";
 
@@ -8,6 +9,11 @@ type StartScreenProps = {
 };
 
 export default function StartScreen({ onStart, animals }: StartScreenProps) {
+  const memorySteps = [
+    { icon: "👀", title: "1. תראה", description: "לחץ על קלף כדי לחשוף חיה" },
+    { icon: "🧠", title: "2. תזכור", description: "איפה ראית כל חיה" },
+    { icon: "🎯", title: "3. תמצא", description: "זוגות תואמים של חיות" },
+  ];
   return (
     <div
       className="min-h-screen p-4"
@@ -34,35 +40,10 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
         </div>
 
         {/* הסבר המשחק */}
-        <div className="bg-white bg-opacity-90 rounded-3xl p-8 mb-8 shadow-xl">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">איך משחקים?</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
-            <div className="text-center">
-              <div className="text-4xl mb-3">👀</div>
-              <p>
-                <strong>1. תראה</strong>
-                <br />
-                לחץ על קלף כדי לחשוף חיה
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-3">🧠</div>
-              <p>
-                <strong>2. תזכור</strong>
-                <br />
-                איפה ראית כל חיה
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl mb-3">🎯</div>
-              <p>
-                <strong>3. תמצא</strong>
-                <br />
-                זוגות תואמים של חיות
-              </p>
-            </div>
-          </div>
-        </div>
+        <GameInstructions
+          steps={memorySteps}
+          bgClass="bg-pink-100 bg-opacity-90"
+        />
 
         {/* כפתור התחלה */}
         <button

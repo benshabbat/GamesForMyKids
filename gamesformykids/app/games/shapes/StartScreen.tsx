@@ -1,5 +1,4 @@
 import { Home, Volume2 } from "lucide-react";
-import GameInstructions from "./GameInstructions";
 import { Shape } from "@/lib/types/game";
 import { 
   CircleIcon, 
@@ -11,6 +10,7 @@ import {
   DiamondIcon, 
   OvalIcon 
 } from "./ShapeIcons";
+import GameInstructions from "@/components/shared/GameInstructions";
 
 type StartScreenProps = {
   shapes: Shape[];
@@ -30,6 +30,12 @@ const ShapeIconMap = {
 };
 
 export default function StartScreen({ shapes, onStart }: StartScreenProps) {
+  const shapeSteps = [
+    { icon: "👂", title: "1. תשמע", description: "איזו צורה אני אומר" },
+    { icon: "🤔", title: "2. תחשוב", description: "איך נראית הצורה" },
+    { icon: "👆", title: "3. תלחץ", description: "על הצורה הנכונה" },
+  ];
+
   return (
     <div
       className="min-h-screen p-4"
@@ -56,7 +62,7 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
         </div>
 
         {/* הסבר המשחק */}
-        <GameInstructions />
+        <GameInstructions steps={shapeSteps} />
 
         {/* כפתור התחלה */}
         <button

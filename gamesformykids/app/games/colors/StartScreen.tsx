@@ -1,6 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
-import GameInstructions from "./GameInstructions";
 import { Color } from "@/lib/types/game";
+import GameInstructions from "@/components/shared/GameInstructions";
 
 type StartScreenProps = {
   colors: Color[];
@@ -9,6 +9,12 @@ type StartScreenProps = {
 };
 
 export default function StartScreen({ colors, onStart, onSpeak }: StartScreenProps) {
+  const colorSteps = [
+  { icon: "👀", title: "1. תראה", description: "איזה צבע אני מבקש" },
+  { icon: "🎤", title: "2. תשמע", description: "את שם הצבע" },
+  { icon: "👆", title: "3. תלחץ", description: "על הצבע הנכון" },
+];
+  
   return (
     <div
       className="min-h-screen p-4"
@@ -35,8 +41,7 @@ export default function StartScreen({ colors, onStart, onSpeak }: StartScreenPro
         </div>
 
         {/* הסבר המשחק */}
-        <GameInstructions />
-
+        <GameInstructions steps={colorSteps} />
         {/* כפתור התחלה */}
         <button
           onClick={onStart}

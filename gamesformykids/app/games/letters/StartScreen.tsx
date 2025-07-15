@@ -1,6 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
-import GameInstructions from "./GameInstructions";
 import { Letter } from "@/lib/types/game";
+import GameInstructions from "@/components/shared/GameInstructions";
 
 type StartScreenProps = {
   letters: Letter[];
@@ -9,6 +9,11 @@ type StartScreenProps = {
 };
 
 export default function StartScreen({ letters, onStart }: StartScreenProps) {
+  const letterSteps = [
+    { icon: "👂", title: "1. תשמע", description: "איזו אות אני אומר" },
+    { icon: "🤔", title: "2. תחשוב", description: "איך נראית האות" },
+    { icon: "👆", title: "3. תלחץ", description: "על האות הנכונה" },
+  ];
   return (
     <div
       className="min-h-screen p-4"
@@ -35,7 +40,7 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
         </div>
 
         {/* הסבר המשחק */}
-        <GameInstructions />
+        <GameInstructions steps={letterSteps} bgClass="bg-orange-100 bg-opacity-90"/>
 
         {/* כפתור התחלה */}
         <button
@@ -49,15 +54,15 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
         <div className="mb-8">
           <button
             onClick={async () => {
-              if (typeof window !== 'undefined' && window.speechSynthesis) {
+              if (typeof window !== "undefined" && window.speechSynthesis) {
                 try {
-                  const testUtter = new SpeechSynthesisUtterance('אלף');
-                  testUtter.lang = 'he-IL';
+                  const testUtter = new SpeechSynthesisUtterance("אלף");
+                  testUtter.lang = "he-IL";
                   testUtter.rate = 0.7;
                   testUtter.volume = 1.0;
                   window.speechSynthesis.speak(testUtter);
                 } catch {
-                  alert('❌ בעיה בהפעלת שמע. נסה דפדפן אחר');
+                  alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
                 }
               }
             }}
@@ -79,10 +84,12 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
                 className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
                 onClick={() => {
                   // הקראה מהירה ופשוטה
-                  if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  if (typeof window !== "undefined" && window.speechSynthesis) {
                     window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(letter.hebrew);
-                    utterance.lang = 'he-IL';
+                    const utterance = new SpeechSynthesisUtterance(
+                      letter.hebrew
+                    );
+                    utterance.lang = "he-IL";
                     utterance.rate = 0.8;
                     utterance.volume = 1.0;
                     utterance.pitch = 1.2;
@@ -104,10 +111,12 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
                 className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
                 onClick={() => {
                   // הקראה מהירה ופשוטה
-                  if (typeof window !== 'undefined' && window.speechSynthesis) {
+                  if (typeof window !== "undefined" && window.speechSynthesis) {
                     window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(letter.hebrew);
-                    utterance.lang = 'he-IL';
+                    const utterance = new SpeechSynthesisUtterance(
+                      letter.hebrew
+                    );
+                    utterance.lang = "he-IL";
                     utterance.rate = 0.8;
                     utterance.volume = 1.0;
                     utterance.pitch = 1.2;
