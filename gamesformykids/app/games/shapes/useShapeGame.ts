@@ -204,10 +204,13 @@ export function useShapeGame(shapes: Shape[]) {
       currentChallenge: randomShape,
       options 
     }));
-    
+
+    // הקראת שם הצורה רק אם אין חגיגה
     setTimeout(() => {
-      speakShapeName(randomShape.name);
-      startRepeatTimer(randomShape.name); // התחלת הטיימר
+      if (!gameState.showCelebration) {
+        speakShapeName(randomShape.name);
+        startRepeatTimer(randomShape.name); // התחלת הטיימר
+      }
     }, 1200);
   };
 
@@ -226,19 +229,29 @@ export function useShapeGame(shapes: Shape[]) {
 
   const handleShapeClick = (selectedShape: Shape): void => {
     if (!gameState.currentChallenge) return;
-    
-    clearRepeatTimer(); // עצירת הטיימר כשעונים
-    
-    if (selectedShape.name === gameState.currentChallenge.name) {
-      // תשובה נכונה
-      (async () => {
-        await speakShapeName(selectedShape.name);
-        playSuccessSound();
 
-        // הקראת "כל הכבוד!" בשמחה אחרי סיום שם הצורה
+    clearRepeatTimer();
+
+    if (selectedShape.name === gameState.currentChallenge.name) {
+      // קודם עדכן אתגר חדש, ואז הצג חגיגה
+      const availableShapes = getAvailableShapes();
+      const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
+      const options = generateOptions(randomShape);
+
+      setGameState((prev) => ({
+        ...prev,
+        score: prev.score + 10,
+        showCelebration: true,
+        currentChallenge: prev.currentChallenge, // שמור את האתגר הנוכחי לחגיגה
+        options: prev.options,
+      }));
+
+      // הפעלת צליל והקראת "כל הכבוד"
+      (async () => {
+        playSuccessSound();
         if (speechEnabled && 'speechSynthesis' in window) {
           await new Promise<void>((resolve) => {
-            const utter = new SpeechSynthesisUtterance("וואו! כל הכבוד!");
+            const utter = new SpeechSynthesisUtterance(" כל הכבוד!");
             utter.lang = "he-IL";
             utter.rate = 1.1;
             utter.volume = 1.0;
@@ -248,28 +261,29 @@ export function useShapeGame(shapes: Shape[]) {
             window.speechSynthesis.speak(utter);
           });
         }
+      })();
 
+      // העלמת החגיגה ומעבר לאתגר חדש
+      setTimeout(() => {
         setGameState((prev) => ({
           ...prev,
-          score: prev.score + 10,
-          showCelebration: true,
+          level: prev.level + 1,
+          showCelebration: false,
+          currentChallenge: randomShape, // עדכן אתגר חדש
+          options,
         }));
 
         setTimeout(() => {
-          setGameState((prev) => ({
-            ...prev,
-            level: prev.level + 1,
-            showCelebration: false,
-          }));
-          selectRandomShape();
-        }, 300); // זמן קצר אחרי "כל הכבוד"
-      })();
+          speakShapeName(randomShape.name);
+          startRepeatTimer(randomShape.name);
+        }, 1200);
+      }, 2500);
     } else {
-      // תשובה לא נכונה - הקראה של הצורה הנכונה
+      // תשובה לא נכונה
       setTimeout(() => {
         if (gameState.currentChallenge) {
           speakShapeName(gameState.currentChallenge.name);
-          startRepeatTimer(gameState.currentChallenge.name); // התחלת טיימר מחדש
+          startRepeatTimer(gameState.currentChallenge.name);
         }
       }, 500);
     }
