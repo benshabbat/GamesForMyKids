@@ -3,11 +3,11 @@
 import { Shape } from "@/types/game";
 import GameHeader from "./GameHeader";
 import ShapeOptions from "./ShapeOptions";
-import ChallengeBox from "./ChallengeBox";
 import CelebrationBox from "@/app/components/CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useShapeGame } from "./useShapeGame";
+import ChallengeBox from "@/app/components/ChallengeBox";
 
 export default function ShapeGame() {
   const shapes: Shape[] = [
@@ -110,8 +110,12 @@ export default function ShapeGame() {
           {/* האתגר הנוכחי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
-              challenge={gameState.currentChallenge}
+              title="איזו צורה שמעת?"
+              icon="🔷"
+              iconColor="text-green-800"
+              challengeText={gameState.currentChallenge.hebrew}
               onSpeak={() => speakShapeName(gameState.currentChallenge!.name)}
+              description="בחר את הצורה הנכונה!"
             />
           )}
 

@@ -3,7 +3,7 @@
 import { Letter } from "@/types/game";
 import GameHeader from "./GameHeader";
 import LetterOptions from "./LetterOptions";
-import ChallengeBox from "./ChallengeBox";
+import ChallengeBox from "@/app/components/ChallengeBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useLetterGame } from "./useLetterGame";
@@ -178,8 +178,12 @@ export default function LetterGame() {
           {/* האתגר הנוכחי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
-              challenge={gameState.currentChallenge}
+              title="איזו אות שמעת?"
+              icon="🔤"
+              iconColor="text-orange-800"
+              challengeText={gameState.currentChallenge.hebrew}
               onSpeak={() => speakLetterName(gameState.currentChallenge!.name)}
+              description="בחר את האות הנכונה!"
             />
           )}
 
