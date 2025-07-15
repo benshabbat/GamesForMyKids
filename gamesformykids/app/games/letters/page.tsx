@@ -1,13 +1,13 @@
 "use client";
 
 import { Letter } from "@/lib/types/game";
-import GameHeader from "./GameHeader";
 import LetterOptions from "./LetterOptions";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useLetterGame } from "./useLetterGame";
 import CelebrationBox from "@/components/shared/CelebrationBox";
+import GameHeader from "@/components/shared/GameHeader";
 
 export default function LetterGame() {
   const letters: Letter[] = [
@@ -173,6 +173,8 @@ export default function LetterGame() {
             level={gameState.level}
             onHome={() => (window.location.href = "/")}
             onReset={resetGame}
+            scoreColor="text-orange-800"
+            levelColor="text-orange-600"
           />
 
           {/* האתגר הנוכחי */}

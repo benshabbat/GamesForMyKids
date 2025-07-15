@@ -1,13 +1,13 @@
 "use client";
 
 import { Shape } from "@/lib/types/game";
-import GameHeader from "./GameHeader";
 import ShapeOptions from "./ShapeOptions";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useShapeGame } from "./useShapeGame";
 import ChallengeBox from "@/components/shared/ChallengeBox";
+import GameHeader from "@/components/shared/GameHeader";
 
 export default function ShapeGame() {
   const shapes: Shape[] = [
@@ -105,6 +105,8 @@ export default function ShapeGame() {
             level={gameState.level}
             onHome={() => (window.location.href = "/")}
             onReset={resetGame}
+            scoreColor="text-green-800"
+            levelColor="text-green-600"
           />
 
           {/* האתגר הנוכחי */}
