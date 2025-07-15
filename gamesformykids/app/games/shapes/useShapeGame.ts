@@ -17,168 +17,28 @@ export function useShapeGame(shapes: Shape[]) {
   const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if ('speechSynthesis' in window) {
-        setSpeechEnabled(true);
-        
-        const loadVoices = () => {
-          const voices = window.speechSynthesis.getVoices();
-          console.log('Voices loaded:', voices.length);
-        };
-        
-        if (window.speechSynthesis.getVoices().length === 0) {
-          window.speechSynthesis.onvoiceschanged = loadVoices;
-        } else {
-          loadVoices();
-        }
+    if (typeof window === "undefined") return;
+
+    // Speech setup
+    if ("speechSynthesis" in window) {
+      setSpeechEnabled(true);
+      const loadVoices = () => window.speechSynthesis.getVoices();
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      } else {
+        loadVoices();
       }
-      
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (AudioContextClass) {
-        const ctx = new AudioContextClass();
-        setAudioContext(ctx);
-      }
+    }
+
+    // Audio setup
+    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+    if (AudioContextClass) {
+      setAudioContext(new AudioContextClass());
     }
   }, []);
 
-  // הקראת שמות הצורות בעברית
-  const speakShapeName = async (shapeName: string): Promise<void> => {
-    if (!speechEnabled || !('speechSynthesis' in window) || isSpeeching) {
-      console.log('Speech not available or already speaking');
-      return;
-    }
+  // --- Utility Functions ---
 
-    try {
-      setIsSpeeching(true);
-
-      const shape = shapes.find(s => s.name === shapeName);
-      if (!shape) {
-        setIsSpeeching(false);
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      await new Promise(resolve => setTimeout(resolve, 200));
-
-      const hebrewUtter = new SpeechSynthesisUtterance(shape.hebrew);
-      hebrewUtter.lang = "he-IL";
-      hebrewUtter.rate = 0.7;
-      hebrewUtter.volume = 1.0;
-      hebrewUtter.pitch = 1.2;
-
-      const voices = window.speechSynthesis.getVoices();
-      
-      // חיפוש קול עברי נשי
-      const hebrewFemaleVoice = voices.find(voice =>
-        (voice.lang.includes('he') || voice.lang.includes('iw') || voice.name.toLowerCase().includes('hebrew')) &&
-        (voice.name.toLowerCase().includes('female') || 
-         voice.name.toLowerCase().includes('woman') ||
-         voice.name.toLowerCase().includes('carmit') ||
-         voice.name.toLowerCase().includes('dana') ||
-         !voice.name.toLowerCase().includes('male'))
-      );
-
-      const hebrewVoice = hebrewFemaleVoice || voices.find(voice =>
-        voice.lang.includes('he') ||
-        voice.lang.includes('iw') ||
-        voice.name.toLowerCase().includes('hebrew')
-      );
-
-      if (hebrewVoice) {
-        hebrewUtter.voice = hebrewVoice;
-        console.log('Using Hebrew voice:', hebrewVoice.name);
-      } else {
-        // גיבוי באנגלית אם אין עברית
-        const englishVoice = voices.find(voice => 
-          voice.lang.includes('en') && 
-          (voice.name.toLowerCase().includes('female') || 
-           voice.name.toLowerCase().includes('natural'))
-        );
-        
-        if (englishVoice) {
-          hebrewUtter.voice = englishVoice;
-          hebrewUtter.text = shape.english;
-          hebrewUtter.lang = "en-US";
-        }
-      }
-
-      const hebrewPromise = new Promise<boolean>((resolve) => {
-        let resolved = false;
-
-        hebrewUtter.onend = () => {
-          if (!resolved) {
-            resolved = true;
-            console.log('Hebrew speech succeeded:', shape.hebrew);
-            resolve(true);
-          }
-        };
-
-        hebrewUtter.onerror = (event) => {
-          if (!resolved) {
-            resolved = true;
-            console.log('Hebrew speech failed:', event.error);
-            resolve(false);
-          }
-        };
-
-        setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            window.speechSynthesis.cancel();
-            resolve(false);
-          }
-        }, 3000);
-      });
-
-      window.speechSynthesis.speak(hebrewUtter);
-      await hebrewPromise;
-
-      setIsSpeeching(false);
-
-    } catch (error) {
-      console.log('Speech failed completely:', error);
-      setIsSpeeching(false);
-    }
-  };
-
-  // צליל הצלחה נעים
-  const playSuccessSound = (): void => {
-    if (!audioContext) return;
-    
-    const notes = [523, 659, 784]; // C-E-G chord
-    notes.forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      
-      const startTime = audioContext.currentTime + i * 0.1;
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
-      
-      osc.start(startTime);
-      osc.stop(startTime + 0.3);
-    });
-  };
-
-  const generateOptions = (correctShape: Shape): Shape[] => {
-    const availableShapes = getAvailableShapes();
-    const incorrectShapes = availableShapes.filter(
-      shape => shape.name !== correctShape.name
-    );
-    
-    const shuffledIncorrect = incorrectShapes.sort(() => Math.random() - 0.5);
-    const selectedIncorrect = shuffledIncorrect.slice(0, 3);
-    
-    const options = [correctShape, ...selectedIncorrect];
-    return options.sort(() => Math.random() - 0.5);
-  };
-
-  // פונקציה לניקוי הטיימר
   const clearRepeatTimer = () => {
     if (repeatTimerRef.current) {
       clearInterval(repeatTimerRef.current);
@@ -186,36 +46,120 @@ export function useShapeGame(shapes: Shape[]) {
     }
   };
 
-  // פונקציה להתחלת הטיימר שחוזר על המילה
+  const speakMessage = async (text: string, lang = "he-IL", rate = 1, pitch = 1.2) => {
+    if (!speechEnabled || !("speechSynthesis" in window)) return;
+    return new Promise<void>(resolve => {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = lang;
+      utter.rate = rate;
+      utter.pitch = pitch;
+      utter.volume = 1.0;
+      utter.onend = () => resolve();
+      utter.onerror = () => resolve();
+      window.speechSynthesis.speak(utter);
+    });
+  };
+
   const startRepeatTimer = (shapeName: string) => {
     clearRepeatTimer();
     repeatTimerRef.current = setInterval(() => {
       speakShapeName(shapeName);
-    }, 4000); // חזרה כל 4 שניות
+    }, 5000);
   };
 
-  const selectRandomShape = (): void => {
+  const getAvailableShapes = (): Shape[] => {
+    const baseShapes = 4;
+    const additionalShapes = Math.floor((gameState.level - 1) / 3);
+    const totalShapes = Math.min(baseShapes + additionalShapes, shapes.length);
+    return shapes.slice(0, totalShapes);
+  };
+
+  const generateOptions = (correctShape: Shape): Shape[] => {
     const availableShapes = getAvailableShapes();
-    const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
-    const options = generateOptions(randomShape);
-    
-    setGameState((prev) => ({ 
-      ...prev, 
-      currentChallenge: randomShape,
-      options 
-    }));
-
-    // הקראת שם הצורה רק אם אין חגיגה
-    setTimeout(() => {
-      if (!gameState.showCelebration) {
-        speakShapeName(randomShape.name);
-        startRepeatTimer(randomShape.name); // התחלת הטיימר
-      }
-    }, 1200);
+    const incorrectShapes = availableShapes.filter(s => s.name !== correctShape.name);
+    const shuffledIncorrect = incorrectShapes.sort(() => Math.random() - 0.5);
+    const selectedIncorrect = shuffledIncorrect.slice(0, 3);
+    return [correctShape, ...selectedIncorrect].sort(() => Math.random() - 0.5);
   };
 
-  const startGame = (): void => {
-    clearRepeatTimer(); // ניקוי טיימר קודם
+  // --- Audio & Speech ---
+
+  const playSuccessSound = () => {
+    if (!audioContext) return;
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+      const startTime = audioContext.currentTime + i * 0.1;
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
+      osc.start(startTime);
+      osc.stop(startTime + 0.3);
+    });
+  };
+
+  const speakShapeName = async (shapeName: string): Promise<void> => {
+    if (!speechEnabled || !("speechSynthesis" in window) || isSpeeching) return;
+    try {
+      setIsSpeeching(true);
+      const shape = shapes.find(s => s.name === shapeName);
+      if (!shape) {
+        setIsSpeeching(false);
+        return;
+      }
+      window.speechSynthesis.cancel();
+      await new Promise(resolve => setTimeout(resolve, 200));
+      const utter = new SpeechSynthesisUtterance(shape.hebrew);
+      utter.lang = "he-IL";
+      utter.rate = 0.7;
+      utter.volume = 1.0;
+      utter.pitch = 1.2;
+      const voices = window.speechSynthesis.getVoices();
+      const hebrewVoice = voices.find(v =>
+        (v.lang.includes("he") || v.lang.includes("iw") || v.name.toLowerCase().includes("hebrew")) &&
+        (v.name.toLowerCase().includes("female") ||
+          v.name.toLowerCase().includes("woman") ||
+          v.name.toLowerCase().includes("carmit") ||
+          v.name.toLowerCase().includes("dana") ||
+          !v.name.toLowerCase().includes("male"))
+      ) || voices.find(v =>
+        v.lang.includes("he") ||
+        v.lang.includes("iw") ||
+        v.name.toLowerCase().includes("hebrew")
+      );
+      if (hebrewVoice) {
+        utter.voice = hebrewVoice;
+      } else {
+        const englishVoice = voices.find(v =>
+          v.lang.includes("en") &&
+          (v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("natural"))
+        );
+        if (englishVoice) {
+          utter.voice = englishVoice;
+          utter.text = shape.english;
+          utter.lang = "en-US";
+        }
+      }
+      await new Promise<boolean>(resolve => {
+        let resolved = false;
+        utter.onend = () => { if (!resolved) { resolved = true; resolve(true); } };
+        utter.onerror = () => { if (!resolved) { resolved = true; resolve(false); } };
+        setTimeout(() => { if (!resolved) { resolved = true; window.speechSynthesis.cancel(); resolve(false); } }, 3000);
+      });
+      window.speechSynthesis.speak(utter);
+      setIsSpeeching(false);
+    } catch {
+      setIsSpeeching(false);
+    }
+  };
+
+  const startGame = () => {
+    clearRepeatTimer();
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -224,73 +168,74 @@ export function useShapeGame(shapes: Shape[]) {
       showCelebration: false,
       options: [],
     });
-    setTimeout(selectRandomShape, 300);
-  };
 
-  const handleShapeClick = (selectedShape: Shape): void => {
-    if (!gameState.currentChallenge) return;
-
-    clearRepeatTimer();
-
-    if (selectedShape.name === gameState.currentChallenge.name) {
-      // קודם עדכן אתגר חדש, ואז הצג חגיגה
+    setTimeout(() => {
       const availableShapes = getAvailableShapes();
       const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
       const options = generateOptions(randomShape);
 
-      setGameState((prev) => ({
+      setGameState(prev => ({
+        ...prev,
+        currentChallenge: randomShape,
+        options
+      }));
+
+      setTimeout(async () => {
+        await speakMessage("בהצלחה!", "he-IL", 1.1, 1.3);
+        await speakShapeName(randomShape.name);
+        startRepeatTimer(randomShape.name);
+      }, 1500);
+    }, 300);
+  };
+
+  const handleShapeClick = (selectedShape: Shape) => {
+    if (!gameState.currentChallenge) return;
+    clearRepeatTimer();
+
+    if (selectedShape.name === gameState.currentChallenge.name) {
+      const availableShapes = getAvailableShapes();
+      const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
+      const options = generateOptions(randomShape);
+
+      setGameState(prev => ({
         ...prev,
         score: prev.score + 10,
         showCelebration: true,
-        currentChallenge: prev.currentChallenge, // שמור את האתגר הנוכחי לחגיגה
+        currentChallenge: selectedShape,
         options: prev.options,
       }));
 
-      // הפעלת צליל והקראת "כל הכבוד"
       (async () => {
         playSuccessSound();
-        if (speechEnabled && 'speechSynthesis' in window) {
-          await new Promise<void>((resolve) => {
-            const utter = new SpeechSynthesisUtterance(" כל הכבוד!");
-            utter.lang = "he-IL";
-            utter.rate = 1.1;
-            utter.volume = 1.0;
-            utter.pitch = 1.5;
-            utter.onend = () => resolve();
-            utter.onerror = () => resolve();
-            window.speechSynthesis.speak(utter);
-          });
+        if (speechEnabled && "speechSynthesis" in window) {
+          await speakMessage(" כל הכבוד!", "he-IL", 1.1, 1.5);
         }
       })();
 
-      // העלמת החגיגה ומעבר לאתגר חדש
       setTimeout(() => {
-        setGameState((prev) => ({
+        setGameState(prev => ({
           ...prev,
           level: prev.level + 1,
           showCelebration: false,
-          currentChallenge: randomShape, // עדכן אתגר חדש
+          currentChallenge: randomShape,
           options,
         }));
-
         setTimeout(() => {
           speakShapeName(randomShape.name);
           startRepeatTimer(randomShape.name);
         }, 1200);
       }, 2500);
     } else {
-      // תשובה לא נכונה
-      setTimeout(() => {
-        if (gameState.currentChallenge) {
-          speakShapeName(gameState.currentChallenge.name);
-          startRepeatTimer(gameState.currentChallenge.name);
-        }
-      }, 500);
+      (async () => {
+        await speakMessage("לא נורא, נסו שוב!", "he-IL", 1.1, 1.3);
+        await speakShapeName(gameState.currentChallenge!.name);
+        startRepeatTimer(gameState.currentChallenge!.name);
+      })();
     }
   };
 
-  const resetGame = (): void => {
-    clearRepeatTimer(); // ניקוי הטיימר
+  const resetGame = () => {
+    clearRepeatTimer();
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -301,19 +246,9 @@ export function useShapeGame(shapes: Shape[]) {
     });
   };
 
-  // ניקוי הטיימר כשהקומפוננט נהרס
   useEffect(() => {
-    return () => {
-      clearRepeatTimer();
-    };
+    return () => clearRepeatTimer();
   }, []);
-
-  const getAvailableShapes = (): Shape[] => {
-    const baseShapes = 4;
-    const additionalShapes = Math.floor((gameState.level - 1) / 3) * 1;
-    const totalShapes = Math.min(baseShapes + additionalShapes, shapes.length);
-    return shapes.slice(0, totalShapes);
-  };
 
   return {
     gameState,
