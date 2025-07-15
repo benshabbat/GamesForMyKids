@@ -129,7 +129,7 @@ export function useShapeGame(shapes: Shape[]) {
             window.speechSynthesis.cancel();
             resolve(false);
           }
-        }, 3000);
+        }, 500);
       });
       window.speechSynthesis.speak(utter);
       setIsSpeeching(false);
