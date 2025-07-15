@@ -1,6 +1,57 @@
 import { useState, useEffect, useRef } from "react";
 import { Letter, LetterGameState } from "@/types/game";
 
+const HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  alef: "אָלֶף",
+  bet: "בֵּית",
+  gimel: "גִּימֶל",
+  dalet: "דָּלֶת",
+  hey: "הֵא",
+  vav: "וָו",
+  zayin: "זַיִן",
+  het: "חֵית",
+  tet: "טֵית",
+  yud: "יוּד",
+  kaf: "כַּף",
+  lamed: "לָמֶד",
+  mem: "מֵם",
+  nun: "נוּן",
+  samech: "סָמֶךְ",
+  ayin: "עַיִן",
+  pey: "פֵּא",
+  tzadi: "צָדִי",
+  kuf: "קוּף",
+  resh: "רֵישׁ",
+  shin: "שִׁין",
+  tav: "תָּו",
+};
+
+function getHebrewPronunciation(letterName: string): string {
+  return HEBREW_PRONUNCIATIONS[letterName] || letterName;
+}
+
+function findHebrewVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | undefined {
+  return (
+    voices.find(
+      (voice) =>
+        (voice.lang.includes("he") ||
+          voice.lang.includes("iw") ||
+          voice.name.toLowerCase().includes("hebrew")) &&
+        (voice.name.toLowerCase().includes("female") ||
+          voice.name.toLowerCase().includes("woman") ||
+          voice.name.toLowerCase().includes("carmit") ||
+          voice.name.toLowerCase().includes("dana") ||
+          !voice.name.toLowerCase().includes("male"))
+    ) ||
+    voices.find(
+      (voice) =>
+        voice.lang.includes("he") ||
+        voice.lang.includes("iw") ||
+        voice.name.toLowerCase().includes("hebrew")
+    )
+  );
+}
+
 export function useLetterGame(letters: Letter[]) {
   const [gameState, setGameState] = useState<LetterGameState>({
     currentChallenge: null,
@@ -17,221 +68,139 @@ export function useLetterGame(letters: Letter[]) {
   const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      if ('speechSynthesis' in window) {
-        setSpeechEnabled(true);
-        
-        const loadVoices = () => {
-          const voices = window.speechSynthesis.getVoices();
-          console.log('Voices loaded:', voices.length);
-        };
-        
-        if (window.speechSynthesis.getVoices().length === 0) {
-          window.speechSynthesis.onvoiceschanged = loadVoices;
-        } else {
-          loadVoices();
-        }
+    if (typeof window === "undefined") return;
+
+    if ("speechSynthesis" in window) {
+      setSpeechEnabled(true);
+
+      const loadVoices = () => {
+        window.speechSynthesis.getVoices();
+      };
+
+      if (window.speechSynthesis.getVoices().length === 0) {
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+      } else {
+        loadVoices();
       }
-      
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-      if (AudioContextClass) {
-        const ctx = new AudioContextClass();
-        setAudioContext(ctx);
-      }
+    }
+
+    const AudioContextClass =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext?: typeof AudioContext })
+        .webkitAudioContext;
+    if (AudioContextClass) {
+      setAudioContext(new AudioContextClass());
     }
   }, []);
 
-  // הגייה עברית לאותיות
-  const getHebrewPronunciation = (letterName: string): string => {
-    const pronunciations: { [key: string]: string } = {
-      'alef': 'אָלֶף',
-      'bet': 'בֵּית',
-      'gimel': 'גִּימֶל',
-      'dalet': 'דָּלֶת',
-      'hey': 'הֵא',
-      'vav': 'וָו',
-      'zayin': 'זַיִן',
-      'het': 'חֵית',
-      'tet': 'טֵית',
-      'yud': 'יוּד',
-      'kaf': 'כַּף',
-      'lamed': 'לָמֶד',
-      'mem': 'מֵם',
-      'nun': 'נוּן',
-      'samech': 'סָמֶךְ',
-      'ayin': 'עַיִן',
-      'pey': 'פֵּא',
-      'tzadi': 'צָדִי',
-      'kuf': 'קוּף',
-      'resh': 'רֵישׁ',
-      'shin': 'שִׁין',
-      'tav': 'תָּו'
-    };
+  useEffect(() => {
+    return () => clearRepeatTimer();
+  }, []);
 
-    return pronunciations[letterName] || letterName;
-  };
-
-  // הקראת שמות האותיות בעברית
-  const speakLetterName = async (letterName: string): Promise<void> => {
-    if (!speechEnabled || !('speechSynthesis' in window) || isSpeeching) {
-      console.log('Speech not available or already speaking');
-      return;
-    }
-
-    try {
-      setIsSpeeching(true);
-
-      const letter = letters.find(l => l.name === letterName);
-      const hebrewName = getHebrewPronunciation(letterName);
-
-      if (!letter) {
-        setIsSpeeching(false);
-        return;
-      }
-
-      window.speechSynthesis.cancel();
-      await new Promise(resolve => setTimeout(resolve, 200));
-
-      const hebrewUtter = new SpeechSynthesisUtterance(hebrewName);
-      hebrewUtter.lang = "he-IL";
-      hebrewUtter.rate = 0.7;
-      hebrewUtter.volume = 1.0;
-      hebrewUtter.pitch = 1.2;
-
-      const voices = window.speechSynthesis.getVoices();
-      
-      // חיפוש קול עברי נשי
-      const hebrewFemaleVoice = voices.find(voice =>
-        (voice.lang.includes('he') || voice.lang.includes('iw') || voice.name.toLowerCase().includes('hebrew')) &&
-        (voice.name.toLowerCase().includes('female') || 
-         voice.name.toLowerCase().includes('woman') ||
-         voice.name.toLowerCase().includes('carmit') ||
-         voice.name.toLowerCase().includes('dana') ||
-         !voice.name.toLowerCase().includes('male'))
-      );
-
-      const hebrewVoice = hebrewFemaleVoice || voices.find(voice =>
-        voice.lang.includes('he') ||
-        voice.lang.includes('iw') ||
-        voice.name.toLowerCase().includes('hebrew')
-      );
-
-      if (hebrewVoice) {
-        hebrewUtter.voice = hebrewVoice;
-        console.log('Using Hebrew voice:', hebrewVoice.name);
-      }
-
-      const hebrewPromise = new Promise<boolean>((resolve) => {
-        let resolved = false;
-
-        hebrewUtter.onend = () => {
-          if (!resolved) {
-            resolved = true;
-            console.log('Hebrew speech succeeded:', hebrewName);
-            resolve(true);
-          }
-        };
-
-        hebrewUtter.onerror = (event) => {
-          if (!resolved) {
-            resolved = true;
-            console.log('Hebrew speech failed:', event.error);
-            resolve(false);
-          }
-        };
-
-        setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            window.speechSynthesis.cancel();
-            resolve(false);
-          }
-        }, 3000);
-      });
-
-      window.speechSynthesis.speak(hebrewUtter);
-      await hebrewPromise;
-
-      setIsSpeeching(false);
-
-    } catch (error) {
-      console.log('Speech failed completely:', error);
-      setIsSpeeching(false);
-    }
-  };
-
-  // צליל הצלחה נעים
-  const playSuccessSound = (): void => {
-    if (!audioContext) return;
-    
-    const notes = [523, 659, 784]; // C-E-G chord
-    notes.forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      
-      const startTime = audioContext.currentTime + i * 0.1;
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
-      
-      osc.start(startTime);
-      osc.stop(startTime + 0.3);
-    });
-  };
-
-  const generateOptions = (correctLetter: Letter): Letter[] => {
-    const availableLetters = getAvailableLetters();
-    const incorrectLetters = availableLetters.filter(
-      letter => letter.name !== correctLetter.name
-    );
-    
-    const shuffledIncorrect = incorrectLetters.sort(() => Math.random() - 0.5);
-    const selectedIncorrect = shuffledIncorrect.slice(0, 3);
-    
-    const options = [correctLetter, ...selectedIncorrect];
-    return options.sort(() => Math.random() - 0.5);
-  };
-
-  // פונקציה לניקוי הטיימר
-  const clearRepeatTimer = () => {
+  function clearRepeatTimer() {
     if (repeatTimerRef.current) {
       clearInterval(repeatTimerRef.current);
       repeatTimerRef.current = null;
     }
-  };
+  }
 
-  // פונקציה להתחלת הטיימר שחוזר על המילה
-  const startRepeatTimer = (letterName: string) => {
+  function startRepeatTimer(letterName: string) {
     clearRepeatTimer();
     repeatTimerRef.current = setInterval(() => {
       speakLetterName(letterName);
-    }, 4000); // חזרה כל 4 שניות
-  };
+    }, 4000);
+  }
 
-  const selectRandomLetter = (): void => {
+  async function speakLetterName(letterName: string): Promise<void> {
+    if (!speechEnabled || !("speechSynthesis" in window) || isSpeeching) return;
+
+    setIsSpeeching(true);
+
+    const letter = letters.find((l) => l.name === letterName);
+    if (!letter) {
+      setIsSpeeching(false);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    const hebrewUtter = new SpeechSynthesisUtterance(getHebrewPronunciation(letterName));
+    hebrewUtter.lang = "he-IL";
+    hebrewUtter.rate = 0.7;
+    hebrewUtter.volume = 1.0;
+    hebrewUtter.pitch = 1.2;
+
+    const voices = window.speechSynthesis.getVoices();
+    const hebrewVoice = findHebrewVoice(voices);
+    if (hebrewVoice) hebrewUtter.voice = hebrewVoice;
+
+    const hebrewPromise = new Promise<boolean>((resolve) => {
+      let resolved = false;
+      hebrewUtter.onend = () => !resolved && (resolved = true, resolve(true));
+      hebrewUtter.onerror = () => !resolved && (resolved = true, resolve(false));
+      setTimeout(() => !resolved && (resolved = true, window.speechSynthesis.cancel(), resolve(false)), 3000);
+    });
+
+    window.speechSynthesis.speak(hebrewUtter);
+    await hebrewPromise;
+    setIsSpeeching(false);
+  }
+
+  function playSuccessSound() {
+    if (!audioContext) return;
+    const notes = [523, 659, 784];
+    notes.forEach((freq, i) => {
+      const osc = audioContext.createOscillator();
+      const gain = audioContext.createGain();
+      osc.type = "sine";
+      osc.frequency.value = freq;
+      osc.connect(gain);
+      gain.connect(audioContext.destination);
+
+      const startTime = audioContext.currentTime + i * 0.1;
+      gain.gain.setValueAtTime(0, startTime);
+      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
+      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
+
+      osc.start(startTime);
+      osc.stop(startTime + 0.3);
+    });
+  }
+
+  function getAvailableLetters(): Letter[] {
+    const baseLetters = 6;
+    const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
+    const totalLetters = Math.min(baseLetters + additionalLetters, letters.length);
+    return letters.slice(0, totalLetters);
+  }
+
+  function generateOptions(correctLetter: Letter): Letter[] {
+    const availableLetters = getAvailableLetters();
+    const incorrectLetters = availableLetters.filter((l) => l.name !== correctLetter.name);
+    const selectedIncorrect = incorrectLetters.sort(() => Math.random() - 0.5).slice(0, 3);
+    return [correctLetter, ...selectedIncorrect].sort(() => Math.random() - 0.5);
+  }
+
+  function selectRandomLetter() {
     const availableLetters = getAvailableLetters();
     const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
     const options = generateOptions(randomLetter);
-    
-    setGameState((prev) => ({ 
-      ...prev, 
+
+    setGameState((prev) => ({
+      ...prev,
       currentChallenge: randomLetter,
-      options 
+      options,
     }));
-    
+
     setTimeout(() => {
       speakLetterName(randomLetter.name);
-      startRepeatTimer(randomLetter.name); // התחלת הטיימר
+      startRepeatTimer(randomLetter.name);
     }, 1200);
-  };
+  }
 
-  const startGame = (): void => {
-    clearRepeatTimer(); // ניקוי טיימר קודם
+  function startGame() {
+    clearRepeatTimer();
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -241,20 +210,17 @@ export function useLetterGame(letters: Letter[]) {
       options: [],
     });
     setTimeout(selectRandomLetter, 300);
-  };
+  }
 
-  const handleLetterClick = (selectedLetter: Letter): void => {
+  function handleLetterClick(selectedLetter: Letter) {
     if (!gameState.currentChallenge) return;
-    
-    clearRepeatTimer(); // עצירת הטיימר כשעונים
-    
+    clearRepeatTimer();
+
     if (selectedLetter.name === gameState.currentChallenge.name) {
-      // תשובה נכונה
       speakLetterName(selectedLetter.name);
       playSuccessSound();
 
-      // הקראת "כל הכבוד!"
-      if (speechEnabled && 'speechSynthesis' in window) {
+      if (speechEnabled && "speechSynthesis" in window) {
         const utter = new SpeechSynthesisUtterance("כל הכבוד!");
         utter.lang = "he-IL";
         utter.rate = 0.9;
@@ -268,6 +234,7 @@ export function useLetterGame(letters: Letter[]) {
         score: prev.score + 10,
         showCelebration: true,
       }));
+
       setTimeout(() => {
         setGameState((prev) => ({
           ...prev,
@@ -277,18 +244,17 @@ export function useLetterGame(letters: Letter[]) {
         selectRandomLetter();
       }, 1500);
     } else {
-      // תשובה לא נכונה - הקראה של האות הנכונה
       setTimeout(() => {
         if (gameState.currentChallenge) {
           speakLetterName(gameState.currentChallenge.name);
-          startRepeatTimer(gameState.currentChallenge.name); // התחלת טיימר מחדש
+          startRepeatTimer(gameState.currentChallenge.name);
         }
       }, 500);
     }
-  };
+  }
 
-  const resetGame = (): void => {
-    clearRepeatTimer(); // ניקוי הטיימר
+  function resetGame() {
+    clearRepeatTimer();
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -297,21 +263,7 @@ export function useLetterGame(letters: Letter[]) {
       showCelebration: false,
       options: [],
     });
-  };
-
-  // ניקוי הטיימר כשהקומפוננט נהרס
-  useEffect(() => {
-    return () => {
-      clearRepeatTimer();
-    };
-  }, []);
-
-  const getAvailableLetters = (): Letter[] => {
-    const baseLetters = 6;
-    const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
-    const totalLetters = Math.min(baseLetters + additionalLetters, letters.length);
-    return letters.slice(0, totalLetters);
-  };
+  }
 
   return {
     gameState,

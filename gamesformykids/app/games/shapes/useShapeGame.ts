@@ -127,17 +127,8 @@ export function useShapeGame(shapes: Shape[]) {
       );
       if (hebrewVoice) {
         utter.voice = hebrewVoice;
-      } else {
-        const englishVoice = voices.find(v =>
-          v.lang.includes("en") &&
-          (v.name.toLowerCase().includes("female") || v.name.toLowerCase().includes("natural"))
-        );
-        if (englishVoice) {
-          utter.voice = englishVoice;
-          utter.text = shape.english;
-          utter.lang = "en-US";
-        }
       }
+      // הסרנו את התמיכה באנגלית
       await new Promise<boolean>(resolve => {
         let resolved = false;
         utter.onend = () => { if (!resolved) { resolved = true; resolve(true); } };
