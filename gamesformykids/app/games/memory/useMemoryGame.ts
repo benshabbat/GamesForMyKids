@@ -161,13 +161,13 @@ export function useMemoryGame() {
     }, 1000);
   };
 
+  const isGameWon = matchedPairs.length === emojis.length;
   useEffect(() => {
     if (isGameWon && isGameStarted) {
       speakGameEnd();
     }
   }, [isGameWon, isGameStarted]);
 
-  const isGameWon = matchedPairs.length === emojis.length;
 
   return {
     animals,
