@@ -60,12 +60,6 @@ export function useShapeGame(shapes: Shape[]) {
     });
   };
 
-  const startRepeatTimer = (shapeName: string) => {
-    clearRepeatTimer();
-    repeatTimerRef.current = setInterval(() => {
-      speakShapeName(shapeName);
-    }, 5000);
-  };
 
   const getAvailableShapes = (): Shape[] => {
     const baseShapes = 4;
@@ -183,8 +177,7 @@ export function useShapeGame(shapes: Shape[]) {
       setTimeout(async () => {
         await speakMessage("בהצלחה!", "he-IL", 1.1, 1.3);
         await speakShapeName(randomShape.name);
-        startRepeatTimer(randomShape.name);
-      }, 1500);
+      }, 500);
     }, 300);
   };
 
@@ -222,14 +215,12 @@ export function useShapeGame(shapes: Shape[]) {
         }));
         setTimeout(() => {
           speakShapeName(randomShape.name);
-          startRepeatTimer(randomShape.name);
         }, 1200);
       }, 2500);
     } else {
       (async () => {
         await speakMessage("לא נורא, נסו שוב!", "he-IL", 1.1, 1.3);
         await speakShapeName(gameState.currentChallenge!.name);
-        startRepeatTimer(gameState.currentChallenge!.name);
       })();
     }
   };
