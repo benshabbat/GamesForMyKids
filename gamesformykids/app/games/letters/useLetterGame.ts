@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Letter, LetterGameState } from "@/types/game";
 import { findHebrewVoice } from "../../utils/speechUtils";
+import { initSpeechAndAudio } from "../../utils/initSpeechAndAudio";
 
 const HEBREW_PRONUNCIATIONS: Record<string, string> = {
   alef: "אָלֶף",
@@ -47,29 +48,7 @@ export function useLetterGame(letters: Letter[]) {
   const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    if ("speechSynthesis" in window) {
-      setSpeechEnabled(true);
-
-      const loadVoices = () => {
-        window.speechSynthesis.getVoices();
-      };
-
-      if (window.speechSynthesis.getVoices().length === 0) {
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-      } else {
-        loadVoices();
-      }
-    }
-
-    const AudioContextClass =
-      window.AudioContext ||
-      (window as unknown as { webkitAudioContext?: typeof AudioContext })
-        .webkitAudioContext;
-    if (AudioContextClass) {
-      setAudioContext(new AudioContextClass());
-    }
+    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
   }, []);
 
   useEffect(() => {
@@ -104,7 +83,9 @@ export function useLetterGame(letters: Letter[]) {
     window.speechSynthesis.cancel();
     await new Promise((resolve) => setTimeout(resolve, 200));
 
-    const hebrewUtter = new SpeechSynthesisUtterance(getHebrewPronunciation(letterName));
+    const hebrewUtter = new SpeechSynthesisUtterance(
+      getHebrewPronunciation(letterName)
+    );
     hebrewUtter.lang = "he-IL";
     hebrewUtter.rate = 0.7;
     hebrewUtter.volume = 1.0;
@@ -116,9 +97,15 @@ export function useLetterGame(letters: Letter[]) {
 
     const hebrewPromise = new Promise<boolean>((resolve) => {
       let resolved = false;
-      hebrewUtter.onend = () => !resolved && (resolved = true, resolve(true));
-      hebrewUtter.onerror = () => !resolved && (resolved = true, resolve(false));
-      setTimeout(() => !resolved && (resolved = true, window.speechSynthesis.cancel(), resolve(false)), 3000);
+      hebrewUtter.onend = () => !resolved && ((resolved = true), resolve(true));
+      hebrewUtter.onerror = () =>
+        !resolved && ((resolved = true), resolve(false));
+      setTimeout(
+        () =>
+          !resolved &&
+          ((resolved = true), window.speechSynthesis.cancel(), resolve(false)),
+        3000
+      );
     });
 
     window.speechSynthesis.speak(hebrewUtter);
@@ -150,20 +137,30 @@ export function useLetterGame(letters: Letter[]) {
   function getAvailableLetters(): Letter[] {
     const baseLetters = 6;
     const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
-    const totalLetters = Math.min(baseLetters + additionalLetters, letters.length);
+    const totalLetters = Math.min(
+      baseLetters + additionalLetters,
+      letters.length
+    );
     return letters.slice(0, totalLetters);
   }
 
   function generateOptions(correctLetter: Letter): Letter[] {
     const availableLetters = getAvailableLetters();
-    const incorrectLetters = availableLetters.filter((l) => l.name !== correctLetter.name);
-    const selectedIncorrect = incorrectLetters.sort(() => Math.random() - 0.5).slice(0, 3);
-    return [correctLetter, ...selectedIncorrect].sort(() => Math.random() - 0.5);
+    const incorrectLetters = availableLetters.filter(
+      (l) => l.name !== correctLetter.name
+    );
+    const selectedIncorrect = incorrectLetters
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 3);
+    return [correctLetter, ...selectedIncorrect].sort(
+      () => Math.random() - 0.5
+    );
   }
 
   function selectRandomLetter() {
     const availableLetters = getAvailableLetters();
-    const randomLetter = availableLetters[Math.floor(Math.random() * availableLetters.length)];
+    const randomLetter =
+      availableLetters[Math.floor(Math.random() * availableLetters.length)];
     const options = generateOptions(randomLetter);
 
     setGameState((prev) => ({

@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Shape, ShapeGameState } from "@/types/game";
 import { findHebrewVoice } from "../../utils/speechUtils";
+import { initSpeechAndAudio } from "../../utils/initSpeechAndAudio";
 
 export function useShapeGame(shapes: Shape[]) {
   const [gameState, setGameState] = useState<ShapeGameState>({
@@ -17,25 +18,9 @@ export function useShapeGame(shapes: Shape[]) {
   const [isSpeeching, setIsSpeeching] = useState(false);
   const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
 
+
   useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    // Speech setup
-    if ("speechSynthesis" in window) {
-      setSpeechEnabled(true);
-      const loadVoices = () => window.speechSynthesis.getVoices();
-      if (window.speechSynthesis.getVoices().length === 0) {
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-      } else {
-        loadVoices();
-      }
-    }
-
-    // Audio setup
-    const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
-    if (AudioContextClass) {
-      setAudioContext(new AudioContextClass());
-    }
+    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
   }, []);
 
   // --- Utility Functions ---
@@ -47,9 +32,14 @@ export function useShapeGame(shapes: Shape[]) {
     }
   };
 
-  const speakMessage = async (text: string, lang = "he-IL", rate = 1, pitch = 1.2) => {
+  const speakMessage = async (
+    text: string,
+    lang = "he-IL",
+    rate = 1,
+    pitch = 1.2
+  ) => {
     if (!speechEnabled || !("speechSynthesis" in window)) return;
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       const utter = new SpeechSynthesisUtterance(text);
       utter.lang = lang;
       utter.rate = rate;
@@ -61,7 +51,6 @@ export function useShapeGame(shapes: Shape[]) {
     });
   };
 
-
   const getAvailableShapes = (): Shape[] => {
     const baseShapes = 4;
     const additionalShapes = Math.floor((gameState.level - 1) / 3);
@@ -71,7 +60,9 @@ export function useShapeGame(shapes: Shape[]) {
 
   const generateOptions = (correctShape: Shape): Shape[] => {
     const availableShapes = getAvailableShapes();
-    const incorrectShapes = availableShapes.filter(s => s.name !== correctShape.name);
+    const incorrectShapes = availableShapes.filter(
+      (s) => s.name !== correctShape.name
+    );
     const shuffledIncorrect = incorrectShapes.sort(() => Math.random() - 0.5);
     const selectedIncorrect = shuffledIncorrect.slice(0, 3);
     return [correctShape, ...selectedIncorrect].sort(() => Math.random() - 0.5);
@@ -102,7 +93,7 @@ export function useShapeGame(shapes: Shape[]) {
     if (!speechEnabled || !("speechSynthesis" in window) || isSpeeching) return;
     try {
       setIsSpeeching(true);
-      const shape = shapes.find(s => s.name === shapeName);
+      const shape = shapes.find((s) => s.name === shapeName);
       if (!shape) {
         setIsSpeeching(false);
         return;
@@ -118,11 +109,27 @@ export function useShapeGame(shapes: Shape[]) {
       if (hebrewVoice) {
         utter.voice = hebrewVoice;
       }
-      await new Promise<boolean>(resolve => {
+      await new Promise<boolean>((resolve) => {
         let resolved = false;
-        utter.onend = () => { if (!resolved) { resolved = true; resolve(true); } };
-        utter.onerror = () => { if (!resolved) { resolved = true; resolve(false); } };
-        setTimeout(() => { if (!resolved) { resolved = true; window.speechSynthesis.cancel(); resolve(false); } }, 3000);
+        utter.onend = () => {
+          if (!resolved) {
+            resolved = true;
+            resolve(true);
+          }
+        };
+        utter.onerror = () => {
+          if (!resolved) {
+            resolved = true;
+            resolve(false);
+          }
+        };
+        setTimeout(() => {
+          if (!resolved) {
+            resolved = true;
+            window.speechSynthesis.cancel();
+            resolve(false);
+          }
+        }, 3000);
       });
       window.speechSynthesis.speak(utter);
       setIsSpeeching(false);
@@ -144,13 +151,14 @@ export function useShapeGame(shapes: Shape[]) {
 
     setTimeout(() => {
       const availableShapes = getAvailableShapes();
-      const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
+      const randomShape =
+        availableShapes[Math.floor(Math.random() * availableShapes.length)];
       const options = generateOptions(randomShape);
 
-      setGameState(prev => ({
+      setGameState((prev) => ({
         ...prev,
         currentChallenge: randomShape,
-        options
+        options,
       }));
 
       setTimeout(async () => {
@@ -166,10 +174,11 @@ export function useShapeGame(shapes: Shape[]) {
 
     if (selectedShape.name === gameState.currentChallenge.name) {
       const availableShapes = getAvailableShapes();
-      const randomShape = availableShapes[Math.floor(Math.random() * availableShapes.length)];
+      const randomShape =
+        availableShapes[Math.floor(Math.random() * availableShapes.length)];
       const options = generateOptions(randomShape);
 
-      setGameState(prev => ({
+      setGameState((prev) => ({
         ...prev,
         score: prev.score + 10,
         showCelebration: true,
@@ -180,9 +189,14 @@ export function useShapeGame(shapes: Shape[]) {
       (async () => {
         playSuccessSound();
         if (speechEnabled && "speechSynthesis" in window) {
-          await speakMessage("כל הכבוד מצאת את הצורה הנכונה! בואו נעבור לצורה החדשה", "he-IL", 1.1, 1.5);
+          await speakMessage(
+            "כל הכבוד מצאת את הצורה הנכונה! בואו נעבור לצורה החדשה",
+            "he-IL",
+            1.1,
+            1.5
+          );
 
-          setGameState(prev => ({
+          setGameState((prev) => ({
             ...prev,
             level: prev.level + 1,
             showCelebration: false,
