@@ -118,6 +118,18 @@ export function useMemoryGame() {
     window.speechSynthesis.speak(utter);
   };
 
+  // הוספת פונקציה שמדברת בסיום המשחק
+  const speakGameEnd = () => {
+    if (!('speechSynthesis' in window)) return;
+    const utter = new SpeechSynthesisUtterance(
+      "מעולה, פתרתם את הכל! האם תרצו משחק נוסף או משחק אחר?"
+    );
+    utter.lang = "he-IL";
+    utter.rate = 0.9;
+    utter.pitch = 1.1;
+    window.speechSynthesis.speak(utter);
+  };
+
   const checkForMatch = ([firstId, secondId]: number[]) => {
     const firstCard = cards.find((c) => c.id === firstId);
     const secondCard = cards.find((c) => c.id === secondId);
@@ -148,6 +160,12 @@ export function useMemoryGame() {
       setFlippedCards([]);
     }, 1000);
   };
+
+  useEffect(() => {
+    if (isGameWon && isGameStarted) {
+      speakGameEnd();
+    }
+  }, [isGameWon, isGameStarted]);
 
   const isGameWon = matchedPairs.length === emojis.length;
 
