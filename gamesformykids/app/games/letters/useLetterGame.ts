@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Letter, LetterGameState } from "@/types/game";
+import { findHebrewVoice } from "../../utils/speechUtils";
 
 const HEBREW_PRONUNCIATIONS: Record<string, string> = {
   alef: "אָלֶף",
@@ -28,28 +29,6 @@ const HEBREW_PRONUNCIATIONS: Record<string, string> = {
 
 function getHebrewPronunciation(letterName: string): string {
   return HEBREW_PRONUNCIATIONS[letterName] || letterName;
-}
-
-function findHebrewVoice(voices: SpeechSynthesisVoice[]): SpeechSynthesisVoice | undefined {
-  return (
-    voices.find(
-      (voice) =>
-        (voice.lang.includes("he") ||
-          voice.lang.includes("iw") ||
-          voice.name.toLowerCase().includes("hebrew")) &&
-        (voice.name.toLowerCase().includes("female") ||
-          voice.name.toLowerCase().includes("woman") ||
-          voice.name.toLowerCase().includes("carmit") ||
-          voice.name.toLowerCase().includes("dana") ||
-          !voice.name.toLowerCase().includes("male"))
-    ) ||
-    voices.find(
-      (voice) =>
-        voice.lang.includes("he") ||
-        voice.lang.includes("iw") ||
-        voice.name.toLowerCase().includes("hebrew")
-    )
-  );
 }
 
 export function useLetterGame(letters: Letter[]) {

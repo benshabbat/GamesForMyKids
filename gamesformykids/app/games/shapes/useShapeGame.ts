@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Shape, ShapeGameState } from "@/types/game";
+import { findHebrewVoice } from "../../utils/speechUtils";
 
 export function useShapeGame(shapes: Shape[]) {
   const [gameState, setGameState] = useState<ShapeGameState>({
@@ -113,22 +114,10 @@ export function useShapeGame(shapes: Shape[]) {
       utter.volume = 1.0;
       utter.pitch = 1.2;
       const voices = window.speechSynthesis.getVoices();
-      const hebrewVoice = voices.find(v =>
-        (v.lang.includes("he") || v.lang.includes("iw") || v.name.toLowerCase().includes("hebrew")) &&
-        (v.name.toLowerCase().includes("female") ||
-          v.name.toLowerCase().includes("woman") ||
-          v.name.toLowerCase().includes("carmit") ||
-          v.name.toLowerCase().includes("dana") ||
-          !v.name.toLowerCase().includes("male"))
-      ) || voices.find(v =>
-        v.lang.includes("he") ||
-        v.lang.includes("iw") ||
-        v.name.toLowerCase().includes("hebrew")
-      );
+      const hebrewVoice = findHebrewVoice(voices);
       if (hebrewVoice) {
         utter.voice = hebrewVoice;
       }
-      // הסרנו את התמיכה באנגלית
       await new Promise<boolean>(resolve => {
         let resolved = false;
         utter.onend = () => { if (!resolved) { resolved = true; resolve(true); } };
