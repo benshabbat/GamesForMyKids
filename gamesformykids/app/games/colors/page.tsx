@@ -3,11 +3,11 @@
 import { Color } from "@/types/game";
 import GameHeader from "./GameHeader";
 import ColorGrid from "./ColorGrid";
-import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useColorGame } from "./useColorGame";
+import CelebrationBox from "@/app/components/CelebrationBox";
+import ChallengeBox from "@/app/components/ChallengeBox";
 
 export default function ColorGame() {
   const colors: Color[] = [
@@ -107,14 +107,22 @@ export default function ColorGame() {
           {/* האתגר הנוכחי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
-              challenge={gameState.currentChallenge}
+              title="מצא את הצבע:"
+              icon="🎨"
+              iconColor="text-purple-800"
+              challengeText={gameState.currentChallenge.hebrew}
               onSpeak={() => speakColorName(gameState.currentChallenge!.hebrew)}
+              description="לחץ על הצבע הנכון!"
             />
           )}
 
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox challenge={gameState.currentChallenge} />
+            // <CelebrationBox challenge={gameState.currentChallenge} />
+            <CelebrationBox
+              label="צבע"
+              value={gameState.currentChallenge.hebrew}
+            />
           )}
         </div>
 

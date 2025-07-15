@@ -4,7 +4,7 @@ import { Shape } from "@/types/game";
 import GameHeader from "./GameHeader";
 import ShapeOptions from "./ShapeOptions";
 import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
+import CelebrationBox from "@/app/components/CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useShapeGame } from "./useShapeGame";
@@ -117,7 +117,7 @@ export default function ShapeGame() {
 
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox challenge={gameState.currentChallenge} />
+            <CelebrationBox label="צורה" value={gameState.currentChallenge.hebrew} />
           )}
         </div>
 

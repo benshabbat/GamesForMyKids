@@ -4,10 +4,10 @@ import { Letter } from "@/types/game";
 import GameHeader from "./GameHeader";
 import LetterOptions from "./LetterOptions";
 import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useLetterGame } from "./useLetterGame";
+import CelebrationBox from "@/app/components/CelebrationBox";
 
 export default function LetterGame() {
   const letters: Letter[] = [
@@ -185,7 +185,8 @@ export default function LetterGame() {
 
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox challenge={gameState.currentChallenge} />
+            // <CelebrationBox challenge={gameState.currentChallenge} />
+            <CelebrationBox label="אות" value={gameState.currentChallenge.hebrew} />
           )}
         </div>
 
