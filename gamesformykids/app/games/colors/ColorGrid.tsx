@@ -1,5 +1,5 @@
 import { Volume2 } from "lucide-react";
-import { Color } from "@/types/game";
+import { Color } from "@/lib/types/game";
 
 type ColorGridProps = {
   colors: Color[];

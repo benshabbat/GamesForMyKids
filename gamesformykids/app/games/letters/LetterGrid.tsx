@@ -1,4 +1,4 @@
-import { Letter } from "@/types/game";
+import { Letter } from "@/lib/types/game";
 import { LetterCard } from "./LetterCard";
 
 interface LetterGridProps {

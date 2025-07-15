@@ -1,5 +1,5 @@
 import { Volume2 } from "lucide-react";
-import { Letter } from "@/types/game";
+import { Letter } from "@/lib/types/game";
 
 type LetterOptionsProps = {
   options: Letter[];

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Letter, LetterGameState } from "@/types/game";
-import { findHebrewVoice } from "../../utils/speechUtils";
-import { initSpeechAndAudio } from "../../utils/initSpeechAndAudio";
+import { Letter, LetterGameState } from "@/lib/types/game";
+import { findHebrewVoice } from "@/lib/utils/speechUtils";
+import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
 
 const HEBREW_PRONUNCIATIONS: Record<string, string> = {
   alef: "אָלֶף",

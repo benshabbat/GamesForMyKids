@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Color, GameState } from "@/types/game";
+import { Color, GameState } from "@/lib/types/game";
 
 export function useColorGame(colors: Color[]) {
   const [gameState, setGameState] = useState<GameState>({

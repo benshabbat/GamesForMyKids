@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import { Shape, ShapeGameState } from "@/types/game";
-import { findHebrewVoice } from "../../utils/speechUtils";
-import { initSpeechAndAudio } from "../../utils/initSpeechAndAudio";
+import { Shape, ShapeGameState } from "@/lib/types/game";
+import { findHebrewVoice } from "@/lib/utils/speechUtils";
+import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
 
 export function useShapeGame(shapes: Shape[]) {
   const [gameState, setGameState] = useState<ShapeGameState>({

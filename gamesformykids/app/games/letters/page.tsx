@@ -1,13 +1,13 @@
 "use client";
 
-import { Letter } from "@/types/game";
+import { Letter } from "@/lib/types/game";
 import GameHeader from "./GameHeader";
 import LetterOptions from "./LetterOptions";
-import ChallengeBox from "@/app/components/ChallengeBox";
+import ChallengeBox from "@/components/shared/ChallengeBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useLetterGame } from "./useLetterGame";
-import CelebrationBox from "@/app/components/CelebrationBox";
+import CelebrationBox from "@/components/shared/CelebrationBox";
 
 export default function LetterGame() {
   const letters: Letter[] = [

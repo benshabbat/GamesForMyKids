@@ -1,13 +1,13 @@
 "use client";
 
-import { Shape } from "@/types/game";
+import { Shape } from "@/lib/types/game";
 import GameHeader from "./GameHeader";
 import ShapeOptions from "./ShapeOptions";
-import CelebrationBox from "@/app/components/CelebrationBox";
+import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useShapeGame } from "./useShapeGame";
-import ChallengeBox from "@/app/components/ChallengeBox";
+import ChallengeBox from "@/components/shared/ChallengeBox";
 
 export default function ShapeGame() {
   const shapes: Shape[] = [

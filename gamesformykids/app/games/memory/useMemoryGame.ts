@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { AnimalData, Card } from "@/types/game";
+import { AnimalData, Card } from "@/lib/types/game";
 
 export function useMemoryGame() {
   const [cards, setCards] = useState<Card[]>([]);

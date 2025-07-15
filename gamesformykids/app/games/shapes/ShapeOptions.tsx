@@ -1,5 +1,5 @@
 import { Volume2 } from "lucide-react";
-import { Shape } from "@/types/game";
+import { Shape } from "@/lib/types/game";
 import { 
   CircleIcon, 
   SquareIcon, 

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Star, Heart, Circle, Square, Music, Type } from "lucide-react";
-import { Game } from "@/types/game";
+import { Game } from "@/lib/types/game";
 
 function GamesGrid() {
   const games: Game[] = [

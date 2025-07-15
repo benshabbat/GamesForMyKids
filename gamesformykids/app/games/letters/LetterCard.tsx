@@ -1,4 +1,4 @@
-import { Letter } from "@/types/game";
+import { Letter } from "@/lib/types/game";
 
 interface LetterCardProps {
   letter: Letter;

@@ -1,6 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
 import GameInstructions from "./GameInstructions";
-import { Letter } from "@/types/game";
+import { Letter } from "@/lib/types/game";
 
 type StartScreenProps = {
   letters: Letter[];

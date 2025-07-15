@@ -1,6 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
 import GameInstructions from "./GameInstructions";
-import { Color } from "@/types/game";
+import { Color } from "@/lib/types/game";
 
 type StartScreenProps = {
   colors: Color[];

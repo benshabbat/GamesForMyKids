@@ -1,13 +1,13 @@
 "use client";
 
-import { Color } from "@/types/game";
+import { Color } from "@/lib/types/game";
 import GameHeader from "./GameHeader";
 import ColorGrid from "./ColorGrid";
 import StartScreen from "./StartScreen";
 import TipsBox from "./TipsBox";
 import { useColorGame } from "./useColorGame";
-import CelebrationBox from "@/app/components/CelebrationBox";
-import ChallengeBox from "@/app/components/ChallengeBox";
+import CelebrationBox from "@/components/shared/CelebrationBox";
+import ChallengeBox from "@/components/shared/ChallengeBox";
 
 export default function ColorGame() {
   const colors: Color[] = [

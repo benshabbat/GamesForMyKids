@@ -1,6 +1,6 @@
 import { Home, Volume2 } from "lucide-react";
 import GameInstructions from "./GameInstructions";
-import { Shape } from "@/types/game";
+import { Shape } from "@/lib/types/game";
 import { 
   CircleIcon, 
   SquareIcon, 
