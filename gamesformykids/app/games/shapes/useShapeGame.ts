@@ -107,7 +107,6 @@ export function useShapeGame(shapes: Shape[]) {
         return;
       }
       window.speechSynthesis.cancel();
-      await new Promise(resolve => setTimeout(resolve, 200));
       const utter = new SpeechSynthesisUtterance(shape.hebrew);
       utter.lang = "he-IL";
       utter.rate = 0.7;
@@ -177,7 +176,7 @@ export function useShapeGame(shapes: Shape[]) {
       setTimeout(async () => {
         await speakMessage("בהצלחה!", "he-IL", 1.1, 1.3);
         await speakShapeName(randomShape.name);
-      }, 500);
+      }, 100); // היה 500
     }, 300);
   };
 
@@ -201,22 +200,18 @@ export function useShapeGame(shapes: Shape[]) {
       (async () => {
         playSuccessSound();
         if (speechEnabled && "speechSynthesis" in window) {
-          await speakMessage(" כל הכבוד!", "he-IL", 1.1, 1.5);
+          await speakMessage("כל הכבוד מצאת את הצורה הנכונה! בואו נעבור לצורה החדשה", "he-IL", 1.1, 1.5);
+
+          setGameState(prev => ({
+            ...prev,
+            level: prev.level + 1,
+            showCelebration: false,
+            currentChallenge: randomShape,
+            options,
+          }));
+          await speakShapeName(randomShape.name);
         }
       })();
-
-      setTimeout(() => {
-        setGameState(prev => ({
-          ...prev,
-          level: prev.level + 1,
-          showCelebration: false,
-          currentChallenge: randomShape,
-          options,
-        }));
-        setTimeout(() => {
-          speakShapeName(randomShape.name);
-        }, 1200);
-      }, 2500);
     } else {
       (async () => {
         await speakMessage("לא נורא, נסו שוב!", "he-IL", 1.1, 1.3);
