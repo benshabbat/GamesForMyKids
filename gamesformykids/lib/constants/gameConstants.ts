@@ -40,6 +40,13 @@ export const GAME_CONSTANTS = {
     BASE_LETTERS_COUNT: 6,
     LETTERS_INCREMENT: 2,
     LEVEL_THRESHOLD: 3
+  },
+  
+  // קבועים ספציפיים למשחק הצורות
+  SHAPE_GAME: {
+    BASE_SHAPES_COUNT: 4,
+    SHAPES_INCREMENT: 1,
+    LEVEL_THRESHOLD: 3
   }
 };
 

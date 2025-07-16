@@ -1,7 +1,17 @@
 import { useState, useEffect, useRef } from "react";
 import { Shape, ShapeGameState } from "@/lib/types/game";
-import { findHebrewVoice } from "@/lib/utils/speechUtils";
 import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
+import { 
+  delay, 
+  playSuccessSound as playSound, 
+  generateOptions as generateGameOptions,
+  getRandomItem,
+  speakItemName,
+  handleWrongGameAnswer,
+  handleCorrectGameAnswer,
+  speakStartMessage
+} from "@/lib/utils/gameUtils";
+import { GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
 export function useShapeGame(shapes: Shape[]) {
   const [gameState, setGameState] = useState<ShapeGameState>({
@@ -32,114 +42,46 @@ export function useShapeGame(shapes: Shape[]) {
     }
   };
 
-  const speakMessage = async (
-    text: string,
-    lang = "he-IL",
-    rate = 1,
-    pitch = 1.2
-  ) => {
-    if (!speechEnabled || !("speechSynthesis" in window)) return;
-    return new Promise<void>((resolve) => {
-      const utter = new SpeechSynthesisUtterance(text);
-      utter.lang = lang;
-      utter.rate = rate;
-      utter.pitch = pitch;
-      utter.volume = 1.0;
-      utter.onend = () => resolve();
-      utter.onerror = () => resolve();
-      window.speechSynthesis.speak(utter);
-    });
-  };
-
   const getAvailableShapes = (): Shape[] => {
-    const baseShapes = 4;
-    const additionalShapes = Math.floor((gameState.level - 1) / 3);
+    const baseShapes = GAME_CONSTANTS.SHAPE_GAME.BASE_SHAPES_COUNT;
+    const additionalShapes = Math.floor((gameState.level - 1) / GAME_CONSTANTS.SHAPE_GAME.LEVEL_THRESHOLD) 
+      * GAME_CONSTANTS.SHAPE_GAME.SHAPES_INCREMENT;
     const totalShapes = Math.min(baseShapes + additionalShapes, shapes.length);
     return shapes.slice(0, totalShapes);
   };
 
   const generateOptions = (correctShape: Shape): Shape[] => {
     const availableShapes = getAvailableShapes();
-    const incorrectShapes = availableShapes.filter(
-      (s) => s.name !== correctShape.name
-    );
-    const shuffledIncorrect = incorrectShapes.sort(() => Math.random() - 0.5);
-    const selectedIncorrect = shuffledIncorrect.slice(0, 3);
-    return [correctShape, ...selectedIncorrect].sort(() => Math.random() - 0.5);
+    
+    // משתמש בפונקציה הגנרית מ-gameUtils עם מספר האפשרויות מהקבועים
+    return generateGameOptions(correctShape, availableShapes, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
 
   // --- Audio & Speech ---
 
   const playSuccessSound = () => {
-    if (!audioContext) return;
-    const notes = [523, 659, 784];
-    notes.forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      const startTime = audioContext.currentTime + i * 0.1;
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
-      osc.start(startTime);
-      osc.stop(startTime + 0.3);
-    });
+    playSound(audioContext);
   };
 
   const speakShapeName = async (shapeName: string): Promise<void> => {
-    if (!speechEnabled || !("speechSynthesis" in window) || isSpeeching) return;
+    if (!speechEnabled || isSpeeching) return;
     try {
       setIsSpeeching(true);
-      const shape = shapes.find((s) => s.name === shapeName);
-      if (!shape) {
-        setIsSpeeching(false);
-        return;
-      }
-      window.speechSynthesis.cancel();
-      const utter = new SpeechSynthesisUtterance(shape.hebrew);
-      utter.lang = "he-IL";
-      utter.rate = 0.7;
-      utter.volume = 1.0;
-      utter.pitch = 1.2;
-      const voices = window.speechSynthesis.getVoices();
-      const hebrewVoice = findHebrewVoice(voices);
-      if (hebrewVoice) {
-        utter.voice = hebrewVoice;
-      }
-      await new Promise<boolean>((resolve) => {
-        let resolved = false;
-        utter.onend = () => {
-          if (!resolved) {
-            resolved = true;
-            resolve(true);
-          }
-        };
-        utter.onerror = () => {
-          if (!resolved) {
-            resolved = true;
-            resolve(false);
-          }
-        };
-        setTimeout(() => {
-          if (!resolved) {
-            resolved = true;
-            window.speechSynthesis.cancel();
-            resolve(false);
-          }
-        }, 500);
+      await speakItemName(shapeName, (name) => {
+        const shape = shapes.find((s) => s.name === name);
+        return shape ? shape.hebrew : name;
       });
-      window.speechSynthesis.speak(utter);
       setIsSpeeching(false);
-    } catch {
+    } catch (error) {
+      console.error("שגיאה בהשמעת שם הצורה:", error);
       setIsSpeeching(false);
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     clearRepeatTimer();
+    
+    // השתמש במצב התחלתי גנרי עם המאפיינים הדרושים למשחק הצורות
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -149,23 +91,27 @@ export function useShapeGame(shapes: Shape[]) {
       options: [],
     });
 
-    setTimeout(() => {
-      const availableShapes = getAvailableShapes();
-      const randomShape =
-        availableShapes[Math.floor(Math.random() * availableShapes.length)];
-      const options = generateOptions(randomShape);
+    // השהייה לפני התחלת המשחק
+    await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
+    
+    // השמעת הודעת התחלה
+    await speakStartMessage();
+    
+    // בחירת צורה אקראית וקביעת האפשרויות
+    const availableShapes = getAvailableShapes();
+    const randomShape = getRandomItem(availableShapes);
+    const options = generateOptions(randomShape);
 
-      setGameState((prev) => ({
-        ...prev,
-        currentChallenge: randomShape,
-        options,
-      }));
+    // עדכון מצב המשחק עם האתגר והאפשרויות החדשות
+    setGameState((prev) => ({
+      ...prev,
+      currentChallenge: randomShape,
+      options,
+    }));
 
-      setTimeout(async () => {
-        await speakMessage("בהצלחה!", "he-IL", 1.1, 1.3);
-        await speakShapeName(randomShape.name);
-      }, 100); // היה 500
-    }, 300);
+    // השמעת שם הצורה הראשונה
+    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+    await speakShapeName(randomShape.name);
   };
 
   const handleShapeClick = (selectedShape: Shape) => {
@@ -173,49 +119,41 @@ export function useShapeGame(shapes: Shape[]) {
     clearRepeatTimer();
 
     if (selectedShape.name === gameState.currentChallenge.name) {
+      // בחירת צורה חדשה אקראית מהצורות הזמינות
       const availableShapes = getAvailableShapes();
-      const randomShape =
-        availableShapes[Math.floor(Math.random() * availableShapes.length)];
+      const randomShape = getRandomItem(availableShapes);
       const options = generateOptions(randomShape);
 
-      setGameState((prev) => ({
-        ...prev,
-        score: prev.score + 10,
-        showCelebration: true,
-        currentChallenge: selectedShape,
-        options: prev.options,
-      }));
-
-      (async () => {
-        playSuccessSound();
-        if (speechEnabled && "speechSynthesis" in window) {
-          await speakMessage(
-            "כל הכבוד מצאת את הצורה הנכונה! בואו נעבור לצורה החדשה",
-            "he-IL",
-            1.1,
-            1.5
-          );
-
+      // הפעלת הלוגיקה הגנרית לטיפול בתשובה נכונה
+      handleCorrectGameAnswer(
+        gameState, 
+        setGameState, 
+        async () => {
+          // עדכון האתגר החדש והאפשרויות
           setGameState((prev) => ({
             ...prev,
-            level: prev.level + 1,
-            showCelebration: false,
             currentChallenge: randomShape,
             options,
           }));
+          
+          // השמעת שם הצורה החדשה
           await speakShapeName(randomShape.name);
         }
-      })();
+      );
+      
+      // השמעת הצליל
+      playSuccessSound();
     } else {
-      (async () => {
-        await speakMessage("לא נורא, נסו שוב!", "he-IL", 1.1, 1.3);
+      // טיפול בתשובה שגויה
+      handleWrongGameAnswer(async () => {
         await speakShapeName(gameState.currentChallenge!.name);
-      })();
+      });
     }
   };
 
   const resetGame = () => {
     clearRepeatTimer();
+    // אתחול מצב המשחק למצב התחלתי - ניתן להשתמש במצב התחלתי גנרי עם התאמה
     setGameState({
       currentChallenge: null,
       score: 0,
