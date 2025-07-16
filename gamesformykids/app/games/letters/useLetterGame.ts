@@ -1,36 +1,19 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Letter, LetterGameState } from "@/lib/types/game";
-import { findHebrewVoice } from "@/lib/utils/speechUtils";
+import { cancelSpeech } from "@/lib/utils/enhancedSpeechUtils";
 import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
-
-const HEBREW_PRONUNCIATIONS: Record<string, string> = {
-  alef: "אָלֶף",
-  bet: "בֵּית",
-  gimel: "גִּימֶל",
-  dalet: "דָּלֶת",
-  hey: "הֵא",
-  vav: "וָו",
-  zayin: "זַיִן",
-  het: "חֵית",
-  tet: "טֵית",
-  yud: "יוּד",
-  kaf: "כַּף",
-  lamed: "לָמֶד",
-  mem: "מֵם",
-  nun: "נוּן",
-  samech: "סָמֶךְ",
-  ayin: "עַיִן",
-  pey: "פֵּא",
-  tzadi: "צָדִי",
-  kuf: "קוּף",
-  resh: "רֵישׁ",
-  shin: "שִׁין",
-  tav: "תָּו",
-};
-
-function getHebrewPronunciation(letterName: string): string {
-  return HEBREW_PRONUNCIATIONS[letterName] || letterName;
-}
+import { 
+  delay, 
+  playSuccessSound as playSound, 
+  generateOptions as generateGameOptions, 
+  getRandomItem,
+  getHebrewPronunciation,
+  handleCorrectGameAnswer,
+  speakStartMessage,
+  speakItemName,
+  handleWrongGameAnswer
+} from "@/lib/utils/gameUtils";
+import { GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
 export function useLetterGame(letters: Letter[]) {
   const [gameState, setGameState] = useState<LetterGameState>({
@@ -42,141 +25,96 @@ export function useLetterGame(letters: Letter[]) {
     options: [],
   });
 
+  // אודיו וסטייט לשמע
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [speechEnabled, setSpeechEnabled] = useState(false);
-  const [isSpeeching, setIsSpeeching] = useState(false);
-  const repeatTimerRef = useRef<NodeJS.Timeout | null>(null);
+  const [, setSpeechEnabled] = useState(false);
 
+  // אתחול מנגנון השמע והדיבור
   useEffect(() => {
     initSpeechAndAudio(setSpeechEnabled, setAudioContext);
   }, []);
 
-  useEffect(() => {
-    return () => clearRepeatTimer();
-  }, []);
-
-  function clearRepeatTimer() {
-    if (repeatTimerRef.current) {
-      clearInterval(repeatTimerRef.current);
-      repeatTimerRef.current = null;
-    }
-  }
-
-  function startRepeatTimer(letterName: string) {
-    clearRepeatTimer();
-    repeatTimerRef.current = setInterval(() => {
-      speakLetterName(letterName);
-    }, 4000);
-  }
-
+  /**
+   * אומר את שם האות בעברית
+   * @param letterName שם האות באנגלית
+   */
   async function speakLetterName(letterName: string): Promise<void> {
-    if (!speechEnabled || !("speechSynthesis" in window) || isSpeeching) return;
-
-    setIsSpeeching(true);
-
     const letter = letters.find((l) => l.name === letterName);
-    if (!letter) {
-      setIsSpeeching(false);
-      return;
-    }
+    if (!letter) return;
 
-    window.speechSynthesis.cancel();
-    await new Promise((resolve) => setTimeout(resolve, 200));
-
-    const hebrewUtter = new SpeechSynthesisUtterance(
-      getHebrewPronunciation(letterName)
-    );
-    hebrewUtter.lang = "he-IL";
-    hebrewUtter.rate = 0.7;
-    hebrewUtter.volume = 1.0;
-    hebrewUtter.pitch = 1.2;
-
-    const voices = window.speechSynthesis.getVoices();
-    const hebrewVoice = findHebrewVoice(voices);
-    if (hebrewVoice) hebrewUtter.voice = hebrewVoice;
-
-    const hebrewPromise = new Promise<boolean>((resolve) => {
-      let resolved = false;
-      hebrewUtter.onend = () => !resolved && ((resolved = true), resolve(true));
-      hebrewUtter.onerror = () =>
-        !resolved && ((resolved = true), resolve(false));
-      setTimeout(
-        () =>
-          !resolved &&
-          ((resolved = true), window.speechSynthesis.cancel(), resolve(false)),
-        3000
-      );
-    });
-
-    window.speechSynthesis.speak(hebrewUtter);
-    await hebrewPromise;
-    setIsSpeeching(false);
+    // משתמש בפונקציה הגנרית
+    await speakItemName(letterName, getHebrewPronunciation);
   }
 
-  function playSuccessSound() {
-    if (!audioContext) return;
-    const notes = [523, 659, 784];
-    notes.forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freq;
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-
-      const startTime = audioContext.currentTime + i * 0.1;
-      gain.gain.setValueAtTime(0, startTime);
-      gain.gain.linearRampToValueAtTime(0.1, startTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, startTime + 0.3);
-
-      osc.start(startTime);
-      osc.stop(startTime + 0.3);
-    });
+  /**
+   * משמיע צליל הצלחה - אקורד דו מז'ור
+   */
+  function playSuccessSound(): void {
+    playSound(audioContext);
   }
 
+  /**
+   * מחזיר את האותיות הזמינות לשלב הנוכחי במשחק
+   * מספר האותיות גדל עם העלייה ברמות
+   */
   function getAvailableLetters(): Letter[] {
-    const baseLetters = 6;
-    const additionalLetters = Math.floor((gameState.level - 1) / 3) * 2;
-    const totalLetters = Math.min(
-      baseLetters + additionalLetters,
-      letters.length
-    );
+    // קבועים לחישוב האותיות הזמינות
+    const BASE_LETTERS_COUNT = GAME_CONSTANTS.LETTER_GAME.BASE_LETTERS_COUNT;
+    const LETTERS_INCREMENT = GAME_CONSTANTS.LETTER_GAME.LETTERS_INCREMENT;
+    const LEVEL_THRESHOLD = GAME_CONSTANTS.LETTER_GAME.LEVEL_THRESHOLD;
+    
+    // חישוב מספר האותיות הזמינות בהתאם לרמה
+    const additionalLetters = Math.floor((gameState.level - 1) / LEVEL_THRESHOLD) * LETTERS_INCREMENT;
+    const totalLetters = Math.min(BASE_LETTERS_COUNT + additionalLetters, letters.length);
+    
     return letters.slice(0, totalLetters);
   }
 
+  /**
+   * מייצר אפשרויות בחירה למשחק - אות נכונה ו-3 אותיות שגויות
+   * @param correctLetter האות הנכונה שצריכה להיות בין האפשרויות
+   */
   function generateOptions(correctLetter: Letter): Letter[] {
     const availableLetters = getAvailableLetters();
-    const incorrectLetters = availableLetters.filter(
-      (l) => l.name !== correctLetter.name
-    );
-    const selectedIncorrect = incorrectLetters
-      .sort(() => Math.random() - 0.5)
-      .slice(0, 3);
-    return [correctLetter, ...selectedIncorrect].sort(
-      () => Math.random() - 0.5
-    );
+    
+    // משתמש בפונקציה הגנרית מ-gameUtils עם מספר האפשרויות מהקבועים
+    return generateGameOptions(correctLetter, availableLetters, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   }
+  
+  // השתמשנו בפונקציית shuffleArray מ-gameUtils
 
-  function selectRandomLetter() {
+  /**
+   * בוחר אות אקראית מהאותיות הזמינות ומכין סיבוב משחק חדש
+   */
+  async function selectRandomLetter(): Promise<void> {
+    // בחירת אות אקראית מהאותיות הזמינות
     const availableLetters = getAvailableLetters();
-    const randomLetter =
-      availableLetters[Math.floor(Math.random() * availableLetters.length)];
+    const randomLetter = getRandomItem(availableLetters);
+    
+    // יצירת אפשרויות בחירה למשחק
     const options = generateOptions(randomLetter);
 
+    // עדכון מצב המשחק
     setGameState((prev) => ({
       ...prev,
       currentChallenge: randomLetter,
       options,
     }));
 
-    setTimeout(() => {
-      speakLetterName(randomLetter.name);
-      startRepeatTimer(randomLetter.name);
-    }, 1200);
+    // ביטול דיבורים קודמים והכרזה על האות החדשה
+    cancelSpeech();
+    await delay(600); // השהייה לפני הכרזה
+    await speakLetterName(randomLetter.name);
   }
 
-  function startGame() {
-    clearRepeatTimer();
+  /**
+   * מתחיל משחק חדש
+   */
+  async function startGame(): Promise<void> {
+    // ביטול דיבור קודם
+    cancelSpeech();
+
+    // איפוס מצב המשחק
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -185,52 +123,64 @@ export function useLetterGame(letters: Letter[]) {
       showCelebration: false,
       options: [],
     });
-    setTimeout(selectRandomLetter, 300);
-  }
 
+    // ברכת התחלה
+    await speakStartMessage();
+
+    // התחלת המשחק
+    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+    selectRandomLetter();
+  }
+  
+  // השתמשנו בפונקציית delay מ-gameUtils
+  /**
+   * מטפל בלחיצה על אות - בודק אם התשובה נכונה ומפעיל את הפונקציה המתאימה
+   */
   function handleLetterClick(selectedLetter: Letter) {
     if (!gameState.currentChallenge) return;
-    clearRepeatTimer();
 
-    if (selectedLetter.name === gameState.currentChallenge.name) {
-      speakLetterName(selectedLetter.name);
-      playSuccessSound();
-
-      if (speechEnabled && "speechSynthesis" in window) {
-        const utter = new SpeechSynthesisUtterance("כל הכבוד!");
-        utter.lang = "he-IL";
-        utter.rate = 0.9;
-        utter.volume = 1.0;
-        utter.pitch = 1.1;
-        window.speechSynthesis.speak(utter);
-      }
-
-      setGameState((prev) => ({
-        ...prev,
-        score: prev.score + 10,
-        showCelebration: true,
-      }));
-
-      setTimeout(() => {
-        setGameState((prev) => ({
-          ...prev,
-          level: prev.level + 1,
-          showCelebration: false,
-        }));
-        selectRandomLetter();
-      }, 1500);
+    const isCorrect = selectedLetter.name === gameState.currentChallenge.name;
+    if (isCorrect) {
+      handleCorrectAnswer();
     } else {
-      setTimeout(() => {
-        if (gameState.currentChallenge) {
-          speakLetterName(gameState.currentChallenge.name);
-          startRepeatTimer(gameState.currentChallenge.name);
-        }
-      }, 500);
+      handleWrongAnswer();
+    }
+  }
+  
+  /**
+   * טיפול בתשובה נכונה - הצגת חגיגה, השמעת צליל ומעבר לשלב הבא
+   */
+  async function handleCorrectAnswer(): Promise<void> {
+    // צליל הצלחה
+    playSuccessSound();
+    
+    // משתמשים בפונקציה הגנרית
+    await handleCorrectGameAnswer(
+      gameState,
+      setGameState,
+      selectRandomLetter
+    );
+  }
+  
+  /**
+   * טיפול בתשובה שגויה - השמעת משוב וחזרה על האות הנדרשת
+   */
+  async function handleWrongAnswer(): Promise<void> {
+    if (gameState.currentChallenge) {
+      // משתמשים בפונקציה הגנרית לתגובה לתשובה שגויה
+      const speakCurrentLetter = () => speakLetterName(gameState.currentChallenge!.name);
+      await handleWrongGameAnswer(speakCurrentLetter);
     }
   }
 
-  function resetGame() {
-    clearRepeatTimer();
+  /**
+   * איפוס המשחק למצב התחלתי
+   */
+  function resetGame(): void {
+    // עצירת כל הדיבור
+    cancelSpeech();
+
+    // החזרת המשחק למצב התחלתי על פי הקבועים
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -241,6 +191,7 @@ export function useLetterGame(letters: Letter[]) {
     });
   }
 
+  // החזרת ממשק המשחק לשימוש בקומפוננטות
   return {
     gameState,
     speakLetterName,

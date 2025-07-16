@@ -34,6 +34,7 @@ export interface GameState {
   level: number;
   isPlaying: boolean;
   showCelebration: boolean;
+  options: Color[];
 }
 
 // ממשק למשחק אותיות
