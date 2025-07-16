@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Color, GameState } from "@/lib/types/game";
-import { speakHebrew, isSpeechEnabled } from "@/lib/utils/speechUtils";
+import { speakHebrew, isSpeechEnabled, cancelSpeech } from "@/lib/utils/speechUtils";
 
 // Hebrew translations for color names
 const COLOR_TRANSLATIONS: Record<string, string> = {
@@ -85,7 +85,7 @@ export function useColorGame(colors: Color[]) {
   };
 
   // Select a random color for the challenge
-  const selectRandomColor = (): void => {
+  const selectRandomColor = async (): Promise<void> => {
     const availableColors = getAvailableColors();
     const randomIndex = Math.floor(Math.random() * availableColors.length);
     const randomColor = availableColors[randomIndex];
@@ -95,8 +95,14 @@ export function useColorGame(colors: Color[]) {
       currentChallenge: randomColor 
     }));
 
-    // Speak the color name immediately
-    speakColorName(randomColor.hebrew);
+    // מבטל כל דיבור קודם לפני הכרזה על צבע חדש
+    cancelSpeech();
+    
+    // השהייה קצרה לפני הכרזה על הצבע החדש
+    await new Promise(resolve => setTimeout(resolve, 200));
+    
+    // Speak the color name
+    await speakColorName(randomColor.hebrew);
   };
 
   // Start the game
@@ -109,7 +115,9 @@ export function useColorGame(colors: Color[]) {
     // רק בהצלחה בהתחלה, אח"כ מיד לצבע הראשון
     setTimeout(async () => {
       await speakHebrew("בהצלחה!");
-      setTimeout(selectRandomColor, 1000);
+      setTimeout(async () => {
+        await selectRandomColor();
+      }, 1000);
     }, 300);
   };
 
@@ -120,6 +128,7 @@ export function useColorGame(colors: Color[]) {
     const isCorrect = selectedColor.name === gameState.currentChallenge.name;
     
     if (isCorrect) {
+      // אין צורך ב-await כאן כי אנחנו לא מחכים לתוצאה בפונקציה הנוכחית
       handleCorrectAnswer();
     } else {
       handleWrongAnswer();
@@ -127,7 +136,7 @@ export function useColorGame(colors: Color[]) {
   };
   
   // Handle correct answer
-  const handleCorrectAnswer = (): void => {
+  const handleCorrectAnswer = async (): Promise<void> => {
     // צליל הצלחה והצגת חגיגה
     playSuccessSound();
     
@@ -135,54 +144,48 @@ export function useColorGame(colors: Color[]) {
     setGameState((prev) => ({
       ...prev,
       score: prev.score + 10,
-      showCelebration: true,
+      showCelebration: true, // הפעלת החגיגה בכל פעם
     }));
+    
+    // מבטל כל דיבור קודם כדי לוודא שנשמע את "כל הכבוד"
+    cancelSpeech();
+    
+    // אומר "כל הכבוד" אחרי תשובה נכונה - עם await כדי לוודא שהוא מסיים לדבר
+    await speakHebrew("כל הכבוד בחרתם בצבע הנכון!");
+    
+    // השהייה קצרה אחרי הדיבור
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
-    // אומר "כל הכבוד" רק כל 3 תשובות נכונות
+    // השהייה לפני המשך למשחק הבא
     setTimeout(async () => {
-      // אם הרמה מתחלקת ב-3 (כלומר, כל 3 תשובות נכונות), אומר "כל הכבוד"
-      if (gameState.level % 3 === 0) {
-        await speakHebrew("כל הכבוד בחרתם בצבע הנכון!");
-        // השהייה ארוכה יותר כשיש "כל הכבוד"
-        setTimeout(() => {
-          setGameState((prev) => ({
-            ...prev,
-            level: prev.level + 1,
-            showCelebration: false,
-          }));
-          
-          // בחירת צבע חדש אחרי עדכון הרמה
-          selectRandomColor();
-        }, 2000);
-      } else {
-        // ללא "כל הכבוד", רק עובר לרמה הבאה ובוחר צבע חדש
-        setTimeout(() => {
-          setGameState((prev) => ({
-            ...prev,
-            level: prev.level + 1,
-            showCelebration: false,
-          }));
-          
-          // בחירת צבע חדש אחרי עדכון הרמה
-          selectRandomColor();
-        }, 800);
-      }
-    }, 500);
+      setGameState((prev) => ({
+        ...prev,
+        level: prev.level + 1,
+        showCelebration: false, // מסתיר את החגיגה אחרי זמן קבוע
+      }));
+      
+      // בחירת צבע חדש אחרי עדכון הרמה
+      await selectRandomColor();
+    }, 1500);
   };
   
   // Handle wrong answer
-  const handleWrongAnswer = (): void => {
-    // רק "לא נורא תנסו שוב" ואז שם הצבע שוב
-    setTimeout(async () => {
-      await speakHebrew("לא נורא תנסו שוב");
-      
-      // חזרה על שם הצבע אחרי השהייה קצרה
-      setTimeout(() => {
-        if (gameState.currentChallenge) {
-          speakColorName(gameState.currentChallenge.hebrew);
-        }
-      }, 1000);
-    }, 500);
+  const handleWrongAnswer = async (): Promise<void> => {
+    // מבטל כל דיבור קודם
+    cancelSpeech();
+    
+    // מעט השהייה לפני התחלת הדיבור
+    await new Promise(resolve => setTimeout(resolve, 300));
+    
+    // אומר "לא נורא תנסו שוב"
+    await speakHebrew("לא נורא תנסו שוב");
+    
+    // חזרה על שם הצבע אחרי השהייה קצרה
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    if (gameState.currentChallenge) {
+      await speakColorName(gameState.currentChallenge.hebrew);
+    }
   };
 
   // Reset the game to initial state
