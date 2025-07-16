@@ -3,6 +3,7 @@ import { Color } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
+import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 
 type StartScreenProps = {
   colors: Color[];
@@ -31,7 +32,7 @@ export default function StartScreen({
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <StartScreenHeader/>
+        <StartScreenHeader />
 
         {/* הסבר המשחק */}
         <GameInstructions steps={colorSteps} />
@@ -39,17 +40,7 @@ export default function StartScreen({
         <GameStartButton onStart={onStart} />
 
         {/* כפתור בדיקת דיבור */}
-        <div className="mb-8">
-          <button
-            onClick={() => onSpeak("בדיקה")}
-            className="px-6 py-3 bg-blue-500 text-white rounded-full text-lg font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
-          >
-            🎤 בדיקת קול
-          </button>
-          <p className="text-sm text-gray-600 mt-2">
-            לחץ לבדיקה אם אתה שומע &quot;בדיקה&quot;
-          </p>
-        </div>
+        <ButtonCheckAudio />
 
         {/* דוגמת צבעים */}
         <div className="mt-12">

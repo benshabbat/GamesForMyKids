@@ -1,3 +1,4 @@
+import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
@@ -38,63 +39,10 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
         />
 
         {/* כפתור התחלה */}
-        <GameStartButton
-          onStart={onStart}
-        />
+        <GameStartButton onStart={onStart} />
 
         {/* כפתור בדיקת שמע פשוט */}
-        <div className="mb-8">
-          <button
-            onClick={() => {
-              // צליל הצלחה פשוט
-              if (typeof window !== "undefined" && window.speechSynthesis) {
-                try {
-                  const testUtter = new SpeechSynthesisUtterance("בדיקת שמע");
-                  testUtter.lang = "he-IL";
-                  testUtter.rate = 0.8;
-                  testUtter.volume = 1.0;
-                  window.speechSynthesis.speak(testUtter);
-                } catch {
-                  // צליל גיבוי באמצעות AudioContext
-                  try {
-                    const audioContext = new (window.AudioContext ||
-                      (
-                        window as unknown as {
-                          webkitAudioContext: typeof AudioContext;
-                        }
-                      ).webkitAudioContext)();
-                    const oscillator = audioContext.createOscillator();
-                    const gainNode = audioContext.createGain();
-
-                    oscillator.connect(gainNode);
-                    gainNode.connect(audioContext.destination);
-
-                    oscillator.frequency.setValueAtTime(
-                      523,
-                      audioContext.currentTime
-                    );
-                    gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-                    gainNode.gain.exponentialRampToValueAtTime(
-                      0.01,
-                      audioContext.currentTime + 0.5
-                    );
-
-                    oscillator.start(audioContext.currentTime);
-                    oscillator.stop(audioContext.currentTime + 0.5);
-                  } catch {
-                    alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
-                  }
-                }
-              }
-            }}
-            className="block w-full max-w-sm mx-auto px-8 py-4 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
-          >
-            🎤 בדיקת שמע
-          </button>
-          <p className="text-pink-100 mt-2 text-sm">
-            לחץ לבדיקה שהשמע עובד במכשיר שלך
-          </p>
-        </div>
+        <ButtonCheckAudio />
 
         {/* דוגמת חיות */}
         <div className="mt-12">

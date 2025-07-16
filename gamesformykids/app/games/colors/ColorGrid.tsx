@@ -7,10 +7,7 @@ type ColorGridProps = {
   onColorClick: (color: Color) => void;
 };
 
-export default function ColorGrid({
-  colors,
-  onColorClick,
-}: ColorGridProps) {
+export default function ColorGrid({ colors, onColorClick }: ColorGridProps) {
   return (
     <div className="grid grid-cols-2 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
       {colors.map((color) => (
@@ -18,7 +15,8 @@ export default function ColorGrid({
           key={color.name}
           onClick={() => onColorClick(color)}
           className={`
-            aspect-square rounded-3xl cursor-pointer transition-all duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
+            aspect-square rounded-3xl cursor-pointer transition-all 
+            duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
             ${color.value}
             border-8 border-white
           `}

@@ -13,6 +13,7 @@ import {
 import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameStartButton from "@/components/shared/GameStartButton";
+import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 
 type StartScreenProps = {
   shapes: Shape[];
@@ -58,34 +59,10 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
         <GameInstructions steps={shapeSteps} />
 
         {/* כפתור התחלה */}
-        <GameStartButton
-          onStart={onStart}
-          fromColor="blue"
-          toColor="green"
-        />
-
+        <GameStartButton onStart={onStart} fromColor="blue" toColor="green" />
 
         {/* כפתור הפעלת שמע פשוט */}
-        <div className="mb-8">
-          <button
-            onClick={async () => {
-              if (typeof window !== "undefined" && window.speechSynthesis) {
-                try {
-                  const testUtter = new SpeechSynthesisUtterance("עיגול");
-                  testUtter.lang = "he-IL";
-                  testUtter.rate = 0.7;
-                  testUtter.volume = 1.0;
-                  window.speechSynthesis.speak(testUtter);
-                } catch {
-                  alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
-                }
-              }
-            }}
-            className="block w-full max-w-sm mx-auto px-8 py-4 bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
-          >
-            🎤 בדיקת שמע
-          </button>
-        </div>
+        <ButtonCheckAudio />
 
         {/* דוגמת צורות */}
         <div className="mt-12">
