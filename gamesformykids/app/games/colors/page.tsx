@@ -3,11 +3,11 @@
 import { Color } from "@/lib/types/game";
 import ColorGrid from "./ColorGrid";
 import StartScreen from "./StartScreen";
-import TipsBox from "./TipsBox";
 import { useColorGame } from "./useColorGame";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
+import TipsBox from "@/components/shared/TipsBox";
 
 export default function ColorGame() {
   const colors: Color[] = [
@@ -132,7 +132,10 @@ export default function ColorGame() {
           currentChallenge={gameState.currentChallenge}
           onColorClick={handleColorClick}
         />
-        <TipsBox />
+        <TipsBox
+          tip="💡 טיפ: תשמע את שם הצבע כשהאתג מופיע!"
+          description="לחץ על שם הצבע כדי לשמוע שוב, או על הצבעים למטה לתרגול"
+        />
       </div>
     </div>
   );

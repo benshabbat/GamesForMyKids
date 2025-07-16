@@ -5,6 +5,7 @@ import MemoryGameBoard from "./MemoryGameBoard";
 import GameWinMessage from "./GameWinMessage";
 import GameHeader from "./GameHeader";
 import StartScreen from "./StartScreen";
+import TipsBox from "@/components/shared/TipsBox";
 
 export default function MemoryGamePage() {
   const {
@@ -18,12 +19,7 @@ export default function MemoryGamePage() {
   } = useMemoryGame();
 
   if (!isGameStarted) {
-    return (
-      <StartScreen 
-        onStart={initializeGame} 
-        animals={animals}
-      />
-    );
+    return <StartScreen onStart={initializeGame} animals={animals} />;
   }
 
   return (
@@ -42,6 +38,11 @@ export default function MemoryGamePage() {
           <MemoryGameBoard cards={cards} onCardClick={handleCardClick} />
         )}
       </div>
+
+      <TipsBox
+        tip="💡 טיפ: נסה לזכור איפה כל חיה מסתתרת!"
+        description="לחץ על קלף כדי לחשוף חיה, ונסה למצוא את הזוג שלה."
+      />
     </div>
   );
 }

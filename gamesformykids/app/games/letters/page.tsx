@@ -4,10 +4,10 @@ import { Letter } from "@/lib/types/game";
 import LetterOptions from "./LetterOptions";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import StartScreen from "./StartScreen";
-import TipsBox from "./TipsBox";
 import { useLetterGame } from "./useLetterGame";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
+import TipsBox from "@/components/shared/TipsBox";
 
 export default function LetterGame() {
   const letters: Letter[] = [
@@ -202,7 +202,10 @@ export default function LetterGame() {
           currentChallenge={gameState.currentChallenge}
           onLetterClick={handleLetterClick}
         />
-        <TipsBox />
+        <TipsBox
+          tip="💡 טיפ: תשמע את שם האות שאני אומר!"
+          description="לחץ על האמוג'י למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות"
+        />
       </div>
     </div>
   );
