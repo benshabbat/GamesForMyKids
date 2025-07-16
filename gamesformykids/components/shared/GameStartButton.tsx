@@ -4,7 +4,7 @@ interface GameStartButtonProps {
     bgClassHover?: string;
 }
 
-//todo: just name for colors to gradient
+//todo: just name for colors to gradient ex (from name-color to name-color)
 function GameStartButton({
   onStart,
   bgClass = "bg-gradient-to-r from-pink-500 to-purple-500",
