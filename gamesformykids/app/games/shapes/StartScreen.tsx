@@ -1,16 +1,17 @@
-import { Home, Volume2 } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import { Shape } from "@/lib/types/game";
-import { 
-  CircleIcon, 
-  SquareIcon, 
-  TriangleIcon, 
-  RectangleIcon, 
-  StarIcon, 
-  HeartIcon, 
-  DiamondIcon, 
-  OvalIcon 
+import {
+  CircleIcon,
+  SquareIcon,
+  TriangleIcon,
+  RectangleIcon,
+  StarIcon,
+  HeartIcon,
+  DiamondIcon,
+  OvalIcon,
 } from "./ShapeIcons";
 import GameInstructions from "@/components/shared/GameInstructions";
+import StartScreenHeader from "@/components/shared/StartScreenHeader";
 
 type StartScreenProps = {
   shapes: Shape[];
@@ -46,21 +47,12 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => (window.location.href = "/")}
-            className="mb-4 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-green-600 hover:bg-green-50"
-          >
-            <Home className="inline w-6 h-6 ml-2" />← חזרה לעמוד הראשי
-          </button>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            🔷 משחק צורות 🔷
-          </h1>
-          <p className="text-xl md:text-2xl text-green-100 font-semibold mb-8">
-            למד צורות דרך שמיעה!
-          </p>
-        </div>
-
+        <StartScreenHeader
+          title="🔷 משחק צורות 🔷"
+          subTitle="למד צורות דרך שמיעה!"
+          textColorHeader="text-white"
+          textColorSubHeader="text-green-100"
+        />
         {/* הסבר המשחק */}
         <GameInstructions steps={shapeSteps} />
 
@@ -76,15 +68,15 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
         <div className="mb-8">
           <button
             onClick={async () => {
-              if (typeof window !== 'undefined' && window.speechSynthesis) {
+              if (typeof window !== "undefined" && window.speechSynthesis) {
                 try {
-                  const testUtter = new SpeechSynthesisUtterance('עיגול');
-                  testUtter.lang = 'he-IL';
+                  const testUtter = new SpeechSynthesisUtterance("עיגול");
+                  testUtter.lang = "he-IL";
                   testUtter.rate = 0.7;
                   testUtter.volume = 1.0;
                   window.speechSynthesis.speak(testUtter);
                 } catch {
-                  alert('❌ בעיה בהפעלת שמע. נסה דפדפן אחר');
+                  alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
                 }
               }
             }}
@@ -101,18 +93,25 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
           </h3>
           <div className="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {shapes.map((shape) => {
-              const IconComponent = ShapeIconMap[shape.name as keyof typeof ShapeIconMap] || CircleIcon;
-              
+              const IconComponent =
+                ShapeIconMap[shape.name as keyof typeof ShapeIconMap] ||
+                CircleIcon;
+
               return (
                 <div
                   key={shape.name}
                   className={`w-20 h-20 rounded-2xl shadow-lg ${shape.color} text-white border-4 border-white transform hover:scale-110 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center p-2`}
                   onClick={() => {
                     // הקראה מהירה ופשוטה
-                    if (typeof window !== 'undefined' && window.speechSynthesis) {
+                    if (
+                      typeof window !== "undefined" &&
+                      window.speechSynthesis
+                    ) {
                       window.speechSynthesis.cancel();
-                      const utterance = new SpeechSynthesisUtterance(shape.hebrew);
-                      utterance.lang = 'he-IL';
+                      const utterance = new SpeechSynthesisUtterance(
+                        shape.hebrew
+                      );
+                      utterance.lang = "he-IL";
                       utterance.rate = 0.8;
                       utterance.volume = 1.0;
                       utterance.pitch = 1.2;
@@ -121,7 +120,9 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
                   }}
                 >
                   <IconComponent size={40} className="mb-1" />
-                  <div className="text-xs font-bold text-center">{shape.hebrew}</div>
+                  <div className="text-xs font-bold text-center">
+                    {shape.hebrew}
+                  </div>
                   <Volume2 className="w-3 h-3 opacity-70" />
                 </div>
               );

@@ -1,6 +1,6 @@
 import GameInstructions from "@/components/shared/GameInstructions";
+import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import { AnimalData } from "@/lib/types/game";
-import { Home } from "lucide-react";
 
 type StartScreenProps = {
   onStart: () => void;
@@ -24,21 +24,12 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => (window.location.href = "/")}
-            className="mb-4 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-purple-600 hover:bg-purple-50"
-          >
-            <Home className="inline w-6 h-6 ml-2" />← חזרה לעמוד הראשי
-          </button>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            🧠 משחק זיכרון 🧠
-          </h1>
-          <p className="text-xl md:text-2xl text-pink-100 font-semibold mb-8">
-            מצא זוגות של חיות חמודות!
-          </p>
-        </div>
-
+        <StartScreenHeader
+          title="🧠 משחק זיכרון 🧠"
+          subTitle="מצא זוגות של חיות חמודות!"
+          textColorHeader="text-white"
+          textColorSubHeader="text-pink-100"
+        />
         {/* הסבר המשחק */}
         <GameInstructions
           steps={memorySteps}

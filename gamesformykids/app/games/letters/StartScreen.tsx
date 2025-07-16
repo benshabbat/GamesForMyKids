@@ -1,7 +1,8 @@
-import { Home, Volume2 } from "lucide-react";
+import { Volume2 } from "lucide-react";
 import { Letter } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
+import StartScreenHeader from "@/components/shared/StartScreenHeader";
 
 type StartScreenProps = {
   letters: Letter[];
@@ -25,20 +26,12 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <div className="mb-8">
-          <button
-            onClick={() => (window.location.href = "/")}
-            className="mb-4 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-orange-600 hover:bg-orange-50"
-          >
-            <Home className="inline w-6 h-6 ml-2" />← חזרה לעמוד הראשי
-          </button>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-4">
-            🔤 משחק אותיות 🔤
-          </h1>
-          <p className="text-xl md:text-2xl text-orange-100 font-semibold mb-8">
-            למד אותיות דרך שמיעה!
-          </p>
-        </div>
+        <StartScreenHeader
+          title="🔤 משחק אותיות 🔤"
+          subTitle="למד אותיות דרך שמיעה!"
+          textColorHeader="text-white"
+          textColorSubHeader="text-orange-100"
+        />
 
         {/* הסבר המשחק */}
         <GameInstructions
