@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Letter, LetterGameState } from "@/lib/types/game";
 import { cancelSpeech } from "@/lib/utils/enhancedSpeechUtils";
-import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
+import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
   playSuccessSound as playSound, 

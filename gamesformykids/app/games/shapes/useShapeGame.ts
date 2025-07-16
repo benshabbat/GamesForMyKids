@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Shape, ShapeGameState } from "@/lib/types/game";
-import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
+import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
   playSuccessSound as playSound, 

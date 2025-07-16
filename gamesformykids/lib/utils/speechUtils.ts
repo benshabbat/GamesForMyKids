@@ -32,14 +32,14 @@ if (typeof window !== "undefined") {
   initializeSpeech();
 }
 
-export function findHebrewVoice(): SpeechSynthesisVoice | undefined {
+export function findHebrewVoice(voices?: SpeechSynthesisVoice[]): SpeechSynthesisVoice | undefined {
   if (!speechEnabled || typeof window === "undefined") return undefined;
 
-  const voices = window.speechSynthesis.getVoices();
+  const availableVoices = voices || window.speechSynthesis.getVoices();
 
   // חפש קול עברי נשי מועדף
   return (
-    voices.find(
+    availableVoices.find(
       (voice) =>
         (voice.lang.includes("he") ||
           voice.lang.includes("iw") ||
@@ -50,7 +50,7 @@ export function findHebrewVoice(): SpeechSynthesisVoice | undefined {
           voice.name.toLowerCase().includes("dana") ||
           !voice.name.toLowerCase().includes("male"))
     ) ||
-    voices.find(
+    availableVoices.find(
       (voice) =>
         voice.lang.includes("he") ||
         voice.lang.includes("iw") ||

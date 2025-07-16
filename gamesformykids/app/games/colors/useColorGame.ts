@@ -16,7 +16,7 @@ import {
   COLOR_TRANSLATIONS,
   GAME_CONSTANTS
 } from "@/lib/constants/gameConstants";
-import { initSpeechAndAudio } from "@/lib/utils/initSpeechAndAudio";
+import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 
 export function useColorGame(colors: Color[]) {
   const [gameState, setGameState] = useState<GameState>(INITIAL_GAME_STATE);

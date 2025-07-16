@@ -1,5 +1,16 @@
 import { useState, useEffect } from "react";
 import { AnimalData, Card } from "@/lib/types/game";
+import { 
+  playAnimalSound as playGenericAnimalSound, 
+  playMemorySuccessSound, 
+  createShuffledMemoryCards, 
+  speakText 
+} from "@/lib/utils/gameUtils";
+import { 
+  MEMORY_GAME_ANIMALS, 
+  ANIMAL_SOUND_FREQUENCIES, 
+  GAME_CONSTANTS 
+} from "@/lib/constants/gameConstants";
 
 export function useMemoryGame() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -8,14 +19,8 @@ export function useMemoryGame() {
   const [isGameStarted, setIsGameStarted] = useState<boolean>(false);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
 
-  const animals: AnimalData[] = [
-    { emoji: "🐱", sound: "meow", name: "חתול" },
-    { emoji: "🐶", sound: "woof", name: "כלב" },
-    { emoji: "🐰", sound: "hop", name: "ארנב" },
-    { emoji: "🦊", sound: "yip", name: "שועל" },
-    { emoji: "🐻", sound: "growl", name: "דוב" },
-    { emoji: "🐼", sound: "chirp", name: "פנדה" },
-  ];
+  // השימוש בקבועים מתוך קובץ הקבועים המשותף
+  const animals: AnimalData[] = MEMORY_GAME_ANIMALS;
 
   const emojis = animals.map((animal) => animal.emoji);
 
@@ -31,58 +36,25 @@ export function useMemoryGame() {
   }, []);
 
   const playAnimalSound = (emoji: string) => {
-    if (!audioContext) return;
-    const frequencies: Record<string, number[]> = {
-      "🐱": [800, 1000, 600],
-      "🐶": [200, 300, 150],
-      "🐰": [400, 500, 600],
-      "🦊": [600, 800, 500],
-      "🐻": [100, 150, 80],
-      "🐼": [300, 400, 350],
-    };
-    (frequencies[emoji] || [440, 550, 330]).forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      const t = audioContext.currentTime + i * 0.2;
-      osc.frequency.setValueAtTime(freq, t);
-      osc.type = "sine";
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.3, t + 0.05);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.15);
-      osc.start(t);
-      osc.stop(t + 0.15);
-    });
+    // שימוש בפונקציה הגנרית להשמעת צליל החיה
+    playGenericAnimalSound(audioContext, emoji, ANIMAL_SOUND_FREQUENCIES);
   };
 
   const playSuccessSound = () => {
-    if (!audioContext) return;
-    [523, 659, 784, 1047].forEach((freq, i) => {
-      const osc = audioContext.createOscillator();
-      const gain = audioContext.createGain();
-      osc.connect(gain);
-      gain.connect(audioContext.destination);
-      const t = audioContext.currentTime + i * 0.1;
-      osc.frequency.setValueAtTime(freq, t);
-      osc.type = "triangle";
-      gain.gain.setValueAtTime(0, t);
-      gain.gain.linearRampToValueAtTime(0.2, t + 0.02);
-      gain.gain.exponentialRampToValueAtTime(0.01, t + 0.08);
-      osc.start(t);
-      osc.stop(t + 0.08);
-    });
+    // שימוש בפונקציה הגנרית להשמעת צליל הצלחה
+    playMemorySuccessSound(audioContext);
   };
 
-  const createShuffledCards = (): Card[] =>
-    [...emojis, ...emojis]
-      .map((emoji, i) => ({
-        id: i,
-        emoji,
-        isFlipped: false,
-        isMatched: false,
-      }))
-      .sort(() => Math.random() - 0.5);
+  const createShuffledCards = (): Card[] => {
+    // ממיר את תוצאת הפונקציה הגנרית למבנה הנתונים הספציפי של המשחק
+    const genericCards = createShuffledMemoryCards(emojis);
+    return genericCards.map(card => ({
+      id: card.id,
+      emoji: card.item as string,
+      isFlipped: card.isFlipped,
+      isMatched: card.isMatched
+    }));
+  };
 
   const initializeGame = () => {
     setCards(createShuffledCards());
@@ -108,26 +80,14 @@ export function useMemoryGame() {
     }
   };
 
-  // הוספת פונקציה שמדברת "כל הכבוד!"
+  // הוספת פונקציה שמדברת "כל הכבוד!" - שימוש בפונקציה גנרית
   const speakCongrats = () => {
-    if (!('speechSynthesis' in window)) return;
-    const utter = new SpeechSynthesisUtterance("כל הכבוד!");
-    utter.lang = "he-IL";
-    utter.rate = 0.9;
-    utter.pitch = 1.1;
-    window.speechSynthesis.speak(utter);
+    speakText("כל הכבוד!");
   };
 
-  // הוספת פונקציה שמדברת בסיום המשחק
+  // הוספת פונקציה שמדברת בסיום המשחק - שימוש בפונקציה גנרית
   const speakGameEnd = () => {
-    if (!('speechSynthesis' in window)) return;
-    const utter = new SpeechSynthesisUtterance(
-      "מעולה, פתרתם את הכל! האם תרצו משחק נוסף או משחק אחר?"
-    );
-    utter.lang = "he-IL";
-    utter.rate = 0.9;
-    utter.pitch = 1.1;
-    window.speechSynthesis.speak(utter);
+    speakText("מעולה, פתרתם את הכל! האם תרצו משחק נוסף או משחק אחר?");
   };
 
   const checkForMatch = ([firstId, secondId]: number[]) => {
@@ -158,7 +118,7 @@ export function useMemoryGame() {
         );
       }
       setFlippedCards([]);
-    }, 1000);
+    }, GAME_CONSTANTS.MEMORY_GAME.FLIP_DURATION);
   };
 
   const isGameWon = matchedPairs.length === emojis.length;

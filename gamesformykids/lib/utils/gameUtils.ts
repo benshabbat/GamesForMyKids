@@ -261,3 +261,92 @@ export async function handleWrongGameAnswer(
   // חזרה על שם הפריט
   await onSpeakItem();
 }
+
+/**
+ * פונקציה גנרית להשמעת צליל במשחק הזיכרון
+ * @param audioContext אובייקט AudioContext להשמעת הצליל
+ * @param frequencies מערך של תדרים להשמעה
+ * @param type סוג הגל (sine, triangle וכו')
+ * @param gainValue עוצמת הצליל
+ * @param durationMs משך הצליל במילישניות
+ */
+export function playCustomSound(
+  audioContext: AudioContext | null,
+  frequencies: number[],
+  type: OscillatorType = 'sine',
+  gainValue: number = 0.3,
+  durationMs: number = 150
+): void {
+  if (!audioContext) return;
+  
+  frequencies.forEach((freq, i) => {
+    const osc = audioContext.createOscillator();
+    const gain = audioContext.createGain();
+    
+    osc.connect(gain);
+    gain.connect(audioContext.destination);
+    
+    const t = audioContext.currentTime + i * 0.2;
+    osc.frequency.setValueAtTime(freq, t);
+    osc.type = type;
+    
+    gain.gain.setValueAtTime(0, t);
+    gain.gain.linearRampToValueAtTime(gainValue, t + 0.05);
+    gain.gain.exponentialRampToValueAtTime(0.01, t + (durationMs / 1000));
+    
+    osc.start(t);
+    osc.stop(t + (durationMs / 1000));
+  });
+}
+
+/**
+ * פונקציה להשמעת צליל של חיה במשחק הזיכרון
+ * @param audioContext אובייקט AudioContext להשמעת הצליל
+ * @param emoji האימוג'י של החיה
+ * @param frequencies אובייקט המיפוי של תדרי החיות
+ */
+export function playAnimalSound(
+  audioContext: AudioContext | null,
+  emoji: string,
+  frequencies: Record<string, number[]>
+): void {
+  const animalFreqs = frequencies[emoji] || frequencies['default'];
+  playCustomSound(audioContext, animalFreqs);
+}
+
+/**
+ * פונקציה גנרית להשמעת צליל הצלחה במשחק הזיכרון
+ * @param audioContext אובייקט AudioContext להשמעת הצליל
+ * @param frequencies מערך של תדרים להשמעה
+ */
+export function playMemorySuccessSound(
+  audioContext: AudioContext | null,
+  frequencies: number[] = GAME_CONSTANTS.MEMORY_GAME.SUCCESS_SOUND_FREQUENCIES
+): void {
+  playCustomSound(audioContext, frequencies, 'triangle', 0.2, 80);
+}
+
+/**
+ * פונקציה גנרית לערבוב וייצור קלפים למשחק זיכרון
+ * @param items מערך פריטים ליצירת זוגות (אימוג'ים, תמונות וכו')
+ * @returns מערך של קלפים מעורבבים עם זוגות
+ */
+export function createShuffledMemoryCards<T>(items: T[]): { id: number, item: T, isFlipped: boolean, isMatched: boolean }[] {
+  return [...items, ...items]
+    .map((item, i) => ({
+      id: i,
+      item,
+      isFlipped: false,
+      isMatched: false,
+    }))
+    .sort(() => Math.random() - 0.5);
+}
+
+/**
+ * פונקציה גנרית להשמעת טקסט בעברית
+ * מעבירה לפונקציית speakHebrew המתקדמת יותר
+ * @param text הטקסט להשמעה
+ */
+export function speakText(text: string): void {
+  speakHebrew(text);
+}

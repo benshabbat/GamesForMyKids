@@ -129,7 +129,7 @@ export async function speak(
           isSpeaking = false;
           resolve(false);
         }
-      }, 3000);
+      }, 4000);
 
       window.speechSynthesis.speak(utterance);
     });
