@@ -4,7 +4,7 @@ import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
-import { speakHebrew } from "@/lib/utils/speechUtils";
+import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
 type StartScreenProps = {
   colors: Color[];

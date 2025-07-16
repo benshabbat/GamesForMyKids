@@ -1,4 +1,4 @@
-import { testSpeech } from "@/lib/utils/speechUtils";
+import { testSpeech } from "@/lib/utils/enhancedSpeechUtils";
 
 export default function ButtonCheckAudio() {
   const handleTestSpeech = async () => {
