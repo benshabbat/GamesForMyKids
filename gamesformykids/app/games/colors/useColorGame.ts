@@ -138,21 +138,35 @@ export function useColorGame(colors: Color[]) {
       showCelebration: true,
     }));
 
-    // אמירת כל הכבוד בלבד
+    // אומר "כל הכבוד" רק כל 3 תשובות נכונות
     setTimeout(async () => {
-      await speakHebrew("כל הכבוד בחרתם בצבע הנכון!");
-      
-      // מעבר לרמה הבאה ובחירת צבע חדש
-      setTimeout(() => {
-        setGameState((prev) => ({
-          ...prev,
-          level: prev.level + 1,
-          showCelebration: false,
-        }));
-        
-        // בחירת צבע חדש אחרי עדכון הרמה
-        selectRandomColor();
-      }, 2000);
+      // אם הרמה מתחלקת ב-3 (כלומר, כל 3 תשובות נכונות), אומר "כל הכבוד"
+      if (gameState.level % 3 === 0) {
+        await speakHebrew("כל הכבוד בחרתם בצבע הנכון!");
+        // השהייה ארוכה יותר כשיש "כל הכבוד"
+        setTimeout(() => {
+          setGameState((prev) => ({
+            ...prev,
+            level: prev.level + 1,
+            showCelebration: false,
+          }));
+          
+          // בחירת צבע חדש אחרי עדכון הרמה
+          selectRandomColor();
+        }, 2000);
+      } else {
+        // ללא "כל הכבוד", רק עובר לרמה הבאה ובוחר צבע חדש
+        setTimeout(() => {
+          setGameState((prev) => ({
+            ...prev,
+            level: prev.level + 1,
+            showCelebration: false,
+          }));
+          
+          // בחירת צבע חדש אחרי עדכון הרמה
+          selectRandomColor();
+        }, 800);
+      }
     }, 500);
   };
   
