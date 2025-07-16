@@ -1,6 +1,7 @@
 import { Home, Volume2 } from "lucide-react";
 import { Letter } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
+import GameStartButton from "@/components/shared/GameStartButton";
 
 type StartScreenProps = {
   letters: Letter[];
@@ -40,15 +41,17 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
         </div>
 
         {/* הסבר המשחק */}
-        <GameInstructions steps={letterSteps} bgClass="bg-orange-100 bg-opacity-90"/>
+        <GameInstructions
+          steps={letterSteps}
+          bgClass="bg-orange-100 bg-opacity-90"
+        />
 
         {/* כפתור התחלה */}
-        <button
-          onClick={onStart}
-          className="px-12 py-6 bg-gradient-to-r from-yellow-500 to-orange-500 text-white rounded-full text-3xl font-bold hover:from-yellow-600 hover:to-orange-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 mb-6"
-        >
-          בואו נתחיל! 🚀
-        </button>
+        <GameStartButton
+          onStart={onStart}
+          bgClass="bg-gradient-to-r from-yellow-500 to-orange-500"
+          bgClassHover="hover:from-yellow-600 hover:to-orange-600"
+        />
 
         {/* כפתור הפעלת שמע פשוט */}
         <div className="mb-8">
