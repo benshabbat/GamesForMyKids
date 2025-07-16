@@ -342,11 +342,3 @@ export function createShuffledMemoryCards<T>(items: T[]): { id: number, item: T,
     .sort(() => Math.random() - 0.5);
 }
 
-/**
- * פונקציה גנרית להשמעת טקסט בעברית
- * מעבירה לפונקציית speakHebrew המתקדמת יותר
- * @param text הטקסט להשמעה
- */
-export function speakText(text: string): void {
-  speakHebrew(text);
-}

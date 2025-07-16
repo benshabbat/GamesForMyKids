@@ -27,7 +27,7 @@ function initializeSpeech(): void {
   }
 }
 
-// קריאה ראשונית
+// קריאה ראשונית רק אם אנחנו בצד הלקוח
 if (typeof window !== "undefined") {
   initializeSpeech();
 }
@@ -60,30 +60,42 @@ export function findHebrewVoice(voices?: SpeechSynthesisVoice[]): SpeechSynthesi
   );
 }
 
-// פונקציית דיבור משותפת (מבוססת על הקוד ב-shapes)
+// פונקציית דיבור משותפת (משופרת)
 export async function speak(
   text: string,
   options: SpeechOptions = {}
 ): Promise<boolean> {
-  if (
-    !speechEnabled ||
-    typeof window === "undefined" ||
-    !("speechSynthesis" in window) ||
-    isSpeaking
-  ) {
-    console.log("Speech not available or already speaking");
+  // בדיקת זמינות ה-API
+  if (!speechEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) {
+    console.log("Speech API not available");
+    return false;
+  }
+  
+  // אם כבר מדבר, אל תתחיל דיבור נוסף
+  if (isSpeaking) {
+    console.log("Already speaking, can't start new speech");
     return false;
   }
 
-  const { lang = "he-IL", rate = 0.7, pitch = 1.2, volume = 1.0 } = options;
+  // הגדרות ברירת מחדל
+  const { 
+    lang = "he-IL", 
+    rate = 0.7, 
+    pitch = 1.2, 
+    volume = 1.0 
+  } = options;
 
   try {
+    // סמן שמדבר
     isSpeaking = true;
 
-    // עצור כל הקראה קודמת
+    // עצור כל דיבור קודם
     window.speechSynthesis.cancel();
+    
+    // השהייה קצרה כדי לוודא שהדיבור הקודם באמת נעצר
     await new Promise((resolve) => setTimeout(resolve, 200));
 
+    // יצירת אובייקט דיבור חדש
     const utterance = new SpeechSynthesisUtterance(text);
 
     // הגדר את המאפיינים
@@ -92,7 +104,7 @@ export async function speak(
     utterance.pitch = pitch;
     utterance.volume = volume;
 
-    // נסה להשתמש בקול עברי
+    // השתמש בקול עברי עבור טקסט בעברית
     if (lang.includes("he")) {
       const voices = window.speechSynthesis.getVoices();
       const hebrewVoice = findHebrewVoice(voices);
@@ -101,40 +113,41 @@ export async function speak(
       }
     }
 
+    // החזר Promise שיושלם כאשר הדיבור יסתיים
     return new Promise<boolean>((resolve) => {
       let resolved = false;
 
-      utterance.onend = () => {
+      // פונקציית עזר לסיום הדיבור
+      const finishSpeaking = (success: boolean) => {
         if (!resolved) {
           resolved = true;
           isSpeaking = false;
-          resolve(true);
+          resolve(success);
         }
       };
 
+      // טיפול באירועים
+      utterance.onend = () => finishSpeaking(true);
       utterance.onerror = (event) => {
         console.log("Speech error:", event.error);
-        if (!resolved) {
-          resolved = true;
-          isSpeaking = false;
-          resolve(false);
-        }
+        finishSpeaking(false);
       };
 
-      // הגבלת זמן מקסימלי
+      // הגבלת זמן מקסימלי למניעת "תקיעה"
       setTimeout(() => {
         if (!resolved) {
-          resolved = true;
+          console.log("Speech timeout, cancelling");
           window.speechSynthesis.cancel();
-          isSpeaking = false;
-          resolve(false);
+          finishSpeaking(false);
         }
       }, 4000);
 
+      // התחל את הדיבור
       window.speechSynthesis.speak(utterance);
     });
   } catch (error) {
-    console.log("Speech failed:", error);
+    // טיפול בשגיאות בלתי צפויות
+    console.error("Speech failed with error:", error);
     isSpeaking = false;
     return false;
   }
@@ -193,20 +206,15 @@ export function initSpeechAndAudio(
 ) {
   if (typeof window === "undefined") return;
 
-  if ("speechSynthesis" in window) {
+  // אתחול Speech API באמצעות הפונקציה הקיימת
+  initializeSpeech();
+  
+  // עדכון ה-state החיצוני
+  if (speechEnabled) {
     setSpeechEnabled(true);
-
-    const loadVoices = () => {
-      window.speechSynthesis.getVoices();
-    };
-
-    if (window.speechSynthesis.getVoices().length === 0) {
-      window.speechSynthesis.onvoiceschanged = loadVoices;
-    } else {
-      loadVoices();
-    }
   }
 
+  // אתחול AudioContext
   const AudioContextClass =
     window.AudioContext ||
     (window as unknown as { webkitAudioContext?: typeof AudioContext })
@@ -219,14 +227,23 @@ export function initSpeechAndAudio(
 // Hook לשימוש ב-React
 export function useSpeech() {
   return {
+    // פונקציות דיבור בסיסיות
     speak,
     speakHebrew,
     speakEnglish,
-    testSpeech,
+    
+    // שליטה ובדיקות
     cancel: cancelSpeech,
+    testSpeech,
+    
+    // בדיקות מצב
     isCurrentlySpeaking: isCurrentlySpeaking(),
     isEnabled: isSpeechEnabled(),
+    
+    // פונקציות עזר
     findHebrewVoice,
+    
+    // אתחול
     initSpeechAndAudio,
   };
 }

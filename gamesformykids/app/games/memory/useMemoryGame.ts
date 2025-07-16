@@ -3,14 +3,14 @@ import { AnimalData, Card } from "@/lib/types/game";
 import { 
   playAnimalSound as playGenericAnimalSound, 
   playMemorySuccessSound, 
-  createShuffledMemoryCards, 
-  speakText 
+  createShuffledMemoryCards,  
 } from "@/lib/utils/gameUtils";
 import { 
   MEMORY_GAME_ANIMALS, 
   ANIMAL_SOUND_FREQUENCIES, 
   GAME_CONSTANTS 
 } from "@/lib/constants/gameConstants";
+import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
 export function useMemoryGame() {
   const [cards, setCards] = useState<Card[]>([]);
@@ -82,12 +82,12 @@ export function useMemoryGame() {
 
   // הוספת פונקציה שמדברת "כל הכבוד!" - שימוש בפונקציה גנרית
   const speakCongrats = () => {
-    speakText("כל הכבוד!");
+    speakHebrew("כל הכבוד!");
   };
 
   // הוספת פונקציה שמדברת בסיום המשחק - שימוש בפונקציה גנרית
   const speakGameEnd = () => {
-    speakText("מעולה, פתרתם את הכל! האם תרצו משחק נוסף או משחק אחר?");
+    speakHebrew("מעולה, פתרתם את הכל! האם תרצו משחק נוסף או משחק אחר?");
   };
 
   const checkForMatch = ([firstId, secondId]: number[]) => {
