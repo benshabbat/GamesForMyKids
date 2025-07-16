@@ -40,9 +40,8 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
         {/* כפתור התחלה */}
         <GameStartButton
           onStart={onStart}
-          bgClass="bg-gradient-to-r from-pink-500 to-purple-500"
-          bgClassHover="hover:from-pink-600 hover:to-purple-600"
         />
+
         {/* כפתור בדיקת שמע פשוט */}
         <div className="mb-8">
           <button

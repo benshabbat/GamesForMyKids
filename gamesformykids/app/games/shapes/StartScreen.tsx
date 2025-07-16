@@ -60,9 +60,10 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
         {/* כפתור התחלה */}
         <GameStartButton
           onStart={onStart}
-          bgClass="bg-gradient-to-r from-blue-500 to-green-500"
-          bgClassHover="hover:from-blue-600 hover:to-green-600"
+          fromColor="blue"
+          toColor="green"
         />
+
 
         {/* כפתור הפעלת שמע פשוט */}
         <div className="mb-8">

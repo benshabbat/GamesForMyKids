@@ -1,19 +1,19 @@
 interface GameStartButtonProps {
   onStart: () => void;
-  bgClass?: string;
-    bgClassHover?: string;
+  fromColor?: string;
+  toColor?: string;
 }
 
 //todo: just name for colors to gradient ex (from name-color to name-color)
 function GameStartButton({
   onStart,
-  bgClass = "bg-gradient-to-r from-pink-500 to-purple-500",
-  bgClassHover = "hover:from-pink-600 hover:to-purple-600",
+  fromColor = "pink",
+  toColor = "purple",
 }: GameStartButtonProps) {
   return (
     <button
       onClick={onStart}
-      className={`px-12 py-6 ${bgClass} text-white rounded-full text-3xl font-bold ${bgClassHover} transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 mb-6`}
+      className={`px-12 py-6 bg-gradient-to-r from-${fromColor}-500 to-${toColor}-500 text-white rounded-full text-3xl font-bold hover:from-${fromColor}-600 hover:to-${toColor}-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 mb-6`}
     >
       בואו נתחיל! 🚀
     </button>
