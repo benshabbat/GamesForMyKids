@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Color, GameState } from "@/lib/types/game";
+import { speakHebrew, isSpeechEnabled } from "@/lib/utils/speechUtils";
 
 export function useColorGame(colors: Color[]) {
   const [gameState, setGameState] = useState<GameState>({
@@ -12,7 +13,6 @@ export function useColorGame(colors: Color[]) {
 
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const repeatIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  const isSpeakingRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -33,95 +33,29 @@ export function useColorGame(colors: Color[]) {
     };
   }, []);
 
-  // קריאת שם הצבע בעברית - עם איכות קול משופרת
+  // קריאת שם הצבע בעברית
   const speakColorName = async (colorName: string): Promise<void> => {
-    if (!('speechSynthesis' in window) || isSpeakingRef.current) {
-      console.log('Speech synthesis not available or already speaking');
+    if (!isSpeechEnabled()) {
+      console.log('Speech not available');
       return;
     }
 
-    try {
-      isSpeakingRef.current = true;
-      // עצירת כל הקראה קודמת
-      window.speechSynthesis.cancel();
-      await new Promise(resolve => setTimeout(resolve, 100));
+    // אם זה שם צבע באנגלית, תרגם לעברית
+    const colorTranslations: { [key: string]: string } = {
+      'red': 'אדום',
+      'blue': 'כחול', 
+      'green': 'ירוק',
+      'yellow': 'צהוב',
+      'purple': 'סגול',
+      'orange': 'כתום',
+      'pink': 'ורוד',
+      'brown': 'חום',
+      'black': 'שחור',
+      'white': 'לבן'
+    };
 
-      const utterance = new SpeechSynthesisUtterance(colorName);
-      
-      // הגדרות לשיפור איכות הקול
-      utterance.lang = "he-IL";
-      utterance.rate = 0.7; // קצב איטי יותר וברור יותר
-      utterance.volume = 1.0;
-      utterance.pitch = 1.1; // טון מעט יותר גבוה ונעים
-      
-      // חיפוש קול עברי אם קיים
-      const voices = window.speechSynthesis.getVoices();
-      const hebrewVoice = voices.find(voice => 
-        voice.lang.includes('he') || 
-        voice.lang.includes('iw') ||
-        voice.name.toLowerCase().includes('hebrew')
-      );
-      
-      if (hebrewVoice) {
-        utterance.voice = hebrewVoice;
-        console.log('Using Hebrew voice:', hebrewVoice.name);
-      } else {
-        // אם אין קול עברי, נשתמש בקול איכותי באנגלית עם שמות הצבעים
-        const englishVoice = voices.find(voice => 
-          voice.lang.includes('en') && 
-          (voice.name.toLowerCase().includes('female') || 
-           voice.name.toLowerCase().includes('natural') ||
-           voice.name.toLowerCase().includes('premium'))
-        );
-        
-        if (englishVoice) {
-          utterance.voice = englishVoice;
-          // תרגום שמות הצבעים לאנגלית עם הגייה טובה
-          const colorTranslation: { [key: string]: string } = {
-            'אדום': 'Red',
-            'כחול': 'Blue', 
-            'ירוק': 'Green',
-            'צהוב': 'Yellow',
-            'סגול': 'Purple',
-            'כתום': 'Orange',
-            'ורוד': 'Pink',
-            'חום': 'Brown',
-            'שחור': 'Black',
-            'לבן': 'White'
-          };
-          utterance.text = colorTranslation[colorName] || colorName;
-          utterance.lang = "en-US";
-          console.log('Using English voice for:', utterance.text);
-        }
-      }
-
-      return new Promise<void>((resolve, reject) => {
-        utterance.onend = () => {
-          console.log('Speech finished successfully');
-          isSpeakingRef.current = false;
-          resolve();
-        };
-        
-        utterance.onerror = (event) => {
-          console.log('Speech error:', event.error);
-          isSpeakingRef.current = false;
-          reject(event.error);
-        };
-        
-        // הגבלת זמן מקסימלי
-        setTimeout(() => {
-          window.speechSynthesis.cancel();
-          isSpeakingRef.current = false;
-          resolve();
-        }, 4000);
-        
-        window.speechSynthesis.speak(utterance);
-      });
-
-    } catch (error) {
-      console.log('Speech failed:', error);
-      isSpeakingRef.current = false;
-    }
+    const textToSpeak = colorTranslations[colorName] || colorName;
+    await speakHebrew(textToSpeak);
   };
 
   // התחלת טיימר חזרה על המילה
@@ -147,11 +81,10 @@ export function useColorGame(colors: Color[]) {
     }
   };
 
-  // צליל הצלחה פשוט - רק צליל קצר ונעים
+  // צליל הצלחה פשוט
   const playSuccessSound = (): void => {
     if (!audioContext) return;
     
-    // צליל הצלחה קצר ונעים
     const osc = audioContext.createOscillator();
     const gain = audioContext.createGain();
     
@@ -208,9 +141,10 @@ export function useColorGame(colors: Color[]) {
       // תשובה נכונה
       speakColorName(selectedColor.hebrew);
       playSuccessSound();
+      
       // השמעת "כל הכבוד!" אחרי שם הצבע
-      setTimeout(() => {
-        speakColorName("כל הכבוד!");
+      setTimeout(async () => {
+        await speakHebrew("כל הכבוד!");
       }, 700);
 
       setGameState((prev) => ({
@@ -218,6 +152,7 @@ export function useColorGame(colors: Color[]) {
         score: prev.score + 10,
         showCelebration: true,
       }));
+      
       setTimeout(() => {
         setGameState((prev) => ({
           ...prev,
@@ -229,8 +164,10 @@ export function useColorGame(colors: Color[]) {
     } else {
       // תשובה לא נכונה - חזרה על הצבע הנכון
       setTimeout(() => {
-        speakColorName(gameState.currentChallenge!.hebrew);
-        startRepeatTimer(gameState.currentChallenge!.hebrew);
+        if (gameState.currentChallenge) {
+          speakColorName(gameState.currentChallenge.hebrew);
+          startRepeatTimer(gameState.currentChallenge.hebrew);
+        }
       }, 500);
     }
   };

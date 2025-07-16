@@ -4,6 +4,7 @@ import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import { speakHebrew } from "@/lib/utils/speechUtils";
 
 type StartScreenProps = {
   colors: Color[];
@@ -14,13 +15,16 @@ type StartScreenProps = {
 export default function StartScreen({
   colors,
   onStart,
-  onSpeak,
 }: StartScreenProps) {
   const colorSteps = [
     { icon: "👀", title: "1. תראה", description: "איזה צבע אני מבקש" },
     { icon: "🎤", title: "2. תשמע", description: "את שם הצבע" },
     { icon: "👆", title: "3. תלחץ", description: "על הצבע הנכון" },
   ];
+
+  const handleColorClick = async (colorHebrew: string) => {
+    await speakHebrew(colorHebrew);
+  };
 
   return (
     <div
@@ -36,6 +40,7 @@ export default function StartScreen({
 
         {/* הסבר המשחק */}
         <GameInstructions steps={colorSteps} />
+        
         {/* כפתור התחלה */}
         <GameStartButton onStart={onStart} />
 
@@ -52,7 +57,7 @@ export default function StartScreen({
               <div
                 key={color.name}
                 className={`w-20 h-20 rounded-full shadow-lg ${color.value} border-4 border-white transform hover:scale-110 transition-all duration-300 cursor-pointer`}
-                onClick={() => onSpeak(color.hebrew)}
+                onClick={() => handleColorClick(color.hebrew)}
               >
                 <div className="w-full h-full flex items-center justify-center">
                   <Volume2 className="w-6 h-6 text-white opacity-70" />
