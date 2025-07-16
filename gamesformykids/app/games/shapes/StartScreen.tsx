@@ -12,6 +12,7 @@ import {
 } from "./ShapeIcons";
 import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
+import GameStartButton from "@/components/shared/GameStartButton";
 
 type StartScreenProps = {
   shapes: Shape[];
@@ -57,12 +58,11 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
         <GameInstructions steps={shapeSteps} />
 
         {/* כפתור התחלה */}
-        <button
-          onClick={onStart}
-          className="px-12 py-6 bg-gradient-to-r from-blue-500 to-green-500 text-white rounded-full text-3xl font-bold hover:from-blue-600 hover:to-green-600 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:scale-105 mb-6"
-        >
-          בואו נתחיל! 🚀
-        </button>
+        <GameStartButton
+          onStart={onStart}
+          bgClass="bg-gradient-to-r from-blue-500 to-green-500"
+          bgClassHover="hover:from-blue-600 hover:to-green-600"
+        />
 
         {/* כפתור הפעלת שמע פשוט */}
         <div className="mb-8">
