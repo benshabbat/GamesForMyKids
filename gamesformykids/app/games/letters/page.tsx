@@ -73,10 +73,9 @@ export default function LetterGame() {
           gridCols="grid-cols-2"
           showSoundIcon={true}
           maxWidth="max-w-2xl"
-          renderCustomCard={(letter, isCorrect) => (
+          renderCustomCard={(letter) => (
             <LetterCard
               letter={letter}
-              isCorrect={isCorrect}
               onClick={handleLetterClick}
             />
           )}

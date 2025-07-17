@@ -76,10 +76,9 @@ export default function ColorGame() {
           showSoundIcon={true}
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
-          renderCustomCard={(color, isCorrect) => (
+          renderCustomCard={(color) => (
             <ColorCard
               color={color}
-              isCorrect={isCorrect}
               onClick={handleColorClick}
             />
           )}

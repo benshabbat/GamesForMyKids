@@ -74,10 +74,9 @@ export default function FruitGame() {
           currentChallenge={gameState.currentChallenge}
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
-          renderCustomCard={(fruit, isCorrect) => (
+          renderCustomCard={(fruit) => (
             <FruitCard
               fruit={fruit}
-              isCorrect={isCorrect}
               onClick={handleFruitClick}
             />
           )}

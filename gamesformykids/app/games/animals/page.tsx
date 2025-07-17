@@ -74,10 +74,9 @@ export default function AnimalGame() {
           currentChallenge={gameState.currentChallenge}
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
-          renderCustomCard={(animal, isCorrect) => (
+          renderCustomCard={(animal) => (
             <AnimalCard
               animal={animal}
-              isCorrect={isCorrect}
               onClick={handleAnimalClick}
             />
           )}

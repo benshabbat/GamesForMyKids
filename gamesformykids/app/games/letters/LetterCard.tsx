@@ -3,7 +3,6 @@ import SoundIcon from "@/components/shared/SoundIcon";
 
 interface LetterCardProps {
   letter: Letter;
-  isCorrect: boolean;
   onClick: (letter: Letter) => void;
 }
 
@@ -13,7 +12,7 @@ interface LetterCardProps {
  * This component handles the rendering of individual letter cards with their
  * Hebrew character and English transliteration
  */
-export default function LetterCard({ letter, isCorrect, onClick }: LetterCardProps) {
+export default function LetterCard({ letter, onClick }: LetterCardProps) {
   return (
     <div
       onClick={() => onClick(letter)}
@@ -22,7 +21,6 @@ export default function LetterCard({ letter, isCorrect, onClick }: LetterCardPro
         duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
         bg-gradient-to-br from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600
         border-8 border-white
-        ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
       `}
     >
       <div className="w-full h-full flex flex-col items-center justify-center text-white">

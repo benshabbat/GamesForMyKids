@@ -2,7 +2,6 @@ import { NumberItem } from "@/lib/types/game";
 
 interface NumberCardProps {
   number: NumberItem;
-  isCorrect: boolean;
   onClick: (number: NumberItem) => void;
 }
 
@@ -12,7 +11,7 @@ interface NumberCardProps {
  * This component handles the rendering of individual number cards with their
  * digit and Hebrew name
  */
-export default function NumberCard({ number, isCorrect, onClick }: NumberCardProps) {
+export default function NumberCard({ number, onClick }: NumberCardProps) {
   return (
     <div
       onClick={() => onClick(number)}
@@ -21,7 +20,6 @@ export default function NumberCard({ number, isCorrect, onClick }: NumberCardPro
         duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
         bg-gradient-to-br from-indigo-400 to-purple-500 hover:from-indigo-500 hover:to-purple-600
         border-8 border-white
-        ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
       `}
     >
       <div className="w-full h-full flex flex-col items-center justify-center text-white">

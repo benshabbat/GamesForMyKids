@@ -3,7 +3,6 @@ import * as ShapeIcons from "../../../public/icons/ShapeIcons";
 
 interface ShapeCardProps {
   shape: Shape;
-  isCorrect: boolean;
   onClick: (shape: Shape) => void;
 }
 
@@ -12,7 +11,7 @@ interface ShapeCardProps {
  * 
  * This component handles the rendering of individual shape cards with their SVG icons
  */
-export default function ShapeCard({ shape, isCorrect, onClick }: ShapeCardProps) {
+export default function ShapeCard({ shape, onClick }: ShapeCardProps) {
   // Helper function to render the appropriate icon based on shape.svg value
   const renderShapeIcon = (svgType: string, size: number = 80) => {
     switch (svgType) {
@@ -45,7 +44,6 @@ export default function ShapeCard({ shape, isCorrect, onClick }: ShapeCardProps)
         duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
         bg-gradient-to-br from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600
         border-8 border-white
-        ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
       `}
     >
       <div className="w-full h-full flex flex-col items-center justify-center text-white">

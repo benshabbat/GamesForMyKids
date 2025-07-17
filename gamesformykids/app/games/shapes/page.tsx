@@ -71,10 +71,9 @@ export default function ShapeGame() {
           currentChallenge={gameState.currentChallenge}
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
-          renderCustomCard={(shape, isCorrect) => (
+          renderCustomCard={(shape) => (
             <ShapeCard
               shape={shape}
-              isCorrect={isCorrect}
               onClick={handleShapeClick}
             />
           )}

@@ -75,10 +75,9 @@ export default function NumberGame() {
           showSoundIcon={true}
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
-          renderCustomCard={(number, isCorrect) => (
+          renderCustomCard={(number) => (
             <NumberCard
               number={number}
-              isCorrect={isCorrect}
               onClick={handleNumberClick}
             />
           )}
