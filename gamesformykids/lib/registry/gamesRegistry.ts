@@ -1,0 +1,148 @@
+import {  Heart, Circle, Square, Music, Type, Hash, Apple } from "lucide-react";
+import { Game } from "@/lib/types/game";
+import { createElement } from "react";
+
+export interface GameRegistration {
+  id: string;
+  title: string;
+  description: string;
+  icon: React.ComponentType<{ className?: string }>;
+  color: string;
+  href: string;
+  available: boolean;
+  order: number; // לקביעת סדר התצוגה
+}
+
+// רישום כל המשחקים במקום אחד
+const GAMES_REGISTRY: GameRegistration[] = [
+  {
+    id: "memory",
+    title: "משחק זיכרון",
+    description: "מצא את הזוגות!",
+    icon: Heart,
+    color: "bg-pink-400 hover:bg-pink-500",
+    href: "/games/memory",
+    available: true,
+    order: 1,
+  },
+  {
+    id: "colors",
+    title: "משחק צבעים",
+    description: "למד צבעים!",
+    icon: Circle,
+    color: "bg-blue-400 hover:bg-blue-500",
+    href: "/games/colors",
+    available: true,
+    order: 2,
+  },
+  {
+    id: "letters",
+    title: "משחק אותיות",
+    description: "למד אותיות!",
+    icon: Type,
+    color: "bg-orange-400 hover:bg-orange-500",
+    href: "/games/letters",
+    available: true,
+    order: 3,
+  },
+  {
+    id: "shapes",
+    title: "משחק צורות",
+    description: "למד צורות!",
+    icon: Square,
+    color: "bg-green-400 hover:bg-green-500",
+    href: "/games/shapes",
+    available: true,
+    order: 4,
+  },
+  {
+    id: "numbers",
+    title: "משחק מספרים",
+    description: "למד מספרים!",
+    icon: Hash,
+    color: "bg-indigo-400 hover:bg-indigo-500",
+    href: "/games/numbers",
+    available: true,
+    order: 5,
+  },
+  {
+    id: "fruits",
+    title: "משחק פירות",
+    description: "למד פירות!",
+    icon: Apple,
+    color: "bg-red-400 hover:bg-red-500",
+    href: "/games/fruits",
+    available: true,
+    order: 6,
+  },
+  {
+    id: "bubbles",
+    title: "בועות מוזיקליות",
+    description: "פוצץ בועות",
+    icon: Music,
+    color: "bg-purple-400 hover:bg-purple-500",
+    href: "/games/bubbles",
+    available: false,
+    order: 7,
+  },
+];
+
+// פונקציות עזר לעבודה עם המשחקים
+export class GamesRegistry {
+  // קבלת כל המשחקים ממוינים לפי סדר
+  static getAllGames(): Game[] {
+    return GAMES_REGISTRY
+      .sort((a, b) => a.order - b.order)
+      .map(game => ({
+        id: game.id,
+        title: game.title,
+        description: game.description,
+        icon: createElement(game.icon, { className: "w-8 h-8" }),
+        color: game.color,
+        href: game.href,
+        available: game.available,
+      }));
+  }
+
+  // קבלת רק המשחקים הזמינים
+  static getAvailableGames(): Game[] {
+    return this.getAllGames().filter(game => game.available);
+  }
+
+  // קבלת מספר המשחקים הזמינים
+  static getAvailableGamesCount(): number {
+    return GAMES_REGISTRY.filter(game => game.available).length;
+  }
+
+  // קבלת מספר כל המשחקים
+  static getTotalGamesCount(): number {
+    return GAMES_REGISTRY.length;
+  }
+
+  // הוספת משחק חדש
+  static registerGame(game: GameRegistration): void {
+    // בדיקה שהמשחק לא קיים כבר
+    const existingGame = GAMES_REGISTRY.find(g => g.id === game.id);
+    if (existingGame) {
+      console.warn(`משחק עם ID ${game.id} כבר קיים`);
+      return;
+    }
+
+    GAMES_REGISTRY.push(game);
+    console.log(`משחק ${game.title} נרשם בהצלחה`);
+  }
+
+  // עדכון סטטוס זמינות משחק
+  static updateGameAvailability(gameId: string, available: boolean): void {
+    const game = GAMES_REGISTRY.find(g => g.id === gameId);
+    if (game) {
+      game.available = available;
+      console.log(`משחק ${game.title} עודכן לזמינות: ${available}`);
+    }
+  }
+
+  // קבלת משחק לפי ID
+  static getGameById(gameId: string): GameRegistration | undefined {
+    return GAMES_REGISTRY.find(g => g.id === gameId);
+  }
+}

@@ -50,7 +50,7 @@ export default function ShapeGame() {
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
               title="איזו צורה שמעת?"
-              icon="🔷"
+              icon="⭕�🔶⬛"
               iconColor="text-teal-700"
               challengeText={gameState.currentChallenge.hebrew}
               onSpeak={() => speakShapeName(gameState.currentChallenge!.name)}

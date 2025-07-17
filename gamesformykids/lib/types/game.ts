@@ -93,7 +93,9 @@ export interface NumberGameState {
 }
 
 
-// ממשק למשחק פירות
+export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'fruits' | 'bubbles';
+
+// הוספת הממשקים החדשים לפירות
 export interface Fruit {
   name: string;
   hebrew: string;
@@ -111,5 +113,3 @@ export interface FruitGameState {
   showCelebration: boolean;
   options: Fruit[];
 }
-
-export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'bubbles';

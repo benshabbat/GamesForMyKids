@@ -1,73 +1,10 @@
 import Link from "next/link";
-import { Star, Heart, Circle, Square, Music, Type, Hash, Apple } from "lucide-react";
-import { Game } from "@/lib/types/game";
+import { Star } from "lucide-react";
+import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 function GamesGrid() {
-  const games: Game[] = [
-    {
-      id: "memory",
-      title: "משחק זיכרון",
-      description: "מצא את הזוגות!",
-      icon: <Heart className="w-8 h-8" />,
-      color: "bg-pink-400 hover:bg-pink-500",
-      href: "/games/memory",
-      available: true,
-    },
-    {
-      id: "colors",
-      title: "משחק צבעים",
-      description: "למד צבעים!",
-      icon: <Circle className="w-8 h-8" />,
-      color: "bg-blue-400 hover:bg-blue-500",
-      href: "/games/colors",
-      available: true,
-    },
-    {
-      id: "letters",
-      title: "משחק אותיות",
-      description: "למד אותיות!",
-      icon: <Type className="w-8 h-8" />,
-      color: "bg-orange-400 hover:bg-orange-500",
-      href: "/games/letters",
-      available: true,
-    },
-    {
-      id: "shapes",
-      title: "משחק צורות",
-      description: "למד צורות!",
-      icon: <Square className="w-8 h-8" />,
-      color: "bg-green-400 hover:bg-green-500",
-      href: "/games/shapes",
-      available: true,
-    },
-    {
-      id: "numbers",
-      title: "משחק מספרים",
-      description: "למד מספרים!",
-      icon: <Hash className="w-8 h-8" />,
-      color: "bg-indigo-400 hover:bg-indigo-500",
-      href: "/games/numbers",
-      available: true,
-    },
-    {
-      id: "fruits",
-      title: "משחק פירות",
-      description: "למד פירות!",
-      icon: <Apple className="w-8 h-8" />,
-      color: "bg-red-400 hover:bg-red-500",
-      href: "/games/fruits",
-      available: true,
-    },
-    {
-      id: "bubbles",
-      title: "בועות מוזיקליות",
-      description: "פוצץ בועות",
-      icon: <Music className="w-8 h-8" />,
-      color: "bg-purple-400 hover:bg-purple-500",
-      href: "/games/bubbles",
-      available: false,
-    },
-  ];
+  // קבלת כל המשחקים אוטומטית מהרישום
+  const games = GamesRegistry.getAllGames();
   
   return (
     <div className="max-w-4xl mx-auto px-4 pb-8">

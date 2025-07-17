@@ -50,7 +50,7 @@ export default function FruitGame() {
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
               title="איזה פרי שמעת?"
-              icon="🍎"
+              icon="🧺🍎🍌🍇"
               iconColor="text-orange-800"
               challengeText={gameState.currentChallenge.hebrew}
               onSpeak={() => speakFruitName(gameState.currentChallenge!.name)}
