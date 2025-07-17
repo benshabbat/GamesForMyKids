@@ -2,7 +2,9 @@
  * קבועים הקשורים לממשק המשתמש של המשחקים
  */
 
-import { GameStep } from "@/lib/types/uiTypes";
+import { GameStep } from "../types/uiTypes";
+
+
 
 /**
  * שלבי משחק האותיות

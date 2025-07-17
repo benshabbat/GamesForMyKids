@@ -11,7 +11,7 @@ import {
   HeartIcon,
   DiamondIcon,
   OvalIcon,
-} from "@/app/games/shapes/ShapeIcons";
+} from "@/public/icons/ShapeIcons";
 
 /**
  * מיפוי שמות צורות לקומפוננטות אייקון
