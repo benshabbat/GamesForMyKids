@@ -8,6 +8,8 @@ import { useLetterGame } from "./useLetterGame";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
+// Import generic components (uncomment to use)
+// import { GameCardGrid } from "@/components/shared/GameCardGrid";
 
 export default function LetterGame() {
   const letters: Letter[] = [
@@ -197,11 +199,22 @@ export default function LetterGame() {
         </div>
 
         {/* אפשרויות האותיות */}
+        {/* Option 1: Use custom LetterOptions component */}
         <LetterOptions
           options={gameState.options}
           currentChallenge={gameState.currentChallenge}
           onLetterClick={handleLetterClick}
         />
+        
+        {/* Option 2: Use generic GameCardGrid component */}
+        {/* Uncomment to use the generic component instead
+        <GameCardGrid
+          items={gameState.options}
+          onItemClick={handleLetterClick}
+          currentChallenge={gameState.currentChallenge}
+          showSoundIcon={true}
+        />
+        */}
         <TipsBox
           tip="💡 טיפ: תשמע את שם האות שאני אומר!"
           description="לחץ על האמוג'י למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות"

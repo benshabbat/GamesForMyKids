@@ -8,6 +8,8 @@ import CelebrationBox from "@/components/shared/CelebrationBox";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
+// Import generic components (uncomment to use)
+// import { GameCardGrid } from "@/components/shared/GameCardGrid";
 
 export default function ColorGame() {
   const colors: Color[] = [
@@ -126,11 +128,22 @@ export default function ColorGame() {
         </div>
 
         {/* לוח הצבעים - מציג רק את 4 האפשרויות הנוכחיות */}
+        {/* Option 1: Use custom ColorGrid component */}
         <ColorGrid
           colors={gameState.options}
           currentChallenge={gameState.currentChallenge}
           onColorClick={handleColorClick}
         />
+        
+        {/* Option 2: Use generic GameCardGrid component */}
+        {/* Uncomment to use the generic component instead
+        <GameCardGrid
+          items={gameState.options}
+          onItemClick={handleColorClick}
+          currentChallenge={gameState.currentChallenge}
+          showSoundIcon={true}
+        />
+        */}
         <TipsBox
           tip="💡 טיפ: תשמע את שם הצבע כשהאתג מופיע!"
           description="לחץ על שם הצבע כדי לשמוע שוב, או על הצבעים למטה לתרגול"
