@@ -780,3 +780,11 @@ export const ANIMAL_GAME_CONSTANTS = {
   ANIMALS_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+
+export const COUNTING_GAME_CONSTANTS = {
+  BASE_MAX_COUNT: 5,        // מספר מקסימלי לספירה ברמה הראשונה
+  COUNT_INCREMENT: 2,       // כמה להוסיף בכל עליה ברמה
+  LEVEL_THRESHOLD: 3,       // כמה רמות לפני הוספת מספרים
+  ABSOLUTE_MAX_COUNT: 10,   // מספר מקסימלי אבסולוטי לספירה
+};

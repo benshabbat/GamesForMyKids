@@ -91,9 +91,23 @@ export interface NumberGameState {
   showCelebration: boolean;
   options: NumberItem[];
 }
+export interface CountingChallenge {
+  emojis: string;
+  correctAnswer: number;
+  itemName: string;      // שם הפריט ביחיד (כלב)
+  itemPlural: string;    // שם הפריט ברבים (כלבים)  
+  emoji: string;         // האימוג'י הבודד
+}
 
-
-export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'fruits' | 'bubbles' | 'animals';
+export interface CountingGameState {
+  currentChallenge: CountingChallenge | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: number[];
+}
+export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'fruits' | 'bubbles' | 'animals' | 'counting' ;
 
 // הוספת הממשקים החדשים לפירות
 export interface Fruit {

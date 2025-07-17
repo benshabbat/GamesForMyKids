@@ -1,4 +1,13 @@
-import { Heart, Circle, Square, Music, Type, Hash, Apple, Dog } from "lucide-react";
+import {
+  Heart,
+  Circle,
+  Square,
+  Music,
+  Type,
+  Hash,
+  Apple,
+  Dog,
+} from "lucide-react";
 import { Game } from "@/lib/types/game";
 import { createElement } from "react";
 
@@ -95,6 +104,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/bubbles",
     available: true,
     order: 8,
+  },
+  {
+    id: "counting",
+    title: "משחק ספירה",
+    description: "ספור אימוג'ים!",
+    icon: Hash, // או Calculator אם זמין
+    color: "bg-cyan-400 hover:bg-cyan-500",
+    href: "/games/counting",
+    available: true,
+    order: 9,
   },
 ];
 

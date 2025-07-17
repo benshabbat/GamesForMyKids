@@ -49,5 +49,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-green-100",
     },
+    counting: {
+      background:
+        "linear-gradient(135deg, #a7f3d0 0%, #34d399 25%, #10b981 50%, #059669 75%, #047857 100%)",
+      button: { from: "cyan", to: "blue" },
+      header: "text-white",
+      subHeader: "text-cyan-100",
+    },
   };
 }

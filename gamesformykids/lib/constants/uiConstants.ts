@@ -92,3 +92,9 @@ export const ANIMAL_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך החיה נראית" },
   { icon: "👆", title: "3. תלחץ", description: "על החיה הנכונה" },
 ];
+
+export const COUNTING_GAME_STEPS: GameStep[] = [
+  { icon: "👀", title: "1. תראה", description: "כמה אימוג'ים יש" },
+  { icon: "🧮", title: "2. תספור", description: "בקול רם או בלב" },
+  { icon: "👆", title: "3. תלחץ", description: "על המספר הנכון" },
+];
