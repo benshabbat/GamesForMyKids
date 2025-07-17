@@ -89,11 +89,11 @@ const GAMES_REGISTRY: GameRegistration[] = [
   {
     id: "bubbles",
     title: "בועות מוזיקליות",
-    description: "פוצץ בועות",
+    description: "פוצץ בועות ושמע צלילים!",
     icon: Music,
-    color: "bg-purple-400 hover:bg-purple-500",
+    color: "bg-blue-400 hover:bg-blue-500",
     href: "/games/bubbles",
-    available: false,
+    available: true,
     order: 8,
   },
 ];
