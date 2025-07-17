@@ -26,6 +26,7 @@ export interface Color {
   hebrew: string;
   value: string;
   sound: number[];
+  tailwindClass?: string;
 }
 
 export interface GameState {

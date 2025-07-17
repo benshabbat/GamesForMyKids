@@ -42,15 +42,13 @@ export function useColorGame(colors: Color[]) {
 
   // Select a random color for the challenge
   const selectRandomColor = async (): Promise<void> => {
-    const availableColors = getAvailableColors();
-    
     // בוחר צבע אקראי מכל המאגר
-    const randomColor = getRandomItem(availableColors);
+    const randomColor = getRandomItem(colors);
     
     // Generate options for this color - always use OPTIONS_COUNT (4) options
     const options = generateOptions(
       randomColor, 
-      availableColors, 
+      colors, 
       GAME_CONSTANTS.OPTIONS_COUNT
     );
     
@@ -127,13 +125,6 @@ export function useColorGame(colors: Color[]) {
       ...INITIAL_GAME_STATE,
       options: [] as Color[]
     });
-  };
-
-  // Get available colors based on current level - without increasing pool size
-  const getAvailableColors = (): Color[] => {
-    // החזרת כל הצבעים הזמינים. מספר האופציות המוצגות יהיה תמיד OPTIONS_COUNT (4) דרך generateOptions
-    // בכך מונעים הוספת צבעים עם העלייה ברמה והמשתמש יראה תמיד 4 אפשרויות בלבד
-    return colors;
   };
 
   // Return public API

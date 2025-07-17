@@ -15,6 +15,378 @@ export const INITIAL_GAME_STATE = {
 };
 
 /**
+ * קבועי צבעים למשחק
+ */
+export const COLOR_CONSTANTS = {
+  RED: {
+    name: "red",
+    hebrew: "אדום",
+    value: "bg-red-500",
+    tailwindClass: "bg-gradient-to-br from-red-400 to-red-600",
+    sound: [440, 550, 660],
+  },
+  BLUE: {
+    name: "blue",
+    hebrew: "כחול",
+    value: "bg-blue-500",
+    tailwindClass: "bg-gradient-to-br from-blue-400 to-blue-600",
+    sound: [523, 659, 784],
+  },
+  GREEN: {
+    name: "green",
+    hebrew: "ירוק",
+    value: "bg-green-500",
+    tailwindClass: "bg-gradient-to-br from-green-400 to-green-600",
+    sound: [349, 440, 523],
+  },
+  YELLOW: {
+    name: "yellow",
+    hebrew: "צהוב",
+    value: "bg-yellow-500",
+    tailwindClass: "bg-gradient-to-br from-yellow-400 to-yellow-600",
+    sound: [392, 494, 587],
+  },
+  PURPLE: {
+    name: "purple",
+    hebrew: "סגול",
+    value: "bg-purple-500",
+    tailwindClass: "bg-gradient-to-br from-purple-400 to-purple-600",
+    sound: [294, 370, 440],
+  },
+  ORANGE: {
+    name: "orange",
+    hebrew: "כתום",
+    value: "bg-orange-500",
+    tailwindClass: "bg-gradient-to-br from-orange-400 to-orange-600",
+    sound: [330, 415, 494],
+  },
+  PINK: {
+    name: "pink",
+    hebrew: "ורוד",
+    value: "bg-pink-500",
+    tailwindClass: "bg-gradient-to-br from-pink-400 to-pink-600",
+    sound: [587, 698, 784],
+  },
+  BROWN: {
+    name: "brown",
+    hebrew: "חום",
+    value: "bg-amber-600",
+    tailwindClass: "bg-gradient-to-br from-amber-500 to-amber-700",
+    sound: [220, 277, 330],
+  },
+  BLACK: {
+    name: "black",
+    hebrew: "שחור",
+    value: "bg-gray-900",
+    tailwindClass: "bg-gradient-to-br from-gray-800 to-gray-950",
+    sound: [196, 247, 294],
+  },
+  WHITE: {
+    name: "white",
+    hebrew: "לבן",
+    value: "bg-gray-100 border-2 border-gray-300",
+    tailwindClass: "bg-gradient-to-br from-gray-50 to-gray-200 border-2 border-gray-300",
+    sound: [659, 784, 880],
+  },
+};
+
+// רשימת כל הצבעים
+export const ALL_COLORS = Object.values(COLOR_CONSTANTS);
+
+/**
+ * קבועי אותיות למשחק
+ */
+export const LETTER_CONSTANTS = {
+  ALEF: {
+    name: "alef",
+    hebrew: "א",
+    english: "A",
+    sound: [440, 550, 660],
+  },
+  BET: {
+    name: "bet",
+    hebrew: "ב",
+    english: "B",
+    sound: [494, 588, 740],
+  },
+  GIMEL: {
+    name: "gimel",
+    hebrew: "ג",
+    english: "G",
+    sound: [523, 659, 784],
+  },
+  DALET: {
+    name: "dalet",
+    hebrew: "ד",
+    english: "D",
+    sound: [587, 740, 880],
+  },
+  HEY: {
+    name: "hey",
+    hebrew: "ה",
+    english: "H",
+    sound: [659, 831, 988],
+  },
+  VAV: {
+    name: "vav",
+    hebrew: "ו",
+    english: "V",
+    sound: [392, 494, 622],
+  },
+  ZAYIN: {
+    name: "zayin",
+    hebrew: "ז",
+    english: "Z",
+    sound: [349, 440, 523],
+  },
+  HET: {
+    name: "het",
+    hebrew: "ח",
+    english: "CH",
+    sound: [330, 415, 494],
+  },
+  TET: {
+    name: "tet",
+    hebrew: "ט",
+    english: "T",
+    sound: [294, 370, 440],
+  },
+  YUD: {
+    name: "yud",
+    hebrew: "י",
+    english: "Y",
+    sound: [277, 349, 415],
+  },
+  KAF: {
+    name: "kaf",
+    hebrew: "כ",
+    english: "K",
+    sound: [262, 330, 392],
+  },
+  LAMED: {
+    name: "lamed",
+    hebrew: "ל",
+    english: "L",
+    sound: [247, 311, 370],
+  },
+  MEM: {
+    name: "mem",
+    hebrew: "מ",
+    english: "M",
+    sound: [233, 294, 349],
+  },
+  NUN: {
+    name: "nun",
+    hebrew: "נ",
+    english: "N",
+    sound: [220, 277, 330],
+  },
+  SAMECH: {
+    name: "samech",
+    hebrew: "ס",
+    english: "S",
+    sound: [208, 262, 311],
+  },
+  AYIN: {
+    name: "ayin",
+    hebrew: "ע",
+    english: "A",
+    sound: [196, 247, 294],
+  },
+  PEY: {
+    name: "pey",
+    hebrew: "פ",
+    english: "P",
+    sound: [185, 233, 277],
+  },
+  TZADI: {
+    name: "tzadi",
+    hebrew: "צ",
+    english: "TZ",
+    sound: [175, 220, 262],
+  },
+  KUF: {
+    name: "kuf",
+    hebrew: "ק",
+    english: "K",
+    sound: [165, 208, 247],
+  },
+  RESH: {
+    name: "resh",
+    hebrew: "ר",
+    english: "R",
+    sound: [156, 196, 233],
+  },
+  SHIN: {
+    name: "shin",
+    hebrew: "ש",
+    english: "SH",
+    sound: [147, 185, 220],
+  },
+  TAV: {
+    name: "tav",
+    hebrew: "ת",
+    english: "T",
+    sound: [139, 175, 208],
+  },
+};
+
+// רשימת כל האותיות
+export const ALL_LETTERS = Object.values(LETTER_CONSTANTS);
+
+/**
+ * קבועי צורות למשחק
+ */
+export const SHAPE_CONSTANTS = {
+  CIRCLE: {
+    name: "circle",
+    hebrew: "עיגול",
+    english: "Circle",
+    color: "bg-blue-500",
+    sound: [523, 659, 784],
+    svg: "circle"
+  },
+  SQUARE: {
+    name: "square",
+    hebrew: "ריבוע",
+    english: "Square",
+    color: "bg-red-500",
+    sound: [440, 550, 660],
+    svg: "square"
+  },
+  TRIANGLE: {
+    name: "triangle",
+    hebrew: "משולש",
+    english: "Triangle",
+    color: "bg-green-500",
+    sound: [349, 440, 523],
+    svg: "triangle"
+  },
+  RECTANGLE: {
+    name: "rectangle",
+    hebrew: "מלבן",
+    english: "Rectangle",
+    color: "bg-purple-500",
+    sound: [294, 370, 440],
+    svg: "rectangle"
+  },
+  STAR: {
+    name: "star",
+    hebrew: "כוכב",
+    english: "Star",
+    color: "bg-yellow-500",
+    sound: [392, 494, 587],
+    svg: "star"
+  },
+  HEART: {
+    name: "heart",
+    hebrew: "לב",
+    english: "Heart",
+    color: "bg-pink-500",
+    sound: [587, 698, 784],
+    svg: "heart"
+  },
+  DIAMOND: {
+    name: "diamond",
+    hebrew: "מעויין",
+    english: "Diamond",
+    color: "bg-indigo-500",
+    sound: [277, 349, 415],
+    svg: "diamond"
+  },
+  OVAL: {
+    name: "oval",
+    hebrew: "אליפסה",
+    english: "Oval",
+    color: "bg-teal-500",
+    sound: [220, 277, 330],
+    svg: "oval"
+  }
+};
+
+// רשימת כל הצורות
+export const ALL_SHAPES = Object.values(SHAPE_CONSTANTS);
+
+/**
+ * קבועי מספרים למשחק
+ */
+export const NUMBER_CONSTANTS = {
+  ZERO: {
+    name: "zero",
+    hebrew: "אפס",
+    english: "Zero",
+    digit: "0",
+    sound: [261, 329, 392],
+  },
+  ONE: {
+    name: "one",
+    hebrew: "אחד",
+    english: "One", 
+    digit: "1",
+    sound: [293, 369, 440],
+  },
+  TWO: {
+    name: "two",
+    hebrew: "שתיים",
+    english: "Two",
+    digit: "2", 
+    sound: [329, 415, 494],
+  },
+  THREE: {
+    name: "three",
+    hebrew: "שלוש",
+    english: "Three",
+    digit: "3",
+    sound: [349, 440, 523],
+  },
+  FOUR: {
+    name: "four",
+    hebrew: "ארבע",
+    english: "Four",
+    digit: "4",
+    sound: [392, 494, 587],
+  },
+  FIVE: {
+    name: "five",
+    hebrew: "חמש",
+    english: "Five",
+    digit: "5",
+    sound: [440, 554, 659],
+  },
+  SIX: {
+    name: "six",
+    hebrew: "שש",
+    english: "Six",
+    digit: "6",
+    sound: [493, 622, 740],
+  },
+  SEVEN: {
+    name: "seven",
+    hebrew: "שבע",
+    english: "Seven",
+    digit: "7",
+    sound: [523, 659, 784],
+  },
+  EIGHT: {
+    name: "eight",
+    hebrew: "שמונה",
+    english: "Eight",
+    digit: "8",
+    sound: [587, 740, 880],
+  },
+  NINE: {
+    name: "nine",
+    hebrew: "תשע",
+    english: "Nine",
+    digit: "9",
+    sound: [659, 831, 988],
+  },
+};
+
+// רשימת כל המספרים
+export const ALL_NUMBERS = Object.values(NUMBER_CONSTANTS);
+
+/**
  * קבועי ניקוד ותצוגה
  */
 export const GAME_CONSTANTS = {
