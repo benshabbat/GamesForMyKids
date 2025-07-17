@@ -1,32 +1,21 @@
-import { Color } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameItem from "@/components/shared/GameItem";
-
-type StartScreenProps = {
-  colors: Color[];
-  onStart: () => void;
-  onSpeak?: (colorName: string) => void;
-};
+import { COLOR_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { ColorStartScreenProps } from "@/lib/types/startScreenTypes";
 
 export default function StartScreen({
   colors,
   onStart,
-}: StartScreenProps) {
-  const colorSteps = [
-    { icon: "👀", title: "1. תראה", description: "איזה צבע אני מבקש" },
-    { icon: "🎤", title: "2. תשמע", description: "את שם הצבע" },
-    { icon: "👆", title: "3. תלחץ", description: "על הצבע הנכון" },
-  ];
+}: ColorStartScreenProps) {
 
   return (
     <div
       className="min-h-screen p-4"
       style={{
-        background:
-          "linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8e6cf 50%, #dcedc1 75%, #ffd3e1 100%)",
+        background: GAME_BACKGROUNDS.COLORS,
       }}
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -34,10 +23,14 @@ export default function StartScreen({
         <StartScreenHeader />
 
         {/* הסבר המשחק */}
-        <GameInstructions steps={colorSteps} />
+        <GameInstructions steps={COLOR_GAME_STEPS} />
         
         {/* כפתור התחלה */}
-        <GameStartButton onStart={onStart} />
+        <GameStartButton 
+          onStart={onStart} 
+          fromColor={START_BUTTON_COLORS.COLORS.from}
+          toColor={START_BUTTON_COLORS.COLORS.to}
+        />
 
         {/* כפתור בדיקת דיבור */}
         <ButtonCheckAudio />

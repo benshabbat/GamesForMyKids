@@ -1,29 +1,18 @@
-import { Letter } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameItem from "@/components/shared/GameItem";
+import { LETTER_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { LetterStartScreenProps } from "@/lib/types/startScreenTypes";
 
-type StartScreenProps = {
-  letters: Letter[];
-  onStart: () => void;
-  onSpeak?: (letterName: string) => void;
-};
-
-export default function StartScreen({ letters, onStart }: StartScreenProps) {
-  const letterSteps = [
-    { icon: "👂", title: "1. תשמע", description: "איזו אות אני אומר" },
-    { icon: "🤔", title: "2. תחשוב", description: "איך נראית האות" },
-    { icon: "👆", title: "3. תלחץ", description: "על האות הנכונה" },
-  ];
+export default function StartScreen({ letters, onStart }: LetterStartScreenProps) {
   
   return (
     <div
       className="min-h-screen p-4"
       style={{
-        background:
-          "linear-gradient(135deg, #fed7aa 0%, #fdba74 25%, #fb923c 50%, #f97316 75%, #ea580c 100%)",
+        background: GAME_BACKGROUNDS.LETTERS,
       }}
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -37,15 +26,15 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
 
         {/* הסבר המשחק */}
         <GameInstructions
-          steps={letterSteps}
+          steps={LETTER_GAME_STEPS}
           bgClass="bg-orange-100 bg-opacity-90"
         />
 
         {/* כפתור התחלה */}
         <GameStartButton
           onStart={onStart}
-          fromColor="yellow"
-          toColor="orange"
+          fromColor={START_BUTTON_COLORS.LETTERS.from}
+          toColor={START_BUTTON_COLORS.LETTERS.to}
         />
 
         {/* כפתור הפעלת שמע פשוט */}

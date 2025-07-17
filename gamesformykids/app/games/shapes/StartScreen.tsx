@@ -1,50 +1,19 @@
-import { Shape } from "@/lib/types/game";
-import {
-  CircleIcon,
-  SquareIcon,
-  TriangleIcon,
-  RectangleIcon,
-  StarIcon,
-  HeartIcon,
-  DiamondIcon,
-  OvalIcon,
-} from "./ShapeIcons";
 import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameStartButton from "@/components/shared/GameStartButton";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameItem from "@/components/shared/GameItem";
+import { SHAPE_ICON_MAP } from "@/lib/constants/shapeConstants";
+import { SHAPE_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { ShapeStartScreenProps } from "@/lib/types/startScreenTypes";
 
-type StartScreenProps = {
-  shapes: Shape[];
-  onStart: () => void;
-  onSpeak: (shapeName: string) => void;
-};
-
-const ShapeIconMap = {
-  circle: CircleIcon,
-  square: SquareIcon,
-  triangle: TriangleIcon,
-  rectangle: RectangleIcon,
-  star: StarIcon,
-  heart: HeartIcon,
-  diamond: DiamondIcon,
-  oval: OvalIcon,
-};
-
-export default function StartScreen({ shapes, onStart }: StartScreenProps) {
-  const shapeSteps = [
-    { icon: "👂", title: "1. תשמע", description: "איזו צורה אני אומר" },
-    { icon: "🤔", title: "2. תחשוב", description: "איך נראית הצורה" },
-    { icon: "👆", title: "3. תלחץ", description: "על הצורה הנכונה" },
-  ];
+export default function StartScreen({ shapes, onStart }: ShapeStartScreenProps) {
 
   return (
     <div
       className="min-h-screen p-4"
       style={{
-        background:
-          "linear-gradient(135deg, #d4f1d4 0%, #a8e6a8 25%, #7dd87d 50%, #52c952 75%, #26b926 100%)",
+        background: GAME_BACKGROUNDS.SHAPES,
       }}
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -56,10 +25,14 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
           textColorSubHeader="text-green-100"
         />
         {/* הסבר המשחק */}
-        <GameInstructions steps={shapeSteps} />
+        <GameInstructions steps={SHAPE_GAME_STEPS} />
 
         {/* כפתור התחלה */}
-        <GameStartButton onStart={onStart} fromColor="blue" toColor="green" />
+        <GameStartButton 
+          onStart={onStart} 
+          fromColor={START_BUTTON_COLORS.SHAPES.from} 
+          toColor={START_BUTTON_COLORS.SHAPES.to} 
+        />
 
         {/* כפתור הפעלת שמע פשוט */}
         <ButtonCheckAudio />
@@ -72,8 +45,8 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
           <div className="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             {shapes.map((shape) => {
               const IconComponent =
-                ShapeIconMap[shape.name as keyof typeof ShapeIconMap] ||
-                CircleIcon;
+                SHAPE_ICON_MAP[shape.name as keyof typeof SHAPE_ICON_MAP] ||
+                SHAPE_ICON_MAP.circle;
 
               return (
                 <GameItem

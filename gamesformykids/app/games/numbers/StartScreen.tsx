@@ -1,29 +1,18 @@
-import { NumberItem } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameStartButton from "@/components/shared/GameStartButton";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameItem from "@/components/shared/GameItem";
+import { NUMBER_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { NumberStartScreenProps } from "@/lib/types/startScreenTypes";
 
-type StartScreenProps = {
-  numbers: NumberItem[];
-  onStart: () => void;
-  onSpeak: (numberName: string) => void;
-};
-
-export default function StartScreen({ numbers, onStart }: StartScreenProps) {
-  const numberSteps = [
-    { icon: "👂", title: "1. תשמע", description: "איזה מספר אני אומר" },
-    { icon: "🤔", title: "2. תחשוב", description: "איך נראה המספר" },
-    { icon: "👆", title: "3. תלחץ", description: "על המספר הנכון" },
-  ];
+export default function StartScreen({ numbers, onStart }: NumberStartScreenProps) {
 
   return (
     <div
       className="min-h-screen p-4"
       style={{
-        background:
-          "linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 25%, #a5b4fc 50%, #818cf8 75%, #6366f1 100%)",
+        background: GAME_BACKGROUNDS.NUMBERS,
       }}
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -37,15 +26,15 @@ export default function StartScreen({ numbers, onStart }: StartScreenProps) {
         
         {/* הסבר המשחק */}
         <GameInstructions
-          steps={numberSteps}
+          steps={NUMBER_GAME_STEPS}
           bgClass="bg-indigo-100 bg-opacity-90"
         />
 
         {/* כפתור התחלה */}
         <GameStartButton 
           onStart={onStart} 
-          fromColor="indigo" 
-          toColor="purple" 
+          fromColor={START_BUTTON_COLORS.NUMBERS.from} 
+          toColor={START_BUTTON_COLORS.NUMBERS.to} 
         />
 
         {/* כפתור הפעלת שמע פשוט */}

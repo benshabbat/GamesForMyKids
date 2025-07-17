@@ -1,31 +1,11 @@
 import { Volume2 } from "lucide-react";
 import { Shape } from "@/lib/types/game";
-import { 
-  CircleIcon, 
-  SquareIcon, 
-  TriangleIcon, 
-  RectangleIcon, 
-  StarIcon, 
-  HeartIcon, 
-  DiamondIcon, 
-  OvalIcon 
-} from "./ShapeIcons";
+import { SHAPE_ICON_MAP } from "@/lib/constants/shapeConstants";
 
 type ShapeOptionsProps = {
   options: Shape[];
   currentChallenge?: Shape | null;
   onShapeClick: (shape: Shape) => void;
-};
-
-const ShapeIconMap = {
-  circle: CircleIcon,
-  square: SquareIcon,
-  triangle: TriangleIcon,
-  rectangle: RectangleIcon,
-  star: StarIcon,
-  heart: HeartIcon,
-  diamond: DiamondIcon,
-  oval: OvalIcon,
 };
 
 export default function ShapeOptions({
@@ -35,7 +15,7 @@ export default function ShapeOptions({
   return (
     <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto">
       {options.map((shape) => {
-        const IconComponent = ShapeIconMap[shape.name as keyof typeof ShapeIconMap] || CircleIcon;
+        const IconComponent = SHAPE_ICON_MAP[shape.name as keyof typeof SHAPE_ICON_MAP] || SHAPE_ICON_MAP.circle;
         
         return (
           <div

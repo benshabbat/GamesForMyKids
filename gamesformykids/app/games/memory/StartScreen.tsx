@@ -3,26 +3,15 @@ import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameItem from "@/components/shared/GameItem";
-import { AnimalData } from "@/lib/types/game";
+import { MEMORY_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { MemoryStartScreenProps } from "@/lib/types/startScreenTypes";
 
-type StartScreenProps = {
-  onStart: () => void;
-  animals: AnimalData[];
-  onSpeak?: (name: string) => void;
-};
-
-export default function StartScreen({ onStart, animals }: StartScreenProps) {
-  const memorySteps = [
-    { icon: "👀", title: "1. תראה", description: "לחץ על קלף כדי לחשוף חיה" },
-    { icon: "🧠", title: "2. תזכור", description: "איפה ראית כל חיה" },
-    { icon: "🎯", title: "3. תמצא", description: "זוגות תואמים של חיות" },
-  ];
+export default function StartScreen({ onStart, animals }: MemoryStartScreenProps) {
   return (
     <div
       className="min-h-screen p-4"
       style={{
-        background:
-          "linear-gradient(135deg, #fce7f3 0%, #e879f9 25%, #a855f7 50%, #7c3aed 75%, #5b21b6 100%)",
+        background: GAME_BACKGROUNDS.MEMORY,
       }}
     >
       <div className="max-w-4xl mx-auto text-center">
@@ -35,12 +24,16 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
         />
         {/* הסבר המשחק */}
         <GameInstructions
-          steps={memorySteps}
+          steps={MEMORY_GAME_STEPS}
           bgClass="bg-pink-100 bg-opacity-90"
         />
 
         {/* כפתור התחלה */}
-        <GameStartButton onStart={onStart} />
+        <GameStartButton 
+          onStart={onStart}
+          fromColor={START_BUTTON_COLORS.MEMORY.from}
+          toColor={START_BUTTON_COLORS.MEMORY.to}
+        />
 
         {/* כפתור בדיקת שמע פשוט */}
         <ButtonCheckAudio />
