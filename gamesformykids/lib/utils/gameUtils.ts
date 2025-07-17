@@ -207,17 +207,19 @@ export async function handleCorrectGameAnswer<T extends { score: number; level: 
   // השהייה אחרי המשוב
   await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
   
-  // מעבר לשלב הבא
-  setTimeout(() => {
-    setGameState(prev => ({
-      ...prev,
-      level: prev.level + 1,
-      showCelebration: false,
-    }));
-    
-    // בחירת פריט חדש
-    onLevelComplete();
-  }, GAME_CONSTANTS.DELAYS.CELEBRATION_DURATION);
+  // מעבר לשלב הבא - משתמשים בחזרת קריאה במקום setTimeout
+  // כדי לאפשר לפעולה האסינכרונית להסתיים כראוי
+  await delay(GAME_CONSTANTS.DELAYS.CELEBRATION_DURATION);
+  
+  // מעדכנים את ה-state לפני הקריאה לפעולה הבאה
+  setGameState(prev => ({
+    ...prev,
+    level: prev.level + 1,
+    showCelebration: false,
+  }));
+  
+  // בחירת פריט חדש - כעת אנחנו מחכים לסיום הפעולה
+  await onLevelComplete();
 }
 
 /**

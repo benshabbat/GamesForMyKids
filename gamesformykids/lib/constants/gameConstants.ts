@@ -49,6 +49,13 @@ export const GAME_CONSTANTS = {
     LEVEL_THRESHOLD: 3
   },
   
+  // קבועים ספציפיים למשחק המספרים
+  NUMBER_GAME: {
+    BASE_NUMBERS_COUNT: 5,
+    NUMBERS_INCREMENT: 1,
+    LEVEL_THRESHOLD: 3
+  },
+  
   // קבועים ספציפיים למשחק הזיכרון
   MEMORY_GAME: {
     FLIP_DURATION: 1000,   // זמן השהייה בין הפיכת קלפים
@@ -129,6 +136,22 @@ export const HEBREW_PRONUNCIATIONS: Record<string, string> = {
   resh: "רֵישׁ",
   shin: "שִׁין",
   tav: "תָּו",
+};
+
+/**
+ * הגיית מספרים בעברית
+ */
+export const NUMBER_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  zero: "אפס",
+  one: "אחד",
+  two: "שתיים",
+  three: "שלוש",
+  four: "ארבע",
+  five: "חמש",
+  six: "שש",
+  seven: "שבע",
+  eight: "שמונה",
+  nine: "תשע",
 };
 
 /**

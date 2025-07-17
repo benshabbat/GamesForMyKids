@@ -73,4 +73,22 @@ export interface ShapeGameState {
   options: Shape[];
 }
 
-export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'bubbles';
+// ממשק למשחק מספרים
+export interface NumberItem {
+  name: string;
+  hebrew: string;
+  english: string;
+  digit: string;
+  sound: number[];
+}
+
+export interface NumberGameState {
+  currentChallenge: NumberItem | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: NumberItem[];
+}
+
+export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'bubbles';
