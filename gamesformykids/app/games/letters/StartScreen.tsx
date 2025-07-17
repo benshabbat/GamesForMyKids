@@ -1,50 +1,30 @@
-import GameInstructions from "@/components/shared/GameInstructions";
-import GameStartButton from "@/components/shared/GameStartButton";
-import StartScreenHeader from "@/components/shared/StartScreenHeader";
-import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import GenericStartScreen from "@/components/shared/GenericStartScreen";
+import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
-import { LETTER_GAME_STEPS, GAME_BACKGROUNDS, START_BUTTON_COLORS } from "@/lib/constants/uiConstants";
+import { LETTER_GAME_STEPS } from "@/lib/constants/uiConstants";
 import { LetterStartScreenProps } from "@/lib/types/startScreenTypes";
 
 export default function StartScreen({ letters, onStart }: LetterStartScreenProps) {
-  
+  const gameConfig = useGameStartScreenConfig();
+
   return (
-    <div
-      className="min-h-screen p-4"
-      style={{
-        background: GAME_BACKGROUNDS.LETTERS,
-      }}
-    >
-      <div className="max-w-4xl mx-auto text-center">
-        {/* Header */}
-        <StartScreenHeader
-          title="🔤 משחק אותיות 🔤"
-          subTitle="למד אותיות דרך שמיעה!"
-          textColorHeader="text-white"
-          textColorSubHeader="text-orange-100"
-        />
-
-        {/* הסבר המשחק */}
-        <GameInstructions
-          steps={LETTER_GAME_STEPS}
-          bgClass="bg-orange-100 bg-opacity-90"
-        />
-
-        {/* כפתור התחלה */}
-        <GameStartButton
-          onStart={onStart}
-          fromColor={START_BUTTON_COLORS.LETTERS.from}
-          toColor={START_BUTTON_COLORS.LETTERS.to}
-        />
-
-        {/* כפתור הפעלת שמע פשוט */}
-        <ButtonCheckAudio />
-
-        {/* דוגמת אותיות */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-white mb-6">
-            כל האותיות שנלמד:
-          </h3>
+    <GenericStartScreen
+      title="🔤 משחק אותיות 🔤"
+      subTitle="למד אותיות דרך שמיעה!"
+      textColorHeader={gameConfig.letters.header}
+      textColorSubHeader={gameConfig.letters.subHeader}
+      gameSteps={LETTER_GAME_STEPS}
+      gameStepsBgClass="bg-orange-100 bg-opacity-90"
+      items={letters}
+      onStart={onStart}
+      buttonFromColor={gameConfig.letters.button.from}
+      buttonToColor={gameConfig.letters.button.to}
+      backgroundStyle={gameConfig.letters.background}
+      itemsTitle="כל האותיות שנלמד:"
+      itemsDescription="לחץ על אות כדי לשמוע את השם שלה! (22 אותיות באלף-בית העברי)"
+      itemsDescriptionColor="text-orange-100"
+      customItemsRenderer={() => (
+        <>
           <div className="flex flex-wrap justify-center gap-3">
             {letters.slice(0, 12).map((letter) => (
               <GameItem
@@ -67,11 +47,8 @@ export default function StartScreen({ letters, onStart }: LetterStartScreenProps
               />
             ))}
           </div>
-          <p className="text-orange-100 mt-4">
-            לחץ על אות כדי לשמוע את השם שלה! (22 אותיות באלף-בית העברי)
-          </p>
-        </div>
-      </div>
-    </div>
+        </>
+      )}
+    />
   );
 }
