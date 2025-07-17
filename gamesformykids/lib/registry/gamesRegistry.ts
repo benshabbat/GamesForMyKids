@@ -94,7 +94,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     color: "bg-purple-400 hover:bg-purple-500",
     href: "/games/bubbles",
     available: false,
-    order: 7,
+    order: 8,
   },
 ];
 
