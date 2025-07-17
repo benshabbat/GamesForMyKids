@@ -79,7 +79,6 @@ export default function ColorGame() {
     startGame,
     handleColorClick,
     resetGame,
-    getAvailableColors,
   } = useColorGame(colors);
 
   if (!gameState.isPlaying) {
@@ -126,9 +125,9 @@ export default function ColorGame() {
           )}
         </div>
 
-        {/* לוח הצבעים */}
+        {/* לוח הצבעים - מציג רק את 4 האפשרויות הנוכחיות */}
         <ColorGrid
-          colors={getAvailableColors()}
+          colors={gameState.options}
           currentChallenge={gameState.currentChallenge}
           onColorClick={handleColorClick}
         />
