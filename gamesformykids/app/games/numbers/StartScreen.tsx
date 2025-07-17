@@ -1,9 +1,9 @@
-import { Volume2 } from "lucide-react";
 import { NumberItem } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameStartButton from "@/components/shared/GameStartButton";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import GameItem from "@/components/shared/GameItem";
 
 type StartScreenProps = {
   numbers: NumberItem[];
@@ -58,33 +58,14 @@ export default function StartScreen({ numbers, onStart }: StartScreenProps) {
           </h3>
           <div className="grid grid-cols-5 gap-3 max-w-3xl mx-auto">
             {numbers.map((number) => (
-              <div
+              <GameItem
                 key={number.name}
-                className="w-16 h-16 rounded-xl shadow-lg bg-white text-indigo-600 border-4 border-indigo-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center p-1"
-                onClick={() => {
-                  // הקראה מהירה ופשוטה
-                  if (
-                    typeof window !== "undefined" &&
-                    window.speechSynthesis
-                  ) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(
-                      number.hebrew
-                    );
-                    utterance.lang = "he-IL";
-                    utterance.rate = 0.8;
-                    utterance.volume = 1.0;
-                    utterance.pitch = 1.2;
-                    window.speechSynthesis.speak(utterance);
-                  }
-                }}
-              >
-                <div className="text-2xl font-bold">{number.digit}</div>
-                <div className="text-xs font-bold text-center">
-                  {number.hebrew}
-                </div>
-                <Volume2 className="w-3 h-3 opacity-70" />
-              </div>
+                hebrewText={number.hebrew}
+                color="bg-indigo-500"
+                shape="rounded"
+                size="small"
+                icon={<span className="text-xl font-bold">{number.digit}</span>}
+              />
             ))}
           </div>
           <p className="text-indigo-100 mt-4">

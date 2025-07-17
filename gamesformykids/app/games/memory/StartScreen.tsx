@@ -2,6 +2,7 @@ import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
+import GameItem from "@/components/shared/GameItem";
 import { AnimalData } from "@/lib/types/game";
 
 type StartScreenProps = {
@@ -51,25 +52,14 @@ export default function StartScreen({ onStart, animals }: StartScreenProps) {
           </h3>
           <div className="flex flex-wrap justify-center gap-4">
             {animals.map((animal) => (
-              <div
+              <GameItem 
                 key={animal.name}
-                className="w-20 h-20 rounded-full shadow-lg bg-white flex items-center justify-center text-3xl font-bold border-4 border-pink-200 cursor-pointer transform hover:scale-110 transition-all duration-300"
-                onClick={() => {
-                  // הקראת שם החיה
-                  if (typeof window !== "undefined" && window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(animal.name);
-                    utterance.lang = "he-IL";
-                    utterance.rate = 0.8;
-                    utterance.volume = 1.0;
-                    utterance.pitch = 1.2;
-                    window.speechSynthesis.speak(utterance);
-                  }
-                }}
-                title={animal.name}
-              >
-                {animal.emoji}
-              </div>
+                hebrewText={animal.name}
+                icon={<span className="text-3xl">{animal.emoji}</span>}
+                color="bg-purple-400"
+                shape="circle"
+                size="large"
+              />
             ))}
           </div>
           <p className="text-pink-100 mt-4">

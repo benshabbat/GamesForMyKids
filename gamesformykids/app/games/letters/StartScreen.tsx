@@ -1,14 +1,14 @@
-import { Volume2 } from "lucide-react";
 import { Letter } from "@/lib/types/game";
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import GameItem from "@/components/shared/GameItem";
 
 type StartScreenProps = {
   letters: Letter[];
   onStart: () => void;
-  onSpeak: (letterName: string) => void;
+  onSpeak?: (letterName: string) => void;
 };
 
 export default function StartScreen({ letters, onStart }: StartScreenProps) {
@@ -17,6 +17,7 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
     { icon: "🤔", title: "2. תחשוב", description: "איך נראית האות" },
     { icon: "👆", title: "3. תלחץ", description: "על האות הנכונה" },
   ];
+  
   return (
     <div
       className="min-h-screen p-4"
@@ -57,56 +58,24 @@ export default function StartScreen({ letters, onStart }: StartScreenProps) {
           </h3>
           <div className="flex flex-wrap justify-center gap-3">
             {letters.slice(0, 12).map((letter) => (
-              <div
+              <GameItem
                 key={letter.name}
-                className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
-                onClick={() => {
-                  // הקראה מהירה ופשוטה
-                  if (typeof window !== "undefined" && window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(
-                      letter.hebrew
-                    );
-                    utterance.lang = "he-IL";
-                    utterance.rate = 0.8;
-                    utterance.volume = 1.0;
-                    utterance.pitch = 1.2;
-                    window.speechSynthesis.speak(utterance);
-                  }
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-lg font-bold">{letter.hebrew}</div>
-                  <Volume2 className="w-3 h-3 mx-auto opacity-70" />
-                </div>
-              </div>
+                hebrewText={letter.hebrew}
+                color="bg-orange-500"
+                shape="circle"
+                size="small"
+              />
             ))}
           </div>
           <div className="flex flex-wrap justify-center gap-3 mt-4">
             {letters.slice(12, 22).map((letter) => (
-              <div
+              <GameItem
                 key={letter.name}
-                className="w-14 h-14 rounded-full shadow-lg bg-white text-orange-600 border-4 border-orange-200 transform hover:scale-110 transition-all duration-300 cursor-pointer flex items-center justify-center"
-                onClick={() => {
-                  // הקראה מהירה ופשוטה
-                  if (typeof window !== "undefined" && window.speechSynthesis) {
-                    window.speechSynthesis.cancel();
-                    const utterance = new SpeechSynthesisUtterance(
-                      letter.hebrew
-                    );
-                    utterance.lang = "he-IL";
-                    utterance.rate = 0.8;
-                    utterance.volume = 1.0;
-                    utterance.pitch = 1.2;
-                    window.speechSynthesis.speak(utterance);
-                  }
-                }}
-              >
-                <div className="text-center">
-                  <div className="text-lg font-bold">{letter.hebrew}</div>
-                  <Volume2 className="w-3 h-3 mx-auto opacity-70" />
-                </div>
-              </div>
+                hebrewText={letter.hebrew}
+                color="bg-orange-500"
+                shape="circle"
+                size="small"
+              />
             ))}
           </div>
           <p className="text-orange-100 mt-4">

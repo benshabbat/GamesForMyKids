@@ -1,4 +1,3 @@
-import { Volume2 } from "lucide-react";
 import { Shape } from "@/lib/types/game";
 import {
   CircleIcon,
@@ -14,6 +13,7 @@ import GameInstructions from "@/components/shared/GameInstructions";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import GameStartButton from "@/components/shared/GameStartButton";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import GameItem from "@/components/shared/GameItem";
 
 type StartScreenProps = {
   shapes: Shape[];
@@ -76,33 +76,15 @@ export default function StartScreen({ shapes, onStart }: StartScreenProps) {
                 CircleIcon;
 
               return (
-                <div
+                <GameItem
                   key={shape.name}
-                  className={`w-20 h-20 rounded-2xl shadow-lg ${shape.color} text-white border-4 border-white transform hover:scale-110 transition-all duration-300 cursor-pointer flex flex-col items-center justify-center p-2`}
-                  onClick={() => {
-                    // הקראה מהירה ופשוטה
-                    if (
-                      typeof window !== "undefined" &&
-                      window.speechSynthesis
-                    ) {
-                      window.speechSynthesis.cancel();
-                      const utterance = new SpeechSynthesisUtterance(
-                        shape.hebrew
-                      );
-                      utterance.lang = "he-IL";
-                      utterance.rate = 0.8;
-                      utterance.volume = 1.0;
-                      utterance.pitch = 1.2;
-                      window.speechSynthesis.speak(utterance);
-                    }
-                  }}
-                >
-                  <IconComponent size={40} className="mb-1" />
-                  <div className="text-xs font-bold text-center">
-                    {shape.hebrew}
-                  </div>
-                  <Volume2 className="w-3 h-3 opacity-70" />
-                </div>
+                  name={shape.name}
+                  hebrewText={shape.hebrew}
+                  color={shape.color}
+                  icon={<IconComponent size={40} />}
+                  shape="rounded"
+                  size="large"
+                />
               );
             })}
           </div>
