@@ -8,6 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
+import ColorCard from "./ColorCard";
 import { ALL_COLORS } from "@/lib/constants/gameConstants";
 
 export default function ColorGame() {
@@ -76,22 +77,11 @@ export default function ColorGame() {
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
           renderCustomCard={(color, isCorrect) => (
-            <div
-              onClick={() => handleColorClick(color)}
-              className={`
-                aspect-square rounded-3xl cursor-pointer transition-all
-                duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-                ${color.tailwindClass}
-                border-8 border-white
-                ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
-              `}
-            >
-              <div className="w-full h-full flex items-center justify-center">
-                <div className="text-xl md:text-2xl font-bold text-white">
-                  {color.hebrew}
-                </div>
-              </div>
-            </div>
+            <ColorCard
+              color={color}
+              isCorrect={isCorrect}
+              onClick={handleColorClick}
+            />
           )}
         />
         <TipsBox

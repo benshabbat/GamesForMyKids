@@ -8,6 +8,7 @@ import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
+import LetterCard from "./LetterCard";
 import { ALL_LETTERS } from "@/lib/constants/gameConstants";
 
 export default function LetterGame() {
@@ -73,31 +74,11 @@ export default function LetterGame() {
           showSoundIcon={true}
           maxWidth="max-w-2xl"
           renderCustomCard={(letter, isCorrect) => (
-            <div
-              onClick={() => handleLetterClick(letter)}
-              className={`
-                aspect-square rounded-3xl cursor-pointer transition-all 
-                duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-                bg-gradient-to-br from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600
-                border-8 border-white
-                ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
-              `}
-            >
-              <div className="w-full h-full flex flex-col items-center justify-center text-white">
-                <div className="text-5xl md:text-7xl font-bold mb-2">
-                  {letter.hebrew}
-                </div>
-                <div className="text-lg md:text-xl font-semibold">
-                  {letter.english}
-                </div>
-                <div className="mt-2 opacity-70">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-6 h-6 mx-auto">
-                    <path d="M2 10s3-3 10-3 10 3 10 3-3 3-10 3-10-3-10-3z"></path>
-                    <circle cx="12" cy="10" r="3"></circle>
-                  </svg>
-                </div>
-              </div>
-            </div>
+            <LetterCard
+              letter={letter}
+              isCorrect={isCorrect}
+              onClick={handleLetterClick}
+            />
           )}
         />
         <TipsBox

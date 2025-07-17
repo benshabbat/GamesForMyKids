@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import * as ShapeIcons from "../../../public/icons/ShapeIcons";
+import ShapeCard from "./ShapeCard";
 import { ALL_SHAPES } from "@/lib/constants/gameConstants";
 
 export default function ShapeGame() {
@@ -72,32 +72,11 @@ export default function ShapeGame() {
           gridCols="grid-cols-2"
           maxWidth="max-w-2xl"
           renderCustomCard={(shape, isCorrect) => (
-            <div
-              onClick={() => handleShapeClick(shape)}
-              className={`
-                aspect-square rounded-3xl cursor-pointer transition-all 
-                duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-                bg-gradient-to-br from-green-400 to-teal-500 hover:from-green-500 hover:to-teal-600
-                border-8 border-white
-                ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
-              `}
-            >
-              <div className="w-full h-full flex flex-col items-center justify-center text-white">
-                <div className="mb-2">
-                  {shape.svg === "circle" && <ShapeIcons.CircleIcon size={80} />}
-                  {shape.svg === "square" && <ShapeIcons.SquareIcon size={80} />}
-                  {shape.svg === "triangle" && <ShapeIcons.TriangleIcon size={80} />}
-                  {shape.svg === "rectangle" && <ShapeIcons.RectangleIcon size={80} />}
-                  {shape.svg === "star" && <ShapeIcons.StarIcon size={80} />}
-                  {shape.svg === "heart" && <ShapeIcons.HeartIcon size={80} />}
-                  {shape.svg === "diamond" && <ShapeIcons.DiamondIcon size={80} />}
-                  {shape.svg === "oval" && <ShapeIcons.OvalIcon size={80} />}
-                </div>
-                <div className="text-xl md:text-2xl font-bold">
-                  {shape.hebrew}
-                </div>
-              </div>
-            </div>
+            <ShapeCard
+              shape={shape}
+              isCorrect={isCorrect}
+              onClick={handleShapeClick}
+            />
           )}
         />
         <TipsBox
