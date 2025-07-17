@@ -2,7 +2,7 @@
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, CountingChallenge } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -61,6 +61,4 @@ export interface FruitStartScreenProps extends BaseStartScreenProps {
 export interface AnimalStartScreenProps extends BaseStartScreenProps {
   animals: Animal[];
 }
-export interface CountingStartScreenProps extends BaseStartScreenProps {
-  challenges: CountingChallenge[];
-}
+export type CountingStartScreenProps = BaseStartScreenProps;

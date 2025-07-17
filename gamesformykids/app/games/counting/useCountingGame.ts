@@ -104,32 +104,38 @@ export function useCountingGame() {
   };
 
   const startGame = async () => {
-    setGameState({
-      currentChallenge: null,
-      score: 0,
-      level: 1,
-      isPlaying: true,
-      showCelebration: false,
-      options: [],
-    });
+    try {
+      console.log("StartGame function called");
+      
+      setGameState({
+        currentChallenge: null,
+        score: 0,
+        level: 1,
+        isPlaying: true,
+        showCelebration: false,
+        options: [],
+      });
 
-    await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
-    await speakStartMessage();
-    
-    const challenge = generateCountingChallenge();
-    const options = generateOptions(challenge.correctAnswer);
+      await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
+      await speakStartMessage();
+      
+      const challenge = generateCountingChallenge();
+      const options = generateOptions(challenge.correctAnswer);
 
-    console.log("Generated challenge:", challenge);
-    console.log("Generated options:", options);
+      console.log("Generated challenge:", challenge);
+      console.log("Generated options:", options);
 
-    setGameState((prev) => ({
-      ...prev,
-      currentChallenge: challenge,
-      options,
-    }));
+      setGameState((prev) => ({
+        ...prev,
+        currentChallenge: challenge,
+        options,
+      }));
 
-    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-    await speakQuestion(challenge);
+      await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+      await speakQuestion(challenge);
+    } catch (error) {
+      console.error("Error in startGame:", error);
+    }
   };
 
   const handleNumberClick = async (selectedNumber: number) => {

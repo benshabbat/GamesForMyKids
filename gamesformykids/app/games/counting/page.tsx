@@ -1,11 +1,11 @@
 "use client";
 
-import { useCountingGame } from "./useCountingGame";
-import StartScreen from "./StartScreen";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import CountingCard from "./CountingCard";
+import { useCountingGame } from "./useCountingGame";
+import StartScreen from "./StartScreen";
 
 export default function CountingGame() {
   const {
