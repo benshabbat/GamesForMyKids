@@ -83,3 +83,12 @@ export const FRUIT_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך הפרי נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על הפרי הנכון" },
 ];
+
+/**
+ * שלבי משחק החיות
+ */
+export const ANIMAL_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזו חיה אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך החיה נראית" },
+  { icon: "👆", title: "3. תלחץ", description: "על החיה הנכונה" },
+];

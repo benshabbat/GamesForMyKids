@@ -665,3 +665,118 @@ export const FRUIT_GAME_CONSTANTS = {
   FRUITS_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+
+/**
+ * קבועי חיות למשחק
+ */
+export const ANIMAL_CONSTANTS = {
+  DOG: {
+    name: "dog",
+    hebrew: "כלב",
+    english: "Dog",
+    emoji: "🐶",
+    sound: [200, 300, 150],
+    color: "bg-brown-500"
+  },
+  CAT: {
+    name: "cat", 
+    hebrew: "חתול",
+    english: "Cat",
+    emoji: "🐱",
+    sound: [800, 1000, 600],
+    color: "bg-gray-500"
+  },
+  COW: {
+    name: "cow",
+    hebrew: "פרה", 
+    english: "Cow",
+    emoji: "🐄",
+    sound: [100, 200, 150],
+    color: "bg-pink-300"
+  },
+  HORSE: {
+    name: "horse",
+    hebrew: "סוס",
+    english: "Horse", 
+    emoji: "🐴",
+    sound: [300, 500, 400],
+    color: "bg-amber-600"
+  },
+  SHEEP: {
+    name: "sheep",
+    hebrew: "כבש",
+    english: "Sheep",
+    emoji: "🐑", 
+    sound: [400, 600, 500],
+    color: "bg-gray-200"
+  },
+  PIG: {
+    name: "pig",
+    hebrew: "חזיר",
+    english: "Pig",
+    emoji: "🐷",
+    sound: [250, 350, 200],
+    color: "bg-pink-400"
+  },
+  CHICKEN: {
+    name: "chicken",
+    hebrew: "תרנגולת",
+    english: "Chicken", 
+    emoji: "🐔",
+    sound: [600, 800, 700],
+    color: "bg-yellow-400"
+  },
+  DUCK: {
+    name: "duck",
+    hebrew: "ברווז",
+    english: "Duck",
+    emoji: "🦆",
+    sound: [500, 700, 600],
+    color: "bg-blue-300"
+  },
+  RABBIT: {
+    name: "rabbit",
+    hebrew: "ארנב",
+    english: "Rabbit",
+    emoji: "🐰",
+    sound: [400, 500, 600],
+    color: "bg-gray-300"
+  },
+  FROG: {
+    name: "frog",
+    hebrew: "צפרדע", 
+    english: "Frog",
+    emoji: "🐸",
+    sound: [200, 400, 300],
+    color: "bg-green-400"
+  }
+};
+
+// רשימת כל החיות
+export const ALL_ANIMALS = Object.values(ANIMAL_CONSTANTS);
+
+/**
+ * הגיית חיות בעברית
+ */
+export const ANIMAL_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  dog: "כלב",
+  cat: "חתול", 
+  cow: "פרה",
+  horse: "סוס",
+  sheep: "כבש",
+  pig: "חזיר",
+  chicken: "תרנגולת",
+  duck: "ברווז", 
+  rabbit: "ארנב",
+  frog: "צפרדע"
+};
+
+/**
+ * קבועים ספציפיים למשחק החיות
+ */
+export const ANIMAL_GAME_CONSTANTS = {
+  BASE_ANIMALS_COUNT: 4,
+  ANIMALS_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

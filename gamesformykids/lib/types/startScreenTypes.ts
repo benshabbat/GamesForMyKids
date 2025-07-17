@@ -2,7 +2,7 @@
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -52,4 +52,12 @@ export interface MemoryStartScreenProps extends BaseStartScreenProps {
  */
 export interface FruitStartScreenProps extends BaseStartScreenProps {
   fruits: Fruit[];
+}
+
+
+/**
+ * מאפייני מסך התחלה למשחק חיות
+ */
+export interface AnimalStartScreenProps extends BaseStartScreenProps {
+  animals: Animal[];
 }

@@ -93,7 +93,7 @@ export interface NumberGameState {
 }
 
 
-export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'fruits' | 'bubbles';
+export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'fruits' | 'bubbles' | 'animals';
 
 // הוספת הממשקים החדשים לפירות
 export interface Fruit {
@@ -112,4 +112,22 @@ export interface FruitGameState {
   isPlaying: boolean;
   showCelebration: boolean;
   options: Fruit[];
+}
+
+export interface Animal {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  sound: number[];
+  color: string;
+}
+
+export interface AnimalGameState {
+  currentChallenge: Animal | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Animal[];
 }

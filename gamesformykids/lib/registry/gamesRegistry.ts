@@ -1,4 +1,4 @@
-import {  Heart, Circle, Square, Music, Type, Hash, Apple } from "lucide-react";
+import { Heart, Circle, Square, Music, Type, Hash, Apple, Dog } from "lucide-react";
 import { Game } from "@/lib/types/game";
 import { createElement } from "react";
 
@@ -75,6 +75,17 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 6,
   },
+
+  {
+    id: "animals",
+    title: "משחק חיות",
+    description: "למד חיות!",
+    icon: Dog, // או אייקון חיה אחר מ-lucide-react
+    color: "bg-green-400 hover:bg-green-500",
+    href: "/games/animals",
+    available: true,
+    order: 7,
+  },
   {
     id: "bubbles",
     title: "בועות מוזיקליות",
@@ -91,27 +102,25 @@ const GAMES_REGISTRY: GameRegistration[] = [
 export class GamesRegistry {
   // קבלת כל המשחקים ממוינים לפי סדר
   static getAllGames(): Game[] {
-    return GAMES_REGISTRY
-      .sort((a, b) => a.order - b.order)
-      .map(game => ({
-        id: game.id,
-        title: game.title,
-        description: game.description,
-        icon: createElement(game.icon, { className: "w-8 h-8" }),
-        color: game.color,
-        href: game.href,
-        available: game.available,
-      }));
+    return GAMES_REGISTRY.sort((a, b) => a.order - b.order).map((game) => ({
+      id: game.id,
+      title: game.title,
+      description: game.description,
+      icon: createElement(game.icon, { className: "w-8 h-8" }),
+      color: game.color,
+      href: game.href,
+      available: game.available,
+    }));
   }
 
   // קבלת רק המשחקים הזמינים
   static getAvailableGames(): Game[] {
-    return this.getAllGames().filter(game => game.available);
+    return this.getAllGames().filter((game) => game.available);
   }
 
   // קבלת מספר המשחקים הזמינים
   static getAvailableGamesCount(): number {
-    return GAMES_REGISTRY.filter(game => game.available).length;
+    return GAMES_REGISTRY.filter((game) => game.available).length;
   }
 
   // קבלת מספר כל המשחקים
@@ -122,7 +131,7 @@ export class GamesRegistry {
   // הוספת משחק חדש
   static registerGame(game: GameRegistration): void {
     // בדיקה שהמשחק לא קיים כבר
-    const existingGame = GAMES_REGISTRY.find(g => g.id === game.id);
+    const existingGame = GAMES_REGISTRY.find((g) => g.id === game.id);
     if (existingGame) {
       console.warn(`משחק עם ID ${game.id} כבר קיים`);
       return;
@@ -134,7 +143,7 @@ export class GamesRegistry {
 
   // עדכון סטטוס זמינות משחק
   static updateGameAvailability(gameId: string, available: boolean): void {
-    const game = GAMES_REGISTRY.find(g => g.id === gameId);
+    const game = GAMES_REGISTRY.find((g) => g.id === gameId);
     if (game) {
       game.available = available;
       console.log(`משחק ${game.title} עודכן לזמינות: ${available}`);
@@ -143,6 +152,6 @@ export class GamesRegistry {
 
   // קבלת משחק לפי ID
   static getGameById(gameId: string): GameRegistration | undefined {
-    return GAMES_REGISTRY.find(g => g.id === gameId);
+    return GAMES_REGISTRY.find((g) => g.id === gameId);
   }
 }
