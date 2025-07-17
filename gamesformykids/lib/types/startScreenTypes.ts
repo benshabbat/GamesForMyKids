@@ -1,10 +1,8 @@
-import { CountingStartScreenProps } from '@/lib/types/startScreenTypes';
-import { CountingStartScreenProps } from '@/lib/types/startScreenTypes';
 /**
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, CountingChallenge } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -64,5 +62,5 @@ export interface AnimalStartScreenProps extends BaseStartScreenProps {
   animals: Animal[];
 }
 export interface CountingStartScreenProps extends BaseStartScreenProps {
-  // אין צורך בפרמטרים נוספים למשחק הספירה
+  challenges: CountingChallenge[];
 }

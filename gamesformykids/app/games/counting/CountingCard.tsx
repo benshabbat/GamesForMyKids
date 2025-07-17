@@ -1,5 +1,3 @@
-import { CountingChallenge } from "@/lib/types/game";
-
 interface CountingCardProps {
   number: number;
   onClick: (number: number) => void;
