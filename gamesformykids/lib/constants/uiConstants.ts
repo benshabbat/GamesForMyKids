@@ -72,3 +72,14 @@ export const START_BUTTON_COLORS = {
   COLORS: { from: "teal", to: "cyan" },
   MEMORY: { from: "fuchsia", to: "pink" },
 };
+
+
+
+/**
+ * שלבי משחק הפירות
+ */
+export const FRUIT_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה פרי אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך הפרי נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על הפרי הנכון" },
+];

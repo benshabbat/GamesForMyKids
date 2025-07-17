@@ -550,3 +550,118 @@ export const ANIMAL_SOUND_FREQUENCIES: Record<string, number[]> = {
   "🐼": [300, 400, 350],     // פנדה
   "default": [440, 550, 330] // ברירת מחדל
 };
+
+
+/**
+ * קבועי פירות למשחק
+ */
+export const FRUIT_CONSTANTS = {
+  APPLE: {
+    name: "apple",
+    hebrew: "תפוח",
+    english: "Apple",
+    emoji: "🍎",
+    color: "bg-red-500",
+    sound: [440, 550, 660],
+  },
+  BANANA: {
+    name: "banana",
+    hebrew: "בננה",
+    english: "Banana",
+    emoji: "🍌",
+    color: "bg-yellow-500",
+    sound: [392, 494, 587],
+  },
+  ORANGE: {
+    name: "orange",
+    hebrew: "תפוז",
+    english: "Orange",
+    emoji: "🍊",
+    color: "bg-orange-500",
+    sound: [330, 415, 494],
+  },
+  GRAPES: {
+    name: "grapes",
+    hebrew: "ענבים",
+    english: "Grapes",
+    emoji: "🍇",
+    color: "bg-purple-500",
+    sound: [294, 370, 440],
+  },
+  STRAWBERRY: {
+    name: "strawberry",
+    hebrew: "תות",
+    english: "Strawberry",
+    emoji: "🍓",
+    color: "bg-pink-500",
+    sound: [587, 698, 784],
+  },
+  WATERMELON: {
+    name: "watermelon",
+    hebrew: "אבטיח",
+    english: "Watermelon",
+    emoji: "🍉",
+    color: "bg-green-500",
+    sound: [349, 440, 523],
+  },
+  PEACH: {
+    name: "peach",
+    hebrew: "אפרסק",
+    english: "Peach",
+    emoji: "🍑",
+    color: "bg-orange-400",
+    sound: [277, 349, 415],
+  },
+  PEAR: {
+    name: "pear",
+    hebrew: "אגס",
+    english: "Pear",
+    emoji: "🍐",
+    color: "bg-green-400",
+    sound: [262, 330, 392],
+  },
+  PINEAPPLE: {
+    name: "pineapple",
+    hebrew: "אננס",
+    english: "Pineapple",
+    emoji: "🍍",
+    color: "bg-yellow-600",
+    sound: [233, 294, 349],
+  },
+  CHERRY: {
+    name: "cherry",
+    hebrew: "דובדבן",
+    english: "Cherry",
+    emoji: "🍒",
+    color: "bg-red-600",
+    sound: [523, 659, 784],
+  },
+};
+
+// רשימת כל הפירות
+export const ALL_FRUITS = Object.values(FRUIT_CONSTANTS);
+
+/**
+ * הגיית פירות בעברית
+ */
+export const FRUIT_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  apple: "תפוח",
+  banana: "בננה",
+  orange: "תפוז",
+  grapes: "ענבים",
+  strawberry: "תות",
+  watermelon: "אבטיח",
+  peach: "אפרסק",
+  pear: "אגס",
+  pineapple: "אננס",
+  cherry: "דובדבן",
+};
+
+/**
+ * קבועים ספציפיים למשחק הפירות
+ */
+export const FRUIT_GAME_CONSTANTS = {
+  BASE_FRUITS_COUNT: 4,
+  FRUITS_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

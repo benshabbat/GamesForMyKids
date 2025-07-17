@@ -92,4 +92,24 @@ export interface NumberGameState {
   options: NumberItem[];
 }
 
+
+// ממשק למשחק פירות
+export interface Fruit {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface FruitGameState {
+  currentChallenge: Fruit | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Fruit[];
+}
+
 export type GameType = 'memory' | 'colors' | 'letters' | 'shapes' | 'numbers' | 'bubbles';
