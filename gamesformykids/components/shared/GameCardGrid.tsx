@@ -1,34 +1,7 @@
 import { ReactNode } from "react";
 import { Color, Letter, Shape, NumberItem } from "@/lib/types/game";
 
-/**
- * GameCardGrid - A generic, flexible grid component for displaying game cards
- * 
- * This component provides a consistent way to display grid-based game cards
- * across different games, while allowing for custom styling and rendering.
- * 
- * Features:
- * - Works with all game types (Color, Letter, Shape, NumberItem)
- * - Customizable grid layout (columns, gap, width)
- * - Option to use default card rendering or custom card rendering
- * - Handles "correct item" highlighting automatically
- * - Supports sound icons and other common card features
- * 
- * Usage Example:
- * ```tsx
- * <GameCardGrid
- *   items={gameState.options}
- *   onItemClick={handleItemClick}
- *   currentChallenge={gameState.currentChallenge}
- *   gridCols="grid-cols-2"
- *   maxWidth="max-w-2xl"
- *   showSoundIcon={true}
- *   renderCustomCard={(item, isCorrect) => (
- *     <CustomCard item={item} isCorrect={isCorrect} />
- *   )}
- * />
- * ```
- */
+
 
 // Combined type for all our game items
 type GameItemType = Color | Letter | Shape | NumberItem;
