@@ -1,7 +1,4 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import GameItem from "@/components/shared/GameItem";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
-
 interface BubbleStartScreenProps {
   onStart: () => void;
 }
@@ -25,7 +22,6 @@ const DEMO_BUBBLES = [
 ];
 
 export default function BubbleStartScreen({ onStart }: BubbleStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
 
   return (
     <GenericStartScreen
