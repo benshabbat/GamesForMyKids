@@ -16,7 +16,7 @@ const StartScreenHeader = ({
     <div className="mb-8">
       <button
         onClick={() => (window.location.href = "/")}
-        className="mb-4 px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-purple-600 hover:bg-purple-50"
+        className="mb-4 px-6 py-3 cursor-pointer bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-purple-600 hover:bg-purple-50"
       >
         <Home className="inline w-6 h-6 ml-2" />← חזרה לעמוד הראשי
       </button>
