@@ -122,6 +122,10 @@ export function useMathGame() {
       const operationText = challenge.operation === 'addition' ? 'ועוד' : 'פחות';
       const questionText = `${challenge.firstNumber} ${challenge.itemPlural} ${operationText} ${challenge.secondNumber} ${challenge.itemPlural}, כמה ${challenge.itemPlural} יש?`;
       await speakHebrew(questionText);
+      
+      // הוספת שאלה נוספת
+      await delay(500);
+      await speakHebrew(`כמה ${challenge.itemPlural} יש?`);
     } catch (error) {
       console.error("שגיאה בהשמעת השאלה:", error);
     }
