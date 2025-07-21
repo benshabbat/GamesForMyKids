@@ -117,3 +117,12 @@ export const TRANSPORT_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך כלי התחבורה נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על כלי התחבורה הנכון" },
 ];
+
+/**
+ * שלבי משחק החשבון
+ */
+export const MATH_GAME_STEPS: GameStep[] = [
+  { icon: "👀", title: "1. תראה", description: "את הבעיה במתמטיקה" },
+  { icon: "🧮", title: "2. תחשב", description: "עם עזרת האימוג'ים" },
+  { icon: "👆", title: "3. תלחץ", description: "על התשובה הנכונה" },
+];

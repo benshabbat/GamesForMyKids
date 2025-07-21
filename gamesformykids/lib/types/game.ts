@@ -181,3 +181,22 @@ export interface TransportGameState {
   showCelebration: boolean;
   options: Transport[];
 }
+
+export interface MathChallenge {
+  firstNumber: number;
+  secondNumber: number;
+  operation: 'addition' | 'subtraction';
+  correctAnswer: number;
+  itemName: string;      // שם הפריט ביחיד (תפוח)
+  itemPlural: string;    // שם הפריט ברבים (תפוחים)  
+  emoji: string;         // האימוג'י הבודד
+}
+
+export interface MathGameState {
+  currentChallenge: MathChallenge | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: number[];
+}

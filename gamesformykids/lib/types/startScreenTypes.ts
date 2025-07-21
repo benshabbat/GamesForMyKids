@@ -70,3 +70,5 @@ export interface WeatherStartScreenProps extends BaseStartScreenProps {
 export interface TransportStartScreenProps extends BaseStartScreenProps {
   transports: Transport[];
 }
+
+export type MathStartScreenProps = BaseStartScreenProps;

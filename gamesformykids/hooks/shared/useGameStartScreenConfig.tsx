@@ -70,5 +70,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-blue-100",
     },
+    math: {
+      background:
+        "linear-gradient(135deg, #fef3c7 0%, #f59e0b 25%, #d97706 50%, #b45309 75%, #92400e 100%)",
+      button: { from: "yellow", to: "orange" },
+      header: "text-white",
+      subHeader: "text-yellow-100",
+    },
   };
 }

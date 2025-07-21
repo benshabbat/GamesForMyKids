@@ -1037,3 +1037,10 @@ export const TRANSPORT_GAME_CONSTANTS = {
   TRANSPORTS_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+export const MATH_GAME_CONSTANTS = {
+  BASE_MAX_NUMBER: 5,        // מספר מקסימלי לחשבון ברמה הראשונה
+  NUMBER_INCREMENT: 2,       // כמה להוסיף בכל עליה ברמה
+  LEVEL_THRESHOLD: 3,        // כמה רמות לפני הוספת מספרים
+  ABSOLUTE_MAX_NUMBER: 15,   // מספר מקסימלי אבסולוטי לחשבון
+};

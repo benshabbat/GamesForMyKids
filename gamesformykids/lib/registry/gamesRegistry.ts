@@ -137,6 +137,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 11,
   },
+  {
+    id: "math",
+    title: "משחק חשבון",
+    description: "למד חיבור וחיסור!",
+    icon: Calculator, // צריך להוסיף import: Calculator מ lucide-react
+    color: "bg-yellow-400 hover:bg-yellow-500",
+    href: "/games/math",
+    available: true,
+    order: 12,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
