@@ -2,7 +2,7 @@
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, Weather } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -62,3 +62,7 @@ export interface AnimalStartScreenProps extends BaseStartScreenProps {
   animals: Animal[];
 }
 export type CountingStartScreenProps = BaseStartScreenProps;
+
+export interface WeatherStartScreenProps extends BaseStartScreenProps {
+  weathers: Weather[];
+}

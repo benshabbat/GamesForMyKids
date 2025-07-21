@@ -145,3 +145,21 @@ export interface AnimalGameState {
   showCelebration: boolean;
   options: Animal[];
 }
+
+export interface Weather {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface WeatherGameState {
+  currentChallenge: Weather | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Weather[];
+}

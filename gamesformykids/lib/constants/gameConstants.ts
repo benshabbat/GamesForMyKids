@@ -788,3 +788,118 @@ export const COUNTING_GAME_CONSTANTS = {
   LEVEL_THRESHOLD: 3,       // כמה רמות לפני הוספת מספרים
   ABSOLUTE_MAX_COUNT: 10,   // מספר מקסימלי אבסולוטי לספירה
 };
+
+
+/**
+ * קבועי מזג אוויר למשחק
+ */
+export const WEATHER_CONSTANTS = {
+  SUNNY: {
+    name: "sunny",
+    hebrew: "שמש",
+    english: "Sunny",
+    emoji: "☀️",
+    color: "bg-yellow-500",
+    sound: [392, 494, 587],
+  },
+  RAINY: {
+    name: "rainy",
+    hebrew: "גשום",
+    english: "Rainy",
+    emoji: "🌧️",
+    color: "bg-blue-500",
+    sound: [523, 659, 784],
+  },
+  CLOUDY: {
+    name: "cloudy",
+    hebrew: "מעונן",
+    english: "Cloudy",
+    emoji: "☁️",
+    color: "bg-gray-500",
+    sound: [294, 370, 440],
+  },
+  SNOWY: {
+    name: "snowy",
+    hebrew: "שלג",
+    english: "Snowy",
+    emoji: "❄️",
+    color: "bg-cyan-500",
+    sound: [659, 831, 988],
+  },
+  STORMY: {
+    name: "stormy",
+    hebrew: "סערה",
+    english: "Stormy",
+    emoji: "⛈️",
+    color: "bg-purple-600",
+    sound: [196, 247, 294],
+  },
+  WINDY: {
+    name: "windy",
+    hebrew: "רוח",
+    english: "Windy",
+    emoji: "💨",
+    color: "bg-teal-500",
+    sound: [349, 440, 523],
+  },
+  PARTLY_CLOUDY: {
+    name: "partly_cloudy",
+    hebrew: "חלקית מעונן",
+    english: "Partly Cloudy",
+    emoji: "⛅",
+    color: "bg-orange-400",
+    sound: [330, 415, 494],
+  },
+  FOGGY: {
+    name: "foggy",
+    hebrew: "ערפילי",
+    english: "Foggy",
+    emoji: "🌫️",
+    color: "bg-gray-400",
+    sound: [220, 277, 330],
+  },
+  HOT: {
+    name: "hot",
+    hebrew: "חם",
+    english: "Hot",
+    emoji: "🔥",
+    color: "bg-red-600",
+    sound: [440, 550, 660],
+  },
+  COLD: {
+    name: "cold",
+    hebrew: "קר",
+    english: "Cold",
+    emoji: "🧊",
+    color: "bg-blue-300",
+    sound: [262, 330, 392],
+  },
+};
+
+// רשימת כל מזג האוויר
+export const ALL_WEATHERS = Object.values(WEATHER_CONSTANTS);
+
+/**
+ * הגיית מזג אוויר בעברית
+ */
+export const WEATHER_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  sunny: "שמש",
+  rainy: "גשום", 
+  cloudy: "מעונן",
+  snowy: "שלג",
+  stormy: "סערה",
+  windy: "רוח",
+  partly_cloudy: "חלקית מעונן",
+  foggy: "ערפילי",
+  hot: "חם",
+  cold: "קר",
+};
+
+/**
+ * קבועים ספציפיים למשחק מזג האוויר
+ */
+export const WEATHER_GAME_CONSTANTS = {
+  BASE_WEATHERS_COUNT: 4,
+  WEATHERS_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};
