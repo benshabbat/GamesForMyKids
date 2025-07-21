@@ -163,3 +163,21 @@ export interface WeatherGameState {
   showCelebration: boolean;
   options: Weather[];
 }
+
+export interface Transport {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface TransportGameState {
+  currentChallenge: Transport | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Transport[];
+}

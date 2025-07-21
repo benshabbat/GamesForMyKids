@@ -108,3 +108,12 @@ export const WEATHER_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך מזג האוויר נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על מזג האוויר הנכון" },
 ];
+
+/**
+ * שלבי משחק כלי התחבורה
+ */
+export const TRANSPORT_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה כלי תחבורה אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך כלי התחבורה נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על כלי התחבורה הנכון" },
+];

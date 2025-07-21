@@ -7,7 +7,8 @@ import {
   Hash,
   Apple,
   Dog,
-  Cloud
+  Cloud,
+  Car,
 } from "lucide-react";
 import { Game } from "@/lib/types/game";
 import { createElement } from "react";
@@ -117,15 +118,25 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 9,
   },
   {
-  id: "weather",
-  title: "משחק מזג אוויר",
-  description: "למד על מזג האוויר!",
-  icon: Cloud,
-  color: "bg-sky-400 hover:bg-sky-500",
-  href: "/games/weather",
-  available: true,
-  order: 10,
-},
+    id: "weather",
+    title: "משחק מזג אוויר",
+    description: "למד על מזג האוויר!",
+    icon: Cloud,
+    color: "bg-sky-400 hover:bg-sky-500",
+    href: "/games/weather",
+    available: true,
+    order: 10,
+  },
+  {
+    id: "transport",
+    title: "משחק כלי תחבורה",
+    description: "למד על כלי תחבורה!",
+    icon: Car,
+    color: "bg-blue-400 hover:bg-blue-500",
+    href: "/games/transport",
+    available: true,
+    order: 11,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
