@@ -3,13 +3,13 @@ import {
   Circle,
   Square,
   Music,
-  Type,
   Hash,
   Apple,
   Dog,
   Cloud,
   Car,
 } from "lucide-react";
+import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
 import { createElement } from "react";
 
@@ -50,7 +50,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     id: "letters",
     title: "משחק אותיות",
     description: "למד אותיות!",
-    icon: Type,
+    icon: HebrewLettersIcon,
     color: "bg-orange-400 hover:bg-orange-500",
     href: "/games/letters",
     available: true,
