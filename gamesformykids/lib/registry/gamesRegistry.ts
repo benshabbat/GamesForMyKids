@@ -8,6 +8,7 @@ import {
   Dog,
   Cloud,
   Car,
+  Calculator,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
