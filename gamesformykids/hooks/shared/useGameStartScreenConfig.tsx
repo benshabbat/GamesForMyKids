@@ -56,5 +56,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-cyan-100",
     },
+    weather: {
+      background:
+        "linear-gradient(135deg, #87CEEB 0%, #98D8E8 25%, #B0E0E6 50%, #E0F6FF 75%, #F0F8FF 100%)",
+      button: { from: "sky", to: "blue" },
+      header: "text-white",
+      subHeader: "text-sky-100",
+    },
   };
 }
