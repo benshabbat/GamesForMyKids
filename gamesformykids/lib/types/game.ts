@@ -200,3 +200,22 @@ export interface MathGameState {
   showCelebration: boolean;
   options: number[];
 }
+
+// ממשק למשחק מקצועות
+export interface Profession {
+  id: string;
+  emoji: string;
+  name: string;
+  description: string;
+  sound: number[];
+  color: string;
+}
+
+export interface ProfessionGameState {
+  currentChallenge: Profession | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Profession[];
+}

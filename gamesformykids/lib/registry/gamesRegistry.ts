@@ -9,6 +9,7 @@ import {
   Cloud,
   Car,
   Calculator,
+  User,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -147,6 +148,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/math",
     available: true,
     order: 12,
+  },
+  {
+    id: "professions",
+    title: "משחק מקצועות",
+    description: "למד על מקצועות שונים!",
+    icon: User,
+    color: "bg-purple-400 hover:bg-purple-500",
+    href: "/games/professions",
+    available: true,
+    order: 13,
   },
 ];
 

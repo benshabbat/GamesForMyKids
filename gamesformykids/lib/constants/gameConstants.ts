@@ -1044,3 +1044,75 @@ export const MATH_GAME_CONSTANTS = {
   LEVEL_THRESHOLD: 3,        // כמה רמות לפני הוספת מספרים
   ABSOLUTE_MAX_NUMBER: 15,   // מספר מקסימלי אבסולוטי לחשבון
 };
+
+/**
+ * קבועי משחק המקצועות
+ */
+export const PROFESSION_CONSTANTS = {
+  DOCTOR: {
+    id: "doctor",
+    emoji: "👩‍⚕️",
+    name: "רופאה",
+    description: "מטפלת בחולים ועוזרת להם להרגיש טוב",
+    sound: [523, 659, 784],
+    color: "bg-blue-100",
+  },
+  TEACHER: {
+    id: "teacher", 
+    emoji: "👩‍🏫",
+    name: "מורה",
+    description: "מלמדת ילדים ועוזרת להם ללמוד",
+    sound: [440, 554, 659],
+    color: "bg-green-100",
+  },
+  FIREFIGHTER: {
+    id: "firefighter",
+    emoji: "👩‍🚒",
+    name: "כבאית",
+    description: "מכבה שרפות ומצילה אנשים",
+    sound: [330, 415, 523],
+    color: "bg-red-100",
+  },
+  POLICE: {
+    id: "police",
+    emoji: "👮‍♀️",
+    name: "שוטרת",
+    description: "שומרת על הביטחון ועוזרת לאנשים",
+    sound: [392, 494, 587],
+    color: "bg-indigo-100",
+  },
+  CHEF: {
+    id: "chef",
+    emoji: "👩‍🍳",
+    name: "טבחית",
+    description: "מכינה אוכל טעים ובריא",
+    sound: [349, 440, 523],
+    color: "bg-yellow-100",
+  },
+  BUILDER: {
+    id: "builder",
+    emoji: "👷‍♀️",
+    name: "בנאית",
+    description: "בונה בתים ומבנים חזקים",
+    sound: [294, 370, 440],
+    color: "bg-orange-100",
+  },
+  PILOT: {
+    id: "pilot",
+    emoji: "👩‍✈️",
+    name: "טייסת",
+    description: "טסה במטוסים ולוקחת אנשים למקומות רחוקים",
+    sound: [523, 698, 831],
+    color: "bg-sky-100",
+  },
+  FARMER: {
+    id: "farmer",
+    emoji: "👩‍🌾",
+    name: "חקלאית",
+    description: "מגדלת פירות וירקות טעימים",
+    sound: [262, 330, 392],
+    color: "bg-green-100",
+  },
+};
+
+export const ALL_PROFESSIONS = Object.values(PROFESSION_CONSTANTS);
