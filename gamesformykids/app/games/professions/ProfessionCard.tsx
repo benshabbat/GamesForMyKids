@@ -13,25 +13,26 @@ export default function ProfessionCard({ profession, onClick, disabled }: Profes
     <div
       className={`
         ${profession.color}
-        p-6 rounded-2xl shadow-lg cursor-pointer
+        p-6 rounded-3xl shadow-lg cursor-pointer
         transform transition-all duration-300
         hover:scale-105 hover:shadow-xl
-        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:rotate-2'}
-        border-4 border-white
+        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-1'}
+        border-2 border-white/50
         flex flex-col items-center justify-center
-        min-h-[150px]
+        min-h-[160px]
+        backdrop-blur-sm
       `}
       onClick={disabled ? undefined : onClick}
     >
-      <div className="text-6xl mb-3 animate-pulse">
+      <div className="text-7xl mb-4 animate-bounce">
         {profession.emoji}
       </div>
-      <div className="text-lg font-bold text-gray-800 text-center">
+      <div className="text-xl font-bold text-gray-800 text-center mb-2">
         {profession.name}
       </div>
-      <div className="text-sm text-gray-600 text-center mt-2 hidden sm:block">
-        {profession.description.length > 30 
-          ? profession.description.substring(0, 30) + "..."
+      <div className="text-sm text-gray-700 text-center px-2 hidden sm:block">
+        {profession.description.length > 35 
+          ? profession.description.substring(0, 35) + "..."
           : profession.description
         }
       </div>

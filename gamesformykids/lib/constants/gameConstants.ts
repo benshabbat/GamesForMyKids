@@ -1055,7 +1055,7 @@ export const PROFESSION_CONSTANTS = {
     name: "רופאה",
     description: "מטפלת בחולים ועוזרת להם להרגיש טוב",
     sound: [523, 659, 784],
-    color: "bg-blue-100",
+    color: "bg-gradient-to-br from-blue-200 to-blue-300",
   },
   TEACHER: {
     id: "teacher", 
@@ -1063,7 +1063,7 @@ export const PROFESSION_CONSTANTS = {
     name: "מורה",
     description: "מלמדת ילדים ועוזרת להם ללמוד",
     sound: [440, 554, 659],
-    color: "bg-green-100",
+    color: "bg-gradient-to-br from-green-200 to-green-300",
   },
   FIREFIGHTER: {
     id: "firefighter",
@@ -1071,7 +1071,7 @@ export const PROFESSION_CONSTANTS = {
     name: "כבאית",
     description: "מכבה שרפות ומצילה אנשים",
     sound: [330, 415, 523],
-    color: "bg-red-100",
+    color: "bg-gradient-to-br from-red-200 to-red-300",
   },
   POLICE: {
     id: "police",
@@ -1079,7 +1079,7 @@ export const PROFESSION_CONSTANTS = {
     name: "שוטרת",
     description: "שומרת על הביטחון ועוזרת לאנשים",
     sound: [392, 494, 587],
-    color: "bg-indigo-100",
+    color: "bg-gradient-to-br from-indigo-200 to-indigo-300",
   },
   CHEF: {
     id: "chef",
@@ -1087,7 +1087,7 @@ export const PROFESSION_CONSTANTS = {
     name: "טבחית",
     description: "מכינה אוכל טעים ובריא",
     sound: [349, 440, 523],
-    color: "bg-yellow-100",
+    color: "bg-gradient-to-br from-yellow-200 to-yellow-300",
   },
   BUILDER: {
     id: "builder",
@@ -1095,7 +1095,7 @@ export const PROFESSION_CONSTANTS = {
     name: "בנאית",
     description: "בונה בתים ומבנים חזקים",
     sound: [294, 370, 440],
-    color: "bg-orange-100",
+    color: "bg-gradient-to-br from-orange-200 to-orange-300",
   },
   PILOT: {
     id: "pilot",
@@ -1103,7 +1103,7 @@ export const PROFESSION_CONSTANTS = {
     name: "טייסת",
     description: "טסה במטוסים ולוקחת אנשים למקומות רחוקים",
     sound: [523, 698, 831],
-    color: "bg-sky-100",
+    color: "bg-gradient-to-br from-sky-200 to-sky-300",
   },
   FARMER: {
     id: "farmer",
@@ -1111,7 +1111,7 @@ export const PROFESSION_CONSTANTS = {
     name: "חקלאית",
     description: "מגדלת פירות וירקות טעימים",
     sound: [262, 330, 392],
-    color: "bg-green-100",
+    color: "bg-gradient-to-br from-emerald-200 to-emerald-300",
   },
 };
 

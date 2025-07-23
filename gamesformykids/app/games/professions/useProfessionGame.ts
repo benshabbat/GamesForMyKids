@@ -50,8 +50,8 @@ export function useProfessionGame(professions: Profession[]) {
     if (!speechEnabled) return;
     
     try {
-      await speakHebrew(profession.name);
-      await delay(500);
+    //   await speakHebrew(`זה ${profession.name}`);
+    //   await delay(600);
       await speakHebrew(profession.description);
     } catch (error) {
       console.error("שגיאה בהשמעת שם המקצוע:", error);
@@ -62,10 +62,31 @@ export function useProfessionGame(professions: Profession[]) {
     if (!speechEnabled) return;
     
     try {
-      const challengeText = `איזה מקצוע זה? ${profession.description}`;
-      await speakHebrew(challengeText);
+      // הקראת שם המקצוע
+    //   await speakHebrew(profession.name);
+    //   await delay(1000);
+      // הקראת התיאור המלא עם זמן נוסף
+      await speakHebrew(profession.description);
+      await delay(5000);
+      await speakHebrew("איזה מקצוע זה?");
     } catch (error) {
       console.error("שגיאה בהשמעת האתגר:", error);
+    }
+  };
+
+  const speakAllOptions = async (options: Profession[]): Promise<void> => {
+    if (!speechEnabled) return;
+    
+    try {
+      await delay(1000);
+      await speakHebrew("האפשרויות הן:");
+      
+      for (let i = 0; i < options.length; i++) {
+        await delay(600);
+        await speakHebrew(options[i].name);
+      }
+    } catch (error) {
+      console.error("שגיאה בהשמעת האפשרויות:", error);
     }
   };
 
@@ -99,6 +120,7 @@ export function useProfessionGame(professions: Profession[]) {
 
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakChallenge(randomProfession);
+      await speakAllOptions(options);
     } catch (error) {
       console.error("Error in startGame:", error);
     }
@@ -125,6 +147,7 @@ export function useProfessionGame(professions: Profession[]) {
         
         await delay(300);
         await speakChallenge(nextProfession);
+        await speakAllOptions(options);
       };
       
       await handleCorrectGameAnswer(
@@ -136,6 +159,7 @@ export function useProfessionGame(professions: Profession[]) {
       await handleWrongGameAnswer(async () => {
         if (gameState.currentChallenge) {
           await speakChallenge(gameState.currentChallenge);
+          await speakAllOptions(gameState.options);
         }
       });
     }
