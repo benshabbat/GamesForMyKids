@@ -32,11 +32,10 @@ export default function ProfessionGame() {
     );
   }
 
-  const { currentChallenge } = gameState;
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-200 via-pink-200 to-indigo-300 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-100 p-4">
       <div className="max-w-4xl mx-auto">
+        {/* Header עם ניקוד */}
         <div className="text-center mb-8">
           <GameHeader
             score={gameState.score}
@@ -44,51 +43,48 @@ export default function ProfessionGame() {
             onHome={() => (window.location.href = "/")}
             onReset={resetGame}
             scoreColor="text-purple-800"
-            levelColor="text-purple-700"
+            levelColor="text-purple-600"
           />
 
           {/* האתגר הנוכחי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
               title="איזה מקצוע זה?"
-              icon="👩‍⚕️"
-              iconColor="text-purple-700"
-              challengeText={currentChallenge.description}
-              onSpeak={() => speakProfessionName(currentChallenge)}
-              description="לחץ על המקצוע הנכון!"
+              icon="👩‍⚕️👨‍🚒👩‍🏫👮‍♀️"
+              iconColor="text-purple-800"
+              challengeText={gameState.currentChallenge.description}
+              onSpeak={() => speakProfessionName(gameState.currentChallenge!)}
+              description="בחר את המקצוע הנכון!"
             />
           )}
 
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox
-              label="מקצוע"
-              value={gameState.currentChallenge.name}
+            <CelebrationBox 
+              label="מקצוע" 
+              value={gameState.currentChallenge.name} 
             />
           )}
         </div>
 
-        {/* לוח המקצועות */}
+        {/* אפשרויות המקצועות */}
         <GameCardGrid
           items={gameState.options}
           onItemClick={handleProfessionClick}
           currentChallenge={gameState.currentChallenge}
-          showSoundIcon={true}
-          gridCols="grid-cols-2 md:grid-cols-2"
+          gridCols="grid-cols-2"
           maxWidth="max-w-3xl"
-          renderCustomCard={(profession: Profession) => (
+          renderCustomCard={(profession) => (
             <ProfessionCard
-              key={profession.id}
               profession={profession}
-              onClick={() => handleProfessionClick(profession)}
-              disabled={false}
+              onClick={handleProfessionClick}
             />
           )}
         />
-
+        
         <TipsBox
-          tip="הקשב לתיאור"
-          description="הקשב לתיאור של המקצוע וחפש את האימוג'י המתאים! כל מקצוע חשוב ומיוחד."
+          tip="💡 טיפ: תשמע את תיאור המקצוע!"
+          description="לחץ על הסמל למעלה כדי לשמוע שוב, או על המקצועות למטה לשמוע את השמות"
         />
       </div>
     </div>

@@ -126,3 +126,12 @@ export const MATH_GAME_STEPS: GameStep[] = [
   { icon: "🧮", title: "2. תחשב", description: "עם עזרת האימוג'ים" },
   { icon: "👆", title: "3. תלחץ", description: "על התשובה הנכונה" },
 ];
+
+/**
+ * שלבי משחק המקצועות
+ */
+export const PROFESSION_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "תיאור של המקצוע" },
+  { icon: "🤔", title: "2. תחשוב", description: "איזה מקצוע זה יכול להיות" },
+  { icon: "👆", title: "3. תלחץ", description: "על המקצוע הנכון" },
+];

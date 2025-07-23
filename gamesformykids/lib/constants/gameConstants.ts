@@ -1115,4 +1115,27 @@ export const PROFESSION_CONSTANTS = {
   },
 };
 
+/**
+ * הגיית מקצועות בעברית (לדיבור)
+ */
+export const PROFESSION_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  doctor: "רופא",
+  teacher: "מורה", 
+  firefighter: "כבאי",
+  police: "שוטר",
+  chef: "טבח",
+  builder: "בנאי",
+  pilot: "טייס",
+  farmer: "חקלאי",
+};
+
+/**
+ * קבועים ספציפיים למשחק המקצועות
+ */
+export const PROFESSION_GAME_CONSTANTS = {
+  BASE_PROFESSIONS_COUNT: 4,
+  PROFESSIONS_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};
+
 export const ALL_PROFESSIONS = Object.values(PROFESSION_CONSTANTS);

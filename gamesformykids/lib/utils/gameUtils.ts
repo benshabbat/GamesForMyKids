@@ -105,7 +105,12 @@ export async function speakStartMessage(): Promise<void> {
  * @returns Promise שמסתיים עם סיום הדיבור
  */
 export async function speakItemName(itemName: string, translator: (name: string) => string): Promise<void> {
-  if (!isSpeechEnabled()) return;
+  if (!isSpeechEnabled()) {
+    console.log("Speech not enabled, skipping speak");
+    return;
+  }
+
+  console.log("Speaking item:", itemName);
 
   // מבטל כל דיבור קודם
   cancelSpeech();
@@ -115,7 +120,14 @@ export async function speakItemName(itemName: string, translator: (name: string)
 
   try {
     const hebrewName = translator(itemName);
-    await speakHebrew(hebrewName);
+    console.log("Hebrew text to speak:", hebrewName);
+    
+    const success = await speakHebrew(hebrewName);
+    if (!success) {
+      console.warn("Failed to speak item:", itemName);
+    } else {
+      console.log("Successfully spoke item:", itemName);
+    }
   } catch (error) {
     console.error("שגיאה בהשמעת הפריט:", error);
   }

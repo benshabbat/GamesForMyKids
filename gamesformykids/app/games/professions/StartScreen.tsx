@@ -1,57 +1,37 @@
-"use client";
-
-import { Profession } from "@/lib/types/game";
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
+import { PROFESSION_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { ProfessionStartScreenProps } from "@/lib/types/startScreenTypes";
+import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-interface StartScreenProps {
-  professions: Profession[];
-  onStart: () => void;
-  onSpeak: (profession: Profession) => void;
-}
+export default function StartScreen({ professions, onStart }: ProfessionStartScreenProps) {
+  const gameConfig = useGameStartScreenConfig();
 
-// הגדרת צעדי המשחק
-const PROFESSION_GAME_STEPS = [
-  {
-    icon: "👂",
-    title: "הקשב",
-    description: "הקשב לתיאור המקצוע"
-  },
-  {
-    icon: "👁️", 
-    title: "חפש",
-    description: "חפש את האימוג'י המתאים"
-  },
-  {
-    icon: "🎯",
-    title: "בחר",
-    description: "בחר את התשובה הנכונה"
-  }
-];
-
-export default function StartScreen({ professions, onStart, onSpeak }: StartScreenProps) {
   return (
     <GenericStartScreen
-      title="👩‍⚕️ משחק מקצועות 👩‍⚕️"
+      title="👩‍⚕️ משחק מקצועות 👨‍🚒"
       subTitle="למד על מקצועות מעניינים!"
-      textColorHeader="text-purple-800"
-      textColorSubHeader="text-purple-700" 
+      textColorHeader={gameConfig.professions.header}
+      textColorSubHeader={gameConfig.professions.subHeader}
       gameSteps={PROFESSION_GAME_STEPS}
       gameStepsBgClass="bg-purple-100 bg-opacity-90"
       items={professions}
       onStart={onStart}
-      buttonFromColor="from-purple-500"
-      buttonToColor="to-purple-700"
-      backgroundStyle="bg-gradient-to-br from-purple-200 via-pink-200 to-indigo-300"
-      itemsTitle="המקצועות:"
-      itemsDescription="לחץ על מקצוע כדי לשמוע עליו"
-      renderItem={(profession: Profession) => (
+      buttonFromColor={gameConfig.professions.button.from}
+      buttonToColor={gameConfig.professions.button.to}
+      backgroundStyle={gameConfig.professions.background}
+      itemsTitle="כל המקצועות שנלמד:"
+      itemsDescription="לחץ על מקצוע כדי לשמוע את התיאור שלו! כל מקצוע חשוב ומיוחד"
+      itemsDescriptionColor="text-purple-100"
+      itemsGridClass="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
+      renderItem={(profession) => (
         <GameItem
           key={profession.id}
           hebrewText={profession.name}
           color={profession.color}
-          icon={<span className="text-2xl">{profession.emoji}</span>}
-          onClick={() => onSpeak(profession)}
+          icon={<span className="text-3xl">{profession.emoji}</span>}
+          shape="circle"
+          size="large"
         />
       )}
     />

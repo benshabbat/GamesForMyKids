@@ -1,40 +1,34 @@
-"use client";
-
 import { Profession } from "@/lib/types/game";
 
 interface ProfessionCardProps {
   profession: Profession;
-  onClick: () => void;
-  disabled: boolean;
+  onClick: (profession: Profession) => void;
 }
 
-export default function ProfessionCard({ profession, onClick, disabled }: ProfessionCardProps) {
+/**
+ * ProfessionCard - A component for displaying profession cards in the profession game
+ * 
+ * This component handles the rendering of individual profession cards with their
+ * emoji and Hebrew names
+ */
+export default function ProfessionCard({ profession, onClick }: ProfessionCardProps) {
   return (
     <div
+      onClick={() => onClick(profession)}
       className={`
-        ${profession.color}
-        p-6 rounded-3xl shadow-lg cursor-pointer
-        transform transition-all duration-300
-        hover:scale-105 hover:shadow-xl
-        ${disabled ? 'opacity-50 cursor-not-allowed' : 'hover:-translate-y-1'}
-        border-2 border-white/50
-        flex flex-col items-center justify-center
-        min-h-[160px]
-        backdrop-blur-sm
+        aspect-square rounded-3xl cursor-pointer transition-all 
+        duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
+        bg-gradient-to-br from-purple-400 to-indigo-500 hover:from-purple-500 hover:to-indigo-600
+        border-8 border-white
       `}
-      onClick={disabled ? undefined : onClick}
     >
-      <div className="text-7xl mb-4 animate-bounce">
-        {profession.emoji}
-      </div>
-      <div className="text-xl font-bold text-gray-800 text-center mb-2">
-        {profession.name}
-      </div>
-      <div className="text-sm text-gray-700 text-center px-2 hidden sm:block">
-        {profession.description.length > 35 
-          ? profession.description.substring(0, 35) + "..."
-          : profession.description
-        }
+      <div className="w-full h-full flex flex-col items-center justify-center text-white">
+        <div className="text-6xl md:text-8xl mb-2 animate-bounce-in">
+          {profession.emoji}
+        </div>
+        <div className="text-xl md:text-2xl font-bold text-center">
+          {profession.name}
+        </div>
       </div>
     </div>
   );

@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { Profession, ProfessionGameState } from "@/lib/types/game";
-import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
+import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
   playSuccessSound as playSound, 
+  generateOptions as generateGameOptions,
   getRandomItem,
+  speakItemName,
   handleWrongGameAnswer,
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, PROFESSION_HEBREW_PRONUNCIATIONS } from "@/lib/constants/gameConstants";
 
 export function useProfessionGame(professions: Profession[]) {
   const [gameState, setGameState] = useState<ProfessionGameState>({
@@ -30,14 +32,8 @@ export function useProfessionGame(professions: Profession[]) {
 
   // --- Utility Functions ---
 
-  const getRandomProfessions = (correctProfession: Profession, count: number = 4): Profession[] => {
-    const otherProfessions = professions.filter(p => p.id !== correctProfession.id);
-    const shuffled = otherProfessions.sort(() => Math.random() - 0.5);
-    const selected = shuffled.slice(0, count - 1);
-    
-    // הוספת המקצוע הנכון וערבוב
-    const options = [...selected, correctProfession];
-    return options.sort(() => Math.random() - 0.5);
+  const generateOptions = (correctProfession: Profession): Profession[] => {
+    return generateGameOptions(correctProfession, professions, GAME_CONSTANTS.OPTIONS_COUNT, 'id');
   };
 
   // --- Audio & Speech ---
@@ -50,80 +46,50 @@ export function useProfessionGame(professions: Profession[]) {
     if (!speechEnabled) return;
     
     try {
-    //   await speakHebrew(`זה ${profession.name}`);
-    //   await delay(600);
-      await speakHebrew(profession.description);
+      console.log("Speaking profession:", profession.id);
+      const pronunciation = PROFESSION_HEBREW_PRONUNCIATIONS[profession.id];
+      const textToSpeak = pronunciation || profession.description;
+      
+      console.log("Text to speak:", textToSpeak);
+      
+      await speakItemName(profession.id, (id) => {
+        const pronunciation = PROFESSION_HEBREW_PRONUNCIATIONS[id];
+        return pronunciation || profession.description;
+      });
+      
+      console.log("Finished speaking profession");
     } catch (error) {
       console.error("שגיאה בהשמעת שם המקצוע:", error);
     }
   };
 
-  const speakChallenge = async (profession: Profession): Promise<void> => {
-    if (!speechEnabled) return;
-    
-    try {
-      // הקראת שם המקצוע
-    //   await speakHebrew(profession.name);
-    //   await delay(1000);
-      // הקראת התיאור המלא עם זמן נוסף
-      await speakHebrew(profession.description);
-      await delay(5000);
-      await speakHebrew("איזה מקצוע זה?");
-    } catch (error) {
-      console.error("שגיאה בהשמעת האתגר:", error);
-    }
-  };
-
-  const speakAllOptions = async (options: Profession[]): Promise<void> => {
-    if (!speechEnabled) return;
-    
-    try {
-      await delay(1000);
-      await speakHebrew("האפשרויות הן:");
-      
-      for (let i = 0; i < options.length; i++) {
-        await delay(600);
-        await speakHebrew(options[i].name);
-      }
-    } catch (error) {
-      console.error("שגיאה בהשמעת האפשרויות:", error);
-    }
-  };
-
   const startGame = async () => {
-    try {
-      console.log("Profession game starting");
-      
-      setGameState({
-        currentChallenge: null,
-        score: 0,
-        level: 1,
-        isPlaying: true,
-        showCelebration: false,
-        options: [],
-      });
+    setGameState({
+      currentChallenge: null,
+      score: 0,
+      level: 1,
+      isPlaying: true,
+      showCelebration: false,
+      options: [],
+    });
 
-      await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
-      await speakStartMessage();
-      
-      const randomProfession = getRandomItem(professions);
-      const options = getRandomProfessions(randomProfession);
+    await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
+    
+    await speakStartMessage();
+    
+    const randomProfession = getRandomItem(professions);
+    const options = generateOptions(randomProfession);
 
-      console.log("Generated profession challenge:", randomProfession);
-      console.log("Generated options:", options);
+    setGameState((prev) => ({
+      ...prev,
+      currentChallenge: randomProfession,
+      options,
+    }));
 
-      setGameState((prev) => ({
-        ...prev,
-        currentChallenge: randomProfession,
-        options,
-      }));
-
-      await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-      await speakChallenge(randomProfession);
-      await speakAllOptions(options);
-    } catch (error) {
-      console.error("Error in startGame:", error);
-    }
+    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+    console.log("About to speak profession name:", randomProfession.id);
+    await speakProfessionName(randomProfession);
+    console.log("Finished speaking profession name");
   };
 
   const handleProfessionClick = async (selectedProfession: Profession) => {
@@ -132,22 +98,20 @@ export function useProfessionGame(professions: Profession[]) {
     if (selectedProfession.id === gameState.currentChallenge.id) {
       playSuccessSound();
       
-      const nextProfession = getRandomItem(professions);
-      const options = getRandomProfessions(nextProfession);
-      
-      console.log("Next profession challenge:", nextProfession);
-      console.log("Next options:", options);
+      const randomProfession = getRandomItem(professions);
+      const options = generateOptions(randomProfession);
       
       const onComplete = async () => {
         setGameState((prev) => ({
           ...prev,
-          currentChallenge: nextProfession,
+          currentChallenge: randomProfession,
           options,
         }));
         
         await delay(300);
-        await speakChallenge(nextProfession);
-        await speakAllOptions(options);
+        console.log("About to speak new profession:", randomProfession.id);
+        await speakProfessionName(randomProfession);
+        console.log("Finished speaking new profession");
       };
       
       await handleCorrectGameAnswer(
@@ -158,8 +122,9 @@ export function useProfessionGame(professions: Profession[]) {
     } else {
       await handleWrongGameAnswer(async () => {
         if (gameState.currentChallenge) {
-          await speakChallenge(gameState.currentChallenge);
-          await speakAllOptions(gameState.options);
+          console.log("Wrong answer - repeating profession:", gameState.currentChallenge.id);
+          await speakProfessionName(gameState.currentChallenge);
+          console.log("Finished repeating profession");
         }
       });
     }

@@ -77,5 +77,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-yellow-100",
     },
+    professions: {
+      background:
+        "linear-gradient(135deg, #fce7f3 0%, #e879f9 25%, #a855f7 50%, #7c3aed 75%, #5b21b6 100%)",
+      button: { from: "purple", to: "indigo" },
+      header: "text-white",
+      subHeader: "text-purple-100",
+    },
   };
 }

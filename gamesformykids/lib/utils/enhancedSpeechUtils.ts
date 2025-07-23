@@ -93,7 +93,12 @@ export async function speak(
     window.speechSynthesis.cancel();
     
     // השהייה קצרה כדי לוודא שהדיבור הקודם באמת נעצר
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 300));
+    
+    // בדיקה נוספת - אם עדיין יש דיבור פעיל, חכה עוד קצת
+    if (window.speechSynthesis.speaking) {
+      await new Promise((resolve) => setTimeout(resolve, 500));
+    }
 
     // יצירת אובייקט דיבור חדש
     const utterance = new SpeechSynthesisUtterance(text);
@@ -127,20 +132,34 @@ export async function speak(
       };
 
       // טיפול באירועים
-      utterance.onend = () => finishSpeaking(true);
+      utterance.onend = () => {
+        console.log("Speech completed successfully");
+        finishSpeaking(true);
+      };
+      
       utterance.onerror = (event) => {
         console.log("Speech error:", event.error);
         finishSpeaking(false);
       };
+      
+      // טיפול במקרה שהדיבור נפסק באמצע
+      utterance.onboundary = (event) => {
+        console.log("Speech boundary:", event.name, "at position:", event.charIndex);
+      };
+      
+      utterance.onstart = () => {
+        console.log("Speech started");
+      };
 
-      // הגבלת זמן מקסימלי למניעת "תקיעה"
+      // הגבלת זמן מקסימלי למניעת "תקיעה" - זמן ארוך יותר לתיאורים ארוכים
+      const timeout = Math.max(8000, text.length * 100); // לפחות 8 שניות או 100ms לכל תו
       setTimeout(() => {
         if (!resolved) {
           console.log("Speech timeout, cancelling");
           window.speechSynthesis.cancel();
           finishSpeaking(false);
         }
-      }, 4000);
+      }, timeout);
 
       // התחל את הדיבור
       window.speechSynthesis.speak(utterance);
@@ -157,7 +176,7 @@ export async function speak(
 export async function speakHebrew(text: string): Promise<boolean> {
   return speak(text, {
     lang: "he-IL",
-    rate: 0.7,
+    rate: 0.6, // קצב איטי יותר לבהירות טובה יותר
     pitch: 1.2,
     volume: 1.0,
   });
@@ -184,8 +203,17 @@ export function cancelSpeech(): void {
     typeof window !== "undefined" &&
     "speechSynthesis" in window
   ) {
+    console.log("Cancelling speech");
     window.speechSynthesis.cancel();
     isSpeaking = false;
+    
+    // השהייה קצרה כדי לוודא שהביטול הושלם
+    setTimeout(() => {
+      if (window.speechSynthesis.speaking) {
+        console.log("Speech still active after cancel, forcing stop");
+        window.speechSynthesis.cancel();
+      }
+    }, 100);
   }
 }
 
