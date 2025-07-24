@@ -171,3 +171,12 @@ export const CLOTHING_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך הבגד נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על הבגד הנכון" },
 ];
+
+/**
+ * שלבי משחק הריחות והטעמים
+ */
+export const SMELL_TASTE_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה טעם או ריח אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך זה מרגיש" },
+  { icon: "👆", title: "3. תלחץ", description: "על הטעם הנכון" },
+];

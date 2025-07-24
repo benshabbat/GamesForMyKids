@@ -1577,3 +1577,117 @@ export const CLOTHING_GAME_CONSTANTS = {
   CLOTHING_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+/**
+ * Smells and tastes constants for the game
+ */
+export const SMELL_TASTE_CONSTANTS = {
+  SWEET: {
+    name: "sweet",
+    hebrew: "מתוק",
+    english: "Sweet",
+    emoji: "🍯",
+    color: "bg-yellow-400",
+    sound: [523, 659, 784],
+  },
+  SOUR: {
+    name: "sour",
+    hebrew: "חמוץ",
+    english: "Sour",
+    emoji: "🍋",
+    color: "bg-yellow-500",
+    sound: [659, 831, 988],
+  },
+  SALTY: {
+    name: "salty",
+    hebrew: "מלוח",
+    english: "Salty",
+    emoji: "🧂",
+    color: "bg-gray-400",
+    sound: [440, 554, 659],
+  },
+  BITTER: {
+    name: "bitter",
+    hebrew: "מר",
+    english: "Bitter",
+    emoji: "☕",
+    color: "bg-amber-800",
+    sound: [330, 415, 494],
+  },
+  SPICY: {
+    name: "spicy",
+    hebrew: "חריף",
+    english: "Spicy",
+    emoji: "🌶️",
+    color: "bg-red-500",
+    sound: [392, 494, 587],
+  },
+  VANILLA: {
+    name: "vanilla",
+    hebrew: "וניל",
+    english: "Vanilla",
+    emoji: "🍦",
+    color: "bg-cream-200",
+    sound: [294, 370, 440],
+  },
+  CHOCOLATE: {
+    name: "chocolate",
+    hebrew: "שוקולד",
+    english: "Chocolate",
+    emoji: "🍫",
+    color: "bg-amber-700",
+    sound: [262, 330, 392],
+  },
+  MINT: {
+    name: "mint",
+    hebrew: "נענע",
+    english: "Mint",
+    emoji: "🌿",
+    color: "bg-green-400",
+    sound: [587, 740, 880],
+  },
+  ROSE: {
+    name: "rose",
+    hebrew: "ורד",
+    english: "Rose",
+    emoji: "🌹",
+    color: "bg-pink-500",
+    sound: [349, 440, 523],
+  },
+  LEMON: {
+    name: "lemon",
+    hebrew: "לימון",
+    english: "Lemon",
+    emoji: "🍋",
+    color: "bg-yellow-300",
+    sound: [220, 277, 330],
+  },
+};
+
+// List of all smell and taste items
+export const ALL_SMELLS_TASTES = Object.values(SMELL_TASTE_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for smell and taste items
+ */
+export const SMELL_TASTE_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  sweet: "מתוק",
+  sour: "חמוץ",
+  salty: "מלוח",
+  bitter: "מר",
+  spicy: "חריף",
+  vanilla: "וניל",
+  chocolate: "שוקולד",
+  mint: "נענע",
+  rose: "ורד",
+  lemon: "לימון",
+};
+
+/**
+ * Game-specific constants for smell and taste items
+ */
+export const SMELL_TASTE_GAME_CONSTANTS = {
+  BASE_SMELL_TASTE_COUNT: 4,
+  SMELL_TASTE_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

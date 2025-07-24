@@ -112,5 +112,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-pink-100",
     },
+    smellTaste: {
+      background:
+        "linear-gradient(135deg, #fef7cd 0%, #fbbf24 25%, #f59e0b 50%, #d97706 75%, #b45309 100%)",
+      button: { from: "amber", to: "orange" },
+      header: "text-white",
+      subHeader: "text-amber-100",
+    },
   };
 }

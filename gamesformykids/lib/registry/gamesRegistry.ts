@@ -13,6 +13,7 @@ import {
   Salad,
   Sparkles,
   Shirt,
+  Coffee,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -201,6 +202,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/clothing",
     available: true,
     order: 17,
+  },
+  {
+    id: "smelltaste",
+    title: "משחק ריחות וטעמים",
+    description: "זהה ריחות וטעמים שונים!",
+    icon: Coffee,
+    color: "bg-amber-400 hover:bg-amber-500",
+    href: "/games/smelltaste",
+    available: true,
+    order: 18,
   },
 ];
 

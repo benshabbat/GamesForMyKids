@@ -295,3 +295,22 @@ export interface ClothingGameState {
   showCelebration: boolean;
   options: ClothingItem[];
 }
+
+// ממשק למשחק ריחות וטעמים
+export interface SmellTasteItem {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface SmellTasteGameState {
+  currentChallenge: SmellTasteItem | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: SmellTasteItem[];
+}
