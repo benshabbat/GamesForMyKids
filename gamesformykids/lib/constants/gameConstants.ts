@@ -1349,3 +1349,117 @@ export const INSTRUMENT_GAME_CONSTANTS = {
   INSTRUMENTS_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+/**
+ * Space objects constants for the game
+ */
+export const SPACE_CONSTANTS = {
+  SUN: {
+    name: "sun",
+    hebrew: "שמש",
+    english: "Sun",
+    emoji: "☀️",
+    color: "bg-yellow-500",
+    sound: [523, 659, 784],
+  },
+  MOON: {
+    name: "moon",
+    hebrew: "ירח",
+    english: "Moon",
+    emoji: "🌙",
+    color: "bg-gray-300",
+    sound: [392, 494, 587],
+  },
+  STAR: {
+    name: "star",
+    hebrew: "כוכב",
+    english: "Star",
+    emoji: "⭐",
+    color: "bg-yellow-400",
+    sound: [659, 831, 988],
+  },
+  EARTH: {
+    name: "earth",
+    hebrew: "כדור הארץ",
+    english: "Earth",
+    emoji: "🌍",
+    color: "bg-blue-500",
+    sound: [349, 440, 523],
+  },
+  ROCKET: {
+    name: "rocket",
+    hebrew: "חללית",
+    english: "Rocket",
+    emoji: "🚀",
+    color: "bg-red-500",
+    sound: [440, 554, 659],
+  },
+  PLANET: {
+    name: "planet",
+    hebrew: "כוכב לכת",
+    english: "Planet",
+    emoji: "🪐",
+    color: "bg-purple-500",
+    sound: [330, 415, 494],
+  },
+  COMET: {
+    name: "comet",
+    hebrew: "שביט",
+    english: "Comet",
+    emoji: "☄️",
+    color: "bg-orange-500",
+    sound: [587, 740, 880],
+  },
+  GALAXY: {
+    name: "galaxy",
+    hebrew: "גלקסיה",
+    english: "Galaxy",
+    emoji: "🌌",
+    color: "bg-indigo-600",
+    sound: [294, 370, 440],
+  },
+  ASTRONAUT: {
+    name: "astronaut",
+    hebrew: "אסטרונאוט",
+    english: "Astronaut",
+    emoji: "👨‍🚀",
+    color: "bg-gray-600",
+    sound: [262, 330, 392],
+  },
+  SATELLITE: {
+    name: "satellite",
+    hebrew: "לוויין",
+    english: "Satellite",
+    emoji: "🛰️",
+    color: "bg-gray-500",
+    sound: [220, 277, 330],
+  },
+};
+
+// List of all space objects
+export const ALL_SPACE_OBJECTS = Object.values(SPACE_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for space objects
+ */
+export const SPACE_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  sun: "שמש",
+  moon: "ירח",
+  star: "כוכב",
+  earth: "כדור הארץ",
+  rocket: "חללית",
+  planet: "כוכב לכת",
+  comet: "שביט",
+  galaxy: "גלקסיה",
+  astronaut: "אסטרונאוט",
+  satellite: "לוויין",
+};
+
+/**
+ * Game-specific constants for space objects
+ */
+export const SPACE_GAME_CONSTANTS = {
+  BASE_SPACE_COUNT: 4,
+  SPACE_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

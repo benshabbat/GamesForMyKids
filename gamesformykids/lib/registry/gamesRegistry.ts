@@ -11,6 +11,7 @@ import {
   Calculator,
   User,
   Salad,
+  Sparkles,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -179,6 +180,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/instruments",
     available: true,
     order: 15,
+  },
+  {
+    id: "space",
+    title: "משחק גופי השמים",
+    description: "חקור את החלל והכוכבים!",
+    icon: Sparkles,
+    color: "bg-indigo-400 hover:bg-indigo-500",
+    href: "/games/space",
+    available: true,
+    order: 16,
   },
 ];
 

@@ -257,3 +257,22 @@ export interface InstrumentGameState {
   showCelebration: boolean;
   options: Instrument[];
 }
+
+// ממשק למשחק גופי השמים
+export interface SpaceObject {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface SpaceGameState {
+  currentChallenge: SpaceObject | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: SpaceObject[];
+}

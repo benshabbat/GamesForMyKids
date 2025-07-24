@@ -153,3 +153,12 @@ export const INSTRUMENT_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך כלי הנגינה נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על כלי הנגינה הנכון" },
 ];
+
+/**
+ * שלבי משחק גופי השמים
+ */
+export const SPACE_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה גוף שמים אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך הוא נראה בחלל" },
+  { icon: "👆", title: "3. תלחץ", description: "על גוף השמים הנכון" },
+];
