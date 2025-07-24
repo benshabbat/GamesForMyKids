@@ -14,6 +14,8 @@ import {
   Sparkles,
   Shirt,
   Coffee,
+  Home,
+  Wrench,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -212,6 +214,26 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/smelltaste",
     available: true,
     order: 18,
+  },
+  {
+    id: "house",
+    title: "משחק חפצי הבית",
+    description: "למד חפצים בבית!",
+    icon: Home,
+    color: "bg-sky-400 hover:bg-sky-500",
+    href: "/games/house",
+    available: true,
+    order: 19,
+  },
+  {
+    id: "tools",
+    title: "משחק כלי עבודה",
+    description: "למד כלי עבודה שונים!",
+    icon: Wrench,
+    color: "bg-orange-400 hover:bg-orange-500",
+    href: "/games/tools",
+    available: true,
+    order: 20,
   },
 ];
 

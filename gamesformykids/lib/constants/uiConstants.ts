@@ -180,3 +180,21 @@ export const SMELL_TASTE_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך זה מרגיש" },
   { icon: "👆", title: "3. תלחץ", description: "על הטעם הנכון" },
 ];
+
+/**
+ * שלבי משחק חפצי הבית
+ */
+export const HOUSE_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה חפץ בבית אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך החפץ נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על החפץ הנכון" },
+];
+
+/**
+ * שלבי משחק כלי עבודה
+ */
+export const TOOL_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה כלי עבודה אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך כלי העבודה נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על כלי העבודה הנכון" },
+];

@@ -314,3 +314,41 @@ export interface SmellTasteGameState {
   showCelebration: boolean;
   options: SmellTasteItem[];
 }
+
+// ממשק למשחק חפצי הבית
+export interface HouseItem {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface HouseGameState {
+  currentChallenge: HouseItem | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: HouseItem[];
+}
+
+// ממשק למשחק כלי עבודה
+export interface Tool {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface ToolGameState {
+  currentChallenge: Tool | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Tool[];
+}

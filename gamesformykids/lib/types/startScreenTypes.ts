@@ -2,7 +2,7 @@
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, Weather, Transport, Profession, Vegetable, Instrument, SpaceObject, ClothingItem, SmellTasteItem } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, Weather, Transport, Profession, Vegetable, Instrument, SpaceObject, ClothingItem, SmellTasteItem, HouseItem, Tool } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -113,4 +113,18 @@ export interface ClothingStartScreenProps extends BaseStartScreenProps {
  */
 export interface SmellTasteStartScreenProps extends BaseStartScreenProps {
   smellTasteItems: SmellTasteItem[];
+}
+
+/**
+ * מאפייני מסך התחלה למשחק חפצי הבית
+ */
+export interface HouseStartScreenProps extends BaseStartScreenProps {
+  houseItems: HouseItem[];
+}
+
+/**
+ * מאפייני מסך התחלה למשחק כלי עבודה
+ */
+export interface ToolStartScreenProps extends BaseStartScreenProps {
+  tools: Tool[];
 }

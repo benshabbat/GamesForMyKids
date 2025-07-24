@@ -1,4 +1,4 @@
-/**
+﻿/**
  * קבועים משותפים למשחקים
  */
 
@@ -1308,7 +1308,7 @@ export const INSTRUMENT_CONSTANTS = {
     name: "harp",
     hebrew: "נבל",
     english: "Harp",
-    emoji: "�",
+    emoji: "🎵",
     color: "bg-yellow-400",
     sound: [262, 330, 392],
   },
@@ -1689,5 +1689,197 @@ export const SMELL_TASTE_HEBREW_PRONUNCIATIONS: Record<string, string> = {
 export const SMELL_TASTE_GAME_CONSTANTS = {
   BASE_SMELL_TASTE_COUNT: 4,
   SMELL_TASTE_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};
+
+/**
+ * House item constants for the game
+ */
+export const HOUSE_CONSTANTS = {
+  CHAIR: {
+    name: "chair",
+    hebrew: "כיסא",
+    english: "Chair",
+    emoji: "🪑",
+    color: "bg-brown-500",
+    sound: [440, 550, 660],
+  },
+  TABLE: {
+    name: "table",
+    hebrew: "שולחן",
+    english: "Table",
+    emoji: "🏓",
+    color: "bg-amber-600",
+    sound: [392, 494, 587],
+  },
+  BED: {
+    name: "bed",
+    hebrew: "מיטה",
+    english: "Bed",
+    emoji: "🛏️",
+    color: "bg-blue-500",
+    sound: [349, 440, 523],
+  },
+  SOFA: {
+    name: "sofa",
+    hebrew: "ספה",
+    english: "Sofa",
+    emoji: "🛋️",
+    color: "bg-red-500",
+    sound: [330, 415, 494],
+  },
+  LAMP: {
+    name: "lamp",
+    hebrew: "מנורה",
+    english: "Lamp",
+    emoji: "💡",
+    color: "bg-yellow-500",
+    sound: [294, 370, 440],
+  },
+  REFRIGERATOR: {
+    name: "refrigerator",
+    hebrew: "מקרר",
+    english: "Refrigerator",
+    emoji: "🗄️",
+    color: "bg-gray-500",
+    sound: [262, 330, 392],
+  },
+  TELEVISION: {
+    name: "television",
+    hebrew: "טלוויזיה",
+    english: "Television",
+    emoji: "📺",
+    color: "bg-black",
+    sound: [247, 311, 370],
+  },
+  BOOK: {
+    name: "book",
+    hebrew: "ספר",
+    english: "Book",
+    emoji: "📚",
+    color: "bg-green-600",
+    sound: [220, 277, 330],
+  },
+};
+
+// List of all house items
+export const ALL_HOUSE_ITEMS = Object.values(HOUSE_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for house items
+ */
+export const HOUSE_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  chair: "כיסא",
+  table: "שולחן",
+  bed: "מיטה",
+  sofa: "ספה",
+  lamp: "מנורה",
+  refrigerator: "מקרר",
+  television: "טלוויזיה",
+  book: "ספר",
+};
+
+/**
+ * Game-specific constants for house items
+ */
+export const HOUSE_GAME_CONSTANTS = {
+  BASE_HOUSE_COUNT: 4,
+  HOUSE_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};
+
+/**
+ * Tool constants for the game
+ */
+export const TOOL_CONSTANTS = {
+  HAMMER: {
+    name: "hammer",
+    hebrew: "פטיש",
+    english: "Hammer",
+    emoji: "🔨",
+    color: "bg-gray-600",
+    sound: [440, 550, 660],
+  },
+  SCREWDRIVER: {
+    name: "screwdriver",
+    hebrew: "מברג",
+    english: "Screwdriver",
+    emoji: "🪛",
+    color: "bg-blue-500",
+    sound: [392, 494, 587],
+  },
+  SAW: {
+    name: "saw",
+    hebrew: "מסור",
+    english: "Saw",
+    emoji: "🪚",
+    color: "bg-yellow-600",
+    sound: [349, 440, 523],
+  },
+  WRENCH: {
+    name: "wrench",
+    hebrew: "מפתח צינורות",
+    english: "Wrench",
+    emoji: "🔧",
+    color: "bg-red-500",
+    sound: [330, 415, 494],
+  },
+  SCISSORS: {
+    name: "scissors",
+    hebrew: "מספריים",
+    english: "Scissors",
+    emoji: "✂️",
+    color: "bg-purple-500",
+    sound: [294, 370, 440],
+  },
+  BRUSH: {
+    name: "brush",
+    hebrew: "מברשת",
+    english: "Brush",
+    emoji: "🖌️",
+    color: "bg-green-500",
+    sound: [262, 330, 392],
+  },
+  RULER: {
+    name: "ruler",
+    hebrew: "סרגל",
+    english: "Ruler",
+    emoji: "📏",
+    color: "bg-orange-500",
+    sound: [247, 311, 370],
+  },
+  DRILL: {
+    name: "drill",
+    hebrew: "מקדחה",
+    english: "Drill",
+    emoji: "🪚",
+    color: "bg-indigo-500",
+    sound: [220, 277, 330],
+  },
+};
+
+// List of all tools
+export const ALL_TOOLS = Object.values(TOOL_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for tools
+ */
+export const TOOL_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  hammer: "פטיש",
+  screwdriver: "מברג",
+  saw: "מסור",
+  wrench: "מפתח צינורות",
+  scissors: "מספריים",
+  brush: "מברשת",
+  ruler: "סרגל",
+  drill: "מקדחה",
+};
+
+/**
+ * Game-specific constants for tools
+ */
+export const TOOL_GAME_CONSTANTS = {
+  BASE_TOOL_COUNT: 4,
+  TOOL_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
