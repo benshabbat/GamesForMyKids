@@ -10,6 +10,7 @@ import {
   Car,
   Calculator,
   User,
+  Salad,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -158,6 +159,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/professions",
     available: true,
     order: 13,
+  },
+  {
+    id: "vegetables",
+    title: "משחק ירקות",
+    description: "למד ירקות בריאים!",
+    icon: Salad,
+    color: "bg-green-400 hover:bg-green-500",
+    href: "/games/vegetables",
+    available: true,
+    order: 14,
   },
 ];
 

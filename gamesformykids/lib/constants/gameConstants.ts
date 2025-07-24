@@ -1139,3 +1139,99 @@ export const PROFESSION_GAME_CONSTANTS = {
 };
 
 export const ALL_PROFESSIONS = Object.values(PROFESSION_CONSTANTS);
+
+/**
+ * Vegetable constants for the game
+ */
+export const VEGETABLE_CONSTANTS = {
+  CARROT: {
+    name: "carrot",
+    hebrew: "גזר",
+    english: "Carrot",
+    emoji: "🥕",
+    color: "bg-orange-500",
+    sound: [440, 550, 660],
+  },
+  TOMATO: {
+    name: "tomato",
+    hebrew: "עגבנייה",
+    english: "Tomato",
+    emoji: "🍅",
+    color: "bg-red-500",
+    sound: [392, 494, 587],
+  },
+  CUCUMBER: {
+    name: "cucumber",
+    hebrew: "מלפפון",
+    english: "Cucumber",
+    emoji: "🥒",
+    color: "bg-green-500",
+    sound: [349, 440, 523],
+  },
+  PEPPER: {
+    name: "pepper",
+    hebrew: "פלפל",
+    english: "Pepper",
+    emoji: "🫑",
+    color: "bg-green-600",
+    sound: [330, 415, 494],
+  },
+  ONION: {
+    name: "onion",
+    hebrew: "בצל",
+    english: "Onion",
+    emoji: "🧅",
+    color: "bg-yellow-600",
+    sound: [294, 370, 440],
+  },
+  LETTUCE: {
+    name: "lettuce",
+    hebrew: "חסה",
+    english: "Lettuce",
+    emoji: "🥬",
+    color: "bg-green-400",
+    sound: [262, 330, 392],
+  },
+  POTATO: {
+    name: "potato",
+    hebrew: "תפוח אדמה",
+    english: "Potato",
+    emoji: "🥔",
+    color: "bg-amber-600",
+    sound: [220, 277, 330],
+  },
+  CORN: {
+    name: "corn",
+    hebrew: "תירס",
+    english: "Corn",
+    emoji: "🌽",
+    color: "bg-yellow-500",
+    sound: [494, 587, 698],
+  },
+};
+
+// List of all vegetables
+export const ALL_VEGETABLES = Object.values(VEGETABLE_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for vegetables
+ */
+export const VEGETABLE_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  carrot: "גזר",
+  tomato: "עגבנייה",
+  cucumber: "מלפפון",
+  pepper: "פלפל",
+  onion: "בצל",
+  lettuce: "חסה",
+  potato: "תפוח אדמה",
+  corn: "תירס",
+};
+
+/**
+ * Game-specific constants for vegetables
+ */
+export const VEGETABLE_GAME_CONSTANTS = {
+  BASE_VEGETABLES_COUNT: 4,
+  VEGETABLES_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

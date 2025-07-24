@@ -135,3 +135,12 @@ export const PROFESSION_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איזה מקצוע זה יכול להיות" },
   { icon: "👆", title: "3. תלחץ", description: "על המקצוע הנכון" },
 ];
+
+/**
+ * שלבי משחק הירקות
+ */
+export const VEGETABLE_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה ירק אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך הירק נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על הירק הנכון" },
+];

@@ -84,5 +84,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-purple-100",
     },
+    vegetables: {
+      background:
+        "linear-gradient(135deg, #d4f1d4 0%, #a8e6a8 25%, #7dd87d 50%, #52c952 75%, #16a34a 100%)",
+      button: { from: "green", to: "emerald" },
+      header: "text-white",
+      subHeader: "text-green-100",
+    },
   };
 }

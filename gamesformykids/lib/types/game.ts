@@ -219,3 +219,22 @@ export interface ProfessionGameState {
   showCelebration: boolean;
   options: Profession[];
 }
+
+// ממשק למשחק ירקות
+export interface Vegetable {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface VegetableGameState {
+  currentChallenge: Vegetable | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Vegetable[];
+}
