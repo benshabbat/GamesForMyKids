@@ -105,5 +105,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-blue-100",
     },
+    clothing: {
+      background:
+        "linear-gradient(135deg, #fce7f3 0%, #f9a8d4 25%, #ec4899 50%, #db2777 75%, #be185d 100%)",
+      button: { from: "pink", to: "rose" },
+      header: "text-white",
+      subHeader: "text-pink-100",
+    },
   };
 }

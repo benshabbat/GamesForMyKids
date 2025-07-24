@@ -276,3 +276,22 @@ export interface SpaceGameState {
   showCelebration: boolean;
   options: SpaceObject[];
 }
+
+// ממשק למשחק בגדים
+export interface ClothingItem {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface ClothingGameState {
+  currentChallenge: ClothingItem | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: ClothingItem[];
+}

@@ -162,3 +162,12 @@ export const SPACE_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך הוא נראה בחלל" },
   { icon: "👆", title: "3. תלחץ", description: "על גוף השמים הנכון" },
 ];
+
+/**
+ * שלבי משחק הבגדים
+ */
+export const CLOTHING_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה פריט לבוש אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך הבגד נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על הבגד הנכון" },
+];

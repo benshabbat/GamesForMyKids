@@ -1463,3 +1463,117 @@ export const SPACE_GAME_CONSTANTS = {
   SPACE_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+/**
+ * Clothing items constants for the game
+ */
+export const CLOTHING_CONSTANTS = {
+  SHIRT: {
+    name: "shirt",
+    hebrew: "חולצה",
+    english: "Shirt",
+    emoji: "👕",
+    color: "bg-blue-500",
+    sound: [440, 550, 660],
+  },
+  PANTS: {
+    name: "pants",
+    hebrew: "מכנסיים",
+    english: "Pants",
+    emoji: "👖",
+    color: "bg-indigo-600",
+    sound: [392, 494, 587],
+  },
+  DRESS: {
+    name: "dress",
+    hebrew: "שמלה",
+    english: "Dress",
+    emoji: "👗",
+    color: "bg-pink-500",
+    sound: [523, 659, 784],
+  },
+  SHOES: {
+    name: "shoes",
+    hebrew: "נעליים",
+    english: "Shoes",
+    emoji: "👟",
+    color: "bg-gray-600",
+    sound: [349, 440, 523],
+  },
+  HAT: {
+    name: "hat",
+    hebrew: "כובע",
+    english: "Hat",
+    emoji: "🧢",
+    color: "bg-red-500",
+    sound: [330, 415, 494],
+  },
+  SOCKS: {
+    name: "socks",
+    hebrew: "גרביים",
+    english: "Socks",
+    emoji: "🧦",
+    color: "bg-green-500",
+    sound: [294, 370, 440],
+  },
+  JACKET: {
+    name: "jacket",
+    hebrew: "מעיל",
+    english: "Jacket",
+    emoji: "🧥",
+    color: "bg-brown-600",
+    sound: [262, 330, 392],
+  },
+  GLOVES: {
+    name: "gloves",
+    hebrew: "כפפות",
+    english: "Gloves",
+    emoji: "🧤",
+    color: "bg-purple-500",
+    sound: [587, 740, 880],
+  },
+  SCARF: {
+    name: "scarf",
+    hebrew: "צעיף",
+    english: "Scarf",
+    emoji: "🧣",
+    color: "bg-orange-500",
+    sound: [659, 831, 988],
+  },
+  GLASSES: {
+    name: "glasses",
+    hebrew: "משקפיים",
+    english: "Glasses",
+    emoji: "👓",
+    color: "bg-teal-500",
+    sound: [220, 277, 330],
+  },
+};
+
+// List of all clothing items
+export const ALL_CLOTHING = Object.values(CLOTHING_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for clothing items
+ */
+export const CLOTHING_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  shirt: "חולצה",
+  pants: "מכנסיים",
+  dress: "שמלה",
+  shoes: "נעליים",
+  hat: "כובע",
+  socks: "גרביים",
+  jacket: "מעיל",
+  gloves: "כפפות",
+  scarf: "צעיף",
+  glasses: "משקפיים",
+};
+
+/**
+ * Game-specific constants for clothing items
+ */
+export const CLOTHING_GAME_CONSTANTS = {
+  BASE_CLOTHING_COUNT: 4,
+  CLOTHING_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

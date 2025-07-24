@@ -12,6 +12,7 @@ import {
   User,
   Salad,
   Sparkles,
+  Shirt,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types/game";
@@ -190,6 +191,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/space",
     available: true,
     order: 16,
+  },
+  {
+    id: "clothing",
+    title: "משחק בגדים ואביזרים",
+    description: "למד על פריטי לבוש שונים!",
+    icon: Shirt,
+    color: "bg-pink-400 hover:bg-pink-500",
+    href: "/games/clothing",
+    available: true,
+    order: 17,
   },
 ];
 
