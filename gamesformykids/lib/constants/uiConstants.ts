@@ -144,3 +144,12 @@ export const VEGETABLE_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך הירק נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על הירק הנכון" },
 ];
+
+/**
+ * שלבי משחק כלי הנגינה
+ */
+export const INSTRUMENT_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה כלי נגינה אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך כלי הנגינה נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על כלי הנגינה הנכון" },
+];

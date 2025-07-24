@@ -238,3 +238,22 @@ export interface VegetableGameState {
   showCelebration: boolean;
   options: Vegetable[];
 }
+
+// ממשק למשחק כלי נגינה
+export interface Instrument {
+  name: string;
+  hebrew: string;
+  english: string;
+  emoji: string;
+  color: string;
+  sound: number[];
+}
+
+export interface InstrumentGameState {
+  currentChallenge: Instrument | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: Instrument[];
+}

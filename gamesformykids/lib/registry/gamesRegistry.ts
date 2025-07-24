@@ -170,6 +170,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 14,
   },
+  {
+    id: "instruments",
+    title: "משחק כלי נגינה",
+    description: "למד כלי נגינה מוזיקליים!",
+    icon: Music,
+    color: "bg-yellow-400 hover:bg-yellow-500",
+    href: "/games/instruments",
+    available: true,
+    order: 15,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים

@@ -2,7 +2,7 @@
  * טיפוסים שמשמשים במסכי התחלה של משחקים
  */
 
-import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, Weather, Transport, Profession, Vegetable } from "./game";
+import { Color, Letter, NumberItem, Shape, AnimalData, Fruit, Animal, Weather, Transport, Profession, Vegetable, Instrument } from "./game";
 
 /**
  * מאפיינים בסיסיים למסכי התחלה
@@ -85,4 +85,11 @@ export interface ProfessionStartScreenProps extends BaseStartScreenProps {
  */
 export interface VegetableStartScreenProps extends BaseStartScreenProps {
   vegetables: Vegetable[];
+}
+
+/**
+ * מאפייני מסך התחלה למשחק כלי נגינה
+ */
+export interface InstrumentStartScreenProps extends BaseStartScreenProps {
+  instruments: Instrument[];
 }

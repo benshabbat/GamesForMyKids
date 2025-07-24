@@ -1235,3 +1235,117 @@ export const VEGETABLE_GAME_CONSTANTS = {
   VEGETABLES_INCREMENT: 1,
   LEVEL_THRESHOLD: 3
 };
+
+/**
+ * Musical instruments constants for the game
+ */
+export const INSTRUMENT_CONSTANTS = {
+  PIANO: {
+    name: "piano",
+    hebrew: "פסנתר",
+    english: "Piano",
+    emoji: "🎹",
+    color: "bg-black",
+    sound: [523, 659, 784],
+  },
+  GUITAR: {
+    name: "guitar",
+    hebrew: "גיטרה",
+    english: "Guitar",
+    emoji: "🎸",
+    color: "bg-amber-600",
+    sound: [330, 415, 494],
+  },
+  VIOLIN: {
+    name: "violin",
+    hebrew: "כינור",
+    english: "Violin",
+    emoji: "🎻",
+    color: "bg-amber-800",
+    sound: [440, 554, 659],
+  },
+  DRUMS: {
+    name: "drums",
+    hebrew: "תופים",
+    english: "Drums",
+    emoji: "🥁",
+    color: "bg-red-600",
+    sound: [196, 247, 294],
+  },
+  TRUMPET: {
+    name: "trumpet",
+    hebrew: "חצוצרה",
+    english: "Trumpet",
+    emoji: "🎺",
+    color: "bg-yellow-500",
+    sound: [587, 740, 880],
+  },
+  SAXOPHONE: {
+    name: "saxophone",
+    hebrew: "סקסופון",
+    english: "Saxophone",
+    emoji: "🎷",
+    color: "bg-yellow-600",
+    sound: [392, 494, 587],
+  },
+  FLUTE: {
+    name: "flute",
+    hebrew: "חליל",
+    english: "Flute",
+    emoji: "🪈",
+    color: "bg-gray-400",
+    sound: [659, 831, 988],
+  },
+  MICROPHONE: {
+    name: "microphone",
+    hebrew: "מיקרופון",
+    english: "Microphone",
+    emoji: "🎤",
+    color: "bg-gray-800",
+    sound: [349, 440, 523],
+  },
+  HARP: {
+    name: "harp",
+    hebrew: "נבל",
+    english: "Harp",
+    emoji: "�",
+    color: "bg-yellow-400",
+    sound: [262, 330, 392],
+  },
+  XYLOPHONE: {
+    name: "xylophone",
+    hebrew: "קסילופון",
+    english: "Xylophone",
+    emoji: "🎵",
+    color: "bg-purple-400",
+    sound: [523, 698, 831],
+  },
+};
+
+// List of all instruments
+export const ALL_INSTRUMENTS = Object.values(INSTRUMENT_CONSTANTS);
+
+/**
+ * Hebrew pronunciations for instruments
+ */
+export const INSTRUMENT_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  piano: "פסנתר",
+  guitar: "גיטרה",
+  violin: "כינור",
+  drums: "תופים",
+  trumpet: "חצוצרה",
+  saxophone: "סקסופון",
+  flute: "חליל",
+  microphone: "מיקרופון",
+  harp: "נבל",
+  xylophone: "קסילופון",
+};
+
+/**
+ * Game-specific constants for instruments
+ */
+export const INSTRUMENT_GAME_CONSTANTS = {
+  BASE_INSTRUMENTS_COUNT: 4,
+  INSTRUMENTS_INCREMENT: 1,
+  LEVEL_THRESHOLD: 3
+};

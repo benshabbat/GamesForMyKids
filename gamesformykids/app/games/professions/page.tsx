@@ -7,7 +7,6 @@ import { useProfessionGame } from "./useProfessionGame";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import ProfessionCard from "./ProfessionCard";
 import { ALL_PROFESSIONS } from "@/lib/constants/gameConstants";
 
@@ -22,12 +21,20 @@ export default function ProfessionGame() {
     resetGame,
   } = useProfessionGame(professions);
 
+  // Wrapper function for speaking profession by name
+  const speakByName = (professionId: string) => {
+    const profession = professions.find(p => p.id === professionId);
+    if (profession) {
+      speakProfessionName(profession);
+    }
+  };
+
   if (!gameState.isPlaying) {
     return (
       <StartScreen
         professions={professions}
         onStart={startGame}
-        onSpeak={speakProfessionName}
+        onSpeak={speakByName}
       />
     );
   }
@@ -68,19 +75,15 @@ export default function ProfessionGame() {
         </div>
 
         {/* אפשרויות המקצועות */}
-        <GameCardGrid
-          items={gameState.options}
-          onItemClick={handleProfessionClick}
-          currentChallenge={gameState.currentChallenge}
-          gridCols="grid-cols-2"
-          maxWidth="max-w-3xl"
-          renderCustomCard={(profession) => (
+        <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
+          {gameState.options.map((profession) => (
             <ProfessionCard
+              key={profession.id}
               profession={profession}
               onClick={handleProfessionClick}
             />
-          )}
-        />
+          ))}
+        </div>
         
         <TipsBox
           tip="💡 טיפ: תשמע את תיאור המקצוע!"
