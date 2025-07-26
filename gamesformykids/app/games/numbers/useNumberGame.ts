@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { NumberItem, NumberGameState } from "@/lib/types/game";
+import { NumberItem } from "@/lib/types/games";
+import { BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -11,10 +12,10 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, NUMBER_HEBREW_PRONUNCIATIONS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, NUMBER_HEBREW_PRONUNCIATIONS, NUMBER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
 export function useNumberGame(numbers: NumberItem[]) {
-  const [gameState, setGameState] = useState<NumberGameState>({
+  const [gameState, setGameState] = useState<BaseGameState<NumberItem>>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -33,9 +34,9 @@ export function useNumberGame(numbers: NumberItem[]) {
   // --- Utility Functions ---
 
   const getAvailableNumbers = (): NumberItem[] => {
-    const baseNumbers = GAME_CONSTANTS.NUMBER_GAME.BASE_NUMBERS_COUNT;
-    const additionalNumbers = Math.floor((gameState.level - 1) / GAME_CONSTANTS.NUMBER_GAME.LEVEL_THRESHOLD) 
-      * GAME_CONSTANTS.NUMBER_GAME.NUMBERS_INCREMENT;
+    const baseNumbers = NUMBER_GAME_CONSTANTS.BASE_COUNT;
+    const additionalNumbers = Math.floor((gameState.level - 1) / NUMBER_GAME_CONSTANTS.LEVEL_THRESHOLD) 
+      * NUMBER_GAME_CONSTANTS.INCREMENT;
     const totalNumbers = Math.min(baseNumbers + additionalNumbers, numbers.length);
     return numbers.slice(0, totalNumbers);
   };

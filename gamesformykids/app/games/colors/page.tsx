@@ -1,6 +1,6 @@
 "use client";
 
-import { Color } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import StartScreen from "./StartScreen";
 import { useColorGame } from "./useColorGame";
 import CelebrationBox from "@/components/shared/CelebrationBox";
@@ -12,7 +12,7 @@ import ColorCard from "./ColorCard";
 import { ALL_COLORS } from "@/lib/constants/gameConstants";
 
 export default function ColorGame() {
-  const colors: Color[] = ALL_COLORS;
+  const colors: BaseGameItem[] = ALL_COLORS;
 
   const {
     gameState,

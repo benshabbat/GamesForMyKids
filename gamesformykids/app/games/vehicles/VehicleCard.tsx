@@ -1,8 +1,8 @@
-import { Vehicle } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface VehicleCardProps {
-  vehicle: Vehicle;
-  onClick: (vehicle: Vehicle) => void;
+  vehicle: BaseGameItem;
+  onClick: (vehicle: BaseGameItem) => void;
 }
 
 /**

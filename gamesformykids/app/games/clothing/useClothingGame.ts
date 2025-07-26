@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { ClothingItem, ClothingGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, CLOTHING_HEBREW_PRONUNCIATIONS, CLOTHING_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useClothingGame(clothingItems: ClothingItem[]) {
-  const [gameState, setGameState] = useState<ClothingGameState>({
+export function useClothingGame(clothingItems: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useClothingGame(clothingItems: ClothingItem[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableClothingItems = (): ClothingItem[] => {
-    const baseClothingItems = CLOTHING_GAME_CONSTANTS.BASE_CLOTHING_COUNT;
+  const getAvailableClothingItems = (): BaseGameItem[] => {
+    const baseClothingItems = CLOTHING_GAME_CONSTANTS.BASE_COUNT;
     const additionalClothingItems = Math.floor((gameState.level - 1) / CLOTHING_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * CLOTHING_GAME_CONSTANTS.CLOTHING_INCREMENT;
+      * CLOTHING_GAME_CONSTANTS.INCREMENT;
     const totalClothingItems = Math.min(baseClothingItems + additionalClothingItems, clothingItems.length);
     return clothingItems.slice(0, totalClothingItems);
   };
 
-  const generateOptions = (correctClothingItem: ClothingItem): ClothingItem[] => {
+  const generateOptions = (correctClothingItem: BaseGameItem): BaseGameItem[] => {
     const availableClothingItems = getAvailableClothingItems();
     return generateGameOptions(correctClothingItem, availableClothingItems, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useClothingGame(clothingItems: ClothingItem[]) {
     await speakClothingItemName(randomClothingItem.name);
   };
 
-  const handleClothingItemClick = async (selectedClothingItem: ClothingItem) => {
+  const handleClothingItemClick = async (selectedClothingItem: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedClothingItem.name === gameState.currentChallenge.name) {

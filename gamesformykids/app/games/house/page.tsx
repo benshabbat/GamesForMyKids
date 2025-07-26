@@ -1,6 +1,6 @@
 "use client";
 
-import { HouseItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useHouseGame } from "./useHouseGame";
@@ -12,7 +12,7 @@ import HouseCard from "./HouseCard";
 import { ALL_HOUSE_ITEMS } from "@/lib/constants/gameConstants";
 
 export default function HouseGame() {
-  const houseItems: HouseItem[] = ALL_HOUSE_ITEMS;
+  const houseItems: BaseGameItem[] = ALL_HOUSE_ITEMS;
 
   const {
     gameState,

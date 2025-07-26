@@ -1,0 +1,66 @@
+/**
+ * ===============================================
+ * טיפוסים למסכי התחלה של משחקים
+ * ===============================================
+ */
+
+import { BaseGameItem } from "./base";
+import { NumberItem, ProfessionItem, AnimalData } from "./games";
+
+/**
+ * מאפיינים בסיסיים למסכי התחלה
+ */
+export interface BaseStartScreenProps {
+  onStart: () => void;
+  onSpeak?: (name: string) => void;
+}
+
+/**
+ * מסכי התחלה למשחקים רגילים
+ */
+export interface GenericStartScreenProps extends BaseStartScreenProps {
+  items: BaseGameItem[];
+}
+
+/**
+ * מסכי התחלה למשחקים מיוחדים
+ */
+export interface NumberStartScreenProps extends BaseStartScreenProps {
+  numbers: NumberItem[];
+}
+
+export interface ColorStartScreenProps extends BaseStartScreenProps {
+  colors: BaseGameItem[];
+}
+
+export interface ProfessionStartScreenProps extends BaseStartScreenProps {
+  professions: ProfessionItem[];
+}
+
+export interface MemoryStartScreenProps extends BaseStartScreenProps {
+  animals: AnimalData[];
+}
+
+/**
+ * מסכי התחלה למשחקים ללא פריטים נוספים
+ */
+export type CountingStartScreenProps = BaseStartScreenProps;
+export type MathStartScreenProps = BaseStartScreenProps;
+
+/**
+ * Type aliases למסכי התחלה של משחקים רגילים
+ */
+export type LetterStartScreenProps = GenericStartScreenProps;
+export type ShapeStartScreenProps = GenericStartScreenProps;
+export type FruitStartScreenProps = GenericStartScreenProps;
+export type AnimalStartScreenProps = GenericStartScreenProps;
+export type WeatherStartScreenProps = GenericStartScreenProps;
+export type TransportStartScreenProps = GenericStartScreenProps;
+export type VegetableStartScreenProps = GenericStartScreenProps;
+export type InstrumentStartScreenProps = GenericStartScreenProps;
+export type SpaceStartScreenProps = GenericStartScreenProps;
+export type ClothingStartScreenProps = GenericStartScreenProps;
+export type SmellTasteStartScreenProps = GenericStartScreenProps;
+export type HouseStartScreenProps = GenericStartScreenProps;
+export type ToolStartScreenProps = GenericStartScreenProps;
+export type VehicleStartScreenProps = GenericStartScreenProps;

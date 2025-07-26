@@ -1,6 +1,6 @@
 "use client";
 
-import { Fruit } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useFruitGame } from "./useFruitGame";
@@ -12,7 +12,7 @@ import FruitCard from "./FruitCard";
 import { ALL_FRUITS } from "@/lib/constants/gameConstants";
 
 export default function FruitGame() {
-  const fruits: Fruit[] = ALL_FRUITS;
+  const fruits: BaseGameItem[] = ALL_FRUITS;
 
   const {
     gameState,

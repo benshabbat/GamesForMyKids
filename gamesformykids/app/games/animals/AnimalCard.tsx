@@ -1,8 +1,8 @@
-import { Animal } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface AnimalCardProps {
-  animal: Animal;
-  onClick: (animal: Animal) => void;
+  animal: BaseGameItem;
+  onClick: (animal: BaseGameItem) => void;
 }
 
 /**

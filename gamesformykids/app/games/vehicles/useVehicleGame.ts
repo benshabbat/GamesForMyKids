@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Vehicle, VehicleGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, VEHICLE_HEBREW_PRONUNCIATIONS, VEHICLE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useVehicleGame(vehicles: Vehicle[]) {
-  const [gameState, setGameState] = useState<VehicleGameState>({
+export function useVehicleGame(vehicles: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useVehicleGame(vehicles: Vehicle[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableVehicles = (): Vehicle[] => {
-    const baseVehicles = VEHICLE_GAME_CONSTANTS.BASE_VEHICLE_COUNT;
+  const getAvailableVehicles = (): BaseGameItem[] => {
+    const baseVehicles = VEHICLE_GAME_CONSTANTS.BASE_COUNT;
     const additionalVehicles = Math.floor((gameState.level - 1) / VEHICLE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * VEHICLE_GAME_CONSTANTS.VEHICLE_INCREMENT;
+      * VEHICLE_GAME_CONSTANTS.INCREMENT;
     const totalVehicles = Math.min(baseVehicles + additionalVehicles, vehicles.length);
     return vehicles.slice(0, totalVehicles);
   };
 
-  const generateOptions = (correctVehicle: Vehicle): Vehicle[] => {
+  const generateOptions = (correctVehicle: BaseGameItem): BaseGameItem[] => {
     const availableVehicles = getAvailableVehicles();
     return generateGameOptions(correctVehicle, availableVehicles, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useVehicleGame(vehicles: Vehicle[]) {
     await speakVehicleName(randomVehicle.name);
   };
 
-  const handleVehicleClick = async (selectedVehicle: Vehicle) => {
+  const handleVehicleClick = async (selectedVehicle: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedVehicle.name === gameState.currentChallenge.name) {

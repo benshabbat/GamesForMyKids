@@ -12,7 +12,7 @@ import ShapeCard from "./ShapeCard";
 import { ALL_SHAPES } from "@/lib/constants/gameConstants";
 
 export default function ShapeGame() {
-  const shapes: Shape[] = ALL_SHAPES;
+  const shapes: Shape[] = ALL_SHAPES as Shape[];
 
   const {
     gameState,

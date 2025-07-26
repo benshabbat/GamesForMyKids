@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { HouseItem, HouseGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, HOUSE_HEBREW_PRONUNCIATIONS, HOUSE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useHouseGame(houseItems: HouseItem[]) {
-  const [gameState, setGameState] = useState<HouseGameState>({
+export function useHouseGame(houseItems: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useHouseGame(houseItems: HouseItem[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableHouseItems = (): HouseItem[] => {
-    const baseItems = HOUSE_GAME_CONSTANTS.BASE_HOUSE_COUNT;
+  const getAvailableHouseItems = (): BaseGameItem[] => {
+    const baseItems = HOUSE_GAME_CONSTANTS.BASE_COUNT;
     const additionalItems = Math.floor((gameState.level - 1) / HOUSE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * HOUSE_GAME_CONSTANTS.HOUSE_INCREMENT;
+      * HOUSE_GAME_CONSTANTS.INCREMENT;
     const totalItems = Math.min(baseItems + additionalItems, houseItems.length);
     return houseItems.slice(0, totalItems);
   };
 
-  const generateOptions = (correctItem: HouseItem): HouseItem[] => {
+  const generateOptions = (correctItem: BaseGameItem): BaseGameItem[] => {
     const availableItems = getAvailableHouseItems();
     return generateGameOptions(correctItem, availableItems, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useHouseGame(houseItems: HouseItem[]) {
     await speakHouseItemName(randomItem.name);
   };
 
-  const handleHouseItemClick = async (selectedItem: HouseItem) => {
+  const handleHouseItemClick = async (selectedItem: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedItem.name === gameState.currentChallenge.name) {

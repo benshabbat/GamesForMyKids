@@ -2,7 +2,7 @@ import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
 import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
-import { GameStep } from "@/lib/types/uiTypes";
+import { GameStep } from "@/lib/types";
 import { ReactNode } from "react";
 
 interface GenericStartScreenProps<T> {

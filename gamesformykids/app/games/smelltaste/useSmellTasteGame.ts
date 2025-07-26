@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SmellTasteItem, SmellTasteGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, SMELL_TASTE_HEBREW_PRONUNCIATIONS, SMELL_TASTE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useSmellTasteGame(smellTasteItems: SmellTasteItem[]) {
-  const [gameState, setGameState] = useState<SmellTasteGameState>({
+export function useSmellTasteGame(smellTasteItems: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useSmellTasteGame(smellTasteItems: SmellTasteItem[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableSmellTasteItems = (): SmellTasteItem[] => {
-    const baseSmellTasteItems = SMELL_TASTE_GAME_CONSTANTS.BASE_SMELL_TASTE_COUNT;
+  const getAvailableSmellTasteItems = (): BaseGameItem[] => {
+    const baseSmellTasteItems = SMELL_TASTE_GAME_CONSTANTS.BASE_COUNT;
     const additionalSmellTasteItems = Math.floor((gameState.level - 1) / SMELL_TASTE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * SMELL_TASTE_GAME_CONSTANTS.SMELL_TASTE_INCREMENT;
+      * SMELL_TASTE_GAME_CONSTANTS.INCREMENT;
     const totalSmellTasteItems = Math.min(baseSmellTasteItems + additionalSmellTasteItems, smellTasteItems.length);
     return smellTasteItems.slice(0, totalSmellTasteItems);
   };
 
-  const generateOptions = (correctSmellTasteItem: SmellTasteItem): SmellTasteItem[] => {
+  const generateOptions = (correctSmellTasteItem: BaseGameItem): BaseGameItem[] => {
     const availableSmellTasteItems = getAvailableSmellTasteItems();
     return generateGameOptions(correctSmellTasteItem, availableSmellTasteItems, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useSmellTasteGame(smellTasteItems: SmellTasteItem[]) {
     await speakSmellTasteItemName(randomSmellTasteItem.name);
   };
 
-  const handleSmellTasteItemClick = async (selectedSmellTasteItem: SmellTasteItem) => {
+  const handleSmellTasteItemClick = async (selectedSmellTasteItem: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedSmellTasteItem.name === gameState.currentChallenge.name) {

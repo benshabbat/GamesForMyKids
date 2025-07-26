@@ -2,7 +2,7 @@ import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
 import { COLOR_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { ColorStartScreenProps } from "@/lib/types/startScreenTypes";
+import { ColorStartScreenProps } from "@/lib/types/startScreen";
 
 export default function StartScreen({ colors, onStart }: ColorStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
@@ -26,7 +26,7 @@ export default function StartScreen({ colors, onStart }: ColorStartScreenProps) 
         <GameItem
           key={color.name}
           hebrewText={color.hebrew}
-          color={color.value}
+          color={color.color}
           shape="circle"
           size="large"
         />

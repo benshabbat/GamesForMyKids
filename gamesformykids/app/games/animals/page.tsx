@@ -1,6 +1,6 @@
 "use client";
 
-import { Animal } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useAnimalGame } from "./useAnimalGame";
@@ -12,7 +12,7 @@ import AnimalCard from "./AnimalCard";
 import { ALL_ANIMALS } from "@/lib/constants/gameConstants";
 
 export default function AnimalGame() {
-  const animals: Animal[] = ALL_ANIMALS;
+  const animals: BaseGameItem[] = ALL_ANIMALS;
 
   const {
     gameState,

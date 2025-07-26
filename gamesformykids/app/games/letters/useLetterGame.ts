@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Letter, LetterGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { cancelSpeech } from "@/lib/utils/enhancedSpeechUtils";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
@@ -13,10 +13,10 @@ import {
   speakItemName,
   handleWrongGameAnswer
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, LETTER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useLetterGame(letters: Letter[]) {
-  const [gameState, setGameState] = useState<LetterGameState>({
+export function useLetterGame(letters: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -57,11 +57,11 @@ export function useLetterGame(letters: Letter[]) {
    * מחזיר את האותיות הזמינות לשלב הנוכחי במשחק
    * מספר האותיות גדל עם העלייה ברמות
    */
-  function getAvailableLetters(): Letter[] {
+  function getAvailableLetters(): BaseGameItem[] {
     // קבועים לחישוב האותיות הזמינות
-    const BASE_LETTERS_COUNT = GAME_CONSTANTS.LETTER_GAME.BASE_LETTERS_COUNT;
-    const LETTERS_INCREMENT = GAME_CONSTANTS.LETTER_GAME.LETTERS_INCREMENT;
-    const LEVEL_THRESHOLD = GAME_CONSTANTS.LETTER_GAME.LEVEL_THRESHOLD;
+    const BASE_LETTERS_COUNT = LETTER_GAME_CONSTANTS.BASE_COUNT;
+    const LETTERS_INCREMENT = LETTER_GAME_CONSTANTS.INCREMENT;
+    const LEVEL_THRESHOLD = LETTER_GAME_CONSTANTS.LEVEL_THRESHOLD;
     
     // חישוב מספר האותיות הזמינות בהתאם לרמה
     const additionalLetters = Math.floor((gameState.level - 1) / LEVEL_THRESHOLD) * LETTERS_INCREMENT;
@@ -74,7 +74,7 @@ export function useLetterGame(letters: Letter[]) {
    * מייצר אפשרויות בחירה למשחק - אות נכונה ו-3 אותיות שגויות
    * @param correctLetter האות הנכונה שצריכה להיות בין האפשרויות
    */
-  function generateOptions(correctLetter: Letter): Letter[] {
+  function generateOptions(correctLetter: BaseGameItem): BaseGameItem[] {
     const availableLetters = getAvailableLetters();
     
     // משתמש בפונקציה הגנרית מ-gameUtils עם מספר האפשרויות מהקבועים
@@ -136,7 +136,7 @@ export function useLetterGame(letters: Letter[]) {
   /**
    * מטפל בלחיצה על אות - בודק אם התשובה נכונה ומפעיל את הפונקציה המתאימה
    */
-  function handleLetterClick(selectedLetter: Letter) {
+  function handleLetterClick(selectedLetter: BaseGameItem) {
     if (!gameState.currentChallenge) return;
 
     const isCorrect = selectedLetter.name === gameState.currentChallenge.name;

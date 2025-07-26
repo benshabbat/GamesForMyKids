@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Instrument, InstrumentGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, INSTRUMENT_HEBREW_PRONUNCIATIONS, INSTRUMENT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useInstrumentGame(instruments: Instrument[]) {
-  const [gameState, setGameState] = useState<InstrumentGameState>({
+export function useInstrumentGame(instruments: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useInstrumentGame(instruments: Instrument[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableInstruments = (): Instrument[] => {
-    const baseInstruments = INSTRUMENT_GAME_CONSTANTS.BASE_INSTRUMENTS_COUNT;
+  const getAvailableInstruments = (): BaseGameItem[] => {
+    const baseInstruments = INSTRUMENT_GAME_CONSTANTS.BASE_COUNT;
     const additionalInstruments = Math.floor((gameState.level - 1) / INSTRUMENT_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * INSTRUMENT_GAME_CONSTANTS.INSTRUMENTS_INCREMENT;
+      * INSTRUMENT_GAME_CONSTANTS.INCREMENT;
     const totalInstruments = Math.min(baseInstruments + additionalInstruments, instruments.length);
     return instruments.slice(0, totalInstruments);
   };
 
-  const generateOptions = (correctInstrument: Instrument): Instrument[] => {
+  const generateOptions = (correctInstrument: BaseGameItem): BaseGameItem[] => {
     const availableInstruments = getAvailableInstruments();
     return generateGameOptions(correctInstrument, availableInstruments, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useInstrumentGame(instruments: Instrument[]) {
     await speakInstrumentName(randomInstrument.name);
   };
 
-  const handleInstrumentClick = async (selectedInstrument: Instrument) => {
+  const handleInstrumentClick = async (selectedInstrument: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedInstrument.name === gameState.currentChallenge.name) {

@@ -1,8 +1,8 @@
-import { Fruit } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface FruitCardProps {
-  fruit: Fruit;
-  onClick: (fruit: Fruit) => void;
+  fruit: BaseGameItem;
+  onClick: (fruit: BaseGameItem) => void;
 }
 
 /**

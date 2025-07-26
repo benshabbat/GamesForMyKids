@@ -1,6 +1,10 @@
 /**
- * טיפוסים הקשורים לממשק המשתמש
+ * ===============================================
+ * טיפוסים לממשק המשתמש
+ * ===============================================
  */
+
+import { ReactNode } from 'react';
 
 /**
  * שלב הדרכה במשחק
@@ -29,7 +33,7 @@ export interface GameItemProps {
   hebrewText: string;
   secondaryText?: string;
   color: string;
-  icon?: React.ReactNode;
+  icon?: ReactNode;
   shape?: "rounded" | "circle" | "square";
   size?: "small" | "medium" | "large";
   onClick?: () => void;

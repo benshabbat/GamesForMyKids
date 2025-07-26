@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Fruit, FruitGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, FRUIT_HEBREW_PRONUNCIATIONS, FRUIT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useFruitGame(fruits: Fruit[]) {
-  const [gameState, setGameState] = useState<FruitGameState>({
+export function useFruitGame(fruits: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -32,15 +32,15 @@ export function useFruitGame(fruits: Fruit[]) {
 
   // --- Utility Functions ---
 
-  const getAvailableFruits = (): Fruit[] => {
-    const baseFruits = FRUIT_GAME_CONSTANTS.BASE_FRUITS_COUNT;
+  const getAvailableFruits = (): BaseGameItem[] => {
+    const baseFruits = FRUIT_GAME_CONSTANTS.BASE_COUNT;
     const additionalFruits = Math.floor((gameState.level - 1) / FRUIT_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * FRUIT_GAME_CONSTANTS.FRUITS_INCREMENT;
+      * FRUIT_GAME_CONSTANTS.INCREMENT;
     const totalFruits = Math.min(baseFruits + additionalFruits, fruits.length);
     return fruits.slice(0, totalFruits);
   };
 
-  const generateOptions = (correctFruit: Fruit): Fruit[] => {
+  const generateOptions = (correctFruit: BaseGameItem): BaseGameItem[] => {
     const availableFruits = getAvailableFruits();
     
     return generateGameOptions(correctFruit, availableFruits, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
@@ -94,7 +94,7 @@ export function useFruitGame(fruits: Fruit[]) {
     await speakFruitName(randomFruit.name);
   };
 
-  const handleFruitClick = async (selectedFruit: Fruit) => {
+  const handleFruitClick = async (selectedFruit: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedFruit.name === gameState.currentChallenge.name) {

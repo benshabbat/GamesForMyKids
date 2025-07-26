@@ -1,8 +1,8 @@
-import { ClothingItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface ClothingCardProps {
-  clothingItem: ClothingItem;
-  onClick: (clothingItem: ClothingItem) => void;
+  clothingItem: BaseGameItem;
+  onClick: (clothingItem: BaseGameItem) => void;
 }
 
 /**

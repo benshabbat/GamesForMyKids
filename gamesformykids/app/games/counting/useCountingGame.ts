@@ -48,10 +48,10 @@ export function useCountingGame() {
 
   const getMaxCount = (): number => {
     return Math.min(
-      COUNTING_GAME_CONSTANTS.BASE_MAX_COUNT + 
+      COUNTING_GAME_CONSTANTS.BASE_COUNT + 
       Math.floor((gameState.level - 1) / COUNTING_GAME_CONSTANTS.LEVEL_THRESHOLD) * 
-      COUNTING_GAME_CONSTANTS.COUNT_INCREMENT,
-      COUNTING_GAME_CONSTANTS.ABSOLUTE_MAX_COUNT
+      COUNTING_GAME_CONSTANTS.INCREMENT,
+      15 // מקסימום מוחלט של ספירה
     );
   };
 

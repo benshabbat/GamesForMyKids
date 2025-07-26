@@ -12,7 +12,7 @@ import ToolCard from "./ToolCard";
 import { ALL_TOOLS } from "@/lib/constants/gameConstants";
 
 export default function ToolGame() {
-  const tools: Tool[] = ALL_TOOLS;
+  const tools: Tool[] = ALL_TOOLS as Tool[];
 
   const {
     gameState,

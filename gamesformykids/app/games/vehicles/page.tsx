@@ -1,6 +1,6 @@
 "use client";
 
-import { Vehicle } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useVehicleGame } from "./useVehicleGame";
@@ -12,7 +12,7 @@ import VehicleCard from "./VehicleCard";
 import { ALL_VEHICLES } from "@/lib/constants/gameConstants";
 
 export default function VehicleGame() {
-  const vehicles: Vehicle[] = ALL_VEHICLES;
+  const vehicles: BaseGameItem[] = ALL_VEHICLES;
 
   const {
     gameState,

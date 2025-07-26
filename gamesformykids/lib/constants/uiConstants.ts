@@ -2,7 +2,7 @@
  * קבועים הקשורים לממשק המשתמש של המשחקים
  */
 
-import { GameStep } from "../types/uiTypes";
+import { GameStep } from "../types";
 
 
 
@@ -197,4 +197,13 @@ export const TOOL_GAME_STEPS: GameStep[] = [
   { icon: "👂", title: "1. תשמע", description: "איזה כלי עבודה אני אומר" },
   { icon: "🤔", title: "2. תחשוב", description: "איך כלי העבודה נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על כלי העבודה הנכון" },
+];
+
+/**
+ * שלבי משחק כלי הרכב
+ */
+export const VEHICLE_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה כלי רכב אני אומר" },
+  { icon: "🤔", title: "2. תחשוב", description: "איך כלי הרכב נראה" },
+  { icon: "👆", title: "3. תלחץ", description: "על כלי הרכב הנכון" },
 ];

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Animal, AnimalGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, ANIMAL_HEBREW_PRONUNCIATIONS, ANIMAL_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useAnimalGame(animals: Animal[]) {
-  const [gameState, setGameState] = useState<AnimalGameState>({
+export function useAnimalGame(animals: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -32,15 +32,15 @@ export function useAnimalGame(animals: Animal[]) {
 
   // --- Utility Functions ---
 
-  const getAvailableAnimals = (): Animal[] => {
-    const baseAnimals = ANIMAL_GAME_CONSTANTS.BASE_ANIMALS_COUNT;
+  const getAvailableAnimals = (): BaseGameItem[] => {
+    const baseAnimals = ANIMAL_GAME_CONSTANTS.BASE_COUNT;
     const additionalAnimals = Math.floor((gameState.level - 1) / ANIMAL_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * ANIMAL_GAME_CONSTANTS.ANIMALS_INCREMENT;
+      * ANIMAL_GAME_CONSTANTS.INCREMENT;
     const totalAnimals = Math.min(baseAnimals + additionalAnimals, animals.length);
     return animals.slice(0, totalAnimals);
   };
 
-  const generateOptions = (correctAnimal: Animal): Animal[] => {
+  const generateOptions = (correctAnimal: BaseGameItem): BaseGameItem[] => {
     const availableAnimals = getAvailableAnimals();
     
     return generateGameOptions(correctAnimal, availableAnimals, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
@@ -94,7 +94,7 @@ export function useAnimalGame(animals: Animal[]) {
     await speakAnimalName(randomAnimal.name);
   };
 
-  const handleAnimalClick = async (selectedAnimal: Animal) => {
+  const handleAnimalClick = async (selectedAnimal: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedAnimal.name === gameState.currentChallenge.name) {

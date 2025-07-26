@@ -1,6 +1,6 @@
 "use client";
 
-import { Letter } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import StartScreen from "./StartScreen";
 import { useLetterGame } from "./useLetterGame";
@@ -12,7 +12,7 @@ import LetterCard from "./LetterCard";
 import { ALL_LETTERS } from "@/lib/constants/gameConstants";
 
 export default function LetterGame() {
-  const letters: Letter[] = ALL_LETTERS;
+  const letters: BaseGameItem[] = ALL_LETTERS;
 
   const {
     gameState,

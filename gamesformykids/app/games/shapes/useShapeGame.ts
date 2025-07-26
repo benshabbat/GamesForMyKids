@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import { Shape, ShapeGameState } from "@/lib/types/game";
+import { ShapeGameState, Shape } from "@/lib/types/game";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, SHAPE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
 export function useShapeGame(shapes: Shape[]) {
   const [gameState, setGameState] = useState<ShapeGameState>({
@@ -43,9 +43,9 @@ export function useShapeGame(shapes: Shape[]) {
   };
 
   const getAvailableShapes = (): Shape[] => {
-    const baseShapes = GAME_CONSTANTS.SHAPE_GAME.BASE_SHAPES_COUNT;
-    const additionalShapes = Math.floor((gameState.level - 1) / GAME_CONSTANTS.SHAPE_GAME.LEVEL_THRESHOLD) 
-      * GAME_CONSTANTS.SHAPE_GAME.SHAPES_INCREMENT;
+    const baseShapes = SHAPE_GAME_CONSTANTS.BASE_COUNT;
+    const additionalShapes = Math.floor((gameState.level - 1) / SHAPE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
+      * SHAPE_GAME_CONSTANTS.INCREMENT;
     const totalShapes = Math.min(baseShapes + additionalShapes, shapes.length);
     return shapes.slice(0, totalShapes);
   };
@@ -54,7 +54,7 @@ export function useShapeGame(shapes: Shape[]) {
     const availableShapes = getAvailableShapes();
     
     // משתמש בפונקציה הגנרית מ-gameUtils עם מספר האפשרויות מהקבועים
-    return generateGameOptions(correctShape, availableShapes, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
+    return generateGameOptions(correctShape, availableShapes, GAME_CONSTANTS.OPTIONS_COUNT, 'name') as Shape[];
   };
 
   // --- Audio & Speech ---
@@ -103,7 +103,7 @@ export function useShapeGame(shapes: Shape[]) {
     const options = generateOptions(randomShape);
 
     // עדכון מצב המשחק עם האתגר והאפשרויות החדשות
-    setGameState((prev) => ({
+    setGameState((prev: ShapeGameState) => ({
       ...prev,
       currentChallenge: randomShape,
       options,
@@ -125,12 +125,12 @@ export function useShapeGame(shapes: Shape[]) {
       const options = generateOptions(randomShape);
 
       // הפעלת הלוגיקה הגנרית לטיפול בתשובה נכונה
-      handleCorrectGameAnswer(
+      handleCorrectGameAnswer<ShapeGameState>(
         gameState, 
         setGameState, 
         async () => {
           // עדכון האתגר החדש והאפשרויות
-          setGameState((prev) => ({
+          setGameState((prev: ShapeGameState) => ({
             ...prev,
             currentChallenge: randomShape,
             options,

@@ -1,8 +1,8 @@
-import { Color } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface ColorCardProps {
-  color: Color;
-  onClick: (color: Color) => void;
+  color: BaseGameItem;
+  onClick: (color: BaseGameItem) => void;
 }
 
 /**
@@ -18,7 +18,7 @@ export default function ColorCard({ color, onClick }: ColorCardProps) {
       className={`
         aspect-square rounded-3xl cursor-pointer transition-all
         duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-        ${color.tailwindClass}
+        ${color.color}
         border-8 border-white
       `}
     >

@@ -18,7 +18,7 @@ import {
   Wrench,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
-import { Game } from "@/lib/types/game";
+import { Game } from "@/lib/types";
 import { createElement } from "react";
 
 export interface GameRegistration {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Instrument } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useInstrumentGame } from "./useInstrumentGame";
@@ -11,7 +11,7 @@ import InstrumentCard from "./InstrumentCard";
 import { ALL_INSTRUMENTS } from "@/lib/constants/gameConstants";
 
 export default function InstrumentGame() {
-  const instruments: Instrument[] = ALL_INSTRUMENTS;
+  const instruments: BaseGameItem[] = ALL_INSTRUMENTS;
 
   const {
     gameState,
@@ -69,7 +69,7 @@ export default function InstrumentGame() {
         </div>
 
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
-          {gameState.options.map((instrument) => (
+          {gameState.options.map((instrument: BaseGameItem) => (
             <InstrumentCard
               key={instrument.name}
               instrument={instrument}

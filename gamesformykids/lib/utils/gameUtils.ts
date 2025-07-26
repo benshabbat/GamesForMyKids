@@ -2,7 +2,7 @@
  * אוסף פונקציות עזר גנריות למשחקים
  */
 import React from 'react';
-import { FEEDBACK_MESSAGES, GAME_CONSTANTS, HEBREW_PRONUNCIATIONS, SOUND_CONSTANTS } from "../constants/gameConstants";
+import { FEEDBACK_MESSAGES, GAME_CONSTANTS, SOUND_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../constants/gameConstants";
 import { speakHebrew, cancelSpeech, isSpeechEnabled } from "./enhancedSpeechUtils";
 
 /**
@@ -29,7 +29,7 @@ export function shuffleArray<T>(array: T[]): T[] {
  * @returns הגייה עברית של האות
  */
 export function getHebrewPronunciation(letterName: string): string {
-  return HEBREW_PRONUNCIATIONS[letterName] || letterName;
+  return LETTER_HEBREW_PRONUNCIATIONS[letterName] || letterName;
 }
 
 /**
@@ -335,7 +335,7 @@ export function playAnimalSound(
  */
 export function playMemorySuccessSound(
   audioContext: AudioContext | null,
-  frequencies: number[] = GAME_CONSTANTS.MEMORY_GAME.SUCCESS_SOUND_FREQUENCIES
+  frequencies: number[] = MEMORY_GAME_CONSTANTS.SUCCESS_SOUND_FREQUENCIES
 ): void {
   playCustomSound(audioContext, frequencies, 'triangle', 0.2, 80);
 }

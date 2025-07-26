@@ -11,7 +11,7 @@ import SpaceCard from "./SpaceCard";
 import { ALL_SPACE_OBJECTS } from "@/lib/constants/gameConstants";
 
 export default function SpaceGame() {
-  const spaceObjects: SpaceObject[] = ALL_SPACE_OBJECTS;
+  const spaceObjects: SpaceObject[] = ALL_SPACE_OBJECTS as SpaceObject[];
 
   const {
     gameState,

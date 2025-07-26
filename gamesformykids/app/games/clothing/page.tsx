@@ -1,6 +1,6 @@
 "use client";
 
-import { ClothingItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useClothingGame } from "./useClothingGame";
@@ -11,7 +11,7 @@ import ClothingCard from "./ClothingCard";
 import { ALL_CLOTHING } from "@/lib/constants/gameConstants";
 
 export default function ClothingGame() {
-  const clothingItems: ClothingItem[] = ALL_CLOTHING;
+  const clothingItems: BaseGameItem[] = ALL_CLOTHING;
 
   const {
     gameState,
@@ -79,7 +79,7 @@ export default function ClothingGame() {
         </div>
 
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
-          {gameState.options.map((clothingItem) => (
+          {gameState.options.map((clothingItem: BaseGameItem) => (
             <ClothingCard
               key={clothingItem.name}
               clothingItem={clothingItem}

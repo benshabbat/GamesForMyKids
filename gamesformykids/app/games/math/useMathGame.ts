@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MathGameState, MathChallenge } from "@/lib/types/game";
+import { MathChallenge } from "@/lib/types/games";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -10,6 +10,16 @@ import {
   speakStartMessage
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+
+// Math game specific state interface
+interface MathGameState {
+  currentChallenge: MathChallenge | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: number[]; // Math game uses numbers as options, not objects
+}
 
 // אימוג'ים לחיבור וחיסור
 const MATH_ITEMS = [
@@ -142,7 +152,8 @@ export function useMathGame() {
         isPlaying: true,
         showCelebration: false,
         options: [],
-      });
+        isCorrect: null,
+      } as MathGameState);
 
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
@@ -153,7 +164,7 @@ export function useMathGame() {
       console.log("Generated math challenge:", challenge);
       console.log("Generated options:", options);
 
-      setGameState((prev) => ({
+      setGameState((prev: MathGameState) => ({
         ...prev,
         currentChallenge: challenge,
         options,
@@ -179,7 +190,7 @@ export function useMathGame() {
       console.log("Next options:", options);
       
       const onComplete = async () => {
-        setGameState((prev) => ({
+        setGameState((prev: MathGameState) => ({
           ...prev,
           currentChallenge: challenge,
           options,
@@ -211,7 +222,8 @@ export function useMathGame() {
       isPlaying: false,
       showCelebration: false,
       options: [],
-    });
+      isCorrect: null,
+    } as MathGameState);
   };
 
   return {

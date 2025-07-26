@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { SmellTasteItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useSmellTasteGame } from "./useSmellTasteGame";
@@ -13,7 +13,7 @@ import SmellTasteCard from "./SmellTasteCard";
 import { ALL_SMELLS_TASTES } from "@/lib/constants/gameConstants";
 
 export default function SmellTasteGame() {
-  const smellTasteItems: SmellTasteItem[] = ALL_SMELLS_TASTES;
+  const smellTasteItems: BaseGameItem[] = ALL_SMELLS_TASTES;
 
   const {
     gameState,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Profession } from "@/lib/types/game";
+import { ProfessionItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useProfessionGame } from "./useProfessionGame";
@@ -11,7 +11,7 @@ import ProfessionCard from "./ProfessionCard";
 import { ALL_PROFESSIONS } from "@/lib/constants/gameConstants";
 
 export default function ProfessionGame() {
-  const professions: Profession[] = ALL_PROFESSIONS;
+  const professions: ProfessionItem[] = ALL_PROFESSIONS;
 
   const {
     gameState,
@@ -76,7 +76,7 @@ export default function ProfessionGame() {
 
         {/* אפשרויות המקצועות */}
         <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
-          {gameState.options.map((profession) => (
+          {gameState.options.map((profession: ProfessionItem) => (
             <ProfessionCard
               key={profession.id}
               profession={profession}

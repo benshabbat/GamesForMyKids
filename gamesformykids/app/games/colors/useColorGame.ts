@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Color, GameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { cancelSpeech } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   playSuccessSound as playSound, 
@@ -12,14 +12,23 @@ import {
   speakStartMessage
 } from "@/lib/utils/gameUtils";
 import { 
-  INITIAL_GAME_STATE,
   COLOR_TRANSLATIONS,
   GAME_CONSTANTS
 } from "@/lib/constants/gameConstants";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 
-export function useColorGame(colors: Color[]) {
-  const [gameState, setGameState] = useState<GameState>(INITIAL_GAME_STATE);
+// Color game initial state
+const INITIAL_COLOR_GAME_STATE: BaseGameState<BaseGameItem> = {
+  currentChallenge: null,
+  score: 0,
+  level: 1,
+  isPlaying: false,
+  showCelebration: false,
+  options: [],
+};
+
+export function useColorGame(colors: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState<BaseGameItem>>(INITIAL_COLOR_GAME_STATE);
   const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
   const [, setSpeechEnabled] = useState(false);
 
@@ -72,9 +81,9 @@ export function useColorGame(colors: Color[]) {
   const startGame = async (): Promise<void> => {
     // עדכון הסטייט באופן ישיר
     setGameState({
-      ...INITIAL_GAME_STATE,
+      ...INITIAL_COLOR_GAME_STATE,
       isPlaying: true,
-      options: [] as Color[] // עדכון מפורש של הטיפוס
+      options: [] as BaseGameItem[] // עדכון מפורש של הטיפוס
     });
     
     // ברכת התחלה
@@ -86,7 +95,7 @@ export function useColorGame(colors: Color[]) {
   };
 
   // Handle color selection
-  const handleColorClick = (selectedColor: Color): void => {
+  const handleColorClick = (selectedColor: BaseGameItem): void => {
     if (!gameState.currentChallenge) return;
 
     const isCorrect = selectedColor.name === gameState.currentChallenge.name;
@@ -122,8 +131,8 @@ export function useColorGame(colors: Color[]) {
   // Reset the game to initial state
   const resetGame = (): void => {
     setGameState({
-      ...INITIAL_GAME_STATE,
-      options: [] as Color[]
+      ...INITIAL_COLOR_GAME_STATE,
+      options: [] as BaseGameItem[]
     });
   };
 

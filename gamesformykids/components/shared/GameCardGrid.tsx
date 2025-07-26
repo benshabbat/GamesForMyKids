@@ -1,10 +1,8 @@
 import { ReactNode } from "react";
-import { Color, Letter, Shape, NumberItem } from "@/lib/types/game";
-
-
+import { BaseGameItem, ColorItem, ShapeItem, NumberItem } from "@/lib/types";
 
 // Combined type for all our game items
-type GameItemType = Color | Letter | Shape | NumberItem;
+type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
 
 interface GameCardGridProps<T extends GameItemType> {
   // Core properties

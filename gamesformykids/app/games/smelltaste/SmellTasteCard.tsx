@@ -1,8 +1,8 @@
-import { SmellTasteItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types";
 
 interface SmellTasteCardProps {
-  smellTasteItem: SmellTasteItem;
-  onClick: (smellTasteItem: SmellTasteItem) => void;
+  smellTasteItem: BaseGameItem;
+  onClick: (smellTasteItem: BaseGameItem) => void;
 }
 
 /**
