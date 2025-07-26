@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { SPACE_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { SpaceStartScreenProps } from "@/lib/types/startScreenTypes";
+import { SpaceStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ spaceObjects, onStart, onSpeak }: SpaceStartScreenProps) {
+export default function StartScreen({ items: spaceObjects, onStart, onSpeak }: SpaceStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ spaceObjects, onStart, onSpeak }: SpaceSta
       itemsDescription="לחץ על גוף שמים כדי לשמוע את שמו! חקור את החלל המרהיב"
       itemsDescriptionColor="text-blue-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(spaceObject) => (
+      renderItem={(spaceObject: BaseGameItem) => (
         <GameItem
           key={spaceObject.name}
           hebrewText={spaceObject.hebrew}

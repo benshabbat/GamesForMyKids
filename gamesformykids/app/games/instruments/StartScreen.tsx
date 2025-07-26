@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { INSTRUMENT_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { InstrumentStartScreenProps } from "@/lib/types/startScreenTypes";
+import { InstrumentStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ instruments, onStart, onSpeak }: InstrumentStartScreenProps) {
+export default function StartScreen({ items: instruments, onStart, onSpeak }: InstrumentStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ instruments, onStart, onSpeak }: Instrumen
       itemsDescription="לחץ על כלי נגינה כדי לשמוע את שמו! כלי נגינה יפים ומוזיקליים"
       itemsDescriptionColor="text-yellow-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(instrument) => (
+      renderItem={(instrument: BaseGameItem) => (
         <GameItem
           key={instrument.name}
           hebrewText={instrument.hebrew}

@@ -2,9 +2,10 @@ import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
 import { COLOR_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { ColorStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
+import { GenericStartScreenProps } from "@/lib/types/startScreen";
 
-export default function StartScreen({ colors, onStart }: ColorStartScreenProps) {
+export default function StartScreen({ items, onStart }: GenericStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -14,7 +15,7 @@ export default function StartScreen({ colors, onStart }: ColorStartScreenProps) 
       textColorHeader={gameConfig.colors.header}
       textColorSubHeader={gameConfig.colors.subHeader}
       gameSteps={COLOR_GAME_STEPS}
-      items={colors}
+      items={items}
       onStart={onStart}
       buttonFromColor={gameConfig.colors.button.from}
       buttonToColor={gameConfig.colors.button.to}
@@ -22,7 +23,7 @@ export default function StartScreen({ colors, onStart }: ColorStartScreenProps) 
       itemsTitle="הצבעים שנלמד:"
       itemsDescription="לחץ על צבע כדי לשמוע את השם שלו!"
       itemsGridClass="flex flex-wrap justify-center gap-4"
-      renderItem={(color) => (
+      renderItem={(color: BaseGameItem) => (
         <GameItem
           key={color.name}
           hebrewText={color.hebrew}

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { SpaceObject, SpaceGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, SPACE_HEBREW_PRONUNCIATIONS, SPACE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useSpaceGame(spaceObjects: SpaceObject[]) {
-  const [gameState, setGameState] = useState<SpaceGameState>({
+export function useSpaceGame(spaceObjects: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useSpaceGame(spaceObjects: SpaceObject[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableSpaceObjects = (): SpaceObject[] => {
-    const baseSpaceObjects = SPACE_GAME_CONSTANTS.BASE_SPACE_COUNT;
+  const getAvailableSpaceObjects = (): BaseGameItem[] => {
+    const baseSpaceObjects = SPACE_GAME_CONSTANTS.BASE_COUNT;
     const additionalSpaceObjects = Math.floor((gameState.level - 1) / SPACE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * SPACE_GAME_CONSTANTS.SPACE_INCREMENT;
+      * SPACE_GAME_CONSTANTS.INCREMENT;
     const totalSpaceObjects = Math.min(baseSpaceObjects + additionalSpaceObjects, spaceObjects.length);
     return spaceObjects.slice(0, totalSpaceObjects);
   };
 
-  const generateOptions = (correctSpaceObject: SpaceObject): SpaceObject[] => {
+  const generateOptions = (correctSpaceObject: BaseGameItem): BaseGameItem[] => {
     const availableSpaceObjects = getAvailableSpaceObjects();
     return generateGameOptions(correctSpaceObject, availableSpaceObjects, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useSpaceGame(spaceObjects: SpaceObject[]) {
     await speakSpaceObjectName(randomSpaceObject.name);
   };
 
-  const handleSpaceObjectClick = async (selectedSpaceObject: SpaceObject) => {
+  const handleSpaceObjectClick = async (selectedSpaceObject: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedSpaceObject.name === gameState.currentChallenge.name) {

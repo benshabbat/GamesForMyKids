@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { CountingGameState, CountingChallenge } from "@/lib/types/game";
+import { CountingChallenge } from "@/lib/types/games";
+import { CountingGameState } from "@/lib/types/base";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 

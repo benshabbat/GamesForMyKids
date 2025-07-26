@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { ANIMAL_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { AnimalStartScreenProps } from "@/lib/types/startScreenTypes";
+import { AnimalStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ animals, onStart }: AnimalStartScreenProps) {
+export default function StartScreen({ items: animals, onStart }: AnimalStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ animals, onStart }: AnimalStartScreenProps
       itemsDescription="לחץ על חיה כדי לשמוע את השם שלה! חיות חמודות מהחווה"
       itemsDescriptionColor="text-green-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto"
-      renderItem={(animal) => (
+      renderItem={(animal: BaseGameItem) => (
         <GameItem
           key={animal.name}
           hebrewText={animal.hebrew}

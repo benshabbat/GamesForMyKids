@@ -25,7 +25,7 @@ export default function VehicleGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        vehicles={vehicles}
+        items={vehicles}
         onStart={startGame}
         onSpeak={speakVehicleName}
       />

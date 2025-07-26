@@ -1,6 +1,6 @@
 "use client";
 
-import { Weather } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useWeatherGame } from "./useWeatherGame";
@@ -12,7 +12,7 @@ import WeatherCard from "./WeatherCard";
 import { ALL_WEATHERS } from "@/lib/constants/gameConstants";
 
 export default function WeatherGame() {
-  const weathers: Weather[] = ALL_WEATHERS;
+  const weathers: BaseGameItem[] = ALL_WEATHERS;
 
   const {
     gameState,
@@ -25,7 +25,7 @@ export default function WeatherGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        weathers={weathers}
+        items={weathers}
         onStart={startGame}
         onSpeak={speakWeatherName}
       />

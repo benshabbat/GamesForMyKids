@@ -29,7 +29,7 @@ export default function InstrumentGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        instruments={instruments}
+        items={instruments}
         onStart={startGame}
         onSpeak={speakByName}
       />

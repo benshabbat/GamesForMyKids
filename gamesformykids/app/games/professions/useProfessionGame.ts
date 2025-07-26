@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { Profession, ProfessionGameState } from "@/lib/types/game";
+import { ProfessionItem } from "@/lib/types/games";
+import { BaseGameState } from "@/lib/types/base";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +14,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, PROFESSION_HEBREW_PRONUNCIATIONS } from "@/lib/constants/gameConstants";
 
-export function useProfessionGame(professions: Profession[]) {
-  const [gameState, setGameState] = useState<ProfessionGameState>({
+export function useProfessionGame(professions: ProfessionItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState<ProfessionItem>>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -32,7 +33,7 @@ export function useProfessionGame(professions: Profession[]) {
 
   // --- Utility Functions ---
 
-  const generateOptions = (correctProfession: Profession): Profession[] => {
+  const generateOptions = (correctProfession: ProfessionItem): ProfessionItem[] => {
     return generateGameOptions(correctProfession, professions, GAME_CONSTANTS.OPTIONS_COUNT, 'id');
   };
 
@@ -42,7 +43,7 @@ export function useProfessionGame(professions: Profession[]) {
     playSound(audioContext);
   };
 
-  const speakProfessionName = async (profession: Profession): Promise<void> => {
+  const speakProfessionName = async (profession: ProfessionItem): Promise<void> => {
     if (!speechEnabled) return;
     
     try {
@@ -92,7 +93,7 @@ export function useProfessionGame(professions: Profession[]) {
     console.log("Finished speaking profession name");
   };
 
-  const handleProfessionClick = async (selectedProfession: Profession) => {
+  const handleProfessionClick = async (selectedProfession: ProfessionItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedProfession.id === gameState.currentChallenge.id) {

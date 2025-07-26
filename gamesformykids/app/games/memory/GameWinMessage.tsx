@@ -1,4 +1,4 @@
-import { AnimalData } from "@/lib/types/game";
+import { AnimalData } from "@/lib/types/games";
 
 interface GameWinMessageProps {
   animals: AnimalData[];

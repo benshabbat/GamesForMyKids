@@ -25,7 +25,7 @@ export default function HouseGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        houseItems={houseItems}
+        items={houseItems}
         onStart={startGame}
         onSpeak={speakHouseItemName}
       />

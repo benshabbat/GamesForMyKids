@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { SMELL_TASTE_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { SmellTasteStartScreenProps } from "@/lib/types/startScreenTypes";
+import { SmellTasteStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ smellTasteItems, onStart }: SmellTasteStartScreenProps) {
+export default function StartScreen({ items: smellTasteItems, onStart }: SmellTasteStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ smellTasteItems, onStart }: SmellTasteStar
       itemsDescription="לחץ על ריח או טעם כדי לשמוע את השם שלו! ריחות וטעמים מוכרים ומעניינים"
       itemsDescriptionColor="text-amber-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(smellTasteItem) => (
+      renderItem={(smellTasteItem: BaseGameItem) => (
         <GameItem
           key={smellTasteItem.name}
           hebrewText={smellTasteItem.hebrew}

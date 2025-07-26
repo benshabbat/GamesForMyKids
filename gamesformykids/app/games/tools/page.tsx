@@ -1,6 +1,6 @@
 "use client";
 
-import { Tool } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useToolGame } from "./useToolGame";
@@ -12,7 +12,7 @@ import ToolCard from "./ToolCard";
 import { ALL_TOOLS } from "@/lib/constants/gameConstants";
 
 export default function ToolGame() {
-  const tools: Tool[] = ALL_TOOLS as Tool[];
+  const tools: BaseGameItem[] = ALL_TOOLS;
 
   const {
     gameState,
@@ -25,7 +25,7 @@ export default function ToolGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        tools={tools}
+        items={tools}
         onStart={startGame}
         onSpeak={speakToolName}
       />

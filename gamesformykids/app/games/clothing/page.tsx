@@ -29,7 +29,7 @@ export default function ClothingGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        clothingItems={clothingItems}
+        items={clothingItems}
         onStart={startGame}
         onSpeak={speakByName}
       />

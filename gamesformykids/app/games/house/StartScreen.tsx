@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { HOUSE_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { HouseStartScreenProps } from "@/lib/types/startScreenTypes";
+import { HouseStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ houseItems, onStart, onSpeak }: HouseStartScreenProps) {
+export default function StartScreen({ items: houseItems, onStart, onSpeak }: HouseStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ houseItems, onStart, onSpeak }: HouseStart
       itemsDescription="לחץ על חפץ בבית כדי לשמוע את שמו! הכל בבית שלנו"
       itemsDescriptionColor="text-sky-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(houseItem) => (
+      renderItem={(houseItem: BaseGameItem) => (
         <GameItem
           key={houseItem.name}
           hebrewText={houseItem.hebrew}

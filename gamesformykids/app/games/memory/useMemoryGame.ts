@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
-import { AnimalData, Card } from "@/lib/types/game";
+import { Card } from "@/lib/types/base";
+import { AnimalData } from "@/lib/types/games";
+
 import { 
   playAnimalSound as playGenericAnimalSound, 
   playMemorySuccessSound, 
@@ -7,8 +9,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { 
   MEMORY_GAME_ANIMALS, 
-  ANIMAL_SOUND_FREQUENCIES, 
-  GAME_CONSTANTS 
+  ANIMAL_SOUND_FREQUENCIES,
+  MEMORY_GAME_CONSTANTS
 } from "@/lib/constants/gameConstants";
 import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
@@ -118,7 +120,7 @@ export function useMemoryGame() {
         );
       }
       setFlippedCards([]);
-    }, GAME_CONSTANTS.MEMORY_GAME.FLIP_DURATION);
+    }, MEMORY_GAME_CONSTANTS.FLIP_DURATION);
   };
 
   const isGameWon = matchedPairs.length === emojis.length;

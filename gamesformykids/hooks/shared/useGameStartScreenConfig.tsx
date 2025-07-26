@@ -119,6 +119,20 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-amber-100",
     },
+    smelltaste: {
+      background:
+        "linear-gradient(135deg, #fef7cd 0%, #fbbf24 25%, #f59e0b 50%, #d97706 75%, #b45309 100%)",
+      button: { from: "amber", to: "orange" },
+      header: "text-white",
+      subHeader: "text-amber-100",
+    },
+    vehicles: {
+      background:
+        "linear-gradient(135deg, #1e40af 0%, #3b82f6 25%, #60a5fa 50%, #93c5fd 75%, #dbeafe 100%)",
+      button: { from: "blue", to: "indigo" },
+      header: "text-white",
+      subHeader: "text-blue-100",
+    },
     house: {
       background:
         "linear-gradient(135deg, #e0f2fe 0%, #7dd3fc 25%, #38bdf8 50%, #0ea5e9 75%, #0284c7 100%)",

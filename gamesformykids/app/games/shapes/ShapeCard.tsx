@@ -1,9 +1,9 @@
-import { Shape } from "@/lib/types/game";
+import { ShapeItem } from "@/lib/types/games";
 import * as ShapeIcons from "../../../public/icons/ShapeIcons";
 
 interface ShapeCardProps {
-  shape: Shape;
-  onClick: (shape: Shape) => void;
+  shape: ShapeItem;
+  onClick: (shape: ShapeItem) => void;
 }
 
 /**

@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { ShapeGameState, Shape } from "@/lib/types/game";
+import { ShapeItem } from "@/lib/types/games";
+import { BaseGameState } from "@/lib/types/base";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +14,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, SHAPE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useShapeGame(shapes: Shape[]) {
-  const [gameState, setGameState] = useState<ShapeGameState>({
+export function useShapeGame(shapes: ShapeItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState<ShapeItem>>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -42,7 +43,7 @@ export function useShapeGame(shapes: Shape[]) {
     }
   };
 
-  const getAvailableShapes = (): Shape[] => {
+  const getAvailableShapes = (): ShapeItem[] => {
     const baseShapes = SHAPE_GAME_CONSTANTS.BASE_COUNT;
     const additionalShapes = Math.floor((gameState.level - 1) / SHAPE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
       * SHAPE_GAME_CONSTANTS.INCREMENT;
@@ -50,11 +51,11 @@ export function useShapeGame(shapes: Shape[]) {
     return shapes.slice(0, totalShapes);
   };
 
-  const generateOptions = (correctShape: Shape): Shape[] => {
+    const generateOptions = (correctShape: ShapeItem): ShapeItem[] => {
     const availableShapes = getAvailableShapes();
     
     // משתמש בפונקציה הגנרית מ-gameUtils עם מספר האפשרויות מהקבועים
-    return generateGameOptions(correctShape, availableShapes, GAME_CONSTANTS.OPTIONS_COUNT, 'name') as Shape[];
+    return generateGameOptions(correctShape, availableShapes, GAME_CONSTANTS.OPTIONS_COUNT, 'name') as ShapeItem[];
   };
 
   // --- Audio & Speech ---
@@ -103,7 +104,7 @@ export function useShapeGame(shapes: Shape[]) {
     const options = generateOptions(randomShape);
 
     // עדכון מצב המשחק עם האתגר והאפשרויות החדשות
-    setGameState((prev: ShapeGameState) => ({
+    setGameState((prev: BaseGameState<ShapeItem>) => ({
       ...prev,
       currentChallenge: randomShape,
       options,
@@ -114,7 +115,7 @@ export function useShapeGame(shapes: Shape[]) {
     await speakShapeName(randomShape.name);
   };
 
-  const handleShapeClick = (selectedShape: Shape) => {
+  const handleShapeClick = (selectedShape: ShapeItem) => {
     if (!gameState.currentChallenge) return;
     clearRepeatTimer();
 
@@ -125,12 +126,12 @@ export function useShapeGame(shapes: Shape[]) {
       const options = generateOptions(randomShape);
 
       // הפעלת הלוגיקה הגנרית לטיפול בתשובה נכונה
-      handleCorrectGameAnswer<ShapeGameState>(
+      handleCorrectGameAnswer<BaseGameState<ShapeItem>>(
         gameState, 
         setGameState, 
         async () => {
           // עדכון האתגר החדש והאפשרויות
-          setGameState((prev: ShapeGameState) => ({
+          setGameState((prev: BaseGameState<ShapeItem>) => ({
             ...prev,
             currentChallenge: randomShape,
             options,

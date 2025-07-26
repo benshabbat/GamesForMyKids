@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Vegetable, VegetableGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, VEGETABLE_HEBREW_PRONUNCIATIONS, VEGETABLE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useVegetableGame(vegetables: Vegetable[]) {
-  const [gameState, setGameState] = useState<VegetableGameState>({
+export function useVegetableGame(vegetables: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useVegetableGame(vegetables: Vegetable[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableVegetables = (): Vegetable[] => {
-    const baseVegetables = VEGETABLE_GAME_CONSTANTS.BASE_VEGETABLES_COUNT;
+  const getAvailableVegetables = (): BaseGameItem[] => {
+    const baseVegetables = VEGETABLE_GAME_CONSTANTS.BASE_COUNT;
     const additionalVegetables = Math.floor((gameState.level - 1) / VEGETABLE_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * VEGETABLE_GAME_CONSTANTS.VEGETABLES_INCREMENT;
+      * VEGETABLE_GAME_CONSTANTS.INCREMENT;
     const totalVegetables = Math.min(baseVegetables + additionalVegetables, vegetables.length);
     return vegetables.slice(0, totalVegetables);
   };
 
-  const generateOptions = (correctVegetable: Vegetable): Vegetable[] => {
+  const generateOptions = (correctVegetable: BaseGameItem): BaseGameItem[] => {
     const availableVegetables = getAvailableVegetables();
     return generateGameOptions(correctVegetable, availableVegetables, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useVegetableGame(vegetables: Vegetable[]) {
     await speakVegetableName(randomVegetable.name);
   };
 
-  const handleVegetableClick = async (selectedVegetable: Vegetable) => {
+  const handleVegetableClick = async (selectedVegetable: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedVegetable.name === gameState.currentChallenge.name) {

@@ -25,7 +25,7 @@ export default function FruitGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        fruits={fruits}
+        items={fruits}
         onStart={startGame}
         onSpeak={speakFruitName}
       />

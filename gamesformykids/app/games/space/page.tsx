@@ -1,6 +1,6 @@
 "use client";
 
-import { SpaceObject } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useSpaceGame } from "./useSpaceGame";
@@ -11,7 +11,7 @@ import SpaceCard from "./SpaceCard";
 import { ALL_SPACE_OBJECTS } from "@/lib/constants/gameConstants";
 
 export default function SpaceGame() {
-  const spaceObjects: SpaceObject[] = ALL_SPACE_OBJECTS as SpaceObject[];
+  const spaceObjects: BaseGameItem[] = ALL_SPACE_OBJECTS;
 
   const {
     gameState,
@@ -29,7 +29,7 @@ export default function SpaceGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        spaceObjects={spaceObjects}
+        items={spaceObjects}
         onStart={startGame}
         onSpeak={speakByName}
       />
@@ -79,7 +79,7 @@ export default function SpaceGame() {
         </div>
 
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
-          {gameState.options.map((spaceObject) => (
+          {gameState.options.map((spaceObject: BaseGameItem) => (
             <SpaceCard
               key={spaceObject.name}
               spaceObject={spaceObject}

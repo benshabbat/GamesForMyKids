@@ -19,7 +19,7 @@ export default function MemoryGamePage() {
   } = useMemoryGame();
 
   if (!isGameStarted) {
-    return <StartScreen onStart={initializeGame} animals={animals} />;
+    return <StartScreen onStart={initializeGame} items={animals} />;
   }
 
   return (

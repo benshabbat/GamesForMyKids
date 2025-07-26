@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { NUMBER_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { NumberStartScreenProps } from "@/lib/types/startScreenTypes";
+import { NumberStartScreenProps } from "@/lib/types/startScreen";
+import { NumberItem } from "@/lib/types/games";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ numbers, onStart }: NumberStartScreenProps) {
+export default function StartScreen({ items: numbers, onStart }: NumberStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ numbers, onStart }: NumberStartScreenProps
       itemsDescription="לחץ על מספר כדי לשמוע את השם שלו! (מספרים 0-9)"
       itemsDescriptionColor="text-indigo-100"
       itemsGridClass="grid grid-cols-5 gap-3 max-w-3xl mx-auto"
-      renderItem={(number) => (
+      renderItem={(number: NumberItem) => (
         <GameItem
           key={number.name}
           hebrewText={number.hebrew}

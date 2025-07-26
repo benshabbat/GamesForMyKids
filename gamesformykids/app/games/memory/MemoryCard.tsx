@@ -1,4 +1,4 @@
-import { Card } from "@/lib/types/game";
+import { Card } from "@/lib/types/base";
 
 interface MemoryCardProps {
   card: Card;

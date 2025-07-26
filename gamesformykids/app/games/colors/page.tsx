@@ -25,7 +25,7 @@ export default function ColorGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        colors={colors}
+        items={colors}
         onStart={startGame}
         onSpeak={speakColorName}
       />

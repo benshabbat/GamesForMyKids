@@ -1,8 +1,8 @@
-import { Tool } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface ToolCardProps {
-  tool: Tool;
-  onClick: (tool: Tool) => void;
+  tool: BaseGameItem;
+  onClick: (tool: BaseGameItem) => void;
 }
 
 /**

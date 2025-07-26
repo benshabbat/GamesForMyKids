@@ -32,6 +32,18 @@ export interface BaseGameState<T = BaseGameItem> {
 }
 
 /**
+ * מצב משחק ספירה מיוחד - האופציות הן מספרים
+ */
+export interface CountingGameState {
+  currentChallenge: import('./games').CountingChallenge | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: number[];
+}
+
+/**
  * הגדרות משחק
  */
 export interface GameConfig {

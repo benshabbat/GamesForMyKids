@@ -26,7 +26,7 @@ export default function SmellTasteGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        smellTasteItems={smellTasteItems}
+        items={smellTasteItems}
         onStart={startGame}
       />
     );

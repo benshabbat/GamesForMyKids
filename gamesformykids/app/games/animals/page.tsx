@@ -25,7 +25,7 @@ export default function AnimalGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        animals={animals}
+        items={animals}
         onStart={startGame}
         onSpeak={speakAnimalName}
       />

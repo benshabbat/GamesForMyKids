@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { VEGETABLE_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { VegetableStartScreenProps } from "@/lib/types/startScreenTypes";
+import { VegetableStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ vegetables, onStart, onSpeak }: VegetableStartScreenProps) {
+export default function StartScreen({ items: vegetables, onStart, onSpeak }: VegetableStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ vegetables, onStart, onSpeak }: VegetableS
       itemsDescription="לחץ על ירק כדי לשמוע את שמו! ירקות בריאים וטעימים"
       itemsDescriptionColor="text-green-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(vegetable) => (
+      renderItem={(vegetable: BaseGameItem) => (
         <GameItem
           key={vegetable.name}
           hebrewText={vegetable.hebrew}

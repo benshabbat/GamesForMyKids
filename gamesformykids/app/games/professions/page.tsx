@@ -1,6 +1,6 @@
 "use client";
 
-import { ProfessionItem } from "@/lib/types";
+import { ProfessionItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useProfessionGame } from "./useProfessionGame";
@@ -11,7 +11,7 @@ import ProfessionCard from "./ProfessionCard";
 import { ALL_PROFESSIONS } from "@/lib/constants/gameConstants";
 
 export default function ProfessionGame() {
-  const professions: ProfessionItem[] = ALL_PROFESSIONS;
+  const professions: ProfessionItem[] = ALL_PROFESSIONS as ProfessionItem[];
 
   const {
     gameState,
@@ -32,7 +32,7 @@ export default function ProfessionGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        professions={professions}
+        items={professions}
         onStart={startGame}
         onSpeak={speakByName}
       />

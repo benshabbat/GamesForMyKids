@@ -25,7 +25,7 @@ export default function LetterGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        letters={letters}
+        items={letters}
         onStart={startGame}
         onSpeak={speakLetterName}
       />

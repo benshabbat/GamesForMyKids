@@ -1,8 +1,8 @@
-import { Transport } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface TransportCardProps {
-  transport: Transport;
-  onClick: (transport: Transport) => void;
+  transport: BaseGameItem;
+  onClick: (transport: BaseGameItem) => void;
 }
 
 /**

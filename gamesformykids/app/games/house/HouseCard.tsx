@@ -1,8 +1,8 @@
-import { HouseItem } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface HouseCardProps {
-  houseItem: HouseItem;
-  onClick: (houseItem: HouseItem) => void;
+  houseItem: BaseGameItem;
+  onClick: (houseItem: BaseGameItem) => void;
 }
 
 /**

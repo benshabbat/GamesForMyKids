@@ -1,6 +1,6 @@
 "use client";
 
-import { Shape } from "@/lib/types/game";
+import { ShapeItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useShapeGame } from "./useShapeGame";
@@ -12,7 +12,7 @@ import ShapeCard from "./ShapeCard";
 import { ALL_SHAPES } from "@/lib/constants/gameConstants";
 
 export default function ShapeGame() {
-  const shapes: Shape[] = ALL_SHAPES as Shape[];
+  const shapes: ShapeItem[] = ALL_SHAPES as ShapeItem[];
 
   const {
     gameState,
@@ -25,7 +25,7 @@ export default function ShapeGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        shapes={shapes}
+        items={shapes}
         onStart={startGame}
         onSpeak={speakShapeName}
       />

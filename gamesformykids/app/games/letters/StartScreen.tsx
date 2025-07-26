@@ -2,9 +2,10 @@ import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
 import { LETTER_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { LetterStartScreenProps } from "@/lib/types/startScreenTypes";
+import { LetterStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 
-export default function StartScreen({ letters, onStart }: LetterStartScreenProps) {
+export default function StartScreen({ items: letters, onStart }: LetterStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -26,7 +27,7 @@ export default function StartScreen({ letters, onStart }: LetterStartScreenProps
       customItemsRenderer={() => (
         <>
           <div className="flex flex-wrap justify-center gap-3">
-            {letters.slice(0, 12).map((letter) => (
+            {letters.slice(0, 12).map((letter: BaseGameItem) => (
               <GameItem
                 key={letter.name}
                 hebrewText={letter.hebrew}
@@ -37,7 +38,7 @@ export default function StartScreen({ letters, onStart }: LetterStartScreenProps
             ))}
           </div>
           <div className="flex flex-wrap justify-center gap-3 mt-4">
-            {letters.slice(12, 22).map((letter) => (
+            {letters.slice(12, 22).map((letter: BaseGameItem) => (
               <GameItem
                 key={letter.name}
                 hebrewText={letter.hebrew}

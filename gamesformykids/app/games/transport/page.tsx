@@ -1,6 +1,6 @@
 "use client";
 
-import { Transport } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useTransportGame } from "./useTransportGame";
@@ -12,7 +12,7 @@ import TransportCard from "./TransportCard";
 import { ALL_TRANSPORTS } from "@/lib/constants/gameConstants";
 
 export default function TransportGame() {
-  const transports: Transport[] = ALL_TRANSPORTS;
+  const transports: BaseGameItem[] = ALL_TRANSPORTS;
 
   const {
     gameState,
@@ -25,7 +25,7 @@ export default function TransportGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        transports={transports}
+        items={transports}
         onStart={startGame}
         onSpeak={speakTransportName}
       />

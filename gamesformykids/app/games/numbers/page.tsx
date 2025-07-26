@@ -1,6 +1,6 @@
 "use client";
 
-import { NumberItem } from "@/lib/types/game";
+import { NumberItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useNumberGame } from "./useNumberGame";
@@ -25,7 +25,7 @@ export default function NumberGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        numbers={numbers}
+        items={numbers}
         onStart={startGame}
         onSpeak={speakNumberName}
       />

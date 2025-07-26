@@ -1,4 +1,4 @@
-import { NumberItem } from "@/lib/types/game";
+import { NumberItem } from "@/lib/types/games";
 
 interface NumberCardProps {
   number: NumberItem;

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Tool, ToolGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, TOOL_HEBREW_PRONUNCIATIONS, TOOL_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useToolGame(tools: Tool[]) {
-  const [gameState, setGameState] = useState<ToolGameState>({
+export function useToolGame(tools: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -31,15 +31,15 @@ export function useToolGame(tools: Tool[]) {
   }, []);
 
   // --- Utility Functions ---
-  const getAvailableTools = (): Tool[] => {
-    const baseTools = TOOL_GAME_CONSTANTS.BASE_TOOL_COUNT;
+  const getAvailableTools = (): BaseGameItem[] => {
+    const baseTools = TOOL_GAME_CONSTANTS.BASE_COUNT;
     const additionalTools = Math.floor((gameState.level - 1) / TOOL_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * TOOL_GAME_CONSTANTS.TOOL_INCREMENT;
+      * TOOL_GAME_CONSTANTS.INCREMENT;
     const totalTools = Math.min(baseTools + additionalTools, tools.length);
     return tools.slice(0, totalTools);
   };
 
-  const generateOptions = (correctTool: Tool): Tool[] => {
+  const generateOptions = (correctTool: BaseGameItem): BaseGameItem[] => {
     const availableTools = getAvailableTools();
     return generateGameOptions(correctTool, availableTools, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
@@ -89,7 +89,7 @@ export function useToolGame(tools: Tool[]) {
     await speakToolName(randomTool.name);
   };
 
-  const handleToolClick = async (selectedTool: Tool) => {
+  const handleToolClick = async (selectedTool: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedTool.name === gameState.currentChallenge.name) {

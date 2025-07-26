@@ -1,8 +1,8 @@
-import { Weather } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface WeatherCardProps {
-  weather: Weather;
-  onClick: (weather: Weather) => void;
+  weather: BaseGameItem;
+  onClick: (weather: BaseGameItem) => void;
 }
 
 /**

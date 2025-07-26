@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Weather, WeatherGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, WEATHER_HEBREW_PRONUNCIATIONS, WEATHER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useWeatherGame(weathers: Weather[]) {
-  const [gameState, setGameState] = useState<WeatherGameState>({
+export function useWeatherGame(weathers: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -32,15 +32,15 @@ export function useWeatherGame(weathers: Weather[]) {
 
   // --- Utility Functions ---
 
-  const getAvailableWeathers = (): Weather[] => {
-    const baseWeathers = WEATHER_GAME_CONSTANTS.BASE_WEATHERS_COUNT;
+  const getAvailableWeathers = (): BaseGameItem[] => {
+    const baseWeathers = WEATHER_GAME_CONSTANTS.BASE_COUNT;
     const additionalWeathers = Math.floor((gameState.level - 1) / WEATHER_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * WEATHER_GAME_CONSTANTS.WEATHERS_INCREMENT;
+      * WEATHER_GAME_CONSTANTS.INCREMENT;
     const totalWeathers = Math.min(baseWeathers + additionalWeathers, weathers.length);
     return weathers.slice(0, totalWeathers);
   };
 
-  const generateOptions = (correctWeather: Weather): Weather[] => {
+  const generateOptions = (correctWeather: BaseGameItem): BaseGameItem[] => {
     const availableWeathers = getAvailableWeathers();
     
     return generateGameOptions(correctWeather, availableWeathers, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
@@ -94,7 +94,7 @@ export function useWeatherGame(weathers: Weather[]) {
     await speakWeatherName(randomWeather.name);
   };
 
-  const handleWeatherClick = async (selectedWeather: Weather) => {
+  const handleWeatherClick = async (selectedWeather: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedWeather.name === gameState.currentChallenge.name) {

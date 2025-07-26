@@ -1,8 +1,8 @@
-import { Instrument } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface InstrumentCardProps {
-  instrument: Instrument;
-  onClick: (instrument: Instrument) => void;
+  instrument: BaseGameItem;
+  onClick: (instrument: BaseGameItem) => void;
 }
 
 /**

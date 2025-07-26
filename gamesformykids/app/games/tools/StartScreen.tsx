@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { TOOL_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { ToolStartScreenProps } from "@/lib/types/startScreenTypes";
+import { ToolStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ tools, onStart, onSpeak }: ToolStartScreenProps) {
+export default function StartScreen({ items: tools, onStart, onSpeak }: ToolStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ tools, onStart, onSpeak }: ToolStartScreen
       itemsDescription="לחץ על כלי עבודה כדי לשמוע את שמו! כלי עבודה שימושיים"
       itemsDescriptionColor="text-yellow-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(tool) => (
+      renderItem={(tool: BaseGameItem) => (
         <GameItem
           key={tool.name}
           hebrewText={tool.hebrew}

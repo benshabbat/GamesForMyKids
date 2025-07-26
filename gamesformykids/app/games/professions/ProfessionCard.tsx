@@ -1,8 +1,8 @@
-import { Profession } from "@/lib/types/game";
+import { ProfessionItem } from "@/lib/types/games";
 
 interface ProfessionCardProps {
-  profession: Profession;
-  onClick: (profession: Profession) => void;
+  profession: ProfessionItem;
+  onClick: (profession: ProfessionItem) => void;
 }
 
 /**

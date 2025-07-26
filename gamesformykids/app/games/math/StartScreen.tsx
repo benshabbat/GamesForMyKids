@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { MATH_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { MathStartScreenProps } from "@/lib/types/startScreenTypes";
+import { MathStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
 export default function StartScreen({ onStart }: MathStartScreenProps) {

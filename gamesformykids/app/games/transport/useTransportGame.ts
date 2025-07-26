@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Transport, TransportGameState } from "@/lib/types/game";
+import { BaseGameItem, BaseGameState } from "@/lib/types";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,8 +13,8 @@ import {
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS, TRANSPORT_HEBREW_PRONUNCIATIONS, TRANSPORT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
 
-export function useTransportGame(transports: Transport[]) {
-  const [gameState, setGameState] = useState<TransportGameState>({
+export function useTransportGame(transports: BaseGameItem[]) {
+  const [gameState, setGameState] = useState<BaseGameState>({
     currentChallenge: null,
     score: 0,
     level: 1,
@@ -32,15 +32,15 @@ export function useTransportGame(transports: Transport[]) {
 
   // --- Utility Functions ---
 
-  const getAvailableTransports = (): Transport[] => {
-    const baseTransports = TRANSPORT_GAME_CONSTANTS.BASE_TRANSPORTS_COUNT;
+  const getAvailableTransports = (): BaseGameItem[] => {
+    const baseTransports = TRANSPORT_GAME_CONSTANTS.BASE_COUNT;
     const additionalTransports = Math.floor((gameState.level - 1) / TRANSPORT_GAME_CONSTANTS.LEVEL_THRESHOLD) 
-      * TRANSPORT_GAME_CONSTANTS.TRANSPORTS_INCREMENT;
+      * TRANSPORT_GAME_CONSTANTS.INCREMENT;
     const totalTransports = Math.min(baseTransports + additionalTransports, transports.length);
     return transports.slice(0, totalTransports);
   };
 
-  const generateOptions = (correctTransport: Transport): Transport[] => {
+  const generateOptions = (correctTransport: BaseGameItem): BaseGameItem[] => {
     const availableTransports = getAvailableTransports();
     
     return generateGameOptions(correctTransport, availableTransports, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
@@ -94,7 +94,7 @@ export function useTransportGame(transports: Transport[]) {
     await speakTransportName(randomTransport.name);
   };
 
-  const handleTransportClick = async (selectedTransport: Transport) => {
+  const handleTransportClick = async (selectedTransport: BaseGameItem) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedTransport.name === gameState.currentChallenge.name) {

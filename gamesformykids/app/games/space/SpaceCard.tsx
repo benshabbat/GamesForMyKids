@@ -1,8 +1,8 @@
-import { SpaceObject } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 
 interface SpaceCardProps {
-  spaceObject: SpaceObject;
-  onClick: (spaceObject: SpaceObject) => void;
+  spaceObject: BaseGameItem;
+  onClick: (spaceObject: BaseGameItem) => void;
 }
 
 /**

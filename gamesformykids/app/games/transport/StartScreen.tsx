@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { TRANSPORT_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { TransportStartScreenProps } from "@/lib/types/startScreenTypes";
+import { BaseGameItem } from "@/lib/types/base";
+import { GenericStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ transports, onStart }: TransportStartScreenProps) {
+export default function StartScreen({ items, onStart }: GenericStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -15,7 +16,7 @@ export default function StartScreen({ transports, onStart }: TransportStartScree
       textColorSubHeader={gameConfig.transport.subHeader}
       gameSteps={TRANSPORT_GAME_STEPS}
       gameStepsBgClass="bg-blue-100 bg-opacity-90"
-      items={transports}
+      items={items}
       onStart={onStart}
       buttonFromColor={gameConfig.transport.button.from}
       buttonToColor={gameConfig.transport.button.to}
@@ -24,7 +25,7 @@ export default function StartScreen({ transports, onStart }: TransportStartScree
       itemsDescription="לחץ על כלי תחבורה כדי לשמוע את השם שלו! מכוניות, רכבות, מטוסים ועוד"
       itemsDescriptionColor="text-blue-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(transport) => (
+      renderItem={(transport: BaseGameItem) => (
         <GameItem
           key={transport.name}
           hebrewText={transport.hebrew}

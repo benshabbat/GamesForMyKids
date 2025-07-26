@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { VEHICLE_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { VehicleStartScreenProps } from "@/lib/types/startScreenTypes";
+import { VehicleStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ vehicles, onStart, onSpeak }: VehicleStartScreenProps) {
+export default function StartScreen({ items: vehicles, onStart, onSpeak }: VehicleStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ vehicles, onStart, onSpeak }: VehicleStart
       itemsDescription="Click on a vehicle to hear its name! Fast and fun transportation"
       itemsDescriptionColor="text-blue-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(vehicle) => (
+      renderItem={(vehicle: BaseGameItem) => (
         <GameItem
           key={vehicle.name}
           hebrewText={vehicle.hebrew}

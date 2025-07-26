@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { CLOTHING_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { ClothingStartScreenProps } from "@/lib/types/startScreenTypes";
+import { ClothingStartScreenProps } from "@/lib/types/startScreen";
+import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ clothingItems, onStart, onSpeak }: ClothingStartScreenProps) {
+export default function StartScreen({ items: clothingItems, onStart, onSpeak }: ClothingStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -24,7 +25,7 @@ export default function StartScreen({ clothingItems, onStart, onSpeak }: Clothin
       itemsDescription="לחץ על פריט לבוש כדי לשמוע את שמו! בגדים יפים ואופנתיים"
       itemsDescriptionColor="text-pink-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(clothingItem) => (
+      renderItem={(clothingItem: BaseGameItem) => (
         <GameItem
           key={clothingItem.name}
           hebrewText={clothingItem.hebrew}

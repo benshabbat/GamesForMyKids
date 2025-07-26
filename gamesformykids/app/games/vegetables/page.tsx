@@ -1,6 +1,6 @@
 "use client";
 
-import { Vegetable } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useVegetableGame } from "./useVegetableGame";
@@ -12,7 +12,7 @@ import VegetableCard from "./VegetableCard";
 import { ALL_VEGETABLES } from "@/lib/constants/gameConstants";
 
 export default function VegetableGame() {
-  const vegetables: Vegetable[] = ALL_VEGETABLES;
+  const vegetables: BaseGameItem[] = ALL_VEGETABLES;
 
   const {
     gameState,
@@ -25,7 +25,7 @@ export default function VegetableGame() {
   if (!gameState.isPlaying) {
     return (
       <StartScreen
-        vegetables={vegetables}
+        items={vegetables}
         onStart={startGame}
         onSpeak={speakVegetableName}
       />

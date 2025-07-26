@@ -26,19 +26,19 @@ export interface GenericStartScreenProps extends BaseStartScreenProps {
  * מסכי התחלה למשחקים מיוחדים
  */
 export interface NumberStartScreenProps extends BaseStartScreenProps {
-  numbers: NumberItem[];
+  items: NumberItem[];
 }
 
 export interface ColorStartScreenProps extends BaseStartScreenProps {
-  colors: BaseGameItem[];
+  items: BaseGameItem[];
 }
 
 export interface ProfessionStartScreenProps extends BaseStartScreenProps {
-  professions: ProfessionItem[];
+  items: ProfessionItem[];
 }
 
 export interface MemoryStartScreenProps extends BaseStartScreenProps {
-  animals: AnimalData[];
+  items: AnimalData[];
 }
 
 /**

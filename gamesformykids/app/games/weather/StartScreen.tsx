@@ -1,10 +1,11 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { WEATHER_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { WeatherStartScreenProps } from "@/lib/types/startScreenTypes";
+import { BaseGameItem } from "@/lib/types/base";
+import { GenericStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-export default function StartScreen({ weathers, onStart }: WeatherStartScreenProps) {
+export default function StartScreen({ items, onStart }: GenericStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
@@ -15,7 +16,7 @@ export default function StartScreen({ weathers, onStart }: WeatherStartScreenPro
       textColorSubHeader={gameConfig.weather.subHeader}
       gameSteps={WEATHER_GAME_STEPS}
       gameStepsBgClass="bg-sky-100 bg-opacity-90"
-      items={weathers}
+      items={items}
       onStart={onStart}
       buttonFromColor={gameConfig.weather.button.from}
       buttonToColor={gameConfig.weather.button.to}
@@ -24,7 +25,7 @@ export default function StartScreen({ weathers, onStart }: WeatherStartScreenPro
       itemsDescription="לחץ על מזג אוויר כדי לשמוע את השם שלו! למד על השמש, גשם, שלג ועוד"
       itemsDescriptionColor="text-sky-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(weather) => (
+      renderItem={(weather: BaseGameItem) => (
         <GameItem
           key={weather.name}
           hebrewText={weather.hebrew}

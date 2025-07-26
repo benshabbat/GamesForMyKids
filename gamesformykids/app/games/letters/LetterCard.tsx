@@ -1,9 +1,9 @@
-import { Letter } from "@/lib/types/game";
+import { BaseGameItem } from "@/lib/types/base";
 import SoundIcon from "@/components/shared/SoundIcon";
 
 interface LetterCardProps {
-  letter: Letter;
-  onClick: (letter: Letter) => void;
+  letter: BaseGameItem;
+  onClick: (letter: BaseGameItem) => void;
 }
 
 /**
