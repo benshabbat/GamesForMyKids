@@ -16,6 +16,7 @@ export interface BaseGameItem {
   emoji: string;
   color: string;
   sound: number[];
+  plural?: string; // רבים עבור משחקי מתמטיקה ורגשות
 }
 
 /**

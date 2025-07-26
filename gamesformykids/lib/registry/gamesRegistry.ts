@@ -16,6 +16,7 @@ import {
   Coffee,
   Home,
   Wrench,
+  Smile,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -234,6 +235,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/tools",
     available: true,
     order: 20,
+  },
+  {
+    id: "emotions",
+    title: "משחק רגשות",
+    description: "למד רגשות שונים!",
+    icon: Smile,
+    color: "bg-yellow-400 hover:bg-yellow-500",
+    href: "/games/emotions",
+    available: true,
+    order: 21,
   },
 ];
 

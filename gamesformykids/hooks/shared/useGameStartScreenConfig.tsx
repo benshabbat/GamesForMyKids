@@ -133,5 +133,12 @@ export function useGameStartScreenConfig() {
       header: "text-white",
       subHeader: "text-yellow-100",
     },
+    emotions: {
+      background:
+        "linear-gradient(135deg, #fef7cd 0%, #fde047 25%, #facc15 50%, #eab308 75%, #ca8a04 100%)",
+      button: { from: "yellow", to: "amber" },
+      header: "text-white",
+      subHeader: "text-yellow-100",
+    },
   };
 }

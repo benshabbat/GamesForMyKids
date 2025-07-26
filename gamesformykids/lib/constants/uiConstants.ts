@@ -207,3 +207,12 @@ export const VEHICLE_GAME_STEPS: GameStep[] = [
   { icon: "🤔", title: "2. תחשוב", description: "איך כלי הרכב נראה" },
   { icon: "👆", title: "3. תלחץ", description: "על כלי הרכב הנכון" },
 ];
+
+/**
+ * שלבי משחק הרגשות
+ */
+export const EMOTION_GAME_STEPS: GameStep[] = [
+  { icon: "👂", title: "1. תשמע", description: "איזה רגש אני אומר" },
+  { icon: "😊", title: "2. תרגיש", description: "איך זה מרגיש" },
+  { icon: "👆", title: "3. תלחץ", description: "על הרגש הנכון" },
+];
