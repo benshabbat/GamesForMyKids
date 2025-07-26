@@ -41,6 +41,10 @@ export interface MemoryStartScreenProps extends BaseStartScreenProps {
   items: AnimalData[];
 }
 
+export interface EmotionStartScreenProps extends BaseStartScreenProps {
+  items: BaseGameItem[];
+}
+
 /**
  * מסכי התחלה למשחקים ללא פריטים נוספים
  */

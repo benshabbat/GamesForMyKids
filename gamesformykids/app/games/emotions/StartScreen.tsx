@@ -1,22 +1,16 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { EMOTION_GAME_STEPS } from "@/lib/constants/uiConstants";
-import { BaseGameItem } from "@/lib/types/base";
+import { EmotionStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 
-interface EmotionStartScreenProps {
-  emotions: BaseGameItem[];
-  onStart: () => void;
-  onSpeak?: (itemName: string) => Promise<void>;
-}
-
-export default function StartScreen({ emotions, onStart, onSpeak }: EmotionStartScreenProps) {
+export default function StartScreen({ items: emotions, onStart, onSpeak }: EmotionStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (
     <GenericStartScreen
-      title="😊 Emotions Game 😢"
-      subTitle="Learn emotions through listening!"
+      title="😊 משחק רגשות 😢"
+      subTitle="למד רגשות שונים דרך הקשבה!"
       textColorHeader={gameConfig.emotions.header}
       textColorSubHeader={gameConfig.emotions.subHeader}
       gameSteps={EMOTION_GAME_STEPS}
@@ -26,8 +20,8 @@ export default function StartScreen({ emotions, onStart, onSpeak }: EmotionStart
       buttonFromColor={gameConfig.emotions.button.from}
       buttonToColor={gameConfig.emotions.button.to}
       backgroundStyle={gameConfig.emotions.background}
-      itemsTitle="All emotions we'll learn:"
-      itemsDescription="Click on an emotion to hear its name! Learn about different feelings"
+      itemsTitle="כל הרגשות שנלמד:"
+      itemsDescription="לחץ על רגש כדי לשמוע את השם שלו! למד על רגשות שונים"
       itemsDescriptionColor="text-yellow-100"
       itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
       renderItem={(emotion) => (
