@@ -2,10 +2,10 @@ import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
 import { SHAPE_ICON_MAP } from "@/lib/constants/ui/shapes";
 import { SHAPE_GAME_STEPS } from "@/lib/constants";
-import { ShapeStartScreenProps } from "@/lib/types/startScreen";
+import { GenericStartScreenProps } from "@/lib/types/startScreen";
 import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
-export default function StartScreen({ items: shapes, onStart }: ShapeStartScreenProps) {
+export default function StartScreen({ items: shapes, onStart }: GenericStartScreenProps) {
   const gameConfig = useGameStartScreenConfig();
 
   return (

@@ -1,8 +1,8 @@
-import { NumberItem } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types";
 
 interface NumberCardProps {
-  number: NumberItem;
-  onClick: (number: NumberItem) => void;
+  number: BaseGameItem;
+  onClick: (number: BaseGameItem) => void;
 }
 
 /**
@@ -24,7 +24,7 @@ export default function NumberCard({ number, onClick }: NumberCardProps) {
     >
       <div className="w-full h-full flex flex-col items-center justify-center text-white">
         <div className="text-6xl md:text-8xl font-bold mb-2">
-          {number.digit}
+          {number.emoji}
         </div>
         <div className="text-lg md:text-xl font-semibold">
           {number.hebrew}

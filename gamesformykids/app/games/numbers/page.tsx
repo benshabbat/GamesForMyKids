@@ -1,6 +1,6 @@
 "use client";
 
-import { NumberItem } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
 import { useNumberGameDry } from "./useNumberGameDry"; // ⭐ השינוי היחיד!
@@ -12,7 +12,7 @@ import NumberCard from "./NumberCard";
 import { ALL_NUMBERS } from "@/lib/constants";
 
 export default function NumberGame() {
-  const numbers: NumberItem[] = ALL_NUMBERS;
+  const numbers: BaseGameItem[] = ALL_NUMBERS;
 
   const {
     gameState,

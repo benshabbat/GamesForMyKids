@@ -1,9 +1,9 @@
-import { ShapeItem } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types";
 import * as ShapeIcons from "../../../public/icons/ShapeIcons";
 
 interface ShapeCardProps {
-  shape: ShapeItem;
-  onClick: (shape: ShapeItem) => void;
+  shape: BaseGameItem;
+  onClick: (shape: BaseGameItem) => void;
 }
 
 /**
@@ -48,7 +48,7 @@ export default function ShapeCard({ shape, onClick }: ShapeCardProps) {
     >
       <div className="w-full h-full flex flex-col items-center justify-center text-white">
         <div className="mb-2">
-          {renderShapeIcon(shape.svg)}
+          {renderShapeIcon(shape.name)}
         </div>
         <div className="text-xl md:text-2xl font-bold">
           {shape.hebrew}
