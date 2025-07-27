@@ -7,7 +7,7 @@ import { useInstrumentGameDry } from "./useInstrumentGameDry"; // ⭐ השינו
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import InstrumentCard from "./InstrumentCard";
+import { InstrumentCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_INSTRUMENTS } from "@/lib/constants";
 
 export default function InstrumentGame() {

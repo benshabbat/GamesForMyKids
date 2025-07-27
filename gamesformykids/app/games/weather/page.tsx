@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import WeatherCard from "./WeatherCard";
+import { WeatherCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_WEATHERS } from "@/lib/constants";
 
 export default function WeatherGame() {

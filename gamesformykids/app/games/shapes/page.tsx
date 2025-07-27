@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import ShapeCard from "./ShapeCard";
+import { ShapeCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_SHAPES } from "@/lib/constants";
 
 export default function ShapeGame() {

@@ -8,7 +8,7 @@ import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import LetterCard from "./LetterCard";
+import { LetterCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_LETTERS } from "@/lib/constants";
 
 export default function LetterGame() {

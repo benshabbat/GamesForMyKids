@@ -7,7 +7,7 @@ import { useClothingGameDry } from "./useClothingGameDry"; // ⭐ השינוי �
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import ClothingCard from "./ClothingCard";
+import { ClothingCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_CLOTHING } from "@/lib/constants";
 
 export default function ClothingGame() {

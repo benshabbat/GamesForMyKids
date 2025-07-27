@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import TransportCard from "./TransportCard";
+import { TransportCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_TRANSPORTS } from "@/lib/constants";
 
 export default function TransportGame() {
