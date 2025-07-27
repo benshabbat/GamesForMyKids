@@ -250,6 +250,11 @@ const GAMES_REGISTRY: GameRegistration[] = [
 
 // פונקציות עזר לעבודה עם המשחקים
 export class GamesRegistry {
+  // קבלת כל הרישומים המקוריים
+  static getAllGameRegistrations(): GameRegistration[] {
+    return GAMES_REGISTRY.sort((a, b) => a.order - b.order);
+  }
+
   // קבלת כל המשחקים ממוינים לפי סדר
   static getAllGames(): Game[] {
     return GAMES_REGISTRY.sort((a, b) => a.order - b.order).map((game) => ({
