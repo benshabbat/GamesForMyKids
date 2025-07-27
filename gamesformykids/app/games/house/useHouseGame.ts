@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, HOUSE_HEBREW_PRONUNCIATIONS, HOUSE_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, HOUSE_HEBREW_PRONUNCIATIONS, HOUSE_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useHouseGame(houseItems: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

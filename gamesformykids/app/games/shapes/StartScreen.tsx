@@ -1,7 +1,7 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { SHAPE_ICON_MAP } from "@/lib/constants/shapeConstants";
-import { SHAPE_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { SHAPE_ICON_MAP } from "@/lib/constants/ui/shapes";
+import { SHAPE_GAME_STEPS } from "@/lib/constants";
 import { ShapeStartScreenProps } from "@/lib/types/startScreen";
 import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

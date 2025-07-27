@@ -1,7 +1,7 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
-import { MEMORY_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { MEMORY_GAME_STEPS } from "@/lib/constants";
 import { MemoryStartScreenProps } from "@/lib/types/startScreen";
 import { AnimalData } from "@/lib/types/games";
 

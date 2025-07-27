@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { NUMBER_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { NUMBER_GAME_STEPS } from "@/lib/constants";
 import { NumberStartScreenProps } from "@/lib/types/startScreen";
 import { NumberItem } from "@/lib/types/games";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

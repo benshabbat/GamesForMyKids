@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, FRUIT_HEBREW_PRONUNCIATIONS, FRUIT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, FRUIT_HEBREW_PRONUNCIATIONS, FRUIT_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useFruitGame(fruits: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

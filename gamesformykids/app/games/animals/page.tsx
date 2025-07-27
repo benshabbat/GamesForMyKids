@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import AnimalCard from "./AnimalCard";
-import { ALL_ANIMALS } from "@/lib/constants/gameConstants";
+import { ALL_ANIMALS } from "@/lib/constants";
 
 export default function AnimalGame() {
   const animals: BaseGameItem[] = ALL_ANIMALS;

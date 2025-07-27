@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, INSTRUMENT_HEBREW_PRONUNCIATIONS, INSTRUMENT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, INSTRUMENT_HEBREW_PRONUNCIATIONS, INSTRUMENT_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useInstrumentGame(instruments: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

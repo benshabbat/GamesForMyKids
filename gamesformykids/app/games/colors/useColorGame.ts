@@ -12,9 +12,9 @@ import {
   speakStartMessage
 } from "@/lib/utils/gameUtils";
 import { 
-  COLOR_TRANSLATIONS,
+  COLOR_HEBREW_PRONUNCIATIONS,
   GAME_CONSTANTS
-} from "@/lib/constants/gameConstants";
+} from "@/lib/constants";
 import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
 
 // Color game initial state
@@ -40,7 +40,7 @@ export function useColorGame(colors: BaseGameItem[]) {
   // Speak color name in Hebrew
   const speakColorName = async (colorName: string): Promise<void> => {
     // משתמש בפונקציה הגנרית
-    const translateColor = (name: string) => COLOR_TRANSLATIONS[name] || name;
+    const translateColor = (name: string) => COLOR_HEBREW_PRONUNCIATIONS[name] || name;
     await speakItemName(colorName, translateColor);
   };
 

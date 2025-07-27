@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import WeatherCard from "./WeatherCard";
-import { ALL_WEATHERS } from "@/lib/constants/gameConstants";
+import { ALL_WEATHERS } from "@/lib/constants";
 
 export default function WeatherGame() {
   const weathers: BaseGameItem[] = ALL_WEATHERS;

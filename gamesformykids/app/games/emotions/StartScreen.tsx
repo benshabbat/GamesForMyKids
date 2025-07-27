@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { EMOTION_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { EMOTION_GAME_STEPS } from "@/lib/constants";
 import { EmotionStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 

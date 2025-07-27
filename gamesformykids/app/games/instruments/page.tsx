@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import InstrumentCard from "./InstrumentCard";
-import { ALL_INSTRUMENTS } from "@/lib/constants/gameConstants";
+import { ALL_INSTRUMENTS } from "@/lib/constants";
 
 export default function InstrumentGame() {
   const instruments: BaseGameItem[] = ALL_INSTRUMENTS;

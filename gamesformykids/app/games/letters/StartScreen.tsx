@@ -1,7 +1,7 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 import GameItem from "@/components/shared/GameItem";
-import { LETTER_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { LETTER_GAME_STEPS } from "@/lib/constants";
 import { LetterStartScreenProps } from "@/lib/types/startScreen";
 import { BaseGameItem } from "@/lib/types/base";
 

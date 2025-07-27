@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import HouseCard from "./HouseCard";
-import { ALL_HOUSE_ITEMS } from "@/lib/constants/gameConstants";
+import { ALL_HOUSE_ITEMS } from "@/lib/constants";
 
 export default function HouseGame() {
   const houseItems: BaseGameItem[] = ALL_HOUSE_ITEMS;

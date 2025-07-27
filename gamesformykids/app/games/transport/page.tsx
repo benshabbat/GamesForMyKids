@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import TransportCard from "./TransportCard";
-import { ALL_TRANSPORTS } from "@/lib/constants/gameConstants";
+import { ALL_TRANSPORTS } from "@/lib/constants";
 
 export default function TransportGame() {
   const transports: BaseGameItem[] = ALL_TRANSPORTS;

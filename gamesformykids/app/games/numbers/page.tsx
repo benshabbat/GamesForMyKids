@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import NumberCard from "./NumberCard";
-import { ALL_NUMBERS } from "@/lib/constants/gameConstants";
+import { ALL_NUMBERS } from "@/lib/constants";
 
 export default function NumberGame() {
   const numbers: NumberItem[] = ALL_NUMBERS;

@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import SpaceCard from "./SpaceCard";
-import { ALL_SPACE_OBJECTS } from "@/lib/constants/gameConstants";
+import { ALL_SPACE_OBJECTS } from "@/lib/constants";
 
 export default function SpaceGame() {
   const spaceObjects: BaseGameItem[] = ALL_SPACE_OBJECTS;

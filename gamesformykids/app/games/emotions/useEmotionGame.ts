@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, EMOTION_HEBREW_PRONUNCIATIONS, EMOTION_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, EMOTION_HEBREW_PRONUNCIATIONS, EMOTION_GAME_CONSTANTS } from "@/lib/constants";
 
 // הגדרת state של משחק הרגשות
 export interface EmotionGameState extends BaseGameState {

@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, TRANSPORT_HEBREW_PRONUNCIATIONS, TRANSPORT_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, TRANSPORT_HEBREW_PRONUNCIATIONS, TRANSPORT_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useTransportGame(transports: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({
@@ -31,7 +31,6 @@ export function useTransportGame(transports: BaseGameItem[]) {
   }, []);
 
   // --- Utility Functions ---
-
   const getAvailableTransports = (): BaseGameItem[] => {
     const baseTransports = TRANSPORT_GAME_CONSTANTS.BASE_COUNT;
     const additionalTransports = Math.floor((gameState.level - 1) / TRANSPORT_GAME_CONSTANTS.LEVEL_THRESHOLD) 
@@ -42,12 +41,10 @@ export function useTransportGame(transports: BaseGameItem[]) {
 
   const generateOptions = (correctTransport: BaseGameItem): BaseGameItem[] => {
     const availableTransports = getAvailableTransports();
-    
     return generateGameOptions(correctTransport, availableTransports, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
 
   // --- Audio & Speech ---
-
   const playSuccessSound = () => {
     playSound(audioContext);
   };
@@ -60,38 +57,9 @@ export function useTransportGame(transports: BaseGameItem[]) {
         const pronunciation = TRANSPORT_HEBREW_PRONUNCIATIONS[name];
         return pronunciation || name;
       });
-      
     } catch (error) {
-      console.error("שגיאה בהשמעת שם כלי התחבורה:", error);
+      console.error("Error playing transport name:", error);
     }
-  };
-
-  const startGame = async () => {
-    setGameState({
-      currentChallenge: null,
-      score: 0,
-      level: 1,
-      isPlaying: true,
-      showCelebration: false,
-      options: [],
-    });
-
-    await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
-    
-    await speakStartMessage();
-    
-    const availableTransports = getAvailableTransports();
-    const randomTransport = getRandomItem(availableTransports);
-    const options = generateOptions(randomTransport);
-
-    setGameState((prev) => ({
-      ...prev,
-      currentChallenge: randomTransport,
-      options,
-    }));
-
-    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-    await speakTransportName(randomTransport.name);
   };
 
   const handleTransportClick = async (selectedTransport: BaseGameItem) => {
@@ -115,11 +83,7 @@ export function useTransportGame(transports: BaseGameItem[]) {
         await speakTransportName(randomTransport.name);
       };
       
-      await handleCorrectGameAnswer(
-        gameState, 
-        setGameState, 
-        onComplete
-      );
+      await handleCorrectGameAnswer(gameState, setGameState, onComplete);
     } else {
       await handleWrongGameAnswer(async () => {
         if (gameState.currentChallenge) {
@@ -129,7 +93,34 @@ export function useTransportGame(transports: BaseGameItem[]) {
     }
   };
 
-  const resetGame = () => {
+  const startGame = async () => {
+    setGameState({
+      currentChallenge: null,
+      score: 0,
+      level: 1,
+      isPlaying: true,
+      showCelebration: false,
+      options: [],
+    });
+
+    await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
+    await speakStartMessage();
+    
+    const availableTransports = getAvailableTransports();
+    const randomTransport = getRandomItem(availableTransports);
+    const options = generateOptions(randomTransport);
+
+    setGameState((prev) => ({
+      ...prev,
+      currentChallenge: randomTransport,
+      options,
+    }));
+
+    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+    await speakTransportName(randomTransport.name);
+  };
+
+  const resetGame = (): void => {
     setGameState({
       currentChallenge: null,
       score: 0,

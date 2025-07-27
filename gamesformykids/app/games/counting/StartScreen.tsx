@@ -1,5 +1,5 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import { COUNTING_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { COUNTING_GAME_STEPS } from "@/lib/constants";
 import { CountingStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
 

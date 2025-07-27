@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import ClothingCard from "./ClothingCard";
-import { ALL_CLOTHING } from "@/lib/constants/gameConstants";
+import { ALL_CLOTHING } from "@/lib/constants";
 
 export default function ClothingGame() {
   const clothingItems: BaseGameItem[] = ALL_CLOTHING;

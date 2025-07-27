@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import ShapeCard from "./ShapeCard";
-import { ALL_SHAPES } from "@/lib/constants/gameConstants";
+import { ALL_SHAPES } from "@/lib/constants";
 
 export default function ShapeGame() {
   const shapes: ShapeItem[] = ALL_SHAPES as ShapeItem[];

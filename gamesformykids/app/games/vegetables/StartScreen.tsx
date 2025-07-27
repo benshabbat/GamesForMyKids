@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { VEGETABLE_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { VEGETABLE_GAME_STEPS } from "@/lib/constants";
 import { VegetableStartScreenProps } from "@/lib/types/startScreen";
 import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

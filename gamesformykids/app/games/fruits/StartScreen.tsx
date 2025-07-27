@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { FRUIT_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { FRUIT_GAME_STEPS } from "@/lib/constants";
 import { FruitStartScreenProps } from "@/lib/types/startScreen";
 import { BaseGameItem } from "@/lib/types/base";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

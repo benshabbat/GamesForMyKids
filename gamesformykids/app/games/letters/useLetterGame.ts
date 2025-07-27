@@ -13,7 +13,7 @@ import {
   speakItemName,
   handleWrongGameAnswer
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, LETTER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, LETTER_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useLetterGame(letters: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

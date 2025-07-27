@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import VehicleCard from "./VehicleCard";
-import { ALL_VEHICLES } from "@/lib/constants/gameConstants";
+import { ALL_VEHICLES } from "@/lib/constants";
 
 export default function VehicleGame() {
   const vehicles: BaseGameItem[] = ALL_VEHICLES;

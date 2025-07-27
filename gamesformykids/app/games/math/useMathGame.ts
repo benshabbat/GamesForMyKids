@@ -9,7 +9,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants";
 
 // Math game specific state interface
 interface MathGameState {

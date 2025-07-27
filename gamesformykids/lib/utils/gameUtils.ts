@@ -2,7 +2,7 @@
  * אוסף פונקציות עזר גנריות למשחקים
  */
 import React from 'react';
-import { FEEDBACK_MESSAGES, GAME_CONSTANTS, SOUND_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../constants/gameConstants";
+import { FEEDBACK_MESSAGES, GAME_CONSTANTS, AUDIO_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../constants";
 import { speakHebrew, cancelSpeech, isSpeechEnabled } from "./enhancedSpeechUtils";
 
 /**
@@ -141,7 +141,7 @@ export function playSuccessSound(audioContext: AudioContext | null): void {
   if (!audioContext) return;
   
   // תדרים של צלילי אקורד דו מז'ור (C5, E5, G5)
-  const notes = SOUND_CONSTANTS.CHORD_NOTES;
+  const notes = AUDIO_CONSTANTS.SUCCESS_CHORD;
   
   notes.forEach((frequency, index) => {
     // יצירת מחולל צליל וווליום

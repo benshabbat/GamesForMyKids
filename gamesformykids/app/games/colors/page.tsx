@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import ColorCard from "./ColorCard";
-import { ALL_COLORS } from "@/lib/constants/gameConstants";
+import { ALL_COLORS } from "@/lib/constants";
 
 export default function ColorGame() {
   const colors: BaseGameItem[] = ALL_COLORS;

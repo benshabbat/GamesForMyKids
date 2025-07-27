@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, ANIMAL_HEBREW_PRONUNCIATIONS, ANIMAL_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, ANIMAL_HEBREW_PRONUNCIATIONS, ANIMAL_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useAnimalGame(animals: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

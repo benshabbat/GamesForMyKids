@@ -9,7 +9,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import FruitCard from "./FruitCard";
-import { ALL_FRUITS } from "@/lib/constants/gameConstants";
+import { ALL_FRUITS } from "@/lib/constants";
 
 export default function FruitGame() {
   const fruits: BaseGameItem[] = ALL_FRUITS;

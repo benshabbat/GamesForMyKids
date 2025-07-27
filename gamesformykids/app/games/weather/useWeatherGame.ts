@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, WEATHER_HEBREW_PRONUNCIATIONS, WEATHER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, WEATHER_HEBREW_PRONUNCIATIONS, WEATHER_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useWeatherGame(weathers: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

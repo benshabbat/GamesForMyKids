@@ -10,7 +10,7 @@ import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
 import SmellTasteCard from "./SmellTasteCard";
-import { ALL_SMELLS_TASTES } from "@/lib/constants/gameConstants";
+import { ALL_SMELLS_TASTES } from "@/lib/constants";
 
 export default function SmellTasteGame() {
   const smellTasteItems: BaseGameItem[] = ALL_SMELLS_TASTES;

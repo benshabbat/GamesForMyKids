@@ -12,7 +12,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, PROFESSION_HEBREW_PRONUNCIATIONS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, PROFESSION_HEBREW_PRONUNCIATIONS } from "@/lib/constants";
 
 export function useProfessionGame(professions: ProfessionItem[]) {
   const [gameState, setGameState] = useState<BaseGameState<ProfessionItem>>({

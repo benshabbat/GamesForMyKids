@@ -12,7 +12,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, NUMBER_HEBREW_PRONUNCIATIONS, NUMBER_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, NUMBER_HEBREW_PRONUNCIATIONS, NUMBER_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useNumberGame(numbers: NumberItem[]) {
   const [gameState, setGameState] = useState<BaseGameState<NumberItem>>({

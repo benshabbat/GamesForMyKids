@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import ProfessionCard from "./ProfessionCard";
-import { ALL_PROFESSIONS } from "@/lib/constants/gameConstants";
+import { ALL_PROFESSIONS } from "@/lib/constants";
 
 export default function ProfessionGame() {
   const professions: ProfessionItem[] = ALL_PROFESSIONS as ProfessionItem[];

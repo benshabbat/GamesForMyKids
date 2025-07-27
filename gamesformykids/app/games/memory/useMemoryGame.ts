@@ -11,7 +11,7 @@ import {
   MEMORY_GAME_ANIMALS, 
   ANIMAL_SOUND_FREQUENCIES,
   MEMORY_GAME_CONSTANTS
-} from "@/lib/constants/gameConstants";
+} from "@/lib/constants";
 import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
 export function useMemoryGame() {

@@ -11,7 +11,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, CLOTHING_HEBREW_PRONUNCIATIONS, CLOTHING_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, CLOTHING_HEBREW_PRONUNCIATIONS, CLOTHING_GAME_CONSTANTS } from "@/lib/constants";
 
 export function useClothingGame(clothingItems: BaseGameItem[]) {
   const [gameState, setGameState] = useState<BaseGameState>({

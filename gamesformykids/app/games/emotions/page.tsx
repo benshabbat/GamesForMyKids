@@ -4,7 +4,7 @@ import { useState } from 'react';
 import EmotionCard from './EmotionCard';
 import StartScreen from './StartScreen';
 import { useEmotionGame } from './useEmotionGame';
-import { ALL_EMOTIONS } from '@/lib/constants/gameConstants';
+import { ALL_EMOTIONS } from '@/lib/constants';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import ChallengeBox from "@/components/shared/ChallengeBox";

@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { WEATHER_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { WEATHER_GAME_STEPS } from "@/lib/constants";
 import { BaseGameItem } from "@/lib/types/base";
 import { GenericStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

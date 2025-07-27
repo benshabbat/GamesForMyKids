@@ -9,7 +9,7 @@ import {
   handleCorrectGameAnswer,
   speakStartMessage
 } from "@/lib/utils/gameUtils";
-import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants/gameConstants";
+import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 
 // אימוג'ים לספירה עם שמות בעברית
 const COUNTING_ITEMS = [

@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { TRANSPORT_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { TRANSPORT_GAME_STEPS } from "@/lib/constants";
 import { BaseGameItem } from "@/lib/types/base";
 import { GenericStartScreenProps } from "@/lib/types/startScreen";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";

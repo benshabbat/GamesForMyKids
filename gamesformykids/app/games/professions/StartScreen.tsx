@@ -1,6 +1,6 @@
 import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import GameItem from "@/components/shared/GameItem";
-import { PROFESSION_GAME_STEPS } from "@/lib/constants/uiConstants";
+import { PROFESSION_GAME_STEPS } from "@/lib/constants";
 import { ProfessionStartScreenProps } from "@/lib/types/startScreen";
 import { ProfessionItem } from "@/lib/types/games";
 import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
