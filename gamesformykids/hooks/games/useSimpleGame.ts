@@ -1,0 +1,20 @@
+import { useBaseGame } from "@/hooks/shared/useBaseGame";
+import { BaseGameItem } from "@/lib/types/base";
+
+interface UseSimpleGameProps {
+  items: BaseGameItem[];
+  pronunciations: Record<string, string>;
+  gameConstants: {
+    BASE_COUNT: number;
+    INCREMENT: number;
+    LEVEL_THRESHOLD: number;
+  };
+}
+
+/**
+ * Hook פשוט למשחקים בסיסיים
+ * מעטפת נוחה לעבודה עם useBaseGame
+ */
+export function useSimpleGame(props: UseSimpleGameProps) {
+  return useBaseGame(props);
+}
