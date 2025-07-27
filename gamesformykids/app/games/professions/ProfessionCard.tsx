@@ -1,8 +1,8 @@
-import { ProfessionItem } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types";
 
 interface ProfessionCardProps {
-  profession: ProfessionItem;
-  onClick: (profession: ProfessionItem) => void;
+  profession: BaseGameItem;
+  onClick: (profession: BaseGameItem) => void;
 }
 
 /**
@@ -27,7 +27,7 @@ export default function ProfessionCard({ profession, onClick }: ProfessionCardPr
           {profession.emoji}
         </div>
         <div className="text-xl md:text-2xl font-bold text-center">
-          {profession.name}
+          {profession.hebrew}
         </div>
       </div>
     </div>

@@ -22,11 +22,8 @@ export default function ProfessionGame() {
   } = useProfessionGameDry(); // ⭐ לא צריך לשלוח professions!
 
   // Wrapper function for speaking profession by name
-  const speakByName = (professionId: string) => {
-    const profession = professions.find(p => p.id === professionId);
-    if (profession) {
-      speakProfessionName(profession);
-    }
+  const speakByName = (professionName: string) => {
+    speakProfessionName(professionName);
   };
 
   if (!gameState.isPlaying) {
@@ -59,8 +56,8 @@ export default function ProfessionGame() {
               title="איזה מקצוע זה?"
               icon="👩‍⚕️👨‍🚒👩‍🏫👮‍♀️"
               iconColor="text-purple-800"
-              challengeText={gameState.currentChallenge.description}
-              onSpeak={() => speakProfessionName(gameState.currentChallenge!)}
+              challengeText={gameState.currentChallenge.hebrew}
+              onSpeak={() => speakProfessionName(gameState.currentChallenge!.name)}
               description="בחר את המקצוע הנכון!"
             />
           )}
@@ -76,9 +73,9 @@ export default function ProfessionGame() {
 
         {/* אפשרויות המקצועות */}
         <div className="grid grid-cols-2 gap-6 max-w-3xl mx-auto mb-8">
-          {gameState.options.map((profession: ProfessionItem) => (
+          {gameState.options.map((profession) => (
             <ProfessionCard
-              key={profession.id}
+              key={profession.name}
               profession={profession}
               onClick={handleProfessionClick}
             />
