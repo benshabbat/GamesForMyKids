@@ -17,7 +17,7 @@ export default function MathGame() {
   } = useMathGame();
 
   if (!gameState.isPlaying) {
-    return <StartScreen onStart={startGame} />;
+    return <StartScreen items={[]} onStart={startGame} onSpeak={speakQuestion} />;
   }
 
   const renderMathProblem = () => {

@@ -1,40 +1,15 @@
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
-import GameItem from "@/components/shared/GameItem";
-import { MEMORY_GAME_STEPS } from "@/lib/constants";
-import { MemoryStartScreenProps } from "@/lib/types/startScreen";
-import { AnimalData } from "@/lib/types/games";
+/**
+ * ===============================================
+ * StartScreen לזיכרון - גרסה חדשה ומשופרת!
+ * ===============================================
+ * 
+ * 🚀 3 שורות במקום 150!
+ * משתמש ב-AutoStartScreen החדש
+ */
 
-export default function StartScreen({ onStart, items: animals }: MemoryStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-  return (
-    <GenericStartScreen
-      title="🧠 משחק זיכרון 🧠"
-      subTitle="מצא זוגות של חיות חמודות!"
-      textColorHeader={gameConfig.memory.header}
-      textColorSubHeader={gameConfig.memory.subHeader}
-      gameSteps={MEMORY_GAME_STEPS}
-      gameStepsBgClass="bg-pink-100 bg-opacity-90"
-      items={animals}
-      onStart={onStart}
-      buttonFromColor={gameConfig.memory.button.from}
-      buttonToColor={gameConfig.memory.button.to}
-      backgroundStyle={gameConfig.memory.background}
-      itemsTitle="החיות שתפגוש במשחק:"
-      itemsDescription="לחץ על חיה כדי לשמוע את השם שלה! כל זוג חיות זהות מסתתר בין הקלפים"
-      itemsDescriptionColor="text-pink-100"
-      itemsGridClass="flex flex-wrap justify-center gap-4"
-      renderItem={(animal: AnimalData) => (
-        <GameItem
-          key={animal.name}
-          hebrewText={animal.name}
-          icon={<span className="text-3xl">{animal.emoji}</span>}
-          color="bg-purple-400"
-          shape="circle"
-          size="large"
-        />
-      )}
-    />
-  );
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
+  return <AutoStartScreen gameType="memory" {...props} />;
 }

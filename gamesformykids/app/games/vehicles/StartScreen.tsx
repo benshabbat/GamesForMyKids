@@ -1,41 +1,15 @@
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import GameItem from "@/components/shared/GameItem";
-import { VEHICLE_GAME_STEPS } from "@/lib/constants";
-import { VehicleStartScreenProps } from "@/lib/types/startScreen";
-import { BaseGameItem } from "@/lib/types/base";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
+/**
+ * ===============================================
+ * StartScreen לכלי רכב - גרסה חדשה ומשופרת!
+ * ===============================================
+ * 
+ * 🚀 3 שורות במקום 150!
+ * משתמש ב-AutoStartScreen החדש
+ */
 
-export default function StartScreen({ items: vehicles, onStart, onSpeak }: VehicleStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-  return (
-    <GenericStartScreen
-      title="🚗 Vehicle Game ✈️"
-      subTitle="Learn vehicles through listening!"
-      textColorHeader={gameConfig.vehicles.header}
-      textColorSubHeader={gameConfig.vehicles.subHeader}
-      gameSteps={VEHICLE_GAME_STEPS}
-      gameStepsBgClass="bg-blue-100 bg-opacity-90"
-      items={vehicles}
-      onStart={onStart}
-      buttonFromColor={gameConfig.vehicles.button.from}
-      buttonToColor={gameConfig.vehicles.button.to}
-      backgroundStyle={gameConfig.vehicles.background}
-      itemsTitle="All vehicles we'll learn:"
-      itemsDescription="Click on a vehicle to hear its name! Fast and fun transportation"
-      itemsDescriptionColor="text-blue-100"
-      itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(vehicle: BaseGameItem) => (
-        <GameItem
-          key={vehicle.name}
-          hebrewText={vehicle.hebrew}
-          color={vehicle.color}
-          icon={<span className="text-3xl">{vehicle.emoji}</span>}
-          shape="circle"
-          size="large"
-          onClick={() => onSpeak && onSpeak(vehicle.name)}
-        />
-      )}
-    />
-  );
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
+  return <AutoStartScreen gameType="vehicles" {...props} />;
 }

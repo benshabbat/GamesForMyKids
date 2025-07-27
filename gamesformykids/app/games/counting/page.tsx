@@ -21,7 +21,7 @@ export default function CountingGame() {
   } = useCountingGame();
 
   if (!gameState.isPlaying) {
-    return <StartScreen items={emptyItems} onStart={startGame} />;
+    return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
   }
 
   return (

@@ -1,41 +1,15 @@
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import GameItem from "@/components/shared/GameItem";
-import { TOOL_GAME_STEPS } from "@/lib/constants";
-import { ToolStartScreenProps } from "@/lib/types/startScreen";
-import { BaseGameItem } from "@/lib/types/base";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
+/**
+ * ===============================================
+ * StartScreen לכלי עבודה - גרסה חדשה ומשופרת!
+ * ===============================================
+ * 
+ * 🚀 3 שורות במקום 150!
+ * משתמש ב-AutoStartScreen החדש
+ */
 
-export default function StartScreen({ items: tools, onStart, onSpeak }: ToolStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-  return (
-    <GenericStartScreen
-      title="🔨 משחק כלי עבודה 🪛"
-      subTitle="למד כלי עבודה דרך האזנה!"
-      textColorHeader={gameConfig.tools.header}
-      textColorSubHeader={gameConfig.tools.subHeader}
-      gameSteps={TOOL_GAME_STEPS}
-      gameStepsBgClass="bg-yellow-100 bg-opacity-90"
-      items={tools}
-      onStart={onStart}
-      buttonFromColor={gameConfig.tools.button.from}
-      buttonToColor={gameConfig.tools.button.to}
-      backgroundStyle={gameConfig.tools.background}
-      itemsTitle="כל כלי העבודה שנלמד:"
-      itemsDescription="לחץ על כלי עבודה כדי לשמוע את שמו! כלי עבודה שימושיים"
-      itemsDescriptionColor="text-yellow-100"
-      itemsGridClass="grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(tool: BaseGameItem) => (
-        <GameItem
-          key={tool.name}
-          hebrewText={tool.hebrew}
-          color={tool.color}
-          icon={<span className="text-3xl">{tool.emoji}</span>}
-          shape="circle"
-          size="large"
-          onClick={() => onSpeak && onSpeak(tool.name)}
-        />
-      )}
-    />
-  );
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
+  return <AutoStartScreen gameType="tools" {...props} />;
 }

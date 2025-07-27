@@ -1,39 +1,15 @@
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import GameItem from "@/components/shared/GameItem";
-import { PROFESSION_GAME_STEPS } from "@/lib/constants";
-import { GenericStartScreenProps } from "@/lib/types/startScreen";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
+/**
+ * ===============================================
+ * StartScreen למקצועות - גרסה חדשה ומשופרת!
+ * ===============================================
+ * 
+ * 🚀 3 שורות במקום 150!
+ * משתמש ב-AutoStartScreen החדש
+ */
 
-export default function StartScreen({ items: professions, onStart }: GenericStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-  return (
-    <GenericStartScreen
-      title="👩‍⚕️ משחק מקצועות 👨‍🚒"
-      subTitle="למד על מקצועות מעניינים!"
-      textColorHeader={gameConfig.professions.header}
-      textColorSubHeader={gameConfig.professions.subHeader}
-      gameSteps={PROFESSION_GAME_STEPS}
-      gameStepsBgClass="bg-purple-100 bg-opacity-90"
-      items={professions}
-      onStart={onStart}
-      buttonFromColor={gameConfig.professions.button.from}
-      buttonToColor={gameConfig.professions.button.to}
-      backgroundStyle={gameConfig.professions.background}
-      itemsTitle="כל המקצועות שנלמד:"
-      itemsDescription="לחץ על מקצוע כדי לשמוע את התיאור שלו! כל מקצוע חשוב ומיוחד"
-      itemsDescriptionColor="text-purple-100"
-      itemsGridClass="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto"
-      renderItem={(profession) => (
-        <GameItem
-          key={profession.name}
-          hebrewText={profession.hebrew}
-          color={profession.color}
-          icon={<span className="text-3xl">{profession.emoji}</span>}
-          shape="circle"
-          size="large"
-        />
-      )}
-    />
-  );
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
+  return <AutoStartScreen gameType="professions" {...props} />;
 }
