@@ -1,10 +1,9 @@
 "use client";
 
-import React from "react";
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useSmellTasteGame } from "./useSmellTasteGame";
+import { useSmellTasteGameDry } from "./useSmellTasteGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -17,11 +16,11 @@ export default function SmellTasteGame() {
 
   const {
     gameState,
-    speakSmellTasteItemName,
+    speakItemName: speakSmellTasteItemName, // שינוי שם בלבד
     startGame,
-    handleSmellTasteItemClick,
+    handleItemClick: handleSmellTasteItemClick, // שינוי שם בלבד
     resetGame,
-  } = useSmellTasteGame(smellTasteItems);
+  } = useSmellTasteGameDry(); // ⭐ לא צריך לשלוח smellTasteItems!
 
   if (!gameState.isPlaying) {
     return (

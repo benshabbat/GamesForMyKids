@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useWeatherGame } from "./useWeatherGame";
+import { useWeatherGameDry } from "./useWeatherGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function WeatherGame() {
 
   const {
     gameState,
-    speakWeatherName,
+    speakItemName: speakWeatherName, // שינוי שם בלבד
     startGame,
-    handleWeatherClick,
+    handleItemClick: handleWeatherClick, // שינוי שם בלבד
     resetGame,
-  } = useWeatherGame(weathers);
+  } = useWeatherGameDry(); // ⭐ לא צריך לשלוח weathers!
 
   if (!gameState.isPlaying) {
     return (

@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useAnimalGame } from "./useAnimalGame";
+import { useAnimalGameDry } from "./useAnimalGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function AnimalGame() {
 
   const {
     gameState,
-    speakAnimalName,
+    speakItemName: speakAnimalName, // שינוי שם בלבד
     startGame,
-    handleAnimalClick,
+    handleItemClick: handleAnimalClick, // שינוי שם בלבד
     resetGame,
-  } = useAnimalGame(animals);
+  } = useAnimalGameDry(); // ⭐ לא צריך לשלוח animals!
 
   if (!gameState.isPlaying) {
     return (

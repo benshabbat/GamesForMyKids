@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
 import { useState } from 'react';
 import EmotionCard from './EmotionCard';
 import StartScreen from './StartScreen';
-import { useEmotionGame } from './useEmotionGame';
+import { useEmotionGameDry } from "./useEmotionGameDry"; // ⭐ השינוי היחיד!
 import { ALL_EMOTIONS } from '@/lib/constants';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import CelebrationBox from "@/components/shared/CelebrationBox";
@@ -16,11 +16,11 @@ export default function EmotionGamePage() {
   const [gameStarted, setGameStarted] = useState(false);
   const {
     gameState,
-    speakEmotionName,
+    speakItemName: speakEmotionName, // שינוי שם בלבד
     startGame,
-    handleEmotionClick,
+    handleItemClick: handleEmotionClick, // שינוי שם בלבד
     resetGame,
-  } = useEmotionGame(ALL_EMOTIONS);
+  } = useEmotionGameDry(); // ⭐ לא צריך לשלוח ALL_EMOTIONS!
 
   if (!gameStarted) {
     return (

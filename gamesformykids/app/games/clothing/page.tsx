@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useClothingGame } from "./useClothingGame";
+import { useClothingGameDry } from "./useClothingGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -15,11 +15,11 @@ export default function ClothingGame() {
 
   const {
     gameState,
-    speakClothingItemName,
+    speakItemName: speakClothingItemName, // שינוי שם בלבד
     startGame,
-    handleClothingItemClick,
+    handleItemClick: handleClothingItemClick, // שינוי שם בלבד
     resetGame,
-  } = useClothingGame(clothingItems);
+  } = useClothingGameDry(); // ⭐ לא צריך לשלוח clothingItems!
 
   // Wrapper function for speaking clothing item by name
   const speakByName = (clothingItemName: string) => {

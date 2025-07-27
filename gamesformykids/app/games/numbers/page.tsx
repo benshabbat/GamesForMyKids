@@ -3,7 +3,7 @@
 import { NumberItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useNumberGame } from "./useNumberGame";
+import { useNumberGameDry } from "./useNumberGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function NumberGame() {
 
   const {
     gameState,
-    speakNumberName,
+    speakItemName: speakNumberName, // שינוי שם בלבד
     startGame,
-    handleNumberClick,
+    handleItemClick: handleNumberClick, // שינוי שם בלבד
     resetGame,
-  } = useNumberGame(numbers);
+  } = useNumberGameDry(); // ⭐ לא צריך לשלוח numbers!
 
   if (!gameState.isPlaying) {
     return (

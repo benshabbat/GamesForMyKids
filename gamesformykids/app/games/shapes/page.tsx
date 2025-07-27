@@ -3,7 +3,7 @@
 import { ShapeItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useShapeGame } from "./useShapeGame";
+import { useShapeGameDry } from "./useShapeGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function ShapeGame() {
 
   const {
     gameState,
-    speakShapeName,
+    speakItemName: speakShapeName, // שינוי שם בלבד
     startGame,
-    handleShapeClick,
+    handleItemClick: handleShapeClick, // שינוי שם בלבד
     resetGame,
-  } = useShapeGame(shapes);
+  } = useShapeGameDry(); // ⭐ לא צריך לשלוח shapes!
 
   if (!gameState.isPlaying) {
     return (

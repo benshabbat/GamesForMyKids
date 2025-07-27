@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useVehicleGame } from "./useVehicleGame";
+import { useVehicleGameDry } from "./useVehicleGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function VehicleGame() {
 
   const {
     gameState,
-    speakVehicleName,
+    speakItemName: speakVehicleName, // שינוי שם בלבד
     startGame,
-    handleVehicleClick,
+    handleItemClick: handleVehicleClick, // שינוי שם בלבד
     resetGame,
-  } = useVehicleGame(vehicles);
+  } = useVehicleGameDry(); // ⭐ לא צריך לשלוח vehicles!
 
   if (!gameState.isPlaying) {
     return (

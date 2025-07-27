@@ -3,7 +3,7 @@
 import { ProfessionItem } from "@/lib/types/games";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useProfessionGame } from "./useProfessionGame";
+import { useProfessionGameDry } from "./useProfessionGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -15,11 +15,11 @@ export default function ProfessionGame() {
 
   const {
     gameState,
-    speakProfessionName,
+    speakItemName: speakProfessionName, // שינוי שם בלבד
     startGame,
-    handleProfessionClick,
+    handleItemClick: handleProfessionClick, // שינוי שם בלבד
     resetGame,
-  } = useProfessionGame(professions);
+  } = useProfessionGameDry(); // ⭐ לא צריך לשלוח professions!
 
   // Wrapper function for speaking profession by name
   const speakByName = (professionId: string) => {

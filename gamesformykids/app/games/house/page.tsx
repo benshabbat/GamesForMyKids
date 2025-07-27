@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useHouseGame } from "./useHouseGame";
+import { useHouseGameDry } from "./useHouseGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function HouseGame() {
 
   const {
     gameState,
-    speakHouseItemName,
+    speakItemName: speakHouseItemName, // שינוי שם בלבד
     startGame,
-    handleHouseItemClick,
+    handleItemClick: handleHouseItemClick, // שינוי שם בלבד
     resetGame,
-  } = useHouseGame(houseItems);
+  } = useHouseGameDry(); // ⭐ לא צריך לשלוח houseItems!
 
   if (!gameState.isPlaying) {
     return (

@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useToolGame } from "./useToolGame";
+import { useToolGameDry } from "./useToolGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function ToolGame() {
 
   const {
     gameState,
-    speakToolName,
+    speakItemName: speakToolName, // שינוי שם בלבד
     startGame,
-    handleToolClick,
+    handleItemClick: handleToolClick, // שינוי שם בלבד
     resetGame,
-  } = useToolGame(tools);
+  } = useToolGameDry(); // ⭐ לא צריך לשלוח tools!
 
   if (!gameState.isPlaying) {
     return (

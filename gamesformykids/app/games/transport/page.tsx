@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useTransportGame } from "./useTransportGame";
+import { useTransportGameDry } from "./useTransportGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function TransportGame() {
 
   const {
     gameState,
-    speakTransportName,
+    speakItemName: speakTransportName, // שינוי שם בלבד
     startGame,
-    handleTransportClick,
+    handleItemClick: handleTransportClick, // שינוי שם בלבד
     resetGame,
-  } = useTransportGame(transports);
+  } = useTransportGameDry(); // ⭐ לא צריך לשלוח transports!
 
   if (!gameState.isPlaying) {
     return (

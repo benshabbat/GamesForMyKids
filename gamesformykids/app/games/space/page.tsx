@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types/base";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useSpaceGame } from "./useSpaceGame";
+import { useSpaceGameDry } from "./useSpaceGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -15,11 +15,11 @@ export default function SpaceGame() {
 
   const {
     gameState,
-    speakSpaceObjectName,
+    speakItemName: speakSpaceObjectName, // שינוי שם בלבד
     startGame,
-    handleSpaceObjectClick,
+    handleItemClick: handleSpaceObjectClick, // שינוי שם בלבד
     resetGame,
-  } = useSpaceGame(spaceObjects);
+  } = useSpaceGameDry(); // ⭐ לא צריך לשלוח spaceObjects!
 
   // Wrapper function for speaking space object by name
   const speakByName = (spaceObjectName: string) => {

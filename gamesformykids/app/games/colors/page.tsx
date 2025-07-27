@@ -2,7 +2,7 @@
 
 import { BaseGameItem } from "@/lib/types";
 import StartScreen from "./StartScreen";
-import { useColorGame } from "./useColorGame";
+import { useColorGameDry } from "./useColorGameDry"; // ⭐ השינוי היחיד!
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
@@ -16,11 +16,11 @@ export default function ColorGame() {
 
   const {
     gameState,
-    speakColorName,
+    speakItemName: speakColorName, // שינוי שם בלבד
     startGame,
-    handleColorClick,
+    handleItemClick: handleColorClick, // שינוי שם בלבד
     resetGame,
-  } = useColorGame(colors);
+  } = useColorGameDry(); // ⭐ לא צריך לשלוח colors!
 
   if (!gameState.isPlaying) {
     return (

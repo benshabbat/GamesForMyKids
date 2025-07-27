@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import StartScreen from "./StartScreen";
-import { useLetterGame } from "./useLetterGame";
+import { useLetterGameDry } from "./useLetterGameDry"; // ⭐ השינוי היחיד!
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -16,11 +16,11 @@ export default function LetterGame() {
 
   const {
     gameState,
-    speakLetterName,
+    speakItemName: speakLetterName, // שינוי שם בלבד
     startGame,
-    handleLetterClick,
+    handleItemClick: handleLetterClick, // שינוי שם בלבד
     resetGame,
-  } = useLetterGame(letters);
+  } = useLetterGameDry(); // ⭐ לא צריך לשלוח letters!
 
   if (!gameState.isPlaying) {
     return (

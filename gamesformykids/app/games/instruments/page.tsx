@@ -3,7 +3,7 @@
 import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import StartScreen from "./StartScreen";
-import { useInstrumentGame } from "./useInstrumentGame";
+import { useInstrumentGameDry } from "./useInstrumentGameDry"; // ⭐ השינוי היחיד!
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -15,11 +15,11 @@ export default function InstrumentGame() {
 
   const {
     gameState,
-    speakInstrumentName,
+    speakItemName: speakInstrumentName, // שינוי שם בלבד
     startGame,
-    handleInstrumentClick,
+    handleItemClick: handleInstrumentClick, // שינוי שם בלבד
     resetGame,
-  } = useInstrumentGame(instruments);
+  } = useInstrumentGameDry(); // ⭐ לא צריך לשלוח instruments!
 
   // Wrapper function for speaking instrument by name
   const speakByName = (instrumentName: string) => {
