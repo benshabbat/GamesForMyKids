@@ -88,4 +88,5 @@ export type GameType =
   | 'memory'
   | 'professions'
   | 'vehicles'
+  | 'emotions'
   | 'bubbles';

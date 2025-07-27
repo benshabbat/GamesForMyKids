@@ -534,4 +534,28 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "flex flex-wrap justify-center gap-4",
     },
   },
+
+  emotions: {
+    title: "😊 משחק רגשות 😢",
+    subTitle: "למד רגשות שונים דרך הקשבה!",
+    itemsTitle: "הרגשות שנלמד:",
+    itemsDescription: "לחץ על רגש כדי לשמוע את השם שלו!",
+    steps: [
+      { icon: "👂", title: "1. תשמע", description: "איזה רגש אני אומר" },
+      { icon: "🤔", title: "2. תחשוב", description: "איך הרגש נראה" },
+      { icon: "👆", title: "3. תלחץ", description: "על הרגש הנכון" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #fef7cd 0%, #fde047 25%, #facc15 50%, #eab308 75%, #ca8a04 100%)",
+      header: "text-white",
+      subHeader: "text-yellow-100",
+      itemsDescription: "text-yellow-100",
+      button: { from: "yellow", to: "amber" },
+      stepsBg: "bg-yellow-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
+      showSpeaker: true,
+    },
+  },
 };

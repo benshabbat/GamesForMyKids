@@ -1,6 +1,6 @@
 /**
  * ===============================================
- * StartScreen לספירה - גרסה חדשה ומשופרת!
+ * StartScreen לרגשות - גרסה חדשה ומשופרת!
  * ===============================================
  * 
  * 🚀 3 שורות במקום 150!
@@ -11,5 +11,5 @@ import AutoStartScreen from "@/components/shared/AutoStartScreen";
 import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
 export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
-  return <AutoStartScreen gameType="counting" {...props} />;
+  return <AutoStartScreen gameType="emotions" {...props} />;
 }
