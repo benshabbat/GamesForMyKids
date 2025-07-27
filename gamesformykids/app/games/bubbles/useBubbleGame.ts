@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useCallback } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
 
 interface BubbleData {
@@ -39,7 +39,7 @@ export function useBubbleGame() {
   }, []);
 
   // צבעים ותדרים לבועות
-  const bubbleTypes = [
+  const bubbleTypes = useMemo(() => [
     { color: '#FF6B6B', frequency: 261.63 }, // C4 - אדום
     { color: '#4ECDC4', frequency: 293.66 }, // D4 - תכלת
     { color: '#45B7D1', frequency: 329.63 }, // E4 - כחול
@@ -48,7 +48,7 @@ export function useBubbleGame() {
     { color: '#FF9FF3', frequency: 440.00 }, // A4 - ורוד
     { color: '#54A0FF', frequency: 493.88 }, // B4 - כחול בהיר
     { color: '#5F27CD', frequency: 523.25 }, // C5 - סגול
-  ];
+  ], []);
 
   // יצירת בועה חדשה
   const createBubble = useCallback(() => {

@@ -99,6 +99,7 @@ export const getGameConfig = (gameType: GameType): GameConfig => {
     memory: DEFAULT_CONFIG,
     professions: DEFAULT_CONFIG,
     vehicles: DEFAULT_CONFIG,
+    emotions: DEFAULT_CONFIG,
     bubbles: DEFAULT_CONFIG,
   };
 
