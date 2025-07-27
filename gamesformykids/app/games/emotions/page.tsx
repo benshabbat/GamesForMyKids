@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import EmotionCard from './EmotionCard';
+import { EmotionCard } from '@/components/shared/CardPresets'; // ⭐ קארד חדש!
 import StartScreen from './StartScreen';
 import { useEmotionGameDry } from "./useEmotionGameDry"; // ⭐ השינוי היחיד!
 import { ALL_EMOTIONS } from '@/lib/constants';

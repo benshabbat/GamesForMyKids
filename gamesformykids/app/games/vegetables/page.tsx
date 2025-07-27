@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import VegetableCard from "./VegetableCard";
+import { VegetableCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_VEGETABLES } from "@/lib/constants";
 
 export default function VegetableGame() {

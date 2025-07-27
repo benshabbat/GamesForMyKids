@@ -7,7 +7,7 @@ import { useProfessionGameDry } from "./useProfessionGameDry"; // ⭐ השינו
 import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import ProfessionCard from "./ProfessionCard";
+import { ProfessionCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_PROFESSIONS } from "@/lib/constants";
 
 export default function ProfessionGame() {

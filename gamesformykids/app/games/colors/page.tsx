@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import ColorCard from "./ColorCard";
+import { ColorCard } from "@/components/shared/CardPresets"; // ⭐ קארד חדש!
 import { ALL_COLORS } from "@/lib/constants";
 
 export default function ColorGame() {
