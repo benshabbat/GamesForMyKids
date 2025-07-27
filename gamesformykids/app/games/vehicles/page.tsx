@@ -8,7 +8,7 @@ import ChallengeBox from "@/components/shared/ChallengeBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import { GameCardGrid } from "@/components/shared/GameCardGrid";
-import VehicleCard from "./VehicleCard";
+import { VehicleCard } from "@/components/shared/CardPresets";
 import { ALL_VEHICLES } from "@/lib/constants";
 
 export default function VehicleGame() {
