@@ -4,8 +4,19 @@
  * ===============================================
  */
 
-import { BaseGameItem } from "./base";
+import { BaseGameItem, GameType } from "./base";
 import { NumberItem, ProfessionItem, AnimalData } from "./games";
+
+/**
+ * AutoStartScreen - הטיפוס החדש ל-StartScreen אוטומטי!
+ * מחליף את כל הטיפוסים הישנים
+ */
+export interface AutoStartScreenProps {
+  gameType: GameType;
+  items: BaseGameItem[];
+  onStart: () => void;
+  onSpeak?: (name: string) => void;
+}
 
 /**
  * מאפיינים בסיסיים למסכי התחלה

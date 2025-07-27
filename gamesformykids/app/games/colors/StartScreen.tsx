@@ -1,37 +1,15 @@
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
-import { useGameStartScreenConfig } from "@/hooks/shared/useGameStartScreenConfig";
-import GameItem from "@/components/shared/GameItem";
-import { COLOR_GAME_STEPS } from "@/lib/constants";
-import { BaseGameItem } from "@/lib/types/base";
-import { GenericStartScreenProps } from "@/lib/types/startScreen";
+/**
+ * ===============================================
+ * StartScreen לצבעים - גרסה חדשה ומשופרת!
+ * ===============================================
+ * 
+ * 🚀 3 שורות במקום 150!
+ * משתמש ב-AutoStartScreen החדש
+ */
 
-export default function StartScreen({ items, onStart }: GenericStartScreenProps) {
-  const gameConfig = useGameStartScreenConfig();
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-  return (
-    <GenericStartScreen
-      title="🎨 משחק צבעים 🎨"
-      subTitle="למד צבעים דרך משחק!"
-      textColorHeader={gameConfig.colors.header}
-      textColorSubHeader={gameConfig.colors.subHeader}
-      gameSteps={COLOR_GAME_STEPS}
-      items={items}
-      onStart={onStart}
-      buttonFromColor={gameConfig.colors.button.from}
-      buttonToColor={gameConfig.colors.button.to}
-      backgroundStyle={gameConfig.colors.background}
-      itemsTitle="הצבעים שנלמד:"
-      itemsDescription="לחץ על צבע כדי לשמוע את השם שלו!"
-      itemsGridClass="flex flex-wrap justify-center gap-4"
-      renderItem={(color: BaseGameItem) => (
-        <GameItem
-          key={color.name}
-          hebrewText={color.hebrew}
-          color={color.color}
-          shape="circle"
-          size="large"
-        />
-      )}
-    />
-  );
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
+  return <AutoStartScreen gameType="colors" {...props} />;
 }
