@@ -127,7 +127,9 @@ export default function BaseGameCard({
   };
   
   // יצירת רקע דינמי
-  const backgroundClass = `bg-gradient-to-br from-${gradientFrom} to-${gradientTo} hover:from-${hoverFrom} hover:to-${hoverTo}`;
+  const backgroundClass = gradientFrom === gradientTo && hoverFrom === hoverTo 
+    ? `bg-${gradientFrom}` // אם הצבעים זהים, השתמש בצבע אחיד
+    : `bg-gradient-to-br from-${gradientFrom} to-${gradientTo} hover:from-${hoverFrom} hover:to-${hoverTo}`;
   
   return (
     <div

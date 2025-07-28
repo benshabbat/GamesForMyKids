@@ -10,7 +10,7 @@ export default function MathNumberCard({ number, onClick }: MathNumberCardProps)
       className="
         aspect-square rounded-3xl cursor-pointer transition-all 
         duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
-        bg-gradient-to-br from-yellow-400 to-orange-500 hover:from-yellow-500 hover:to-orange-600
+        bg-gradient-to-br from-yellow-400 to-orange-500 hover:opacity-80
         border-8 border-white
       "
     >
