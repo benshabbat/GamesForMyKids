@@ -53,6 +53,7 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
     return (
       <AutoStartScreen
         gameType={gameType}
+        gameId={gameType}
         items={items}
         onStart={startGame}
         onSpeak={speakItemName}

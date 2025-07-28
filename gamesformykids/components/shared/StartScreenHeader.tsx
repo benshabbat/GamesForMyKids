@@ -1,4 +1,3 @@
-import { Home } from "lucide-react";
 interface StartScreenHeaderProps {
   textColorHeader?: string;
   textColorSubHeader?: string;
@@ -14,12 +13,6 @@ const StartScreenHeader = ({
 }: StartScreenHeaderProps) => {
   return (
     <div className="mb-8">
-      <button
-        onClick={() => (window.location.href = "/")}
-        className="mb-4 px-6 py-3 cursor-pointer bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-xl font-bold text-purple-600 hover:bg-purple-50"
-      >
-        <Home className="inline w-6 h-6 ml-2" />← חזרה לעמוד הראשי
-      </button>
       <h1 className={`text-5xl md:text-7xl font-bold ${textColorHeader} mb-4`}>
         {title}
       </h1>

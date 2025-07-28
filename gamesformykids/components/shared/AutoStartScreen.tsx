@@ -14,17 +14,20 @@ import { AutoStartScreenProps } from "@/lib/types/startScreen";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "./GameItem";
+import GameNavigation from "./GameNavigation";
 
 /**
  * AutoStartScreen - קומפוננט אוטומטי ל-StartScreen
  * 
  * @param gameType - סוג המשחק (מהטיפוס GameType)
+ * @param gameId - זהות המשחק לצורך הניווט
  * @param items - רשימת פריטי המשחק
  * @param onStart - פונקציה להתחלת המשחק
  * @param onSpeak - פונקציה אופציונלית להשמעת שמות
  */
 export default function AutoStartScreen({ 
   gameType, 
+  gameId,
   items, 
   onStart, 
   onSpeak 
@@ -45,7 +48,11 @@ export default function AutoStartScreen({
   }
 
   return (
-    <GenericStartScreen
+    <>
+      {/* ניווט בין משחקים */}
+      {gameId && <GameNavigation currentGameId={gameId} />}
+      
+      <GenericStartScreen
       title={config.title}
       subTitle={config.subTitle}
       textColorHeader={config.colors.header}
@@ -74,5 +81,6 @@ export default function AutoStartScreen({
         />
       )}
     />
+    </>
   );
 }

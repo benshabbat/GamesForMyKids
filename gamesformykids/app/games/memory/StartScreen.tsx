@@ -28,5 +28,11 @@ export default function StartScreen({ items, onStart, onSpeak }: MemoryStartScre
     sound: [440],
   }));
 
-  return <AutoStartScreen gameType="memory" items={convertedItems} onStart={onStart} onSpeak={onSpeak} />;
+  return <AutoStartScreen 
+    gameType="memory" 
+    gameId="memory"
+    items={convertedItems} 
+    onStart={onStart} 
+    onSpeak={onSpeak} 
+  />;
 }

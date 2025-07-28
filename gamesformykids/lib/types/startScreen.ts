@@ -13,6 +13,7 @@ import { NumberItem, ProfessionItem, AnimalData } from "./games";
  */
 export interface AutoStartScreenProps {
   gameType: GameType;
+  gameId?: string; // זהות המשחק לצורך הניווט
   items: BaseGameItem[];
   onStart: () => void;
   onSpeak?: (name: string) => void;

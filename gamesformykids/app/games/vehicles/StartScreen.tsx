@@ -10,6 +10,6 @@
 import AutoStartScreen from "@/components/shared/AutoStartScreen";
 import { AutoStartScreenProps } from "@/lib/types/startScreen";
 
-export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
-  return <AutoStartScreen gameType="vehicles" {...props} />;
+export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType' | 'gameId'>) {
+  return <AutoStartScreen gameType="vehicles" gameId="vehicles" {...props} />;
 }
