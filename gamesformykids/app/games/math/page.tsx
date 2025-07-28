@@ -59,7 +59,7 @@ export default function MathGame() {
                       <span key={`num1-${index}`} 
                             className="text-blue-500 animate-bounce-in"
                             style={{ animationDelay: `${index * 0.1}s` }}>
-                        🟦
+                        {gameState.currentChallenge!.emoji}
                       </span>
                     ))}
                   </div>
@@ -72,12 +72,12 @@ export default function MathGame() {
                   {/* מספר שני */}
                   <div className="flex flex-wrap justify-center gap-2">
                     {gameState.currentChallenge.operation === 'addition' ? (
-                      // עבור חיבור - הוסף עוד ריבועים
+                      // עבור חיבור - הוסף עוד אימוג'ים מאותו סוג
                       Array.from({ length: gameState.currentChallenge.secondNumber }).map((_, index) => (
                         <span key={`num2-${index}`} 
                               className="text-green-500 animate-bounce-in"
                               style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + index) * 0.1}s` }}>
-                          🟩
+                          {gameState.currentChallenge!.emoji}
                         </span>
                       ))
                     ) : (
@@ -131,8 +131,8 @@ export default function MathGame() {
         </div>
         
         <TipsBox
-          tip="💡 טיפ: השתמש בריבועים כדי לעזור לך לחשב!"
-          description="ריבועים כחולים + ריבועים ירוקים = חיבור, ❌ אדום = חיסור"
+          tip="💡 טיפ: השתמש בסמלים כדי לעזור לך לחשב!"
+          description="ספור את הסמלים שרואה על המסך כדי לפתור את התרגיל"
         />
       </div>
     </div>
