@@ -1,13 +1,8 @@
-"use client";
+import { AutoGamePage } from "@/components/shared/AutoGamePage";
 
-import { BaseGameItem } from "@/lib/types";
-import CelebrationBox from "@/components/shared/CelebrationBox";
-import StartScreen from "./StartScreen";
-import { useVehicleGameDry } from "./useVehicleGameDry"; // ⭐ השינוי היחיד!
-import ChallengeBox from "@/components/shared/ChallengeBox";
-import GameHeader from "@/components/shared/GameHeader";
-import TipsBox from "@/components/shared/TipsBox";
-import { GameCardGrid } from "@/components/shared/GameCardGrid";
+export default function VehiclesGamePage() {
+  return <AutoGamePage gameType="vehicles" />;
+}
 import { VehicleCard } from "@/components/shared/CardPresets";
 import { ALL_VEHICLES } from "@/lib/constants";
 

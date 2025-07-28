@@ -28,6 +28,13 @@ export interface GameUIConfig {
     className: string;
     showSpeaker?: boolean;
   };
+  // ✨ הוספות עבור AutoGamePage (אופציונליים עם ברירות מחדל)
+  challengeTitle?: string;
+  challengeIcon?: string;
+  challengeDescription?: string;
+  itemLabel?: string;
+  tip?: string;
+  tipDescription?: string;
 }
 
 /**
@@ -56,6 +63,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     grid: {
       className: "flex flex-wrap justify-center gap-4",
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה צבע שמעת?",
+    challengeIcon: "🎨🌈🖍️🎪",
+    challengeDescription: "בחר את הצבע הנכון!",
+    itemLabel: "צבע",
+    tip: "💡 טיפ: תשמע את שם הצבע!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצבעים למטה לשמוע את השמות",
   },
 
   letters: {
@@ -80,6 +94,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-4 md:grid-cols-6 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזו אות שמעת?",
+    challengeIcon: "🔤📝✏️📄",
+    challengeDescription: "בחר את האות הנכונה!",
+    itemLabel: "אות",
+    tip: "💡 טיפ: תשמע את שם האות!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות",
   },
 
   shapes: {
@@ -104,6 +125,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-6 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזו צורה שמעת?",
+    challengeIcon: "🔺🟡⭐💎",
+    challengeDescription: "בחר את הצורה הנכונה!",
+    itemLabel: "צורה",
+    tip: "💡 טיפ: תשמע את שם הצורה!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצורות למטה לשמוע את השמות",
   },
 
   numbers: {
@@ -128,6 +156,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-4 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה מספר שמעת?",
+    challengeIcon: "🔢🎯123️⃣",
+    challengeDescription: "בחר את המספר הנכון!",
+    itemLabel: "מספר",
+    tip: "💡 טיפ: תשמע את המספר!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על המספרים למטה לשמוע אותם",
   },
 
   fruits: {
@@ -151,6 +186,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     grid: {
       className: "grid grid-cols-3 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה פרי שמעת?",
+    challengeIcon: "🍎🍌🍊🥝",
+    challengeDescription: "בחר את הפרי הנכון!",
+    itemLabel: "פרי",
+    tip: "💡 טיפ: תשמע את שם הפרי הטעים!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הפירות למטה לשמוע את השמות",
   },
 
   animals: {
@@ -175,6 +217,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזו חיה שמעת?",
+    challengeIcon: "🐾🐄🐶🐱",
+    challengeDescription: "בחר את החיה הנכונה!",
+    itemLabel: "חיה",
+    tip: "💡 טיפ: תשמע את שם החיה שאני אומר!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על החיות למטה לשמוע את השמות",
   },
 
   vegetables: {
@@ -199,6 +248,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה ירק שמעת?",
+    challengeIcon: "🥕🥬🍅🥒",
+    challengeDescription: "בחר את הירק הנכון!",
+    itemLabel: "ירק",
+    tip: "💡 טיפ: תשמע את שם הירק הבריא!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הירקות למטה לשמוע את השמות",
   },
 
   weather: {
@@ -223,6 +279,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה מזג אוויר שמעת?",
+    challengeIcon: "🌤️☔🌞❄️",
+    challengeDescription: "בחר את מזג האוויר הנכון!",
+    itemLabel: "מזג אוויר",
+    tip: "💡 טיפ: תשמע את מזג האוויר!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על מזגי האוויר למטה לשמוע את השמות",
   },
 
   transport: {
@@ -247,6 +310,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה כלי תחבורה שמעת?",
+    challengeIcon: "🚗✈️🚢🚂",
+    challengeDescription: "בחר את כלי התחבורה הנכון!",
+    itemLabel: "כלי תחבורה",
+    tip: "💡 טיפ: תשמע את שם כלי התחבורה!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על כלי התחבורה למטה לשמוע את השמות",
   },
 
   instruments: {
@@ -319,6 +389,13 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: true,
     },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזה בגד שמעת?",
+    challengeIcon: "👕👗👖👚",
+    challengeDescription: "בחר את הבגד הנכון!",
+    itemLabel: "בגד",
+    tip: "💡 טיפ: תשמע את שם הבגד!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הבגדים למטה לשמוע את השמות",
   },
 
   'smells-tastes': {

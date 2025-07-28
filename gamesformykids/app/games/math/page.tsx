@@ -1,5 +1,6 @@
 "use client";
 
+import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
@@ -8,6 +9,9 @@ import { useMathGame } from "./useMathGame";
 import StartScreen from "./StartScreen";
 
 export default function MathGame() {
+  // משחק המתמטיקה לא משתמש ב-items כמו שאר המשחקים
+  const emptyItems: BaseGameItem[] = [];
+
   const {
     gameState,
     speakQuestion,
@@ -17,73 +21,8 @@ export default function MathGame() {
   } = useMathGame();
 
   if (!gameState.isPlaying) {
-    return <StartScreen items={[]} onStart={startGame} onSpeak={speakQuestion} />;
+    return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
   }
-
-  const renderMathProblem = () => {
-    if (!gameState.currentChallenge) return null;
-    
-    const { firstNumber, secondNumber, operation, emoji } = gameState.currentChallenge;
-    const operationSymbol = operation === 'addition' ? '+' : '-';
-    const operationText = operation === 'addition' ? 'ועוד' : 'פחות';
-    
-    return (
-      <div className="mb-6 p-8 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border-4 border-yellow-200">
-        {/* הצגת הבעיה במספרים */}
-        <div className="text-4xl md:text-5xl font-bold text-center mb-6 text-orange-800">
-          {firstNumber} {operationSymbol} {secondNumber} = ?
-        </div>
-        
-        {/* הצגה ויזואלית עם אימוג'ים */}
-        <div className="text-center mb-4">
-          <div className="text-lg text-orange-700 mb-3">
-            {firstNumber} {gameState.currentChallenge.itemPlural}
-          </div>
-          
-          {/* קבוצה ראשונה של אימוג'ים */}
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {Array.from({ length: firstNumber }).map((_, index) => (
-              <span 
-                key={`first-${index}`}
-                className="text-3xl animate-bounce-in"
-                style={{ animationDelay: `${index * 0.1}s` }}
-              >
-                {emoji}
-              </span>
-            ))}
-          </div>
-          
-          {/* סימן הפעולה */}
-          <div className="text-3xl font-bold text-orange-800 mb-4">
-            {operationText}
-          </div>
-          
-          {/* קבוצה שנייה של אימוג'ים */}
-          <div className="text-lg text-orange-700 mb-3">
-            {secondNumber} {gameState.currentChallenge.itemPlural}
-          </div>
-          
-          <div className="flex flex-wrap justify-center gap-2 mb-4">
-            {Array.from({ length: secondNumber }).map((_, index) => (
-              <span 
-                key={`second-${index}`}
-                className={`text-3xl animate-bounce-in ${operation === 'subtraction' ? 'opacity-50 line-through' : ''}`}
-                style={{ animationDelay: `${(firstNumber + index) * 0.1}s` }}
-              >
-                {emoji}
-              </span>
-            ))}
-          </div>
-          
-          {/* קו הפרדה ושאלה */}
-          <div className="border-t-4 border-orange-300 my-4"></div>
-          <div className="text-xl text-orange-700">
-            כמה {gameState.currentChallenge.itemPlural} יש בסך הכל?
-          </div>
-        </div>
-      </div>
-    );
-  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 p-4">
@@ -103,10 +42,57 @@ export default function MathGame() {
           {gameState.currentChallenge && !gameState.showCelebration && (
             <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
-                בואו נחשב יחד! 🧮
+                פתור את התרגיל
               </h2>
               
-              {renderMathProblem()}
+              {/* תצוגת התרגיל */}
+              <div className="mb-6 p-8 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-2xl border-4 border-orange-200">
+                <div className="text-6xl md:text-8xl text-center font-bold text-orange-800 mb-4">
+                  {gameState.currentChallenge.firstNumber} {gameState.currentChallenge.operation === 'addition' ? '+' : '-'} {gameState.currentChallenge.secondNumber} = ?
+                </div>
+                
+                {/* ייצוג ויזואלי */}
+                <div className="flex justify-center items-center gap-8 text-5xl">
+                  {/* מספר ראשון */}
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {Array.from({ length: gameState.currentChallenge.firstNumber }).map((_, index) => (
+                      <span key={`num1-${index}`} 
+                            className="text-blue-500 animate-bounce-in"
+                            style={{ animationDelay: `${index * 0.1}s` }}>
+                        🟦
+                      </span>
+                    ))}
+                  </div>
+                  
+                  {/* אופרטור */}
+                  <span className="text-6xl font-bold text-orange-600">
+                    {gameState.currentChallenge.operation === 'addition' ? '➕' : '➖'}
+                  </span>
+                  
+                  {/* מספר שני */}
+                  <div className="flex flex-wrap justify-center gap-2">
+                    {gameState.currentChallenge.operation === 'addition' ? (
+                      // עבור חיבור - הוסף עוד ריבועים
+                      Array.from({ length: gameState.currentChallenge.secondNumber }).map((_, index) => (
+                        <span key={`num2-${index}`} 
+                              className="text-green-500 animate-bounce-in"
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + index) * 0.1}s` }}>
+                          🟩
+                        </span>
+                      ))
+                    ) : (
+                      // עבור חיסור - הצג איקס אדום
+                      Array.from({ length: gameState.currentChallenge.secondNumber }).map((_, index) => (
+                        <span key={`num2-${index}`} 
+                              className="text-red-500 animate-bounce-in"
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + index) * 0.1}s` }}>
+                          ❌
+                        </span>
+                      ))
+                    )}
+                  </div>
+                </div>
+              </div>
 
               <div
                 className="font-bold mb-4 cursor-pointer hover:scale-110 transition-transform text-orange-700 text-4xl"
@@ -121,8 +107,8 @@ export default function MathGame() {
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
             <CelebrationBox 
-              label="תשובה נכונה" 
-              value={`${gameState.currentChallenge.correctAnswer}`} 
+              label="תשובה" 
+              value={`${gameState.currentChallenge.firstNumber} ${gameState.currentChallenge.operation === 'addition' ? '+' : '-'} ${gameState.currentChallenge.secondNumber} = ${gameState.currentChallenge.correctAnswer}`} 
             />
           )}
         </div>
@@ -130,10 +116,10 @@ export default function MathGame() {
         {/* אפשרויות התשובות */}
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
           {gameState.options && gameState.options.length > 0 ? (
-            gameState.options.map((number, index) => (
+            gameState.options.map((answer, index) => (
               <MathNumberCard
-                key={`${number}-${index}`}
-                number={number}
+                key={`${answer}-${index}`}
+                number={answer}
                 onClick={handleNumberClick}
               />
             ))
@@ -145,8 +131,8 @@ export default function MathGame() {
         </div>
         
         <TipsBox
-          tip="💡 טיפ: השתמש באימוג'ים כדי לעזור לך לחשב!"
-          description="לחץ על הרמקול כדי לשמוע את השאלה שוב"
+          tip="💡 טיפ: השתמש בריבועים כדי לעזור לך לחשב!"
+          description="ריבועים כחולים + ריבועים ירוקים = חיבור, ❌ אדום = חיסור"
         />
       </div>
     </div>

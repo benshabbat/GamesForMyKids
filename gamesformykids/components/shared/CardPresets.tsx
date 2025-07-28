@@ -280,28 +280,112 @@ export const EmotionCard = ({ emotion, onClick }: { emotion: BaseGameItem; onCli
   />
 );
 
+import { GameType } from "@/lib/types/base";
+
+/**
+ * ===============================================
+ * Wrapper components לממשק אחיד
+ * ===============================================
+ * מתאימים את הקארדים הקיימים לממשק הנדרש של AutoGamePage
+ */
+const AnimalCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <AnimalCard animal={item} onClick={onClick} />
+);
+
+const FruitCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <FruitCard fruit={item} onClick={onClick} />
+);
+
+const VegetableCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <VegetableCard vegetable={item} onClick={onClick} />
+);
+
+const ColorCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ColorCard color={item} onClick={onClick} />
+);
+
+const ShapeCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ShapeCard shape={item} onClick={onClick} />
+);
+
+const NumberCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <NumberCard number={item} onClick={onClick} />
+);
+
+const LetterCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <LetterCard letter={item} onClick={onClick} />
+);
+
+const TransportCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <TransportCard transport={item} onClick={onClick} />
+);
+
+const VehicleCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <VehicleCard vehicle={item} onClick={onClick} />
+);
+
+const WeatherCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <WeatherCard weather={item} onClick={onClick} />
+);
+
+const ToolCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ToolCard tool={item} onClick={onClick} />
+);
+
+const HouseCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <HouseCard houseItem={item} onClick={onClick} />
+);
+
+const InstrumentCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <InstrumentCard instrument={item} onClick={onClick} />
+);
+
+const ClothingCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ClothingCard clothingItem={item} onClick={onClick} />
+);
+
+const SmellTasteCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <SmellTasteCard smellTasteItem={item} onClick={onClick} />
+);
+
+const SpaceCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <SpaceCard spaceObject={item} onClick={onClick} />
+);
+
+const ProfessionCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ProfessionCard profession={item} onClick={onClick} />
+);
+
+const EmotionCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <EmotionCard emotion={item} onClick={onClick} />
+);
+
 /**
  * ===============================================
  * מיפוי מהיר לפי סוג משחק
  * ===============================================
  */
-export const GameCardMap = {
-  animals: AnimalCard,
-  fruits: FruitCard,
-  vegetables: VegetableCard,
-  colors: ColorCard,
-  shapes: ShapeCard,
-  numbers: NumberCard,
-  letters: LetterCard,
-  transport: TransportCard,
-  vehicles: VehicleCard,
-  weather: WeatherCard,
-  tools: ToolCard,
-  house: HouseCard,
-  instruments: InstrumentCard,
-  clothing: ClothingCard,
-  smellTaste: SmellTasteCard,
-  space: SpaceCard,
-  professions: ProfessionCard,
-  emotions: EmotionCard,
+export const GameCardMap: Record<GameType, React.ComponentType<{item: BaseGameItem; onClick: (item: BaseGameItem) => void}>> = {
+  animals: AnimalCardWrapper,
+  fruits: FruitCardWrapper,
+  vegetables: VegetableCardWrapper,
+  colors: ColorCardWrapper,
+  shapes: ShapeCardWrapper,
+  numbers: NumberCardWrapper,
+  letters: LetterCardWrapper,
+  transport: TransportCardWrapper,
+  vehicles: VehicleCardWrapper,
+  weather: WeatherCardWrapper,
+  tools: ToolCardWrapper,
+  house: HouseCardWrapper,
+  instruments: InstrumentCardWrapper,
+  clothing: ClothingCardWrapper,
+  "smells-tastes": SmellTasteCardWrapper,
+  space: SpaceCardWrapper,
+  professions: ProfessionCardWrapper,
+  emotions: EmotionCardWrapper,
+  bubbles: AnimalCardWrapper, // טמפורי
+  counting: AnimalCardWrapper, // טמפורי
+  math: AnimalCardWrapper, // טמפורי
+  memory: AnimalCardWrapper, // טמפורי
 } as const;
