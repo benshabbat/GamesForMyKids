@@ -8,8 +8,25 @@
  */
 
 import AutoStartScreen from "@/components/shared/AutoStartScreen";
-import { AutoStartScreenProps } from "@/lib/types/startScreen";
+import { AnimalData } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types/base";
 
-export default function StartScreen(props: Omit<AutoStartScreenProps, 'gameType'>) {
-  return <AutoStartScreen gameType="memory" {...props} />;
+interface MemoryStartScreenProps {
+  items: AnimalData[];
+  onStart: () => void;
+  onSpeak?: (name: string) => void;
+}
+
+export default function StartScreen({ items, onStart, onSpeak }: MemoryStartScreenProps) {
+  // ממיר AnimalData לפורמט BaseGameItem עבור AutoStartScreen
+  const convertedItems: BaseGameItem[] = items.map((animal) => ({
+    name: animal.name,
+    hebrew: animal.name,
+    english: animal.name,
+    emoji: animal.emoji,
+    color: '#000000',
+    sound: [440],
+  }));
+
+  return <AutoStartScreen gameType="memory" items={convertedItems} onStart={onStart} onSpeak={onSpeak} />;
 }

@@ -14,7 +14,16 @@ import {
   ALL_SHAPES,
   ALL_NUMBERS,
   ALL_WEATHERS,
-  // TODO: להוסיף את שאר הקבועים
+  ALL_EMOTIONS,
+  ALL_HOUSE_ITEMS,
+  ALL_INSTRUMENTS,
+  ALL_PROFESSIONS,
+  ALL_SMELLS_TASTES,
+  ALL_TRANSPORTS,
+  ALL_VEHICLES,
+  ALL_TOOLS,
+  ALL_SPACE_OBJECTS,
+  // TODO: להוסיף את שאר הקבועים במידת הצורך
 } from "@/lib/constants";
 
 import { GameType, BaseGameItem } from "@/lib/types/base";
@@ -34,18 +43,18 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   numbers: ALL_NUMBERS,
   weather: ALL_WEATHERS,
   
-  // TODO: להוסיף את שאר המשחקים כשהקבועים יהיו מוכנים
-  "smells-tastes": ALL_ANIMALS, // טמפורי
-  transport: ALL_ANIMALS, // טמפורי
-  vehicles: ALL_ANIMALS, // טמפורי
-  tools: ALL_ANIMALS, // טמפורי
-  space: ALL_ANIMALS, // טמפורי
-  house: ALL_ANIMALS, // טמפורי
-  instruments: ALL_ANIMALS, // טמפורי
-  professions: ALL_ANIMALS, // טמפורי
-  emotions: ALL_ANIMALS, // טמפורי
-  memory: ALL_ANIMALS, // טמפורי
-  counting: ALL_ANIMALS, // טמפורי
-  math: ALL_ANIMALS, // טמפורי
-  bubbles: ALL_ANIMALS, // טמפורי
+  // עודכן עם הקבועים הנכונים:
+  "smells-tastes": ALL_SMELLS_TASTES, // ✅ עודכן!
+  transport: ALL_TRANSPORTS, // ✅ עודכן!
+  vehicles: ALL_VEHICLES, // ✅ עודכן!
+  tools: ALL_TOOLS, // ✅ עודכן!
+  space: ALL_SPACE_OBJECTS, // ✅ עודכן!
+  house: ALL_HOUSE_ITEMS, // ✅ עודכן!
+  instruments: ALL_INSTRUMENTS, // ✅ עודכן!
+  professions: ALL_PROFESSIONS, // ✅ עודכן!
+  emotions: ALL_EMOTIONS, // ✅ עודכן!
+  memory: ALL_ANIMALS, // נשאר בעלי חיים - יש לוגיקה מיוחדת במשחק
+  counting: ALL_NUMBERS, // ✅ עודכן!
+  math: ALL_NUMBERS, // ✅ עודכן!
+  bubbles: ALL_COLORS, // ✅ עודכן!
 } as const;
