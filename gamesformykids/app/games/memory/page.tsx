@@ -14,8 +14,15 @@ export default function MemoryGamePage() {
     isGameStarted,
     matchedPairs,
     isGameWon,
+    difficultyConfig,
+    gameStats,
+    timeLeft,
+    isGamePaused,
     initializeGame,
     handleCardClick,
+    setDifficulty,
+    pauseGame,
+    resetGame,
   } = useMemoryGame();
 
   if (!isGameStarted) {
@@ -29,19 +36,38 @@ export default function MemoryGamePage() {
           isGameStarted={isGameStarted}
           matchedPairs={matchedPairs.length}
           totalPairs={animals.length}
-          onStart={initializeGame}
+          onStart={resetGame}
+          gameStats={gameStats}
+          timeLeft={timeLeft}
+          isGamePaused={isGamePaused}
+          onPause={pauseGame}
+          difficultyConfig={difficultyConfig}
+          onDifficultyChange={(newDifficulty) => {
+            setDifficulty(newDifficulty);
+          }}
         />
 
-        {isGameWon && <GameWinMessage animals={animals} />}
+        {isGameWon && (
+          <GameWinMessage 
+            animals={animals} 
+            gameStats={gameStats}
+            difficultyName={difficultyConfig.name}
+            timeLeft={timeLeft}
+          />
+        )}
 
         {isGameStarted && (
-          <MemoryGameBoard cards={cards} onCardClick={handleCardClick} />
+          <MemoryGameBoard 
+            cards={cards} 
+            onCardClick={handleCardClick}
+            isGamePaused={isGamePaused}
+          />
         )}
       </div>
 
       <TipsBox
         tip="💡 טיפ: נסה לזכור איפה כל חיה מסתתרת!"
-        description="לחץ על קלף כדי לחשוף חיה, ונסה למצוא את הזוג שלה."
+        description="לחץ על קלף כדי לחשוף חיה, ונסה למצוא את הזוג שלה. השתמש בזיכרון שלך כדי לזכור מיקומים!"
       />
     </div>
   );

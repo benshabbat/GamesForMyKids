@@ -108,6 +108,18 @@ export const MEMORY_GAME_ANIMALS = [
   { emoji: "🦊", sound: "yip", name: "שועל" },
   { emoji: "🐻", sound: "growl", name: "דוב" },
   { emoji: "🐼", sound: "chirp", name: "פנדה" },
+  { emoji: "🐯", sound: "roar", name: "נמר" },
+  { emoji: "🦁", sound: "roar", name: "אריה" },
+  { emoji: "🐸", sound: "ribbit", name: "צפרדע" },
+  { emoji: "🐷", sound: "oink", name: "חזיר" },
+  { emoji: "🐵", sound: "ooh", name: "קוף" },
+  { emoji: "🐨", sound: "growl", name: "קואלה" },
+  { emoji: "🦒", sound: "bleat", name: "ג'ירפה" },
+  { emoji: "🐘", sound: "trumpet", name: "פיל" },
+  { emoji: "🦓", sound: "neigh", name: "זברה" },
+  { emoji: "🦏", sound: "snort", name: "קרנף" },
+  { emoji: "🐄", sound: "moo", name: "פרה" },
+  { emoji: "🐎", sound: "neigh", name: "סוס" },
 ];
 
 export const ANIMAL_SOUND_FREQUENCIES: Record<string, number[]> = {
@@ -117,5 +129,17 @@ export const ANIMAL_SOUND_FREQUENCIES: Record<string, number[]> = {
   "🦊": [600, 800, 500],
   "🐻": [100, 150, 80],
   "🐼": [300, 400, 350],
+  "🐯": [150, 250, 100],
+  "🦁": [120, 200, 90],
+  "🐸": [500, 700, 400],
+  "🐷": [250, 350, 200],
+  "🐵": [450, 550, 350],
+  "🐨": [180, 280, 120],
+  "🦒": [350, 450, 250],
+  "🐘": [80, 120, 60],
+  "🦓": [220, 320, 180],
+  "🦏": [110, 180, 70],
+  "🐄": [160, 240, 100],
+  "🐎": [200, 300, 150],
   "default": [440, 550, 330]
 };

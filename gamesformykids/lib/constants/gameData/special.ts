@@ -36,4 +36,29 @@ export const MEMORY_GAME_CONSTANTS = {
   BASE_COUNT: 4,
   INCREMENT: 1,
   LEVEL_THRESHOLD: 3,
+  // רמות קושי
+  DIFFICULTY_LEVELS: {
+    EASY: { pairs: 6, name: 'קל', emoji: '😊', timeLimit: 180 },
+    MEDIUM: { pairs: 9, name: 'בינוני', emoji: '🤔', timeLimit: 120 },
+    HARD: { pairs: 12, name: 'קשה', emoji: '🧐', timeLimit: 90 }
+  },
+  // מערכת ניקוד
+  SCORING: {
+    PERFECT_MATCH_BONUS: 150,
+    TIME_BONUS_MULTIPLIER: 3,
+    MIN_MOVES_BONUS: 300,
+    STREAK_MULTIPLIER: 2,
+    BASE_MATCH_SCORE: 50,
+    DIFFICULTY_MULTIPLIER: {
+      EASY: 1,
+      MEDIUM: 1.5,
+      HARD: 2
+    }
+  },
+  // אנימציות
+  ANIMATIONS: {
+    CARD_FLIP_DURATION: 500,
+    MATCH_CELEBRATION_DURATION: 1500,
+    WIN_ANIMATION_DELAY: 200
+  }
 };
