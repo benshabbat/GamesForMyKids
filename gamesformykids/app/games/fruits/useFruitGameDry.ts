@@ -7,6 +7,7 @@ import { ALL_FRUITS, FRUIT_HEBREW_PRONUNCIATIONS, FRUIT_GAME_CONSTANTS } from "@
  */
 export function useFruitGameDry() {
   return useSimpleGame({
+    gameType: 'fruits',
     items: ALL_FRUITS,
     pronunciations: FRUIT_HEBREW_PRONUNCIATIONS,  
     gameConstants: FRUIT_GAME_CONSTANTS,

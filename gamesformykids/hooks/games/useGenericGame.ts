@@ -1,11 +1,11 @@
 import { useSimpleGame } from "@/hooks/games/useSimpleGame";
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem, GameType } from "@/lib/types/base";
 
 /**
  * Hook כללי למשחקים שעדיין אין להם hook ייעודי
  * מקבל את הפריטים ויוצר hook תואם
  */
-export function useGenericGame(items: BaseGameItem[]) {
+export function useGenericGame(items: BaseGameItem[], gameType: GameType) {
   // יצירת מילון הגייה אוטומטי מהפריטים עצמם
   const pronunciations = items.reduce<Record<string, string>>((acc, item) => {
     acc[item.name] = item.hebrew;
@@ -13,6 +13,7 @@ export function useGenericGame(items: BaseGameItem[]) {
   }, {});
 
   return useSimpleGame({
+    gameType,
     items,
     pronunciations,
     gameConstants: {

@@ -7,6 +7,7 @@ import { ALL_ANIMALS, ANIMAL_HEBREW_PRONUNCIATIONS, ANIMAL_GAME_CONSTANTS } from
  */
 export function useAnimalGameDry() {
   return useSimpleGame({
+    gameType: 'animals',
     items: ALL_ANIMALS,
     pronunciations: ANIMAL_HEBREW_PRONUNCIATIONS,
     gameConstants: ANIMAL_GAME_CONSTANTS,

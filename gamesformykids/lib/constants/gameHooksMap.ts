@@ -15,23 +15,23 @@ import { GAME_ITEMS_MAP } from "./gameItemsMap";
 import { GameType, BaseGameState, BaseGameItem } from "@/lib/types/base";
 
 // יצירת hooks כלליים לכל המשחקים החסרים
-const useLettersGame = () => useGenericGame(GAME_ITEMS_MAP.letters);
-const useShapesGame = () => useGenericGame(GAME_ITEMS_MAP.shapes);
-const useNumbersGame = () => useGenericGame(GAME_ITEMS_MAP.numbers);
-const useSmellsTastesGame = () => useGenericGame(GAME_ITEMS_MAP["smells-tastes"]);
-const useWeatherGame = () => useGenericGame(GAME_ITEMS_MAP.weather);
-const useTransportGame = () => useGenericGame(GAME_ITEMS_MAP.transport);
-const useVehiclesGame = () => useGenericGame(GAME_ITEMS_MAP.vehicles);
-const useToolsGame = () => useGenericGame(GAME_ITEMS_MAP.tools);
-const useSpaceGame = () => useGenericGame(GAME_ITEMS_MAP.space);
-const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house);
-const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments);
-const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions);
-const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions);
-const useMemoryGame = () => useGenericGame(GAME_ITEMS_MAP.memory);
-const useCountingGame = () => useGenericGame(GAME_ITEMS_MAP.counting);
-const useMathGame = () => useGenericGame(GAME_ITEMS_MAP.math);
-const useBubblesGame = () => useGenericGame(GAME_ITEMS_MAP.bubbles);
+const useLettersGame = () => useGenericGame(GAME_ITEMS_MAP.letters, 'letters');
+const useShapesGame = () => useGenericGame(GAME_ITEMS_MAP.shapes, 'shapes');
+const useNumbersGame = () => useGenericGame(GAME_ITEMS_MAP.numbers, 'numbers');
+const useSmellsTastesGame = () => useGenericGame(GAME_ITEMS_MAP["smells-tastes"], 'smells-tastes');
+const useWeatherGame = () => useGenericGame(GAME_ITEMS_MAP.weather, 'weather');
+const useTransportGame = () => useGenericGame(GAME_ITEMS_MAP.transport, 'transport');
+const useVehiclesGame = () => useGenericGame(GAME_ITEMS_MAP.vehicles, 'vehicles');
+const useToolsGame = () => useGenericGame(GAME_ITEMS_MAP.tools, 'tools');
+const useSpaceGame = () => useGenericGame(GAME_ITEMS_MAP.space, 'space');
+const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house, 'house');
+const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments, 'instruments');
+const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions, 'professions');
+const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions, 'emotions');
+const useMemoryGame = () => useGenericGame(GAME_ITEMS_MAP.memory, 'memory');
+const useCountingGame = () => useGenericGame(GAME_ITEMS_MAP.counting, 'counting');
+const useMathGame = () => useGenericGame(GAME_ITEMS_MAP.math, 'math');
+const useBubblesGame = () => useGenericGame(GAME_ITEMS_MAP.bubbles, 'bubbles');
 
 /**
  * 🎯 מפה מרכזית של כל ה-Hooks
@@ -67,6 +67,19 @@ export const GAME_HOOKS_MAP = {
   startGame: () => Promise<void>;
   handleItemClick: (selectedItem: BaseGameItem) => Promise<void>;
   resetGame: () => void;
+  // שיפורים חדשים
+  hints?: Array<{
+    type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
+    text: string;
+    audioText?: string;
+    isRevealed: boolean;
+    order: number;
+  }>;
+  hasMoreHints?: boolean;
+  showNextHint?: () => void;
+  currentAccuracy?: number;
+  progressStats?: object | null;
+  performanceHooks?: object;
 }>;
 
 export type GameHookType = typeof GAME_HOOKS_MAP[keyof typeof GAME_HOOKS_MAP];

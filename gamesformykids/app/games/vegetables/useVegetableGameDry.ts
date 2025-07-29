@@ -7,6 +7,7 @@ import { ALL_VEGETABLES, VEGETABLE_HEBREW_PRONUNCIATIONS, VEGETABLE_GAME_CONSTAN
  */
 export function useVegetableGameDry() {
   return useSimpleGame({
+    gameType: 'vegetables',
     items: ALL_VEGETABLES,
     pronunciations: VEGETABLE_HEBREW_PRONUNCIATIONS,
     gameConstants: VEGETABLE_GAME_CONSTANTS,

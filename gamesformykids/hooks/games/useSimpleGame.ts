@@ -1,7 +1,8 @@
 import { useBaseGame } from "@/hooks/shared/useBaseGame";
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem, GameType } from "@/lib/types/base";
 
 interface UseSimpleGameProps {
+  gameType: GameType;
   items: BaseGameItem[];
   pronunciations: Record<string, string>;
   gameConstants: {

@@ -1,7 +1,10 @@
 import { useState } from "react";
-import { BaseGameItem, BaseGameState } from "@/lib/types/base";
+import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/base";
 import { useGameAudio } from "./useGameAudio";
 import { useGameOptions } from "./useGameOptions";
+import { useGamePerformance } from "./useGamePerformance";
+import { useGameHints } from "./useGameHints";
+import { useProgressTracking } from "./useProgressTracking";
 import { 
   delay, 
   speakItemName as speakItemNameUtil,
@@ -12,6 +15,7 @@ import {
 import { GAME_CONSTANTS } from "@/lib/constants";
 
 interface UseBaseGameConfig {
+  gameType: GameType;
   items: BaseGameItem[];
   pronunciations: Record<string, string>;
   gameConstants: {
@@ -23,10 +27,10 @@ interface UseBaseGameConfig {
 
 /**
  * Hook בסיסי לכל המשחקים הפשוטים
- * מכיל את כל הלוגיקה הבסיסית המשותפת
+ * מכיל את כל הלוגיקה הבסיסית המשותפת + שיפורים
  */
 export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBaseGameConfig) {
-  const { items, pronunciations, gameConstants } = config;
+  const { gameType, items, pronunciations, gameConstants } = config;
   
   // State בסיסי
   const [gameState, setGameState] = useState<BaseGameState<T>>({
@@ -38,8 +42,26 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     options: [],
   });
 
+  // מעקב טעויות לצורך רמזים
+  const [wrongAttempts, setWrongAttempts] = useState(0);
+
   // Hooks משותפים
   const { speechEnabled, playSuccessSound } = useGameAudio();
+  
+  // Performance optimizations
+  const performanceHooks = useGamePerformance({
+    items,
+    currentChallenge: gameState.currentChallenge,
+  });
+
+  // Hints system
+  const hintsHooks = useGameHints({
+    currentChallenge: gameState.currentChallenge,
+    wrongAttempts,
+  });
+
+  // Progress tracking
+  const progressHooks = useProgressTracking(gameType);
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,
@@ -74,6 +96,9 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       options: [],
     } as BaseGameState<T>);
 
+    setWrongAttempts(0);
+    progressHooks.startSession();
+
     await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
     await speakStartMessage();
     
@@ -95,7 +120,15 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     if (!gameState.currentChallenge) return;
 
     if (selectedItem.name === gameState.currentChallenge.name) {
+      // תשובה נכונה
       playSuccessSound();
+      setWrongAttempts(0); // איפוס טעויות
+      
+      const newScore = gameState.score + GAME_CONSTANTS.SCORE_INCREMENT;
+      const newLevel = gameState.level + 1;
+      
+      // רישום הצלחה
+      progressHooks.recordCorrectAnswer(gameState.currentChallenge, newScore, newLevel);
       
       const challenge = getRandomChallenge() as T;
       const options = getOptionsForChallenge(challenge) as T[];
@@ -113,6 +146,13 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       
       await handleCorrectGameAnswer(gameState, setGameState, onComplete);
     } else {
+      // תשובה שגויה
+      const newWrongAttempts = wrongAttempts + 1;
+      setWrongAttempts(newWrongAttempts);
+      
+      // רישום טעות
+      progressHooks.recordMistake(gameState.currentChallenge, 1);
+      
       await handleWrongGameAnswer(async () => {
         if (gameState.currentChallenge) {
           await speakItemNameFunc(gameState.currentChallenge.name);
@@ -123,6 +163,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // איפוס משחק
   const resetGame = () => {
+    progressHooks.endSession();
+    setWrongAttempts(0);
     setGameState({
       currentChallenge: null,
       score: 0,
@@ -139,5 +181,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     startGame,
     handleItemClick,
     resetGame,
+    // שיפורים חדשים
+    hints: hintsHooks.hints || [],
+    hasMoreHints: hintsHooks.hasMoreHints || false,
+    showNextHint: hintsHooks.showNextHint || (() => {}),
+    currentAccuracy: progressHooks.getCurrentAccuracy() || 0,
+    progressStats: progressHooks.progressStats || null,
+    performanceHooks, // לשימוש בקומפוננטים
   };
 }

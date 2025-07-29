@@ -9,7 +9,7 @@
 
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { GameType } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP } from "@/lib/constants/gameHooksMap";
@@ -23,6 +23,8 @@ import ChallengeBox from "./ChallengeBox";
 import CelebrationBox from "./CelebrationBox";
 import { GameCardGrid } from "./GameCardGrid";
 import TipsBox from "./TipsBox";
+import { GameHints } from "./GameHints";
+import { ProgressDisplay } from "./ProgressDisplay";
 
 interface AutoGamePageProps {
   gameType: GameType;
@@ -39,6 +41,9 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
   const items = GAME_ITEMS_MAP[gameType];
   const CardComponent = GameCardMap[gameType];
   
+  // State for UI enhancements
+  const [showProgressModal, setShowProgressModal] = useState(false);
+  
   // 🎮 הפעלת ה-Hook הנכון אוטומטית
   const {
     gameState,
@@ -46,6 +51,12 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
     startGame,
     handleItemClick,
     resetGame,
+    // שיפורים חדשים
+    hints,
+    hasMoreHints,
+    showNextHint,
+    currentAccuracy,
+    progressStats,
   } = useGameHook();
 
   // 🖥️ רינדור מותנה - אם לא במשחק, הראה StartScreen
@@ -68,16 +79,31 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
       style={{ background: config.colors.background }}
     >
       <div className="max-w-4xl mx-auto">
-        {/* Header אוטומטי */}
+        {/* Header אוטומטי עם סטטיסטיקות */}
         <div className="text-center mb-8">
-          <GameHeader
-            score={gameState.score}
-            level={gameState.level}
-            onHome={() => (window.location.href = "/")}
-            onReset={resetGame}
-            scoreColor={config.colors.header}
-            levelColor={config.colors.subHeader}
-          />
+          <div className="flex justify-between items-center mb-4">
+            <GameHeader
+              score={gameState.score}
+              level={gameState.level}
+              onHome={() => (window.location.href = "/")}
+              onReset={resetGame}
+              scoreColor={config.colors.header}
+              levelColor={config.colors.subHeader}
+            />
+            
+            {/* כפתור סטטיסטיקות */}
+            <button
+              onClick={() => setShowProgressModal(true)}
+              className="
+                px-3 py-2 bg-blue-500 text-white rounded-lg shadow-lg
+                hover:bg-blue-600 transform hover:scale-105 
+                transition-all duration-200 text-sm font-bold
+              "
+              title="הצג סטטיסטיקות"
+            >
+              📊 {currentAccuracy}%
+            </button>
+          </div>
 
           {/* Challenge Box אוטומטי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
@@ -100,22 +126,56 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
           )}
         </div>
 
-        {/* Grid אוטומטי */}
-        <GameCardGrid
-          items={gameState.options}
-          onItemClick={handleItemClick}
-          currentChallenge={gameState.currentChallenge}
-          gridCols="grid-cols-2"
-          maxWidth="max-w-2xl"
-          renderCustomCard={(item) => (
-            <CardComponent item={item} onClick={handleItemClick} />
-          )}
-        />
+        {/* Grid והרכיבים החדשים */}
+        <div className="space-y-6">
+          {/* Grid אוטומטי */}
+          <GameCardGrid
+            items={gameState.options}
+            onItemClick={handleItemClick}
+            currentChallenge={gameState.currentChallenge}
+            gridCols="grid-cols-2"
+            maxWidth="max-w-2xl"
+            renderCustomCard={(item) => (
+              <CardComponent item={item} onClick={handleItemClick} />
+            )}
+          />
 
-        {/* Tips אוטומטי */}
-        <TipsBox
-          tip={config.tip || "💡 טיפ: הקשב בקפידה!"}
-          description={config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב"}
+          {/* רמזים חכמים */}
+          {hints && hints.length > 0 && (
+            <GameHints
+              hints={hints}
+              hasMoreHints={hasMoreHints}
+              onShowNextHint={showNextHint}
+            />
+          )}
+
+          {/* סטטיסטיקות בכפתור */}
+          <div className="text-center mt-4">
+            <button
+              onClick={() => setShowProgressModal(true)}
+              className="
+                px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg
+                hover:bg-blue-600 transform hover:scale-105 
+                transition-all duration-200 font-bold
+              "
+            >
+              📊 דיוק: {currentAccuracy || 0}%
+            </button>
+          </div>
+
+          {/* Tips אוטומטי */}
+          <TipsBox
+            tip={config.tip || "💡 טיפ: הקשב בקפידה!"}
+            description={config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב"}
+          />
+        </div>
+
+        {/* מודל סטטיסטיקות */}
+        <ProgressDisplay
+          currentAccuracy={currentAccuracy}
+          progressStats={progressStats}
+          isVisible={showProgressModal}
+          onClose={() => setShowProgressModal(false)}
         />
       </div>
     </div>

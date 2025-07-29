@@ -11,6 +11,7 @@ import { BaseGameItem } from "@/lib/types/base";
 export function useColorGameAdvanced() {
   // משחק בסיסי
   const gameLogic = useSimpleGame({
+    gameType: 'colors',
     items: ALL_COLORS,
     pronunciations: COLOR_HEBREW_PRONUNCIATIONS,
     gameConstants: COLOR_GAME_CONSTANTS,

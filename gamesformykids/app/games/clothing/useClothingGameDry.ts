@@ -7,6 +7,7 @@ import { ALL_CLOTHING, CLOTHING_HEBREW_PRONUNCIATIONS, CLOTHING_GAME_CONSTANTS }
  */
 export function useClothingGameDry() {
   return useSimpleGame({
+    gameType: 'clothing',
     items: ALL_CLOTHING,
     pronunciations: CLOTHING_HEBREW_PRONUNCIATIONS,
     gameConstants: CLOTHING_GAME_CONSTANTS,
