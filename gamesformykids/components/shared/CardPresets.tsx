@@ -388,8 +388,8 @@ export const GameCardMap: Record<GameType, React.ComponentType<{item: BaseGameIt
   space: SpaceCardWrapper,
   professions: ProfessionCardWrapper,
   emotions: EmotionCardWrapper,
-  bubbles: AnimalCardWrapper, // טמפורי
-  counting: AnimalCardWrapper, // טמפורי
-  math: AnimalCardWrapper, // טמפורי
-  memory: AnimalCardWrapper, // טמפורי
+  bubbles: ColorCardWrapper, // בועות צבעוניות
+  counting: NumberCardWrapper, // ספירה עם מספרים
+  math: NumberCardWrapper, // מתמטיקה עם מספרים
+  memory: AnimalCardWrapper, // זיכרון עם חיות
 } as const;
