@@ -17,6 +17,7 @@ import {
   Home,
   Wrench,
   Smile,
+  Puzzle,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -245,6 +246,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/emotions",
     available: true,
     order: 21,
+  },
+  {
+    id: "puzzles",
+    title: "משחק פאזלים",
+    description: "הרכב תמונות יפות!",
+    icon: Puzzle,
+    color: "bg-purple-400 hover:bg-purple-500",
+    href: "/games/puzzles",
+    available: true,
+    order: 22,
   },
 ];
 

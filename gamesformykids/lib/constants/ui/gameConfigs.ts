@@ -635,4 +635,34 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
       showSpeaker: true,
     },
   },
+
+  puzzles: {
+    title: "🧩 משחק פאזלים 🖼️",
+    subTitle: "הרכב תמונות יפות!",
+    itemsTitle: "הפאזלים במשחק:",
+    itemsDescription: "בחר פאזל והרכב את התמונה!",
+    steps: [
+      { icon: "👀", title: "1. תבחר", description: "תמונה לפאזל" },
+      { icon: "🧩", title: "2. תגרור", description: "חלקים למקום הנכון" },
+      { icon: "🏆", title: "3. תרכיב", description: "את התמונה השלמה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #f3e8ff 0%, #c084fc 25%, #a855f7 50%, #7c3aed 75%, #5b21b6 100%)",
+      header: "text-white",
+      subHeader: "text-purple-100",
+      itemsDescription: "text-purple-100",
+      button: { from: "purple", to: "indigo" },
+      stepsBg: "bg-purple-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-2 md:grid-cols-3 gap-6 max-w-4xl mx-auto",
+    },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "הרכב את הפאזל!",
+    challengeIcon: "🧩🖼️✨🎨",
+    challengeDescription: "גרור את החלקים למקום הנכון!",
+    itemLabel: "פאזל",
+    tip: "💡 טיפ: התחל מהפינות והקצוות!",
+    tipDescription: "חפש צבעים ודפוסים דומים כדי להרכיב את התמונה",
+  },
 };

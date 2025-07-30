@@ -35,7 +35,7 @@ export const AVAILABLE_GAMES = [
   'fruits', 'vegetables', 'animals', 'smell-taste',
   'weather', 'transport', 'vehicles', 'tools', 'space',
   'house', 'clothing', 'instruments', 'professions', 'emotions',
-  'memory', 'counting', 'math'
+  'memory', 'counting', 'math', 'puzzles'
 ] as const;
 
 export type GameType = typeof AVAILABLE_GAMES[number];
