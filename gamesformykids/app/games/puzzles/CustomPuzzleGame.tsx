@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { Trophy, Timer, Star, Upload } from 'lucide-react';
+import { Trophy, Timer, Star, Upload, Home, RotateCcw } from 'lucide-react';
 import Image from 'next/image';
-import GameHeader from '@/components/shared/GameHeader';
 import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
 import { playSuccessSound } from '@/lib/utils/gameUtils';
 
@@ -35,7 +34,7 @@ export default function CustomPuzzleGame() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
-  // Initialize Audio and Speech using project's function
+  // Initialize Audio and Speech
   useEffect(() => {
     initSpeechAndAudio(setSpeechEnabled, setAudioContext);
   }, []);
@@ -134,7 +133,6 @@ export default function CustomPuzzleGame() {
         pieceCtx.strokeRect(2, 2, finalPieceSize - 4, finalPieceSize - 4);
         
         const pieceId = row * cols + col;
-        console.log(`Created piece ${pieceId} at correct position (${row}, ${col})`);
         
         newPieces.push({
           id: pieceId,
@@ -147,8 +145,6 @@ export default function CustomPuzzleGame() {
         });
       }
     }
-    
-    console.log(`Total pieces created: ${newPieces.length}`);
     
     // Shuffle pieces
     return [...newPieces].sort(() => Math.random() - 0.5);
@@ -170,9 +166,8 @@ export default function CustomPuzzleGame() {
           setTimer(0);
           setScore(0);
           
-          // Speak welcome message using project's speech function
           if (speechEnabled) {
-            await speakHebrew('תמונה נטענה בהצלחה! כעת תוכל להתחיל לשחק');
+            await speakHebrew('תמונה נטענה בהצלחה! כעת תוכלו להתחיל לשחק');
           }
         };
         img.src = e.target?.result as string;
@@ -186,7 +181,6 @@ export default function CustomPuzzleGame() {
     setTimer(0);
     setScore(0);
     
-    // Use project's speech function for game start
     if (speechEnabled) {
       await speakHebrew('בואו נתחיל לבנות את הפאזל! מצאו את החלקים הנכונים');
     }
@@ -201,8 +195,6 @@ export default function CustomPuzzleGame() {
       setGameStarted(false);
       setTimer(0);
       setScore(0);
-      
-      console.log('Game reset with', newPieces.length, 'pieces');
       
       if (speechEnabled) {
         await speakHebrew('המשחק אופס! בואו ננסה שוב');
@@ -229,24 +221,42 @@ export default function CustomPuzzleGame() {
     
     if (!draggedPiece) return;
     
-    console.log(`Dropping piece ${draggedPiece.id} at (${targetRow}, ${targetCol})`);
+    console.log(`Attempting to drop piece ${draggedPiece.id} at position (${targetRow}, ${targetCol})`);
     console.log(`Piece correct position: (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
     
-    // Check if position is already occupied
-    const isOccupied = pieces.some(p => 
+    // Check if position is already occupied by a CORRECTLY placed piece
+    const occupiedByCorrectPiece = pieces.find(p => 
       p.currentRow === targetRow && 
       p.currentCol === targetCol && 
-      p.id !== draggedPiece.id
+      p.id !== draggedPiece.id &&
+      completedPieces.has(p.id)
     );
     
-    if (isOccupied) {
+    if (occupiedByCorrectPiece) {
       await showErrorFeedback('המקום תפוס! נסה מקום אחר');
       setDraggedPiece(null);
       return;
     }
     
-    // Update piece position first
-    const updatedPieces = pieces.map(piece => {
+    // Check if piece is in correct position BEFORE updating state
+    const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
+    console.log(`Is correct position: ${isCorrectPosition}`);
+    
+    // Remove any piece that was previously in this position (wrong pieces can be moved)
+    const clearedPieces = pieces.map(piece => {
+      if (piece.currentRow === targetRow && piece.currentCol === targetCol && piece.id !== draggedPiece.id) {
+        return {
+          ...piece,
+          currentRow: null,
+          currentCol: null,
+          isPlaced: false,
+        };
+      }
+      return piece;
+    });
+    
+    // Update the dragged piece position
+    const updatedPieces = clearedPieces.map(piece => {
       if (piece.id === draggedPiece.id) {
         return {
           ...piece,
@@ -260,17 +270,13 @@ export default function CustomPuzzleGame() {
     
     setPieces(updatedPieces);
     
-    // Check if piece is in correct position
-    const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
-    console.log(`Is correct position: ${isCorrectPosition}`);
-    
     if (isCorrectPosition) {
+      // Mark as completed
       const newCompleted = new Set(completedPieces);
       newCompleted.add(draggedPiece.id);
       setCompletedPieces(newCompleted);
       setScore(prev => prev + 10);
       
-      // Use project's success sound function
       playSuccessSound(audioContext);
       await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
       
@@ -281,18 +287,17 @@ export default function CustomPuzzleGame() {
         setIsCompleted(true);
         setGameStarted(false);
         const bonusScore = Math.max(0, 300 - timer);
-        const finalScore = score + 10 + 50 + bonusScore; // current + this piece + completion + time bonus
+        const finalScore = score + 10 + 50 + bonusScore;
         setScore(finalScore);
         
-        // Completion celebration with speech
         playSuccessSound(audioContext);
         await showSuccessFeedback(`פאזל הושלם! מדהים!`);
         if (speechEnabled) {
-          await speakHebrew(`מזל טוב! השלמת את הפאזל בזמן ${formatTime(timer)}! הניקוד שלך הוא ${finalScore} נקודות!`);
+          await speakHebrew(`מזל טוב! השלמתם את הפאזל בזמן ${formatTime(timer)}! הניקוד שלכם הוא ${finalScore} נקודות!`);
         }
       }
     } else {
-      await showErrorFeedback(`נסה שוב! החלק לא במקום הנכון`);
+      await showErrorFeedback(`נסו שוב! החלק לא במקום הנכון`);
     }
     
     setDraggedPiece(null);
@@ -302,7 +307,6 @@ export default function CustomPuzzleGame() {
     setFeedbackMessage(message);
     setFeedbackType('success');
     
-    // Use project's speech function
     if (speechEnabled) {
       await speakHebrew(message);
     }
@@ -317,7 +321,6 @@ export default function CustomPuzzleGame() {
     setFeedbackMessage(message);
     setFeedbackType('error');
     
-    // Use project's speech function for errors too
     if (speechEnabled) {
       await speakHebrew(message);
     }
@@ -333,22 +336,36 @@ export default function CustomPuzzleGame() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Use project's GameHeader component */}
-        <GameHeader
-          score={score}
-          level={Math.floor(score / 50) + 1}
-          onHome={goHome}
-          onReset={resetGame}
-          scoreColor="text-white"
-          levelColor="text-purple-100"
-        />
+        {/* Header with navigation */}
+        <div className="flex justify-between items-center mb-6">
+          <button
+            onClick={goHome}
+            className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
+          >
+            <Home className="w-5 h-5" />
+            חזרה
+          </button>
+          
+          <div className="text-center">
+            <div className="text-2xl font-bold text-white">ניקוד: {score}</div>
+            <div className="text-lg text-purple-100">רמה: {Math.floor(score / 50) + 1}</div>
+          </div>
+          
+          <button
+            onClick={resetGame}
+            className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 flex items-center gap-2"
+          >
+            <RotateCcw className="w-5 h-5" />
+            מחדש
+          </button>
+        </div>
 
         {/* Title */}
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
             🧩 משחק הפאזל הקסום! 🧩
           </h1>
-          <p className="text-white text-lg">הבא תמונה ותבנה פאזל מדהים!</p>
+          <p className="text-white text-lg">הביאו תמונה ותבנו פאזל מדהים!</p>
         </div>
 
         {/* Controls */}
@@ -367,7 +384,7 @@ export default function CustomPuzzleGame() {
               className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
             >
               <Upload className="w-5 h-5" />
-              בחר תמונה
+              בחרו תמונה
             </button>
 
             <select
@@ -386,7 +403,7 @@ export default function CustomPuzzleGame() {
                 onClick={startGame}
                 className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
               >
-                🚀 התחל לשחק!
+                🚀 התחילו לשחק!
               </button>
             )}
           </div>
@@ -421,7 +438,7 @@ export default function CustomPuzzleGame() {
         {isCompleted && (
           <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-xl p-6 mb-6 text-center shadow-lg animate-bounce">
             <div className="text-4xl mb-2">🎉</div>
-            <h2 className="text-2xl font-bold text-white mb-2">כל הכבוד! סיימת את הפאזל!</h2>
+            <h2 className="text-2xl font-bold text-white mb-2">כל הכבוד! סיימתם את הפאזל!</h2>
             <p className="text-white text-lg">זמן: {formatTime(timer)} ⏱️</p>
             <p className="text-white text-lg">ניקוד: {score} 🏆</p>
             <Trophy className="w-12 h-12 text-yellow-200 mx-auto mt-2" />
@@ -486,7 +503,7 @@ export default function CustomPuzzleGame() {
               </h3>
               <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
                 {pieces
-                  .filter(piece => !piece.isPlaced || !completedPieces.has(piece.id))
+                  .filter(piece => !completedPieces.has(piece.id))
                   .map((piece) => (
                     <div
                       key={piece.id}
@@ -505,7 +522,7 @@ export default function CustomPuzzleGame() {
                     </div>
                   ))}
               </div>
-              {pieces.filter(piece => !piece.isPlaced || !completedPieces.has(piece.id)).length === 0 && (
+              {pieces.filter(piece => !completedPieces.has(piece.id)).length === 0 && (
                 <div className="text-center text-gray-500 py-8">
                   <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500" />
                   <p>כל החתיכות במקום!</p>
@@ -522,14 +539,14 @@ export default function CustomPuzzleGame() {
           <div className="text-center py-16">
             <div className="text-6xl mb-4">🖼️</div>
             <p className="text-white text-xl font-semibold">
-              העלה תמונה כדי להתחיל לשחק!
+              העלו תמונה כדי להתחיל לשחק!
             </p>
             <button
               onClick={() => fileInputRef.current?.click()}
               className="mt-4 flex items-center gap-2 bg-white text-purple-600 px-8 py-4 rounded-full shadow-lg hover:shadow-xl transition-all transform hover:scale-105 mx-auto font-bold text-lg"
             >
               <Upload className="w-6 h-6" />
-              בחר תמונה מהמחשב שלך
+              בחרו תמונה מהמחשב שלכם
             </button>
           </div>
         )}
