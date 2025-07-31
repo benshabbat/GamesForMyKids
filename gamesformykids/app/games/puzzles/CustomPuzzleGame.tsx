@@ -96,6 +96,9 @@ export default function CustomPuzzleGame() {
     const rows = Math.sqrt(gridSize);
     const newPieces: PuzzlePiece[] = [];
     
+    console.log(`=== CREATING PUZZLE ===`);
+    console.log(`Grid size: ${gridSize} pieces (${rows}x${cols})`);
+    
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const pieceCanvas = document.createElement('canvas');
@@ -133,6 +136,8 @@ export default function CustomPuzzleGame() {
         
         const pieceId = row * cols + col;
         
+        console.log(`Creating piece ${pieceId} at position (${row}, ${col})`);
+        
         newPieces.push({
           id: pieceId,
           canvas: pieceCanvas,
@@ -146,8 +151,15 @@ export default function CustomPuzzleGame() {
       }
     }
     
+    console.log(`Created ${newPieces.length} pieces:`);
+    newPieces.forEach(piece => {
+      console.log(`Piece ${piece.id}: correct position (${piece.correctRow}, ${piece.correctCol})`);
+    });
+    
     // Shuffle pieces
-    return [...newPieces].sort(() => Math.random() - 0.5);
+    const shuffled = [...newPieces].sort(() => Math.random() - 0.5);
+    console.log(`Shuffled pieces order:`, shuffled.map(p => p.id));
+    return shuffled;
   }, []);
 
   const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -221,14 +233,19 @@ export default function CustomPuzzleGame() {
     
     if (!draggedPiece) return;
     
-    console.log(`Dropping piece ${draggedPiece.id} at (${targetRow}, ${targetCol})`);
-    console.log(`Correct position is (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
+    console.log(`=== DROP DEBUG ===`);
+    console.log(`Piece ID: ${draggedPiece.id}`);
+    console.log(`Piece correct position: (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
+    console.log(`Target position: (${targetRow}, ${targetCol})`);
+    console.log(`Grid size: ${Math.sqrt(difficulty)} x ${Math.sqrt(difficulty)}`);
     
     // Check if piece is in correct position
     const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
+    console.log(`Is correct position: ${isCorrectPosition}`);
     
     // Find if there's already a piece in this position
     const existingPiece = pieces.find(p => p.currentRow === targetRow && p.currentCol === targetCol);
+    console.log(`Existing piece at target: ${existingPiece?.id || 'none'}`);
     
     // If there's a correct piece already there, don't allow placement
     if (existingPiece && existingPiece.isCorrect && existingPiece.id !== draggedPiece.id) {
@@ -239,9 +256,10 @@ export default function CustomPuzzleGame() {
     
     // Update pieces state
     setPieces(prevPieces => {
-      return prevPieces.map(piece => {
+      const newPieces = prevPieces.map(piece => {
         // Clear the target position from any incorrect piece
         if (piece.currentRow === targetRow && piece.currentCol === targetCol && piece.id !== draggedPiece.id) {
+          console.log(`Clearing piece ${piece.id} from position (${targetRow}, ${targetCol})`);
           return {
             ...piece,
             currentRow: null,
@@ -253,6 +271,7 @@ export default function CustomPuzzleGame() {
         
         // Update the dragged piece
         if (piece.id === draggedPiece.id) {
+          console.log(`Placing piece ${piece.id} at position (${targetRow}, ${targetCol}), correct: ${isCorrectPosition}`);
           return {
             ...piece,
             currentRow: targetRow,
@@ -264,6 +283,15 @@ export default function CustomPuzzleGame() {
         
         return piece;
       });
+      
+      console.log(`Updated pieces state:`, newPieces.filter(p => p.isPlaced).map(p => ({
+        id: p.id,
+        position: `(${p.currentRow}, ${p.currentCol})`,
+        correct: `(${p.correctRow}, ${p.correctCol})`,
+        isCorrect: p.isCorrect
+      })));
+      
+      return newPieces;
     });
     
     if (isCorrectPosition) {
@@ -271,6 +299,7 @@ export default function CustomPuzzleGame() {
       setCompletedPieces(prev => {
         const newSet = new Set(prev);
         newSet.add(draggedPiece.id);
+        console.log(`Completed pieces: ${Array.from(newSet)} (${newSet.size}/${difficulty})`);
         
         // Check if puzzle is complete
         if (newSet.size === difficulty) {
@@ -463,18 +492,21 @@ export default function CustomPuzzleGame() {
                   const col = index % cols;
                   const placedPiece = pieces.find(p => p.currentRow === row && p.currentCol === col);
                   
+                  console.log(`Grid position ${index}: row=${row}, col=${col}, piece=${placedPiece?.id || 'none'}`);
+                  
                   return (
                     <div
                       key={index}
                       className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors"
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDrop(e, row, col)}
+                      title={`Position: ${row},${col}`}
                     >
                       {placedPiece && (
                         <>
                           <Image
                             src={placedPiece.canvas.toDataURL()}
-                            alt={`Piece ${placedPiece.id}`}
+                            alt={`Piece ${placedPiece.id} at ${row},${col}`}
                             width={100}
                             height={100}
                             className={`w-full h-full object-cover ${
@@ -489,6 +521,10 @@ export default function CustomPuzzleGame() {
                           <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         </div>
                       )}
+                      {/* Debug info */}
+                      <div className="absolute bottom-0 left-0 text-xs bg-black bg-opacity-50 text-white px-1">
+                        {row},{col}
+                      </div>
                     </div>
                   );
                 })}
