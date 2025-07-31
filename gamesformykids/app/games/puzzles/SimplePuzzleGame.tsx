@@ -33,14 +33,14 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל חתול חמוד",
     emoji: "🐱",
     color: "#FF69B4",
-    imageUrl: "data:image/svg+xml;base64," + btoa(`
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
         <rect width="400" height="400" fill="#FFB6C1"/>
         <circle cx="200" cy="200" r="150" fill="#FF69B4"/>
         <circle cx="160" cy="150" r="20" fill="black"/>
         <circle cx="240" cy="150" r="20" fill="black"/>
         <path d="M 200 180 Q 200 220 180 200 Q 200 220 220 200" fill="black"/>
-        <text x="200" y="320" text-anchor="middle" font-size="40">🐱</text>
+        <text x="200" y="320" text-anchor="middle" font-size="60" fill="white">CAT</text>
       </svg>
     `),
     gridSize: 4, // 2x2
@@ -51,14 +51,14 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל כלב יפה",
     emoji: "🐶",
     color: "#4169E1",
-    imageUrl: "data:image/svg+xml;base64," + btoa(`
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
         <rect width="400" height="400" fill="#ADD8E6"/>
         <ellipse cx="200" cy="220" rx="120" ry="100" fill="#4169E1"/>
         <circle cx="170" cy="180" r="15" fill="black"/>
         <circle cx="230" cy="180" r="15" fill="black"/>
         <ellipse cx="200" cy="220" rx="25" ry="15" fill="black"/>
-        <text x="200" y="340" text-anchor="middle" font-size="40">🐶</text>
+        <text x="200" y="340" text-anchor="middle" font-size="60" fill="white">DOG</text>
       </svg>
     `),
     gridSize: 4, // 2x2
@@ -69,7 +69,7 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל פרפר צבעוני",
     emoji: "🦋",
     color: "#FF4500",
-    imageUrl: "data:image/svg+xml;base64," + btoa(`
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
         <rect width="400" height="400" fill="#FFE4B5"/>
         <ellipse cx="150" cy="150" rx="50" ry="80" fill="#FF4500"/>
@@ -77,7 +77,9 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
         <ellipse cx="150" cy="250" rx="40" ry="60" fill="#FF4500"/>
         <ellipse cx="250" cy="250" rx="40" ry="60" fill="#FF6347"/>
         <line x1="200" y1="100" x2="200" y2="300" stroke="black" stroke-width="4"/>
-        <text x="200" y="350" text-anchor="middle" font-size="40">🦋</text>
+        <circle cx="200" cy="120" r="8" fill="black"/>
+        <circle cx="200" cy="140" r="8" fill="black"/>
+        <text x="200" y="370" text-anchor="middle" font-size="40" fill="darkorange">BUTTERFLY</text>
       </svg>
     `),
     gridSize: 9, // 3x3
@@ -88,7 +90,7 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל פרח יפה",
     emoji: "🌺",
     color: "#9932CC",
-    imageUrl: "data:image/svg+xml;base64," + btoa(`
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
         <rect width="400" height="400" fill="#E6E6FA"/>
         <circle cx="200" cy="200" r="30" fill="#FFD700"/>
@@ -100,7 +102,7 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
         <ellipse cx="165" cy="165" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 165 165)"/>
         <ellipse cx="235" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 235 235)"/>
         <ellipse cx="165" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(45 165 235)"/>
-        <text x="200" y="350" text-anchor="middle" font-size="40">🌺</text>
+        <text x="200" y="370" text-anchor="middle" font-size="40" fill="purple">FLOWER</text>
       </svg>
     `),
     gridSize: 9, // 3x3
