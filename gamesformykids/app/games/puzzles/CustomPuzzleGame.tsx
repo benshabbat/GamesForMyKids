@@ -35,6 +35,17 @@ export default function CustomPuzzleGame() {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
+  // Debug effect to track pieces state changes
+  useEffect(() => {
+    console.log('🔍 Pieces state changed:', pieces.map(p => ({
+      id: p.id,
+      currentPos: p.currentRow !== null ? `(${p.currentRow}, ${p.currentCol})` : 'none',
+      correctPos: `(${p.correctRow}, ${p.correctCol})`,
+      isCorrect: p.isCorrect,
+      isPlaced: p.isPlaced
+    })));
+  }, [pieces]);
+
   // Initialize Audio and Speech
   useEffect(() => {
     initSpeechAndAudio(setSpeechEnabled, setAudioContext);
@@ -228,7 +239,7 @@ export default function CustomPuzzleGame() {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = async (e: React.DragEvent, targetRow: number, targetCol: number) => {
+  const handleDrop = useCallback(async (e: React.DragEvent, targetRow: number, targetCol: number) => {
     e.preventDefault();
     
     if (!draggedPiece) return;
@@ -284,11 +295,13 @@ export default function CustomPuzzleGame() {
         return piece;
       });
       
-      console.log(`Updated pieces state:`, newPieces.filter(p => p.isPlaced).map(p => ({
+      // Log final state for debugging
+      console.log(`Final pieces state after update:`, newPieces.map(p => ({
         id: p.id,
-        position: `(${p.currentRow}, ${p.currentCol})`,
-        correct: `(${p.correctRow}, ${p.correctCol})`,
-        isCorrect: p.isCorrect
+        currentPos: p.currentRow !== null ? `(${p.currentRow}, ${p.currentCol})` : 'none',
+        correctPos: `(${p.correctRow}, ${p.correctCol})`,
+        isCorrect: p.isCorrect,
+        isPlaced: p.isPlaced
       })));
       
       return newPieces;
@@ -329,7 +342,7 @@ export default function CustomPuzzleGame() {
     }
     
     setDraggedPiece(null);
-  };
+  }, [draggedPiece, pieces, difficulty, timer, score, speechEnabled, audioContext, completedPieces]);
 
   const showSuccessFeedback = async (message: string) => {
     setFeedbackMessage(message);
@@ -492,15 +505,17 @@ export default function CustomPuzzleGame() {
                   const col = index % cols;
                   const placedPiece = pieces.find(p => p.currentRow === row && p.currentCol === col);
                   
-                  console.log(`Grid position ${index}: row=${row}, col=${col}, piece=${placedPiece?.id || 'none'}`);
+                  if (placedPiece) {
+                    console.log(`📍 Grid ${index} (${row},${col}) has piece ${placedPiece.id} - isCorrect: ${placedPiece.isCorrect}`);
+                  }
                   
                   return (
                     <div
-                      key={index}
+                      key={`grid-${index}-${placedPiece?.id || 'empty'}`}
                       className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors"
                       onDragOver={handleDragOver}
                       onDrop={(e) => handleDrop(e, row, col)}
-                      title={`Position: ${row},${col}`}
+                      title={`Position: ${row},${col} - Piece: ${placedPiece?.id || 'empty'}`}
                     >
                       {placedPiece && (
                         <>
@@ -521,7 +536,7 @@ export default function CustomPuzzleGame() {
                           <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         </div>
                       )}
-                      {/* Debug info */}
+                      {/* Debug info - removable for production */}
                       <div className="absolute bottom-0 left-0 text-xs bg-black bg-opacity-50 text-white px-1">
                         {row},{col}
                       </div>
@@ -538,26 +553,29 @@ export default function CustomPuzzleGame() {
               </h3>
               <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
                 {pieces
-                  .filter(piece => !piece.isCorrect)
-                  .map((piece) => (
-                    <div
-                      key={piece.id}
-                      className="aspect-square cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
-                      draggable
-                      onDragStart={(e) => handleDragStart(e, piece)}
-                    >
-                      <Image
-                        src={piece.canvas.toDataURL()}
-                        alt={`Puzzle piece ${piece.id}`}
-                        width={100}
-                        height={100}
-                        className="w-full h-full object-cover rounded-lg border-2 border-gray-300 hover:border-blue-400 shadow-md"
-                        unoptimized
-                      />
-                    </div>
-                  ))}
+                  .filter(piece => !piece.isPlaced)
+                  .map((piece) => {
+                    console.log(`🧩 Rendering piece ${piece.id} in bank - isCorrect: ${piece.isCorrect}, isPlaced: ${piece.isPlaced}`);
+                    return (
+                      <div
+                        key={`bank-piece-${piece.id}`}
+                        className="aspect-square cursor-grab active:cursor-grabbing hover:scale-105 transition-transform"
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, piece)}
+                      >
+                        <Image
+                          src={piece.canvas.toDataURL()}
+                          alt={`Puzzle piece ${piece.id}`}
+                          width={100}
+                          height={100}
+                          className="w-full h-full object-cover rounded-lg border-2 border-gray-300 hover:border-blue-400 shadow-md"
+                          unoptimized
+                        />
+                      </div>
+                    );
+                  })}
               </div>
-              {pieces.filter(piece => !piece.isCorrect).length === 0 && (
+              {pieces.filter(piece => !piece.isPlaced).length === 0 && (
                 <div className="text-center text-gray-500 py-8">
                   <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500" />
                   <p>כל החתיכות במקום!</p>
