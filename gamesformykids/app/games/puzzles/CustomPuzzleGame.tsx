@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import {Trophy, Timer, Star, Upload } from 'lucide-react';
+import { Trophy, Timer, Star, Upload } from 'lucide-react';
 import Image from 'next/image';
 import GameHeader from '@/components/shared/GameHeader';
 import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
@@ -96,6 +96,8 @@ export default function CustomPuzzleGame() {
     const rows = Math.sqrt(gridSize);
     const newPieces: PuzzlePiece[] = [];
     
+    console.log(`Creating ${rows}x${cols} puzzle (${gridSize} pieces)`);
+    
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const pieceCanvas = document.createElement('canvas');
@@ -131,8 +133,11 @@ export default function CustomPuzzleGame() {
         pieceCtx.lineWidth = 3;
         pieceCtx.strokeRect(2, 2, finalPieceSize - 4, finalPieceSize - 4);
         
+        const pieceId = row * cols + col;
+        console.log(`Created piece ${pieceId} at correct position (${row}, ${col})`);
+        
         newPieces.push({
-          id: row * cols + col,
+          id: pieceId,
           canvas: pieceCanvas,
           correctRow: row,
           correctCol: col,
@@ -142,6 +147,8 @@ export default function CustomPuzzleGame() {
         });
       }
     }
+    
+    console.log(`Total pieces created: ${newPieces.length}`);
     
     // Shuffle pieces
     return [...newPieces].sort(() => Math.random() - 0.5);
@@ -195,6 +202,8 @@ export default function CustomPuzzleGame() {
       setTimer(0);
       setScore(0);
       
+      console.log('Game reset with', newPieces.length, 'pieces');
+      
       if (speechEnabled) {
         await speakHebrew('המשחק אופס! בואו ננסה שוב');
       }
@@ -220,6 +229,9 @@ export default function CustomPuzzleGame() {
     
     if (!draggedPiece) return;
     
+    console.log(`Dropping piece ${draggedPiece.id} at (${targetRow}, ${targetCol})`);
+    console.log(`Piece correct position: (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
+    
     // Check if position is already occupied
     const isOccupied = pieces.some(p => 
       p.currentRow === targetRow && 
@@ -233,6 +245,7 @@ export default function CustomPuzzleGame() {
       return;
     }
     
+    // Update piece position first
     const updatedPieces = pieces.map(piece => {
       if (piece.id === draggedPiece.id) {
         return {
@@ -248,7 +261,10 @@ export default function CustomPuzzleGame() {
     setPieces(updatedPieces);
     
     // Check if piece is in correct position
-    if (draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol) {
+    const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
+    console.log(`Is correct position: ${isCorrectPosition}`);
+    
+    if (isCorrectPosition) {
       const newCompleted = new Set(completedPieces);
       newCompleted.add(draggedPiece.id);
       setCompletedPieces(newCompleted);
@@ -258,17 +274,21 @@ export default function CustomPuzzleGame() {
       playSuccessSound(audioContext);
       await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
       
+      console.log(`Completed pieces: ${newCompleted.size}/${difficulty}`);
+      
       // Check if puzzle is complete
       if (newCompleted.size === difficulty) {
         setIsCompleted(true);
         setGameStarted(false);
-        setScore(prev => prev + 50 + Math.max(0, 300 - timer));
+        const bonusScore = Math.max(0, 300 - timer);
+        const finalScore = score + 10 + 50 + bonusScore; // current + this piece + completion + time bonus
+        setScore(finalScore);
         
         // Completion celebration with speech
         playSuccessSound(audioContext);
         await showSuccessFeedback(`פאזל הושלם! מדהים!`);
         if (speechEnabled) {
-          await speakHebrew(`מזל טוב! השלמת את הפאזל בזמן ${formatTime(timer)}! הניקוד שלך הוא ${score + 50 + Math.max(0, 300 - timer)} נקודות!`);
+          await speakHebrew(`מזל טוב! השלמת את הפאזל בזמן ${formatTime(timer)}! הניקוד שלך הוא ${finalScore} נקודות!`);
         }
       }
     } else {

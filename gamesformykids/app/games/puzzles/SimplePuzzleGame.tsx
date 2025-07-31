@@ -33,7 +33,16 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל חתול חמוד",
     emoji: "🐱",
     color: "#FF69B4",
-    imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=500&h=500&fit=crop",
+    imageUrl: "data:image/svg+xml;base64," + btoa(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="400" fill="#FFB6C1"/>
+        <circle cx="200" cy="200" r="150" fill="#FF69B4"/>
+        <circle cx="160" cy="150" r="20" fill="black"/>
+        <circle cx="240" cy="150" r="20" fill="black"/>
+        <path d="M 200 180 Q 200 220 180 200 Q 200 220 220 200" fill="black"/>
+        <text x="200" y="320" text-anchor="middle" font-size="40">🐱</text>
+      </svg>
+    `),
     gridSize: 4, // 2x2
     difficulty: "easy"
   },
@@ -42,7 +51,16 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל כלב יפה",
     emoji: "🐶",
     color: "#4169E1",
-    imageUrl: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=500&h=500&fit=crop",
+    imageUrl: "data:image/svg+xml;base64," + btoa(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="400" fill="#ADD8E6"/>
+        <ellipse cx="200" cy="220" rx="120" ry="100" fill="#4169E1"/>
+        <circle cx="170" cy="180" r="15" fill="black"/>
+        <circle cx="230" cy="180" r="15" fill="black"/>
+        <ellipse cx="200" cy="220" rx="25" ry="15" fill="black"/>
+        <text x="200" y="340" text-anchor="middle" font-size="40">🐶</text>
+      </svg>
+    `),
     gridSize: 4, // 2x2
     difficulty: "easy"
   },
@@ -51,7 +69,17 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל פרפר צבעוני",
     emoji: "🦋",
     color: "#FF4500",
-    imageUrl: "https://images.unsplash.com/photo-1444927714506-8492d94b5ba0?w=600&h=600&fit=crop",
+    imageUrl: "data:image/svg+xml;base64," + btoa(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="400" fill="#FFE4B5"/>
+        <ellipse cx="150" cy="150" rx="50" ry="80" fill="#FF4500"/>
+        <ellipse cx="250" cy="150" rx="50" ry="80" fill="#FF6347"/>
+        <ellipse cx="150" cy="250" rx="40" ry="60" fill="#FF4500"/>
+        <ellipse cx="250" cy="250" rx="40" ry="60" fill="#FF6347"/>
+        <line x1="200" y1="100" x2="200" y2="300" stroke="black" stroke-width="4"/>
+        <text x="200" y="350" text-anchor="middle" font-size="40">🦋</text>
+      </svg>
+    `),
     gridSize: 9, // 3x3
     difficulty: "medium"
   },
@@ -60,7 +88,21 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     name: "פאזל פרח יפה",
     emoji: "🌺",
     color: "#9932CC",
-    imageUrl: "https://images.unsplash.com/photo-1490750967868-88aa4486c946?w=600&h=600&fit=crop",
+    imageUrl: "data:image/svg+xml;base64," + btoa(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <rect width="400" height="400" fill="#E6E6FA"/>
+        <circle cx="200" cy="200" r="30" fill="#FFD700"/>
+        <ellipse cx="200" cy="140" rx="25" ry="50" fill="#9932CC"/>
+        <ellipse cx="260" cy="200" rx="50" ry="25" fill="#DA70D6"/>
+        <ellipse cx="200" cy="260" rx="25" ry="50" fill="#9932CC"/>
+        <ellipse cx="140" cy="200" rx="50" ry="25" fill="#DA70D6"/>
+        <ellipse cx="235" cy="165" rx="35" ry="35" fill="#BA55D3" transform="rotate(45 235 165)"/>
+        <ellipse cx="165" cy="165" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 165 165)"/>
+        <ellipse cx="235" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 235 235)"/>
+        <ellipse cx="165" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(45 165 235)"/>
+        <text x="200" y="350" text-anchor="middle" font-size="40">🌺</text>
+      </svg>
+    `),
     gridSize: 9, // 3x3
     difficulty: "medium"
   }
@@ -205,6 +247,7 @@ export default function SimplePuzzleGame() {
 
   // התחלת פאזל חדש
   const startPuzzle = useCallback(async (puzzle: SimplePuzzle) => {
+    console.log('Starting puzzle:', puzzle.name);
     setIsLoading(true);
     setSelectedPuzzle(puzzle);
     
@@ -217,8 +260,10 @@ export default function SimplePuzzleGame() {
     img.crossOrigin = 'anonymous';
     
     img.onload = async () => {
+      console.log('Image loaded successfully');
       try {
         const puzzlePieces = createPuzzlePieces(img, puzzle);
+        console.log('Created puzzle pieces:', puzzlePieces.length);
         setPieces(puzzlePieces);
         setSolution(new Array(puzzle.gridSize).fill(null));
         setScore(0);
@@ -236,12 +281,59 @@ export default function SimplePuzzleGame() {
       }
     };
     
-    img.onerror = async () => {
-      console.error('Failed to load image');
-      setIsLoading(false);
-      await showErrorFeedback('שגיאה בטעינת התמונה');
+    img.onerror = async (error) => {
+      console.error('Failed to load image:', error);
+      console.log('Trying fallback URL...');
+      
+      // נסה עם URL חלופי
+      const fallbackUrls = [
+        `https://picsum.photos/400/400?random=${puzzle.id}`,
+        `https://via.placeholder.com/400x400/FF69B4/FFFFFF?text=${puzzle.emoji}`,
+        // אם יש לך תמונות מקומיות, תוכל להוסיף אותן כאן
+      ];
+      
+      const tryFallback = async (index: number) => {
+        if (index >= fallbackUrls.length) {
+          setIsLoading(false);
+          await showErrorFeedback('שגיאה בטעינת התמונה');
+          return;
+        }
+        
+        const fallbackImg = new window.Image();
+        fallbackImg.crossOrigin = 'anonymous';
+        
+        fallbackImg.onload = async () => {
+          console.log('Fallback image loaded');
+          try {
+            const puzzlePieces = createPuzzlePieces(fallbackImg, puzzle);
+            setPieces(puzzlePieces);
+            setSolution(new Array(puzzle.gridSize).fill(null));
+            setScore(0);
+            setIsComplete(false);
+            setIsLoading(false);
+            
+            if (speechEnabled) {
+              await speakHebrew(`הפאזל מוכן! בואו נתחיל!`);
+            }
+          } catch (error) {
+            console.error('Error with fallback:', error);
+            setIsLoading(false);
+            await showErrorFeedback('שגיאה ביצירת הפאזל');
+          }
+        };
+        
+        fallbackImg.onerror = () => {
+          console.log(`Fallback ${index + 1} failed, trying next...`);
+          tryFallback(index + 1);
+        };
+        
+        fallbackImg.src = fallbackUrls[index];
+      };
+      
+      tryFallback(0);
     };
     
+    console.log('Loading image from:', puzzle.imageUrl);
     img.src = puzzle.imageUrl;
   }, [createPuzzlePieces, speechEnabled, audioContext]);
 
