@@ -14,6 +14,7 @@ interface PuzzlePiece {
   currentRow: number | null;
   currentCol: number | null;
   isPlaced: boolean;
+  isCorrect: boolean;
 }
 
 export default function CustomPuzzleGame() {
@@ -24,7 +25,7 @@ export default function CustomPuzzleGame() {
   const [isCompleted, setIsCompleted] = useState(false);
   const [timer, setTimer] = useState(0);
   const [image, setImage] = useState<HTMLImageElement | null>(null);
-  const [difficulty, setDifficulty] = useState(9); // 3x3 by default
+  const [difficulty, setDifficulty] = useState(9);
   const [score, setScore] = useState(0);
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
   const [feedbackType, setFeedbackType] = useState<'success' | 'error' | ''>('');
@@ -69,7 +70,7 @@ export default function CustomPuzzleGame() {
     canvas.width = canvasSize;
     canvas.height = canvasSize;
     
-    // Calculate image dimensions to fit in square canvas while maintaining aspect ratio
+    // Calculate image dimensions
     const imgAspectRatio = img.width / img.height;
     let drawWidth: number, drawHeight: number, offsetX: number, offsetY: number;
     
@@ -85,7 +86,7 @@ export default function CustomPuzzleGame() {
       offsetY = 0;
     }
     
-    // Draw the full image on canvas first
+    // Draw the full image
     ctx.clearRect(0, 0, canvasSize, canvasSize);
     ctx.fillStyle = '#f0f0f0';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
@@ -94,8 +95,6 @@ export default function CustomPuzzleGame() {
     const cols = Math.sqrt(gridSize);
     const rows = Math.sqrt(gridSize);
     const newPieces: PuzzlePiece[] = [];
-    
-    console.log(`Creating ${rows}x${cols} puzzle (${gridSize} pieces)`);
     
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
@@ -141,7 +140,8 @@ export default function CustomPuzzleGame() {
           correctCol: col,
           currentRow: null,
           currentCol: null,
-          isPlaced: false
+          isPlaced: false,
+          isCorrect: false
         });
       }
     }
@@ -221,81 +221,80 @@ export default function CustomPuzzleGame() {
     
     if (!draggedPiece) return;
     
-    console.log(`Attempting to drop piece ${draggedPiece.id} at position (${targetRow}, ${targetCol})`);
-    console.log(`Piece correct position: (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
+    console.log(`Dropping piece ${draggedPiece.id} at (${targetRow}, ${targetCol})`);
+    console.log(`Correct position is (${draggedPiece.correctRow}, ${draggedPiece.correctCol})`);
     
-    // Check if position is already occupied by a CORRECTLY placed piece
-    const occupiedByCorrectPiece = pieces.find(p => 
-      p.currentRow === targetRow && 
-      p.currentCol === targetCol && 
-      p.id !== draggedPiece.id &&
-      completedPieces.has(p.id)
-    );
+    // Check if piece is in correct position
+    const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
     
-    if (occupiedByCorrectPiece) {
-      await showErrorFeedback('המקום תפוס! נסה מקום אחר');
+    // Find if there's already a piece in this position
+    const existingPiece = pieces.find(p => p.currentRow === targetRow && p.currentCol === targetCol);
+    
+    // If there's a correct piece already there, don't allow placement
+    if (existingPiece && existingPiece.isCorrect && existingPiece.id !== draggedPiece.id) {
+      await showErrorFeedback('המקום תפוס! נסו מקום אחר');
       setDraggedPiece(null);
       return;
     }
     
-    // Check if piece is in correct position BEFORE updating state
-    const isCorrectPosition = draggedPiece.correctRow === targetRow && draggedPiece.correctCol === targetCol;
-    console.log(`Is correct position: ${isCorrectPosition}`);
-    
-    // Remove any piece that was previously in this position (wrong pieces can be moved)
-    const clearedPieces = pieces.map(piece => {
-      if (piece.currentRow === targetRow && piece.currentCol === targetCol && piece.id !== draggedPiece.id) {
-        return {
-          ...piece,
-          currentRow: null,
-          currentCol: null,
-          isPlaced: false,
-        };
-      }
-      return piece;
+    // Update pieces state
+    setPieces(prevPieces => {
+      return prevPieces.map(piece => {
+        // Clear the target position from any incorrect piece
+        if (piece.currentRow === targetRow && piece.currentCol === targetCol && piece.id !== draggedPiece.id) {
+          return {
+            ...piece,
+            currentRow: null,
+            currentCol: null,
+            isPlaced: false,
+            isCorrect: false
+          };
+        }
+        
+        // Update the dragged piece
+        if (piece.id === draggedPiece.id) {
+          return {
+            ...piece,
+            currentRow: targetRow,
+            currentCol: targetCol,
+            isPlaced: true,
+            isCorrect: isCorrectPosition
+          };
+        }
+        
+        return piece;
+      });
     });
-    
-    // Update the dragged piece position
-    const updatedPieces = clearedPieces.map(piece => {
-      if (piece.id === draggedPiece.id) {
-        return {
-          ...piece,
-          currentRow: targetRow,
-          currentCol: targetCol,
-          isPlaced: true,
-        };
-      }
-      return piece;
-    });
-    
-    setPieces(updatedPieces);
     
     if (isCorrectPosition) {
-      // Mark as completed
-      const newCompleted = new Set(completedPieces);
-      newCompleted.add(draggedPiece.id);
-      setCompletedPieces(newCompleted);
-      setScore(prev => prev + 10);
+      // Add to completed pieces
+      setCompletedPieces(prev => {
+        const newSet = new Set(prev);
+        newSet.add(draggedPiece.id);
+        
+        // Check if puzzle is complete
+        if (newSet.size === difficulty) {
+          setIsCompleted(true);
+          setGameStarted(false);
+          const bonusScore = Math.max(0, 300 - timer);
+          const finalScore = score + 10 + 50 + bonusScore;
+          setScore(finalScore);
+          
+          setTimeout(async () => {
+            playSuccessSound(audioContext);
+            await showSuccessFeedback(`פאזל הושלם! מדהים!`);
+            if (speechEnabled) {
+              await speakHebrew(`מזל טוב! השלמתם את הפאזל בזמן ${formatTime(timer)}! הניקוד שלכם הוא ${finalScore} נקודות!`);
+            }
+          }, 100);
+        }
+        
+        return newSet;
+      });
       
+      setScore(prev => prev + 10);
       playSuccessSound(audioContext);
       await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
-      
-      console.log(`Completed pieces: ${newCompleted.size}/${difficulty}`);
-      
-      // Check if puzzle is complete
-      if (newCompleted.size === difficulty) {
-        setIsCompleted(true);
-        setGameStarted(false);
-        const bonusScore = Math.max(0, 300 - timer);
-        const finalScore = score + 10 + 50 + bonusScore;
-        setScore(finalScore);
-        
-        playSuccessSound(audioContext);
-        await showSuccessFeedback(`פאזל הושלם! מדהים!`);
-        if (speechEnabled) {
-          await speakHebrew(`מזל טוב! השלמתם את הפאזל בזמן ${formatTime(timer)}! הניקוד שלכם הוא ${finalScore} נקודות!`);
-        }
-      }
     } else {
       await showErrorFeedback(`נסו שוב! החלק לא במקום הנכון`);
     }
@@ -336,7 +335,7 @@ export default function CustomPuzzleGame() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header with navigation */}
+        {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <button
             onClick={goHome}
@@ -479,13 +478,13 @@ export default function CustomPuzzleGame() {
                             width={100}
                             height={100}
                             className={`w-full h-full object-cover ${
-                              completedPieces.has(placedPiece.id) ? 'ring-2 ring-green-400' : 'ring-2 ring-red-400'
+                              placedPiece.isCorrect ? 'ring-2 ring-green-400' : 'ring-2 ring-red-400'
                             }`}
                             unoptimized
                           />
                         </>
                       )}
-                      {placedPiece && completedPieces.has(placedPiece.id) && (
+                      {placedPiece && placedPiece.isCorrect && (
                         <div className="absolute top-1 right-1">
                           <Star className="w-4 h-4 text-yellow-500 fill-current" />
                         </div>
@@ -503,7 +502,7 @@ export default function CustomPuzzleGame() {
               </h3>
               <div className="grid grid-cols-3 gap-3 max-h-96 overflow-y-auto">
                 {pieces
-                  .filter(piece => !completedPieces.has(piece.id))
+                  .filter(piece => !piece.isCorrect)
                   .map((piece) => (
                     <div
                       key={piece.id}
@@ -522,7 +521,7 @@ export default function CustomPuzzleGame() {
                     </div>
                   ))}
               </div>
-              {pieces.filter(piece => !completedPieces.has(piece.id)).length === 0 && (
+              {pieces.filter(piece => !piece.isCorrect).length === 0 && (
                 <div className="text-center text-gray-500 py-8">
                   <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500" />
                   <p>כל החתיכות במקום!</p>
@@ -532,7 +531,7 @@ export default function CustomPuzzleGame() {
           </div>
         )}
 
-        {/* Hidden canvas for image processing */}
+        {/* Hidden canvas */}
         <canvas ref={canvasRef} className="hidden" />
         
         {!image && (
