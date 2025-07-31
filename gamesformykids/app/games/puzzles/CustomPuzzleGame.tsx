@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from 'react';
-import { RotateCcw, Trophy, Timer, Star, Upload } from 'lucide-react';
-import GameHeader from '@/components/shared/GameHeader';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import {Trophy, Timer, Star, Upload } from 'lucide-react';
 import Image from 'next/image';
+import GameHeader from '@/components/shared/GameHeader';
+import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
+import { playSuccessSound } from '@/lib/utils/gameUtils';
 
 interface PuzzlePiece {
   id: number;
@@ -25,9 +27,19 @@ export default function CustomPuzzleGame() {
   const [image, setImage] = useState<HTMLImageElement | null>(null);
   const [difficulty, setDifficulty] = useState(9); // 3x3 by default
   const [score, setScore] = useState(0);
+  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
+  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | ''>('');
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [speechEnabled, setSpeechEnabled] = useState(false);
+  
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
+  // Initialize Audio and Speech using project's function
+  useEffect(() => {
+    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
+  }, []);
+
   // Timer effect
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -47,14 +59,13 @@ export default function CustomPuzzleGame() {
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const createPuzzlePieces = (img: HTMLImageElement, gridSize: number): PuzzlePiece[] => {
+  const createPuzzlePieces = useCallback((img: HTMLImageElement, gridSize: number): PuzzlePiece[] => {
     const canvas = canvasRef.current;
     if (!canvas) return [];
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return [];
     
-    // Set canvas size to be square for consistent puzzle pieces
     const canvasSize = 600;
     canvas.width = canvasSize;
     canvas.height = canvasSize;
@@ -64,20 +75,18 @@ export default function CustomPuzzleGame() {
     let drawWidth: number, drawHeight: number, offsetX: number, offsetY: number;
     
     if (imgAspectRatio > 1) {
-      // Image is wider than tall
       drawWidth = canvasSize;
       drawHeight = canvasSize / imgAspectRatio;
       offsetX = 0;
       offsetY = (canvasSize - drawHeight) / 2;
     } else {
-      // Image is taller than wide or square
       drawHeight = canvasSize;
       drawWidth = canvasSize * imgAspectRatio;
       offsetX = (canvasSize - drawWidth) / 2;
       offsetY = 0;
     }
     
-    // Draw the full image on canvas first for reference
+    // Draw the full image on canvas first
     ctx.clearRect(0, 0, canvasSize, canvasSize);
     ctx.fillStyle = '#f0f0f0';
     ctx.fillRect(0, 0, canvasSize, canvasSize);
@@ -85,37 +94,34 @@ export default function CustomPuzzleGame() {
     
     const cols = Math.sqrt(gridSize);
     const rows = Math.sqrt(gridSize);
-    
     const newPieces: PuzzlePiece[] = [];
     
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
-        // Create a canvas for each piece
         const pieceCanvas = document.createElement('canvas');
-        const finalPieceSize = 120; // Fixed size for all pieces
+        const finalPieceSize = 120;
         pieceCanvas.width = finalPieceSize;
         pieceCanvas.height = finalPieceSize;
         const pieceCtx = pieceCanvas.getContext('2d');
         
         if (!pieceCtx) continue;
         
-        // Enable high quality rendering
         pieceCtx.imageSmoothingEnabled = true;
         pieceCtx.imageSmoothingQuality = 'high';
         
-        // Add background
+        // Background
         pieceCtx.fillStyle = '#ffffff';
         pieceCtx.fillRect(0, 0, finalPieceSize, finalPieceSize);
         
-        // Calculate source rectangle from the original image
-        const srcX = (col * img.width) / cols;
-        const srcY = (row * img.height) / rows;
-        const srcWidth = img.width / cols;
-        const srcHeight = img.height / rows;
+        // Calculate source rectangle
+        const srcX = offsetX + (col * drawWidth) / cols;
+        const srcY = offsetY + (row * drawHeight) / rows;
+        const srcWidth = drawWidth / cols;
+        const srcHeight = drawHeight / rows;
         
-        // Draw the piece, scaling it to fit the fixed piece size
+        // Draw the piece
         pieceCtx.drawImage(
-          img,
+          canvas,
           srcX, srcY, srcWidth, srcHeight,
           5, 5, finalPieceSize - 10, finalPieceSize - 10
         );
@@ -139,15 +145,15 @@ export default function CustomPuzzleGame() {
     
     // Shuffle pieces
     return [...newPieces].sort(() => Math.random() - 0.5);
-  };
+  }, []);
 
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
         const img = new window.Image();
-        img.onload = () => {
+        img.onload = async () => {
           setImage(img);
           const newPieces = createPuzzlePieces(img, difficulty);
           setPieces(newPieces);
@@ -156,6 +162,11 @@ export default function CustomPuzzleGame() {
           setGameStarted(false);
           setTimer(0);
           setScore(0);
+          
+          // Speak welcome message using project's speech function
+          if (speechEnabled) {
+            await speakHebrew('תמונה נטענה בהצלחה! כעת תוכל להתחיל לשחק');
+          }
         };
         img.src = e.target?.result as string;
       };
@@ -163,13 +174,18 @@ export default function CustomPuzzleGame() {
     }
   };
 
-  const startGame = () => {
+  const startGame = async () => {
     setGameStarted(true);
     setTimer(0);
     setScore(0);
+    
+    // Use project's speech function for game start
+    if (speechEnabled) {
+      await speakHebrew('בואו נתחיל לבנות את הפאזל! מצאו את החלקים הנכונים');
+    }
   };
 
-  const resetGame = () => {
+  const resetGame = async () => {
     if (image) {
       const newPieces = createPuzzlePieces(image, difficulty);
       setPieces(newPieces);
@@ -178,7 +194,15 @@ export default function CustomPuzzleGame() {
       setGameStarted(false);
       setTimer(0);
       setScore(0);
+      
+      if (speechEnabled) {
+        await speakHebrew('המשחק אופס! בואו ננסה שוב');
+      }
     }
+  };
+
+  const goHome = () => {
+    window.location.href = '/';
   };
 
   const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
@@ -191,10 +215,23 @@ export default function CustomPuzzleGame() {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e: React.DragEvent, targetRow: number, targetCol: number) => {
+  const handleDrop = async (e: React.DragEvent, targetRow: number, targetCol: number) => {
     e.preventDefault();
     
     if (!draggedPiece) return;
+    
+    // Check if position is already occupied
+    const isOccupied = pieces.some(p => 
+      p.currentRow === targetRow && 
+      p.currentCol === targetCol && 
+      p.id !== draggedPiece.id
+    );
+    
+    if (isOccupied) {
+      await showErrorFeedback('המקום תפוס! נסה מקום אחר');
+      setDraggedPiece(null);
+      return;
+    }
     
     const updatedPieces = pieces.map(piece => {
       if (piece.id === draggedPiece.id) {
@@ -217,91 +254,54 @@ export default function CustomPuzzleGame() {
       setCompletedPieces(newCompleted);
       setScore(prev => prev + 10);
       
-      // Success feedback - play success sound and show celebration
-      playSuccessSound();
-      showSuccessFeedback(`כל הכבוד! החלק במקום הנכון! 🎉`);
+      // Use project's success sound function
+      playSuccessSound(audioContext);
+      await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
       
       // Check if puzzle is complete
       if (newCompleted.size === difficulty) {
         setIsCompleted(true);
         setGameStarted(false);
-        setScore(prev => prev + 50 + Math.max(0, 300 - timer)); // Time bonus
-        playCompletionSound();
-        showSuccessFeedback(`פאזל הושלם! מדהים! 🏆`);
+        setScore(prev => prev + 50 + Math.max(0, 300 - timer));
+        
+        // Completion celebration with speech
+        playSuccessSound(audioContext);
+        await showSuccessFeedback(`פאזל הושלם! מדהים!`);
+        if (speechEnabled) {
+          await speakHebrew(`מזל טוב! השלמת את הפאזל בזמן ${formatTime(timer)}! הניקוד שלך הוא ${score + 50 + Math.max(0, 300 - timer)} נקודות!`);
+        }
       }
     } else {
-      // Wrong position feedback
-      showErrorFeedback(`נסה שוב! החלק לא במקום הנכון 🤔`);
+      await showErrorFeedback(`נסה שוב! החלק לא במקום הנכון`);
     }
     
     setDraggedPiece(null);
   };
 
-  // Add feedback state and functions
-  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
-  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | ''>('');
-
-  const playSuccessSound = () => {
-    try {
-      // Create success sound effect
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const audioContext = new AudioContextClass();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime); // C5
-      oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1); // E5
-      oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2); // G5
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.3);
-    } catch {
-      console.log('Audio not supported');
-    }
-  };
-
-  const playCompletionSound = () => {
-    try {
-      // Create completion fanfare
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const audioContext = new AudioContextClass();
-      [523.25, 659.25, 783.99, 1046.5].forEach((freq, index) => {
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-        
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-        
-        oscillator.frequency.setValueAtTime(freq, audioContext.currentTime + index * 0.1);
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime + index * 0.1);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + index * 0.1 + 0.2);
-        
-        oscillator.start(audioContext.currentTime + index * 0.1);
-        oscillator.stop(audioContext.currentTime + index * 0.1 + 0.2);
-      });
-    } catch {
-      console.log('Audio not supported');  
-    }
-  };
-
-  const showSuccessFeedback = (message: string) => {
+  const showSuccessFeedback = async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('success');
+    
+    // Use project's speech function
+    if (speechEnabled) {
+      await speakHebrew(message);
+    }
+    
     setTimeout(() => {
       setFeedbackMessage('');
       setFeedbackType('');
     }, 2000);
   };
 
-  const showErrorFeedback = (message: string) => {
+  const showErrorFeedback = async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('error');
+    
+    // Use project's speech function for errors too
+    if (speechEnabled) {
+      await speakHebrew(message);
+    }
+    
     setTimeout(() => {
       setFeedbackMessage('');
       setFeedbackType('');
@@ -313,11 +313,11 @@ export default function CustomPuzzleGame() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* Header */}
+        {/* Use project's GameHeader component */}
         <GameHeader
           score={score}
           level={Math.floor(score / 50) + 1}
-          onHome={() => window.location.href = '/'}
+          onHome={goHome}
           onReset={resetGame}
           scoreColor="text-white"
           levelColor="text-purple-100"
@@ -367,15 +367,6 @@ export default function CustomPuzzleGame() {
                 className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-lg"
               >
                 🚀 התחל לשחק!
-              </button>
-            )}
-
-            {image && (
-              <button
-                onClick={resetGame}
-                className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-3 rounded-xl font-bold transition-all transform hover:scale-105 shadow-lg"
-              >
-                <RotateCcw className="w-5 h-5" />
               </button>
             )}
           </div>

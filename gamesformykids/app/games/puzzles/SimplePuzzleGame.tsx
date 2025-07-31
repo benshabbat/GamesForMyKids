@@ -1,18 +1,12 @@
-/**
- * ===============================================
- * קומפוננט פאזל פשוט - עם חיתוך תמונות אמיתי
- * ===============================================
- * 
- * גרסה שמחלקת תמונה אחת לחלקים אמיתיים
- */
-
 "use client";
 
-import React, { useState, useCallback, useRef } from 'react';
-import { RotateCcw, Trophy, Home } from 'lucide-react';
+import React, { useState, useCallback, useRef, useEffect } from 'react';
+import { Trophy, Home } from 'lucide-react';
 import Image from 'next/image';
+import GameHeader from '@/components/shared/GameHeader';
+import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
+import { playSuccessSound } from '@/lib/utils/gameUtils';
 
-// טיפוסים
 interface PuzzlePiece {
   id: number;
   canvas: HTMLCanvasElement;
@@ -28,7 +22,7 @@ interface SimplePuzzle {
   emoji: string;
   color: string;
   imageUrl: string;
-  gridSize: number; // 2x2 = 4, 3x3 = 9
+  gridSize: number;
   difficulty: 'easy' | 'medium' | 'hard';
 }
 
@@ -82,7 +76,15 @@ export default function SimplePuzzleGame() {
   const [feedbackMessage, setFeedbackMessage] = useState<string>('');
   const [feedbackType, setFeedbackType] = useState<'success' | 'error' | ''>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const [speechEnabled, setSpeechEnabled] = useState(false);
+  
   const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Initialize Audio and Speech using project's function
+  useEffect(() => {
+    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
+  }, []);
 
   // פונקציה ליצירת חלקי פאזל מתמונה
   const createPuzzlePieces = useCallback((img: HTMLImageElement, puzzle: SimplePuzzle): PuzzlePiece[] => {
@@ -100,6 +102,25 @@ export default function SimplePuzzleGame() {
     const pieceSize = size / gridSide;
     const pieces: PuzzlePiece[] = [];
 
+    // Draw the image on canvas first
+    const imgAspectRatio = img.width / img.height;
+    let drawWidth = size;
+    let drawHeight = size;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    if (imgAspectRatio > 1) {
+      drawHeight = size / imgAspectRatio;
+      offsetY = (size - drawHeight) / 2;
+    } else {
+      drawWidth = size * imgAspectRatio;
+      offsetX = (size - drawWidth) / 2;
+    }
+
+    ctx.fillStyle = '#f0f0f0';
+    ctx.fillRect(0, 0, size, size);
+    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
     for (let row = 0; row < gridSide; row++) {
       for (let col = 0; col < gridSide; col++) {
         const pieceCanvas = document.createElement('canvas');
@@ -109,24 +130,26 @@ export default function SimplePuzzleGame() {
         
         if (!pieceCtx) continue;
 
-        // Enable high quality rendering
         pieceCtx.imageSmoothingEnabled = true;
         pieceCtx.imageSmoothingQuality = 'high';
 
-        // Add background
+        // Background
         pieceCtx.fillStyle = '#f8f8f8';
         pieceCtx.fillRect(0, 0, pieceCanvas.width, pieceCanvas.height);
 
-        // Draw piece from original image
+        // Draw piece from main canvas
+        const srcX = (col * size) / gridSide;
+        const srcY = (row * size) / gridSide;
+        const srcWidth = size / gridSide;
+        const srcHeight = size / gridSide;
+
         pieceCtx.drawImage(
-          img,
-          (col * img.width) / gridSide, (row * img.height) / gridSide,
-          img.width / gridSide, img.height / gridSide,
-          2, 2,
-          pieceSize, pieceSize
+          canvas,
+          srcX, srcY, srcWidth, srcHeight,
+          2, 2, pieceSize, pieceSize
         );
 
-        // Add border
+        // Border
         pieceCtx.strokeStyle = '#ddd';
         pieceCtx.lineWidth = 2;
         pieceCtx.strokeRect(1, 1, pieceSize + 2, pieceSize + 2);
@@ -147,70 +170,80 @@ export default function SimplePuzzleGame() {
   }, []);
 
   // Success and error feedback functions
-  const showSuccessFeedback = (message: string) => {
+  const showSuccessFeedback = async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('success');
-    playSuccessSound();
+    
+    // Use project's success sound function
+    playSuccessSound(audioContext);
+    
+    // Use project's speech function
+    if (speechEnabled) {
+      await speakHebrew(message);
+    }
+    
     setTimeout(() => {
       setFeedbackMessage('');
       setFeedbackType('');
     }, 2000);
   };
 
-  const showErrorFeedback = (message: string) => {
+  const showErrorFeedback = async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('error');
+    
+    // Use project's speech function for errors too
+    if (speechEnabled) {
+      await speakHebrew(message);
+    }
+    
     setTimeout(() => {
       setFeedbackMessage('');
       setFeedbackType('');
     }, 1500);
   };
 
-  const playSuccessSound = () => {
-    try {
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      const audioContext = new AudioContextClass();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-      
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-      
-      oscillator.frequency.setValueAtTime(523.25, audioContext.currentTime);
-      oscillator.frequency.setValueAtTime(659.25, audioContext.currentTime + 0.1);
-      oscillator.frequency.setValueAtTime(783.99, audioContext.currentTime + 0.2);
-      
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.3);
-    } catch {
-      console.log('Audio not supported');
-    }
-  };
-
   // התחלת פאזל חדש
-  const startPuzzle = useCallback((puzzle: SimplePuzzle) => {
+  const startPuzzle = useCallback(async (puzzle: SimplePuzzle) => {
     setIsLoading(true);
     setSelectedPuzzle(puzzle);
     
+    // Announce puzzle selection
+    if (speechEnabled) {
+      await speakHebrew(`בחרת את ${puzzle.name}! טוען את הפאזל...`);
+    }
+    
     const img = new window.Image();
     img.crossOrigin = 'anonymous';
-    img.onload = () => {
-      const puzzlePieces = createPuzzlePieces(img, puzzle);
-      setPieces(puzzlePieces);
-      setSolution(new Array(puzzle.gridSize).fill(null));
-      setScore(0);
-      setIsComplete(false);
-      setIsLoading(false);
+    
+    img.onload = async () => {
+      try {
+        const puzzlePieces = createPuzzlePieces(img, puzzle);
+        setPieces(puzzlePieces);
+        setSolution(new Array(puzzle.gridSize).fill(null));
+        setScore(0);
+        setIsComplete(false);
+        setIsLoading(false);
+        
+        // Announce puzzle ready
+        if (speechEnabled) {
+          await speakHebrew(`הפאזל מוכן! זה פאזל ${puzzle.difficulty === 'easy' ? 'קל' : puzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'} עם ${puzzle.gridSize} חלקים. בואו נתחיל!`);
+        }
+      } catch (error) {
+        console.error('Error creating puzzle pieces:', error);
+        setIsLoading(false);
+        await showErrorFeedback('שגיאה ביצירת הפאזל');
+      }
     };
-    img.onerror = () => {
+    
+    img.onerror = async () => {
       console.error('Failed to load image');
       setIsLoading(false);
+      await showErrorFeedback('שגיאה בטעינת התמונה');
     };
+    
     img.src = puzzle.imageUrl;
-  }, [createPuzzlePieces]);
+  }, [createPuzzlePieces, speechEnabled, audioContext]);
 
   // טיפול בגרירת חלקים
   const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
@@ -223,10 +256,17 @@ export default function SimplePuzzleGame() {
     e.dataTransfer.dropEffect = 'move';
   };
 
-  const handleDrop = (e: React.DragEvent, targetIndex: number) => {
+  const handleDrop = async (e: React.DragEvent, targetIndex: number) => {
     e.preventDefault();
     
     if (!draggedPiece || !selectedPuzzle) return;
+
+    // בדיקה אם המקום כבר תפוס
+    if (solution[targetIndex] !== null) {
+      await showErrorFeedback('המקום תפוס! נסה מקום אחר');
+      setDraggedPiece(null);
+      return;
+    }
 
     // בדיקה אם זה המקום הנכון
     if (draggedPiece.correctPosition === targetIndex) {
@@ -239,26 +279,36 @@ export default function SimplePuzzleGame() {
       setPieces(prev => prev.filter(p => p.id !== draggedPiece.id));
       
       setScore(prev => prev + 10);
-      showSuccessFeedback(`כל הכבוד! החלק במקום הנכון! 🎉`);
+      await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
       
       // בדיקה אם הפאזל הושלם
       if (newSolution.filter(Boolean).length === selectedPuzzle.gridSize) {
         setIsComplete(true);
-        setScore(prev => prev + 50);
-        showSuccessFeedback(`הפאזל הושלם! מדהים! 🏆`);
+        const finalScore = score + 60; // +10 for this piece + 50 bonus
+        setScore(finalScore);
+        
+        // Completion celebration
+        playSuccessSound(audioContext);
+        if (speechEnabled) {
+          await speakHebrew(`מזל טוב! השלמת את ${selectedPuzzle.name}! הניקוד הסופי שלך הוא ${finalScore} נקודות!`);
+        }
+        await showSuccessFeedback(`הפאזל הושלם! מדהים!`);
       }
     } else {
       // מיקום שגוי
-      showErrorFeedback(`נסה שוב! החלק לא במקום הנכון 🤔`);
+      await showErrorFeedback(`נסה שוב! החלק לא במקום הנכון`);
     }
     
     setDraggedPiece(null);
   };
 
   // איפוס משחק
-  const resetGame = () => {
+  const resetGame = async () => {
     if (selectedPuzzle) {
-      startPuzzle(selectedPuzzle);
+      if (speechEnabled) {
+        await speakHebrew('מערבב את החלקים מחדש!');
+      }
+      await startPuzzle(selectedPuzzle);
     }
   };
 
@@ -282,6 +332,11 @@ export default function SimplePuzzleGame() {
             <p className="text-xl text-purple-600">
               בחר פאזל והתחל לשחק!
             </p>
+            {speechEnabled && (
+              <p className="text-sm text-green-600 mt-2">
+                🔊 מצב שמע פעיל - תשמע הודעות קוליות במהלך המשחק
+              </p>
+            )}
           </div>
 
           {/* בחירת פאזלים */}
@@ -339,6 +394,7 @@ export default function SimplePuzzleGame() {
         <div className="text-center">
           <div className="text-6xl mb-4 animate-spin">🧩</div>
           <h2 className="text-2xl font-bold text-purple-800">טוען פאזל...</h2>
+          <p className="text-purple-600 mt-2">מכין את {selectedPuzzle.name}</p>
         </div>
       </div>
     );
@@ -358,33 +414,32 @@ export default function SimplePuzzleGame() {
           </div>
         )}
 
-        {/* Header */}
-        <div className="flex justify-between items-center mb-6">
-          <button
-            onClick={goHome}
-            className="flex items-center gap-2 px-4 py-2 bg-white rounded-full shadow-lg hover:shadow-xl transition-all"
-          >
-            <Home className="w-5 h-5" />
-            בחירת פאזל
-          </button>
-          
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-purple-800">{selectedPuzzle.name}</h2>
-            <div className="flex items-center gap-4 mt-2">
-              <div className="flex items-center gap-1 text-purple-600">
-                <Trophy className="w-4 h-4" />
-                <span>{score}</span>
-              </div>
-            </div>
-          </div>
+        {/* Use project's GameHeader component */}
+        <GameHeader
+          score={score}
+          level={Math.floor(score / 30) + 1}
+          onHome={goHome}
+          onReset={resetGame}
+          scoreColor="text-purple-800"
+          levelColor="text-purple-600"
+        />
 
-          <button
-            onClick={resetGame}
-            className="flex items-center gap-2 px-4 py-2 bg-gray-500 text-white rounded-full hover:bg-gray-600 transition-all"
-          >
-            <RotateCcw className="w-4 h-4" />
-            איפוס
-          </button>
+        {/* מידע על הפאזל הנוכחי */}
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-bold text-purple-800 mb-2">{selectedPuzzle.name}</h2>
+          <div className="flex items-center justify-center gap-4">
+            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
+              selectedPuzzle.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
+              selectedPuzzle.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
+              'bg-red-100 text-red-800'
+            }`}>
+              {selectedPuzzle.difficulty === 'easy' ? 'קל' : 
+               selectedPuzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'}
+            </span>
+            <span className="text-purple-600">
+              {selectedPuzzle.gridSize} חלקים
+            </span>
+          </div>
         </div>
 
         {/* אזור המשחק */}
@@ -459,16 +514,16 @@ export default function SimplePuzzleGame() {
         {/* מסך ניצחון */}
         {isComplete && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl">
+            <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-bounce">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-3xl font-bold text-white mb-4">
                 כל הכבוד!
               </h2>
-              <p className="text-lg text-white mb-4">
-                השלמת את הפאזל!
+              <p className="text-lg text-white mb-2">
+                השלמת את {selectedPuzzle.name}!
               </p>
               <div className="text-2xl font-bold text-white mb-6">
-                ניקוד: {score}
+                ניקוד סופי: {score} 🏆
               </div>
               <div className="flex gap-4 justify-center">
                 <button
