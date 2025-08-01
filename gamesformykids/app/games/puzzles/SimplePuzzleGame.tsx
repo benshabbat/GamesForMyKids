@@ -35,12 +35,19 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     color: "#FF69B4",
     imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-        <rect width="400" height="400" fill="#FFB6C1"/>
-        <circle cx="200" cy="200" r="150" fill="#FF69B4"/>
-        <circle cx="160" cy="150" r="20" fill="black"/>
-        <circle cx="240" cy="150" r="20" fill="black"/>
-        <path d="M 200 180 Q 200 220 180 200 Q 200 220 220 200" fill="black"/>
-        <text x="200" y="320" text-anchor="middle" font-size="60" fill="white">CAT</text>
+        <defs>
+          <linearGradient id="catGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFB6C1;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FF69B4;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#catGrad)"/>
+        <circle cx="200" cy="200" r="150" fill="#FF1493" stroke="#000" stroke-width="3"/>
+        <circle cx="160" cy="170" r="25" fill="black"/>
+        <circle cx="240" cy="170" r="25" fill="black"/>
+        <ellipse cx="200" cy="220" rx="30" ry="20" fill="black"/>
+        <path d="M 200 240 Q 180 260 160 250 M 200 240 Q 220 260 240 250" stroke="black" stroke-width="4" fill="none"/>
+        <text x="200" y="340" text-anchor="middle" font-size="40" font-weight="bold" fill="white" stroke="black" stroke-width="1">חתול</text>
       </svg>
     `),
     gridSize: 4, // 2x2
@@ -53,12 +60,19 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     color: "#4169E1",
     imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-        <rect width="400" height="400" fill="#ADD8E6"/>
-        <ellipse cx="200" cy="220" rx="120" ry="100" fill="#4169E1"/>
-        <circle cx="170" cy="180" r="15" fill="black"/>
-        <circle cx="230" cy="180" r="15" fill="black"/>
-        <ellipse cx="200" cy="220" rx="25" ry="15" fill="black"/>
-        <text x="200" y="340" text-anchor="middle" font-size="60" fill="white">DOG</text>
+        <defs>
+          <linearGradient id="dogGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#ADD8E6;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#4169E1;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#dogGrad)"/>
+        <ellipse cx="200" cy="220" rx="130" ry="110" fill="#1E90FF" stroke="#000" stroke-width="3"/>
+        <circle cx="170" cy="190" r="20" fill="black"/>
+        <circle cx="230" cy="190" r="20" fill="black"/>
+        <ellipse cx="200" cy="230" rx="35" ry="25" fill="black"/>
+        <ellipse cx="200" cy="270" rx="20" ry="15" fill="#FF69B4"/>
+        <text x="200" y="350" text-anchor="middle" font-size="40" font-weight="bold" fill="white" stroke="black" stroke-width="1">כלב</text>
       </svg>
     `),
     gridSize: 4, // 2x2
@@ -71,15 +85,21 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     color: "#FF4500",
     imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-        <rect width="400" height="400" fill="#FFE4B5"/>
-        <ellipse cx="150" cy="150" rx="50" ry="80" fill="#FF4500"/>
-        <ellipse cx="250" cy="150" rx="50" ry="80" fill="#FF6347"/>
-        <ellipse cx="150" cy="250" rx="40" ry="60" fill="#FF4500"/>
-        <ellipse cx="250" cy="250" rx="40" ry="60" fill="#FF6347"/>
-        <line x1="200" y1="100" x2="200" y2="300" stroke="black" stroke-width="4"/>
-        <circle cx="200" cy="120" r="8" fill="black"/>
-        <circle cx="200" cy="140" r="8" fill="black"/>
-        <text x="200" y="370" text-anchor="middle" font-size="40" fill="darkorange">BUTTERFLY</text>
+        <defs>
+          <radialGradient id="butterflyGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#FFE4B5;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FF4500;stop-opacity:1" />
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#butterflyGrad)"/>
+        <ellipse cx="150" cy="150" rx="60" ry="90" fill="#FF6347" stroke="#000" stroke-width="2"/>
+        <ellipse cx="250" cy="150" rx="60" ry="90" fill="#FF4500" stroke="#000" stroke-width="2"/>
+        <ellipse cx="150" cy="250" rx="50" ry="70" fill="#FF6347" stroke="#000" stroke-width="2"/>
+        <ellipse cx="250" cy="250" rx="50" ry="70" fill="#FF4500" stroke="#000" stroke-width="2"/>
+        <line x1="200" y1="80" x2="200" y2="320" stroke="black" stroke-width="8"/>
+        <circle cx="200" cy="100" r="12" fill="black"/>
+        <circle cx="200" cy="130" r="10" fill="black"/>
+        <text x="200" y="370" text-anchor="middle" font-size="30" font-weight="bold" fill="darkorange" stroke="black" stroke-width="1">פרפר</text>
       </svg>
     `),
     gridSize: 9, // 3x3
@@ -92,21 +112,135 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
     color: "#9932CC",
     imageUrl: "data:image/svg+xml," + encodeURIComponent(`
       <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
-        <rect width="400" height="400" fill="#E6E6FA"/>
-        <circle cx="200" cy="200" r="30" fill="#FFD700"/>
-        <ellipse cx="200" cy="140" rx="25" ry="50" fill="#9932CC"/>
-        <ellipse cx="260" cy="200" rx="50" ry="25" fill="#DA70D6"/>
-        <ellipse cx="200" cy="260" rx="25" ry="50" fill="#9932CC"/>
-        <ellipse cx="140" cy="200" rx="50" ry="25" fill="#DA70D6"/>
-        <ellipse cx="235" cy="165" rx="35" ry="35" fill="#BA55D3" transform="rotate(45 235 165)"/>
-        <ellipse cx="165" cy="165" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 165 165)"/>
-        <ellipse cx="235" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(-45 235 235)"/>
-        <ellipse cx="165" cy="235" rx="35" ry="35" fill="#BA55D3" transform="rotate(45 165 235)"/>
-        <text x="200" y="370" text-anchor="middle" font-size="40" fill="purple">FLOWER</text>
+        <defs>
+          <radialGradient id="flowerGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#E6E6FA;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#9932CC;stop-opacity:1" />
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#flowerGrad)"/>
+        <circle cx="200" cy="200" r="40" fill="#FFD700" stroke="#000" stroke-width="3"/>
+        <ellipse cx="200" cy="130" rx="35" ry="60" fill="#9932CC" stroke="#000" stroke-width="2"/>
+        <ellipse cx="270" cy="200" rx="60" ry="35" fill="#DA70D6" stroke="#000" stroke-width="2"/>
+        <ellipse cx="200" cy="270" rx="35" ry="60" fill="#9932CC" stroke="#000" stroke-width="2"/>
+        <ellipse cx="130" cy="200" rx="60" ry="35" fill="#DA70D6" stroke="#000" stroke-width="2"/>
+        <ellipse cx="245" cy="155" rx="40" ry="40" fill="#BA55D3" stroke="#000" stroke-width="2" transform="rotate(45 245 155)"/>
+        <ellipse cx="155" cy="155" rx="40" ry="40" fill="#BA55D3" stroke="#000" stroke-width="2" transform="rotate(-45 155 155)"/>
+        <ellipse cx="245" cy="245" rx="40" ry="40" fill="#BA55D3" stroke="#000" stroke-width="2" transform="rotate(-45 245 245)"/>
+        <ellipse cx="155" cy="245" rx="40" ry="40" fill="#BA55D3" stroke="#000" stroke-width="2" transform="rotate(45 155 245)"/>
+        <text x="200" y="370" text-anchor="middle" font-size="30" font-weight="bold" fill="purple" stroke="white" stroke-width="1">פרח</text>
       </svg>
     `),
     gridSize: 9, // 3x3
     difficulty: "medium"
+  },
+  {
+    id: 5,
+    name: "פאזל דג צבעוני",
+    emoji: "🐠",
+    color: "#00CED1",
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="fishGrad" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" style="stop-color:#E0FFFF;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#00CED1;stop-opacity:1" />
+          </radialGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#fishGrad)"/>
+        <ellipse cx="200" cy="200" rx="120" ry="80" fill="#20B2AA" stroke="#000" stroke-width="3"/>
+        <path d="M 80 200 L 140 150 L 140 250 Z" fill="#FF6347" stroke="#000" stroke-width="2"/>
+        <circle cx="240" cy="180" r="15" fill="black"/>
+        <path d="M 280 170 Q 350 150 380 180 Q 350 210 320 190 Q 300 200 280 190 Z" fill="#FF4500" stroke="#000" stroke-width="2"/>
+        <text x="200" y="350" text-anchor="middle" font-size="30" font-weight="bold" fill="darkblue" stroke="white" stroke-width="1">דג</text>
+      </svg>
+    `),
+    gridSize: 4, // 2x2
+    difficulty: "easy"
+  },
+  {
+    id: 6,
+    name: "פאזל בית צבעוני",
+    emoji: "🏠",
+    color: "#8B4513",
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="houseGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#87CEEB;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#98FB98;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#houseGrad)"/>
+        <path d="M 100 200 L 200 100 L 300 200 L 300 350 L 100 350 Z" fill="#8B4513" stroke="#000" stroke-width="3"/>
+        <path d="M 80 200 L 200 80 L 320 200 L 300 200 L 200 100 L 100 200 Z" fill="#DC143C" stroke="#000" stroke-width="3"/>
+        <rect x="140" y="250" width="50" height="100" fill="#8B4513" stroke="#000" stroke-width="2"/>
+        <circle cx="165" cy="290" r="5" fill="#FFD700"/>
+        <rect x="220" y="180" width="60" height="60" fill="#87CEEB" stroke="#000" stroke-width="2"/>
+        <line x1="220" y1="210" x2="280" y2="210" stroke="#000" stroke-width="2"/>
+        <line x1="250" y1="180" x2="250" y2="240" stroke="#000" stroke-width="2"/>
+        <text x="200" y="380" text-anchor="middle" font-size="30" font-weight="bold" fill="darkred" stroke="white" stroke-width="1">בית</text>
+      </svg>
+    `),
+    gridSize: 9, // 3x3
+    difficulty: "medium"
+  },
+  {
+    id: 7,
+    name: "פאזל רכב מרוצים",
+    emoji: "🏎️",
+    color: "#FF0000",
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="carGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#F0F8FF;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#87CEEB;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#carGrad)"/>
+        <rect x="100" y="180" width="200" height="80" fill="#FF0000" stroke="#000" stroke-width="3" rx="10"/>
+        <rect x="120" y="150" width="160" height="30" fill="#87CEEB" stroke="#000" stroke-width="2" rx="15"/>
+        <circle cx="140" cy="280" r="25" fill="#333" stroke="#000" stroke-width="3"/>
+        <circle cx="260" cy="280" r="25" fill="#333" stroke="#000" stroke-width="3"/>
+        <circle cx="140" cy="280" r="15" fill="#666"/>
+        <circle cx="260" cy="280" r="15" fill="#666"/>
+        <rect x="320" y="200" width="60" height="40" fill="#FFD700" stroke="#000" stroke-width="2"/>
+        <text x="200" y="350" text-anchor="middle" font-size="30" font-weight="bold" fill="darkred" stroke="white" stroke-width="1">מכונית</text>
+      </svg>
+    `),
+    gridSize: 9, // 3x3
+    difficulty: "medium"
+  },
+  {
+    id: 8,
+    name: "פאזל עוגה יומולדת",
+    emoji: "🎂",
+    color: "#FFB6C1",
+    imageUrl: "data:image/svg+xml," + encodeURIComponent(`
+      <svg width="400" height="400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="cakeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" style="stop-color:#FFF8DC;stop-opacity:1" />
+            <stop offset="100%" style="stop-color:#FFB6C1;stop-opacity:1" />
+          </linearGradient>
+        </defs>
+        <rect width="400" height="400" fill="url(#cakeGrad)"/>
+        <ellipse cx="200" cy="320" rx="120" ry="20" fill="#8B4513"/>
+        <rect x="80" y="220" width="240" height="100" fill="#FFB6C1" stroke="#000" stroke-width="2"/>
+        <rect x="100" y="180" width="200" height="40" fill="#FF69B4" stroke="#000" stroke-width="2"/>
+        <rect x="120" y="140" width="160" height="40" fill="#FFB6C1" stroke="#000" stroke-width="2"/>
+        <line x1="160" y1="80" x2="160" y2="140" stroke="#FFD700" stroke-width="3"/>
+        <line x1="200" y1="70" x2="200" y2="140" stroke="#FFD700" stroke-width="3"/>
+        <line x1="240" y1="80" x2="240" y2="140" stroke="#FFD700" stroke-width="3"/>
+        <ellipse cx="160" cy="80" rx="8" ry="15" fill="#FF4500"/>
+        <ellipse cx="200" cy="70" rx="8" ry="15" fill="#FF4500"/>
+        <ellipse cx="240" cy="80" rx="8" ry="15" fill="#FF4500"/>
+        <text x="200" y="380" text-anchor="middle" font-size="30" font-weight="bold" fill="purple" stroke="white" stroke-width="1">עוגה</text>
+      </svg>
+    `),
+    gridSize: 4, // 2x2
+    difficulty: "easy"
   }
 ];
 
@@ -146,75 +280,92 @@ export default function SimplePuzzleGame() {
     const pieceSize = size / gridSide;
     const pieces: PuzzlePiece[] = [];
 
-    // Draw the image on canvas first
-    const imgAspectRatio = img.width / img.height;
-    let drawWidth = size;
-    let drawHeight = size;
-    let offsetX = 0;
-    let offsetY = 0;
+    try {
+      // Clear canvas
+      ctx.clearRect(0, 0, size, size);
+      
+      // Draw background
+      ctx.fillStyle = '#f0f0f0';
+      ctx.fillRect(0, 0, size, size);
 
-    if (imgAspectRatio > 1) {
-      drawHeight = size / imgAspectRatio;
-      offsetY = (size - drawHeight) / 2;
-    } else {
-      drawWidth = size * imgAspectRatio;
-      offsetX = (size - drawWidth) / 2;
-    }
+      // Draw the image on canvas first
+      const imgAspectRatio = img.width / img.height;
+      let drawWidth = size;
+      let drawHeight = size;
+      let offsetX = 0;
+      let offsetY = 0;
 
-    ctx.fillStyle = '#f0f0f0';
-    ctx.fillRect(0, 0, size, size);
-    ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-
-    for (let row = 0; row < gridSide; row++) {
-      for (let col = 0; col < gridSide; col++) {
-        const pieceCanvas = document.createElement('canvas');
-        pieceCanvas.width = pieceSize + 4;
-        pieceCanvas.height = pieceSize + 4;
-        const pieceCtx = pieceCanvas.getContext('2d');
-        
-        if (!pieceCtx) continue;
-
-        pieceCtx.imageSmoothingEnabled = true;
-        pieceCtx.imageSmoothingQuality = 'high';
-
-        // Background
-        pieceCtx.fillStyle = '#f8f8f8';
-        pieceCtx.fillRect(0, 0, pieceCanvas.width, pieceCanvas.height);
-
-        // Draw piece from main canvas
-        const srcX = (col * size) / gridSide;
-        const srcY = (row * size) / gridSide;
-        const srcWidth = size / gridSide;
-        const srcHeight = size / gridSide;
-
-        pieceCtx.drawImage(
-          canvas,
-          srcX, srcY, srcWidth, srcHeight,
-          2, 2, pieceSize, pieceSize
-        );
-
-        // Border
-        pieceCtx.strokeStyle = '#ddd';
-        pieceCtx.lineWidth = 2;
-        pieceCtx.strokeRect(1, 1, pieceSize + 2, pieceSize + 2);
-
-        const position = row * gridSide + col;
-        pieces.push({
-          id: position,
-          canvas: pieceCanvas,
-          position: position,
-          row,
-          col,
-          correctPosition: position
-        });
+      if (imgAspectRatio > 1) {
+        drawHeight = size / imgAspectRatio;
+        offsetY = (size - drawHeight) / 2;
+      } else if (imgAspectRatio < 1) {
+        drawWidth = size * imgAspectRatio;
+        offsetX = (size - drawWidth) / 2;
       }
-    }
 
-    return pieces.sort(() => Math.random() - 0.5);
+      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+      for (let row = 0; row < gridSide; row++) {
+        for (let col = 0; col < gridSide; col++) {
+          const pieceCanvas = document.createElement('canvas');
+          const finalPieceSize = Math.floor(pieceSize) + 4;
+          pieceCanvas.width = finalPieceSize;
+          pieceCanvas.height = finalPieceSize;
+          const pieceCtx = pieceCanvas.getContext('2d');
+          
+          if (!pieceCtx) continue;
+
+          pieceCtx.imageSmoothingEnabled = true;
+          pieceCtx.imageSmoothingQuality = 'high';
+
+          // Background
+          pieceCtx.fillStyle = '#ffffff';
+          pieceCtx.fillRect(0, 0, finalPieceSize, finalPieceSize);
+
+          // Draw piece from main canvas
+          const srcX = col * pieceSize;
+          const srcY = row * pieceSize;
+          const srcWidth = pieceSize;
+          const srcHeight = pieceSize;
+
+          pieceCtx.drawImage(
+            canvas,
+            srcX, srcY, srcWidth, srcHeight,
+            2, 2, finalPieceSize - 4, finalPieceSize - 4
+          );
+
+          // Add nice border with shadow effect
+          pieceCtx.strokeStyle = '#ddd';
+          pieceCtx.lineWidth = 2;
+          pieceCtx.strokeRect(1, 1, finalPieceSize - 2, finalPieceSize - 2);
+          
+          // Add inner highlight
+          pieceCtx.strokeStyle = '#fff';
+          pieceCtx.lineWidth = 1;
+          pieceCtx.strokeRect(2, 2, finalPieceSize - 4, finalPieceSize - 4);
+
+          const position = row * gridSide + col;
+          pieces.push({
+            id: position,
+            canvas: pieceCanvas,
+            position: position,
+            row,
+            col,
+            correctPosition: position
+          });
+        }
+      }
+
+      console.log(`Successfully created ${pieces.length} puzzle pieces for ${puzzle.name}`);
+      return pieces.sort(() => Math.random() - 0.5);
+    } catch (error) {
+      console.error('Error in createPuzzlePieces:', error);
+      return [];
+    }
   }, []);
 
   // Success and error feedback functions
-  const showSuccessFeedback = async (message: string) => {
+  const showSuccessFeedback = useCallback(async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('success');
     
@@ -230,9 +381,9 @@ export default function SimplePuzzleGame() {
       setFeedbackMessage('');
       setFeedbackType('');
     }, 2000);
-  };
+  }, [audioContext, speechEnabled]);
 
-  const showErrorFeedback = async (message: string) => {
+  const showErrorFeedback = useCallback(async (message: string) => {
     setFeedbackMessage(message);
     setFeedbackType('error');
     
@@ -245,7 +396,7 @@ export default function SimplePuzzleGame() {
       setFeedbackMessage('');
       setFeedbackType('');
     }, 1500);
-  };
+  }, [speechEnabled]);
 
   // התחלת פאזל חדש
   const startPuzzle = useCallback(async (puzzle: SimplePuzzle) => {
@@ -337,23 +488,30 @@ export default function SimplePuzzleGame() {
     
     console.log('Loading image from:', puzzle.imageUrl);
     img.src = puzzle.imageUrl;
-  }, [createPuzzlePieces, speechEnabled, audioContext]);
+  }, [createPuzzlePieces, speechEnabled, showErrorFeedback]);
 
   // טיפול בגרירת חלקים
-  const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
+  const handleDragStart = useCallback((e: React.DragEvent, piece: PuzzlePiece) => {
     setDraggedPiece(piece);
     e.dataTransfer.effectAllowed = 'move';
-  };
+    e.dataTransfer.setData('text/plain', piece.id.toString());
+    
+    // Add visual feedback
+    const dragImage = piece.canvas;
+    e.dataTransfer.setDragImage(dragImage, dragImage.width / 2, dragImage.height / 2);
+  }, []);
 
-  const handleDragOver = (e: React.DragEvent) => {
+  const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-  };
+  }, []);
 
-  const handleDrop = async (e: React.DragEvent, targetIndex: number) => {
+  const handleDrop = useCallback(async (e: React.DragEvent, targetIndex: number) => {
     e.preventDefault();
     
     if (!draggedPiece || !selectedPuzzle) return;
+
+    console.log(`Attempting to drop piece ${draggedPiece.id} at position ${targetIndex}, correct position is ${draggedPiece.correctPosition}`);
 
     // בדיקה אם המקום כבר תפוס
     if (solution[targetIndex] !== null) {
@@ -372,13 +530,15 @@ export default function SimplePuzzleGame() {
       // הסרת החלק מהרשימה
       setPieces(prev => prev.filter(p => p.id !== draggedPiece.id));
       
-      setScore(prev => prev + 10);
-      await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון!`);
+      const newScore = score + 10;
+      setScore(newScore);
+      await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון! 🎉`);
       
       // בדיקה אם הפאזל הושלם
-      if (newSolution.filter(Boolean).length === selectedPuzzle.gridSize) {
+      const completedPieces = newSolution.filter(Boolean).length;
+      if (completedPieces === selectedPuzzle.gridSize) {
         setIsComplete(true);
-        const finalScore = score + 60; // +10 for this piece + 50 bonus
+        const finalScore = newScore + 50; // בונוס השלמה
         setScore(finalScore);
         
         // Completion celebration
@@ -386,33 +546,33 @@ export default function SimplePuzzleGame() {
         if (speechEnabled) {
           await speakHebrew(`מזל טוב! השלמת את ${selectedPuzzle.name}! הניקוד הסופי שלך הוא ${finalScore} נקודות!`);
         }
-        await showSuccessFeedback(`הפאזל הושלם! מדהים!`);
+        await showSuccessFeedback(`🎊 הפאזל הושלם! מדהים! 🎊`);
       }
     } else {
       // מיקום שגוי
-      await showErrorFeedback(`נסה שוב! החלק לא במקום הנכון`);
+      await showErrorFeedback(`נסה שוב! זה לא המקום הנכון לחלק הזה 🤔`);
     }
     
     setDraggedPiece(null);
-  };
+  }, [draggedPiece, selectedPuzzle, solution, score, showErrorFeedback, showSuccessFeedback, audioContext, speechEnabled]);
 
   // איפוס משחק
-  const resetGame = async () => {
+  const resetGame = useCallback(async () => {
     if (selectedPuzzle) {
       if (speechEnabled) {
         await speakHebrew('מערבב את החלקים מחדש!');
       }
       await startPuzzle(selectedPuzzle);
     }
-  };
+  }, [selectedPuzzle, speechEnabled, startPuzzle]);
 
-  const goHome = () => {
+  const goHome = useCallback(() => {
     setSelectedPuzzle(null);
     setPieces([]);
     setSolution([]);
     setScore(0);
     setIsComplete(false);
-  };
+  }, []);
 
   if (!selectedPuzzle) {
     return (
@@ -544,7 +704,7 @@ export default function SimplePuzzleGame() {
               🎯 לוח הפאזל
             </h3>
             <div 
-              className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg"
+              className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg shadow-inner"
               style={{ 
                 gridTemplateColumns: `repeat(${gridSide}, 1fr)`,
                 maxWidth: '400px'
@@ -555,17 +715,34 @@ export default function SimplePuzzleGame() {
                   key={index}
                   onDragOver={handleDragOver}
                   onDrop={(e) => handleDrop(e, index)}
-                  className="aspect-square border-2 border-gray-300 rounded-lg bg-gray-100 hover:bg-gray-50 transition-colors flex items-center justify-center overflow-hidden"
+                  className={`aspect-square border-2 rounded-lg transition-all duration-300 flex items-center justify-center overflow-hidden relative ${
+                    piece 
+                      ? 'border-green-400 bg-green-50 shadow-md' 
+                      : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-400'
+                  }`}
+                  title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
                 >
                   {piece && (
-                    <Image
-                      src={piece.canvas.toDataURL()}
-                      alt={`פאזל ${piece.id}`}
-                      width={100}
-                      height={100}
-                      className="w-full h-full object-cover rounded-lg"
-                      unoptimized
-                    />
+                    <>
+                      <Image
+                        src={piece.canvas.toDataURL()}
+                        alt={`פאזל ${piece.id}`}
+                        width={100}
+                        height={100}
+                        className="w-full h-full object-cover rounded-lg"
+                        unoptimized
+                      />
+                      <div className="absolute top-1 right-1 bg-green-500 rounded-full p-1">
+                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                      </div>
+                    </>
+                  )}
+                  {!piece && (
+                    <div className="text-gray-400 text-2xl font-bold">
+                      {index + 1}
+                    </div>
                   )}
                 </div>
               ))}
@@ -577,20 +754,31 @@ export default function SimplePuzzleGame() {
             <h3 className="text-xl font-bold text-center mb-4 text-gray-800">
               🧩 חלקי הפאזל ({pieces.length} נותרו)
             </h3>
+            
+            {/* טיפים */}
+            {pieces.length > 0 && (
+              <div className="bg-blue-50 rounded-lg p-3 mb-4 text-center">
+                <p className="text-sm text-blue-800 font-medium">
+                  💡 טיפ: גררו כל חלק למקום הנכון שלו בלוח הפאזל
+                </p>
+              </div>
+            )}
+            
             <div className="grid grid-cols-3 gap-4 min-h-[300px]">
               {pieces.map((piece) => (
                 <div
                   key={piece.id}
                   draggable
                   onDragStart={(e) => handleDragStart(e, piece)}
-                  className="aspect-square cursor-move hover:scale-110 transition-transform border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 flex items-center justify-center bg-white shadow-sm hover:shadow-md overflow-hidden"
+                  className="aspect-square cursor-move hover:scale-110 transition-transform border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 flex items-center justify-center bg-white shadow-sm hover:shadow-md overflow-hidden group"
+                  title={`חלק ${piece.id + 1} - גררו אותי למקום הנכון!`}
                 >
                   <Image
                     src={piece.canvas.toDataURL()}
                     alt={`חלק פאזל ${piece.id}`}
                     width={80}
                     height={80}
-                    className="w-full h-full object-cover rounded-lg"
+                    className="w-full h-full object-cover rounded-lg group-hover:brightness-110"
                     unoptimized
                   />
                 </div>
@@ -598,8 +786,8 @@ export default function SimplePuzzleGame() {
             </div>
             {pieces.length === 0 && (
               <div className="text-center text-gray-500 py-8">
-                <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500" />
-                <p>כל החתיכות במקום!</p>
+                <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500 animate-bounce" />
+                <p className="text-lg font-bold text-green-600">כל החתיכות במקום! 🎉</p>
               </div>
             )}
           </div>
@@ -608,29 +796,40 @@ export default function SimplePuzzleGame() {
         {/* מסך ניצחון */}
         {isComplete && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-bounce">
-              <div className="text-6xl mb-4">🎉</div>
-              <h2 className="text-3xl font-bold text-white mb-4">
+            <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-pulse">
+              <div className="text-8xl mb-4 animate-bounce">🎉</div>
+              <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
                 כל הכבוד!
               </h2>
-              <p className="text-lg text-white mb-2">
+              <p className="text-xl text-white mb-2 drop-shadow">
                 השלמת את {selectedPuzzle.name}!
               </p>
-              <div className="text-2xl font-bold text-white mb-6">
+              <div className="text-3xl font-bold text-white mb-6 drop-shadow-lg">
                 ניקוד סופי: {score} 🏆
+              </div>
+              <div className="bg-white/20 rounded-2xl p-4 mb-6">
+                <div className="text-white text-lg">
+                  רמת קושי: <span className="font-bold">
+                    {selectedPuzzle.difficulty === 'easy' ? 'קל 😊' : 
+                     selectedPuzzle.difficulty === 'medium' ? 'בינוני 🤔' : 'קשה 😤'}
+                  </span>
+                </div>
+                <div className="text-white text-lg">
+                  חלקים: <span className="font-bold">{selectedPuzzle.gridSize}</span>
+                </div>
               </div>
               <div className="flex gap-4 justify-center">
                 <button
                   onClick={resetGame}
-                  className="px-6 py-3 bg-white text-orange-600 rounded-full hover:bg-gray-100 font-bold transition-all"
+                  className="px-6 py-3 bg-white text-orange-600 rounded-full hover:bg-gray-100 font-bold transition-all transform hover:scale-105 shadow-lg"
                 >
-                  שוב
+                  🔄 שוב
                 </button>
                 <button
                   onClick={goHome}
-                  className="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 font-bold transition-all"
+                  className="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 font-bold transition-all transform hover:scale-105 shadow-lg"
                 >
-                  פאזל אחר
+                  🧩 פאזל אחר
                 </button>
               </div>
             </div>
