@@ -199,7 +199,7 @@ export function useMemoryGame() {
         speakCongrats();
         
         const newStreak = gameStats.streak + 1;
-        const timeBonus = Math.max(0, timeLeft - 30); // בונוס זמן
+        const timeBonus = Math.max(0, Math.floor(timeLeft / 10)); // בונוס זמן מופחת לנוסחה פשוטה יותר
         const matchScore = calculateScore(isPerfectMatch, newStreak, timeBonus);
         
         setCards((prev) =>
@@ -236,17 +236,24 @@ export function useMemoryGame() {
   useEffect(() => {
     if (isGameWon && isGameStarted) {
       setIsGamePaused(true);
-      // בונוס השלמה מוכפל לפי רמת הקושי
+      // בונוס השלמה + בונוס זמן שנותר
       const completionBonus = MEMORY_GAME_CONSTANTS.SCORING.MIN_MOVES_BONUS * 
                             MEMORY_GAME_CONSTANTS.SCORING.DIFFICULTY_MULTIPLIER[difficulty];
-      setGameStats(prev => ({ ...prev, score: prev.score + completionBonus }));
+      const timeBonus = Math.floor(timeLeft * MEMORY_GAME_CONSTANTS.SCORING.TIME_BONUS_MULTIPLIER);
+      const totalBonus = completionBonus + timeBonus;
+      
+      setGameStats(prev => ({ 
+        ...prev, 
+        score: prev.score + totalBonus 
+      }));
+      
       setTimeout(() => {
         const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[difficulty];
-        const finalScore = gameStats.score + completionBonus;
-        speakHebrew(`מעולה! סיימתם ברמת ${config.name} עם ${finalScore} נקודות!`);
+        const finalScore = gameStats.score + totalBonus;
+        speakHebrew(`מעולה! סיימתם ברמת ${config.name} עם ${finalScore} נקודות בזמן ${Math.floor(timeLeft / 60)}:${(timeLeft % 60).toString().padStart(2, '0')}!`);
       }, 500);
     }
-  }, [isGameWon, isGameStarted, difficulty, gameStats.score]);
+  }, [isGameWon, isGameStarted, difficulty, gameStats.score, timeLeft]);
 
   const pauseGame = () => setIsGamePaused(!isGamePaused);
   

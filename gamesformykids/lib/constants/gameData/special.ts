@@ -39,8 +39,8 @@ export const MEMORY_GAME_CONSTANTS = {
   // רמות קושי
   DIFFICULTY_LEVELS: {
     EASY: { pairs: 6, name: 'קל', emoji: '😊', timeLimit: 180 },
-    MEDIUM: { pairs: 9, name: 'בינוני', emoji: '🤔', timeLimit: 120 },
-    HARD: { pairs: 12, name: 'קשה', emoji: '🧐', timeLimit: 90 }
+    MEDIUM: { pairs: 9, name: 'בינוני', emoji: '🤔', timeLimit: 180 },
+    HARD: { pairs: 12, name: 'קשה', emoji: '🧐', timeLimit: 180 }
   },
   // מערכת ניקוד
   SCORING: {
