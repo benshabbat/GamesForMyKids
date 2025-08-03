@@ -7,6 +7,7 @@ import { ALL_TRANSPORTS, TRANSPORT_HEBREW_PRONUNCIATIONS, TRANSPORT_GAME_CONSTAN
  */
 export function useTransportGameDry() {
   return useSimpleGame({
+    gameType: 'transport',
     items: ALL_TRANSPORTS,
     pronunciations: TRANSPORT_HEBREW_PRONUNCIATIONS,
     gameConstants: TRANSPORT_GAME_CONSTANTS,

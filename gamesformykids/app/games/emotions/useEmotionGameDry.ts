@@ -7,6 +7,7 @@ import { ALL_EMOTIONS, EMOTION_HEBREW_PRONUNCIATIONS, EMOTION_GAME_CONSTANTS } f
  */
 export function useEmotionGameDry() {
   return useSimpleGame({
+    gameType: 'emotions',
     items: ALL_EMOTIONS,
     pronunciations: EMOTION_HEBREW_PRONUNCIATIONS,
     gameConstants: EMOTION_GAME_CONSTANTS,

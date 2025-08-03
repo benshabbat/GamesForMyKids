@@ -7,6 +7,7 @@ import { ALL_HOUSE_ITEMS, HOUSE_HEBREW_PRONUNCIATIONS, HOUSE_GAME_CONSTANTS } fr
  */
 export function useHouseGameDry() {
   return useSimpleGame({
+    gameType: 'house',
     items: ALL_HOUSE_ITEMS,
     pronunciations: HOUSE_HEBREW_PRONUNCIATIONS,
     gameConstants: HOUSE_GAME_CONSTANTS,

@@ -7,6 +7,7 @@ import { ALL_LETTERS, LETTER_HEBREW_PRONUNCIATIONS, LETTER_GAME_CONSTANTS } from
  */
 export function useLetterGameDry() {
   return useSimpleGame({
+    gameType: 'letters',
     items: ALL_LETTERS,
     pronunciations: LETTER_HEBREW_PRONUNCIATIONS,
     gameConstants: LETTER_GAME_CONSTANTS,

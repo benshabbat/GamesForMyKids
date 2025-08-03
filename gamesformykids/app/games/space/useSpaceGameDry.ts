@@ -7,6 +7,7 @@ import { ALL_SPACE_OBJECTS, SPACE_HEBREW_PRONUNCIATIONS, SPACE_GAME_CONSTANTS } 
  */
 export function useSpaceGameDry() {
   return useSimpleGame({
+    gameType: 'space',
     items: ALL_SPACE_OBJECTS,
     pronunciations: SPACE_HEBREW_PRONUNCIATIONS,
     gameConstants: SPACE_GAME_CONSTANTS,

@@ -7,6 +7,7 @@ import { ALL_SHAPES, SHAPE_HEBREW_PRONUNCIATIONS, SHAPE_GAME_CONSTANTS } from "@
  */
 export function useShapeGameDry() {
   return useSimpleGame({
+    gameType: 'shapes',
     items: ALL_SHAPES,
     pronunciations: SHAPE_HEBREW_PRONUNCIATIONS,
     gameConstants: SHAPE_GAME_CONSTANTS,

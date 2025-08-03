@@ -7,6 +7,7 @@ import { ALL_SMELLS_TASTES, SMELL_TASTE_HEBREW_PRONUNCIATIONS, SMELL_TASTE_GAME_
  */
 export function useSmellTasteGameDry() {
   return useSimpleGame({
+    gameType: 'smells-tastes',
     items: ALL_SMELLS_TASTES,
     pronunciations: SMELL_TASTE_HEBREW_PRONUNCIATIONS,
     gameConstants: SMELL_TASTE_GAME_CONSTANTS,

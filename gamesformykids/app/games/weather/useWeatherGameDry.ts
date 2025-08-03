@@ -7,6 +7,7 @@ import { ALL_WEATHERS, WEATHER_HEBREW_PRONUNCIATIONS, WEATHER_GAME_CONSTANTS } f
  */
 export function useWeatherGameDry() {
   return useSimpleGame({
+    gameType: 'weather',
     items: ALL_WEATHERS,
     pronunciations: WEATHER_HEBREW_PRONUNCIATIONS,
     gameConstants: WEATHER_GAME_CONSTANTS,

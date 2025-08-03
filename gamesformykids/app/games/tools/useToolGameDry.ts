@@ -7,6 +7,7 @@ import { ALL_TOOLS, TOOL_HEBREW_PRONUNCIATIONS, TOOL_GAME_CONSTANTS } from "@/li
  */
 export function useToolGameDry() {
   return useSimpleGame({
+    gameType: 'tools',
     items: ALL_TOOLS,
     pronunciations: TOOL_HEBREW_PRONUNCIATIONS,
     gameConstants: TOOL_GAME_CONSTANTS,

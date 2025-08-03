@@ -7,6 +7,7 @@ import { ALL_PROFESSIONS, PROFESSION_HEBREW_PRONUNCIATIONS, PROFESSION_GAME_CONS
  */
 export function useProfessionGameDry() {
   return useSimpleGame({
+    gameType: 'professions',
     items: ALL_PROFESSIONS,
     pronunciations: PROFESSION_HEBREW_PRONUNCIATIONS,
     gameConstants: PROFESSION_GAME_CONSTANTS,

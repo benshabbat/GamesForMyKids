@@ -7,6 +7,7 @@ import { ALL_NUMBERS, NUMBER_HEBREW_PRONUNCIATIONS, NUMBER_GAME_CONSTANTS } from
  */
 export function useNumberGameDry() {
   return useSimpleGame({
+    gameType: 'numbers',
     items: ALL_NUMBERS,
     pronunciations: NUMBER_HEBREW_PRONUNCIATIONS,
     gameConstants: NUMBER_GAME_CONSTANTS,
