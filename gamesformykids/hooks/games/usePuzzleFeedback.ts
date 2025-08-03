@@ -33,10 +33,13 @@ export const usePuzzleFeedback = (): FeedbackHook => {
     }
     
     // Clear feedback after duration
+    const SUCCESS_FEEDBACK_DURATION_MS = 2000;
+    const ERROR_FEEDBACK_DURATION_MS = 1500;
+    
     setTimeout(() => {
       setFeedbackMessage('');
       setFeedbackType('');
-    }, type === 'success' ? 2000 : 1500);
+    }, type === 'success' ? SUCCESS_FEEDBACK_DURATION_MS : ERROR_FEEDBACK_DURATION_MS);
   }, [audioContext]);
 
   const speak = useCallback(async (message: string) => {

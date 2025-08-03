@@ -184,11 +184,20 @@ export function useBubbleGame() {
 
   // עדכון מרווח יצירת בועות לפי הרמה
   useEffect(() => {
+    const INITIAL_BUBBLE_CREATION_INTERVAL_MS = 2000;
+    const LEVEL_SPEED_INCREASE_MS = 100;
+    const MIN_BUBBLE_CREATION_INTERVAL_MS = 800;
+    
     if (gameState.isPlaying && bubbleCreationInterval.current) {
       clearInterval(bubbleCreationInterval.current);
+      const intervalMs = Math.max(
+        MIN_BUBBLE_CREATION_INTERVAL_MS, 
+        INITIAL_BUBBLE_CREATION_INTERVAL_MS - gameState.level * LEVEL_SPEED_INCREASE_MS
+      );
+      
       bubbleCreationInterval.current = setInterval(() => {
         createBubble();
-      }, Math.max(800, 2000 - gameState.level * 100));
+      }, intervalMs);
     }
   }, [gameState.level, gameState.isPlaying, createBubble]);
 
