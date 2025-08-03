@@ -101,6 +101,7 @@ export const getGameConfig = (gameType: GameType): GameConfig => {
     vehicles: DEFAULT_CONFIG,
     emotions: DEFAULT_CONFIG,
     bubbles: DEFAULT_CONFIG,
+    puzzles: DEFAULT_CONFIG,
   };
 
   return configs[gameType] || DEFAULT_CONFIG;

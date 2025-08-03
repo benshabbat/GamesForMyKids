@@ -57,4 +57,5 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   counting: ALL_NUMBERS, // ✅ עודכן!
   math: ALL_NUMBERS, // ✅ עודכן!
   bubbles: ALL_COLORS, // ✅ עודכן!
+  puzzles: ALL_SHAPES, // ✅ עודכן! (זמני - צריך נתוני פאזלים ייעודיים)
 } as const;
