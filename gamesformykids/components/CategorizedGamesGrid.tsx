@@ -17,11 +17,11 @@ const GAME_CATEGORIES = {
   },
   creative: {
     title: "יצירתיות ואומנות",
-    description: "מוזיקה וכלי נגינה",
+    description: "מוזיקה, כלי נגינה ופאזלים",
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments"]
+    gameIds: ["instruments", "puzzles"]
   },
   nature: {
     title: "טבע ואוכל",
