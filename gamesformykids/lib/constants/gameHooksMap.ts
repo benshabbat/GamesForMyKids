@@ -32,6 +32,7 @@ const useMemoryGame = () => useGenericGame(GAME_ITEMS_MAP.memory, 'memory');
 const useCountingGame = () => useGenericGame(GAME_ITEMS_MAP.counting, 'counting');
 const useMathGame = () => useGenericGame(GAME_ITEMS_MAP.math, 'math');
 const useBubblesGame = () => useGenericGame(GAME_ITEMS_MAP.bubbles, 'bubbles');
+const usePuzzlesGame = () => useGenericGame(GAME_ITEMS_MAP.puzzles, 'puzzles');
 
 /**
  * 🎯 מפה מרכזית של כל ה-Hooks
@@ -61,6 +62,7 @@ export const GAME_HOOKS_MAP = {
   counting: useCountingGame,
   math: useMathGame,
   bubbles: useBubblesGame,
+  puzzles: usePuzzlesGame,
 } as const satisfies Record<GameType, () => {
   gameState: BaseGameState<BaseGameItem>;
   speakItemName: (itemName: string) => Promise<void>;
