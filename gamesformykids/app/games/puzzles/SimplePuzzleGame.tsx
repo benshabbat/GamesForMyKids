@@ -1,20 +1,21 @@
-"use client";
+'use client';
 
-import React, { useState, useCallback, useEffect } from 'react';
-import { Trophy, Home } from 'lucide-react';
+import { useState, useEffect, useCallback } from 'react';
+import { Home, Trophy, HelpCircle, X, Mouse, RotateCcw, Eye, Settings } from 'lucide-react';
 import Image from 'next/image';
-import GameHeader from '@/components/shared/GameHeader';
-import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
-import { playSuccessSound } from '@/lib/utils/gameUtils';
-
-interface PuzzlePiece {
-  id: number;
-  canvas: HTMLCanvasElement;
-  position: number;
-  row: number;
-  col: number;
-  correctPosition: number;
-}
+import { 
+  createPuzzlePieces, 
+  isPieceInCorrectPosition, 
+  calculateFinalScore,
+  type PuzzlePiece 
+} from '@/lib/utils/puzzleUtils';
+import { usePuzzleFeedback } from '@/hooks/games/usePuzzleFeedback';
+import { 
+  FeedbackMessage,
+  PuzzleGrid,
+  PiecesPool,
+  PuzzleStats
+} from '@/components/shared/puzzle';
 
 interface SimplePuzzle {
   id: number;
@@ -48,708 +49,494 @@ const SIMPLE_PUZZLES: SimplePuzzle[] = [
   },
   {
     id: 3,
-    name: "פאזל פרפר צבעוני",
-    emoji: "🦋",
-    color: "#FF4500",
-    imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop",
+    name: "פאזל ברווז צהוב",
+    emoji: "🦆",
+    color: "#FFD700",
+    imageUrl: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
     gridSize: 9, // 3x3
     difficulty: "medium"
   },
   {
     id: 4,
-    name: "פאזל פרח יפה",
-    emoji: "🌺",
-    color: "#9932CC",
-    imageUrl: "https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=400&h=400&fit=crop",
+    name: "פאזל כבשה רכה",
+    emoji: "🐑",
+    color: "#F0F8FF",
+    imageUrl: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
     gridSize: 9, // 3x3
     difficulty: "medium"
   },
   {
     id: 5,
-    name: "פאזל דג צבעוני",
-    emoji: "🐠",
-    color: "#00CED1",
-    imageUrl: "https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=400&h=400&fit=crop",
-    gridSize: 4, // 2x2
-    difficulty: "easy"
+    name: "פאזל חזיר ורוד",
+    emoji: "🐷",
+    color: "#FFC0CB",
+    imageUrl: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&h=400&fit=crop",
+    gridSize: 16, // 4x4
+    difficulty: "hard"
   },
   {
     id: 6,
-    name: "פאזל בית צבעוני",
-    emoji: "🏠",
+    name: "פאזל שור חזק",
+    emoji: "🐄",
     color: "#8B4513",
-    imageUrl: "https://images.unsplash.com/photo-1570129477492-45c003edd2be?w=400&h=400&fit=crop",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  },
-  {
-    id: 7,
-    name: "פאזל רכב מרוצים",
-    emoji: "🏎️",
-    color: "#FF0000",
-    imageUrl: "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=400&fit=crop",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  },
-  {
-    id: 8,
-    name: "פאזל עוגה יומולדת",
-    emoji: "🎂",
-    color: "#FFB6C1",
-    imageUrl: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=400&h=400&fit=crop",
-    gridSize: 4, // 2x2
-    difficulty: "easy"
+    imageUrl: "https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=400&h=400&fit=crop",
+    gridSize: 16, // 4x4
+    difficulty: "hard"
   }
 ];
 
 export default function SimplePuzzleGame() {
   const [selectedPuzzle, setSelectedPuzzle] = useState<SimplePuzzle | null>(null);
   const [pieces, setPieces] = useState<PuzzlePiece[]>([]);
-  const [solution, setSolution] = useState<(PuzzlePiece | null)[]>([]);
-  const [score, setScore] = useState<number>(0);
-  const [isComplete, setIsComplete] = useState<boolean>(false);
+  const [placedPieces, setPlacedPieces] = useState<(PuzzlePiece | null)[]>([]);
   const [draggedPiece, setDraggedPiece] = useState<PuzzlePiece | null>(null);
-  const [feedbackMessage, setFeedbackMessage] = useState<string>('');
-  const [feedbackType, setFeedbackType] = useState<'success' | 'error' | ''>('');
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [speechEnabled, setSpeechEnabled] = useState(false);
+  const [gameStarted, setGameStarted] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+  const [timer, setTimer] = useState(0);
+  const [score, setScore] = useState(0);
+  const [imageLoaded, setImageLoaded] = useState(false);
+  const [showHelp, setShowHelp] = useState(false);
+  const [hintsEnabled, setHintsEnabled] = useState(false);
+  const [debugMode, setDebugMode] = useState(false);
 
-  // Initialize Audio and Speech using project's function
+  // Use the shared feedback hook
+  const { feedbackMessage, feedbackType, showFeedback, speak } = usePuzzleFeedback();
+
+  // Timer effect
   useEffect(() => {
-    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
-  }, []);
-
-  // פונקציה ליצירת חלקי פאזל מתמונה
-  const createPuzzlePieces = useCallback((img: HTMLImageElement, puzzle: SimplePuzzle): PuzzlePiece[] => {
-    console.log('=== CREATE PUZZLE PIECES ===');
-    console.log('Image:', img.width, 'x', img.height);
-    console.log('Puzzle:', puzzle.name, 'GridSize:', puzzle.gridSize);
-    
-    // Create a temporary canvas instead of using canvasRef
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    if (!ctx) {
-      console.error('Canvas context not found');
-      return [];
+    let interval: NodeJS.Timeout;
+    if (gameStarted && !isCompleted) {
+      interval = setInterval(() => {
+        setTimer(prev => prev + 1);
+      }, 1000);
     }
+    return () => {
+      if (interval) clearInterval(interval);
+    };
+  }, [gameStarted, isCompleted]);
 
-    const size = 400;
-    canvas.width = size;
-    canvas.height = size;
-
-    const gridSide = Math.sqrt(puzzle.gridSize);
-    const pieceSize = size / gridSide;
-    const pieces: PuzzlePiece[] = [];
-
-    console.log('Grid side:', gridSide, 'Piece size:', pieceSize);
-
-    try {
-      // Clear canvas
-      ctx.clearRect(0, 0, size, size);
-      
-      // Draw background
-      ctx.fillStyle = '#f0f0f0';
-      ctx.fillRect(0, 0, size, size);
-
-      // Draw the image on canvas first
-      const imgAspectRatio = img.width / img.height;
-      let drawWidth = size;
-      let drawHeight = size;
-      let offsetX = 0;
-      let offsetY = 0;
-
-      if (imgAspectRatio > 1) {
-        drawHeight = size / imgAspectRatio;
-        offsetY = (size - drawHeight) / 2;
-      } else if (imgAspectRatio < 1) {
-        drawWidth = size * imgAspectRatio;
-        offsetX = (size - drawWidth) / 2;
-      }
-
-      console.log('Drawing image:', drawWidth, 'x', drawHeight, 'at offset:', offsetX, offsetY);
-      ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-
-      console.log('Creating pieces for grid:', gridSide, 'x', gridSide);
-      for (let row = 0; row < gridSide; row++) {
-        for (let col = 0; col < gridSide; col++) {
-          console.log('Creating piece for row:', row, 'col:', col);
-          
-          const pieceCanvas = document.createElement('canvas');
-          const finalPieceSize = Math.floor(pieceSize) + 4;
-          pieceCanvas.width = finalPieceSize;
-          pieceCanvas.height = finalPieceSize;
-          const pieceCtx = pieceCanvas.getContext('2d');
-          
-          if (!pieceCtx) {
-            console.error('Piece context not found for row:', row, 'col:', col);
-            continue;
-          }
-
-          pieceCtx.imageSmoothingEnabled = true;
-          pieceCtx.imageSmoothingQuality = 'high';
-
-          // Background
-          pieceCtx.fillStyle = '#ffffff';
-          pieceCtx.fillRect(0, 0, finalPieceSize, finalPieceSize);
-
-          // Draw piece from main canvas
-          const srcX = col * pieceSize;
-          const srcY = row * pieceSize;
-          const srcWidth = pieceSize;
-          const srcHeight = pieceSize;
-
-          console.log('Drawing piece from:', srcX, srcY, srcWidth, srcHeight, 'to:', 2, 2, finalPieceSize - 4, finalPieceSize - 4);
-
-          pieceCtx.drawImage(
-            canvas,
-            srcX, srcY, srcWidth, srcHeight,
-            2, 2, finalPieceSize - 4, finalPieceSize - 4
-          );
-
-          // Add nice border with shadow effect
-          pieceCtx.strokeStyle = '#ddd';
-          pieceCtx.lineWidth = 2;
-          pieceCtx.strokeRect(1, 1, finalPieceSize - 2, finalPieceSize - 2);
-          
-          // Add inner highlight
-          pieceCtx.strokeStyle = '#fff';
-          pieceCtx.lineWidth = 1;
-          pieceCtx.strokeRect(2, 2, finalPieceSize - 4, finalPieceSize - 4);
-
-          const position = row * gridSide + col;
-          const piece: PuzzlePiece = {
-            id: position,
-            canvas: pieceCanvas,
-            position: position,
-            row,
-            col,
-            correctPosition: position
-          };
-          
-          pieces.push(piece);
-          console.log('Created piece:', position, 'for position:', row, col);
-        }
-      }
-
-      console.log('=== FINAL RESULT ===');
-      console.log(`Successfully created ${pieces.length} puzzle pieces for ${puzzle.name}`);
-      console.log('Expected pieces:', puzzle.gridSize);
-      console.log('Pieces created:', pieces.length > 0 ? 'SUCCESS' : 'FAILED');
-      
-      if (pieces.length > 0) {
-        console.log('First piece canvas dimensions:', pieces[0]?.canvas?.width, 'x', pieces[0]?.canvas?.height);
-        console.log('Sample piece data URL length:', pieces[0]?.canvas?.toDataURL()?.length || 0);
-        console.log('All pieces:', pieces.map(p => `Piece ${p.id}: (${p.row},${p.col})`));
-      } else {
-        console.error('NO PIECES CREATED! Debug info:');
-        console.error('Grid side:', gridSide);
-        console.error('Expected iterations:', gridSide * gridSide);
-        console.error('Canvas available:', !!canvas);
-        console.error('Context available:', !!ctx);
-      }
-      
-      const shuffledPieces = pieces.sort(() => Math.random() - 0.5);
-      console.log('Returning shuffled pieces:', shuffledPieces.length);
-      return shuffledPieces;
-    } catch (error) {
-      console.error('Error in createPuzzlePieces:', error);
-      console.error('Error details:', error);
-      return [];
-    }
-  }, []);
-
-  // Success and error feedback functions
-  const showSuccessFeedback = useCallback(async (message: string) => {
-    setFeedbackMessage(message);
-    setFeedbackType('success');
+  // Initialize game with selected puzzle
+  const initializeGame = useCallback((puzzle: SimplePuzzle) => {
+    console.log('🎮 SimplePuzzle - Initializing game with:', puzzle.name);
     
-    // Use project's success sound function
-    playSuccessSound(audioContext);
-    
-    // Use project's speech function
-    if (speechEnabled) {
-      await speakHebrew(message);
-    }
-    
-    setTimeout(() => {
-      setFeedbackMessage('');
-      setFeedbackType('');
-    }, 2000);
-  }, [audioContext, speechEnabled]);
-
-  const showErrorFeedback = useCallback(async (message: string) => {
-    setFeedbackMessage(message);
-    setFeedbackType('error');
-    
-    // Use project's speech function for errors too
-    if (speechEnabled) {
-      await speakHebrew(message);
-    }
-    
-    setTimeout(() => {
-      setFeedbackMessage('');
-      setFeedbackType('');
-    }, 1500);
-  }, [speechEnabled]);
-
-  // התחלת פאזל חדש
-  const startPuzzle = useCallback(async (puzzle: SimplePuzzle) => {
-    console.log('=== STARTING PUZZLE ===');
-    console.log('Selected puzzle:', puzzle.name, 'GridSize:', puzzle.gridSize);
-    setIsLoading(true);
-    setSelectedPuzzle(puzzle);
-    
-    // Announce puzzle selection
-    if (speechEnabled) {
-      await speakHebrew(`בחרת את ${puzzle.name}! טוען את הפאזל...`);
-    }
-    
-    const img = new window.Image();
+    const img = document.createElement('img') as HTMLImageElement;
     img.crossOrigin = 'anonymous';
-    
-    img.onload = async () => {
-      console.log('Image loaded successfully, dimensions:', img.width, 'x', img.height);
-      try {
-        const puzzlePieces = createPuzzlePieces(img, puzzle);
-        console.log('=== PUZZLE PIECES RESULT ===');
-        console.log('Created puzzle pieces:', puzzlePieces.length);
-        console.log('Expected pieces:', puzzle.gridSize);
-        console.log('Pieces match expected?', puzzlePieces.length === puzzle.gridSize);
-        
-        if (puzzlePieces.length > 0) {
-          console.log('Sample piece info:', {
-            id: puzzlePieces[0].id,
-            position: puzzlePieces[0].position,
-            hasCanvas: !!puzzlePieces[0].canvas,
-            canvasSize: puzzlePieces[0].canvas ? `${puzzlePieces[0].canvas.width}x${puzzlePieces[0].canvas.height}` : 'none'
-          });
-        }
-        
-        setPieces(puzzlePieces);
-        setSolution(new Array(puzzle.gridSize).fill(null));
-        setScore(0);
-        setIsComplete(false);
-        setIsLoading(false);
-        
-        console.log('State updated, pieces in state:', puzzlePieces.length);
-        
-        // Announce puzzle ready
-        if (speechEnabled) {
-          await speakHebrew(`הפאזל מוכן! זה פאזל ${puzzle.difficulty === 'easy' ? 'קל' : puzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'} עם ${puzzle.gridSize} חלקים. בואו נתחיל!`);
-        }
-      } catch (error) {
-        console.error('Error creating puzzle pieces:', error);
-        setIsLoading(false);
-        await showErrorFeedback('שגיאה ביצירת הפאזל');
-      }
+    img.onload = () => {
+      console.log('🖼️ SimplePuzzle - Image loaded, creating pieces...');
+      
+      const newPieces = createPuzzlePieces(img, puzzle.gridSize, 'simple');
+      
+      console.log('🎮 SimplePuzzle - Created pieces:', newPieces.map(p => ({
+        id: p.id,
+        expectedPos: `(${p.expectedPosition.row}, ${p.expectedPosition.col})`,
+        isPlaced: p.isPlaced,
+        isCorrect: p.isCorrect
+      })));
+      
+      setPieces(newPieces);
+      setPlacedPieces(new Array(puzzle.gridSize).fill(null));
+      setGameStarted(true);
+      setIsCompleted(false);
+      setTimer(0);
+      setScore(0);
+      setImageLoaded(true);
+      
+      speak(`התחיל משחק ${puzzle.name}! בואו נתחיל לשחק`);
     };
     
-    img.onerror = async (error) => {
-      console.error('Failed to load image:', error);
-      console.log('Trying fallback URL...');
-      
-      // נסה עם URL חלופי
-      const fallbackUrls = [
-        `https://picsum.photos/400/400?random=${puzzle.id}`,
-        `https://via.placeholder.com/400x400/FF69B4/FFFFFF?text=${puzzle.emoji}`,
-        // אם יש לך תמונות מקומיות, תוכל להוסיף אותן כאן
-      ];
-      
-      const tryFallback = async (index: number) => {
-        if (index >= fallbackUrls.length) {
-          setIsLoading(false);
-          await showErrorFeedback('שגיאה בטעינת התמונה');
-          return;
-        }
-        
-        const fallbackImg = new window.Image();
-        fallbackImg.crossOrigin = 'anonymous';
-        
-        fallbackImg.onload = async () => {
-          console.log('Fallback image loaded');
-          try {
-            const puzzlePieces = createPuzzlePieces(fallbackImg, puzzle);
-            setPieces(puzzlePieces);
-            setSolution(new Array(puzzle.gridSize).fill(null));
-            setScore(0);
-            setIsComplete(false);
-            setIsLoading(false);
-            
-            if (speechEnabled) {
-              await speakHebrew(`הפאזל מוכן! בואו נתחיל!`);
-            }
-          } catch (error) {
-            console.error('Error with fallback:', error);
-            setIsLoading(false);
-            await showErrorFeedback('שגיאה ביצירת הפאזל');
-          }
-        };
-        
-        fallbackImg.onerror = () => {
-          console.log(`Fallback ${index + 1} failed, trying next...`);
-          tryFallback(index + 1);
-        };
-        
-        fallbackImg.src = fallbackUrls[index];
-      };
-      
-      tryFallback(0);
+    img.onerror = () => {
+      console.error('🚨 SimplePuzzle - Failed to load image:', puzzle.imageUrl);
+      showFeedback('שגיאה בטעינת התמונה', 'error');
     };
     
-    console.log('Loading image from:', puzzle.imageUrl);
     img.src = puzzle.imageUrl;
-  }, [createPuzzlePieces, speechEnabled, showErrorFeedback]);
+  }, [showFeedback, speak]);
 
-  // טיפול בגרירת חלקים
-  const handleDragStart = useCallback((e: React.DragEvent, piece: PuzzlePiece) => {
+  // Handle puzzle selection
+  const handlePuzzleSelect = (puzzle: SimplePuzzle) => {
+    setSelectedPuzzle(puzzle);
+    setImageLoaded(false);
+    initializeGame(puzzle);
+  };
+
+  // Drag and drop handlers
+  const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
     setDraggedPiece(piece);
     e.dataTransfer.effectAllowed = 'move';
-    e.dataTransfer.setData('text/plain', piece.id.toString());
-    
-    // Add visual feedback
-    const dragImage = piece.canvas;
-    e.dataTransfer.setDragImage(dragImage, dragImage.width / 2, dragImage.height / 2);
-  }, []);
+    console.log('🎯 SimplePuzzle - Dragging piece:', piece.id, 'expected at:', piece.expectedPosition);
+  };
 
-  const handleDragOver = useCallback((e: React.DragEvent) => {
+  const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
     e.dataTransfer.dropEffect = 'move';
-  }, []);
+  };
 
-  const handleDrop = useCallback(async (e: React.DragEvent, targetIndex: number) => {
+  const handleDrop = (e: React.DragEvent, gridIndex: number) => {
     e.preventDefault();
     
     if (!draggedPiece || !selectedPuzzle) return;
-
-    console.log(`Attempting to drop piece ${draggedPiece.id} at position ${targetIndex}, correct position is ${draggedPiece.correctPosition}`);
-
-    // בדיקה אם המקום כבר תפוס
-    if (solution[targetIndex] !== null) {
-      await showErrorFeedback('המקום תפוס! נסה מקום אחר');
-      setDraggedPiece(null);
-      return;
-    }
-
-    // בדיקה אם זה המקום הנכון
-    if (draggedPiece.correctPosition === targetIndex) {
-      // מיקום נכון!
-      const newSolution = [...solution];
-      newSolution[targetIndex] = draggedPiece;
-      setSolution(newSolution);
-      
-      // הסרת החלק מהרשימה
-      setPieces(prev => prev.filter(p => p.id !== draggedPiece.id));
-      
-      const newScore = score + 10;
-      setScore(newScore);
-      await showSuccessFeedback(`כל הכבוד! החלק במקום הנכון! 🎉`);
-      
-      // בדיקה אם הפאזל הושלם
-      const completedPieces = newSolution.filter(Boolean).length;
-      if (completedPieces === selectedPuzzle.gridSize) {
-        setIsComplete(true);
-        const finalScore = newScore + 50; // בונוס השלמה
-        setScore(finalScore);
-        
-        // Completion celebration
-        playSuccessSound(audioContext);
-        if (speechEnabled) {
-          await speakHebrew(`מזל טוב! השלמת את ${selectedPuzzle.name}! הניקוד הסופי שלך הוא ${finalScore} נקודות!`);
-        }
-        await showSuccessFeedback(`🎊 הפאזל הושלם! מדהים! 🎊`);
-      }
-    } else {
-      // מיקום שגוי
-      await showErrorFeedback(`נסה שוב! זה לא המקום הנכון לחלק הזה 🤔`);
-    }
     
-    setDraggedPiece(null);
-  }, [draggedPiece, selectedPuzzle, solution, score, showErrorFeedback, showSuccessFeedback, audioContext, speechEnabled]);
+    const gridSide = Math.sqrt(selectedPuzzle.gridSize);
+    const row = Math.floor(gridIndex / gridSide);
+    const col = gridIndex % gridSide;
+    
+    console.log('🎯 SimplePuzzle - Drop attempt:', {
+      pieceId: draggedPiece.id,
+      droppedAt: `(${row}, ${col})`,
+      expectedAt: `(${draggedPiece.expectedPosition.row}, ${draggedPiece.expectedPosition.col})`,
+      gridIndex
+    });
 
-  // איפוס משחק
-  const resetGame = useCallback(async () => {
-    if (selectedPuzzle) {
-      if (speechEnabled) {
-        await speakHebrew('מערבב את החלקים מחדש!');
-      }
-      await startPuzzle(selectedPuzzle);
+    // Remove piece from current position if it's already placed
+    const newPlacedPieces = [...placedPieces];
+    const currentIndex = newPlacedPieces.findIndex(p => p?.id === draggedPiece.id);
+    if (currentIndex !== -1) {
+      newPlacedPieces[currentIndex] = null;
     }
-  }, [selectedPuzzle, speechEnabled, startPuzzle]);
 
-  const goHome = useCallback(() => {
+    // Remove any piece that might be at the target position
+    newPlacedPieces[gridIndex] = null;
+
+    // Check if placement is correct
+    const isCorrect = isPieceInCorrectPosition(draggedPiece, row, col);
+    
+    // Update piece properties
+    const updatedPiece: PuzzlePiece = {
+      ...draggedPiece,
+      currentPosition: { row, col },
+      isPlaced: true,
+      isCorrect
+    };
+
+    console.log('🔍 SimplePuzzle - Updated piece:', {
+      id: updatedPiece.id,
+      currentPos: `(${row}, ${col})`,
+      expectedPos: `(${updatedPiece.expectedPosition.row}, ${updatedPiece.expectedPosition.col})`,
+      isCorrect,
+      isPlaced: true
+    });
+
+    // Place the updated piece
+    newPlacedPieces[gridIndex] = updatedPiece;
+    setPlacedPieces(newPlacedPieces);
+
+    // Update pieces array - mark as placed/not placed correctly
+    setPieces(prevPieces => 
+      prevPieces.map(piece => 
+        piece.id === draggedPiece.id ? { ...updatedPiece, isPlaced: isCorrect } : piece
+      )
+    );
+
+    // Provide feedback
+    if (isCorrect) {
+      showFeedback('כל הכבוד! החלק במקום הנכון! 🎉', 'success');
+      speak('כל הכבוד! החלק במקום הנכון!');
+    } else {
+      showFeedback('לא במקום הנכון, נסה שוב 🤔', 'error');
+      speak('לא במקום הנכון, נסה שוב');
+    }
+
+    setDraggedPiece(null);
+
+    // Check for completion
+    const correctPieces = newPlacedPieces.filter(p => p?.isCorrect).length;
+    const newScore = calculateFinalScore(correctPieces, selectedPuzzle.gridSize, timer);
+    setScore(newScore);
+
+    if (correctPieces === selectedPuzzle.gridSize) {
+      setIsCompleted(true);
+      showFeedback('מדהים! השלמת את הפאזל! 🎊', 'success');
+      speak('מדהים! השלמת את הפאזל בהצלחה!');
+    }
+  };
+
+  // Reset current game
+  const resetGame = useCallback(() => {
+    if (selectedPuzzle) {
+      initializeGame(selectedPuzzle);
+    }
+  }, [selectedPuzzle, initializeGame]);
+
+  // Go back to puzzle selection
+  const goHome = () => {
     setSelectedPuzzle(null);
+    setGameStarted(false);
+    setImageLoaded(false);
     setPieces([]);
-    setSolution([]);
+    setPlacedPieces([]);
+    setTimer(0);
     setScore(0);
-    setIsComplete(false);
+    setIsCompleted(false);
+  };
+
+  // Toggle help and UI functions
+  const toggleHelp = useCallback(() => {
+    setShowHelp(prev => !prev);
+  }, []);
+  
+  const toggleHints = useCallback(() => {
+    setHintsEnabled(prev => !prev);
+  }, []);
+  
+  const toggleDebug = useCallback(() => {
+    setDebugMode(prev => !prev);
   }, []);
 
-  if (!selectedPuzzle) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-200 p-4">
-        <div className="max-w-4xl mx-auto">
-          {/* כותרת */}
-          <div className="text-center mb-8">
-            <h1 className="text-5xl font-bold text-purple-800 mb-4">
-              🧩 פאזלים פשוטים 🎨
-            </h1>
-            <p className="text-xl text-purple-600">
-              בחר פאזל והתחל לשחק!
-            </p>
-            {speechEnabled && (
-              <p className="text-sm text-green-600 mt-2">
-                🔊 מצב שמע פעיל - תשמע הודעות קוליות במהלך המשחק
-              </p>
-            )}
-          </div>
+  // Calculate current stats
 
-          {/* בחירת פאזלים */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  // Keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key.toLowerCase()) {
+        case 'r':
+          if (selectedPuzzle) resetGame();
+          break;
+        case 'h':
+          if (event.shiftKey) {
+            toggleHints();
+          } else {
+            toggleHelp();
+          }
+          break;
+        case 'd':
+          toggleDebug();
+          break;
+        case 'escape':
+          if (showHelp) setShowHelp(false);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [selectedPuzzle, showHelp, toggleHelp, toggleHints, toggleDebug, resetGame]);
+
+  const correctPieces = placedPieces.filter(piece => piece?.isCorrect).length;
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
+      <div className="max-w-7xl mx-auto">
+        {/* Header */}
+        <div className="text-center mb-8">
+          <div className="flex justify-between items-center mb-4">
+            <button
+              onClick={() => window.history.back()}
+              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <Home className="w-4 h-4" />
+              חזרה לבית
+            </button>
+            
+            <h1 className="text-4xl font-bold text-gray-800">🧩 פאזלים פשוטים</h1>
+            
+            <button
+              onClick={toggleHelp}
+              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+            >
+              <HelpCircle className="w-4 h-4" />
+              עזרה
+            </button>
+          </div>
+          <p className="text-lg text-gray-600">בחר פאזל ותתחיל לשחק!</p>
+        </div>
+
+        {/* Puzzle Selection */}
+        {!selectedPuzzle && (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
             {SIMPLE_PUZZLES.map((puzzle) => (
               <div
                 key={puzzle.id}
-                onClick={() => startPuzzle(puzzle)}
-                className="relative cursor-pointer transform hover:scale-105 transition-all duration-300 bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl p-6"
+                className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105"
+                style={{ borderTop: `6px solid ${puzzle.color}` }}
+                onClick={() => handlePuzzleSelect(puzzle)}
               >
-                <div 
-                  className="text-6xl text-center mb-4"
-                  style={{ color: puzzle.color }}
-                >
-                  {puzzle.emoji}
-                </div>
-                <h3 className="text-center font-bold text-lg text-gray-800 mb-2">
-                  {puzzle.name}
-                </h3>
                 <div className="text-center">
-                  <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-                    puzzle.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-                    puzzle.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
-                    'bg-red-100 text-red-800'
-                  }`}>
-                    {puzzle.difficulty === 'easy' ? 'קל' : 
-                     puzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'}
-                  </span>
-                  <div className="text-gray-600 mt-1">
-                    {puzzle.gridSize} חלקים ({Math.sqrt(puzzle.gridSize)}x{Math.sqrt(puzzle.gridSize)})
+                  <div className="text-6xl mb-4">{puzzle.emoji}</div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-2">
+                    {puzzle.name}
+                  </h3>
+                  <div className="flex justify-center items-center gap-2 mb-4">
+                    <span className="text-sm bg-gray-100 px-3 py-1 rounded-full">
+                      {Math.sqrt(puzzle.gridSize)}x{Math.sqrt(puzzle.gridSize)}
+                    </span>
+                    <span className={`text-sm px-3 py-1 rounded-full text-white ${
+                      puzzle.difficulty === 'easy' ? 'bg-green-500' :
+                      puzzle.difficulty === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
+                    }`}>
+                      {puzzle.difficulty === 'easy' ? 'קל' :
+                       puzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'}
+                    </span>
                   </div>
+                  <Image
+                    src={puzzle.imageUrl}
+                    alt={puzzle.name}
+                    width={200}
+                    height={200}
+                    className="w-full h-32 object-cover rounded-lg mb-4"
+                    unoptimized
+                  />
+                  <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium transition-colors">
+                    התחל לשחק
+                  </button>
                 </div>
               </div>
             ))}
           </div>
+        )}
 
-          {/* כפתור חזרה */}
-          <div className="text-center mt-8">
+        {/* Help Modal */}
+        {showHelp && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={toggleHelp}>
+            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-xl font-bold">איך לשחק?</h3>
+                <button
+                  onClick={toggleHelp}
+                  className="text-gray-500 hover:text-gray-700"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              <div className="space-y-3 text-right">
+                <div className="flex items-center gap-2">
+                  <Mouse className="w-5 h-5 text-blue-500" />
+                  <span>גרור חלקים לכיוונים הנכונים</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <RotateCcw className="w-5 h-5 text-green-500" />
+                  <span>לחץ על R להתחלה מחדש</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <HelpCircle className="w-5 h-5 text-purple-500" />
+                  <span>לחץ על H לעזרה</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Eye className="w-5 h-5 text-orange-500" />
+                  <span>לחץ על Shift+H לרמזים</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-gray-500" />
+                  <span>לחץ על D למצב ניפוי באגים</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Game Controls */}
+        {selectedPuzzle && (
+          <div className="flex justify-center gap-4 mb-6">
             <button
-              onClick={() => window.location.href = '/'}
-              className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-purple-700 mx-auto"
+              onClick={goHome}
+              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
             >
-              <Home className="w-5 h-5" />
-              חזרה לתפריט הראשי
+              <Home className="w-4 h-4" />
+              בחר פאזל אחר
+            </button>
+            <button
+              onClick={resetGame}
+              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
+              disabled={!gameStarted}
+            >
+              <RotateCcw className="w-4 h-4" />
+              התחל מחדש
+            </button>
+            
+            <button
+              onClick={toggleHints}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                hintsEnabled 
+                  ? 'bg-green-500 hover:bg-green-600 text-white' 
+                  : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
+              }`}
+            >
+              <Eye className="w-4 h-4" />
+              רמזים {hintsEnabled ? 'פעיל' : 'כבוי'}
+            </button>
+            
+            <button
+              onClick={toggleDebug}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
+                debugMode 
+                  ? 'bg-red-500 hover:bg-red-600 text-white' 
+                  : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
+              }`}
+            >
+              <Settings className="w-4 h-4" />
+              ניפוי באגים {debugMode ? 'פעיל' : 'כבוי'}
             </button>
           </div>
-        </div>
-      </div>
-    );
-  }
-
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-6xl mb-4 animate-spin">🧩</div>
-          <h2 className="text-2xl font-bold text-purple-800">טוען פאזל...</h2>
-          <p className="text-purple-600 mt-2">מכין את {selectedPuzzle.name}</p>
-        </div>
-      </div>
-    );
-  }
-
-  const gridSide = Math.sqrt(selectedPuzzle.gridSize);
-  
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4">
-      <div className="max-w-6xl mx-auto">
-        {/* Feedback Message */}
-        {feedbackMessage && (
-          <div className={`fixed top-20 left-1/2 transform -translate-x-1/2 z-50 px-6 py-3 rounded-full text-white font-bold text-lg shadow-lg animate-bounce ${
-            feedbackType === 'success' ? 'bg-green-500' : 'bg-orange-500'
-          }`}>
-            {feedbackMessage}
-          </div>
         )}
 
-        {/* Use project's GameHeader component */}
-        <GameHeader
-          score={score}
-          level={Math.floor(score / 30) + 1}
-          onHome={goHome}
-          onReset={resetGame}
-          scoreColor="text-purple-800"
-          levelColor="text-purple-600"
-        />
-
-        {/* מידע על הפאזל הנוכחי */}
-        <div className="text-center mb-6">
-          <h2 className="text-3xl font-bold text-purple-800 mb-2">{selectedPuzzle.name}</h2>
-          <div className="flex items-center justify-center gap-4">
-            <span className={`px-3 py-1 rounded-full text-sm font-bold ${
-              selectedPuzzle.difficulty === 'easy' ? 'bg-green-100 text-green-800' :
-              selectedPuzzle.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-800' : 
-              'bg-red-100 text-red-800'
-            }`}>
-              {selectedPuzzle.difficulty === 'easy' ? 'קל' : 
-               selectedPuzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'}
-            </span>
-            <span className="text-purple-600">
-              {selectedPuzzle.gridSize} חלקים
-            </span>
-          </div>
-        </div>
-
-        {/* אזור המשחק */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* לוח הפאזל */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl">
-            <h3 className="text-xl font-bold text-center mb-4 text-gray-800">
-              🎯 לוח הפאזל
-            </h3>
-            <div 
-              className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg shadow-inner"
-              style={{ 
-                gridTemplateColumns: `repeat(${gridSide}, 1fr)`,
-                maxWidth: '400px',
-                direction: 'ltr' // Force left-to-right layout for proper grid positioning
-              }}
+        {/* Game Controls */}
+        {selectedPuzzle && (
+          <div className="flex justify-center gap-4 mb-6">
+            <button
+              onClick={goHome}
+              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
             >
-              {solution.map((piece, index) => (
-                <div
-                  key={index}
-                  onDragOver={handleDragOver}
-                  onDrop={(e) => handleDrop(e, index)}
-                  className={`aspect-square border-2 rounded-lg transition-all duration-300 flex items-center justify-center overflow-hidden relative ${
-                    piece 
-                      ? 'border-green-400 bg-green-50 shadow-md' 
-                      : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-400'
-                  }`}
-                  title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
-                >
-                  {piece && (
-                    <>
-                      <Image
-                        src={piece.canvas.toDataURL()}
-                        alt={`פאזל ${piece.id}`}
-                        width={100}
-                        height={100}
-                        className="w-full h-full object-cover rounded-lg"
-                        unoptimized
-                      />
-                      <div className="absolute top-1 right-1 bg-green-500 rounded-full p-1">
-                        <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                        </svg>
-                      </div>
-                    </>
-                  )}
-                  {!piece && (
-                    <div className="text-gray-400 text-2xl font-bold">
-                      {index + 1}
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+              <Home className="w-4 h-4" />
+              בחר פאזל אחר
+            </button>
+            <button
+              onClick={resetGame}
+              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+              disabled={!gameStarted}
+            >
+              <Trophy className="w-4 h-4" />
+              התחל מחדש
+            </button>
           </div>
+        )}
 
-          {/* חלקי הפאזל הנותרים */}
-          <div className="bg-white rounded-2xl p-6 shadow-xl">
-            <h3 className="text-xl font-bold text-center mb-4 text-gray-800">
-              🧩 חלקי הפאזל ({pieces.length} נותרו)
-            </h3>
-            
-            {/* טיפים */}
-            {pieces.length > 0 && (
-              <div className="bg-blue-50 rounded-lg p-3 mb-4 text-center">
-                <p className="text-sm text-blue-800 font-medium">
-                  💡 טיפ: גררו כל חלק למקום הנכון שלו בלוח הפאזל
-                </p>
-              </div>
-            )}
-            
-            <div className="grid grid-cols-3 gap-4 min-h-[300px]">
-              {pieces.map((piece) => (
-                <div
-                  key={piece.id}
-                  draggable
-                  onDragStart={(e) => handleDragStart(e, piece)}
-                  className="aspect-square cursor-move hover:scale-110 transition-transform border-2 border-dashed border-gray-300 rounded-lg hover:border-purple-400 flex items-center justify-center bg-white shadow-sm hover:shadow-md overflow-hidden group"
-                  title={`חלק ${piece.id + 1} - גררו אותי למקום הנכון!`}
-                >
-                  <Image
-                    src={piece.canvas.toDataURL()}
-                    alt={`חלק פאזל ${piece.id}`}
-                    width={80}
-                    height={80}
-                    className="w-full h-full object-cover rounded-lg group-hover:brightness-110"
-                    unoptimized
-                  />
-                </div>
-              ))}
+        {/* Feedback Message */}
+        <FeedbackMessage message={feedbackMessage} type={feedbackType} />
+
+        {/* Game Area */}
+        {gameStarted && selectedPuzzle && imageLoaded && (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {/* Stats Panel */}
+            <div className="lg:col-span-1">
+              <PuzzleStats
+                correctPieces={correctPieces}
+                totalPieces={selectedPuzzle.gridSize}
+                timeElapsed={timer}
+                score={score}
+                isComplete={isCompleted}
+                className="mb-6"
+              />
+              
+              {/* Pieces Pool */}
+              <PiecesPool
+                pieces={pieces}
+                onDragStart={handleDragStart}
+                title="🧩 חלקי הפאזל"
+              />
             </div>
-            {pieces.length === 0 && (
-              <div className="text-center text-gray-500 py-8">
-                <Trophy className="w-12 h-12 mx-auto mb-2 text-yellow-500 animate-bounce" />
-                <p className="text-lg font-bold text-green-600">כל החתיכות במקום! 🎉</p>
-              </div>
-            )}
-          </div>
-        </div>
 
-        {/* מסך ניצחון */}
-        {isComplete && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-            <div className="bg-gradient-to-r from-yellow-400 via-orange-400 to-pink-400 rounded-3xl p-8 max-w-md w-full mx-4 text-center shadow-2xl animate-pulse">
-              <div className="text-8xl mb-4 animate-bounce">🎉</div>
-              <h2 className="text-4xl font-bold text-white mb-4 drop-shadow-lg">
-                כל הכבוד!
-              </h2>
-              <p className="text-xl text-white mb-2 drop-shadow">
-                השלמת את {selectedPuzzle.name}!
-              </p>
-              <div className="text-3xl font-bold text-white mb-6 drop-shadow-lg">
-                ניקוד סופי: {score} 🏆
-              </div>
-              <div className="bg-white/20 rounded-2xl p-4 mb-6">
-                <div className="text-white text-lg">
-                  רמת קושי: <span className="font-bold">
-                    {selectedPuzzle.difficulty === 'easy' ? 'קל 😊' : 
-                     selectedPuzzle.difficulty === 'medium' ? 'בינוני 🤔' : 'קשה 😤'}
-                  </span>
-                </div>
-                <div className="text-white text-lg">
-                  חלקים: <span className="font-bold">{selectedPuzzle.gridSize}</span>
-                </div>
-              </div>
-              <div className="flex gap-4 justify-center">
-                <button
-                  onClick={resetGame}
-                  className="px-6 py-3 bg-white text-orange-600 rounded-full hover:bg-gray-100 font-bold transition-all transform hover:scale-105 shadow-lg"
-                >
-                  🔄 שוב
-                </button>
-                <button
-                  onClick={goHome}
-                  className="px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 font-bold transition-all transform hover:scale-105 shadow-lg"
-                >
-                  🧩 פאזל אחר
-                </button>
-              </div>
+            {/* Game Grid */}
+            <div className="lg:col-span-2">
+              <PuzzleGrid
+                gridSize={selectedPuzzle.gridSize}
+                pieces={placedPieces}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onDragStart={handleDragStart}
+                title={`🎯 ${selectedPuzzle.name}`}
+                showPositionNumbers={hintsEnabled}
+                showDebugInfo={debugMode}
+              />
             </div>
           </div>
         )}
 
-        {/* No need for hidden canvas anymore - we create canvases dynamically */}
+        {/* Loading State */}
+        {selectedPuzzle && !imageLoaded && (
+          <div className="text-center py-12">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
+            <p className="text-lg text-gray-600">טוען את הפאזל...</p>
+          </div>
+        )}
       </div>
     </div>
   );
