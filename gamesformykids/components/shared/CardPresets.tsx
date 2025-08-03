@@ -284,6 +284,19 @@ export const EmotionCard = ({ emotion, onClick }: { emotion: BaseGameItem; onCli
   />
 );
 
+// קארד פאזלים
+export const PuzzleCard = ({ puzzle, onClick }: { puzzle: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <BaseGameCard
+    item={puzzle}
+    onClick={onClick}
+    gradientFrom="teal-400"
+    gradientTo="cyan-500"
+    hoverFrom="teal-500"
+    hoverTo="cyan-600"
+    backgroundPattern="dots"
+  />
+);
+
 import { GameType } from "@/lib/types/base";
 
 /**
@@ -364,6 +377,10 @@ const EmotionCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (i
   <EmotionCard emotion={item} onClick={onClick} />
 );
 
+const PuzzleCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <PuzzleCard puzzle={item} onClick={onClick} />
+);
+
 /**
  * ===============================================
  * מיפוי מהיר לפי סוג משחק
@@ -388,6 +405,7 @@ export const GameCardMap: Record<GameType, React.ComponentType<{item: BaseGameIt
   space: SpaceCardWrapper,
   professions: ProfessionCardWrapper,
   emotions: EmotionCardWrapper,
+  puzzles: PuzzleCardWrapper,
   bubbles: ColorCardWrapper, // בועות צבעוניות
   counting: NumberCardWrapper, // ספירה עם מספרים
   math: NumberCardWrapper, // מתמטיקה עם מספרים
