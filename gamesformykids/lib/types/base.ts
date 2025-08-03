@@ -89,5 +89,4 @@ export type GameType =
   | 'professions'
   | 'vehicles'
   | 'emotions'
-  | 'bubbles'
-  | 'puzzles';
+  | 'bubbles';

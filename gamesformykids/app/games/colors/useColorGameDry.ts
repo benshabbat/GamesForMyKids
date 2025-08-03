@@ -7,6 +7,7 @@ import { ALL_COLORS, COLOR_HEBREW_PRONUNCIATIONS, COLOR_GAME_CONSTANTS } from "@
  */
 export function useColorGameDry() {
   return useSimpleGame({
+    gameType: 'colors',
     items: ALL_COLORS,
     pronunciations: COLOR_HEBREW_PRONUNCIATIONS,
     gameConstants: COLOR_GAME_CONSTANTS,
