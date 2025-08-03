@@ -4,7 +4,7 @@ import { useMemoryGame } from "./useMemoryGame";
 import MemoryGameBoard from "./MemoryGameBoard";
 import GameWinMessage from "./GameWinMessage";
 import GameHeader from "./GameHeader";
-import StartScreen from "./StartScreen";
+import AutoStartScreen from "@/components/shared/AutoStartScreen";
 import TipsBox from "@/components/shared/TipsBox";
 
 export default function MemoryGamePage() {
@@ -26,7 +26,24 @@ export default function MemoryGamePage() {
   } = useMemoryGame();
 
   if (!isGameStarted) {
-    return <StartScreen onStart={initializeGame} items={animals} onSpeak={() => {}} />;
+    // המרת AnimalData ל-BaseGameItem עבור AutoStartScreen
+    const gameItems = animals.map(animal => ({
+      name: animal.name,
+      hebrew: animal.name,
+      english: animal.name,
+      emoji: animal.emoji,
+      color: '#8B5CF6', // צבע סגול כברירת מחדל
+      sound: [], // Array ריק כי לא משתמשים בזה ב-AutoStartScreen
+    }));
+
+    return (
+      <AutoStartScreen 
+        gameType="memory" 
+        items={gameItems} 
+        onStart={initializeGame} 
+        onSpeak={() => {}} 
+      />
+    );
   }
 
   return (

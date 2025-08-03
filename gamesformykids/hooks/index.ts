@@ -16,32 +16,33 @@ export { useBaseGame } from "./shared/useBaseGame";
 
 // Hooks למשחקים
 export { useSimpleGame } from "./games/useSimpleGame";
-
-// דוגמאות למשחקים DRY - אמורים להחליף את הישנים
-export { useVegetableGameDry } from "../app/games/vegetables/useVegetableGameDry";
-export { useFruitGameDry } from "../app/games/fruits/useFruitGameDry";
-export { useAnimalGameDry } from "../app/games/animals/useAnimalGameDry";
-export { useColorGameAdvanced } from "../app/games/colors/useColorGameAdvanced";
+export { useGenericGame } from "./games/useGenericGame";
 
 /**
  * ===============================================
  * שימוש - דוגמאות
  * ===============================================
  * 
- * // לעשל משחק פשוט:
+ * // למשחק פשוט:
  * import { useSimpleGame } from "@/hooks";
  * 
  * const useMyGame = () => useSimpleGame({
+ *   gameType: 'my-game',
  *   items: MY_ITEMS,
  *   pronunciations: MY_PRONUNCIATIONS,
  *   gameConstants: MY_CONSTANTS
  * });
  * 
+ * // למשחק כללי (מומלץ):
+ * import { useGenericGame } from "@/hooks";
+ * 
+ * const useMyGame = () => useGenericGame(MY_ITEMS, 'my-game');
+ * 
  * // למשחק מתקדם:  
- * import { useSimpleGame, useGameAnalytics } from "@/hooks";
+ * import { useGenericGame, useGameAnalytics } from "@/hooks";
  * 
  * const useMyAdvancedGame = () => {
- *   const game = useSimpleGame({...});
+ *   const game = useGenericGame(MY_ITEMS, 'my-game');
  *   const analytics = useGameAnalytics(game.gameState);
  *   return { ...game, analytics };
  * };
