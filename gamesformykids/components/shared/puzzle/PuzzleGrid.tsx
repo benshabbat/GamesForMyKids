@@ -57,6 +57,7 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
               className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors"
               onDragOver={onDragOver}
               onDrop={(e) => onDrop(e, index)}
+              data-grid-index={index}
               title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
             >
               {piece && (

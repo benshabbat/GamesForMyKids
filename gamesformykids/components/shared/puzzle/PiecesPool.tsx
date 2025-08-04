@@ -5,6 +5,9 @@ import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
 interface PiecesPoolProps {
   pieces: PuzzlePiece[];
   onDragStart: (e: React.DragEvent, piece: PuzzlePiece) => void;
+  onTouchStart?: (e: React.TouchEvent, piece: PuzzlePiece) => void;
+  onTouchMove?: (e: React.TouchEvent) => void;
+  onTouchEnd?: (e: React.TouchEvent) => void;
   title?: string;
   className?: string;
 }
@@ -15,6 +18,9 @@ interface PiecesPoolProps {
 export const PiecesPool: React.FC<PiecesPoolProps> = ({
   pieces,
   onDragStart,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
   title = "🧩 חלקי הפאזל",
   className = ""
 }) => {
@@ -33,7 +39,11 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
             className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg"
             draggable
             onDragStart={(e) => onDragStart(e, piece)}
+            onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
+            onTouchMove={onTouchMove}
+            onTouchEnd={onTouchEnd}
             title={`חלק ${piece.id} - בדק עמדה: ${piece.expectedPosition.row},${piece.expectedPosition.col}`}
+            style={{ touchAction: 'none' }}
           >
             <Image
               src={piece.canvas.toDataURL()}

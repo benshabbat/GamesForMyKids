@@ -98,6 +98,15 @@ export default function SimplePuzzleGame() {
   const [showHelp, setShowHelp] = useState(false);
   const [hintsEnabled, setHintsEnabled] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
+  const [touchState, setTouchState] = useState<{
+    draggedPiece: PuzzlePiece | null;
+    offset: { x: number; y: number };
+    isDragging: boolean;
+  }>({
+    draggedPiece: null,
+    offset: { x: 0, y: 0 },
+    isDragging: false
+  });
 
   // Use the shared feedback hook
   const { feedbackMessage, feedbackType, showFeedback, speak } = usePuzzleFeedback();
@@ -166,30 +175,72 @@ export default function SimplePuzzleGame() {
     console.log('🎯 SimplePuzzle - Dragging piece:', piece.id, 'expected at:', piece.expectedPosition);
   };
 
-  const handleDragOver = (e: React.DragEvent) => {
+  // Touch handlers for mobile support
+  const handleTouchStart = (e: React.TouchEvent, piece: PuzzlePiece) => {
     e.preventDefault();
-    e.dataTransfer.dropEffect = 'move';
+    const touch = e.touches[0];
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
+    
+    setTouchState({
+      draggedPiece: piece,
+      offset: {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top
+      },
+      isDragging: true
+    });
+    
+    setDraggedPiece(piece);
+    console.log('🎯 SimplePuzzle - Touch dragging piece:', piece.id);
   };
 
-  const handleDrop = (e: React.DragEvent, gridIndex: number) => {
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchState.isDragging || !touchState.draggedPiece) return;
     e.preventDefault();
     
-    if (!draggedPiece || !selectedPuzzle) return;
+    // You could add visual feedback here if needed
+    // For now, we just prevent default scrolling
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (!touchState.isDragging || !touchState.draggedPiece || !selectedPuzzle) {
+      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+      return;
+    }
+    
+    e.preventDefault();
+    const touch = e.changedTouches[0];
+    
+    // Find the drop target
+    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    const dropTarget = elementBelow?.closest('[data-grid-index]');
+    
+    if (dropTarget) {
+      const gridIndex = parseInt(dropTarget.getAttribute('data-grid-index') || '0');
+      handleDropLogic(touchState.draggedPiece, gridIndex);
+    }
+    
+    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+    setDraggedPiece(null);
+  };
+
+  const handleDropLogic = (piece: PuzzlePiece, gridIndex: number) => {
+    if (!selectedPuzzle) return;
     
     const gridSide = Math.sqrt(selectedPuzzle.gridSize);
     const row = Math.floor(gridIndex / gridSide);
     const col = gridIndex % gridSide;
     
     console.log('🎯 SimplePuzzle - Drop attempt:', {
-      pieceId: draggedPiece.id,
+      pieceId: piece.id,
       droppedAt: `(${row}, ${col})`,
-      expectedAt: `(${draggedPiece.expectedPosition.row}, ${draggedPiece.expectedPosition.col})`,
+      expectedAt: `(${piece.expectedPosition.row}, ${piece.expectedPosition.col})`,
       gridIndex
     });
 
     // Remove piece from current position if it's already placed
     const newPlacedPieces = [...placedPieces];
-    const currentIndex = newPlacedPieces.findIndex(p => p?.id === draggedPiece.id);
+    const currentIndex = newPlacedPieces.findIndex(p => p?.id === piece.id);
     if (currentIndex !== -1) {
       newPlacedPieces[currentIndex] = null;
     }
@@ -198,11 +249,11 @@ export default function SimplePuzzleGame() {
     newPlacedPieces[gridIndex] = null;
 
     // Check if placement is correct
-    const isCorrect = isPieceInCorrectPosition(draggedPiece, row, col);
+    const isCorrect = isPieceInCorrectPosition(piece, row, col);
     
     // Update piece properties
     const updatedPiece: PuzzlePiece = {
-      ...draggedPiece,
+      ...piece,
       currentPosition: { row, col },
       isPlaced: true,
       isCorrect
@@ -222,8 +273,8 @@ export default function SimplePuzzleGame() {
 
     // Update pieces array - mark as placed/not placed correctly
     setPieces(prevPieces => 
-      prevPieces.map(piece => 
-        piece.id === draggedPiece.id ? { ...updatedPiece, isPlaced: isCorrect } : piece
+      prevPieces.map(p => 
+        p.id === piece.id ? { ...updatedPiece, isPlaced: isCorrect } : p
       )
     );
 
@@ -236,8 +287,6 @@ export default function SimplePuzzleGame() {
       speak('לא במקום הנכון, נסה שוב');
     }
 
-    setDraggedPiece(null);
-
     // Check for completion
     const correctPieces = newPlacedPieces.filter(p => p?.isCorrect).length;
     const newScore = calculateFinalScore(correctPieces, selectedPuzzle.gridSize, timer);
@@ -248,6 +297,20 @@ export default function SimplePuzzleGame() {
       showFeedback('מדהים! השלמת את הפאזל! 🎊', 'success');
       speak('מדהים! השלמת את הפאזל בהצלחה!');
     }
+  };
+
+  const handleDragOver = (e: React.DragEvent) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+  };
+
+  const handleDrop = (e: React.DragEvent, gridIndex: number) => {
+    e.preventDefault();
+    
+    if (!draggedPiece || !selectedPuzzle) return;
+    
+    handleDropLogic(draggedPiece, gridIndex);
+    setDraggedPiece(null);
   };
 
   // Reset current game
@@ -510,6 +573,9 @@ export default function SimplePuzzleGame() {
               <PiecesPool
                 pieces={pieces}
                 onDragStart={handleDragStart}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
                 title="🧩 חלקי הפאזל"
               />
             </div>
