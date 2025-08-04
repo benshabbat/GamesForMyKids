@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // Hook לניהול משחק הציור
 function useDrawingGame() {
@@ -29,6 +29,10 @@ function useDrawingGame() {
       if (e.touches.length > 0) {
         clientX = e.touches[0].clientX;
         clientY = e.touches[0].clientY;
+      } else if (e.changedTouches && e.changedTouches.length > 0) {
+        // For touchend events, use changedTouches
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
       } else {
         return { x: 0, y: 0 };
       }
@@ -38,25 +42,55 @@ function useDrawingGame() {
       clientY = e.clientY;
     }
     
+    // Calculate scaled position based on canvas display size vs actual size
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
     return {
-      x: clientX - rect.left,
-      y: clientY - rect.top
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
     };
   };
 
   const startDrawing = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     setIsDrawing(true);
-    draw(e);
+    
+    // Start the path at the current position
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    
+    const { x, y } = getEventPosition(e);
+    
+    ctx.lineWidth = brushSize;
+    ctx.lineCap = 'round';
+    ctx.strokeStyle = currentColor;
+    ctx.beginPath();
+    ctx.moveTo(x, y);
   };
 
-  const stopDrawing = () => {
+  const stopDrawing = (e?: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+    if (e) e.preventDefault();
     setIsDrawing(false);
+    
+    // End the current path
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    
+    const ctx = canvas.getContext('2d');
+    if (ctx) {
+      ctx.beginPath(); // Start a new path for the next drawing
+    }
   };
 
   const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     if (!isDrawing || !canvasRef.current) return;
-
+    
+    e.preventDefault();
+    
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
@@ -84,6 +118,23 @@ function useDrawingGame() {
   const startGame = () => {
     setIsGameStarted(true);
   };
+
+  // Prevent scrolling on mobile when touching the canvas area
+  useEffect(() => {
+    const preventScroll = (e: TouchEvent) => {
+      if (e.target && (e.target as HTMLElement).closest('canvas')) {
+        e.preventDefault();
+      }
+    };
+
+    document.addEventListener('touchstart', preventScroll, { passive: false });
+    document.addEventListener('touchmove', preventScroll, { passive: false });
+
+    return () => {
+      document.removeEventListener('touchstart', preventScroll);
+      document.removeEventListener('touchmove', preventScroll);
+    };
+  }, [isGameStarted]);
 
   return {
     canvasRef,
@@ -220,6 +271,9 @@ export default function DrawingGameClient() {
         <div className="text-center mb-6">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">🎨 משחק ציורים</h1>
           <p className="text-gray-600">ציירו את מה שבא לכם!</p>
+        <p className="text-sm text-gray-500 mt-2">
+          💡 על מכשירים ניידים: געו במסך וגררו כדי לצייר
+        </p>
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6">
@@ -240,13 +294,20 @@ export default function DrawingGameClient() {
 
           {/* אזור הציור */}
           <div className="flex-1">
-            <div className="bg-white rounded-lg shadow-lg p-4">
+            <div className="bg-white rounded-lg shadow-lg p-4 touch-none">
               <canvas
                 ref={canvasRef}
                 width={800}
                 height={600}
-                className="border-2 border-gray-300 rounded-lg cursor-crosshair w-full max-w-full"
-                style={{ touchAction: 'none' }}
+                className="border-2 border-gray-300 rounded-lg cursor-crosshair w-full max-w-full block touch-none"
+                style={{ 
+                  touchAction: 'none',
+                  userSelect: 'none',
+                  WebkitUserSelect: 'none',
+                  msUserSelect: 'none',
+                  WebkitTouchCallout: 'none',
+                  WebkitTapHighlightColor: 'transparent'
+                }}
                 onMouseDown={startDrawing}
                 onMouseUp={stopDrawing}
                 onMouseMove={draw}

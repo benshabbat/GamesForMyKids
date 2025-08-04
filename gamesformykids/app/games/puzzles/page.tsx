@@ -27,6 +27,9 @@ export default function PuzzleGamePage() {
           <p className="text-xl text-purple-600">
             בחר את סוג הפאזל שאתה רוצה לשחק!
           </p>
+          <p className="text-sm text-purple-500 mt-2">
+            💡 על מכשירים ניידים: געו וגררו את החלקים למקומם
+          </p>
         </div>
 
         {/* בחירת סוג המשחק */}

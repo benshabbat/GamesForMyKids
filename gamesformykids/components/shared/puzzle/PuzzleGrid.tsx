@@ -54,11 +54,18 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
           return (
             <div
               key={`grid-${index}-${piece?.id || 'empty'}`}
-              className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors"
+              className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors touch-none"
               onDragOver={onDragOver}
               onDrop={(e) => onDrop(e, index)}
               data-grid-index={index}
               title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
+              style={{ 
+                touchAction: 'none',
+                userSelect: 'none',
+                WebkitUserSelect: 'none',
+                WebkitTouchCallout: 'none',
+                WebkitTapHighlightColor: 'transparent'
+              }}
             >
               {piece && (
                 <>

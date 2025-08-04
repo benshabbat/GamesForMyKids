@@ -36,14 +36,20 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
         {availablePieces.map((piece) => (
           <div
             key={piece.id}
-            className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg"
+            className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg touch-none"
             draggable
             onDragStart={(e) => onDragStart(e, piece)}
             onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
             title={`חלק ${piece.id} - בדק עמדה: ${piece.expectedPosition.row},${piece.expectedPosition.col}`}
-            style={{ touchAction: 'none' }}
+            style={{ 
+              touchAction: 'none',
+              userSelect: 'none',
+              WebkitUserSelect: 'none',
+              WebkitTouchCallout: 'none',
+              WebkitTapHighlightColor: 'transparent'
+            }}
           >
             <Image
               src={piece.canvas.toDataURL()}
