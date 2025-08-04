@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { Shuffle, RotateCcw, Upload, Home, Lightbulb, Eye, EyeOff, HelpCircle } from 'lucide-react';
+import Image from 'next/image';
 import { 
   createPuzzlePieces, 
   isPieceInCorrectPosition, 
@@ -33,10 +34,12 @@ export default function CustomPuzzleGame() {
     draggedPiece: PuzzlePiece | null;
     offset: { x: number; y: number };
     isDragging: boolean;
+    dragPosition: { x: number; y: number };
   }>({
     draggedPiece: null,
     offset: { x: 0, y: 0 },
-    isDragging: false
+    isDragging: false,
+    dragPosition: { x: 0, y: 0 }
   });
   
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -111,7 +114,8 @@ export default function CustomPuzzleGame() {
         x: touch.clientX - rect.left,
         y: touch.clientY - rect.top
       },
-      isDragging: true
+      isDragging: true,
+      dragPosition: { x: touch.clientX, y: touch.clientY }
     });
     
     setDraggedPiece(piece);
@@ -121,11 +125,17 @@ export default function CustomPuzzleGame() {
   const handleTouchMove = (e: React.TouchEvent) => {
     if (!touchState.isDragging || !touchState.draggedPiece) return;
     e.preventDefault();
+    
+    const touch = e.touches[0];
+    setTouchState(prev => ({
+      ...prev,
+      dragPosition: { x: touch.clientX, y: touch.clientY }
+    }));
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!touchState.isDragging || !touchState.draggedPiece) {
-      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
       return;
     }
     
@@ -141,7 +151,7 @@ export default function CustomPuzzleGame() {
       handleDropLogic(touchState.draggedPiece, gridIndex);
     }
     
-    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
     setDraggedPiece(null);
   };
 
@@ -546,6 +556,28 @@ export default function CustomPuzzleGame() {
           className="hidden"
         />
         <canvas ref={canvasRef} className="hidden" />
+
+        {/* Floating Dragged Piece */}
+        {touchState.isDragging && touchState.draggedPiece && (
+          <div
+            className="fixed pointer-events-none z-50 opacity-80 transform -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: touchState.dragPosition.x,
+              top: touchState.dragPosition.y,
+            }}
+          >
+            <div className="w-20 h-20 rounded-lg overflow-hidden shadow-2xl border-4 border-blue-400 animate-pulse">
+              <Image
+                src={touchState.draggedPiece.canvas.toDataURL()}
+                alt={`Dragging piece ${touchState.draggedPiece.id}`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

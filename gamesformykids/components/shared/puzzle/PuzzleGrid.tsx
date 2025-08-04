@@ -54,7 +54,11 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
           return (
             <div
               key={`grid-${index}-${piece?.id || 'empty'}`}
-              className="aspect-square border-2 border-gray-300 rounded-lg relative overflow-hidden bg-gray-100 hover:bg-gray-50 transition-colors touch-none"
+              className={`aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 touch-none ${
+                piece 
+                  ? 'border-gray-300 bg-gray-100' 
+                  : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-300'
+              }`}
               onDragOver={onDragOver}
               onDrop={(e) => onDrop(e, index)}
               data-grid-index={index}
@@ -74,8 +78,10 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
                     alt={`Piece ${piece.id} at ${row},${col}`}
                     width={100}
                     height={100}
-                    className={`w-full h-full object-cover cursor-grab active:cursor-grabbing ${
-                      piece.isCorrect ? 'ring-2 ring-green-400' : 'ring-2 ring-red-400'
+                    className={`w-full h-full object-cover cursor-grab active:cursor-grabbing transition-all duration-300 ${
+                      piece.isCorrect 
+                        ? 'ring-4 ring-green-400 shadow-lg transform scale-105' 
+                        : 'ring-2 ring-red-400 opacity-80'
                     }`}
                     draggable={!piece.isCorrect}
                     onDragStart={onDragStart ? (e) => onDragStart(e, piece) : undefined}

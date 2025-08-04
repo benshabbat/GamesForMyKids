@@ -102,10 +102,12 @@ export default function SimplePuzzleGame() {
     draggedPiece: PuzzlePiece | null;
     offset: { x: number; y: number };
     isDragging: boolean;
+    dragPosition: { x: number; y: number };
   }>({
     draggedPiece: null,
     offset: { x: 0, y: 0 },
-    isDragging: false
+    isDragging: false,
+    dragPosition: { x: 0, y: 0 }
   });
 
   // Use the shared feedback hook
@@ -187,7 +189,8 @@ export default function SimplePuzzleGame() {
         x: touch.clientX - rect.left,
         y: touch.clientY - rect.top
       },
-      isDragging: true
+      isDragging: true,
+      dragPosition: { x: touch.clientX, y: touch.clientY }
     });
     
     setDraggedPiece(piece);
@@ -198,13 +201,16 @@ export default function SimplePuzzleGame() {
     if (!touchState.isDragging || !touchState.draggedPiece) return;
     e.preventDefault();
     
-    // You could add visual feedback here if needed
-    // For now, we just prevent default scrolling
+    const touch = e.touches[0];
+    setTouchState(prev => ({
+      ...prev,
+      dragPosition: { x: touch.clientX, y: touch.clientY }
+    }));
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
     if (!touchState.isDragging || !touchState.draggedPiece || !selectedPuzzle) {
-      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
       return;
     }
     
@@ -220,7 +226,7 @@ export default function SimplePuzzleGame() {
       handleDropLogic(touchState.draggedPiece, gridIndex);
     }
     
-    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false });
+    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
     setDraggedPiece(null);
   };
 
@@ -601,6 +607,28 @@ export default function SimplePuzzleGame() {
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-lg text-gray-600">טוען את הפאזל...</p>
+          </div>
+        )}
+
+        {/* Floating Dragged Piece */}
+        {touchState.isDragging && touchState.draggedPiece && (
+          <div
+            className="fixed pointer-events-none z-50 opacity-80 transform -translate-x-1/2 -translate-y-1/2"
+            style={{
+              left: touchState.dragPosition.x,
+              top: touchState.dragPosition.y,
+            }}
+          >
+            <div className="w-20 h-20 rounded-lg overflow-hidden shadow-2xl border-4 border-blue-400 animate-pulse">
+              <Image
+                src={touchState.draggedPiece.canvas.toDataURL()}
+                alt={`Dragging piece ${touchState.draggedPiece.id}`}
+                width={80}
+                height={80}
+                className="w-full h-full object-cover"
+                unoptimized
+              />
+            </div>
           </div>
         )}
       </div>

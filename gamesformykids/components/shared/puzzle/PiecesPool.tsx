@@ -56,7 +56,7 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
               alt={`Puzzle piece ${piece.id}`}
               width={80}
               height={80}
-              className="w-20 h-20 object-cover border-2 border-gray-300 hover:border-blue-400 transition-colors"
+              className="w-20 h-20 object-cover border-2 border-gray-300 hover:border-blue-400 transition-all duration-200 hover:shadow-lg hover:scale-110"
               unoptimized
             />
           </div>
@@ -73,6 +73,9 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
           <p>נותרו {availablePieces.length} חלקים</p>
           <p className="text-xs text-gray-500 mt-1">
             💡 ניתן לגרור חלקים גם מהלוח אם הם לא במקום הנכון
+          </p>
+          <p className="text-xs text-blue-500 mt-1">
+            📱 על מכשירים ניידים: געו וגררו את החלקים
           </p>
         </div>
       )}
