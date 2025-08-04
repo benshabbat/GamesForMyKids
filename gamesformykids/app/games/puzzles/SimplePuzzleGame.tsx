@@ -278,46 +278,67 @@ export default function SimplePuzzleGame() {
       newPlacedPieces[currentIndex] = null;
     }
 
+    // Check if there's already a piece at the target position
+    const existingPiece = newPlacedPieces[gridIndex];
+    if (existingPiece) {
+      // If there's a piece there, return it to the pool by marking it as not placed
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === existingPiece.id ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } : p
+        )
+      );
+    }
+
     // Remove any piece that might be at the target position
     newPlacedPieces[gridIndex] = null;
 
     // Check if placement is correct
     const isCorrect = isPieceInCorrectPosition(piece, row, col);
     
-    // Update piece properties
-    const updatedPiece: PuzzlePiece = {
-      ...piece,
-      currentPosition: { row, col },
-      isPlaced: true,
-      isCorrect
-    };
-
-    console.log('🔍 SimplePuzzle - Updated piece:', {
-      id: updatedPiece.id,
-      currentPos: `(${row}, ${col})`,
-      expectedPos: `(${updatedPiece.expectedPosition.row}, ${updatedPiece.expectedPosition.col})`,
-      isCorrect,
-      isPlaced: true
-    });
-
-    // Place the updated piece
-    newPlacedPieces[gridIndex] = updatedPiece;
-    setPlacedPieces(newPlacedPieces);
-
-    // Update pieces array - mark as placed/not placed correctly
-    setPieces(prevPieces => 
-      prevPieces.map(p => 
-        p.id === piece.id ? { ...updatedPiece, isPlaced: isCorrect } : p
-      )
-    );
-
-    // Provide feedback
     if (isCorrect) {
+      // Only place on grid if correct
+      const updatedPiece: PuzzlePiece = {
+        ...piece,
+        currentPosition: { row, col },
+        isPlaced: true,
+        isCorrect: true
+      };
+
+      // Place the updated piece on the grid
+      newPlacedPieces[gridIndex] = updatedPiece;
+      setPlacedPieces(newPlacedPieces);
+
+      // Update pieces array - mark as correctly placed
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === piece.id ? updatedPiece : p
+        )
+      );
+
       showFeedback('כל הכבוד! החלק במקום הנכון! 🎉', 'success');
       speak('כל הכבוד! החלק במקום הנכון!');
     } else {
-      showFeedback('לא במקום הנכון, נסה שוב 🤔', 'error');
-      speak('לא במקום הנכון, נסה שוב');
+      // Place piece on grid even if incorrect, but mark as incorrect and draggable
+      const updatedPiece: PuzzlePiece = {
+        ...piece,
+        currentPosition: { row, col },
+        isPlaced: true,
+        isCorrect: false
+      };
+
+      // Place the piece on the grid
+      newPlacedPieces[gridIndex] = updatedPiece;
+      setPlacedPieces(newPlacedPieces);
+      
+      // Update pieces array - mark as incorrectly placed (still draggable)
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === piece.id ? updatedPiece : p
+        )
+      );
+
+      showFeedback('לא במקום הנכון, אבל אפשר לנסות שוב 🔄', 'error');
+      speak('לא במקום הנכון, נסה למקום אחר');
     }
 
     // Check for completion
@@ -621,6 +642,9 @@ export default function SimplePuzzleGame() {
                 onDragOver={handleDragOver}
                 onDrop={handleDrop}
                 onDragStart={handleDragStart}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
                 title={`🎯 ${selectedPuzzle.name}`}
                 showPositionNumbers={hintsEnabled}
                 showDebugInfo={debugMode}

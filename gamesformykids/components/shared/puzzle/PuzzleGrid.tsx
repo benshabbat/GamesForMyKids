@@ -9,6 +9,9 @@ interface PuzzleGridProps {
   onDragOver: (e: React.DragEvent) => void;
   onDrop: (e: React.DragEvent, index: number) => void;
   onDragStart?: (e: React.DragEvent, piece: PuzzlePiece) => void;
+  onTouchStart?: (e: React.TouchEvent, piece: PuzzlePiece) => void;
+  onTouchMove?: (e: React.TouchEvent) => void;
+  onTouchEnd?: (e: React.TouchEvent) => void;
   title?: string;
   showPositionNumbers?: boolean;
   showDebugInfo?: boolean;
@@ -23,6 +26,9 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
   onDragOver,
   onDrop,
   onDragStart,
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
   title = "🎯 לוח הפאזל",
   showPositionNumbers = true,
   showDebugInfo = false
@@ -38,7 +44,8 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
         className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg shadow-inner"
         style={{ 
           gridTemplateColumns: `repeat(${gridSide}, 1fr)`,
-          maxWidth: '400px',
+          maxWidth: 'min(400px, 90vw)',
+          width: '100%',
           direction: 'ltr' // Force left-to-right layout for proper grid positioning
         }}
       >
@@ -54,7 +61,7 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
           return (
             <div
               key={`grid-${index}-${piece?.id || 'empty'}`}
-              className={`aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 touch-none ${
+              className={`aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 touch-none min-h-[60px] min-w-[60px] ${
                 piece 
                   ? 'border-gray-300 bg-gray-100' 
                   : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-300'
@@ -85,6 +92,9 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
                     }`}
                     draggable={!piece.isCorrect}
                     onDragStart={onDragStart ? (e) => onDragStart(e, piece) : undefined}
+                    onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
+                    onTouchMove={onTouchMove}
+                    onTouchEnd={onTouchEnd}
                     unoptimized
                   />
                   {piece.isCorrect && (

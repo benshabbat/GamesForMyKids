@@ -190,46 +190,67 @@ export default function CustomPuzzleGame() {
       newPlacedPieces[currentIndex] = null;
     }
 
+    // Check if there's already a piece at the target position
+    const existingPiece = newPlacedPieces[gridIndex];
+    if (existingPiece) {
+      // If there's a piece there, return it to the pool by marking it as not placed
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === existingPiece.id ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } : p
+        )
+      );
+    }
+
     // Remove any piece that might be at the target position
     newPlacedPieces[gridIndex] = null;
 
     // Check if placement is correct
     const isCorrect = isPieceInCorrectPosition(piece, row, col);
     
-    // Update piece properties
-    const updatedPiece: PuzzlePiece = {
-      ...piece,
-      currentPosition: { row, col },
-      isPlaced: true,
-      isCorrect
-    };
-
-    console.log('🔍 CustomPuzzle - Updated piece:', {
-      id: updatedPiece.id,
-      currentPos: `(${row}, ${col})`,
-      expectedPos: `(${updatedPiece.expectedPosition.row}, ${updatedPiece.expectedPosition.col})`,
-      isCorrect,
-      isPlaced: true
-    });
-
-    // Place the updated piece
-    newPlacedPieces[gridIndex] = updatedPiece;
-    setPlacedPieces(newPlacedPieces);
-
-    // Update pieces array - mark as placed/not placed correctly
-    setPieces(prevPieces => 
-      prevPieces.map(p => 
-        p.id === piece.id ? { ...updatedPiece, isPlaced: isCorrect } : p
-      )
-    );
-
-    // Provide feedback
     if (isCorrect) {
+      // Only place on grid if correct
+      const updatedPiece: PuzzlePiece = {
+        ...piece,
+        currentPosition: { row, col },
+        isPlaced: true,
+        isCorrect: true
+      };
+
+      // Place the updated piece on the grid
+      newPlacedPieces[gridIndex] = updatedPiece;
+      setPlacedPieces(newPlacedPieces);
+
+      // Update pieces array - mark as correctly placed
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === piece.id ? updatedPiece : p
+        )
+      );
+
       showFeedback('כל הכבוד! החלק במקום הנכון! 🎉', 'success');
       speak('כל הכבוד! החלק במקום הנכון!');
     } else {
-      showFeedback('לא במקום הנכון, נסה שוב 🤔', 'error');
-      speak('לא במקום הנכון, נסה שוב');
+      // Place piece on grid even if incorrect, but mark as incorrect and draggable
+      const updatedPiece: PuzzlePiece = {
+        ...piece,
+        currentPosition: { row, col },
+        isPlaced: true,
+        isCorrect: false
+      };
+
+      // Place the piece on the grid
+      newPlacedPieces[gridIndex] = updatedPiece;
+      setPlacedPieces(newPlacedPieces);
+      
+      // Update pieces array - mark as incorrectly placed (still draggable)
+      setPieces(prevPieces => 
+        prevPieces.map(p => 
+          p.id === piece.id ? updatedPiece : p
+        )
+      );
+
+      showFeedback('לא במקום הנכון, אבל אפשר לנסות שוב 🔄', 'error');
+      speak('לא במקום הנכון, נסה למקום אחר');
     }
 
     // Check for completion
@@ -335,30 +356,32 @@ export default function CustomPuzzleGame() {
   const correctPieces = placedPieces.filter(p => p?.isCorrect).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-100 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-pink-100 p-2 sm:p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-between items-center mb-4">
+        <div className="text-center mb-4 sm:mb-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-2 sm:gap-4 mb-4">
             <button
               onClick={goHome}
-              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg transition-colors text-sm sm:text-base"
             >
               <Home className="w-4 h-4" />
-              חזרה לבית
+              <span className="hidden sm:inline">חזרה לבית</span>
+              <span className="sm:hidden">בית</span>
             </button>
             
-            <h1 className="text-4xl font-bold text-gray-800">🧩 פאזל מותאם אישית</h1>
+            <h1 className="text-2xl sm:text-4xl font-bold text-gray-800 order-first sm:order-none">🧩 פאזל מותאם אישית</h1>
             
             <button
               onClick={toggleHelp}
-              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
+              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 sm:px-4 sm:py-2 rounded-lg transition-colors text-sm sm:text-base"
             >
               <HelpCircle className="w-4 h-4" />
-              עזרה
+              <span className="hidden sm:inline">עזרה</span>
+              <span className="sm:hidden">?</span>
             </button>
           </div>
-          <p className="text-lg text-gray-600">העלה תמונה וצור פאזל משלך!</p>
+          <p className="text-base sm:text-lg text-gray-600">העלה תמונה וצור פאזל משלך!</p>
         </div>
 
         {/* Upload Section */}
@@ -395,11 +418,55 @@ export default function CustomPuzzleGame() {
                           className="object-cover"
                           sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         />
+                        {/* Difficulty indicator */}
+                        <div className="absolute top-2 left-2 bg-blue-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                          {difficulty} חלקים
+                        </div>
                       </div>
-                      <p className="text-sm text-gray-600 p-2 text-center">{img.name}</p>
+                      <div className="p-2 text-center">
+                        <p className="text-sm text-gray-600 font-medium">{img.name}</p>
+                        <p className="text-xs text-blue-600 mt-1">
+                          יווצר פאזל {Math.sqrt(difficulty)}×{Math.sqrt(difficulty)}
+                        </p>
+                      </div>
                     </div>
                   ))}
                 </div>
+              </div>
+
+              {/* Current difficulty display */}
+              <div className="mb-6 p-4 bg-blue-50 rounded-lg border border-blue-200">
+                <div className="flex items-center justify-center gap-3">
+                  <span className="text-blue-800 font-semibold">רמת קושי נוכחית:</span>
+                  <select
+                    value={difficulty}
+                    onChange={(e) => {
+                      const newDifficulty = Number(e.target.value);
+                      setDifficulty(newDifficulty);
+                      const difficultyName = 
+                        newDifficulty === 4 ? 'קל' : 
+                        newDifficulty === 9 ? 'בינוני' : 
+                        newDifficulty === 16 ? 'קשה' : 'מומחה';
+                      
+                      speak(`רמה חדשה נבחרה: ${difficultyName}`);
+                      
+                      // If we have an image, restart/start game with new difficulty
+                      if (image) {
+                        initializeGame(image);
+                        speak(`המשחק מתחיל ברמת ${difficultyName}`);
+                      }
+                    }}
+                    className="px-3 py-2 border border-blue-300 rounded-lg bg-white text-blue-800 font-medium"
+                  >
+                    <option value={4}>קל (2x2) - 4 חלקים</option>
+                    <option value={9}>בינוני (3x3) - 9 חלקים</option>
+                    <option value={16}>קשה (4x4) - 16 חלקים</option>
+                    <option value={25}>מומחה (5x5) - 25 חלקים</option>
+                  </select>
+                </div>
+                <p className="text-center text-sm text-blue-600 mt-2">
+                  הפאזל ייווצר עם {difficulty} חלקים ({Math.sqrt(difficulty)}×{Math.sqrt(difficulty)})
+                </p>
               </div>
 
               {/* Upload custom image section */}
@@ -476,17 +543,27 @@ export default function CustomPuzzleGame() {
               {showDebug ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               דיבוג
             </button>
-            <select
-              value={difficulty}
-              onChange={(e) => setDifficulty(Number(e.target.value))}
-              className="px-4 py-2 border rounded-lg"
-              disabled={gameStarted}
-            >
-              <option value={4}>קל (2x2)</option>
-              <option value={9}>בינוני (3x3)</option>
-              <option value={16}>קשה (4x4)</option>
-              <option value={25}>מומחה (5x5)</option>
-            </select>
+            <div className="flex items-center gap-2">
+              <label className="text-sm font-medium text-gray-700">רמת קושי:</label>
+              <select
+                value={difficulty}
+                onChange={(e) => {
+                  const newDifficulty = Number(e.target.value);
+                  setDifficulty(newDifficulty);
+                  // If we have an image, restart/start game with new difficulty
+                  if (image) {
+                    initializeGame(image);
+                    speak(`רמה חדשה נבחרה! ${gameStarted ? 'התחלנו מחדש' : 'המשחק מתחיל'}`);
+                  }
+                }}
+                className="px-4 py-2 border rounded-lg bg-white"
+              >
+                <option value={4}>קל (2x2) - 4 חלקים</option>
+                <option value={9}>בינוני (3x3) - 9 חלקים</option>
+                <option value={16}>קשה (4x4) - 16 חלקים</option>
+                <option value={25}>מומחה (5x5) - 25 חלקים</option>
+              </select>
+            </div>
           </div>
         )}
 
@@ -565,16 +642,32 @@ export default function CustomPuzzleGame() {
 
         {/* Game Area */}
         {gameStarted && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Stats Panel */}
-            <div className="lg:col-span-1">
+          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6">
+            {/* Game Grid - On mobile, this comes first */}
+            <div className="lg:col-span-2 order-1 lg:order-2">
+              <PuzzleGrid
+                gridSize={difficulty}
+                pieces={placedPieces}
+                onDragOver={handleDragOver}
+                onDrop={handleDrop}
+                onDragStart={handleDragStart}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                title="🎯 לוח הפאזל"
+                showPositionNumbers={showHints}
+                showDebugInfo={showDebug}
+              />
+            </div>
+
+            {/* Stats Panel and Pieces Pool - Combined on mobile */}
+            <div className="lg:col-span-1 order-2 lg:order-1 space-y-4 lg:space-y-6">
               <PuzzleStats
                 correctPieces={correctPieces}
                 totalPieces={difficulty}
                 timeElapsed={timer}
                 score={score}
                 isComplete={isCompleted}
-                className="mb-6"
               />
               
               {/* Pieces Pool */}
@@ -585,20 +678,6 @@ export default function CustomPuzzleGame() {
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
                 title="🧩 חלקי הפאזל"
-              />
-            </div>
-
-            {/* Game Grid */}
-            <div className="lg:col-span-2">
-              <PuzzleGrid
-                gridSize={difficulty}
-                pieces={placedPieces}
-                onDragOver={handleDragOver}
-                onDrop={handleDrop}
-                onDragStart={handleDragStart}
-                title="🎯 לוח הפאזל"
-                showPositionNumbers={showHints}
-                showDebugInfo={showDebug}
               />
             </div>
           </div>

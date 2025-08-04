@@ -24,8 +24,10 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
   title = "🧩 חלקי הפאזל",
   className = ""
 }) => {
-  // Show pieces that are not placed correctly (not placed at all or placed incorrectly)
-  const availablePieces = pieces.filter(piece => !piece.isPlaced || (piece.isPlaced && !piece.isCorrect));
+  // Show pieces that are not placed at all (pieces placed incorrectly stay on the grid)
+  const availablePieces = pieces.filter(piece => !piece.isPlaced);
+  const totalPieces = pieces.length;
+  const placedOnGrid = pieces.filter(p => p.isPlaced).length;
   
   return (
     <div className={`bg-white rounded-2xl p-6 shadow-xl ${className}`}>
@@ -36,13 +38,13 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
         {availablePieces.map((piece) => (
           <div
             key={piece.id}
-            className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg touch-none"
+            className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg touch-none min-w-[80px] min-h-[80px]"
             draggable
             onDragStart={(e) => onDragStart(e, piece)}
             onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
             onTouchMove={onTouchMove}
             onTouchEnd={onTouchEnd}
-            title={`חלק ${piece.id} - בדק עמדה: ${piece.expectedPosition.row},${piece.expectedPosition.col}`}
+            title={`חלק ${piece.id} - מיועד לעמדה: ${piece.expectedPosition.row},${piece.expectedPosition.col}`}
             style={{ 
               touchAction: 'none',
               userSelect: 'none',
@@ -70,12 +72,15 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
       </div>
       {availablePieces.length > 0 && (
         <div className="mt-4 text-center text-sm text-gray-600">
-          <p>נותרו {availablePieces.length} חלקים</p>
+          <p>נותרו {availablePieces.length} חלקים להנחה</p>
+          <p className="text-xs text-gray-400 mt-1">
+            ({placedOnGrid} על הלוח, {availablePieces.length} כאן, מתוך {totalPieces} סה&quot;כ)
+          </p>
           <p className="text-xs text-gray-500 mt-1">
-            💡 ניתן לגרור חלקים גם מהלוח אם הם לא במקום הנכון
+            💡 חלקים שלא במקום הנכון נשארים על הלוח וניתנים לגרירה
           </p>
           <p className="text-xs text-blue-500 mt-1">
-            📱 על מכשירים ניידים: געו וגררו את החלקים
+            📱 על מכשירים ניידים: לחץ והחזק לגרירה
           </p>
         </div>
       )}
