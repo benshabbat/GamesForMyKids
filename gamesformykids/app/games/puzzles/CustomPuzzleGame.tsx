@@ -452,7 +452,14 @@ export default function CustomPuzzleGame() {
                       
                       // If we have an image, restart/start game with new difficulty
                       if (image) {
-                        resetGame();
+                        // Call initializeGame directly with the new difficulty
+                        const newPieces = createPuzzlePieces(image, newDifficulty);
+                        setPieces(newPieces);
+                        setPlacedPieces(new Array(newDifficulty).fill(null));
+                        setGameStarted(true);
+                        setIsCompleted(false);
+                        setTimer(0);
+                        setScore(0);
                         speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
                       } else {
                         // Visual feedback when no image is loaded
@@ -562,7 +569,14 @@ export default function CustomPuzzleGame() {
                   
                   // If we have an image, restart/start game with new difficulty
                   if (image) {
-                    resetGame();
+                    // Call initializeGame directly with the new difficulty
+                    const newPieces = createPuzzlePieces(image, newDifficulty);
+                    setPieces(newPieces);
+                    setPlacedPieces(new Array(newDifficulty).fill(null));
+                    setGameStarted(true);
+                    setIsCompleted(false);
+                    setTimer(0);
+                    setScore(0);
                     speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
                   } else {
                     // Visual feedback when no image is loaded
