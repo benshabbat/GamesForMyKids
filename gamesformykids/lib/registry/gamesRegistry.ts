@@ -18,6 +18,7 @@ import {
   Wrench,
   Smile,
   Puzzle,
+  Paintbrush,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -256,6 +257,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/puzzles",
     available: true,
     order: 22,
+  },
+  {
+    id: "drawing",
+    title: "משחק ציורים",
+    description: "צייר יצירות אמנות!",
+    icon: Paintbrush,
+    color: "bg-orange-400 hover:bg-orange-500",
+    href: "/games/drawing",
+    available: true,
+    order: 23,
   },
 ];
 
