@@ -31,57 +31,84 @@ interface SimplePuzzle {
 const SIMPLE_PUZZLES: SimplePuzzle[] = [
   {
     id: 1,
-    name: "פאזל חתול חמוד",
-    emoji: "🐱",
-    color: "#FF69B4",
-    imageUrl: "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=400&h=400&fit=crop&crop=face",
+    name: "שועל חמוד עם יו-יו",
+    emoji: "🦊",
+    color: "#FF8C00",
+    imageUrl: "/images/Fox with Yo-Yo.png",
     gridSize: 4, // 2x2
     difficulty: "easy"
   },
   {
     id: 2,
-    name: "פאזל כלב יפה",
-    emoji: "🐶",
-    color: "#4169E1",
-    imageUrl: "https://images.unsplash.com/photo-1552053831-71594a27632d?w=400&h=400&fit=crop&crop=face",
+    name: "שועל מגניב",
+    emoji: "🦊",
+    color: "#FF6347",
+    imageUrl: "/images/Cool Fox Character.png",
     gridSize: 4, // 2x2
     difficulty: "easy"
   },
   {
     id: 3,
-    name: "פאזל ברווז צהוב",
-    emoji: "🦆",
-    color: "#FFD700",
-    imageUrl: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?w=400&h=400&fit=crop",
+    name: "חיות חמודות עם קשת בענן",
+    emoji: "🌈",
+    color: "#FF69B4",
+    imageUrl: "/images/Cute Animals with Rainbow.png",
     gridSize: 9, // 3x3
     difficulty: "medium"
   },
   {
     id: 4,
-    name: "פאזל כבשה רכה",
-    emoji: "🐑",
-    color: "#F0F8FF",
-    imageUrl: "https://images.unsplash.com/photo-1583337130417-3346a1be7dee?w=400&h=400&fit=crop",
+    name: "חברים יפים ביער",
+    emoji: "🌲",
+    color: "#32CD32",
+    imageUrl: "/images/Happy Forest Friends.png",
     gridSize: 9, // 3x3
     difficulty: "medium"
   },
   {
     id: 5,
-    name: "פאזל חזיר ורוד",
-    emoji: "🐷",
-    color: "#FFC0CB",
-    imageUrl: "https://images.unsplash.com/photo-1516467508483-a7212febe31a?w=400&h=400&fit=crop",
+    name: "משחקים בחוץ",
+    emoji: "🎈",
+    color: "#87CEEB",
+    imageUrl: "/images/Playing Outdoors.png",
     gridSize: 16, // 4x4
     difficulty: "hard"
   },
   {
     id: 6,
-    name: "פאזל שור חזק",
-    emoji: "🐄",
-    color: "#8B4513",
-    imageUrl: "https://images.unsplash.com/photo-1560114928-40f1f1eb26a0?w=400&h=400&fit=crop",
+    name: "נסיכה עם צבי ביער",
+    emoji: "👸",
+    color: "#DDA0DD",
+    imageUrl: "/images/Princess with Deer.png",
     gridSize: 16, // 4x4
     difficulty: "hard"
+  },
+  {
+    id: 7,
+    name: "מסיבה ביער",
+    emoji: "🎉",
+    color: "#FFD700",
+    imageUrl: "/images/Forest Party.png",
+    gridSize: 9, // 3x3
+    difficulty: "medium"
+  },
+  {
+    id: 8,
+    name: "ארץ הפטריות הקסומה",
+    emoji: "🍄",
+    color: "#FF1493",
+    imageUrl: "/images/Magical Mushroom Land.png",
+    gridSize: 16, // 4x4
+    difficulty: "hard"
+  },
+  {
+    id: 9,
+    name: "נסיכה ביער הקסום",
+    emoji: "🏰",
+    color: "#9370DB",
+    imageUrl: "/images/Princess in Magical Forest.png",
+    gridSize: 9, // 3x3
+    difficulty: "medium"
   }
 ];
 

@@ -74,6 +74,22 @@ export default function CustomPuzzleGame() {
     }
   };
 
+  // Handle pre-made image selection
+  const handlePreMadeImageSelect = (imageSrc: string) => {
+    const img = document.createElement('img') as HTMLImageElement;
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      setImage(img);
+      initializeGame(img);
+      speak('תמונה נבחרה! הפאזל מוכן');
+    };
+    img.onerror = () => {
+      console.error('Failed to load pre-made image:', imageSrc);
+      showFeedback('שגיאה בטעינת התמונה', 'error');
+    };
+    img.src = imageSrc;
+  };
+
   // Initialize game with image
   const initializeGame = useCallback((img: HTMLImageElement) => {
     const newPieces = createPuzzlePieces(img, difficulty);
@@ -348,24 +364,65 @@ export default function CustomPuzzleGame() {
         {/* Upload Section */}
         {!image && (
           <div className="text-center mb-8">
-            <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-8 max-w-md mx-auto">
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleImageUpload}
-                ref={fileInputRef}
-                className="hidden"
-              />
-              <button
-                onClick={() => fileInputRef.current?.click()}
-                className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg"
-              >
-                <Upload className="w-6 h-6 mr-2" />
-                העלה תמונה
-              </button>
-              <p className="text-sm text-gray-500 mt-4">
-                בחר תמונה מהמחשב שלך כדי ליצור פאזל
-              </p>
+            <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-8 max-w-4xl mx-auto">
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">בחר תמונה לפאזל</h3>
+              
+              {/* Pre-made images section */}
+              <div className="mb-8">
+                <h4 className="text-lg font-semibold text-gray-700 mb-4">תמונות מוכנות</h4>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+                  {[
+                    { src: '/images/Fox with Yo-Yo.png', name: 'שועל עם יו-יו' },
+                    { src: '/images/Cool Fox Character.png', name: 'שועל מגניב' },
+                    { src: '/images/Cute Animals with Rainbow.png', name: 'חיות עם קשת' },
+                    { src: '/images/Happy Forest Friends.png', name: 'חברי היער' },
+                    { src: '/images/Playing Outdoors.png', name: 'משחק בחוץ' },
+                    { src: '/images/Princess with Deer.png', name: 'נסיכה וצבי' },
+                    { src: '/images/Forest Party.png', name: 'מסיבת יער' },
+                    { src: '/images/Magical Mushroom Land.png', name: 'ארץ הפטריות' },
+                    { src: '/images/Princess in Magical Forest.png', name: 'נסיכה ביער קסום' }
+                  ].map((img, index) => (
+                    <div 
+                      key={index}
+                      onClick={() => handlePreMadeImageSelect(img.src)}
+                      className="cursor-pointer border-2 border-gray-200 rounded-lg overflow-hidden hover:border-blue-400 hover:shadow-lg transition-all duration-200 transform hover:scale-105"
+                    >
+                      <div className="aspect-square relative">
+                        <Image
+                          src={img.src}
+                          alt={img.name}
+                          fill
+                          className="object-cover"
+                          sizes="(max-width: 768px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        />
+                      </div>
+                      <p className="text-sm text-gray-600 p-2 text-center">{img.name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Upload custom image section */}
+              <div className="border-t pt-6">
+                <h4 className="text-lg font-semibold text-gray-700 mb-4">או העלה תמונה משלך</h4>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  ref={fileInputRef}
+                  className="hidden"
+                />
+                <button
+                  onClick={() => fileInputRef.current?.click()}
+                  className="inline-flex items-center justify-center rounded-md font-medium transition-colors bg-blue-500 hover:bg-blue-600 text-white px-8 py-4 text-lg"
+                >
+                  <Upload className="w-6 h-6 mr-2" />
+                  העלה תמונה מהמחשב
+                </button>
+                <p className="text-sm text-gray-500 mt-4">
+                  בחר תמונה מהמחשב שלך כדי ליצור פאזל מותאם אישית
+                </p>
+              </div>
             </div>
           </div>
         )}
