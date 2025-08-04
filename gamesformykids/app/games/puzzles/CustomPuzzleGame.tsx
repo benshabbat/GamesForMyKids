@@ -686,9 +686,28 @@ export default function CustomPuzzleGame() {
                 showDebugInfo={showDebug}
               />
             </div>
+              {image && (
+                <div className="bg-white rounded-lg border border-gray-200 shadow-sm p-3 lg:p-4">
+                  <h3 className="text-base lg:text-lg font-bold text-gray-800 mb-2 lg:mb-3 text-center">🖼️ תמונת עזר</h3>
+                  <div className="aspect-square relative rounded-lg overflow-hidden border-2 border-gray-300 max-w-48 mx-auto lg:max-w-none">
+                    <Image
+                      src={image.src}
+                      alt="תמונת עזר לפאזל"
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 1024px) 192px, 33vw"
+                    />
+                  </div>
+                  <p className="text-xs lg:text-sm text-gray-600 text-center mt-1 lg:mt-2">
+                    התמונה המלאה לעזרה בבניית הפאזל
+                  </p>
+                </div>
+              )}
+              
 
             {/* Stats Panel and Pieces Pool - Combined on mobile */}
             <div className="lg:col-span-1 order-2 lg:order-1 space-y-4 lg:space-y-6">
+              {/* Reference Image - Responsive design */}
               <PuzzleStats
                 correctPieces={correctPieces}
                 totalPieces={difficulty}
