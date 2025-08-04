@@ -448,12 +448,15 @@ export default function CustomPuzzleGame() {
                         newDifficulty === 9 ? 'בינוני' : 
                         newDifficulty === 16 ? 'קשה' : 'מומחה';
                       
-                      speak(`רמה חדשה נבחרה: ${difficultyName}`);
+                      speak(`רמה חדשה נבחרה: ${difficultyName} עם ${newDifficulty} חלקים`);
                       
                       // If we have an image, restart/start game with new difficulty
                       if (image) {
-                        initializeGame(image);
-                        speak(`המשחק מתחיל מחדש ברמת ${difficultyName}`);
+                        resetGame();
+                        speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
+                      } else {
+                        // Visual feedback when no image is loaded
+                        showFeedback(`רמת קושי שונתה ל${difficultyName} - ${newDifficulty} חלקים`, 'success');
                       }
                     }}
                     className="px-3 py-2 border border-blue-300 rounded-lg bg-white text-blue-800 font-medium"
@@ -555,12 +558,15 @@ export default function CustomPuzzleGame() {
                     newDifficulty === 9 ? 'בינוני' : 
                     newDifficulty === 16 ? 'קשה' : 'מומחה';
                   
-                  speak(`רמה חדשה נבחרה: ${difficultyName}`);
+                  speak(`רמה חדשה נבחרה: ${difficultyName} עם ${newDifficulty} חלקים`);
                   
                   // If we have an image, restart/start game with new difficulty
                   if (image) {
-                    initializeGame(image);
-                    speak(`המשחק מתחיל מחדש ברמת ${difficultyName}`);
+                    resetGame();
+                    speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
+                  } else {
+                    // Visual feedback when no image is loaded
+                    showFeedback(`רמת קושי שונתה ל${difficultyName} - ${newDifficulty} חלקים`, 'success');
                   }
                 }}
                 className="px-4 py-2 border rounded-lg bg-white"
