@@ -21,7 +21,8 @@ const previewImages = [
   { src: '/images/Princess with Deer.png', name: 'נסיכה וצבי' },
   { src: '/images/Forest Party.png', name: 'מסיבת יער' },
   { src: '/images/Magical Mushroom Land.png', name: 'ארץ הפטריות' },
-  { src: '/images/Princess in Magical Forest.png', name: 'נסיכה ביער קסום' }
+  { src: '/images/Princess in Magical Forest.png', name: 'נסיכה ביער קסום' },
+  { src: '/images/Anna and Elsa with a Unicorn.png', name: 'אנה ואלזה עם חד קרן' },
 ];
 
 export default function ImageUploadSection({ 
