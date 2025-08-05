@@ -43,7 +43,7 @@ export function getRandomItem<T>(items: T[]): T {
   }
   
   const randomIndex = Math.floor(Math.random() * items.length);
-  return items[randomIndex];
+  return items[randomIndex]!;
 }
 
 /**
@@ -324,8 +324,10 @@ export function playAnimalSound(
   emoji: string,
   frequencies: Record<string, number[]>
 ): void {
-  const animalFreqs = frequencies[emoji] || frequencies['default'];
-  playCustomSound(audioContext, animalFreqs);
+  const animalFreqs = frequencies[emoji] || frequencies['default'] || [];
+  if (animalFreqs.length > 0) {
+    playCustomSound(audioContext, animalFreqs);
+  }
 }
 
 /**

@@ -1,11 +1,12 @@
 'use client';
 
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
+import Link from 'next/link';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'שגיאה בלתי צפויה',
-  description: 'אירעה שגיאה בלתי צפויה באפליקציה',
+  title: 'שגיאה במערכת',
+  description: 'אירעה שגיאה בלתי צפויה במערכת',
 };
 
 interface GlobalErrorProps {
@@ -79,12 +80,12 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
                 רענן את הדף
               </button>
               
-              <a
+              <Link
                 href="/"
                 className="block w-full bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition-colors duration-200"
               >
                 חזרה לדף הבית
-              </a>
+              </Link>
             </div>
             
             {/* Fun animations */}

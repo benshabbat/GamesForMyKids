@@ -47,6 +47,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   themeColor: '#3b82f6',
+  colorScheme: 'light',
+  viewportFit: 'cover',
 };
 
 interface RootLayoutProps {
@@ -56,8 +58,45 @@ interface RootLayoutProps {
 export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="he" dir="rtl" className={inter.variable}>
+      <head>
+        {/* PWA manifest */}
+        <link rel="manifest" href="/manifest.json" />
+        
+        {/* Apple touch icons */}
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
+        
+        {/* Microsoft tiles */}
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+        <meta name="msapplication-TileColor" content="#3b82f6" />
+        
+        {/* Preload critical resources */}
+        <link rel="preload" href="/sounds/success.mp3" as="audio" />
+        <link rel="preload" href="/sounds/click.mp3" as="audio" />
+      </head>
       <body className={`${inter.className} antialiased`}>
         {children}
+        
+        {/* Service Worker registration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              if ('serviceWorker' in navigator) {
+                window.addEventListener('load', function() {
+                  navigator.serviceWorker.register('/sw.js')
+                    .then(function(registration) {
+                      console.log('✅ SW registered: ', registration);
+                    })
+                    .catch(function(registrationError) {
+                      console.log('❌ SW registration failed: ', registrationError);
+                    });
+                });
+              }
+            `,
+          }}
+        />
       </body>
     </html>
   );

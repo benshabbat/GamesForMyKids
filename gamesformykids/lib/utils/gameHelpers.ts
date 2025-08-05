@@ -64,7 +64,7 @@ export const createGameConfig = (
   baseCount,
   increment,
   levelThreshold,
-  maxCount
+  maxCount: maxCount ?? 20  // Provide default value to avoid undefined
 });
 
 /**
@@ -125,7 +125,9 @@ export const shuffleArray = <T>(array: T[]): T[] => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    const temp = shuffled[i];
+    shuffled[i] = shuffled[j]!;
+    shuffled[j] = temp!;
   }
   return shuffled;
 };
@@ -137,7 +139,8 @@ export const getRandomItem = <T>(items: T[]): T => {
   if (items.length === 0) {
     throw new Error('Cannot get random item from empty array');
   }
-  return items[Math.floor(Math.random() * items.length)];
+  const randomIndex = Math.floor(Math.random() * items.length);
+  return items[randomIndex]!;
 };
 
 /**
