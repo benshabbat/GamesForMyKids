@@ -68,6 +68,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 3,
   },
   {
+    id: "hebrew-letters",
+    title: "תרגול כתיבה בעברית",
+    description: "תרגל כתיבת כל האותיות!",
+    icon: HebrewLettersIcon,
+    color: "bg-green-400 hover:bg-green-500",
+    href: "/games/hebrew-letters",
+    available: true,
+    order: 3.5,
+  },
+  {
     id: "shapes",
     title: "משחק צורות",
     description: "למד צורות!",
