@@ -53,12 +53,13 @@ export default function GameHeader({
   };
 
   return (
-    <div className="text-center mb-8">
-      {/* כותרת המשחק */}
-      <h1 className="text-4xl md:text-5xl font-bold text-purple-800 mb-2">
-        🧠 משחק זיכרון 🧠
-      </h1>
-      <p className="text-xl text-purple-600 mb-6">מצא את הזוגות הזהים!</p>
+    <div className="sticky top-0 z-40 bg-white/90 backdrop-blur-md rounded-xl border border-white/40 shadow-lg mx-auto max-w-6xl mb-6">
+      <div className="p-4">
+        {/* כותרת המשחק */}
+        <h1 className="text-3xl md:text-4xl font-bold text-purple-800 mb-2 text-center">
+          🧠 משחק זיכרון 🧠
+        </h1>
+        <p className="text-lg text-purple-600 mb-4 text-center">מצא את הזוגות הזהים!</p>
 
       {/* בחירת רמת קושי */}
       <div className="flex justify-center gap-2 mb-6">
@@ -153,6 +154,7 @@ export default function GameHeader({
             ></div>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

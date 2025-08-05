@@ -18,23 +18,25 @@ export default function GameHeader({
   levelColor = "text-purple-600",
 }: GameHeaderProps) {
   return (
-    <div className="flex justify-between items-center mb-6">
-      <button
-        onClick={onHome}
-        className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50"
-      >
-        <Home className="inline w-5 h-5 ml-2" /> חזרה
-      </button>
-      <div className="text-center">
-        <div className={`text-2xl font-bold ${scoreColor}`}>ניקוד: {score}</div>
-        <div className={`text-lg ${levelColor}`}>רמה: {level}</div>
+    <div className="sticky top-0 z-40 bg-white/80 backdrop-blur-md rounded-xl border border-white/40 shadow-lg mx-auto max-w-4xl mb-6">
+      <div className="flex justify-between items-center p-4">
+        <button
+          onClick={onHome}
+          className="px-3 py-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-lg shadow-md text-lg font-bold text-gray-600 hover:text-gray-800 transition-all duration-200 border border-gray-200/50"
+        >
+          <Home className="inline w-4 h-4 ml-2" /> חזרה
+        </button>
+        <div className="text-center">
+          <div className={`text-xl font-bold ${scoreColor}`}>ניקוד: {score}</div>
+          <div className={`text-sm ${levelColor}`}>רמה: {level}</div>
+        </div>
+        <button
+          onClick={onReset}
+          className="px-3 py-2 bg-white/60 hover:bg-white/80 backdrop-blur-sm rounded-lg shadow-md text-lg font-bold text-gray-600 hover:text-gray-800 transition-all duration-200 border border-gray-200/50"
+        >
+          <RotateCcw className="inline w-4 h-4 ml-2" /> מחדש
+        </button>
       </div>
-      <button
-        onClick={onReset}
-        className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50"
-      >
-        <RotateCcw className="inline w-5 h-5 ml-2" /> מחדש
-      </button>
     </div>
   );
 }

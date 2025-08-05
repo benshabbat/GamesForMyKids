@@ -1,11 +1,10 @@
 /**
  * ===============================================
- * GameNavigation - ניווט בין משחקים
+ * GameNavigation - ניווט בין משחקים במסכי התחלה
  * ===============================================
  * 
- * מוסיף חצים לניווט למשחק הקודם/הבא
- * במסכי ההתחלה של כל המשחקים
- * תומך גם במקשי חצים במקלדת
+ * ניווט אלגנטי למסכי התחלה של המשחקים
+ * כולל חצים, כפתור בית ואינדיקטור מיקום
  */
 
 import { ChevronLeft, ChevronRight, Home } from "lucide-react";
@@ -65,55 +64,55 @@ export default function GameNavigation({ currentGameId }: GameNavigationProps) {
 
   return (
     <>
-      {/* חצי ניווט מינימליים */}
-      <div className="fixed top-4 left-4 right-4 flex justify-between items-start z-50 pointer-events-none">
-        {/* חץ ימין - משחק קודם */}
-        <button
-          onClick={() => navigateToGame(previousGame.href)}
-          className="pointer-events-auto bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-lg p-2 transition-all duration-200 border border-white/20"
-          title={`משחק קודם: ${previousGame.title}`}
-          aria-label={`עבור למשחק הקודם: ${previousGame.title}`}
-        >
-          <ChevronRight className="w-5 h-5 text-white drop-shadow-lg" />
-        </button>
+      {/* פס ניווט עליון משופר */}
+      <div className="fixed top-3 left-3 right-3 z-[60] game-navigation">
+        <div className="navigation-backdrop bg-black/15 rounded-xl border border-white/30 shadow-lg">
+          <div className="flex items-center justify-between p-2">
+            {/* חץ ימין - משחק קודם */}
+            <button
+              onClick={() => navigateToGame(previousGame.href)}
+              className="bg-white/20 hover:bg-white/30 active:bg-white/40 rounded-lg p-2 transition-all duration-200 border border-white/20 hover:border-white/40 group"
+              title={`משחק קודם: ${previousGame.title}`}
+              aria-label={`עבור למשחק הקודם: ${previousGame.title}`}
+            >
+              <ChevronRight className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+            </button>
 
-        {/* חץ שמאל - משחק הבא */}
-        <button
-          onClick={() => navigateToGame(nextGame.href)}
-          className="pointer-events-auto bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-lg p-2 transition-all duration-200 border border-white/20"
-          title={`משחק הבא: ${nextGame.title}`}
-          aria-label={`עבור למשחק הבא: ${nextGame.title}`}
-        >
-          <ChevronLeft className="w-5 h-5 text-white drop-shadow-lg" />
-        </button>
-      </div>
+            {/* כפתור חזרה לעמוד הראשי - במרכז */}
+            <button
+              onClick={() => router.push('/')}
+              className="bg-white/20 hover:bg-white/30 active:bg-white/40 rounded-lg p-2 transition-all duration-200 border border-white/20 hover:border-white/40 group"
+              title="חזרה לעמוד הראשי"
+              aria-label="חזרה לרשימת המשחקים"
+            >
+              <Home className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+            </button>
 
-      {/* כפתור חזרה لعמוד הראשי - מיקום נפרד */}
-      <div className="fixed top-4 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
-        <button
-          onClick={() => router.push('/')}
-          className="pointer-events-auto bg-black/20 hover:bg-black/40 backdrop-blur-sm rounded-lg p-2 transition-all duration-200 border border-white/20"
-          title="חזרה לעמוד הראשי"
-          aria-label="חזרה לרשימת המשחקים"
-        >
-          <Home className="w-5 h-5 text-white drop-shadow-lg" />
-        </button>
-      </div>
-
-      {/* אינדיקטור נקודות בתחתית */}
-      <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 pointer-events-none">
-        <div className="bg-black/30 backdrop-blur-sm rounded-full px-3 py-2">
-          <div className="flex items-center gap-1">
-            {availableGames.map((_, index) => (
-              <div
-                key={index}
-                className={`w-2 h-2 rounded-full transition-all duration-200 ${
-                  index === currentIndex
-                    ? 'bg-white scale-125'
-                    : 'bg-white/40'
-                }`}
-              />
-            ))}
+            {/* חץ שמאל - משחק הבא */}
+            <button
+              onClick={() => navigateToGame(nextGame.href)}
+              className="bg-white/20 hover:bg-white/30 active:bg-white/40 rounded-lg p-2 transition-all duration-200 border border-white/20 hover:border-white/40 group"
+              title={`משחק הבא: ${nextGame.title}`}
+              aria-label={`עבור למשחק הבא: ${nextGame.title}`}
+            >
+              <ChevronLeft className="w-5 h-5 text-white drop-shadow-md group-hover:scale-110 transition-transform" />
+            </button>
+          </div>
+          
+          {/* אינדיקטור נקודות משולב */}
+          <div className="pb-2 px-2">
+            <div className="flex items-center justify-center gap-1">
+              {availableGames.map((_, index) => (
+                <div
+                  key={index}
+                  className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                    index === currentIndex
+                      ? 'bg-white scale-150 shadow-md'
+                      : 'bg-white/50 hover:bg-white/70'
+                  }`}
+                />
+              ))}
+            </div>
           </div>
         </div>
       </div>

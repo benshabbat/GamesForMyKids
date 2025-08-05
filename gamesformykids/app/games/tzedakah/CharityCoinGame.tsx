@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import GameNavigation from '@/components/shared/GameNavigation';
+import GameNavigation from '@/components/shared/InGameNavigation';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
 
@@ -132,7 +132,7 @@ const CharityCoinGame: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-200 p-4">
-      {/* ניווט בין משחקים */}
+      {/* ניווט דיסקרטי במהלך המשחק */}
       <GameNavigation currentGameId="tzedakah" />
       
       <div className="max-w-6xl mx-auto">
@@ -145,7 +145,24 @@ const CharityCoinGame: React.FC = () => {
             עזרו לתרום ולעשות מעשים טובים!
           </p>
         </div>
-        
+                {/* הסבר על המשחק */}
+        <div className="mt-6 mb-3 text-center">
+          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto shadow-xl border-2 border-purple-200 ">
+            <div className="text-2xl mb-3">💝</div>
+            <h3 className="text-xl font-bold text-purple-800 mb-3">
+              למה חשובה צדקה?
+            </h3>
+            <p className="text-gray-700 text-sm leading-relaxed">
+              צדקה היא מצווה חשובה שמלמדת אותנו לעזור לאחרים ולחלוק מהטוב שלנו.
+              במשחק הזה אתם עוזרים לאסוף מטבעות לקופת הצדקה ולומדים על חשיבות הנתינה והעזרה לזולת.
+            </p>
+            <div className="flex justify-center gap-4 mt-4 text-2xl">
+              <span>🤝</span>
+              <span>❤️</span>
+              <span>🌟</span>
+            </div>
+          </div>
+        </div>
         {/* לוח תוצאות מעוצב */}
         <div className="flex justify-center mb-6">
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-2xl p-6 border-2 border-yellow-300">
@@ -338,24 +355,7 @@ const CharityCoinGame: React.FC = () => {
           </div>
         </div>
 
-        {/* הסבר על המשחק */}
-        <div className="mt-6 text-center">
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto shadow-xl border-2 border-purple-200">
-            <div className="text-2xl mb-3">💝</div>
-            <h3 className="text-xl font-bold text-purple-800 mb-3">
-              למה חשובה צדקה?
-            </h3>
-            <p className="text-gray-700 text-sm leading-relaxed">
-              צדקה היא מצווה חשובה שמלמדת אותנו לעזור לאחרים ולחלוק מהטוב שלנו.
-              במשחק הזה אתם עוזרים לאסוף מטבעות לקופת הצדקה ולומדים על חשיבות הנתינה והעזרה לזולת.
-            </p>
-            <div className="flex justify-center gap-4 mt-4 text-2xl">
-              <span>🤝</span>
-              <span>❤️</span>
-              <span>🌟</span>
-            </div>
-          </div>
-        </div>
+
 
         {/* ניווט תחתון */}
         <div className="mt-8 flex justify-center">

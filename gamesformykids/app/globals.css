@@ -17,6 +17,41 @@ body {
 .animate-bounce-gentle {
   animation: bounce-gentle 2s infinite;
 }
+
+/* ניווט משחקים - הבטחת אי-התערבות */
+.game-navigation {
+  pointer-events: none;
+}
+
+.game-navigation button {
+  pointer-events: auto;
+}
+
+/* הסתרת scrollbar אך שמירה על פונקציונליות */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* אפקטים חלקים לניווט */
+.navigation-fade {
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+.navigation-backdrop {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* אנימציות לטיפים */
+@keyframes slideOut {
+  from { transform: translateX(0%); }
+  to { transform: translateX(100%); }
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
