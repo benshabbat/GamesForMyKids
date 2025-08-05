@@ -14,7 +14,6 @@ import { AutoStartScreenProps } from "@/lib/types/startScreen";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "./GameItem";
-import GameNavigation from "./GameNavigation";
 import NavigationTips from "./NavigationTips";
 
 /**
@@ -28,11 +27,10 @@ import NavigationTips from "./NavigationTips";
  */
 export default function AutoStartScreen({ 
   gameType, 
-  gameId,
   items, 
   onStart, 
   onSpeak 
-}: AutoStartScreenProps) {
+}: Omit<AutoStartScreenProps, 'gameId'>) {
   const config = GAME_UI_CONFIGS[gameType];
   
   if (!config) {
@@ -50,8 +48,7 @@ export default function AutoStartScreen({
 
   return (
     <>
-      {/* ניווט בין משחקים */}
-      {gameId && <GameNavigation currentGameId={gameId} />}
+      {/* הניווט מוסר מכאן - הוא עכשיו ב-layout */}
       
       <GenericStartScreen
       title={config.title}

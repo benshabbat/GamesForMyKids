@@ -1,6 +1,6 @@
 'use client';
 
-import InGameNavigation from '@/components/shared/InGameNavigation';
+import SimpleGameNavigation from '@/components/shared/SimpleGameNavigation';
 import { usePathname } from 'next/navigation';
 
 export default function GamesLayout({
@@ -30,8 +30,8 @@ export default function GamesLayout({
 
   return (
     <div>
-      {/* ניווט אוטומטי לכל המשחקים */}
-      {gameId && <InGameNavigation currentGameId={gameId} />}
+      {/* ניווט פשוט ואחיד לכל המשחקים */}
+      {gameId && <SimpleGameNavigation currentGameId={gameId} />}
       {children}
     </div>
   );
