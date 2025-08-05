@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
+  openAnalyzer: true,
 });
 
 const nextConfig: NextConfig = {
@@ -32,28 +33,57 @@ const nextConfig: NextConfig = {
   // Bundle optimization
   webpack: (config, { dev, isServer }) => {
     // Production optimizations
-    if (!dev && !isServer) {
+    if (!dev) {
       config.optimization = {
         ...config.optimization,
+        usedExports: true,
+        sideEffects: false,
         splitChunks: {
           chunks: 'all',
+          minSize: 20000,
+          maxSize: 244000,
           cacheGroups: {
+            default: {
+              minChunks: 2,
+              priority: -20,
+              reuseExistingChunk: true,
+            },
             vendor: {
               test: /[\\/]node_modules[\\/]/,
               name: 'vendors',
+              priority: -10,
               chunks: 'all',
-              priority: 10,
+              enforce: true,
+            },
+            react: {
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/,
+              name: 'react',
+              chunks: 'all',
+              priority: 20,
+            },
+            lucide: {
+              test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
+              name: 'lucide',
+              chunks: 'all',
+              priority: 15,
             },
             common: {
               name: 'common',
               minChunks: 2,
               chunks: 'all',
               priority: 5,
+              reuseExistingChunk: true,
             },
           },
         },
       };
     }
+
+    // Tree shaking for lucide-react
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'lucide-react': 'lucide-react/dist/esm/icons',
+    };
 
     // Optimize SVG imports
     config.module.rules.push({

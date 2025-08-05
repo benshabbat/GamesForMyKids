@@ -1,9 +1,11 @@
-import { Suspense } from "react";
+import { Suspense, lazy } from "react";
 import type { Metadata } from "next";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import CategorizedGamesGrid from "@/components/CategorizedGamesGrid";
+
+// Lazy load heavy components
+const CategorizedGamesGrid = lazy(() => import("@/components/CategorizedGamesGrid"));
 
 export const metadata: Metadata = {
   title: "דף הבית",
