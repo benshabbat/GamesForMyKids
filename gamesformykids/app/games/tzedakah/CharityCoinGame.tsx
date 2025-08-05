@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
-import GameNavigation from '@/components/shared/InGameNavigation';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
 
@@ -132,9 +131,6 @@ const CharityCoinGame: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-200 p-4">
-      {/* ניווט דיסקרטי במהלך המשחק */}
-      <GameNavigation currentGameId="tzedakah" />
-      
       <div className="max-w-6xl mx-auto">
         {/* כותרת מעוצבת */}
         <div className="text-center mb-6">

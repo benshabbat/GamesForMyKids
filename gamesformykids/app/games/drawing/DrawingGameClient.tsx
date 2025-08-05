@@ -157,7 +157,7 @@ function useDrawingGame() {
 function DrawingStartScreen({ onStart }: { onStart: () => void }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 flex items-center justify-center">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
+        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full mx-4 text-center">
         <div className="text-6xl mb-6">🎨</div>
         <h1 className="text-3xl font-bold text-gray-800 mb-4">
           משחק ציורים

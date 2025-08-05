@@ -40,10 +40,32 @@
 
 1. `components/shared/GameNavigation.tsx` - ניווט למסכי התחלה
 2. `components/shared/InGameNavigation.tsx` - ניווט דיסקרטי חדש
-3. `components/shared/GameHeader.tsx` - header מושפר
-4. `app/games/memory/GameHeader.tsx` - header ספציפי מושפר
-5. `app/games/tzedakah/CharityCoinGame.tsx` - מעבר לניווט החדש
-6. `app/globals.css` - קלאסים נוספים
+3. `components/shared/AutoGamePage.tsx` - ניווט למשחקים האוטומטיים
+4. `components/shared/GameHeader.tsx` - header מושפר
+5. `app/games/memory/GameHeader.tsx` - header ספציפי מושפר
+6. `app/games/tzedakah/CharityCoinGame.tsx` - מעבר לניווט החדש
+7. `app/games/drawing/DrawingGameClient.tsx` - ניווט למסכי התחלה ולמשחק
+8. `app/games/puzzles/page.tsx` - ניווט לתפריט הפאזלים
+9. `app/games/memory/page.tsx` - ניווט למשחק הזיכרון
+10. `app/games/bubbles/BubbleGame.tsx` - ניווט למשחק הבועות
+11. `app/globals.css` - קלאסים נוספים
+
+## כיסוי המשחקים
+
+### ✅ משחקים עם ניווט מלא:
+- **משחקים אוטומטיים** (דרך AutoGamePage): חיות, צבעים, פירות, ירקות, מזג אוויר, תחבורה, כלי נגינה, חלל, בגדים, ריחות-טעמים, בית, כלים, מקצועות, רגשות, אותיות, צורות, מספרים
+- **משחק זיכרון** - ניווט במסך התחלה ובמשחק
+- **משחק ציורים** - ניווט במסך התחלה ובמשחק  
+- **משחק פאזלים** - ניווט בתפריט הראשי
+- **משחק צדקה** - ניווט במשחק
+- **משחק בועות** - ניווט במסך התחלה ובמשחק
+- **משחק מתמטיקה** - ניווט באמצעות AutoStartScreen
+- **משחק ספירה** - ניווט באמצעות AutoStartScreen
+
+### 📋 סטטוס הניווט:
+- **מסכי התחלה**: ✅ כל המשחקים מכוסים
+- **במהלך המשחק**: ✅ כל המשחקים הראשיים מכוסים
+- **תפריטים**: ✅ פאזלים וכל הראשיים מכוסים
 
 ## איך זה עובד
 
