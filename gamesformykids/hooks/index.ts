@@ -13,10 +13,21 @@ export { useGameAnalytics } from "./shared/useGameAnalytics";
 export { useGameOptions } from "./shared/useGameOptions";
 export { useAdvancedGameState } from "./shared/useAdvancedGameState";
 export { useBaseGame } from "./shared/useBaseGame";
+export { useGameHints } from "./shared/useGameHints";
+export { useGamePerformance } from "./shared/useGamePerformance";
+export { useProgressTracking } from "./shared/useProgressTracking";
 
 // Hooks למשחקים
 export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
+export { usePuzzleFeedback } from "./games/usePuzzleFeedback";
+
+// Hooks חדשים למשחקי פאזל
+export { useImageManagement } from "./games/useImageManagement";
+export { usePuzzleGameLogic } from "./games/usePuzzleGameLogic";
+export { useDragAndDrop } from "./games/useDragAndDrop";
+export { useGameState } from "./games/useGameState";
+export { useKeyboardShortcuts } from "./games/useKeyboardShortcuts";
 
 /**
  * ===============================================
