@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
+import GameNavigation from '@/components/shared/GameNavigation';
+import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { useRouter } from 'next/navigation';
 
 interface Coin {
   id: number;
@@ -18,11 +21,18 @@ const CharityCoinGame: React.FC = () => {
   const [gameTime, setGameTime] = useState(60);
   const [coinId, setCoinId] = useState(0);
   const [collectedCoins, setCollectedCoins] = useState(0);
+  
+  const router = useRouter();
 
   const gameWidth = 800;
   const gameHeight = 600;
   const basketWidth = 120;
   const basketHeight = 70;
+
+  // מציאת המשחק הבא
+  const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available).sort((a, b) => a.order - b.order);
+  const currentIndex = availableGames.findIndex(game => game.id === 'tzedakah');
+  const nextGame = currentIndex < availableGames.length - 1 ? availableGames[currentIndex + 1] : availableGames[0];
 
   // יצירת מטבע חדש
   const createCoin = useCallback(() => {
@@ -122,6 +132,9 @@ const CharityCoinGame: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-200 p-4">
+      {/* ניווט בין משחקים */}
+      <GameNavigation currentGameId="tzedakah" />
+      
       <div className="max-w-6xl mx-auto">
         {/* כותרת מעוצבת */}
         <div className="text-center mb-6">
@@ -179,17 +192,36 @@ const CharityCoinGame: React.FC = () => {
           )}
 
           {gameTime <= 0 && score > 0 && (
-            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-4 border-yellow-400 rounded-2xl p-6 text-center shadow-2xl">
+            <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-4 border-yellow-400 rounded-2xl p-6 text-center shadow-2xl max-w-md mx-auto">
               <div className="text-6xl mb-4">🎉</div>
               <h2 className="text-3xl font-bold text-purple-800 mb-3">המשחק נגמר!</h2>
               <p className="text-xl text-gray-700 mb-2">הניקוד הסופי שלך: <span className="font-bold text-blue-600">{score}</span></p>
               <p className="text-lg text-gray-600 mb-4">תפסת <span className="font-bold text-green-600">{collectedCoins}</span> מטבעות! 🪙</p>
-              <button
-                onClick={startGame}
-                className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
-              >
-                🔄 שחק שוב
-              </button>
+              
+              <div className="flex flex-col gap-3">
+                <button
+                  onClick={startGame}
+                  className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+                >
+                  🔄 שחק שוב
+                </button>
+                
+                <button
+                  onClick={() => router.push(nextGame.href)}
+                  className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold py-3 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2"
+                >
+                  <span>🎮</span>
+                  <span>עבור ל{nextGame.title}</span>
+                  <span>←</span>
+                </button>
+                
+                <button
+                  onClick={() => router.push('/')}
+                  className="bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white font-bold py-2 px-4 rounded-lg transition-all duration-300 text-sm"
+                >
+                  🏠 חזרה לעמוד הראשי
+                </button>
+              </div>
             </div>
           )}
         </div>
@@ -292,6 +324,17 @@ const CharityCoinGame: React.FC = () => {
                 </div>
               </div>
             )}
+
+            {/* ניווט במהלך המשחק */}
+            {gameStarted && (
+              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-xl border-2 border-blue-200">
+                <div className="text-xs text-gray-600 text-center">
+                  <div className="font-bold mb-1">🎮 ניווט:</div>
+                  <div>← הבא | → קודם</div>
+                  <div>ESC = בית</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
@@ -310,6 +353,22 @@ const CharityCoinGame: React.FC = () => {
               <span>🤝</span>
               <span>❤️</span>
               <span>🌟</span>
+            </div>
+          </div>
+        </div>
+
+        {/* ניווט תחתון */}
+        <div className="mt-8 flex justify-center">
+          <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
+            <div className="text-center text-gray-600 text-sm mb-3">
+              💡 <strong>טיפ:</strong> השתמש במקשי החצים במקלדת לניווט מהיר!
+            </div>
+            <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+              <span>← משחק הבא: {nextGame.title}</span>
+              <span>•</span>
+              <span>→ משחק קודם</span>
+              <span>•</span>
+              <span>ESC דף הבית</span>
             </div>
           </div>
         </div>
