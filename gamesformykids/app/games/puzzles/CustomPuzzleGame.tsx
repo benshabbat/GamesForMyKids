@@ -194,18 +194,8 @@ export default function CustomPuzzleGame() {
 
             {/* Stats Panel and Pieces Pool - Combined on mobile */}
             <div className="lg:col-span-1 order-2 lg:order-1 space-y-4 lg:space-y-6">
-              {/* Reference Image - Responsive design */}
-              {imageManagement.image && <ReferenceImage image={imageManagement.image} />}
               
-              <PuzzleStats
-                correctPieces={correctPieces}
-                totalPieces={gameState.difficulty}
-                timeElapsed={gameState.timer}
-                score={puzzleLogic.score}
-                isComplete={gameState.isCompleted}
-              />
-              
-              {/* Pieces Pool */}
+                {/* Pieces Pool */}
               <PiecesPool
                 pieces={puzzleLogic.pieces}
                 onDragStart={dragAndDrop.handleDragStart}
@@ -214,6 +204,18 @@ export default function CustomPuzzleGame() {
                 onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
                 title="🧩 חלקי הפאזל"
               />
+              {/* Reference Image - Responsive design */}
+              {imageManagement.image && <ReferenceImage image={imageManagement.image} />}
+              
+            
+              <PuzzleStats
+                correctPieces={correctPieces}
+                totalPieces={gameState.difficulty}
+                timeElapsed={gameState.timer}
+                score={puzzleLogic.score}
+                isComplete={gameState.isCompleted}
+              />
+              
             </div>
           </div>
         )}
