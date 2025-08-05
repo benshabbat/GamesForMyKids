@@ -10,6 +10,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://games-for-my-kids.vercel.app'),
   title: {
     default: 'משחקים לילדים בגיל 2-5 | משחקים חינוכיים ומהנים',
     template: '%s | משחקים לילדים'
@@ -185,6 +186,46 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 scroll-behavior: auto !important;
               }
             }
+            
+            /* High contrast mode support */
+            @media (prefers-contrast: high) {
+              .card {
+                border: 2px solid #000;
+                background: #fff;
+              }
+              button {
+                border: 2px solid currentColor;
+              }
+            }
+            
+            /* Focus management for keyboard users */
+            .using-keyboard *:focus {
+              outline: 3px solid #6366f1;
+              outline-offset: 2px;
+            }
+            
+            /* Performance optimizations */
+            * {
+              will-change: auto;
+            }
+            
+            .card, .game-card {
+              contain: layout;
+              content-visibility: auto;
+              contain-intrinsic-size: 200px;
+            }
+            
+            /* Prevent layout shift */
+            img, video, iframe {
+              aspect-ratio: attr(width) / attr(height);
+            }
+            
+            /* Optimize font loading */
+            @font-face {
+              font-family: 'Inter';
+              font-display: swap;
+              src: local('Inter');
+            }
           `
         }} />
       </head>
@@ -195,22 +236,107 @@ export default function RootLayout({ children }: RootLayoutProps) {
       >
         {children}
         
-        {/* Service Worker registration */}
+        {/* Service Worker registration - moved to end for better performance */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
+              // Performance optimization: delay SW registration
               if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                  navigator.serviceWorker.register('/sw.js')
-                    .then(function(registration) {
-                      console.warn('✅ SW registered: ', registration);
-                    })
-                    .catch(function(registrationError) {
-                      console.error('❌ SW registration failed: ', registrationError);
-                    });
+                  // Register after page load to avoid blocking
+                  setTimeout(function() {
+                    navigator.serviceWorker.register('/sw.js')
+                      .then(function(registration) {
+                        console.warn('✅ SW registered: ', registration);
+                      })
+                      .catch(function(registrationError) {
+                        console.error('❌ SW registration failed: ', registrationError);
+                      });
+                  }, 1000);
                 });
               }
+              
+              // Initialize performance optimizations
+              window.addEventListener('DOMContentLoaded', function() {
+                // Skip to main content functionality
+                const skipLink = document.createElement('a');
+                skipLink.href = '#main-content';
+                skipLink.textContent = 'דלג לתוכן הראשי';
+                skipLink.className = 'sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 bg-blue-600 text-white px-4 py-2 rounded z-50';
+                skipLink.style.cssText = 'position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;';
+                skipLink.addEventListener('focus', function() {
+                  this.style.cssText = 'position: absolute; top: 1rem; left: 1rem; z-index: 50; background: #2563eb; color: white; padding: 0.5rem 1rem; border-radius: 0.375rem;';
+                });
+                skipLink.addEventListener('blur', function() {
+                  this.style.cssText = 'position: absolute; left: -9999px; top: auto; width: 1px; height: 1px; overflow: hidden;';
+                });
+                document.body.insertBefore(skipLink, document.body.firstChild);
+                
+                // Add main content ID for skip link
+                const main = document.querySelector('main');
+                if (main && !main.id) {
+                  main.id = 'main-content';
+                }
+                
+                // Keyboard navigation enhancement
+                document.addEventListener('keydown', function(e) {
+                  if (e.key === 'Tab') {
+                    document.body.classList.add('using-keyboard');
+                  }
+                });
+                
+                document.addEventListener('mousedown', function() {
+                  document.body.classList.remove('using-keyboard');
+                });
+              });
             `,
+          }}
+        />
+        
+        {/* Structured Data for SEO */}
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "WebSite",
+              "name": "משחקים לילדים",
+              "alternateName": "Games For My Kids",
+              "url": "https://games-for-my-kids.vercel.app",
+              "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים",
+              "inLanguage": "he",
+              "author": {
+                "@type": "Organization",
+                "name": "Games For My Kids",
+                "url": "https://games-for-my-kids.vercel.app"
+              },
+              "publisher": {
+                "@type": "Organization", 
+                "name": "Games For My Kids",
+                "url": "https://games-for-my-kids.vercel.app"
+              }
+            })
+          }}
+        />
+        
+        <script 
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "EducationalOrganization",
+              "name": "משחקים לילדים",
+              "url": "https://games-for-my-kids.vercel.app",
+              "description": "פלטפורמה חינוכית למשחקים לילדים בגיל הרך",
+              "educationalUse": "learning",
+              "audience": {
+                "@type": "EducationalAudience",
+                "educationalRole": "student",
+                "audienceType": "children",
+                "suggestedMinAge": 2,
+                "suggestedMaxAge": 5
+              }
+            })
           }}
         />
       </body>
