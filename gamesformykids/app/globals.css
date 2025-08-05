@@ -9,6 +9,99 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* אנימציות מותאמות למשחק הצדקה */
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes glow {
+  0%, 100% {
+    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+  }
+}
+
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+.animate-twinkle {
+  animation: twinkle 2s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-glow {
+  animation: glow 2s ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.5s ease-in-out;
+}
+
+/* אפקט הקבעה של הסל */
+.charity-basket {
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.charity-basket:hover {
+  transform: scale(1.05);
+}
+
+/* אפקט למטבעות */
+.charity-coin {
+  transition: all 0.2s ease-out;
+}
+
+.charity-coin:hover {
+  transform: scale(1.1) rotate(180deg);
+}
+
+/* רספונסיביות משופרת */
+@media (max-width: 768px) {
+  .charity-game-area {
+    width: 95vw;
+    max-width: 350px;
+    height: 60vh;
+    max-height: 450px;
+  }
+}
+
+@media (min-width: 769px) {
+  .charity-game-area {
+    width: 800px;
+    height: 600px;
+  }
+}
+
 @keyframes bounce-gentle {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-5px); }
