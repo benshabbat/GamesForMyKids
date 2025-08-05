@@ -79,11 +79,11 @@ const nextConfig: NextConfig = {
       };
     }
 
-    // Tree shaking for lucide-react
-    config.resolve.alias = {
-      ...config.resolve.alias,
-      'lucide-react': 'lucide-react/dist/esm/icons',
-    };
+    // Tree shaking for lucide-react - remove this as it's causing issues
+    // config.resolve.alias = {
+    //   ...config.resolve.alias,
+    //   'lucide-react': 'lucide-react/dist/esm/icons',
+    // };
 
     // Optimize SVG imports
     config.module.rules.push({
