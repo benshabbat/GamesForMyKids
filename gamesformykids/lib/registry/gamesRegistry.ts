@@ -249,6 +249,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 21,
   },
   {
+    id: "tzedakah",
+    title: "משחק קופת הצדקה",
+    description: "תפוס מטבעות לצדקה!",
+    icon: Heart,
+    color: "bg-pink-400 hover:bg-pink-500",
+    href: "/games/tzedakah",
+    available: true,
+    order: 22,
+  },
+  {
     id: "puzzles",
     title: "משחק פאזלים",
     description: "הרכב תמונות יפות!",
@@ -256,7 +266,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     color: "bg-purple-400 hover:bg-purple-500",
     href: "/games/puzzles",
     available: true,
-    order: 22,
+    order: 23,
   },
   {
     id: "drawing",
@@ -266,7 +276,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     color: "bg-orange-400 hover:bg-orange-500",
     href: "/games/drawing",
     available: true,
-    order: 23,
+    order: 24,
   },
 ];
 

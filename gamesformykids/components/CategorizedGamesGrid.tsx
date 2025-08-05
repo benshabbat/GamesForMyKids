@@ -41,11 +41,11 @@ const GAME_CATEGORIES = {
   },
   home: {
     title: "בית וחיים",
-    description: "חפצי בית, בגדים ומקצועות",
+    description: "חפצי בית, בגדים, מקצועות וצדקה",
     icon: Home,
     color: "bg-pink-500",
     gradient: "from-pink-400 to-pink-600",
-    gameIds: ["house", "clothing", "professions", "tools"]
+    gameIds: ["house", "clothing", "professions", "tools", "tzedakah"]
   },
   math: {
     title: "מתמטיקה וחשיבה",
