@@ -341,17 +341,6 @@ const CharityCoinGame: React.FC = () => {
                 </div>
               </div>
             )}
-
-            {/* ניווט במהלך המשחק */}
-            {gameStarted && (
-              <div className="absolute top-4 right-4 bg-white/95 backdrop-blur-sm rounded-2xl p-3 shadow-xl border-2 border-blue-200">
-                <div className="text-xs text-gray-600 text-center">
-                  <div className="font-bold mb-1">🎮 ניווט:</div>
-                  <div>← הבא | → קודם</div>
-                  <div>ESC = בית</div>
-                </div>
-              </div>
-            )}
           </div>
         </div>
 
