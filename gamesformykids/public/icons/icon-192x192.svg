@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="192" height="192" viewBox="0 0 192 192">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8b5cf6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3b82f6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="192" height="192" rx="32" fill="url(#grad1)"/>
+  <text x="96" y="65" text-anchor="middle" font-family="Arial, sans-serif" font-size="26" font-weight="bold" fill="white">משחקים</text>
+  <text x="96" y="105" text-anchor="middle" font-family="Arial, sans-serif" font-size="20" fill="white">לילדים</text>
+  <circle cx="96" cy="140" r="20" fill="white" opacity="0.8"/>
+  <text x="96" y="150" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" font-weight="bold" fill="#3b82f6">🎮</text>
+</svg>

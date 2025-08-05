@@ -70,18 +70,18 @@ export default function RootLayout({ children }: RootLayoutProps) {
         <link rel="manifest" href="/manifest.json" />
         
         {/* Apple touch icons */}
-        <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
-        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <link rel="apple-touch-icon" href="/icons/icon-192x192.svg" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
         
         {/* Microsoft tiles */}
-        <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
+        <meta name="msapplication-TileImage" content="/icons/icon-144x144.svg" />
         <meta name="msapplication-TileColor" content="#3b82f6" />
         
-        {/* Preload critical resources */}
-        <link rel="preload" href="/sounds/success.mp3" as="audio" />
-        <link rel="preload" href="/sounds/click.mp3" as="audio" />
+        {/* Preload critical resources - only if they exist */}
+        {/* <link rel="preload" href="/sounds/success.mp3" as="audio" type="audio/mpeg" /> */}
+        {/* <link rel="preload" href="/sounds/click.mp3" as="audio" type="audio/mpeg" /> */}
         
         {/* Critical CSS inline for above-fold content */}
         <style dangerouslySetInnerHTML={{
@@ -110,10 +110,10 @@ export default function RootLayout({ children }: RootLayoutProps) {
                 window.addEventListener('load', function() {
                   navigator.serviceWorker.register('/sw.js')
                     .then(function(registration) {
-                      console.log('✅ SW registered: ', registration);
+                      console.warn('✅ SW registered: ', registration);
                     })
                     .catch(function(registrationError) {
-                      console.log('❌ SW registration failed: ', registrationError);
+                      console.error('❌ SW registration failed: ', registrationError);
                     });
                 });
               }

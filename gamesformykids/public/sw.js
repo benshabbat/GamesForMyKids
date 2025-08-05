@@ -14,7 +14,7 @@ const STATIC_ASSETS = [
 const GAME_ASSETS_PATTERN = /\/(images|sounds|icons)\//;
 const API_PATTERN = /\/api\//;
 
-self.addEventListener('install', (event: ExtendableEvent) => {
+self.addEventListener('install', (event) => {
   console.log('🚀 Service Worker installing...');
   
   event.waitUntil(
@@ -33,7 +33,7 @@ self.addEventListener('install', (event: ExtendableEvent) => {
   );
 });
 
-self.addEventListener('activate', (event: ExtendableEvent) => {
+self.addEventListener('activate', (event) => {
   console.log('🔄 Service Worker activating...');
   
   event.waitUntil(
@@ -55,7 +55,7 @@ self.addEventListener('activate', (event: ExtendableEvent) => {
   );
 });
 
-self.addEventListener('fetch', (event: FetchEvent) => {
+self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
@@ -162,14 +162,14 @@ self.addEventListener('fetch', (event: FetchEvent) => {
 });
 
 // Handle background sync for offline actions
-self.addEventListener('sync', (event: SyncEvent) => {
+self.addEventListener('sync', (event) => {
   if (event.tag === 'game-progress-sync') {
     event.waitUntil(syncGameProgress());
   }
 });
 
 // Handle push notifications (if needed in the future)
-self.addEventListener('push', (event: PushEvent) => {
+self.addEventListener('push', (event) => {
   if (!event.data) return;
 
   const data = event.data.json();
@@ -199,25 +199,3 @@ async function syncGameProgress() {
     console.error('❌ Failed to sync game progress:', error);
   }
 }
-
-// TypeScript declarations for Service Worker types
-declare const self: ServiceWorkerGlobalScope;
-
-interface ExtendableEvent extends Event {
-  waitUntil(promise: Promise<any>): void;
-}
-
-interface FetchEvent extends ExtendableEvent {
-  request: Request;
-  respondWith(response: Promise<Response>): void;
-}
-
-interface SyncEvent extends ExtendableEvent {
-  tag: string;
-}
-
-interface PushEvent extends ExtendableEvent {
-  data: PushMessageData | null;
-}
-
-export {};
