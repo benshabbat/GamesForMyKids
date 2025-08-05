@@ -23,10 +23,24 @@ const CharityCoinGame: React.FC = () => {
   
   const router = useRouter();
 
-  const gameWidth = 800;
-  const gameHeight = 600;
-  const basketWidth = 120;
-  const basketHeight = 70;
+  // גדלים רספונסיביים למובייל
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  const gameWidth = isMobile ? 350 : 800;
+  const gameHeight = isMobile ? 450 : 600;
+  const basketWidth = isMobile ? 80 : 120;
+  const basketHeight = isMobile ? 50 : 70;
 
   // מציאת המשחק הבא
   const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available).sort((a, b) => a.order - b.order);
@@ -37,23 +51,27 @@ const CharityCoinGame: React.FC = () => {
   const createCoin = useCallback(() => {
     if (!gameStarted || gameTime <= 0) return;
     
+    const coinSize = isMobile ? 32 : 48; // גודל המטבע בפיקסלים
+    
     const newCoin: Coin = {
       id: coinId,
-      x: Math.random() * (gameWidth - 40),
-      y: -40,
+      x: Math.random() * (gameWidth - coinSize),
+      y: -coinSize,
       speed: 2 + Math.random() * 3,
       rotation: 0
     };
     
     setCoins(prev => [...prev, newCoin]);
     setCoinId(prev => prev + 1);
-  }, [gameStarted, gameTime, coinId, gameWidth]);
+  }, [gameStarted, gameTime, coinId, gameWidth, isMobile]);
 
   // עדכון מיקום המטבעות
   useEffect(() => {
     if (!gameStarted) return;
 
     const interval = setInterval(() => {
+      const coinSize = isMobile ? 32 : 48;
+      
       setCoins(prev => 
         prev
           .map(coin => ({
@@ -61,12 +79,12 @@ const CharityCoinGame: React.FC = () => {
             y: coin.y + coin.speed,
             rotation: coin.rotation + 5
           }))
-          .filter(coin => coin.y < gameHeight + 40)
+          .filter(coin => coin.y < gameHeight + coinSize)
       );
     }, 16);
 
     return () => clearInterval(interval);
-  }, [gameStarted, gameHeight]);
+  }, [gameStarted, gameHeight, isMobile]);
 
   // יצירת מטבעות חדשים
   useEffect(() => {
@@ -94,13 +112,33 @@ const CharityCoinGame: React.FC = () => {
     }
   }, [gameTime, gameStarted]);
 
+  // תמיכה במקשי חצים לתנועה במחשב
+  useEffect(() => {
+    if (!gameStarted || isMobile) return;
+
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        setBasketX(prev => Math.max(0, prev - 20));
+      } else if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        setBasketX(prev => Math.min(gameWidth - basketWidth, prev + 20));
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [gameStarted, isMobile, gameWidth, basketWidth]);
+
   // בדיקת התנגשות עם הסל
   useEffect(() => {
+    const coinSize = isMobile ? 32 : 48; // גודל המטבע בפיקסלים
+    
     coins.forEach(coin => {
       if (
-        coin.y + 40 >= gameHeight - basketHeight &&
-        coin.y + 40 <= gameHeight &&
-        coin.x + 40 >= basketX &&
+        coin.y + coinSize >= gameHeight - basketHeight &&
+        coin.y + coinSize <= gameHeight &&
+        coin.x + coinSize >= basketX &&
         coin.x <= basketX + basketWidth
       ) {
         setScore(prev => prev + 10);
@@ -108,7 +146,7 @@ const CharityCoinGame: React.FC = () => {
         setCoins(prev => prev.filter(c => c.id !== coin.id));
       }
     });
-  }, [coins, basketX, basketWidth, basketHeight, gameHeight]);
+  }, [coins, basketX, basketWidth, basketHeight, gameHeight, isMobile]);
 
   // התחלת משחק חדש
   const startGame = () => {
@@ -127,6 +165,16 @@ const CharityCoinGame: React.FC = () => {
     const rect = e.currentTarget.getBoundingClientRect();
     const mouseX = e.clientX - rect.left;
     setBasketX(Math.max(0, Math.min(gameWidth - basketWidth, mouseX - basketWidth / 2)));
+  };
+
+  // טיפול בתנועת מגע (נייד)
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!gameStarted) return;
+    e.preventDefault(); // מניעת גלילה
+    const rect = e.currentTarget.getBoundingClientRect();
+    const touch = e.touches[0];
+    const touchX = touch.clientX - rect.left;
+    setBasketX(Math.max(0, Math.min(gameWidth - basketWidth, touchX - basketWidth / 2)));
   };
 
   return (
@@ -242,9 +290,11 @@ const CharityCoinGame: React.FC = () => {
         {/* איזור המשחק מעוצב */}
         <div className="flex justify-center">
           <div
-            className="relative bg-gradient-to-b from-sky-200 via-sky-300 to-blue-400 border-8 border-white rounded-3xl overflow-hidden shadow-2xl cursor-none"
-            style={{ width: gameWidth, height: gameHeight }}
+            className="relative bg-gradient-to-b from-sky-200 via-sky-300 to-blue-400 border-8 border-white rounded-3xl overflow-hidden shadow-2xl cursor-none touch-none"
+            style={{ width: gameWidth, height: gameHeight, touchAction: 'none' }}
             onMouseMove={handleMouseMove}
+            onTouchMove={handleTouchMove}
+            onTouchStart={(e) => e.preventDefault()}
           >
             {/* רקע עם עננים מעוצבים */}
             <div className="absolute inset-0">
@@ -267,17 +317,17 @@ const CharityCoinGame: React.FC = () => {
             {coins.map(coin => (
               <div
                 key={coin.id}
-                className="absolute w-12 h-12 flex items-center justify-center"
+                className={`absolute flex items-center justify-center ${isMobile ? 'w-8 h-8' : 'w-12 h-12'}`}
                 style={{
                   left: coin.x,
                   top: coin.y,
                   transform: `rotate(${coin.rotation}deg)`
                 }}
               >
-                <div className="w-full h-full bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 rounded-full border-3 border-yellow-800 shadow-lg flex items-center justify-center relative">
+                <div className={`w-full h-full bg-gradient-to-br from-yellow-300 via-yellow-500 to-yellow-700 rounded-full ${isMobile ? 'border-2' : 'border-3'} border-yellow-800 shadow-lg flex items-center justify-center relative`}>
                   <div className="absolute inset-1 bg-gradient-to-br from-yellow-200 to-yellow-400 rounded-full opacity-80"></div>
-                  <span className="text-yellow-900 font-bold text-lg relative z-10">₪</span>
-                  <div className="absolute top-1 left-2 w-2 h-2 bg-yellow-100 rounded-full opacity-90"></div>
+                  <span className={`text-yellow-900 font-bold ${isMobile ? 'text-sm' : 'text-lg'} relative z-10`}>₪</span>
+                  <div className={`absolute top-1 ${isMobile ? 'left-1 w-1 h-1' : 'left-2 w-2 h-2'} bg-yellow-100 rounded-full opacity-90`}></div>
                 </div>
               </div>
             ))}
@@ -307,8 +357,8 @@ const CharityCoinGame: React.FC = () => {
                 </div>
                 
                 {/* תווית הסל */}
-                <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-90 rounded-lg px-2 py-1 shadow-md">
-                  <div className="text-amber-800 font-bold text-xs text-center">
+                <div className={`absolute bottom-2 left-1/2 transform -translate-x-1/2 bg-white bg-opacity-90 rounded-lg px-2 py-1 shadow-md ${isMobile ? 'text-xs' : ''}`}>
+                  <div className={`text-amber-800 font-bold text-center ${isMobile ? 'text-xs' : 'text-xs'}`}>
                     💝 קופת צדקה
                   </div>
                 </div>
@@ -324,15 +374,15 @@ const CharityCoinGame: React.FC = () => {
 
             {/* הוראות מעוצבות */}
             {gameStarted && (
-              <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border-2 border-purple-200">
+              <div className={`absolute top-4 left-4 bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-xl border-2 border-purple-200 ${isMobile ? 'text-xs p-3' : ''}`}>
                 <div className="flex items-center gap-2 mb-2">
-                  <span className="text-2xl">🎯</span>
-                  <div className="font-bold text-purple-800">הוראות:</div>
+                  <span className={isMobile ? 'text-lg' : 'text-2xl'}>🎯</span>
+                  <div className={`font-bold text-purple-800 ${isMobile ? 'text-sm' : ''}`}>הוראות:</div>
                 </div>
-                <div className="text-gray-700 text-sm">
-                  הזז את העכבר כדי לתפוס מטבעות!
+                <div className={`text-gray-700 ${isMobile ? 'text-xs' : 'text-sm'}`}>
+                  {isMobile ? 'געו והזיזו את האצבע כדי לתפוס מטבעות!' : 'הזז את העכבר כדי לתפוס מטבעות!'}
                 </div>
-                <div className="text-xs text-gray-500 mt-1">
+                <div className={`text-gray-500 mt-1 ${isMobile ? 'text-xs' : 'text-xs'}`}>
                   כל מטבע = 10 נקודות
                 </div>
               </div>
@@ -346,15 +396,17 @@ const CharityCoinGame: React.FC = () => {
         <div className="mt-8 flex justify-center">
           <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-4 shadow-xl border border-gray-200">
             <div className="text-center text-gray-600 text-sm mb-3">
-              💡 <strong>טיפ:</strong> השתמש במקשי החצים במקלדת לניווט מהיר!
+              💡 <strong>טיפ:</strong> {isMobile ? 'גע והחלק במסך כדי להזיז את הסל!' : 'השתמש במקשי החצים במקלדת לניווט מהיר!'}
             </div>
-            <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
-              <span>← משחק הבא: {nextGame.title}</span>
-              <span>•</span>
-              <span>→ משחק קודם</span>
-              <span>•</span>
-              <span>ESC דף הבית</span>
-            </div>
+            {!isMobile && (
+              <div className="flex items-center justify-center gap-2 text-xs text-gray-500">
+                <span>← משחק הבא: {nextGame.title}</span>
+                <span>•</span>
+                <span>→ משחק קודם</span>
+                <span>•</span>
+                <span>ESC דף הבית</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
