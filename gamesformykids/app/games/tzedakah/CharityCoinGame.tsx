@@ -3,6 +3,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
+import CharityGameHeader from '@/components/game/tzedakah/CharityGameHeader';
+import CharityCoin from '@/components/game/tzedakah/CharityCoin';
+import CharityBasket from '@/components/game/tzedakah/CharityBasket';
+import GameControls from '@/components/game/tzedakah/GameControls';
+import GameAreaBackground from '@/components/game/tzedakah/GameAreaBackground';
+import GameInstructions from '@/components/game/tzedakah/GameInstructions';
+import GameNavigationTips from '@/components/game/tzedakah/GameNavigationTips';
+import styles from './charity.module.css';
 
 interface Coin {
   id: number;
@@ -180,15 +188,79 @@ const CharityCoinGame: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-200 p-4">
       <div className="max-w-6xl mx-auto">
-        {/* כותרת מעוצבת */}
-        <div className="text-center mb-6">
-          <h1 className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 mb-2 drop-shadow-lg">
-            🪙 משחק קופת הצדקה 🪙
-          </h1>
-          <p className="text-xl text-purple-700 font-semibold">
-            עזרו לתרום ולעשות מעשים טובים!
-          </p>
+        
+        {/* כותרת ולוח תוצאות */}
+        <CharityGameHeader 
+          score={score}
+          gameTime={gameTime}
+          collectedCoins={collectedCoins}
+          isMobile={isMobile}
+        />
+
+        {/* כפתורי התחלה וסיום */}
+        <GameControls
+          gameStarted={gameStarted}
+          gameTime={gameTime}
+          score={score}
+          collectedCoins={collectedCoins}
+          nextGame={nextGame}
+          isMobile={isMobile}
+          onStartGame={startGame}
+          onNavigateToNext={() => router.push(nextGame.href)}
+          onNavigateHome={() => router.push('/')}
+        />
+
+        {/* איזור המשחק מעוצב */}
+        <div className="flex justify-center">
+          <div
+            className={`relative bg-gradient-to-b from-sky-200 via-sky-300 to-blue-400 border-8 border-white rounded-3xl overflow-hidden shadow-2xl cursor-none touch-none ${styles.charityGameArea || 'charity-game-area'}`}
+            style={{ 
+              width: gameWidth, 
+              height: gameHeight, 
+              touchAction: 'none' 
+            }}
+            onMouseMove={handleMouseMove}
+            onTouchMove={handleTouchMove}
+            onTouchStart={(e) => e.preventDefault()}
+          >
+            
+            {/* רקע מעוצב */}
+            <GameAreaBackground isMobile={isMobile} />
+
+            {/* מטבעות מעוצבים */}
+            {coins.map(coin => (
+              <CharityCoin 
+                key={coin.id}
+                coin={coin}
+                isMobile={isMobile}
+              />
+            ))}
+
+            {/* הסל המעוצב */}
+            <CharityBasket 
+              basketX={basketX}
+              basketWidth={basketWidth}
+              basketHeight={basketHeight}
+              gameStarted={gameStarted}
+              isMobile={isMobile}
+            />
+
+            {/* הוראות מעוצבות */}
+            <GameInstructions 
+              gameStarted={gameStarted}
+              isMobile={isMobile}
+            />
+          </div>
         </div>
+
+        {/* ניווט תחתון */}
+        <GameNavigationTips 
+          isMobile={isMobile}
+          nextGameTitle={nextGame.title}
+        />
+      </div>
+    </div>
+  );
                 {/* הסבר על המשחק */}
         <div className="mt-6 mb-3 text-center">
           <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 max-w-2xl mx-auto shadow-xl border-2 border-purple-200 ">
