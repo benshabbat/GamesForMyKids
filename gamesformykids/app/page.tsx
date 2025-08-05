@@ -15,13 +15,15 @@ export const metadata: Metadata = {
 // Loading component for Suspense
 function GamesGridSkeleton() {
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8" role="status" aria-live="polite">
+      <span className="sr-only">טוען משחקים...</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {Array.from({ length: 6 }).map((_, i) => (
           <div
             key={i}
             className="h-48 bg-gray-200 rounded-lg animate-pulse"
-            aria-label="טוען משחק..."
+            aria-label={`טוען משחק ${i + 1} מתוך 6`}
+            role="img"
           />
         ))}
       </div>
@@ -33,7 +35,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1" role="main" aria-label="תוכן ראשי - רשימת משחקים לילדים">
         <Suspense fallback={<GamesGridSkeleton />}>
           <CategorizedGamesGrid />
         </Suspense>
