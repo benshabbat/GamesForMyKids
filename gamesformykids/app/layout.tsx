@@ -1,7 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { Suspense } from 'react';
 import './globals.css';
 import './critical.css';
+import { WebVitals } from '@/components/WebVitals';
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -235,6 +237,9 @@ export default function RootLayout({ children }: RootLayoutProps) {
         lang="he"
       >
         {children}
+        
+        {/* Web Vitals Tracking */}
+        <WebVitals />
         
         {/* Service Worker registration - moved to end for better performance */}
         <script

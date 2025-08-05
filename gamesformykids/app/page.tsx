@@ -1,11 +1,15 @@
-import { Suspense, lazy } from "react";
+import { Suspense } from "react";
+import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-// Lazy load heavy components
-const CategorizedGamesGrid = lazy(() => import("@/components/CategorizedGamesGrid"));
+// Dynamic import with loading component for better performance
+const CategorizedGamesGrid = dynamic(() => import("@/components/CategorizedGamesGrid"), {
+  loading: () => <GamesGridSkeleton />,
+  ssr: false, // Client-side only for better interactivity
+});
 
 export const metadata: Metadata = {
   title: "דף הבית",
@@ -18,11 +22,11 @@ function GamesGridSkeleton() {
     <div className="container mx-auto px-4 py-8" role="status" aria-live="polite">
       <span className="sr-only">טוען משחקים...</span>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {Array.from({ length: 6 }).map((_, i) => (
+        {Array.from({ length: 6 }, (_, i) => `skeleton-${Date.now()}-${i}`).map((id) => (
           <div
-            key={i}
+            key={id}
             className="h-48 bg-gray-200 rounded-lg animate-pulse"
-            aria-label={`טוען משחק ${i + 1} מתוך 6`}
+            aria-label={`טוען משחק...`}
             role="img"
           />
         ))}

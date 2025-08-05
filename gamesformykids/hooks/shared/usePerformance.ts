@@ -3,8 +3,9 @@
  * Implements Next.js 15 best practices for performance monitoring
  */
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef, useCallback, startTransition } from 'react';
 import { PERFORMANCE } from '@/lib/constants/app';
+import { performanceMonitor } from '@/lib/performance';
 
 interface PerformanceMetrics {
   renderTime: number;

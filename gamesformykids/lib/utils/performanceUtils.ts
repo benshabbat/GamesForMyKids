@@ -93,9 +93,9 @@ export const addResourceHints = () => {
 /**
  * Service Worker registration
  */
-export const registerServiceWorker = async () => {
+export const registerServiceWorker = async (): Promise<ServiceWorkerRegistration | undefined> => {
   if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
-    return;
+    return undefined;
   }
   
   try {
@@ -104,6 +104,7 @@ export const registerServiceWorker = async () => {
     return registration;
   } catch (error) {
     console.error('SW registration failed:', error);
+    return undefined;
   }
 };
 
