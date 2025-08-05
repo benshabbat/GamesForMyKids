@@ -59,6 +59,12 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     <html lang="he" dir="rtl" className={inter.variable}>
       <head>
+        {/* Performance optimization */}
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        
         {/* PWA manifest */}
         <link rel="manifest" href="/manifest.json" />
         
@@ -75,6 +81,22 @@ export default function RootLayout({ children }: RootLayoutProps) {
         {/* Preload critical resources */}
         <link rel="preload" href="/sounds/success.mp3" as="audio" />
         <link rel="preload" href="/sounds/click.mp3" as="audio" />
+        
+        {/* Critical CSS inline for above-fold content */}
+        <style dangerouslySetInnerHTML={{
+          __html: `
+            * { margin: 0; padding: 0; box-sizing: border-box; }
+            html { font-family: system-ui, -apple-system, sans-serif; }
+            body { line-height: 1.6; }
+            .loading { 
+              display: flex; 
+              align-items: center; 
+              justify-content: center; 
+              min-height: 100vh; 
+              background: linear-gradient(135deg, #f3e8ff, #fce7f3, #e0e7ff);
+            }
+          `
+        }} />
       </head>
       <body className={`${inter.className} antialiased`}>
         {children}

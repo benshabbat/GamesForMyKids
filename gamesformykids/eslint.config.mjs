@@ -31,6 +31,12 @@ const eslintConfig = [
       "eqeqeq": ["error", "always"],
     },
   },
+  {
+    files: ["lib/utils/debugUtils.ts"],
+    rules: {
+      "no-console": "off", // Allow console in debug utils
+    },
+  },
 ];
 
 export default eslintConfig;

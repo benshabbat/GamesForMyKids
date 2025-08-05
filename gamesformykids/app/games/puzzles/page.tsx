@@ -1,19 +1,39 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, lazy, Suspense } from 'react';
 import { Camera, Puzzle, Home } from 'lucide-react';
-import CustomPuzzleGame from './CustomPuzzleGame';
-import SimplePuzzleGame from './SimplePuzzleGame';
+
+// Lazy load heavy components
+const CustomPuzzleGame = lazy(() => import('./CustomPuzzleGame'));
+const SimplePuzzleGame = lazy(() => import('./SimplePuzzleGame'));
+
+// Loading component
+const GameLoading = () => (
+  <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-200 flex items-center justify-center">
+    <div className="text-center">
+      <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-purple-600 mx-auto mb-4"></div>
+      <p className="text-xl text-purple-600">טוען משחק...</p>
+    </div>
+  </div>
+);
 
 export default function PuzzleGamePage() {
   const [gameMode, setGameMode] = useState<'menu' | 'simple' | 'custom'>('menu');
 
   if (gameMode === 'simple') {
-    return <SimplePuzzleGame />;
+    return (
+      <Suspense fallback={<GameLoading />}>
+        <SimplePuzzleGame />
+      </Suspense>
+    );
   }
 
   if (gameMode === 'custom') {
-    return <CustomPuzzleGame />;
+    return (
+      <Suspense fallback={<GameLoading />}>
+        <CustomPuzzleGame />
+      </Suspense>
+    );
   }
 
   return (
