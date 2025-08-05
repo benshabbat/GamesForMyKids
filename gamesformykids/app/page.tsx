@@ -1,15 +1,9 @@
 import { Suspense } from "react";
-import dynamic from "next/dynamic";
 import type { Metadata } from "next";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-
-// Dynamic import with loading component for better performance
-const CategorizedGamesGrid = dynamic(() => import("@/components/CategorizedGamesGrid"), {
-  loading: () => <GamesGridSkeleton />,
-  ssr: false, // Client-side only for better interactivity
-});
+import CategorizedGamesGrid from "@/components/CategorizedGamesGrid";
 
 export const metadata: Metadata = {
   title: "דף הבית",

@@ -5,24 +5,14 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "build:analyze": "ANALYZE=true next build",
-    "build:performance": "node scripts/build-optimized.js",
     "start": "next start",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
-    "type-check": "tsc --noEmit --incremental",
-    "type-check:watch": "tsc --noEmit --watch",
+    "type-check": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
-    "analyze": "set ANALYZE=true && npm run build",
-    "analyze:server": "set BUNDLE_ANALYZE=server && npm run build",
-    "analyze:browser": "set BUNDLE_ANALYZE=browser && npm run build",
-    "analyze:both": "set BUNDLE_ANALYZE=both && npm run build",
     "clean": "rm -rf .next && rm -rf out",
-    "prepare": "npm run type-check && npm run lint",
-    "test": "echo \"No tests specified\" && exit 0",
-    "performance:audit": "lighthouse http://localhost:3000 --output=json --output-path=./lighthouse-report.json",
-    "performance:budget": "node scripts/check-performance-budget.js"
+    "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -33,12 +23,10 @@
     "next": "15.3.5",
     "react": "^19.1.0",
     "react-dom": "^19.0.0",
-    "tailwind-merge": "^3.3.1",
-    "web-vitals": "^5.1.0"
+    "tailwind-merge": "^3.3.1"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@next/bundle-analyzer": "^15.4.5",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",
