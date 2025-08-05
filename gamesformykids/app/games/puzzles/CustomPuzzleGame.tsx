@@ -134,90 +134,163 @@ export default function CustomPuzzleGame() {
   const correctPieces = puzzleLogic.placedPieces.filter(p => p?.isCorrect).length;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50 p-2 sm:p-4">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
+      <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         {/* Header */}
-        <PuzzleHeader onGoHome={gameState.goHome} onToggleHelp={gameState.toggleHelp} />
+        <div className="mb-4 sm:mb-6">
+          <PuzzleHeader onGoHome={gameState.goHome} onToggleHelp={gameState.toggleHelp} />
+        </div>
 
         {/* Upload Section */}
         {!imageManagement.image && (
-          <ImageUploadSection 
-            difficulty={gameState.difficulty}
-            fileInputRef={fileInputRef}
-            onImageUpload={handleImageUploadWithInit}
-            onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
-            onDifficultyChange={handleDifficultyChangeWithRestart}
-          />
+          <div className="mb-6 sm:mb-8">
+            <ImageUploadSection 
+              difficulty={gameState.difficulty}
+              fileInputRef={fileInputRef}
+              onImageUpload={handleImageUploadWithInit}
+              onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
+              onDifficultyChange={handleDifficultyChangeWithRestart}
+            />
+          </div>
         )}
 
         {/* Game Controls */}
         {imageManagement.image && (
-          <GameControls 
-            gameStarted={gameState.gameStarted}
-            showHints={gameState.showHints}
-            showDebug={gameState.showDebug}
-            difficulty={gameState.difficulty}
-            fileInputRef={fileInputRef}
-            onShufflePieces={puzzleLogic.shufflePieces}
-            onResetGame={resetGame}
-            onToggleHints={toggleHintsWithSpeech}
-            onToggleDebug={toggleDebugWithSpeech}
-            onDifficultyChange={handleDifficultyChangeWithRestart}
-          />
+          <div className="mb-4 sm:mb-6">
+            <GameControls 
+              gameStarted={gameState.gameStarted}
+              showHints={gameState.showHints}
+              showDebug={gameState.showDebug}
+              difficulty={gameState.difficulty}
+              fileInputRef={fileInputRef}
+              onShufflePieces={puzzleLogic.shufflePieces}
+              onResetGame={resetGame}
+              onToggleHints={toggleHintsWithSpeech}
+              onToggleDebug={toggleDebugWithSpeech}
+              onDifficultyChange={handleDifficultyChangeWithRestart}
+            />
+          </div>
         )}
 
         {/* Feedback Message */}
-        <FeedbackMessage message={feedbackMessage} type={feedbackType} />
+        <div className="mb-4">
+          <FeedbackMessage message={feedbackMessage} type={feedbackType} />
+        </div>
 
         {/* Help Modal */}
         <HelpModal showHelp={gameState.showHelp} onToggleHelp={gameState.toggleHelp} />
 
         {/* Game Area */}
         {gameState.gameStarted && (
-          <div className="flex flex-col lg:grid lg:grid-cols-3 gap-4 lg:gap-6">
-            {/* Game Grid - On mobile, this comes first */}
-            <div className="lg:col-span-2 order-1 lg:order-2">
-              <PuzzleGrid
-                gridSize={gameState.difficulty}
-                pieces={puzzleLogic.placedPieces}
-                onDragOver={dragAndDrop.handleDragOver}
-                onDrop={(e, gridIndex) => dragAndDrop.handleDrop(e, gridIndex, handleDropWithCompletion)}
-                onDragStart={dragAndDrop.handleDragStart}
-                onTouchStart={dragAndDrop.handleTouchStart}
-                onTouchMove={dragAndDrop.handleTouchMove}
-                onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
-                title="🎯 לוח הפאזל"
-                showPositionNumbers={gameState.showHints}
-                showDebugInfo={gameState.showDebug}
-              />
+          <>
+            {/* Mobile Layout */}
+            <div className="xl:hidden space-y-4 sm:space-y-6">
+              {/* Stats Panel for Mobile */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
+                <PuzzleStats
+                  correctPieces={correctPieces}
+                  totalPieces={gameState.difficulty}
+                  timeElapsed={gameState.timer}
+                  score={puzzleLogic.score}
+                  isComplete={gameState.isCompleted}
+                />
+              </div>
+
+              {/* Main Game Grid for Mobile */}
+              <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-3 sm:p-4 border border-white/50">
+                <PuzzleGrid
+                  gridSize={gameState.difficulty}
+                  pieces={puzzleLogic.placedPieces}
+                  onDragOver={dragAndDrop.handleDragOver}
+                  onDrop={(e, gridIndex) => dragAndDrop.handleDrop(e, gridIndex, handleDropWithCompletion)}
+                  onDragStart={dragAndDrop.handleDragStart}
+                  onTouchStart={dragAndDrop.handleTouchStart}
+                  onTouchMove={dragAndDrop.handleTouchMove}
+                  onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                  title="🎯 לוח הפאזל"
+                  showPositionNumbers={gameState.showHints}
+                  showDebugInfo={gameState.showDebug}
+                />
+              </div>
+
+              {/* Pieces Pool for Mobile */}
+              <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
+                <PiecesPool
+                  pieces={puzzleLogic.pieces}
+                  onDragStart={dragAndDrop.handleDragStart}
+                  onTouchStart={dragAndDrop.handleTouchStart}
+                  onTouchMove={dragAndDrop.handleTouchMove}
+                  onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                  title="🧩 חלקי הפאזל"
+                />
+              </div>
+
+              {/* Reference Image for Mobile */}
+              {imageManagement.image && (
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
+                  <ReferenceImage image={imageManagement.image} />
+                </div>
+              )}
             </div>
 
-            {/* Stats Panel and Pieces Pool - Combined on mobile */}
-            <div className="lg:col-span-1 order-2 lg:order-1 space-y-4 lg:space-y-6">
+            {/* Desktop Layout */}
+            <div className="hidden xl:grid xl:grid-cols-4 gap-6 lg:gap-8">
               
+              {/* Left Sidebar - Pieces Pool and Reference Image */}
+              <div className="xl:col-span-1 space-y-6">
                 {/* Pieces Pool */}
-              <PiecesPool
-                pieces={puzzleLogic.pieces}
-                onDragStart={dragAndDrop.handleDragStart}
-                onTouchStart={dragAndDrop.handleTouchStart}
-                onTouchMove={dragAndDrop.handleTouchMove}
-                onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
-                title="🧩 חלקי הפאזל"
-              />
-              {/* Reference Image - Responsive design */}
-              {imageManagement.image && <ReferenceImage image={imageManagement.image} />}
-              
-            
-              <PuzzleStats
-                correctPieces={correctPieces}
-                totalPieces={gameState.difficulty}
-                timeElapsed={gameState.timer}
-                score={puzzleLogic.score}
-                isComplete={gameState.isCompleted}
-              />
-              
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
+                  <PiecesPool
+                    pieces={puzzleLogic.pieces}
+                    onDragStart={dragAndDrop.handleDragStart}
+                    onTouchStart={dragAndDrop.handleTouchStart}
+                    onTouchMove={dragAndDrop.handleTouchMove}
+                    onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                    title="🧩 חלקי הפאזל"
+                  />
+                </div>
+                
+                {/* Reference Image */}
+                {imageManagement.image && (
+                  <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
+                    <ReferenceImage image={imageManagement.image} />
+                  </div>
+                )}
+              </div>
+
+              {/* Main Game Grid */}
+              <div className="xl:col-span-2">
+                <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-white/50 min-h-[600px]">
+                  <PuzzleGrid
+                    gridSize={gameState.difficulty}
+                    pieces={puzzleLogic.placedPieces}
+                    onDragOver={dragAndDrop.handleDragOver}
+                    onDrop={(e, gridIndex) => dragAndDrop.handleDrop(e, gridIndex, handleDropWithCompletion)}
+                    onDragStart={dragAndDrop.handleDragStart}
+                    onTouchStart={dragAndDrop.handleTouchStart}
+                    onTouchMove={dragAndDrop.handleTouchMove}
+                    onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                    title="🎯 לוח הפאזל"
+                    showPositionNumbers={gameState.showHints}
+                    showDebugInfo={gameState.showDebug}
+                  />
+                </div>
+              </div>
+
+              {/* Right Sidebar - Stats */}
+              <div className="xl:col-span-1">
+                <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50 sticky top-4">
+                  <PuzzleStats
+                    correctPieces={correctPieces}
+                    totalPieces={gameState.difficulty}
+                    timeElapsed={gameState.timer}
+                    score={puzzleLogic.score}
+                    isComplete={gameState.isCompleted}
+                  />
+                </div>
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Hidden elements */}
