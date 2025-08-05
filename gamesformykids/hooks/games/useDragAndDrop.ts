@@ -67,6 +67,8 @@ export function useDragAndDrop(): UseDragAndDropReturn {
     e.preventDefault();
     
     const touch = e.touches[0];
+    if (!touch) return;
+    
     setTouchState(prev => ({
       ...prev,
       dragPosition: { x: touch.clientX, y: touch.clientY }
@@ -90,6 +92,7 @@ export function useDragAndDrop(): UseDragAndDropReturn {
     
     e.preventDefault();
     const touch = e.changedTouches[0];
+    if (!touch) return;
     
     // Find the drop target
     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);

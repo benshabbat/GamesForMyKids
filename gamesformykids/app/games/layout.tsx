@@ -21,12 +21,12 @@ export default function GamesLayout({
     
     const segments = path.split('/').filter(Boolean);
     if (segments.length >= 2 && segments[0] === 'games') {
-      return segments[1];
+      return segments[1] || null;
     }
     return null;
   };
   
-  const gameId = getGameIdFromPath(pathname);
+  const gameId = getGameIdFromPath(pathname) || '';
 
   return (
     <div>

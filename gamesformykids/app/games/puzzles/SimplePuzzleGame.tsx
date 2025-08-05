@@ -208,6 +208,8 @@ export default function SimplePuzzleGame() {
   const handleTouchStart = (e: React.TouchEvent, piece: PuzzlePiece) => {
     e.preventDefault();
     const touch = e.touches[0];
+    if (!touch) return;
+    
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     
     setTouchState({
@@ -229,6 +231,8 @@ export default function SimplePuzzleGame() {
     e.preventDefault();
     
     const touch = e.touches[0];
+    if (!touch) return;
+    
     setTouchState(prev => ({
       ...prev,
       dragPosition: { x: touch.clientX, y: touch.clientY }
@@ -243,6 +247,7 @@ export default function SimplePuzzleGame() {
     
     e.preventDefault();
     const touch = e.changedTouches[0];
+    if (!touch) return;
     
     // Find the drop target
     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -283,9 +288,14 @@ export default function SimplePuzzleGame() {
     if (existingPiece) {
       // If there's a piece there, return it to the pool by marking it as not placed
       setPieces(prevPieces => 
-        prevPieces.map(p => 
-          p.id === existingPiece.id ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } : p
-        )
+        prevPieces.map(p => {
+          if (p.id === existingPiece.id) {
+            const updated = { ...p, isPlaced: false, isCorrect: false };
+            delete updated.currentPosition;
+            return updated;
+          }
+          return p;
+        })
       );
     }
 

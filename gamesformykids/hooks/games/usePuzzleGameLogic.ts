@@ -62,11 +62,14 @@ export function usePuzzleGameLogic({
       if (existingPiece) {
         // If there's a piece there, return it to the pool by marking it as not placed
         setPieces(prevPieces => 
-          prevPieces.map(p => 
-            p.id === existingPiece.id 
-              ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } 
-              : p
-          )
+          prevPieces.map(p => {
+            if (p.id === existingPiece.id) {
+              const updated = { ...p, isPlaced: false, isCorrect: false };
+              delete updated.currentPosition;
+              return updated;
+            }
+            return p;
+          })
         );
       }
 

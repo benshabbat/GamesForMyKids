@@ -43,10 +43,10 @@ export default function SimpleGameNavigation({ currentGameId }: SimpleGameNaviga
     const handleKeyPress = (event: KeyboardEvent) => {
       if (event.key === "ArrowRight") {
         event.preventDefault();
-        navigateToGame(previousGame.href);
+        if (previousGame) navigateToGame(previousGame.href);
       } else if (event.key === "ArrowLeft") {
         event.preventDefault();
-        navigateToGame(nextGame.href);
+        if (nextGame) navigateToGame(nextGame.href);
       } else if (event.key === "Escape") {
         event.preventDefault();
         router.push('/');
@@ -55,7 +55,7 @@ export default function SimpleGameNavigation({ currentGameId }: SimpleGameNaviga
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [currentIndex, navigateToGame, previousGame.href, nextGame.href, router]);
+  }, [currentIndex, navigateToGame, previousGame, nextGame, router]);
 
   // במהלך המשחק - הסתר אוטומטית ולהופיע רק כשמעליזים למעלה
   useEffect(() => {
@@ -109,13 +109,15 @@ export default function SimpleGameNavigation({ currentGameId }: SimpleGameNaviga
         </button>
 
         {/* חץ ימין - משחק קודם */}
-        <button
-          onClick={() => navigateToGame(previousGame.href)}
-          className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-          title={`משחק קודם: ${previousGame.title}`}
-        >
-          <ChevronRight size={18} />
-        </button>
+        {previousGame && (
+          <button
+            onClick={() => navigateToGame(previousGame.href)}
+            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            title={`משחק קודם: ${previousGame.title}`}
+          >
+            <ChevronRight size={18} />
+          </button>
+        )}
 
         {/* אינדיקטור מיקום */}
         <div className="flex items-center gap-1 px-3">
@@ -128,13 +130,15 @@ export default function SimpleGameNavigation({ currentGameId }: SimpleGameNaviga
         </div>
 
         {/* חץ שמאל - משחק הבא */}
-        <button
-          onClick={() => navigateToGame(nextGame.href)}
-          className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
-          title={`משחק הבא: ${nextGame.title}`}
-        >
-          <ChevronLeft size={18} />
-        </button>
+        {nextGame && (
+          <button
+            onClick={() => navigateToGame(nextGame.href)}
+            className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition-colors"
+            title={`משחק הבא: ${nextGame.title}`}
+          >
+            <ChevronLeft size={18} />
+          </button>
+        )}
       </div>
     </div>
   );

@@ -92,10 +92,13 @@ export default function WritingCanvas({
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
+    
+    const touch = e.touches[0];
+    if (!touch) return { x: 0, y: 0 };
 
     return {
-      x: (e.touches[0].clientX - rect.left) * scaleX,
-      y: (e.touches[0].clientY - rect.top) * scaleY
+      x: (touch.clientX - rect.left) * scaleX,
+      y: (touch.clientY - rect.top) * scaleY
     };
   }, []);
 
@@ -167,6 +170,8 @@ export default function WritingCanvas({
     if (!context || paths.length === 0) return;
     
     const lastState = paths[paths.length - 1];
+    if (!lastState) return;
+    
     context.putImageData(lastState, 0, 0);
     setPaths(prev => prev.slice(0, -1));
   };

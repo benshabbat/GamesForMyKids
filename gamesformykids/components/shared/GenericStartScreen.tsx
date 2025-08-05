@@ -73,7 +73,7 @@ export default function GenericStartScreen<T>({
         {/* הסבר המשחק */}
         <GameInstructions
           steps={gameSteps}
-          bgClass={gameStepsBgClass}
+          bgClass={gameStepsBgClass || ''}
         />
 
         {/* כפתור התחלה */}
