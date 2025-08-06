@@ -1,9 +1,6 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  // Output configuration for Vercel deployment
-  output: 'standalone',
-  
   // Image optimization for AVIF/WebP
   images: {
     formats: ['image/avif', 'image/webp'],
