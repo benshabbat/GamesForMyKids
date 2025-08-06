@@ -49,6 +49,13 @@ export default function HebrewLetterPractice({ letterData }: Props) {
             </Button>
           </Link>
           
+          {/* Debug info - temporary */}
+          <div className="bg-yellow-100 p-2 rounded text-xs">
+            שלב נוכחי: {currentStepInfo.stepIndex} / {practiceSteps.length - 1}
+            <br />
+            שלבים שהושלמו: {Array.from(practiceState.completedSteps).join(', ')}
+          </div>
+          
           <div className="flex gap-2">
             {practiceSteps.map((step, index) => (
               <div
@@ -307,6 +314,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           
           <Button
             onClick={() => {
+              console.log('כפתור נלחץ - שלב נוכחי:', currentStepInfo.stepIndex);
               if (currentStepInfo.isLast) {
                 completeCurrentStep(); // This will mark the letter as completed
               } else {
