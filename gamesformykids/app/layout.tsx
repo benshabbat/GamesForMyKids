@@ -59,8 +59,7 @@ export default function RootLayout({
           .loading{display:flex;justify-content:center;align-items:center;min-height:200px}
           .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
         `}</style>
-        {/* Preload actual chunks - will be dynamically replaced in production */}
-        <link rel="preload" href="/_next/static/chunks/vendors-ff30e0d3-efdf8a19ec5acf86.js" as="script" />
+        {/* Manual preloads removed - Next.js handles chunk preloading automatically */}
       </head>
       <body className={`${inter.variable} font-sans`}>
         <ServiceWorkerRegistration />

@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Output configuration for Vercel deployment
+  output: 'standalone',
+  
   // Image optimization for AVIF/WebP
   images: {
     formats: ['image/avif', 'image/webp'],
@@ -17,6 +20,12 @@ const nextConfig: NextConfig = {
   },
   // Enable compression
   compress: true,
+  
+  // Generate Build ID
+  generateBuildId: async () => {
+    return `build-${Date.now()}`;
+  },
+  
   // Reduce bundle size - removed problematic modularizeImports
   // modularizeImports removed to fix warnings
   // Webpack optimizations - Ultra aggressive for 100% score
@@ -58,11 +67,24 @@ const nextConfig: NextConfig = {
       // Stable module and chunk IDs
       config.optimization.moduleIds = 'deterministic';
       config.optimization.chunkIds = 'deterministic';
+      
+      // Ensure proper asset naming
+      config.output = config.output || {};
+      config.output.filename = 'static/chunks/[name]-[contenthash].js';
+      config.output.chunkFilename = 'static/chunks/[name]-[contenthash].js';
     }
     return config;
   },
 
-  // Headers for aggressive caching
+  // Asset prefix for production
+  assetPrefix: process.env.NODE_ENV === 'production' ? '' : undefined,
+  
+  // Public runtime config
+  publicRuntimeConfig: {
+    staticFolder: '/static',
+  },
+
+  // Headers for aggressive caching and MIME types
   async headers() {
     return [
       {
@@ -75,6 +97,41 @@ const nextConfig: NextConfig = {
           {
             key: 'X-Content-Type-Options',
             value: 'nosniff'
+          }
+        ],
+      },
+      {
+        source: '/(_next/static/.*)',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        source: '/(_next/static/chunks/.*\\.js)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        source: '/(_next/static/css/.*\\.css)',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
           }
         ],
       },
