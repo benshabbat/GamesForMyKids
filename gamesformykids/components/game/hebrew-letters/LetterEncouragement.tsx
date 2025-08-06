@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
 import { useSpeechSynthesis } from '@/hooks/shared/useSpeechSynthesis';
+import { useHebrewLetters } from '@/contexts';
 
 interface LetterEncouragementProps {
   letterName: string;
@@ -35,6 +36,7 @@ export default function LetterEncouragement({
   const [showEncouragement, setShowEncouragement] = useState(false);
   const [currentMessage, setCurrentMessage] = useState('');
   const { speakEncouragement } = useSpeechSynthesis();
+  const { practiceState, currentLetter } = useHebrewLetters();
 
   useEffect(() => {
     if (isCompleted) {
@@ -42,8 +44,14 @@ export default function LetterEncouragement({
       setCurrentMessage(randomMessage);
       setShowEncouragement(true);
       
-      // השמע הודעת עידוד
-      speakEncouragement(`${randomMessage} סיימת את השלב של האות ${letterName}!`);
+      // השמע הודעת עידוד מותאמת למצב הנוכחי
+      const letterDisplayName = currentLetter?.letter || letterName;
+      const stepsCompleted = practiceState.completedSteps.size;
+      const stepMessage = stepsCompleted > 1 ? 
+        `${randomMessage} סיימת ${stepsCompleted} שלבים של האות ${letterDisplayName}!` :
+        `${randomMessage} סיימת את השלב של האות ${letterDisplayName}!`;
+      
+      speakEncouragement(stepMessage);
       
       const timer = setTimeout(() => {
         setShowEncouragement(false);
@@ -51,9 +59,26 @@ export default function LetterEncouragement({
 
       return () => clearTimeout(timer);
     }
-  }, [isCompleted, letterName, speakEncouragement]);
+  }, [isCompleted, letterName, speakEncouragement, currentLetter, practiceState.completedSteps]);
 
-  const stepMessage = stepMessages[stepIndex as keyof typeof stepMessages] || "כל הכבוד!";
+  // הודעה מותאמת לשלב הנוכחי ולמצב התרגול
+  const getStepMessage = () => {
+    const baseMessage = stepMessages[stepIndex as keyof typeof stepMessages] || "כל הכבוד!";
+    const isStepCompleted = practiceState.completedSteps.has(stepIndex);
+    
+    if (isStepCompleted) {
+      return `✅ ${baseMessage} השלב הושלם!`;
+    }
+    
+    // הודעה מותאמת לפי מצב התרגול
+    if (practiceState.practiceMode === 'tracing') {
+      return `${baseMessage} עקוב אחר הקווים בעדינות`;
+    } else if (practiceState.practiceMode === 'freewriting') {
+      return `${baseMessage} כתוב את האות בחופשיות`;
+    }
+    
+    return baseMessage;
+  };
 
   return (
     <>
@@ -64,7 +89,7 @@ export default function LetterEncouragement({
         className="bg-gradient-to-r from-yellow-100 to-orange-100 border-l-4 border-yellow-500 p-4 rounded-lg mb-6 text-center"
       >
         <p className="text-yellow-800 font-medium text-lg">
-          {stepMessage}
+          {getStepMessage()}
         </p>
       </motion.div>
 
