@@ -107,17 +107,17 @@ export default function MathGame() {
             </div>
           )}
 
-          {/* חגיגת הצלחה */}
-          {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox 
-              label="תשובה" 
-              value={`${gameState.currentChallenge.firstNumber} ${gameState.currentChallenge.operation === 'addition' ? '+' : '-'} ${gameState.currentChallenge.secondNumber} = ${gameState.currentChallenge.correctAnswer}`} 
-            />
-          )}
-        </div>
+        {/* חגיגת הצלחה */}
+        {gameState.showCelebration && gameState.currentChallenge && (
+          <CelebrationBox 
+            label="תשובה" 
+            value={`${gameState.currentChallenge.firstNumber} ${gameState.currentChallenge.operation === 'addition' ? '+' : '-'} ${gameState.currentChallenge.secondNumber} = ${gameState.currentChallenge.correctAnswer}`} 
+          />
+        )}
+      </div>
 
-        {/* אפשרויות התשובות */}
-        <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
+      {/* אפשרויות התשובות */}
+      <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
           {gameState.options && gameState.options.length > 0 ? (
             gameState.options.map((answer) => (
               <MathNumberCard
@@ -132,7 +132,6 @@ export default function MathGame() {
             </div>
           )}
         </div>
-        
         <TipsBox
           tip="💡 טיפ: השתמש בסמלים כדי לעזור לך לחשב!"
           description="ספור את הסמלים שרואה על המסך כדי לפתור את התרגיל"
