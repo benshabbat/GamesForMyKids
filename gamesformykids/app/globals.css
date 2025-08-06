@@ -1,53 +1,61 @@
 @import "tailwindcss";
 
+/* Critical styles first */
+:root {
+  --font-inter: Inter, sans-serif;
+}
+
 /* RTL Support */
 * {
   direction: rtl;
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-inter);
+  font-display: swap;
 }
 
-/* Puzzle Touch/Drag Support */
-.drop-zone-highlight {
-  background-color: rgba(59, 130, 246, 0.3) !important;
-  border-color: rgb(59, 130, 246) !important;
-  transform: scale(1.05);
-  transition: all 0.2s ease-in-out;
-}
-
-.puzzle-grid-cell {
-  transition: all 0.2s ease-in-out;
-}
-
-/* אנימציות מותאמות למשחק הצדקה */
-@keyframes twinkle {
-  0%, 100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 1;
-    transform: scale(1.2);
+/* Reduce animation for better FCP */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-@keyframes float {
-  0%, 100% {
-    transform: translateY(0px);
+/* Defer heavy animations until after FCP */
+@media (min-width: 1px) {
+  /* אנימציות מותאמות למשחק הצדקה */
+  @keyframes twinkle {
+    0%, 100% {
+      opacity: 0.3;
+      transform: scale(1);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.2);
+    }
   }
-  50% {
-    transform: translateY(-10px);
-  }
-}
 
-@keyframes glow {
-  0%, 100% {
-    box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
   }
-  50% {
-    box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+
+  @keyframes glow {
+    0%, 100% {
+      box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.8);
+    }
   }
 }
 
@@ -262,6 +270,33 @@ body {
 
 .animate-fade-in {
   animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Critical performance optimizations */
+.puzzle-grid-cell {
+  transition: all 0.2s ease-in-out;
+  will-change: transform;
+}
+
+.drop-zone-highlight {
+  background-color: rgba(59, 130, 246, 0.3) !important;
+  border-color: rgb(59, 130, 246) !important;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+/* Optimize rendering for animations */
+.animate-twinkle,
+.animate-float,
+.animate-glow {
+  will-change: transform, opacity;
+}
+
+/* Optimize for GPU acceleration */
+.game-card,
+.card-hover {
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 .animate-bounce-gentle {

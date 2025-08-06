@@ -1,24 +1,41 @@
-// GamesForMyKids Service Worker
-const CACHE_NAME = 'games-for-my-kids-v1';
-const STATIC_ASSETS = [
+// GamesForMyKids Service Worker - Optimized for FCP
+const CACHE_NAME = 'games-for-my-kids-v2';
+const CRITICAL_ASSETS = [
   '/',
+  '/manifest.json',
+  // Only cache critical assets for faster FCP
+];
+
+const NON_CRITICAL_ASSETS = [
   '/games',
   '/games/puzzles',
+  '/games/memory',
+  '/games/counting',
   // Add other important routes here
 ];
 
-// Install event - cache static assets
+// Install event - cache only critical assets first
 self.addEventListener('install', (event) => {
   console.log('🎮 GamesForMyKids Service Worker installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('📦 Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+    Promise.all([
+      // Cache critical assets immediately
+      caches.open(CACHE_NAME).then((cache) => {
+        console.log('📦 Caching critical assets');
+        return cache.addAll(CRITICAL_ASSETS);
+      }),
+      // Cache non-critical assets after a delay
+      new Promise((resolve) => {
+        setTimeout(() => {
+          caches.open(CACHE_NAME).then((cache) => {
+            console.log('📦 Caching non-critical assets');
+            return cache.addAll(NON_CRITICAL_ASSETS).then(resolve);
+          }).catch(resolve); // Don't fail if non-critical assets fail
+        }, 2000);
       })
-      .catch((error) => {
-        console.log('❌ Cache install failed:', error);
-      })
+    ]).catch((error) => {
+      console.log('❌ Cache install failed:', error);
+    })
   );
   self.skipWaiting();
 });

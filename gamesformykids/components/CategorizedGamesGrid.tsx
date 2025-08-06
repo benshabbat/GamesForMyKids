@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { Star, Book, Palette, Calculator, Car, Home, Gamepad2, Apple } from 'lucide-react';
+import { Star, Book, Palette, Calculator, Car, Home, Gamepad2, Apple } from '@/components/icons/OptimizedIcons';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 // הגדרת קטגוריות המשחקים
