@@ -1,29 +1,43 @@
 'use client';
 
 import { Home, HelpCircle } from 'lucide-react';
+import { usePuzzleContext } from '@/contexts';
 
 interface UnifiedHeaderProps {
-  title: string;
-  subtitle: string;
-  onGoHome: () => void;
-  onToggleHelp: () => void;
+  title?: string;
+  subtitle?: string;
+  onGoHome?: () => void;
+  onToggleHelp?: () => void;
   type?: 'simple' | 'custom';
 }
 
 export default function UnifiedHeader({ 
-  title,
-  subtitle,
-  onGoHome, 
-  onToggleHelp,
+  title: overrideTitle,
+  subtitle: overrideSubtitle,
+  onGoHome: customOnGoHome, 
+  onToggleHelp: customOnToggleHelp,
   type = 'simple'
 }: UnifiedHeaderProps) {
+  const { dispatch, goHome } = usePuzzleContext();
+  
+  // Use context values with defaults unless overridden
+  const title = overrideTitle ?? (
+    type === 'simple' ? '🧩 פאזלים פשוטים' : '🧩 פאזל מותאם אישית'
+  );
+  const subtitle = overrideSubtitle ?? (
+    type === 'simple' ? 'בחר פאזל ותתחיל לשחק!' : 'העלה תמונה וצור פאזל משלך!'
+  );
+  
+  // Use custom handlers if provided, otherwise use context handlers
+  const finalOnGoHome = customOnGoHome || goHome;
+  const finalOnToggleHelp = customOnToggleHelp || (() => dispatch({ type: 'TOGGLE_HELP' }));
   if (type === 'custom') {
     // More elaborate header for custom puzzles
     return (
       <div className="text-center mb-6 sm:mb-8">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mb-6">
           <button
-            onClick={onGoHome}
+            onClick={finalOnGoHome}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base font-medium"
           >
             <Home className="w-5 h-5" />
@@ -39,7 +53,7 @@ export default function UnifiedHeader({
           </div>
           
           <button
-            onClick={onToggleHelp}
+            onClick={finalOnToggleHelp}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base font-medium"
           >
             <HelpCircle className="w-5 h-5" />
@@ -72,7 +86,7 @@ export default function UnifiedHeader({
         </div>
         
         <button
-          onClick={onToggleHelp}
+          onClick={finalOnToggleHelp}
           className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
         >
           <HelpCircle className="w-4 h-4" />

@@ -1,14 +1,24 @@
 import React from 'react';
+import { usePuzzleFeedback } from '@/hooks/games/usePuzzleFeedback';
 
 interface FeedbackMessageProps {
-  message: string;
-  type: 'success' | 'error' | '';
+  // Allow optional override for special cases
+  message?: string;
+  type?: 'success' | 'error' | '';
 }
 
 /**
- * Shared feedback message component for puzzles
+ * Shared feedback message component - now uses hook for data
  */
-export const FeedbackMessage: React.FC<FeedbackMessageProps> = ({ message, type }) => {
+export const FeedbackMessage: React.FC<FeedbackMessageProps> = ({ 
+  message: overrideMessage, 
+  type: overrideType 
+}) => {
+  const { feedbackMessage, feedbackType } = usePuzzleFeedback();
+  
+  // Use hook values unless overridden
+  const message = overrideMessage ?? feedbackMessage;
+  const type = overrideType ?? feedbackType;
   if (!message) return null;
 
   return (

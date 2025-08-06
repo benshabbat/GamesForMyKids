@@ -1,14 +1,24 @@
 'use client';
 
 import { X, Mouse, RotateCcw, HelpCircle, Eye, Settings, Upload, Shuffle } from 'lucide-react';
+import { usePuzzleContext } from '@/contexts';
 
 interface UnifiedHelpModalProps {
-  showHelp: boolean;
-  onToggleHelp: () => void;
-  type: 'simple' | 'custom';
+  showHelp?: boolean;
+  onToggleHelp?: () => void;
+  type?: 'simple' | 'custom';
 }
 
-export default function UnifiedHelpModal({ showHelp, onToggleHelp, type }: UnifiedHelpModalProps) {
+export default function UnifiedHelpModal({ 
+  showHelp: overrideShowHelp, 
+  onToggleHelp: customOnToggleHelp, 
+  type = 'simple' 
+}: UnifiedHelpModalProps) {
+  const { state, dispatch } = usePuzzleContext();
+  
+  // Use context values unless overridden
+  const showHelp = overrideShowHelp ?? state.showHelp;
+  const onToggleHelp = customOnToggleHelp || (() => dispatch({ type: 'TOGGLE_HELP' }));
   if (!showHelp) return null;
 
   if (type === 'simple') {

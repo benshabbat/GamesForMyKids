@@ -116,13 +116,7 @@ export default function CustomPuzzleGame() {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
-          <UnifiedHeader 
-            title="🧩 פאזל מותאם אישית"
-            subtitle="העלה תמונה וצור פאזל משלך!"
-            onGoHome={goHome} 
-            onToggleHelp={toggleHelp}
-            type="custom"
-          />
+          <UnifiedHeader type="custom" />
         </div>
 
         {/* Upload Section */}
@@ -159,15 +153,11 @@ export default function CustomPuzzleGame() {
 
         {/* Feedback Message */}
         <div className="mb-4">
-          <FeedbackMessage message="" type="success" />
+          <FeedbackMessage />
         </div>
 
         {/* Help Modal */}
-        <UnifiedHelpModal 
-          showHelp={state.showHelp} 
-          onToggleHelp={toggleHelp} 
-          type="custom"
-        />
+        <UnifiedHelpModal type="custom" />
 
         {/* Game Area */}
         {state.gameStarted && (
@@ -176,42 +166,17 @@ export default function CustomPuzzleGame() {
             <div className="xl:hidden space-y-4 sm:space-y-6">
               {/* Stats Panel for Mobile */}
               <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
-                <PuzzleStats
-                  correctPieces={correctPieces}
-                  totalPieces={state.difficulty}
-                  timeElapsed={state.timer}
-                  score={state.score}
-                  isComplete={state.isCompleted}
-                />
+                <PuzzleStats />
               </div>
 
               {/* Main Game Grid for Mobile */}
               <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-3 sm:p-4 border border-white/50">
-                <PuzzleGrid
-                  gridSize={state.difficulty}
-                  pieces={state.placedPieces}
-                  onDragOver={handleDragOver}
-                  onDrop={handleDrop}
-                  onDragStart={handleDragStart}
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                  title="🎯 לוח הפאזל"
-                  showPositionNumbers={state.showHints}
-                  showDebugInfo={state.showDebug}
-                />
+                <PuzzleGrid title="🎯 לוח הפאזל" />
               </div>
 
               {/* Pieces Pool for Mobile */}
               <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
-                <PiecesPool
-                  pieces={state.pieces}
-                  onDragStart={handleDragStart}
-                  onTouchStart={handleTouchStart}
-                  onTouchMove={handleTouchMove}
-                  onTouchEnd={handleTouchEnd}
-                  title="🧩 חלקי הפאזל"
-                />
+                <PiecesPool />
               </div>
 
               {/* Reference Image for Mobile */}

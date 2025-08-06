@@ -20,7 +20,6 @@ export default function SimplePuzzleGame() {
   const router = useRouter();
   const { 
     state, 
-    dispatch,
     initializeSimpleGame, 
     goToMenu
   } = usePuzzleContext();
@@ -30,20 +29,12 @@ export default function SimplePuzzleGame() {
     initializeSimpleGame(puzzle);
   }, [initializeSimpleGame]);
 
-  // Simple toggle function for help
-  const toggleHelp = useCallback(() => {
-    dispatch({ type: 'TOGGLE_HELP' });
-  }, [dispatch]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <UnifiedHeader
-          title="🧩 פאזלים פשוטים"
-          subtitle="בחר פאזל ותתחיל לשחק!"
           onGoHome={() => router.push('/')}
-          onToggleHelp={toggleHelp}
           type="simple"
         />
 
@@ -56,11 +47,7 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Help Modal */}
-        <UnifiedHelpModal
-          showHelp={state.showHelp}
-          onToggleHelp={toggleHelp}
-          type="simple"
-        />
+        <UnifiedHelpModal type="simple" />
 
         {/* Game Controls */}
         {state.selectedPuzzle && (
@@ -71,7 +58,7 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Feedback Message */}
-        <FeedbackMessage message="" type="success" />
+        <FeedbackMessage />
 
         {/* Game Area */}
         {state.gameStarted && state.selectedPuzzle && state.imageLoaded && (
