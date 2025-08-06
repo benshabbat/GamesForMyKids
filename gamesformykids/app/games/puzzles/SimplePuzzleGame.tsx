@@ -89,11 +89,7 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Floating Dragged Piece */}
-        <FloatingDragPiece
-          isDragging={state.touchState.isDragging}
-          draggedPiece={state.touchState.draggedPiece}
-          dragPosition={state.touchState.dragPosition}
-        />
+        <FloatingDragPiece />
       </div>
     </div>
   );

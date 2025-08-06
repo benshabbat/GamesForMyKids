@@ -21,23 +21,14 @@ export default function CustomPuzzleGame() {
   
   const { 
     state, 
-    dispatch,
+    dispatch, 
     initializeGame, 
     resetGame,
-    goHome,
     handleImageUpload,
     handlePreMadeImageSelect,
     shufflePieces,
-    handleDragStart,
-    handleTouchStart,
-    handleTouchMove,
-    handleTouchEnd,
-    handleDragOver,
-    handleDrop,
     speak
-  } = usePuzzleContext();
-
-  // Handle difficulty change with proper game restart
+  } = usePuzzleContext();  // Handle difficulty change with proper game restart
   const handleDifficultyChangeWithRestart = useCallback((newDifficulty: number) => {
     const difficultyName = 
       newDifficulty === 4 ? 'קל' : 
@@ -123,7 +114,6 @@ export default function CustomPuzzleGame() {
         {!state.image && (
           <div className="mb-6 sm:mb-8">
             <ImageUploadSection 
-              difficulty={state.difficulty}
               fileInputRef={fileInputRef}
               onImageUpload={handleImageUploadWithInit}
               onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
@@ -182,7 +172,7 @@ export default function CustomPuzzleGame() {
               {/* Reference Image for Mobile */}
               {state.image && (
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
-                  <ReferenceImage image={state.image} />
+                  <ReferenceImage />
                 </div>
               )}
             </div>
@@ -194,20 +184,13 @@ export default function CustomPuzzleGame() {
               <div className="xl:col-span-1 space-y-6">
                 {/* Pieces Pool */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
-                  <PiecesPool
-                    pieces={state.pieces}
-                    onDragStart={handleDragStart}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    title="🧩 חלקי הפאזל"
-                  />
+                  <PiecesPool />
                 </div>
                 
                 {/* Reference Image */}
                 {state.image && (
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
-                    <ReferenceImage image={state.image} />
+                    <ReferenceImage />
                   </div>
                 )}
               </div>
@@ -215,19 +198,7 @@ export default function CustomPuzzleGame() {
               {/* Main Game Grid */}
               <div className="xl:col-span-2">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-white/50 min-h-[600px]">
-                  <PuzzleGrid
-                    gridSize={state.difficulty}
-                    pieces={state.placedPieces}
-                    onDragOver={handleDragOver}
-                    onDrop={handleDrop}
-                    onDragStart={handleDragStart}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                    title="🎯 לוח הפאזל"
-                    showPositionNumbers={state.showHints}
-                    showDebugInfo={state.showDebug}
-                  />
+                  <PuzzleGrid />
                 </div>
               </div>
 
@@ -258,11 +229,7 @@ export default function CustomPuzzleGame() {
         <canvas ref={canvasRef} className="hidden" />
 
         {/* Floating Dragged Piece */}
-        <FloatingDragPiece 
-          isDragging={state.touchState.isDragging}
-          draggedPiece={state.touchState.draggedPiece}
-          dragPosition={state.touchState.dragPosition}
-        />
+        <FloatingDragPiece />
       </div>
     </div>
   );

@@ -2,18 +2,26 @@
 
 import Image from 'next/image';
 import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
+import { usePuzzleContext } from '@/contexts';
 
 interface FloatingDragPieceProps {
-  isDragging: boolean;
-  draggedPiece: PuzzlePiece | null;
-  dragPosition: { x: number; y: number };
+  isDragging?: boolean; // Optional - defaults to context
+  draggedPiece?: PuzzlePiece | null; // Optional - defaults to context
+  dragPosition?: { x: number; y: number }; // Optional - defaults to context
 }
 
 export default function FloatingDragPiece({ 
-  isDragging, 
-  draggedPiece, 
-  dragPosition 
-}: FloatingDragPieceProps) {
+  isDragging: propIsDragging,
+  draggedPiece: propDraggedPiece,
+  dragPosition: propDragPosition
+}: FloatingDragPieceProps = {}) {
+  const { state } = usePuzzleContext();
+  
+  // Use props if provided, otherwise use context
+  const isDragging = propIsDragging ?? state.touchState.isDragging;
+  const draggedPiece = propDraggedPiece ?? state.touchState.draggedPiece;
+  const dragPosition = propDragPosition ?? state.touchState.dragPosition;
+
   if (!isDragging || !draggedPiece) return null;
 
   return (

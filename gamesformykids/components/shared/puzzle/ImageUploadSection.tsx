@@ -3,13 +3,14 @@
 import { RefObject } from 'react';
 import { Upload } from 'lucide-react';
 import Image from 'next/image';
+import { usePuzzleContext } from '@/contexts';
 
 interface ImageUploadSectionProps {
-  difficulty: number;
-  fileInputRef: RefObject<HTMLInputElement | null>;
-  onImageUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onPreMadeImageSelect: (imageSrc: string) => void;
-  onDifficultyChange: (difficulty: number) => void;
+  difficulty?: number; // Optional - defaults to context
+  fileInputRef?: RefObject<HTMLInputElement | null>; // Optional - context could provide this
+  onImageUpload?: (event: React.ChangeEvent<HTMLInputElement>) => void; // Optional - defaults to context
+  onPreMadeImageSelect?: (imageSrc: string) => void; // Optional - defaults to context
+  onDifficultyChange?: (difficulty: number) => void; // Optional - defaults to context
 }
 
 const previewImages = [
@@ -26,12 +27,22 @@ const previewImages = [
 ];
 
 export default function ImageUploadSection({ 
-  difficulty, 
-  fileInputRef, 
-  onImageUpload, 
-  onPreMadeImageSelect, 
-  onDifficultyChange 
-}: ImageUploadSectionProps) {
+  difficulty: propDifficulty,
+  fileInputRef: propFileInputRef,
+  onImageUpload: propOnImageUpload,
+  onPreMadeImageSelect: propOnPreMadeImageSelect,
+  onDifficultyChange: propOnDifficultyChange
+}: ImageUploadSectionProps = {}) {
+  const { state, dispatch, handleImageUpload, handlePreMadeImageSelect } = usePuzzleContext();
+  
+  // Use props if provided, otherwise use context
+  const difficulty = propDifficulty ?? state.difficulty;
+  const onImageUpload = propOnImageUpload ?? handleImageUpload;
+  const onPreMadeImageSelect = propOnPreMadeImageSelect ?? handlePreMadeImageSelect;
+  const onDifficultyChange = propOnDifficultyChange ?? ((newDifficulty: number) => {
+    dispatch({ type: 'SET_DIFFICULTY', payload: newDifficulty });
+  });
+
   return (
     <div className="text-center mb-8">
       <div className="rounded-2xl border border-gray-200 shadow-xl p-6 sm:p-8 max-w-5xl mx-auto backdrop-blur-sm bg-white/95">
@@ -98,11 +109,11 @@ export default function ImageUploadSection({
             type="file"
             accept="image/*"
             onChange={onImageUpload}
-            ref={fileInputRef}
+            ref={propFileInputRef}
             className="hidden"
           />
           <button
-            onClick={() => fileInputRef.current?.click()}
+            onClick={() => propFileInputRef?.current?.click()}
             className="inline-flex items-center justify-center rounded-xl font-bold transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
           >
             <Upload className="w-6 h-6 mr-3" />
