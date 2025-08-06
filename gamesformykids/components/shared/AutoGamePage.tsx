@@ -10,9 +10,8 @@
 "use client";
 
 import React, { useState } from "react";
-import { GameType } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
-import { GAME_HOOKS_MAP } from "@/lib/constants/gameHooksMap";
+import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
 import { GameCardMap } from "./CardPresets";
 
@@ -27,7 +26,7 @@ import { GameHints } from "./GameHints";
 import { ProgressDisplay } from "./ProgressDisplay";
 
 interface AutoGamePageProps {
-  gameType: GameType;
+  gameType: AutoGameType;
 }
 
 /**
@@ -86,7 +85,6 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
               level={gameState.level}
               onHome={() => (window.location.href = "/")}
               onReset={resetGame}
-              scoreColor={config.colors.header}
               levelColor={config.colors.subHeader}
             />
             

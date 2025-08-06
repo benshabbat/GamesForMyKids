@@ -34,7 +34,6 @@ export default function MathGame() {
             level={gameState.level}
             onHome={() => (window.location.href = "/")}
             onReset={resetGame}
-            scoreColor="text-orange-800"
             levelColor="text-orange-600"
           />
 

@@ -34,7 +34,6 @@ export default function CountingGame() {
             level={gameState.level}
             onHome={() => (window.location.href = "/")}
             onReset={resetGame}
-            scoreColor="text-purple-800"
             levelColor="text-purple-600"
           />
         </div>

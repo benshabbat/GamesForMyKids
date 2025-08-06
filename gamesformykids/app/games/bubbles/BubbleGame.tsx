@@ -35,7 +35,6 @@ export default function BubbleGame() {
           level={gameState.level}
           onHome={() => (window.location.href = "/")}
           onReset={resetGame}
-          scoreColor="text-blue-800"
           levelColor="text-blue-600"
         />
       </div>
