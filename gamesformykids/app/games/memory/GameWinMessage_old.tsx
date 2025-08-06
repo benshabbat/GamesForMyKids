@@ -1,16 +1,23 @@
+import { AnimalData } from "@/lib/types/games";
 import { Clock, Target, Zap, Star } from "lucide-react";
-import { useMemoryContext } from "@/contexts";
 
-export default function GameWinMessage() {
-  const {
-    state: {
-      animals,
-      gameStats,
-      timeLeft,
-    },
-    difficultyConfig,
-  } = useMemoryContext();
+interface GameStats {
+  moves: number;
+  matches: number;
+  score: number;
+  timeElapsed: number;
+  perfectMatches: number;
+  streak: number;
+}
 
+interface GameWinMessageProps {
+  animals: AnimalData[];
+  gameStats: GameStats;
+  difficultyName: string;
+  timeLeft: number;
+}
+
+export default function GameWinMessage({ animals, gameStats, difficultyName, timeLeft }: GameWinMessageProps) {
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -37,7 +44,7 @@ export default function GameWinMessage() {
           🎉 {performance.level} 🎉
         </h2>
         <p className="text-2xl text-orange-700 mb-2">
-          סיימת ברמת <span className="font-bold">{difficultyConfig.name}</span>!
+          סיימת ברמת <span className="font-bold">{difficultyName}</span>!
         </p>
         <p className="text-lg text-orange-600 mb-2">
           {performance.timeComment} נשאר לך {formatTime(timeLeft)}
@@ -91,36 +98,60 @@ export default function GameWinMessage() {
       </div>
 
       {/* הישגים מיוחדים */}
-      <div className="flex flex-wrap justify-center gap-2 mb-6">
-        {gameStats.perfectMatches === animals.length && (
-          <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold">
-            🏆 מושלם בכל הזוגות!
-          </div>
-        )}
-        {gameStats.streak >= 5 && (
-          <div className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-bold">
-            🔥 רצף אש של {gameStats.streak}!
-          </div>
-        )}
-        {gameStats.moves <= animals.length * 1.5 && (
-          <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
-            ⚡ יעילות מקסימלית!
-          </div>
-        )}
-        {timeLeft > 120 && (
-          <div className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-bold">
-            ⏰ מהיר כאלף!
-          </div>
-        )}
+      <div className="mb-6">
+        <h3 className="text-xl font-bold text-orange-800 mb-3">🏅 הישגים:</h3>
+        <div className="flex flex-wrap justify-center gap-2">
+          {gameStats.perfectMatches >= animals.length / 2 && (
+            <span className="bg-yellow-400 text-yellow-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              🎯 זיכרון חד
+            </span>
+          )}
+          {gameStats.moves <= animals.length * 2 && (
+            <span className="bg-green-400 text-green-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              ⚡ יעילות מקסימלית
+            </span>
+          )}
+          {timeLeft > 90 && (
+            <span className="bg-blue-400 text-blue-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              ⏰ מהיר כברק
+            </span>
+          )}
+          {timeLeft > 60 && timeLeft <= 90 && (
+            <span className="bg-cyan-400 text-cyan-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              🏃‍♂️ מהירות טובה
+            </span>
+          )}
+          {gameStats.score > 500 && (
+            <span className="bg-purple-400 text-purple-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              💎 ניקוד גבוה
+            </span>
+          )}
+          {gameStats.score > 800 && (
+            <span className="bg-pink-400 text-pink-900 px-3 py-1 rounded-full text-sm font-bold animate-pulse">
+              👑 ניקוד מושלם
+            </span>
+          )}
+        </div>
       </div>
-
-      {/* הודעת עידוד */}
-      <div className="bg-white/80 rounded-xl p-6 shadow-lg">
-        <div className="text-3xl mb-2">🌟</div>
-        <h3 className="text-xl font-bold text-gray-800 mb-2">כל הכבוד!</h3>
-        <p className="text-gray-600">
-          זיכרון מעולה! אתה מוכן לאתגר הבא?
-        </p>
+      
+      {/* הצגת כל החיות בחגיגה */}
+      <div className="mt-4 flex flex-wrap justify-center gap-2 mb-4">
+        {animals.map((animal, index) => (
+          <span 
+            key={animal.emoji + index} 
+            className="text-3xl animate-bounce"
+            style={{ 
+              animationDelay: `${index * 0.1}s`,
+              animationDuration: '1s'
+            }}
+          >
+            {animal.emoji}
+          </span>
+        ))}
+      </div>
+      
+      <div className="text-3xl mt-4 text-orange-600">
+        ⭐ מעולה! בואו נשחק שוב! ⭐
       </div>
     </div>
   );
