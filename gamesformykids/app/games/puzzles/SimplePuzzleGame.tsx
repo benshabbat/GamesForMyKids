@@ -1,6 +1,5 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { usePuzzleContext } from '@/contexts';
 import { 
   FeedbackMessage,
@@ -16,11 +15,11 @@ import {
 import { SIMPLE_PUZZLES } from '@/lib/constants/simplePuzzlesData';
 
 export default function SimplePuzzleGame() {
-  const router = useRouter();
   const { 
     state, 
     goToMenu,
-    handlePuzzleSelect
+    handlePuzzleSelect,
+    goHome
   } = usePuzzleContext();
 
   return (
@@ -28,7 +27,7 @@ export default function SimplePuzzleGame() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <UnifiedHeader
-          onGoHome={() => router.push('/')}
+          onGoHome={goHome}
           type="simple"
         />
 
