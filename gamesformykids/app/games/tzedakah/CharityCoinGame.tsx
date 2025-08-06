@@ -19,7 +19,7 @@ interface Coin {
   rotation: number;
 }
 
-const CharityCoinGame: React.FC = () => {
+const CharityCoinGame = () => {
   const [coins, setCoins] = useState<Coin[]>([]);
   const [score, setScore] = useState(0);
   const [gameStarted, setGameStarted] = useState(false);
