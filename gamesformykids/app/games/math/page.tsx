@@ -58,7 +58,7 @@ export default function MathGame() {
                     {Array.from({ length: gameState.currentChallenge.firstNumber }, (_, index) => `num1-${Date.now()}-${index}`).map((id) => (
                       <span key={id} 
                             className="text-blue-500 animate-bounce-in"
-                            style={{ animationDelay: `${parseInt(id.split('-')[2]) * 0.1}s` }}>
+                            style={{ animationDelay: `${parseInt(id.split('-')[2] || '0') * 0.1}s` }}>
                         {gameState.currentChallenge!.emoji}
                       </span>
                     ))}
@@ -76,7 +76,7 @@ export default function MathGame() {
                       Array.from({ length: gameState.currentChallenge.secondNumber }, (_, index) => `add-${Date.now()}-${index}`).map((id) => (
                         <span key={id} 
                               className="text-green-500 animate-bounce-in"
-                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2])) * 0.1}s` }}>
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2] || '0')) * 0.1}s` }}>
                           {gameState.currentChallenge!.emoji}
                         </span>
                       ))
@@ -85,7 +85,7 @@ export default function MathGame() {
                       Array.from({ length: gameState.currentChallenge.secondNumber }, (_, index) => `sub-${Date.now()}-${index}`).map((id) => (
                         <span key={id} 
                               className="text-red-500 animate-bounce-in"
-                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2])) * 0.1}s` }}>
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2] || '0')) * 0.1}s` }}>
                           ❌
                         </span>
                       ))

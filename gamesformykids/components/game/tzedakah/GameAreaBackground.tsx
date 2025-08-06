@@ -22,40 +22,26 @@ export default function GameAreaBackground({ isMobile }: GameAreaBackgroundProps
         </div>
         
         {/* קרני שמש */}
-        {[...Array(8)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute bg-yellow-300 opacity-60"
-            style={{
-              width: '2px',
-              height: isMobile ? '8px' : '12px',
-              top: isMobile ? '-6px' : '-8px',
-              left: '50%',
-              transformOrigin: `1px ${isMobile ? '18px' : '24px'}`,
-              transform: `translateX(-50%) rotate(${i * 45}deg)`
-            }}
-          />
-        ))}
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(0deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(45deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(90deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(135deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(180deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(225deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(270deg)' }} />
+        <div className="absolute bg-yellow-300 opacity-60" style={{ width: '2px', height: isMobile ? '8px' : '12px', top: isMobile ? '-6px' : '-8px', left: '50%', transformOrigin: `1px ${isMobile ? '18px' : '24px'}`, transform: 'translateX(-50%) rotate(315deg)' }} />
       </div>
 
       {/* גרדיאנט רקע נוסף */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-200/20 to-blue-300/30 pointer-events-none"></div>
       
       {/* כוכבים קטנים */}
-      {[...Array(6)].map((_, i) => (
-        <div
-          key={i}
-          className="absolute text-yellow-300 opacity-70 animate-twinkle"
-          style={{
-            left: `${15 + i * 15}%`,
-            top: `${10 + (i % 2) * 20}%`,
-            animationDelay: `${i * 0.5}s`,
-            fontSize: isMobile ? '8px' : '12px'
-          }}
-        >
-          ✨
-        </div>
-      ))}
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '15%', top: '10%', animationDelay: '0s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '30%', top: '30%', animationDelay: '0.5s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '45%', top: '10%', animationDelay: '1s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '60%', top: '30%', animationDelay: '1.5s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '75%', top: '10%', animationDelay: '2s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
+      <div className="absolute text-yellow-300 opacity-70 animate-twinkle" style={{ left: '90%', top: '30%', animationDelay: '2.5s', fontSize: isMobile ? '8px' : '12px' }}>✨</div>
     </div>
   );
 }

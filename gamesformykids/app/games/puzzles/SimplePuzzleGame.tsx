@@ -155,21 +155,16 @@ export default function SimplePuzzleGame() {
 
   // Initialize game with selected puzzle
   const initializeGame = useCallback((puzzle: SimplePuzzle) => {
-    console.log('🎮 SimplePuzzle - Initializing game with:', puzzle.name);
+    // Initializing game
     
     const img = document.createElement('img') as HTMLImageElement;
     img.crossOrigin = 'anonymous';
     img.onload = () => {
-      console.log('🖼️ SimplePuzzle - Image loaded, creating pieces...');
+      // Image loaded, creating pieces...
       
       const newPieces = createPuzzlePieces(img, puzzle.gridSize, 'simple');
       
-      console.log('🎮 SimplePuzzle - Created pieces:', newPieces.map(p => ({
-        id: p.id,
-        expectedPos: `(${p.expectedPosition.row}, ${p.expectedPosition.col})`,
-        isPlaced: p.isPlaced,
-        isCorrect: p.isCorrect
-      })));
+      // Created pieces successfully
       
       setPieces(newPieces);
       setPlacedPieces(new Array(puzzle.gridSize).fill(null));
@@ -201,7 +196,7 @@ export default function SimplePuzzleGame() {
   const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
     setDraggedPiece(piece);
     e.dataTransfer.effectAllowed = 'move';
-    console.log('🎯 SimplePuzzle - Dragging piece:', piece.id, 'expected at:', piece.expectedPosition);
+    // Dragging piece
   };
 
   // Touch handlers for mobile support
@@ -223,7 +218,7 @@ export default function SimplePuzzleGame() {
     });
     
     setDraggedPiece(piece);
-    console.log('🎯 SimplePuzzle - Touch dragging piece:', piece.id);
+    // Touch dragging piece
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -269,13 +264,8 @@ export default function SimplePuzzleGame() {
     const row = Math.floor(gridIndex / gridSide);
     const col = gridIndex % gridSide;
     
-    console.log('🎯 SimplePuzzle - Drop attempt:', {
-      pieceId: piece.id,
-      droppedAt: `(${row}, ${col})`,
-      expectedAt: `(${piece.expectedPosition.row}, ${piece.expectedPosition.col})`,
-      gridIndex
-    });
-
+    // Drop attempt processing
+    
     // Remove piece from current position if it's already placed
     const newPlacedPieces = [...placedPieces];
     const currentIndex = newPlacedPieces.findIndex(p => p?.id === piece.id);
