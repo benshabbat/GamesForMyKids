@@ -18,6 +18,12 @@ interface PracticeState {
   practiceMode: 'tracing' | 'freewriting' | 'guided';
 }
 
+interface EncouragementState {
+  showEncouragement: boolean;
+  currentMessage: string;
+  isStepCompleted: boolean;
+}
+
 interface HebrewLettersContextType {
   // Current letter data
   currentLetter: HebrewLetter | null;
@@ -34,15 +40,27 @@ interface HebrewLettersContextType {
   nextStep: () => void;
   previousStep: () => void;
   markStepCompleted: (step: number) => void;
+  goToStep: (step: number) => void;
+  
+  // Encouragement state
+  encouragementState: EncouragementState;
+  showStepEncouragement: () => void;
+  hideEncouragement: () => void;
   
   // Canvas operations
   saveCanvasState: (imageData: ImageData) => void;
   undoLastAction: () => void;
   
-  // Settings
+  // Settings and constants
   strokeColors: string[];
   strokeWidths: number[];
   practiceSteps: string[];
+  encouragementMessages: string[];
+  stepMessages: Record<number, string>;
+  
+  // Helper functions
+  getStepMessage: (stepIndex: number) => string;
+  getCompletionMessage: (letterName: string) => string;
   
   // Achievements and progress
   completedLetters: Set<string>;
@@ -67,6 +85,12 @@ const defaultPracticeState: PracticeState = {
   practiceMode: 'guided',
 };
 
+const defaultEncouragementState: EncouragementState = {
+  showEncouragement: false,
+  currentMessage: '',
+  isStepCompleted: false,
+};
+
 const strokeColors = [
   '#2E7D32', // ירוק
   '#1976D2', // כחול
@@ -86,6 +110,23 @@ const practiceSteps = [
   'כתיבה חופשית ויצירתית'
 ];
 
+const encouragementMessages = [
+  "כל הכבוד! 🌟",
+  "מעולה! 👏", 
+  "איזה יופי! 🎉",
+  "פנטסטי! ✨",
+  "מדהים! 🚀",
+  "יש לך זה! 💪",
+  "מושלם! 🎯",
+  "ברבו! 👑"
+];
+
+const stepMessages = {
+  0: "התבוננו באות יפה! 👀",
+  1: "עכשיו בואו נעקוב עליה! ✏️", 
+  2: "זמן לכתוב בעצמנו! 🎨"
+};
+
 interface HebrewLettersProviderProps {
   children: ReactNode;
 }
@@ -94,6 +135,7 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
   const [currentLetter, setCurrentLetter] = useState<HebrewLetter | null>(null);
   const [drawingState, setDrawingState] = useState<DrawingState>(defaultDrawingState);
   const [practiceState, setPracticeState] = useState<PracticeState>(defaultPracticeState);
+  const [encouragementState, setEncouragementState] = useState<EncouragementState>(defaultEncouragementState);
   const [completedLetters, setCompletedLetters] = useState<Set<string>>(new Set());
 
   // Drawing state updates
@@ -149,6 +191,67 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     }));
   }, []);
 
+  const goToStep = useCallback((step: number) => {
+    setPracticeState(prev => ({
+      ...prev,
+      currentStep: step
+    }));
+  }, []);
+
+  // Encouragement functions
+  const showStepEncouragement = useCallback(() => {
+    const randomMessage = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+    setEncouragementState({
+      showEncouragement: true,
+      currentMessage: randomMessage,
+      isStepCompleted: true
+    });
+
+    // הסתר אחרי 3 שניות
+    setTimeout(() => {
+      setEncouragementState(prev => ({
+        ...prev,
+        showEncouragement: false
+      }));
+    }, 3000);
+  }, []);
+
+  const hideEncouragement = useCallback(() => {
+    setEncouragementState(prev => ({
+      ...prev,
+      showEncouragement: false
+    }));
+  }, []);
+
+  // Helper functions
+  const getStepMessage = useCallback((stepIndex: number) => {
+    const baseMessage = stepMessages[stepIndex as keyof typeof stepMessages] || "כל הכבוד!";
+    const isStepCompleted = practiceState.completedSteps.has(stepIndex);
+    
+    if (isStepCompleted) {
+      return `✅ ${baseMessage} השלב הושלם!`;
+    }
+    
+    // הודעה מותאמת לפי מצב התרגול
+    if (practiceState.practiceMode === 'tracing') {
+      return `${baseMessage} עקוב אחר הקווים בעדינות`;
+    } else if (practiceState.practiceMode === 'freewriting') {
+      return `${baseMessage} כתוב את האות בחופשיות`;
+    }
+    
+    return baseMessage;
+  }, [practiceState.completedSteps, practiceState.practiceMode]);
+
+  const getCompletionMessage = useCallback((letterName: string) => {
+    const letterDisplayName = currentLetter?.letter || letterName;
+    const stepsCompleted = practiceState.completedSteps.size;
+    const randomMessage = encouragementMessages[Math.floor(Math.random() * encouragementMessages.length)];
+    
+    return stepsCompleted > 1 ? 
+      `${randomMessage} סיימת ${stepsCompleted} שלבים של האות ${letterDisplayName}!` :
+      `${randomMessage} סיימת את השלב של האות ${letterDisplayName}!`;
+  }, [currentLetter, practiceState.completedSteps]);
+
   // Letter progress tracking
   const markLetterCompleted = useCallback((letterName: string) => {
     setCompletedLetters(prev => new Set([...prev, letterName]));
@@ -190,15 +293,27 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     nextStep,
     previousStep,
     markStepCompleted,
+    goToStep,
+
+    // Encouragement state
+    encouragementState,
+    showStepEncouragement,
+    hideEncouragement,
 
     // Canvas operations
     saveCanvasState,
     undoLastAction,
 
-    // Settings
+    // Settings and constants
     strokeColors,
     strokeWidths,
     practiceSteps,
+    encouragementMessages,
+    stepMessages,
+
+    // Helper functions
+    getStepMessage,
+    getCompletionMessage,
 
     // Progress tracking
     completedLetters,

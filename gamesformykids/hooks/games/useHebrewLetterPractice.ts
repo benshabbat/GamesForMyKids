@@ -12,15 +12,8 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
     setCurrentLetter,
     markLetterCompleted,
     practiceSteps,
-    updatePracticeState
+    goToStep
   } = useHebrewLetters();
-
-  // Go directly to a specific step
-  const goToStep = useCallback((stepIndex: number) => {
-    if (stepIndex >= 0 && stepIndex < practiceSteps.length) {
-      updatePracticeState({ currentStep: stepIndex });
-    }
-  }, [updatePracticeState, practiceSteps.length]);
 
   // Initialize current letter
   const initializeLetter = useCallback(() => {
