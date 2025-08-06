@@ -1,14 +1,17 @@
+/**
+ * Game Win Message Component
+ * 
+ * Displays celebration message and game statistics when player wins
+ */
+
 import { Clock, Target, Zap, Star } from "lucide-react";
 import { useMemoryContext } from "@/contexts";
 
 export default function GameWinMessage() {
   const {
-    state: {
-      animals,
-      gameStats,
-      timeLeft,
-    },
+    state: { gameStats, timeLeft },
     difficultyConfig,
+    getGameProgress
   } = useMemoryContext();
 
   const formatTime = (seconds: number) => {
@@ -92,7 +95,7 @@ export default function GameWinMessage() {
 
       {/* הישגים מיוחדים */}
       <div className="flex flex-wrap justify-center gap-2 mb-6">
-        {gameStats.perfectMatches === animals.length && (
+        {gameStats.perfectMatches === getGameProgress().totalPairs && (
           <div className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-bold">
             🏆 מושלם בכל הזוגות!
           </div>
@@ -102,7 +105,7 @@ export default function GameWinMessage() {
             🔥 רצף אש של {gameStats.streak}!
           </div>
         )}
-        {gameStats.moves <= animals.length * 1.5 && (
+        {gameStats.moves <= getGameProgress().totalPairs * 1.5 && (
           <div className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-bold">
             ⚡ יעילות מקסימלית!
           </div>

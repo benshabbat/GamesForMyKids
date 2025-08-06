@@ -1,21 +1,22 @@
+/**
+ * Memory Game Header Component
+ * 
+ * Displays game controls, statistics, and difficulty selection
+ */
+
 import { Home, RotateCcw, Play, Pause, Clock, Target, Zap } from "lucide-react";
 import { useMemoryContext } from "@/contexts";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 
 export default function GameHeader() {
   const {
-    state: {
-      matchedPairs,
-      gameStats,
-      timeLeft,
-      isGamePaused,
-      animals,
-    },
+    state: { gameStats, timeLeft, isGamePaused },
     resetGame,
     pauseGame,
     resumeGame,
     setDifficulty,
     difficultyConfig,
+    getGameProgress
   } = useMemoryContext();
 
   const formatTime = (seconds: number) => {
@@ -113,12 +114,12 @@ export default function GameHeader() {
           
           <div className="text-center">
             <div className="text-2xl font-bold text-purple-800">
-              זוגות: {matchedPairs.length} / {animals.length}
+              זוגות: {getGameProgress().completedPairs} / {getGameProgress().totalPairs}
             </div>
             <div className="w-full bg-purple-200 rounded-full h-3 mt-2">
               <div 
                 className="bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full transition-all duration-500"
-                style={{ width: `${(matchedPairs.length / animals.length) * 100}%` }}
+                style={{ width: `${getGameProgress().progressPercentage}%` }}
               ></div>
             </div>
           </div>

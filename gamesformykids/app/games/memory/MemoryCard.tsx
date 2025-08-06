@@ -1,3 +1,9 @@
+/**
+ * Memory Card Component
+ * 
+ * Individual memory card with flip animation and match detection
+ */
+
 import { Card } from "@/lib/types/base";
 
 interface MemoryCardProps {
@@ -6,14 +12,9 @@ interface MemoryCardProps {
 }
 
 export default function MemoryCard({ card, onClick }: MemoryCardProps) {
-  const handleClick = () => {
-    console.log('MemoryCard clicked, card ID:', card.id);
-    onClick();
-  };
-
   return (
     <div
-      onClick={handleClick}
+      onClick={onClick}
       className={`
         aspect-square rounded-3xl cursor-pointer transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl relative overflow-hidden
         ${card.isFlipped || card.isMatched
@@ -23,17 +24,17 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
         ${card.isFlipped && !card.isMatched ? "animate-bounce-gentle" : ""}
       `}
     >
-      {/* רקע מעגל מיוחד לכרטיסים פתוחים */}
+      {/* Background circle for open cards */}
       {(card.isFlipped || card.isMatched) && (
         <div className="absolute inset-4 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl opacity-50"></div>
       )}
 
-      {/* אפקט זוהר כאשר הקלף מקבל match */}
+      {/* Glow effect when card is matched */}
       {card.isMatched && (
         <div className="absolute inset-0 animate-ping bg-gradient-to-r from-yellow-400 to-orange-400 opacity-30 rounded-2xl"></div>
       )}
       
-      {/* תוכן הקלף */}
+      {/* Card content */}
       <div className="w-full h-full flex items-center justify-center relative z-10">
         {card.isFlipped || card.isMatched ? (
           <span className={`
@@ -51,7 +52,7 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
         )}
       </div>
       
-      {/* אפקט כוכבים כאשר יש match */}
+      {/* Star effect when matched */}
       {card.isMatched && (
         <div className="absolute inset-0 pointer-events-none">
           {[...Array(8)].map((_, i) => (
@@ -71,7 +72,7 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
         </div>
       )}
 
-      {/* גבול זוהר לכרטיסים שנמצאו */}
+      {/* Glowing border for matched cards */}
       {card.isMatched && (
         <div className="absolute -inset-2 bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 rounded-3xl opacity-20 animate-pulse"></div>
       )}
