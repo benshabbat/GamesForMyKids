@@ -1,11 +1,6 @@
 import { Home, RotateCcw, Play, Pause, Clock, Target, Zap } from "lucide-react";
 import { useMemoryContext } from "@/contexts";
-
-const DIFFICULTY_CONFIGS = {
-  EASY: { pairs: 6, name: 'קל', emoji: '😊' },
-  MEDIUM: { pairs: 9, name: 'בינוני', emoji: '🤔' },
-  HARD: { pairs: 12, name: 'קשה', emoji: '🧐' }
-};
+import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 
 export default function GameHeader() {
   const {
@@ -40,7 +35,7 @@ export default function GameHeader() {
       <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-xl p-4">
         {/* בחירת רמת קושי */}
         <div className="flex justify-center gap-3 mb-6">
-          {Object.entries(DIFFICULTY_CONFIGS).map(([key, config]) => (
+          {Object.entries(MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS).map(([key, config]) => (
             <button
               key={key}
               onClick={() => setDifficulty(key as 'EASY' | 'MEDIUM' | 'HARD')}
