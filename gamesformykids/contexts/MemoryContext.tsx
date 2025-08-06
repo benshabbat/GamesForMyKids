@@ -4,7 +4,6 @@ import React, { createContext, useContext, useReducer, useCallback, useEffect } 
 import { useRouter } from 'next/navigation';
 import { AnimalData } from "@/lib/types/games";
 import { 
-  playAnimalSound as playGenericAnimalSound, 
   playMemorySuccessSound, 
   createShuffledMemoryCards,  
 } from "@/lib/utils/gameUtils";
@@ -272,18 +271,6 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
   }, [state.audioContext]);
 
   // Play animal sound
-  const playAnimalSound = useCallback(async (animal: AnimalData) => {
-    if (!state.audioContext) return;
-    
-    try {
-      // Import ANIMAL_SOUND_FREQUENCIES here to avoid circular dependency
-      const { ANIMAL_SOUND_FREQUENCIES } = await import("@/lib/constants");
-      await playGenericAnimalSound(state.audioContext, animal.emoji, ANIMAL_SOUND_FREQUENCIES);
-    } catch (error) {
-      console.warn('Failed to play animal sound:', error);
-    }
-  }, [state.audioContext]);
-
   // Initialize game
   const initializeGame = useCallback((targetDifficulty?: DifficultyLevel) => {
     initializeAudio();
@@ -318,14 +305,9 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Handle card click
   const handleCardClick = useCallback((cardIndex: number) => {
-    console.log('handleCardClick called with index:', cardIndex);
-    console.log('Current state - isGamePaused:', state.isGamePaused, 'isCompleted:', state.isCompleted, 'timeLeft:', state.timeLeft);
-    console.log('Total cards:', state.cards.length);
-    
     if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return;
     
     const card = state.cards[cardIndex];
-    console.log('Card at index:', cardIndex, 'card:', card);
     if (!card || card.isFlipped || card.isMatched) return;
     
     if (state.flippedCards.includes(cardIndex)) return;
@@ -344,9 +326,6 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     const updatedCards = [...state.cards];
     updatedCards[cardIndex] = { ...card, isFlipped: true };
     dispatch({ type: 'SET_CARDS', payload: updatedCards });
-    
-    // Play animal sound
-    playAnimalSound(card.animal);
     
     // Check for match when two cards are flipped
     if (state.flippedCards.length === 1) {
@@ -398,7 +377,7 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
         }
       }, 1000);
     }
-  }, [state, playAnimalSound, getDifficultyConfig]);
+  }, [state, getDifficultyConfig]);
 
   // Game control functions
   const pauseGame = useCallback(() => {

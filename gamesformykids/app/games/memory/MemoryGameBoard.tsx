@@ -50,10 +50,7 @@ export default function MemoryGameBoard() {
             >
               <MemoryCard 
                 card={card} 
-                onClick={() => {
-                  console.log('MemoryGameBoard onClick, index:', index);
-                  handleCardClick(index);
-                }}
+                onClick={() => handleCardClick(index)}
               />
             </div>
           );
