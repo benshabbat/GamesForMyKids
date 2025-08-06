@@ -6,7 +6,7 @@
 
 import { useGenericGame } from "@/hooks/games/useGenericGame";
 import { GAME_ITEMS_MAP } from "./gameItemsMap";
-import { GameType, BaseGameState, BaseGameItem } from "@/lib/types/base";
+import { BaseGameState, BaseGameItem } from "@/lib/types/base";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
 import { useMathGame } from "@/app/games/math/useMathGame";
@@ -32,9 +32,17 @@ const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house, 'house');
 const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments, 'instruments');
 const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions, 'professions');
 const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions, 'emotions');
-const useCountingGame = () => useGenericGame(GAME_ITEMS_MAP.counting, 'counting');
-const useBubblesGame = () => useGenericGame(GAME_ITEMS_MAP.bubbles, 'bubbles');
-const usePuzzlesGame = () => useGenericGame(GAME_ITEMS_MAP.puzzles, 'puzzles');
+// משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
+// - counting: לוגיקת ספירה מיוחדת
+// - bubbles: אנימציות ואפקטים ויזואליים
+// - puzzles: מערכת פאזלים מורכבת
+
+// טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד
+export type AutoGameType = 
+  | 'animals' | 'colors' | 'fruits' | 'vegetables' | 'clothing'
+  | 'letters' | 'shapes' | 'numbers' | 'smells-tastes' | 'weather'
+  | 'transport' | 'vehicles' | 'tools' | 'space' | 'house'
+  | 'instruments' | 'professions' | 'emotions' | 'math' | 'memory';
 
 /**
  * 🎯 מפה מרכזית של כל ה-Hooks
@@ -61,13 +69,10 @@ export const GAME_HOOKS_MAP = {
   instruments: useInstrumentsGame,
   professions: useProfessionsGame,
   emotions: useEmotionsGame,
-  counting: useCountingGame,
-  bubbles: useBubblesGame,
-  puzzles: usePuzzlesGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   memory: useMemoryGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
-} as const satisfies Record<GameType, () => {
+} as const satisfies Record<AutoGameType, () => {
   gameState: BaseGameState<BaseGameItem>;
   speakItemName: (itemName: string) => Promise<void>;
   startGame: () => Promise<void>;

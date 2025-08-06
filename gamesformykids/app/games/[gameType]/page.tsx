@@ -3,14 +3,10 @@ import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
+import { GAME_HOOKS_MAP, AutoGameType } from '@/lib/constants/gameHooksMap';
 
-// רשימת כל המשחקים שתומכים ב-AutoGamePage
-const SUPPORTED_GAMES: GameType[] = [
-  'animals', 'colors', 'fruits', 'vegetables', 'weather',
-  'transport', 'instruments', 'space', 'clothing', 
-  'smells-tastes', 'house', 'tools', 'professions',
-  'emotions', 'letters', 'shapes', 'numbers'
-];
+// רשימת כל המשחקים שתומכים ב-AutoGamePage (מבוסס על GAME_HOOKS_MAP)
+const SUPPORTED_GAMES: AutoGameType[] = Object.keys(GAME_HOOKS_MAP) as AutoGameType[];
 
 // מיפוי URL לGameType במקרים של חוסר התאמה
 const URL_TO_GAME_TYPE_MAP: Record<string, GameType> = {
