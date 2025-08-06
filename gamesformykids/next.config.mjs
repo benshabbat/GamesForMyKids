@@ -4,6 +4,12 @@ const nextConfig = {
   distDir: '.next',
   poweredByHeader: false,
   compress: true,
+  trailingSlash: false,
+  skipTrailingSlashRedirect: true,
+  
+  // Static asset optimization
+  assetPrefix: '',
+  basePath: '',
   
   // Image optimization
   images: {
@@ -22,59 +28,29 @@ const nextConfig = {
   // Webpack optimization
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
+      // Simplify chunk splitting to avoid conflicts
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 10000,
-        maxSize: 80000,
         cacheGroups: {
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true,
-          },
           vendor: {
             test: /[\\/]node_modules[\\/]/,
             name: 'vendors',
-            priority: -10,
             chunks: 'all',
-            maxSize: 60000,
-          },
-          react: {
-            test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
-            name: 'react',
-            chunks: 'all',
-            priority: 30,
-            maxSize: 50000,
           },
         },
       };
       
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
-      config.optimization.moduleIds = 'deterministic';
-      config.optimization.chunkIds = 'deterministic';
     }
     return config;
   },
   
-  // Headers for caching
+  // Headers for caching and MIME types
   async headers() {
     return [
       {
-        source: '/(.*)',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on'
-          },
-          {
-            key: 'X-Content-Type-Options',
-            value: 'nosniff'
-          }
-        ],
-      },
-      {
-        source: '/(_next/static/.*)',
+        source: '/_next/static/(.*)',
         headers: [
           {
             key: 'Cache-Control',
@@ -83,7 +59,33 @@ const nextConfig = {
         ],
       },
       {
-        source: '/(.*)\\.(js|css|woff2|woff|ttf|otf)',
+        source: '/_next/static/css/(.*).css',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'text/css; charset=utf-8'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        source: '/_next/static/chunks/(.*).js',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'application/javascript; charset=utf-8'
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable'
+          }
+        ],
+      },
+      {
+        source: '/(.*)\\.(woff2|woff|ttf|otf)',
         headers: [
           {
             key: 'Cache-Control',
