@@ -270,9 +270,13 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     }
   }, [state.audioContext]);
 
-  // Play animal sound
   // Initialize game
   const initializeGame = useCallback((targetDifficulty?: DifficultyLevel) => {
+    // עצירת כל הגייה קודמת
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+    
     initializeAudio();
     
     const currentDifficulty = targetDifficulty || state.difficulty;
@@ -312,6 +316,8 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     
     if (state.flippedCards.includes(cardIndex)) return;
     
+    console.log('Card clicked:', { cardIndex, cardId: card.id, animalName: card.animal.name });
+    
     // Update moves
     if (state.flippedCards.length === 0) {
       dispatch({ 
@@ -331,6 +337,12 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     if (state.flippedCards.length === 1) {
       const firstCardIndex = state.flippedCards[0];
       const firstCard = state.cards[firstCardIndex];
+      
+      console.log('Checking match:', { 
+        firstCard: firstCard.animal.name, 
+        secondCard: card.animal.name,
+        match: firstCard.animal.name === card.animal.name 
+      });
       
       setTimeout(() => {
         if (firstCard.animal.name === card.animal.name) {

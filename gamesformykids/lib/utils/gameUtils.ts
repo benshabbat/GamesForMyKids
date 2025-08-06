@@ -346,13 +346,20 @@ export function playMemorySuccessSound(
  * @returns מערך של קלפים מעורבבים עם זוגות
  */
 export function createShuffledMemoryCards<T>(items: T[]): { id: number, item: T, isFlipped: boolean, isMatched: boolean }[] {
-  return [...items, ...items]
-    .map((item, i) => ({
-      id: i,
+  // יוצרים זוגות ומערבבים
+  const shuffledCards = [...items, ...items]
+    .map((item) => ({
+      id: Math.random(), // מזהה ייחודי אקראי
       item,
       isFlipped: false,
       isMatched: false,
     }))
     .sort(() => Math.random() - 0.5);
+  
+  // עדכון מזהים רציפים אחרי הערבוב
+  return shuffledCards.map((card, index) => ({
+    ...card,
+    id: index
+  }));
 }
 

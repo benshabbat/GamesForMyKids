@@ -36,11 +36,11 @@ export const MEMORY_GAME_CONSTANTS = {
   BASE_COUNT: 4,
   INCREMENT: 1,
   LEVEL_THRESHOLD: 3,
-  // רמות קושי
+  // רמות קושי - מספר זוגות (כל זוג הופך ל-2 קלפים)
   DIFFICULTY_LEVELS: {
-    EASY: { pairs: 6, name: 'קל', emoji: '😊', timeLimit: 180 },
-    MEDIUM: { pairs: 9, name: 'בינוני', emoji: '🤔', timeLimit: 180 },
-    HARD: { pairs: 12, name: 'קשה', emoji: '🧐', timeLimit: 180 }
+    EASY: { pairs: 4, name: 'קל', emoji: '😊', timeLimit: 180 },      // 8 קלפים
+    MEDIUM: { pairs: 6, name: 'בינוני', emoji: '🤔', timeLimit: 180 }, // 12 קלפים  
+    HARD: { pairs: 8, name: 'קשה', emoji: '🧐', timeLimit: 180 }      // 16 קלפים
   },
   // מערכת ניקוד
   SCORING: {
