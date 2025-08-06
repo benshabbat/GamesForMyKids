@@ -12,17 +12,13 @@ const nextConfig: NextConfig = {
   // Optimize for better FCP
   poweredByHeader: false,
   experimental: {
-    optimizePackageImports: ['framer-motion'],
+    optimizePackageImports: ['framer-motion', 'lucide-react'],
+    optimizeCss: true,
   },
   // Enable compression
   compress: true,
-  // Reduce bundle size
-  modularizeImports: {
-    'lucide-react': {
-      transform: 'lucide-react/dist/esm/icons/{{kebabCase member}}',
-      skipDefaultConversion: true,
-    },
-  },
+  // Reduce bundle size - removed problematic modularizeImports
+  // modularizeImports removed to fix warnings
   // Webpack optimizations - Ultra aggressive for 100% score
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {

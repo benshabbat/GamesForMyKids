@@ -1,7 +1,5 @@
-// Ultra-optimized icons bundle for 100% Lighthouse score
-// Using selective imports for maximum performance
-
-export { 
+// ייצוא אייקונים סלקטיבי ללא warnings
+import { 
   Star,
   Book, 
   Palette, 
@@ -12,3 +10,16 @@ export {
   Apple,
   RotateCcw
 } from 'lucide-react';
+
+// Re-export for tree shaking
+export { 
+  Star,
+  Book, 
+  Palette, 
+  Calculator, 
+  Car, 
+  Home, 
+  Gamepad2, 
+  Apple,
+  RotateCcw
+};

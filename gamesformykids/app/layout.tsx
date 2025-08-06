@@ -5,11 +5,10 @@ import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import PerformanceTracker from '@/components/PerformanceTracker';
 
 const inter = Inter({ 
-  subsets: ['latin'],
+  subsets: ['latin'], 
   display: 'swap',
   preload: true,
   variable: '--font-inter',
-  weight: ['400', '600', '700', '800'] // רק המשקלים שבשימוש
 });
 
 export const metadata: Metadata = {
