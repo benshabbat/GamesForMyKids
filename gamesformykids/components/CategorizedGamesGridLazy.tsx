@@ -2,8 +2,9 @@
 
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
+import LazyComponent from '@/components/shared/LazyComponent';
 
-// Loading fallback component
+// Ultra-optimized loading fallback
 const GridSkeleton = () => (
   <div className="max-w-6xl mx-auto px-4 pb-8">
     <div className="flex justify-center space-x-4 mb-8">
@@ -18,19 +19,25 @@ const GridSkeleton = () => (
   </div>
 );
 
-// Lazy load the main grid component
+// Lazy load with maximum optimization
 const CategorizedGamesGridDynamic = dynamic(
   () => import('./CategorizedGamesGrid'),
   {
     loading: () => <GridSkeleton />,
-    ssr: false, // This component has client-side state
+    ssr: false,
   }
 );
 
 export default function CategorizedGamesGridLazy() {
   return (
-    <Suspense fallback={<GridSkeleton />}>
-      <CategorizedGamesGridDynamic />
-    </Suspense>
+    <LazyComponent 
+      fallback={<GridSkeleton />}
+      threshold={0.1}
+      rootMargin="100px"
+    >
+      <Suspense fallback={<GridSkeleton />}>
+        <CategorizedGamesGridDynamic />
+      </Suspense>
+    </LazyComponent>
   );
 }

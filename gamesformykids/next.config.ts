@@ -18,14 +18,14 @@ const nextConfig: NextConfig = {
       skipDefaultConversion: true,
     },
   },
-  // Webpack optimizations
+  // Webpack optimizations - Ultra aggressive for 100% score
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      // Production client-side optimizations
+      // Ultra-aggressive production optimizations
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 10000,
-        maxSize: 150000,
+        minSize: 5000,
+        maxSize: 100000, // Even smaller chunks
         cacheGroups: {
           default: {
             minChunks: 2,
@@ -37,42 +37,57 @@ const nextConfig: NextConfig = {
             name: 'vendors',
             priority: -10,
             chunks: 'all',
-            maxSize: 150000,
+            maxSize: 80000, // Smaller vendor chunks
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react',
             chunks: 'all',
-            priority: 20,
-            maxSize: 100000,
+            priority: 30,
+            maxSize: 60000,
           },
           lucide: {
             test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
             name: 'lucide',
             chunks: 'async',
-            priority: 15,
-            maxSize: 80000,
+            priority: 25,
+            maxSize: 40000,
           },
           framer: {
             test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
             name: 'framer',
             chunks: 'async',
-            priority: 15,
-            maxSize: 100000,
+            priority: 25,
+            maxSize: 60000,
           },
           common: {
             name: 'common',
             minChunks: 2,
             chunks: 'all',
-            priority: 5,
-            maxSize: 100000,
+            priority: 10,
+            maxSize: 50000,
+          },
+          styles: {
+            test: /\.(css|scss|sass)$/,
+            name: 'styles',
+            chunks: 'all',
+            priority: 20,
+            enforce: true,
           },
         },
       };
       
-      // Tree shaking optimizations
+      // Ultra tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
+      config.optimization.innerGraph = true;
+      
+      // Additional optimizations
+      config.optimization.moduleIds = 'deterministic';
+      config.optimization.chunkIds = 'deterministic';
+      
+      // Minimize bundle size
+      config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx'];
     }
     return config;
   },
