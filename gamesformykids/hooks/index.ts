@@ -51,3 +51,6 @@ export { usePuzzleFeedback } from "./games/usePuzzleFeedback";
  *   return { ...game, analytics };
  * };
  */
+
+// Hebrew Letters specific hooks
+export { default as useHebrewLetterPractice } from './games/useHebrewLetterPractice';

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { HebrewLettersProvider } from '@/contexts';
 import HebrewLetterPractice from '@/components/game/hebrew-letters/HebrewLetterPractice';
 import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
 
@@ -37,5 +38,9 @@ export default async function LetterPracticePage({ params }: Props) {
     notFound();
   }
 
-  return <HebrewLetterPractice letterData={letterData} />;
+  return (
+    <HebrewLettersProvider>
+      <HebrewLetterPractice letterData={letterData} />
+    </HebrewLettersProvider>
+  );
 }

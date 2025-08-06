@@ -5,6 +5,8 @@ import { motion } from 'framer-motion';
 import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
+import HebrewLetterProgress from './HebrewLetterProgress';
+import HebrewLettersStats from './HebrewLettersStats';
 
 export default function HebrewLettersHub() {
   return (
@@ -26,6 +28,9 @@ export default function HebrewLettersHub() {
           </div>
         </motion.div>
 
+        {/* Statistics */}
+        <HebrewLettersStats />
+
         {/* Letters Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4 mb-8">
           {hebrewLetters.map((letter, index) => (
@@ -37,18 +42,12 @@ export default function HebrewLettersHub() {
             >
               <Link href={`/games/hebrew-letters/${letter.name}`}>
                 <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group border-2 hover:border-green-400">
-                  <CardContent className="p-6 text-center">
-                    <div className="text-6xl md:text-7xl font-bold text-green-600 mb-2 group-hover:scale-110 transition-transform">
-                      {letter.letter}
-                    </div>
-                    <div className="text-sm text-gray-600 font-medium">
-                      {letter.pronunciation}
-                    </div>
-                    {letter.finalForm && (
-                      <div className="text-2xl text-gray-400 mt-1">
-                        {letter.finalForm}
-                      </div>
-                    )}
+                  <CardContent className="p-6">
+                    <HebrewLetterProgress 
+                      letter={letter} 
+                      showName={true} 
+                      size="lg" 
+                    />
                   </CardContent>
                 </Card>
               </Link>

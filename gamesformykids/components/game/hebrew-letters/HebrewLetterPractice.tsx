@@ -1,11 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, ArrowLeft, Home } from 'lucide-react';
+import { useHebrewLetterPractice } from '@/hooks/games/useHebrewLetterPractice';
 import WritingCanvas from './WritingCanvas';
 
 interface Props {
@@ -13,13 +14,20 @@ interface Props {
 }
 
 export default function HebrewLetterPractice({ letterData }: Props) {
-  const [currentStep, setCurrentStep] = useState(0);
-  
-  const steps = [
-    'הכרות עם האות',
-    'תרגול עקיבה',
-    'כתיבה חופשית'
-  ];
+  const {
+    practiceState,
+    currentStepInfo,
+    initializeLetter,
+    completeCurrentStep,
+    previousStep,
+    getCurrentInstructions,
+    practiceSteps
+  } = useHebrewLetterPractice(letterData);
+
+  // Initialize letter when component mounts
+  useEffect(() => {
+    initializeLetter();
+  }, [initializeLetter]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">
@@ -38,16 +46,21 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           </Link>
           
           <div className="flex gap-2">
-            {steps.map((step, index) => (
+            {practiceSteps.map((step, index) => (
               <div
                 key={index}
                 className={`px-3 py-1 rounded-full text-sm ${
-                  index === currentStep 
+                  index === currentStepInfo.stepIndex 
                     ? 'bg-green-500 text-white' 
-                    : 'bg-white text-gray-600'
+                    : practiceState.completedSteps.has(index)
+                      ? 'bg-green-200 text-green-800'
+                      : 'bg-white text-gray-600'
                 }`}
               >
                 {step}
+                {practiceState.completedSteps.has(index) && (
+                  <span className="ml-1">✓</span>
+                )}
               </div>
             ))}
           </div>
@@ -103,11 +116,9 @@ export default function HebrewLetterPractice({ letterData }: Props) {
         >
           <h3 className="text-2xl font-bold text-orange-700 mb-4">📝 הוראות לתרגול:</h3>
           <ul className="text-orange-800 text-lg space-y-2">
-            <li>• התבונני באות {letterData.letter} הגדולה למעלה</li>
-            <li>• עקבי באצבע על האותיות המנוקדות</li>
-            <li>• תרגלי לכתוב על הקווים הריקים</li>
-            <li>• זכרי לכתוב מימין לשמאל</li>
-            <li>• קחי את הזמן שלך ותתרגלי</li>
+            {getCurrentInstructions().map((instruction, index) => (
+              <li key={index}>• {instruction}</li>
+            ))}
           </ul>
         </motion.div>
 
@@ -169,10 +180,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           <WritingCanvas 
             width={800} 
             height={300} 
-            strokeWidth={12}
-            strokeColor="#2E7D32"
             guideLetter={letterData.letter}
-            showGuide={true}
           />
         </motion.div>
 
@@ -200,8 +208,8 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           className="flex justify-center gap-4 mb-8"
         >
           <Button
-            onClick={() => setCurrentStep(Math.max(0, currentStep - 1))}
-            disabled={currentStep === 0}
+            onClick={previousStep}
+            disabled={currentStepInfo.isFirst}
             className="flex items-center gap-2"
           >
             <ArrowRight className="w-4 h-4" />
@@ -209,11 +217,16 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           </Button>
           
           <Button
-            onClick={() => setCurrentStep(Math.min(steps.length - 1, currentStep + 1))}
-            disabled={currentStep === steps.length - 1}
+            onClick={() => {
+              if (currentStepInfo.isLast) {
+                completeCurrentStep(); // This will mark the letter as completed
+              } else {
+                completeCurrentStep(); // This will mark current step as completed and move to next
+              }
+            }}
             className="flex items-center gap-2"
           >
-            שלב הבא
+            {currentStepInfo.isLast ? 'סיים תרגול' : 'שלב הבא'}
             <ArrowLeft className="w-4 h-4" />
           </Button>
         </motion.div>
