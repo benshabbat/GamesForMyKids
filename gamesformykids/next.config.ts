@@ -13,7 +13,7 @@ const nextConfig: NextConfig = {
   poweredByHeader: false,
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    optimizeCss: true,
+    // optimizeCss removed due to critters dependency issue
   },
   // Enable compression
   compress: true,
