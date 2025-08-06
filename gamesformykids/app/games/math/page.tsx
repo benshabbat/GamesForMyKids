@@ -4,6 +4,7 @@ import { Suspense } from 'react';
 import { motion } from 'framer-motion';
 import { Calculator, Volume2 } from 'lucide-react';
 import { useMathGame } from './useMathGame';
+import { GameLayout } from '../layout';
 import CelebrationBox from '@/components/shared/CelebrationBox';
 import TipsBox from '@/components/shared/TipsBox';
 import GameHeader from '@/components/shared/GameHeader';
@@ -75,58 +76,69 @@ export default function MathGame() {
   if (!gameState.isPlaying) {
     return (
       <Suspense fallback={<MathGameSkeleton />}>
-        <motion.div
-          className="flex flex-col items-center justify-center min-h-[60vh] space-y-8"
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.5, ease: "easeOut" }}
+        <GameLayout 
+          backgroundStyle="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50"
+          maxWidth="4xl"
+          className="math-game-start"
         >
           <motion.div
-            className="text-8xl mb-4"
-            animate={{ rotate: [0, 10, -10, 0] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            className="flex flex-col items-center justify-center min-h-[60vh] space-y-8"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: "easeOut" }}
           >
-            🧮
+            <motion.div
+              className="text-8xl mb-4"
+              animate={{ rotate: [0, 10, -10, 0] }}
+              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            >
+              🧮
+            </motion.div>
+            
+            <motion.h1
+              className="text-5xl md:text-6xl font-bold text-center text-blue-800 game-text-hebrew"
+              initial={{ y: -20 }}
+              animate={{ y: 0 }}
+              transition={{ delay: 0.2 }}
+            >
+              משחק מתמטיקה
+            </motion.h1>
+            
+            <motion.p
+              className="text-xl md:text-2xl text-center text-gray-600 max-w-2xl mx-auto game-text-hebrew"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              פתרו תרגילי חיבור וחיסור במספרים קטנים
+            </motion.p>
+            
+            <motion.button
+              onClick={startGame}
+              className="game-button game-button-primary text-3xl px-12 py-6 mt-8"
+              whileHover={{ scale: 1.05, y: -2 }}
+              whileTap={{ scale: 0.95 }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.6 }}
+            >
+              🚀 בואו נתחיל!
+            </motion.button>
           </motion.div>
-          
-          <motion.h1
-            className="text-5xl md:text-6xl font-bold text-center text-blue-800 game-text-hebrew"
-            initial={{ y: -20 }}
-            animate={{ y: 0 }}
-            transition={{ delay: 0.2 }}
-          >
-            משחק מתמטיקה
-          </motion.h1>
-          
-          <motion.p
-            className="text-xl md:text-2xl text-center text-gray-600 max-w-2xl mx-auto game-text-hebrew"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-          >
-            פתרו תרגילי חיבור וחיסור במספרים קטנים
-          </motion.p>
-          
-          <motion.button
-            onClick={startGame}
-            className="game-button game-button-primary text-3xl px-12 py-6 mt-8"
-            whileHover={{ scale: 1.05, y: -2 }}
-            whileTap={{ scale: 0.95 }}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.6 }}
-          >
-            🚀 בואו נתחיל!
-          </motion.button>
-        </motion.div>
+        </GameLayout>
       </Suspense>
     );
   }
 
   return (
     <Suspense fallback={<MathGameSkeleton />}>
-      {/* Enhanced Header with Modern Design */}
-      <motion.div 
+      <GameLayout 
+        backgroundStyle="min-h-screen bg-gradient-to-br from-yellow-50 via-orange-50 to-red-50"
+        maxWidth="4xl"
+        className="math-game-layout"
+      >
+        {/* Enhanced Header with Modern Design */}
+        <motion.div 
         className="text-center mb-8"
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -354,6 +366,7 @@ export default function MathGame() {
             description="ספור את הסמלים שרואה על המסך כדי לפתור את התרגיל"
           />
         </motion.div>
+      </GameLayout>
     </Suspense>
   );
 }
