@@ -7,17 +7,9 @@ export default function MemoryGameBoard() {
     handleCardClick,
   } = useMemoryContext();
 
-  // המרה מ-MemoryCard ל-Card format
-  const boardCards = cards.map(card => ({
-    id: card.id,
-    emoji: card.animal.emoji,
-    isFlipped: card.isFlipped,
-    isMatched: card.isMatched
-  }));
-
   // חישוב מספר העמודות בהתאם למספר הקלפים
   const getGridCols = () => {
-    const cardCount = boardCards.length;
+    const cardCount = cards.length;
     if (cardCount <= 12) return "grid-cols-3 md:grid-cols-4"; // 6 זוגות - 3x4
     if (cardCount <= 18) return "grid-cols-3 md:grid-cols-6"; // 9 זוגות - 3x6
     return "grid-cols-4 md:grid-cols-6"; // 12 זוגות - 4x6
@@ -38,24 +30,34 @@ export default function MemoryGameBoard() {
       
       {/* לוח המשחק */}
       <div className={`grid ${getGridCols()} gap-4 max-w-2xl mx-auto ${isGamePaused ? 'blur-sm' : ''}`}>
-        {boardCards.map((card, index) => (
-          <div 
-            key={card.id}
-            className="animate-fade-in"
-            style={{ 
-              animationDelay: `${index * 0.1}s`,
-              animationFillMode: 'both'
-            }}
-          >
-            <MemoryCard 
-              card={card} 
-              onClick={() => {
-                console.log('MemoryGameBoard onClick, index:', index);
-                handleCardClick(index);
+        {cards.map((memoryCard, index) => {
+          // המרה מ-MemoryCard ל-Card format עבור הקומפוננטה
+          const card = {
+            id: memoryCard.id,
+            emoji: memoryCard.animal.emoji,
+            isFlipped: memoryCard.isFlipped,
+            isMatched: memoryCard.isMatched
+          };
+          
+          return (
+            <div 
+              key={memoryCard.id}
+              className="animate-fade-in"
+              style={{ 
+                animationDelay: `${index * 0.1}s`,
+                animationFillMode: 'both'
               }}
-            />
-          </div>
-        ))}
+            >
+              <MemoryCard 
+                card={card} 
+                onClick={() => {
+                  console.log('MemoryGameBoard onClick, index:', index);
+                  handleCardClick(index);
+                }}
+              />
+            </div>
+          );
+        })}
       </div>
     </div>
   );
