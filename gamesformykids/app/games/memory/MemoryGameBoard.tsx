@@ -5,16 +5,10 @@ export default function MemoryGameBoard() {
   const {
     state: { cards, isGamePaused },
     handleCardClick,
+    gridCols,
+    getCardDisplayData,
+    getAnimationDelay
   } = useMemoryContext();
-
-  // חישוב מספר העמודות בהתאם למספר הקלפים
-  const getGridCols = () => {
-    const cardCount = cards.length;
-    if (cardCount === 8) return "grid-cols-2 md:grid-cols-4"; // 8 קלפים - 2x4
-    if (cardCount === 12) return "grid-cols-3 md:grid-cols-4"; // 12 קלפים - 3x4
-    if (cardCount === 16) return "grid-cols-4 md:grid-cols-4"; // 16 קלפים - 4x4
-    return "grid-cols-3 md:grid-cols-4"; // ברירת מחדל
-  };
 
   return (
     <div className="relative">
@@ -30,22 +24,16 @@ export default function MemoryGameBoard() {
       )}
       
       {/* לוח המשחק */}
-      <div className={`grid ${getGridCols()} gap-4 max-w-2xl mx-auto ${isGamePaused ? 'blur-sm' : ''}`}>
-        {cards.map((memoryCard, index) => {
-          // המרה מ-MemoryCard ל-Card format עבור הקומפוננטה
-          const card = {
-            id: index, // משתמשים באינדקס כמזהה
-            emoji: memoryCard.animal.emoji,
-            isFlipped: memoryCard.isFlipped,
-            isMatched: memoryCard.isMatched
-          };
+      <div className={`grid ${gridCols} gap-4 max-w-2xl mx-auto ${isGamePaused ? 'blur-sm' : ''}`}>
+        {cards.map((_, index) => {
+          const card = getCardDisplayData(index);
           
           return (
             <div 
-              key={`memory-card-${index}`} // key ייחודי באמצעות האינדקס
+              key={`memory-card-${index}`}
               className="animate-fade-in"
               style={{ 
-                animationDelay: `${index * 0.1}s`,
+                animationDelay: getAnimationDelay(index),
                 animationFillMode: 'both'
               }}
             >

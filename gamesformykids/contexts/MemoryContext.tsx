@@ -229,6 +229,24 @@ interface MemoryContextType {
     timeLimit: number;
   };
   isGameWon: boolean;
+  gridCols: string;
+  
+  // Game Logic
+  getCardDisplayData: (index: number) => {
+    id: number;
+    emoji: string;
+    isFlipped: boolean;
+    isMatched: boolean;
+  };
+  getAnimationDelay: (index: number) => string;
+  getGameProgress: () => {
+    totalPairs: number;
+    completedPairs: number;
+    remainingPairs: number;
+    progressPercentage: number;
+  };
+  canClickCard: (cardIndex: number) => boolean;
+  getGameStateDescription: () => string;
 }
 
 const MemoryContext = createContext<MemoryContextType | undefined>(undefined);
@@ -307,17 +325,26 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     dispatch({ type: 'SET_GAME_STATS', payload: initialGameStats });
   }, [getAnimalsForDifficulty, initializeAudio, state.difficulty]);
 
-  // Handle card click
-  const handleCardClick = useCallback((cardIndex: number) => {
-    if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return;
+  // Check if card can be clicked
+  const canClickCard = useCallback((cardIndex: number) => {
+    if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return false;
     
     const card = state.cards[cardIndex];
-    if (!card || card.isFlipped || card.isMatched) return;
+    if (!card || card.isFlipped || card.isMatched) return false;
     
-    if (state.flippedCards.includes(cardIndex)) return;
+    if (state.flippedCards.includes(cardIndex)) return false;
     
     // מניעת פתיחת יותר מ-2 קלפים בו זמנית
-    if (state.flippedCards.length >= 2) return;
+    if (state.flippedCards.length >= 2) return false;
+    
+    return true;
+  }, [state.isGamePaused, state.isCompleted, state.timeLeft, state.cards, state.flippedCards]);
+
+  // Handle card click
+  const handleCardClick = useCallback((cardIndex: number) => {
+    if (!canClickCard(cardIndex)) return;
+    
+    const card = state.cards[cardIndex];
     
     console.log('Card clicked:', { cardIndex, cardId: card.id, animalName: card.animal.name });
     
@@ -392,7 +419,7 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
         }
       }, 1000);
     }
-  }, [state, getDifficultyConfig]);
+  }, [state, getDifficultyConfig, canClickCard]);
 
   // Game control functions
   const pauseGame = useCallback(() => {
@@ -417,6 +444,64 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     // מתחיל את המשחק מחדש עם הרמה החדשה
     initializeGame(difficulty);
   }, [initializeGame]);
+
+  // Grid Layout Logic
+  const getGridCols = useCallback(() => {
+    const cardCount = state.cards.length;
+    if (cardCount === 8) return "grid-cols-2 md:grid-cols-4"; // 8 קלפים - 2x4
+    if (cardCount === 12) return "grid-cols-3 md:grid-cols-4"; // 12 קלפים - 3x4
+    if (cardCount === 16) return "grid-cols-4 md:grid-cols-4"; // 16 קלפים - 4x4
+    return "grid-cols-3 md:grid-cols-4"; // ברירת מחדל
+  }, [state.cards.length]);
+
+  // Card Display Data
+  const getCardDisplayData = useCallback((index: number) => {
+    const memoryCard = state.cards[index];
+    if (!memoryCard) {
+      return {
+        id: index,
+        emoji: '',
+        isFlipped: false,
+        isMatched: false
+      };
+    }
+    
+    return {
+      id: index, // משתמשים באינדקס כמזהה
+      emoji: memoryCard.animal.emoji,
+      isFlipped: memoryCard.isFlipped,
+      isMatched: memoryCard.isMatched
+    };
+  }, [state.cards]);
+
+  // Animation Delay
+  const getAnimationDelay = useCallback((index: number) => {
+    return `${index * 0.1}s`;
+  }, []);
+
+  // Game Status Calculations
+  const getGameProgress = useCallback(() => {
+    const totalPairs = getDifficultyConfig().pairs;
+    const completedPairs = state.gameStats.matches;
+    const progressPercentage = totalPairs > 0 ? (completedPairs / totalPairs) * 100 : 0;
+    
+    return {
+      totalPairs,
+      completedPairs,
+      remainingPairs: totalPairs - completedPairs,
+      progressPercentage: Math.round(progressPercentage)
+    };
+  }, [state.gameStats.matches, getDifficultyConfig]);
+
+  // Get game state description
+  const getGameStateDescription = useCallback(() => {
+    if (!state.gameStarted) return 'לא התחיל';
+    if (state.isGamePaused) return 'מושהה';
+    if (state.isGameWon) return 'ניצחת!';
+    if (state.isCompleted && !state.isGameWon) return 'נגמר הזמן';
+    if (state.timeLeft <= 0) return 'נגמר הזמן';
+    return 'פעיל';
+  }, [state.gameStarted, state.isGamePaused, state.isGameWon, state.isCompleted, state.timeLeft]);
 
   // Timer effects
   useEffect(() => {
@@ -455,7 +540,13 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     resetToMenu,
     setDifficulty,
     difficultyConfig: getDifficultyConfig(),
-    isGameWon: state.isGameWon
+    isGameWon: state.isGameWon,
+    gridCols: getGridCols(),
+    getCardDisplayData,
+    getAnimationDelay,
+    getGameProgress,
+    canClickCard,
+    getGameStateDescription
   };
 
   return (
