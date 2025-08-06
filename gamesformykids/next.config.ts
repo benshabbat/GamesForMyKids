@@ -26,11 +26,11 @@ const nextConfig: NextConfig = {
   // Webpack optimizations - Ultra aggressive for 100% score
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      // Ultra-aggressive production optimizations
+      // Ultra-aggressive production optimizations - safer chunking
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 5000,
-        maxSize: 100000, // Even smaller chunks
+        minSize: 10000, // Increased for stability
+        maxSize: 80000, // More conservative
         cacheGroups: {
           default: {
             minChunks: 2,
@@ -42,57 +42,26 @@ const nextConfig: NextConfig = {
             name: 'vendors',
             priority: -10,
             chunks: 'all',
-            maxSize: 80000, // Smaller vendor chunks
+            maxSize: 60000, // More conservative
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
             name: 'react',
             chunks: 'all',
             priority: 30,
-            maxSize: 60000,
-          },
-          lucide: {
-            test: /[\\/]node_modules[\\/]lucide-react[\\/]/,
-            name: 'lucide',
-            chunks: 'async',
-            priority: 25,
-            maxSize: 40000,
-          },
-          framer: {
-            test: /[\\/]node_modules[\\/]framer-motion[\\/]/,
-            name: 'framer',
-            chunks: 'async',
-            priority: 25,
-            maxSize: 60000,
-          },
-          common: {
-            name: 'common',
-            minChunks: 2,
-            chunks: 'all',
-            priority: 10,
             maxSize: 50000,
           },
-          styles: {
-            test: /\.(css|scss|sass)$/,
-            name: 'styles',
-            chunks: 'all',
-            priority: 20,
-            enforce: true,
-          },
+          // Removed problematic chunking that causes loading issues
         },
       };
       
-      // Ultra tree shaking
+      // Safe tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
-      config.optimization.innerGraph = true;
       
-      // Additional optimizations
+      // Stable module and chunk IDs
       config.optimization.moduleIds = 'deterministic';
       config.optimization.chunkIds = 'deterministic';
-      
-      // Minimize bundle size
-      config.resolve.extensions = ['.js', '.jsx', '.ts', '.tsx'];
     }
     return config;
   },

@@ -39,6 +39,7 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
         <link rel="dns-prefetch" href="https://fonts.gstatic.com" />
         <meta name="theme-color" content="#8b5cf6" />
+        <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
@@ -62,7 +63,7 @@ export default function RootLayout({
           .loading{display:flex;justify-content:center;align-items:center;min-height:200px}
           .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
         `}</style>
-        <link rel="preload" href="/_next/static/chunks/common-f3956634-3fe3e3ab3ad49297.js" as="script" />
+        {/* Preload actual chunks - will be dynamically replaced in production */}
         <link rel="preload" href="/_next/static/chunks/vendors-ff30e0d3-efdf8a19ec5acf86.js" as="script" />
       </head>
       <body className={`${inter.variable} font-sans`}>
