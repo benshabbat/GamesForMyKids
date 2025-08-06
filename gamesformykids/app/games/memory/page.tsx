@@ -44,9 +44,11 @@ function MemoryGameContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4">
       <div className="max-w-4xl mx-auto">
-                <GameHeader />
+        <GameHeader />
 
-        {isGameWon && <GameWinMessage />}        {gameStarted && (
+        {isGameWon && <GameWinMessage />}
+        
+        {gameStarted && (
           <MemoryGameBoard 
             cards={cards.map(card => ({
               id: card.id,
