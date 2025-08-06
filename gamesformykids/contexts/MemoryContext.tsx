@@ -12,7 +12,6 @@ import {
   MEMORY_GAME_ANIMALS, 
   MEMORY_GAME_CONSTANTS
 } from "@/lib/constants";
-import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
 // Types
 export type DifficultyLevel = 'EASY' | 'MEDIUM' | 'HARD';
@@ -102,7 +101,7 @@ const initialState: MemoryState = {
   difficulty: 'MEDIUM',
   gameStats: initialGameStats,
   cards: [],
-  animals: [],
+  animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.MEDIUM.pairs), // אתחול חיות לרמה בינונית
   flippedCards: [],
   matchedPairs: [],
   audioContext: null,
@@ -319,9 +318,14 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Handle card click
   const handleCardClick = useCallback((cardIndex: number) => {
+    console.log('handleCardClick called with index:', cardIndex);
+    console.log('Current state - isGamePaused:', state.isGamePaused, 'isCompleted:', state.isCompleted, 'timeLeft:', state.timeLeft);
+    console.log('Total cards:', state.cards.length);
+    
     if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return;
     
     const card = state.cards[cardIndex];
+    console.log('Card at index:', cardIndex, 'card:', card);
     if (!card || card.isFlipped || card.isMatched) return;
     
     if (state.flippedCards.includes(cardIndex)) return;
@@ -343,7 +347,6 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     
     // Play animal sound
     playAnimalSound(card.animal);
-    speakHebrew(card.animal.name);
     
     // Check for match when two cards are flipped
     if (state.flippedCards.length === 1) {

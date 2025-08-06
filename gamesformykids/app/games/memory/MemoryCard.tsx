@@ -6,9 +6,14 @@ interface MemoryCardProps {
 }
 
 export default function MemoryCard({ card, onClick }: MemoryCardProps) {
+  const handleClick = () => {
+    console.log('MemoryCard clicked, card ID:', card.id);
+    onClick();
+  };
+
   return (
     <div
-      onClick={onClick}
+      onClick={handleClick}
       className={`
         aspect-square rounded-3xl cursor-pointer transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl relative overflow-hidden
         ${card.isFlipped || card.isMatched
