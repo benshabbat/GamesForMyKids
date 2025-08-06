@@ -5,9 +5,9 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Home, Volume2 } from 'lucide-react';
+import { ArrowRight, Home, Volume2, VolumeX } from 'lucide-react';
 import { useHebrewLetterPractice } from '@/hooks/games/useHebrewLetterPractice';
-import { useSpeechSynthesis } from '@/hooks/shared/useSpeechSynthesis';
+import { useHebrewLetters } from '@/contexts';
 import WritingCanvas from './WritingCanvas';
 import LetterEncouragement from './LetterEncouragement';
 
@@ -26,12 +26,24 @@ export default function HebrewLetterPractice({ letterData }: Props) {
     practiceSteps
   } = useHebrewLetterPractice(letterData);
 
-  const { speakLetter } = useSpeechSynthesis();
+  const { 
+    playLetterSound,
+    startPracticeSession,
+    endPracticeSession,
+    toggleAudio,
+    isAudioEnabled 
+  } = useHebrewLetters();
 
   // Initialize letter when component mounts
   useEffect(() => {
     initializeLetter();
-  }, [initializeLetter]);
+    startPracticeSession(letterData.name);
+    
+    // Cleanup on unmount
+    return () => {
+      endPracticeSession();
+    };
+  }, [initializeLetter, startPracticeSession, endPracticeSession, letterData.name]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">
@@ -71,6 +83,15 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               <Home className="w-4 h-4" />
             </Button>
           </Link>
+          
+          <Button
+            onClick={toggleAudio}
+            variant="outline"
+            size="sm"
+            className={`ml-2 ${isAudioEnabled ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}
+          >
+            {isAudioEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          </Button>
         </motion.div>
 
         {/* Header - תמיד מוצג */}
@@ -121,7 +142,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
                 className="text-8xl md:text-9xl font-bold text-green-700 mb-4 drop-shadow-lg relative z-10 cursor-pointer"
                 whileHover={{ scale: 1.05, rotate: 2 }}
                 transition={{ type: "spring", stiffness: 300 }}
-                onClick={() => speakLetter(letterData.letter, letterData.pronunciation)}
+                onClick={() => playLetterSound(letterData.letter)}
                 title="לחץ לשמיעת ההגייה"
               >
                 {letterData.letter}

@@ -26,6 +26,8 @@ import {
   DEFAULT_DRAWING_STATE,
   DEFAULT_PRACTICE_STATE,
   DEFAULT_ENCOURAGEMENT_STATE,
+  DEFAULT_AUDIO_STATE,
+  DEFAULT_LEARNING_STATS,
   ENCOURAGEMENT_DURATION
 } from '@/lib/constants/hebrewLettersConstants';
 import {
@@ -50,6 +52,10 @@ interface DrawingState {
   currentStrokeWidth: number;
   currentStrokeColor: string;
   showLetterGuide: boolean;
+  canvasWidth: number;
+  canvasHeight: number;
+  backgroundColor: string;
+  lastDrawPosition: { x: number; y: number } | null;
 }
 
 /**
@@ -68,6 +74,23 @@ interface EncouragementState {
   showEncouragement: boolean;
   currentMessage: string;
   isStepCompleted: boolean;
+}
+
+/**
+ * Learning statistics and analytics
+ */
+interface LearningStats {
+  totalPracticeTime: number; // in milliseconds
+  lettersStarted: Set<string>;
+  lettersCompleted: Set<string>;
+  totalStrokes: number;
+  sessionStartTime: number;
+  practiceHistory: Array<{
+    letter: string;
+    stepCompleted: number;
+    timeSpent: number;
+    timestamp: number;
+  }>;
 }
 
 /**
@@ -153,6 +176,35 @@ interface HebrewLettersContextType {
   saveCanvasState: (imageData: ImageData) => void;
   /** Undo last canvas action */
   undoLastAction: () => void;
+  /** Initialize canvas with dimensions and background */
+  initializeCanvas: (width: number, height: number, backgroundColor?: string) => void;
+  /** Start drawing at position */
+  startDrawing: (x: number, y: number) => void;
+  /** Continue drawing to position */
+  continueDrawing: (x: number, y: number) => void;
+  /** Stop current drawing stroke */
+  stopDrawing: () => void;
+  /** Download canvas as image */
+  downloadCanvas: (filename?: string) => void;
+  /** Get mouse position relative to canvas */
+  getCanvasPosition: (event: MouseEvent | TouchEvent, canvas: HTMLCanvasElement) => { x: number; y: number };
+  /** Reset canvas to initial state */
+  resetCanvas: () => void;
+  
+  // ========================================================================================
+  // AUDIO AND SPEECH
+  // ========================================================================================
+  
+  /** Play letter pronunciation */
+  playLetterSound: (letter?: string) => void;
+  /** Play encouragement sound */
+  playEncouragementSound: () => void;
+  /** Play step completion sound */
+  playStepCompletionSound: () => void;
+  /** Toggle audio on/off */
+  toggleAudio: () => void;
+  /** Audio enabled state */
+  isAudioEnabled: boolean;
   
   // ========================================================================================
   // SETTINGS AND CONSTANTS
@@ -192,6 +244,32 @@ interface HebrewLettersContextType {
   markLetterCompleted: (letterName: string) => void;
   /** Get progress percentage for specific letter */
   getLetterProgress: (letterName: string) => number;
+  
+  // ========================================================================================
+  // ANALYTICS AND STATISTICS
+  // ========================================================================================
+  
+  /** Learning statistics */
+  learningStats: LearningStats;
+  /** Start a new practice session */
+  startPracticeSession: (letterName: string) => void;
+  /** End current practice session */
+  endPracticeSession: () => void;
+  /** Log practice activity */
+  logPracticeActivity: (letter: string, step: number, timeSpent: number) => void;
+  /** Get total practice time */
+  getTotalPracticeTime: () => number;
+  /** Get practice statistics for letter */
+  getLetterStats: (letterName: string) => {
+    timesStarted: number;
+    timesCompleted: number;
+    totalTimeSpent: number;
+    averageTimePerStep: number;
+  };
+  /** Export learning data */
+  exportLearningData: () => string;
+  /** Reset all statistics */
+  resetAllStats: () => void;
 }
 
 // ========================================================================================
@@ -228,6 +306,13 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
   const [practiceState, setPracticeState] = useState<PracticeState>(DEFAULT_PRACTICE_STATE);
   const [encouragementState, setEncouragementState] = useState<EncouragementState>(DEFAULT_ENCOURAGEMENT_STATE);
   const [completedLetters, setCompletedLetters] = useState<Set<string>>(new Set());
+  const [isAudioEnabled, setIsAudioEnabled] = useState<boolean>(DEFAULT_AUDIO_STATE.isAudioEnabled);
+  const [learningStats, setLearningStats] = useState<LearningStats>({
+    ...DEFAULT_LEARNING_STATS,
+    lettersStarted: new Set(),
+    lettersCompleted: new Set(),
+    practiceHistory: []
+  });
 
   // ========================================================================================
   // DRAWING STATE OPERATIONS
@@ -256,6 +341,200 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
       ...prev,
       paths: prev.paths.slice(0, -1)
     }));
+  }, []);
+
+  // ========================================================================================
+  // ADVANCED CANVAS OPERATIONS
+  // ========================================================================================
+
+  const initializeCanvas = useCallback((width: number, height: number, backgroundColor = '#ffffff') => {
+    updateDrawingState({
+      canvasWidth: width,
+      canvasHeight: height,
+      backgroundColor,
+      paths: [],
+      isDrawing: false,
+      lastDrawPosition: null
+    });
+  }, [updateDrawingState]);
+
+  const startDrawing = useCallback((x: number, y: number) => {
+    updateDrawingState({
+      isDrawing: true,
+      lastDrawPosition: { x, y }
+    });
+  }, [updateDrawingState]);
+
+  const continueDrawing = useCallback((x: number, y: number) => {
+    if (!drawingState.isDrawing) return;
+    updateDrawingState({
+      lastDrawPosition: { x, y }
+    });
+  }, [drawingState.isDrawing, updateDrawingState]);
+
+  const stopDrawing = useCallback(() => {
+    updateDrawingState({
+      isDrawing: false,
+      lastDrawPosition: null
+    });
+  }, [updateDrawingState]);
+
+  const downloadCanvas = useCallback((filename = 'hebrew-letter-practice.png') => {
+    // This would be implemented by the component using the context
+    console.log(`Download canvas as ${filename}`);
+  }, []);
+
+  const getCanvasPosition = useCallback((event: MouseEvent | TouchEvent, canvas: HTMLCanvasElement) => {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+
+    let clientX, clientY;
+    if (event instanceof MouseEvent) {
+      clientX = event.clientX;
+      clientY = event.clientY;
+    } else {
+      clientX = event.touches[0]?.clientX || 0;
+      clientY = event.touches[0]?.clientY || 0;
+    }
+
+    return {
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY
+    };
+  }, []);
+
+  const resetCanvas = useCallback(() => {
+    setDrawingState(DEFAULT_DRAWING_STATE);
+  }, []);
+
+  // ========================================================================================
+  // AUDIO AND SPEECH OPERATIONS
+  // ========================================================================================
+
+  const playLetterSound = useCallback((letter?: string) => {
+    if (!isAudioEnabled) return;
+    
+    const letterToSpeak = letter || currentLetter?.letter || '';
+    const pronunciation = currentLetter?.pronunciation || letter || '';
+    
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(`האות ${letterToSpeak}, ${pronunciation}`);
+      utterance.lang = 'he-IL';
+      utterance.rate = DEFAULT_AUDIO_STATE.speechRate;
+      utterance.pitch = DEFAULT_AUDIO_STATE.speechPitch;
+      utterance.volume = DEFAULT_AUDIO_STATE.volume;
+      speechSynthesis.speak(utterance);
+    }
+  }, [isAudioEnabled, currentLetter]);
+
+  const playEncouragementSound = useCallback(() => {
+    if (!isAudioEnabled) return;
+    
+    const randomMessage = ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)];
+    
+    if ('speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(randomMessage);
+      utterance.lang = 'he-IL';
+      utterance.rate = DEFAULT_AUDIO_STATE.speechRate;
+      utterance.pitch = DEFAULT_AUDIO_STATE.speechPitch;
+      utterance.volume = DEFAULT_AUDIO_STATE.volume;
+      speechSynthesis.speak(utterance);
+    }
+  }, [isAudioEnabled]);
+
+  const playStepCompletionSound = useCallback(() => {
+    if (!isAudioEnabled) return;
+    
+    const currentStep = practiceState.currentStep;
+    const stepMessage = STEP_MESSAGES[currentStep as keyof typeof STEP_MESSAGES];
+    
+    if (stepMessage && 'speechSynthesis' in window) {
+      const utterance = new SpeechSynthesisUtterance(stepMessage);
+      utterance.lang = 'he-IL';
+      utterance.rate = DEFAULT_AUDIO_STATE.speechRate;
+      utterance.pitch = DEFAULT_AUDIO_STATE.speechPitch;
+      utterance.volume = DEFAULT_AUDIO_STATE.volume;
+      speechSynthesis.speak(utterance);
+    }
+  }, [isAudioEnabled, practiceState.currentStep]);
+
+  const toggleAudio = useCallback(() => {
+    setIsAudioEnabled(prev => !prev);
+  }, []);
+
+  // ========================================================================================
+  // ANALYTICS AND STATISTICS OPERATIONS
+  // ========================================================================================
+
+  const startPracticeSession = useCallback((letterName: string) => {
+    setLearningStats(prev => ({
+      ...prev,
+      lettersStarted: new Set([...prev.lettersStarted, letterName]),
+      sessionStartTime: Date.now()
+    }));
+  }, []);
+
+  const endPracticeSession = useCallback(() => {
+    setLearningStats(prev => ({
+      ...prev,
+      sessionStartTime: 0
+    }));
+  }, []);
+
+  const logPracticeActivity = useCallback((letter: string, step: number, timeSpent: number) => {
+    setLearningStats(prev => ({
+      ...prev,
+      totalPracticeTime: prev.totalPracticeTime + timeSpent,
+      practiceHistory: [
+        ...prev.practiceHistory,
+        {
+          letter,
+          stepCompleted: step,
+          timeSpent,
+          timestamp: Date.now()
+        }
+      ]
+    }));
+  }, []);
+
+  const getTotalPracticeTime = useCallback(() => {
+    return learningStats.totalPracticeTime;
+  }, [learningStats.totalPracticeTime]);
+
+  const getLetterStats = useCallback((letterName: string) => {
+    const letterHistory = learningStats.practiceHistory.filter(h => h.letter === letterName);
+    const timesStarted = learningStats.lettersStarted.has(letterName) ? 1 : 0;
+    const timesCompleted = learningStats.lettersCompleted.has(letterName) ? 1 : 0;
+    const totalTimeSpent = letterHistory.reduce((sum, h) => sum + h.timeSpent, 0);
+    const averageTimePerStep = letterHistory.length > 0 ? totalTimeSpent / letterHistory.length : 0;
+
+    return {
+      timesStarted,
+      timesCompleted,
+      totalTimeSpent,
+      averageTimePerStep
+    };
+  }, [learningStats]);
+
+  const exportLearningData = useCallback(() => {
+    return JSON.stringify({
+      ...learningStats,
+      lettersStarted: Array.from(learningStats.lettersStarted),
+      lettersCompleted: Array.from(learningStats.lettersCompleted),
+      exportDate: new Date().toISOString()
+    }, null, 2);
+  }, [learningStats]);
+
+  const resetAllStats = useCallback(() => {
+    setLearningStats({
+      totalPracticeTime: 0,
+      lettersStarted: new Set(),
+      lettersCompleted: new Set(),
+      totalStrokes: 0,
+      sessionStartTime: 0,
+      practiceHistory: []
+    });
   }, []);
 
   // ========================================================================================
@@ -463,6 +742,20 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     // Canvas operations
     saveCanvasState,
     undoLastAction,
+    initializeCanvas,
+    startDrawing,
+    continueDrawing,
+    stopDrawing,
+    downloadCanvas,
+    getCanvasPosition,
+    resetCanvas,
+
+    // Audio and speech
+    playLetterSound,
+    playEncouragementSound,
+    playStepCompletionSound,
+    toggleAudio,
+    isAudioEnabled,
 
     // Settings and constants
     strokeColors: STROKE_COLORS,
@@ -481,6 +774,16 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     completedLetters,
     markLetterCompleted,
     getLetterProgress,
+
+    // Analytics and statistics
+    learningStats,
+    startPracticeSession,
+    endPracticeSession,
+    logPracticeActivity,
+    getTotalPracticeTime,
+    getLetterStats,
+    exportLearningData,
+    resetAllStats,
   };
 
   return (

@@ -42,6 +42,10 @@ export const DEFAULT_DRAWING_STATE = {
   currentStrokeWidth: 12,
   currentStrokeColor: '#2E7D32',
   showLetterGuide: true,
+  canvasWidth: 800,
+  canvasHeight: 400,
+  backgroundColor: '#ffffff',
+  lastDrawPosition: null as { x: number; y: number } | null,
 };
 
 export const DEFAULT_PRACTICE_STATE = {
@@ -55,6 +59,22 @@ export const DEFAULT_ENCOURAGEMENT_STATE = {
   currentMessage: '',
   isStepCompleted: false,
 };
+
+export const DEFAULT_AUDIO_STATE = {
+  isAudioEnabled: true,
+  volume: 0.7,
+  speechRate: 1.0,
+  speechPitch: 1.0,
+} as const;
+
+export const DEFAULT_LEARNING_STATS = {
+  totalPracticeTime: 0,
+  lettersStarted: new Set<string>(),
+  lettersCompleted: new Set<string>(),
+  totalStrokes: 0,
+  sessionStartTime: 0,
+  practiceHistory: [],
+} as const;
 
 // Animation durations
 export const ENCOURAGEMENT_DURATION = 3000; // 3 seconds

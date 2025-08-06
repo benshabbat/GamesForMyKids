@@ -29,8 +29,19 @@ export default function WritingCanvas({
     saveCanvasState,
     undoLastAction,
     strokeColors,
-    strokeWidths
+    strokeWidths,
+    initializeCanvas,
+    startDrawing: startDrawingContext,
+    continueDrawing,
+    stopDrawing: stopDrawingContext,
+    getCanvasPosition,
+    resetCanvas
   } = useHebrewLetters();
+
+  // Initialize canvas when component mounts
+  useEffect(() => {
+    initializeCanvas(width, height, backgroundColor);
+  }, [initializeCanvas, width, height, backgroundColor]);
 
   // Initialize canvas
   useEffect(() => {
@@ -66,29 +77,15 @@ export default function WritingCanvas({
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
 
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-
-    return {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY
-    };
-  }, []);
+    return getCanvasPosition(e.nativeEvent, canvas);
+  }, [getCanvasPosition]);
 
   const getTouchPos = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas || e.touches.length === 0) return { x: 0, y: 0 };
 
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-
-    return {
-      x: (e.touches[0].clientX - rect.left) * scaleX,
-      y: (e.touches[0].clientY - rect.top) * scaleY
-    };
-  }, []);
+    return getCanvasPosition(e.nativeEvent, canvas);
+  }, [getCanvasPosition]);
 
   const startDrawing = useCallback((x: number, y: number) => {
     const ctx = contextRef.current;
@@ -98,28 +95,29 @@ export default function WritingCanvas({
     const imageData = ctx.getImageData(0, 0, width, height);
     saveCanvasState(imageData);
 
-    updateDrawingState({ isDrawing: true });
+    startDrawingContext(x, y);
     ctx.beginPath();
     ctx.moveTo(x, y);
-  }, [width, height, saveCanvasState, updateDrawingState]);
+  }, [width, height, saveCanvasState, startDrawingContext]);
 
   const draw = useCallback((x: number, y: number) => {
     if (!drawingState.isDrawing) return;
     const ctx = contextRef.current;
     if (!ctx) return;
 
+    continueDrawing(x, y);
     ctx.lineTo(x, y);
     ctx.stroke();
-  }, [drawingState.isDrawing]);
+  }, [drawingState.isDrawing, continueDrawing]);
 
   const stopDrawing = useCallback(() => {
     if (!drawingState.isDrawing) return;
     const ctx = contextRef.current;
     if (!ctx) return;
     
-    updateDrawingState({ isDrawing: false });
+    stopDrawingContext();
     ctx.closePath();
-  }, [drawingState.isDrawing, updateDrawingState]);
+  }, [drawingState.isDrawing, stopDrawingContext]);
 
   // Mouse events
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -219,6 +217,19 @@ export default function WritingCanvas({
           >
             <Eraser className="w-4 h-4" />
             נקה הכל
+          </Button>
+
+          <Button
+            onClick={() => {
+              resetCanvas();
+              clearCanvas();
+            }}
+            variant="outline"
+            size="sm"
+            className="flex items-center gap-2 hover:bg-red-100 transition-colors"
+          >
+            <RotateCcw className="w-4 h-4" />
+            איפוס מלא
           </Button>
 
           <Button

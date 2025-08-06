@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
-import { useSpeechSynthesis } from '@/hooks/shared/useSpeechSynthesis';
 import { useHebrewLetters } from '@/contexts';
 
 interface LetterEncouragementProps {
@@ -17,12 +16,11 @@ export default function LetterEncouragement({
   isCompleted 
 }: LetterEncouragementProps) {
   const [showCompletion, setShowCompletion] = useState(false);
-  const { speakEncouragement } = useSpeechSynthesis();
   const { 
     encouragementState, 
     getStepMessage, 
-    getCompletionMessage,
-    showStepEncouragement 
+    showStepEncouragement,
+    playEncouragementSound 
   } = useHebrewLetters();
 
   useEffect(() => {
@@ -31,8 +29,7 @@ export default function LetterEncouragement({
       showStepEncouragement();
       
       // השמע הודעת עידוד
-      const completionMessage = getCompletionMessage(letterName);
-      speakEncouragement(completionMessage);
+      playEncouragementSound();
       
       const timer = setTimeout(() => {
         setShowCompletion(false);
@@ -40,7 +37,7 @@ export default function LetterEncouragement({
 
       return () => clearTimeout(timer);
     }
-  }, [isCompleted, letterName, speakEncouragement, getCompletionMessage, showStepEncouragement]);
+  }, [isCompleted, showStepEncouragement, playEncouragementSound]);
 
   return (
     <>
