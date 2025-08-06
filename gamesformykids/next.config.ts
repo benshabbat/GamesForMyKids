@@ -6,17 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'framer-motion'],
-    turbo: {
-      // Turbopack configuration for faster builds
-      rules: {
-        '*.svg': {
-          loaders: ['@svgr/webpack'],
-          as: '*.js',
-        },
-      },
-    },
-    // Partial Prerendering for better performance
-    ppr: 'incremental',
+    // Removed ppr as it requires canary version
   },
 
   // Enhanced Image Optimization
