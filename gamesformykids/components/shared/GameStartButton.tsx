@@ -15,10 +15,7 @@ function GameStartButton({
   
   return (
     <button
-      onClick={() => {
-        console.log("Start button clicked");
-        onStart();
-      }}
+      onClick={onStart}
       className={buttonClass}
     >
       בואו נתחיל! 🚀

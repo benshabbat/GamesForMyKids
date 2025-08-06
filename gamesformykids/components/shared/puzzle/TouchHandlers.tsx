@@ -47,7 +47,6 @@ export function useTouchHandlers(
     });
     
     setDraggedPiece(piece);
-    console.log('🎯 SimplePuzzle - Touch dragging piece:', piece.id);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {

@@ -228,7 +228,6 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize game with custom image
   const initializeGame = useCallback((img: HTMLImageElement, difficulty?: number) => {
-    console.log('🎮 PuzzleContext - Initializing custom game');
     const targetDifficulty = difficulty || state.difficulty;
     
     const newPieces = createPuzzlePieces(img, targetDifficulty, 'custom');
@@ -249,13 +248,9 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
 
   // Initialize simple puzzle game
   const initializeSimpleGame = useCallback((puzzle: SimplePuzzle) => {
-    console.log('🎮 PuzzleContext - Initializing simple game with:', puzzle.name);
-    
     const img = document.createElement('img') as HTMLImageElement;
     img.crossOrigin = 'anonymous';
     img.onload = () => {
-      console.log('🖼️ PuzzleContext - Simple puzzle image loaded');
-      
       const newPieces = createPuzzlePieces(img, puzzle.gridSize, 'simple');
       
       dispatch({ type: 'SET_SELECTED_PUZZLE', payload: puzzle });
@@ -272,7 +267,6 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     };
     
     img.onerror = () => {
-      console.error('🚨 PuzzleContext - Failed to load image:', puzzle.imageUrl);
       showFeedback('שגיאה בטעינת התמונה', 'error');
     };
     
@@ -285,13 +279,6 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     const row = Math.floor(gridIndex / gridSide);
     const col = gridIndex % gridSide;
     
-    console.log('🎯 PuzzleContext - Drop attempt:', {
-      pieceId: piece.id,
-      droppedAt: `(${row}, ${col})`,
-      expectedAt: `(${piece.expectedPosition.row}, ${piece.expectedPosition.col})`,
-      gridIndex
-    });
-
     // Remove piece from current position if it's already placed
     const newPlacedPieces = [...state.placedPieces];
     const currentIndex = newPlacedPieces.findIndex(p => p?.id === piece.id);
