@@ -1,3 +1,5 @@
+import UnifiedHeader from "./UnifiedHeader";
+
 interface StartScreenHeaderProps {
   textColorHeader?: string;
   textColorSubHeader?: string;
@@ -5,6 +7,10 @@ interface StartScreenHeaderProps {
   subTitle?: string;
 }
 
+/**
+ * @deprecated השתמש ב-UnifiedHeader עם variant="start-screen" במקום
+ * קומפוננט זה נשמר לתאימות לאחור
+ */
 const StartScreenHeader = ({
   textColorHeader = "text-purple-800",
   textColorSubHeader = "text-purple-600",
@@ -12,16 +18,13 @@ const StartScreenHeader = ({
   subTitle = "למד צבעים דרך משחק!",
 }: StartScreenHeaderProps) => {
   return (
-    <div className="mb-8">
-      <h1 className={`text-5xl md:text-7xl font-bold ${textColorHeader} mb-4`}>
-        {title}
-      </h1>
-      <p
-        className={`text-xl md:text-2xl ${textColorSubHeader} font-semibold mb-8`}
-      >
-        {subTitle}
-      </p>
-    </div>
+    <UnifiedHeader
+      variant="start-screen"
+      title={title}
+      subTitle={subTitle}
+      textColorHeader={textColorHeader}
+      textColorSubHeader={textColorSubHeader}
+    />
   );
 };
 

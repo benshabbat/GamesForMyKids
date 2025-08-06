@@ -1,3 +1,5 @@
+import GenericBox from "./GenericBox";
+
 type ChallengeBoxProps = {
   title: string;
   icon: string;
@@ -16,10 +18,11 @@ export default function ChallengeBox({
   description,
 }: ChallengeBoxProps) {
   return (
-    <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
-      <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
-        {title}
-      </h2>
+    <GenericBox
+      title={title}
+      variant="challenge"
+      size="large"
+    >
       <div
         className={`font-bold mb-4 cursor-pointer hover:scale-110 transition-transform ${iconColor}`}
         style={{ fontSize: "4rem" }}
@@ -34,6 +37,6 @@ export default function ChallengeBox({
         </div>
       </div>
       <p className="text-xl text-gray-600">{description}</p>
-    </div>
+    </GenericBox>
   );
 }

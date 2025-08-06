@@ -14,6 +14,7 @@ import { AutoStartScreenProps } from "@/lib/types/startScreen";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "./GameItem";
+import GenericBox from "./GenericBox";
 
 /**
  * AutoStartScreen - קומפוננט אוטומטי ל-StartScreen
@@ -35,12 +36,15 @@ export default function AutoStartScreen({
   if (!config) {
     console.error(`❌ No UI config found for game type: ${gameType}`);
     return (
-      <div className="min-h-screen flex items-center justify-center bg-red-50">
-        <div className="text-center p-8 bg-white rounded-lg shadow-lg">
-          <h2 className="text-2xl font-bold text-red-600 mb-4">⚠️ שגיאת קונפיגורציה</h2>
+      <div className="min-h-screen flex items-center justify-center">
+        <GenericBox
+          title="שגיאת קונפיגורציה"
+          variant="error"
+          size="large"
+        >
           <p className="text-gray-600">לא נמצאה קונפיגורציה עבור משחק: <code>{gameType}</code></p>
           <p className="text-sm text-gray-500 mt-2">יש להוסיף את המשחק ל-GAME_UI_CONFIGS</p>
-        </div>
+        </GenericBox>
       </div>
     );
   }
