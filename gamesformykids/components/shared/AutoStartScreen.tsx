@@ -14,7 +14,6 @@ import { AutoStartScreenProps } from "@/lib/types/startScreen";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "./GameItem";
-import NavigationTips from "./NavigationTips";
 
 /**
  * AutoStartScreen - קומפוננט אוטומטי ל-StartScreen
@@ -79,9 +78,6 @@ export default function AutoStartScreen({
         />
       )}
     />
-    
-    {/* טיפים לניווט */}
-    <NavigationTips />
     </>
   );
 }

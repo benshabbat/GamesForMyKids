@@ -161,20 +161,7 @@ const CategorizedGamesGrid = () => {
 
       {selectedCategory && (
         /* Selected Category Games */
-        <div>
-          <div className="flex items-center justify-between mb-8">
-            <button
-              onClick={() => setSelectedCategory(null)}
-              className="px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-bold text-purple-600 hover:bg-purple-50"
-            >
-              ← חזרה לקטגוריות
-            </button>
-            <h2 className="text-3xl font-bold text-gray-800">
-              {GAME_CATEGORIES[selectedCategory as keyof typeof GAME_CATEGORIES]?.title}
-            </h2>
-            <div></div>
-          </div>
-          
+        <div>          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {getGamesByCategory(selectedCategory).map((game) => (
               <div key={game.id} className="relative">
@@ -229,19 +216,6 @@ const CategorizedGamesGrid = () => {
       {showAllGames && (
         /* All Games View */
         <div>
-          <div className="flex items-center justify-between mb-8">
-            <button
-              onClick={() => setShowAllGames(false)}
-              className="px-6 py-3 bg-white rounded-full shadow-lg hover:shadow-xl transition-all duration-300 text-lg font-bold text-purple-600 hover:bg-purple-50"
-            >
-              ← חזרה לקטגוריות
-            </button>
-            <h2 className="text-3xl font-bold text-gray-800">
-              כל המשחקים ({totalGamesCount})
-            </h2>
-            <div></div>
-          </div>
-          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allGameRegistrations.map((game) => (
               <div key={game.id} className="relative">

@@ -9,7 +9,6 @@ import CharityBasket from '@/components/game/tzedakah/CharityBasket';
 import GameControls from '@/components/game/tzedakah/GameControls';
 import GameAreaBackground from '@/components/game/tzedakah/GameAreaBackground';
 import GameInstructions from '@/components/game/tzedakah/GameInstructions';
-import GameNavigationTips from '@/components/game/tzedakah/GameNavigationTips';
 import styles from './charity.module.css';
 
 interface Coin {
@@ -252,12 +251,6 @@ const CharityCoinGame: React.FC = () => {
             />
           </div>
         </div>
-
-        {/* ניווט תחתון */}
-        <GameNavigationTips 
-          isMobile={isMobile}
-          nextGameTitle={nextGame.title}
-        />
       </div>
     </div>
   );
