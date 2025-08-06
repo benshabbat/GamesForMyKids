@@ -164,12 +164,15 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
 
   // Reset states when letter changes
   const handleSetCurrentLetter = useCallback((letter: HebrewLetter | null) => {
-    setCurrentLetter(letter);
-    // Reset practice state for new letter
-    setPracticeState(defaultPracticeState);
-    // Clear drawing canvas
-    clearCanvas();
-  }, [clearCanvas]);
+    // Only reset if it's a different letter
+    if (!currentLetter || currentLetter.name !== letter?.name) {
+      setCurrentLetter(letter);
+      // Reset practice state for new letter
+      setPracticeState(defaultPracticeState);
+      // Clear drawing canvas
+      clearCanvas();
+    }
+  }, [clearCanvas, currentLetter]);
 
   const contextValue: HebrewLettersContextType = {
     // Current letter

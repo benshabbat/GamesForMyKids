@@ -33,6 +33,11 @@ export default function HebrewLetterPractice({ letterData }: Props) {
     initializeLetter();
   }, [initializeLetter]);
 
+  // Debug: Log current step info when it changes
+  useEffect(() => {
+    console.log('Current step info changed:', currentStepInfo);
+  }, [currentStepInfo]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">
       <div className="max-w-4xl mx-auto">

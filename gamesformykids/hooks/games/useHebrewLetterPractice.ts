@@ -4,6 +4,7 @@ import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
 
 export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
   const {
+    currentLetter,
     practiceState,
     markStepCompleted,
     nextStep,
@@ -15,16 +16,19 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
 
   // Initialize current letter
   const initializeLetter = useCallback(() => {
-    setCurrentLetter(letterData);
-  }, [setCurrentLetter, letterData]);
+    // Only set current letter if it's different or not set
+    if (!currentLetter || currentLetter.name !== letterData.name) {
+      setCurrentLetter(letterData);
+    }
+  }, [setCurrentLetter, letterData, currentLetter]);
 
   // Check if current step is completed
-  const isStepCompleted = (stepIndex: number) => {
+  const isStepCompleted = useCallback((stepIndex: number) => {
     return practiceState.completedSteps.has(stepIndex);
-  };
+  }, [practiceState.completedSteps]);
 
   // Get current step info
-  const getCurrentStepInfo = () => {
+  const getCurrentStepInfo = useCallback(() => {
     const currentStep = practiceState.currentStep;
     return {
       stepIndex: currentStep,
@@ -33,21 +37,23 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
       isFirst: currentStep === 0,
       isLast: currentStep === practiceSteps.length - 1
     };
-  };
+  }, [practiceState.currentStep, practiceSteps, isStepCompleted]);
 
   // Complete current step and move to next
-  const completeCurrentStep = () => {
-    markStepCompleted(practiceState.currentStep);
-    if (practiceState.currentStep < practiceSteps.length - 1) {
+  const completeCurrentStep = useCallback(() => {
+    const currentStep = practiceState.currentStep;
+    markStepCompleted(currentStep);
+    
+    if (currentStep < practiceSteps.length - 1) {
       nextStep();
     } else {
       // Mark entire letter as completed
       markLetterCompleted(letterData.name);
     }
-  };
+  }, [practiceState.currentStep, markStepCompleted, nextStep, practiceSteps.length, markLetterCompleted, letterData.name]);
 
   // Get practice instructions for current step
-  const getCurrentInstructions = () => {
+  const getCurrentInstructions = useCallback(() => {
     const stepIndex = practiceState.currentStep;
     switch (stepIndex) {
       case 0:
@@ -71,12 +77,12 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
       default:
         return [`תרגלי את האות ${letterData.letter}`];
     }
-  };
+  }, [practiceState.currentStep, letterData.letter, letterData.pronunciation]);
 
   // Calculate overall progress percentage
-  const getOverallProgress = () => {
+  const getOverallProgress = useCallback(() => {
     return Math.round((practiceState.completedSteps.size / practiceSteps.length) * 100);
-  };
+  }, [practiceState.completedSteps.size, practiceSteps.length]);
 
   return {
     // State
