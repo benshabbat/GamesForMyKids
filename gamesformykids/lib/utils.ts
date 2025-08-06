@@ -2,42 +2,100 @@ import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 /**
+ * Next.js 15 Enhanced Utility Functions
+ * Modern utilities for performance, accessibility, and developer experience
+ */
+
+// ========================================
+// CSS & Styling Utilities
+// ========================================
+
+/**
  * Utility function to merge Tailwind CSS classes with clsx
  * Handles conflicts between classes intelligently
+ * Enhanced for Next.js 15 with better TypeScript support
  */
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 /**
- * Sleep utility for creating delays
+ * Generate responsive class names based on breakpoints
  */
-export function sleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms));
+export function responsive(base: string, sm?: string, md?: string, lg?: string, xl?: string) {
+  return cn(
+    base,
+    sm && `sm:${sm}`,
+    md && `md:${md}`,
+    lg && `lg:${lg}`,
+    xl && `xl:${xl}`
+  );
 }
 
 /**
- * Debounce utility to limit function execution frequency
+ * Create CSS variable based class names
+ */
+export function cssVar(property: string, value: string | number) {
+  return { [`--${property}`]: value } as React.CSSProperties;
+}
+
+// ========================================
+// Performance Utilities
+// ========================================
+
+/**
+ * Sleep utility for creating delays
+ * Enhanced with AbortController support for cancellation
+ */
+export function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  return new Promise((resolve, reject) => {
+    if (signal?.aborted) {
+      reject(new DOMException('Aborted', 'AbortError'));
+      return;
+    }
+    
+    const timeout = setTimeout(resolve, ms);
+    
+    signal?.addEventListener('abort', () => {
+      clearTimeout(timeout);
+      reject(new DOMException('Aborted', 'AbortError'));
+    });
+  });
+}
+
+/**
+ * Enhanced debounce utility with immediate execution option
  */
 export function debounce<T extends (...args: unknown[]) => unknown>(
   func: T,
-  wait: number
+  wait: number,
+  immediate = false
 ): (...args: Parameters<T>) => void {
-  let timeout: NodeJS.Timeout;
+  let timeout: NodeJS.Timeout | null = null;
+  
   return (...args: Parameters<T>) => {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => func(...args), wait);
+    const callNow = immediate && !timeout;
+    
+    if (timeout) clearTimeout(timeout);
+    
+    timeout = setTimeout(() => {
+      timeout = null;
+      if (!immediate) func(...args);
+    }, wait);
+    
+    if (callNow) func(...args);
   };
 }
 
 /**
- * Throttle utility to limit function execution frequency
+ * Throttle utility to limit function execution rate
  */
 export function throttle<T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): (...args: Parameters<T>) => void {
   let inThrottle: boolean;
+  
   return (...args: Parameters<T>) => {
     if (!inThrottle) {
       func(...args);
@@ -48,194 +106,306 @@ export function throttle<T extends (...args: unknown[]) => unknown>(
 }
 
 /**
- * Format number with Hebrew formatting
+ * Request animation frame utility with fallback
  */
-export function formatNumber(num: number): string {
-  return new Intl.NumberFormat('he-IL').format(num);
-}
-
-/**
- * Format time duration to readable string
- */
-export function formatDuration(seconds: number): string {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  
-  if (minutes > 0) {
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+export function raf(callback: () => void): number {
+  if (typeof requestAnimationFrame !== 'undefined') {
+    return requestAnimationFrame(callback);
   }
-  
-  return `${remainingSeconds} שניות`;
+  return setTimeout(callback, 16) as unknown as number;
 }
 
-/**
- * Generate a random ID
- */
-export function generateId(): string {
-  return Math.random().toString(36).substring(2) + Date.now().toString(36);
-}
+// ========================================
+// Array & Object Utilities
+// ========================================
 
 /**
- * Clamp a number between min and max values
+ * Shuffle array utility using Fisher-Yates algorithm
+ * Enhanced for immutability and TypeScript
  */
-export function clamp(value: number, min: number, max: number): number {
-  return Math.min(Math.max(value, min), max);
-}
-
-/**
- * Check if code is running in browser
- */
-export function isBrowser(): boolean {
-  return typeof window !== 'undefined';
-}
-
-/**
- * Safe localStorage wrapper
- */
-export const storage = {
-  get<T>(key: string, defaultValue: T): T {
-    if (!isBrowser()) return defaultValue;
-    
-    try {
-      const item = localStorage.getItem(key);
-      return item ? JSON.parse(item) : defaultValue;
-    } catch {
-      return defaultValue;
-    }
-  },
-  
-  set<T>(key: string, value: T): void {
-    if (!isBrowser()) return;
-    
-    try {
-      localStorage.setItem(key, JSON.stringify(value));
-    } catch (error) {
-      console.warn('Failed to save to localStorage:', error);
-    }
-  },
-  
-  remove(key: string): void {
-    if (!isBrowser()) return;
-    
-    try {
-      localStorage.removeItem(key);
-    } catch (error) {
-      console.warn('Failed to remove from localStorage:', error);
-    }
-  },
-  
-  clear(): void {
-    if (!isBrowser()) return;
-    
-    try {
-      localStorage.clear();
-    } catch (error) {
-      console.warn('Failed to clear localStorage:', error);
-    }
-  }
-};
-
-/**
- * Copy text to clipboard
- */
-export async function copyToClipboard(text: string): Promise<boolean> {
-  if (!isBrowser()) return false;
-  
-  try {
-    await navigator.clipboard.writeText(text);
-    return true;
-  } catch {
-    // Fallback for older browsers
-    try {
-      const textArea = document.createElement('textarea');
-      textArea.value = text;
-      document.body.appendChild(textArea);
-      textArea.focus();
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      return true;
-    } catch {
-      return false;
-    }
-  }
-}
-
-/**
- * Shuffle array using Fisher-Yates algorithm
- */
-export function shuffleArray<T>(array: T[]): T[] {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
+export function shuffle<T>(array: readonly T[]): T[] {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
-    const temp = shuffled[i];
-    shuffled[i] = shuffled[j]!;
-    shuffled[j] = temp!;
-  }
-  return shuffled;
-}
-
-/**
- * Get random item from array
- */
-export function getRandomItem<T>(array: T[]): T | undefined {
-  if (array.length === 0) return undefined;
-  return array[Math.floor(Math.random() * array.length)];
-}
-
-/**
- * Create range of numbers
- */
-export function range(start: number, end: number, step = 1): number[] {
-  const result: number[] = [];
-  for (let i = start; i < end; i += step) {
-    result.push(i);
+    [result[i], result[j]] = [result[j], result[i]];
   }
   return result;
 }
 
 /**
- * Check if value is null or undefined
+ * Get random item from array
  */
-export function isNullish(value: unknown): value is null | undefined {
-  return value === null || value === undefined;
+export function randomItem<T>(array: readonly T[]): T | undefined {
+  if (array.length === 0) return undefined;
+  return array[Math.floor(Math.random() * array.length)];
 }
 
 /**
- * Remove null and undefined values from array
+ * Create array of specified length with fill value or generator
  */
-export function compact<T>(array: (T | null | undefined)[]): T[] {
-  return array.filter((item): item is T => !isNullish(item));
+export function createArray<T>(
+  length: number, 
+  fillValue?: T | ((index: number) => T)
+): T[] {
+  return Array.from({ length }, (_, i) => 
+    typeof fillValue === 'function' 
+      ? (fillValue as (index: number) => T)(i)
+      : fillValue as T
+  );
 }
 
 /**
- * Group array by key
+ * Deep clone utility for simple objects
  */
-export function groupBy<T, K extends keyof T>(
-  array: T[],
-  key: K
-): Record<string, T[]> {
-  return array.reduce((groups, item) => {
-    const groupKey = String(item[key]);
-    if (!groups[groupKey]) {
-      groups[groupKey] = [];
+export function deepClone<T>(obj: T): T {
+  if (obj === null || typeof obj !== 'object') return obj;
+  if (obj instanceof Date) return new Date(obj.getTime()) as unknown as T;
+  if (obj instanceof Array) return obj.map(item => deepClone(item)) as unknown as T;
+  if (typeof obj === 'object') {
+    const clonedObj = {} as T;
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        clonedObj[key] = deepClone(obj[key]);
+      }
     }
-    groups[groupKey].push(item);
-    return groups;
-  }, {} as Record<string, T[]>);
+    return clonedObj;
+  }
+  return obj;
+}
+
+// ========================================
+// Validation Utilities
+// ========================================
+
+/**
+ * Check if value is defined and not null
+ */
+export function isDefined<T>(value: T | null | undefined): value is T {
+  return value !== null && value !== undefined;
 }
 
 /**
- * Remove duplicates from array
+ * Check if string is not empty
  */
-export function uniqueBy<T, K extends keyof T>(array: T[], key: K): T[] {
-  const seen = new Set();
-  return array.filter(item => {
-    const value = item[key];
-    if (seen.has(value)) {
+export function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+/**
+ * Safe number parsing with fallback
+ */
+export function safeParseInt(value: string | number, fallback = 0): number {
+  if (typeof value === 'number') return Math.floor(value);
+  const parsed = parseInt(value, 10);
+  return isNaN(parsed) ? fallback : parsed;
+}
+
+// ========================================
+// Browser & Environment Utilities
+// ========================================
+
+/**
+ * Check if code is running in browser
+ */
+export const isBrowser = typeof window !== 'undefined';
+
+/**
+ * Check if browser supports given feature
+ */
+export function supportsFeature(feature: string): boolean {
+  if (!isBrowser) return false;
+  
+  switch (feature) {
+    case 'localStorage':
+      try {
+        const test = '__test__';
+        localStorage.setItem(test, test);
+        localStorage.removeItem(test);
+        return true;
+      } catch {
+        return false;
+      }
+    case 'serviceWorker':
+      return 'serviceWorker' in navigator;
+    case 'webp':
+      const canvas = document.createElement('canvas');
+      return canvas.toDataURL('image/webp').indexOf('data:image/webp') === 0;
+    case 'touchscreen':
+      return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    case 'reducedMotion':
+      return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    default:
       return false;
+  }
+}
+
+/**
+ * Get viewport dimensions
+ */
+export function getViewportSize() {
+  if (!isBrowser) return { width: 0, height: 0 };
+  
+  return {
+    width: Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0),
+    height: Math.max(document.documentElement.clientHeight || 0, window.innerHeight || 0),
+  };
+}
+
+// ========================================
+// Accessibility Utilities
+// ========================================
+
+/**
+ * Announce to screen readers
+ */
+export function announceToScreenReader(message: string) {
+  if (!isBrowser) return;
+  
+  const announcement = document.createElement('div');
+  announcement.setAttribute('aria-live', 'polite');
+  announcement.setAttribute('aria-atomic', 'true');
+  announcement.setAttribute('class', 'sr-only');
+  announcement.textContent = message;
+  
+  document.body.appendChild(announcement);
+  
+  setTimeout(() => {
+    document.body.removeChild(announcement);
+  }, 1000);
+}
+
+/**
+ * Focus management utility
+ */
+export function focusElement(selector: string, delay = 0) {
+  if (!isBrowser) return;
+  
+  setTimeout(() => {
+    const element = document.querySelector(selector) as HTMLElement;
+    if (element && typeof element.focus === 'function') {
+      element.focus();
     }
-    seen.add(value);
-    return true;
-  });
+  }, delay);
+}
+
+/**
+ * Trap focus within element
+ */
+export function trapFocus(element: HTMLElement) {
+  const focusableElements = element.querySelectorAll(
+    'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+  );
+  
+  const firstElement = focusableElements[0] as HTMLElement;
+  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+  
+  const handleKeydown = (e: KeyboardEvent) => {
+    if (e.key === 'Tab') {
+      if (e.shiftKey) {
+        if (document.activeElement === firstElement) {
+          lastElement.focus();
+          e.preventDefault();
+        }
+      } else {
+        if (document.activeElement === lastElement) {
+          firstElement.focus();
+          e.preventDefault();
+        }
+      }
+    }
+  };
+  
+  element.addEventListener('keydown', handleKeydown);
+  
+  return () => {
+    element.removeEventListener('keydown', handleKeydown);
+  };
+}
+
+// ========================================
+// Game-Specific Utilities
+// ========================================
+
+/**
+ * Generate unique game session ID
+ */
+export function generateSessionId(): string {
+  return `game_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+}
+
+/**
+ * Calculate game score with bonuses
+ */
+export function calculateScore(
+  baseScore: number, 
+  timeBonus = 0, 
+  streakBonus = 0, 
+  perfectBonus = 0
+): number {
+  return Math.max(0, Math.floor(baseScore + timeBonus + streakBonus + perfectBonus));
+}
+
+/**
+ * Format time for display (MM:SS)
+ */
+export function formatTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+}
+
+/**
+ * Generate difficulty-appropriate content
+ */
+export function getDifficultyMultiplier(difficulty: 'easy' | 'medium' | 'hard'): number {
+  switch (difficulty) {
+    case 'easy': return 0.8;
+    case 'medium': return 1.0;
+    case 'hard': return 1.3;
+    default: return 1.0;
+  }
+}
+
+// ========================================
+// Error Handling Utilities
+// ========================================
+
+/**
+ * Safe async operation with error handling
+ */
+export async function safeAsync<T>(
+  operation: () => Promise<T>,
+  fallback?: T
+): Promise<T | undefined> {
+  try {
+    return await operation();
+  } catch (error) {
+    console.error('Safe async operation failed:', error);
+    return fallback;
+  }
+}
+
+/**
+ * Retry operation with exponential backoff
+ */
+export async function retryOperation<T>(
+  operation: () => Promise<T>,
+  maxRetries = 3,
+  delay = 1000
+): Promise<T> {
+  let lastError: Error;
+  
+  for (let i = 0; i <= maxRetries; i++) {
+    try {
+      return await operation();
+    } catch (error) {
+      lastError = error as Error;
+      
+      if (i < maxRetries) {
+        await sleep(delay * Math.pow(2, i));
+      }
+    }
+  }
+  
+  throw lastError!;
 }

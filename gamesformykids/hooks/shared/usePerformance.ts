@@ -1,26 +1,54 @@
 /**
- * Performance monitoring hook for tracking various metrics
- * Implements Next.js 15 best practices for performance monitoring
+ * Enhanced Performance monitoring hook for Next.js 15
+ * Implements Core Web Vitals, resource monitoring, and advanced analytics
  */
 
-import { useEffect, useRef, useCallback } from 'react';
-import { PERFORMANCE } from '@/lib/constants/app';
+'use client';
 
-interface PerformanceMetrics {
+import { useEffect, useRef, useCallback, useState } from 'react';
+import { isBrowser, debounce } from '@/lib/utils';
+
+// Enhanced interfaces for better type safety
+interface CoreWebVitals {
+  fcp?: number; // First Contentful Paint
+  lcp?: number; // Largest Contentful Paint
+  fid?: number; // First Input Delay
+  cls?: number; // Cumulative Layout Shift
+  ttfb?: number; // Time to First Byte
+  inp?: number; // Interaction to Next Paint (new metric)
+}
+
+interface ComponentMetrics {
   renderTime: number;
   loadTime: number;
-  interactionTime?: number;
+  mountTime: number;
+  updateCount: number;
+  errorCount: number;
   memoryUsage?: number;
-  largestContentfulPaint?: number;
-  firstInputDelay?: number;
-  cumulativeLayoutShift?: number;
 }
 
 interface UsePerformanceOptions {
-  trackInteractions?: boolean;
+  componentName?: string;
+  trackWebVitals?: boolean;
   trackMemory?: boolean;
-  enableWebVitals?: boolean;
-  onMetric?: (metric: Partial<PerformanceMetrics>) => void;
+  trackInteractions?: boolean;
+  trackErrors?: boolean;
+  reportInterval?: number;
+  onMetric?: (type: string, value: number, context?: Record<string, unknown>) => void;
+  onReport?: (report: PerformanceReport) => void;
+}
+
+interface PerformanceReport {
+  componentName?: string;
+  webVitals: CoreWebVitals;
+  componentMetrics: ComponentMetrics;
+  resourceMetrics: {
+    totalResources: number;
+    totalSize: number;
+    slowResources: Array<{ name: string; duration: number }>;
+  };
+  timestamp: number;
+  sessionId: string;
 }
 
 export function usePerformance(
