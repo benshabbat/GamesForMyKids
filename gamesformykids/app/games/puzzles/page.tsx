@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { Camera, Puzzle, Home } from 'lucide-react';
+import { PuzzleProvider } from '@/contexts';
 import CustomPuzzleGame from './CustomPuzzleGame';
 import SimplePuzzleGame from './SimplePuzzleGame';
 
@@ -9,11 +10,19 @@ export default function PuzzleGamePage() {
   const [gameMode, setGameMode] = useState<'menu' | 'simple' | 'custom'>('menu');
 
   if (gameMode === 'simple') {
-    return <SimplePuzzleGame />;
+    return (
+      <PuzzleProvider>
+        <SimplePuzzleGame />
+      </PuzzleProvider>
+    );
   }
 
   if (gameMode === 'custom') {
-    return <CustomPuzzleGame />;
+    return (
+      <PuzzleProvider>
+        <CustomPuzzleGame />
+      </PuzzleProvider>
+    );
   }
 
   return (

@@ -2,43 +2,70 @@ import React from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
+import { usePuzzleContext } from '@/contexts';
 
 interface PuzzleGridProps {
-  gridSize: number;
-  pieces: (PuzzlePiece | null)[];
-  onDragOver: (e: React.DragEvent) => void;
-  onDrop: (e: React.DragEvent, index: number) => void;
+  title?: string;
+  // Allow optional overrides for special cases
+  gridSize?: number;
+  pieces?: (PuzzlePiece | null)[];
+  showPositionNumbers?: boolean;
+  showDebugInfo?: boolean;
+  // Event handlers can still be passed for customization
+  onDragOver?: (e: React.DragEvent) => void;
+  onDrop?: (e: React.DragEvent, index: number) => void;
   onDragStart?: (e: React.DragEvent, piece: PuzzlePiece) => void;
   onTouchStart?: (e: React.TouchEvent, piece: PuzzlePiece) => void;
   onTouchMove?: (e: React.TouchEvent) => void;
   onTouchEnd?: (e: React.TouchEvent) => void;
-  title?: string;
-  showPositionNumbers?: boolean;
-  showDebugInfo?: boolean;
 }
 
 /**
- * Shared puzzle grid component
+ * Shared puzzle grid component - now uses Context for data and handlers
  */
 export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
-  gridSize,
-  pieces,
-  onDragOver,
-  onDrop,
-  onDragStart,
-  onTouchStart,
-  onTouchMove,
-  onTouchEnd,
-  title = "🎯 לוח הפאזל",
-  showPositionNumbers = true,
-  showDebugInfo = false
+  title,
+  gridSize: overrideGridSize,
+  pieces: overridePieces,
+  showPositionNumbers: overrideShowPositionNumbers,
+  showDebugInfo: overrideShowDebugInfo,
+  onDragOver: customOnDragOver,
+  onDrop: customOnDrop,
+  onDragStart: customOnDragStart,
+  onTouchStart: customOnTouchStart,
+  onTouchMove: customOnTouchMove,
+  onTouchEnd: customOnTouchEnd
 }) => {
+  const { 
+    state, 
+    handleDragOver,
+    handleDrop,
+    handleDragStart,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
+  } = usePuzzleContext();
+  
+  // Use context values unless overridden
+  const gridSize = overrideGridSize ?? (state.selectedPuzzle?.gridSize || state.difficulty);
+  const pieces = overridePieces ?? state.placedPieces;
+  const showPositionNumbers = overrideShowPositionNumbers ?? state.showHints;
+  const showDebugInfo = overrideShowDebugInfo ?? state.showDebug;
+  
+  // Use custom handlers if provided, otherwise use context handlers
+  const finalOnDragOver = customOnDragOver || handleDragOver;
+  const finalOnDrop = customOnDrop || handleDrop;
+  const finalOnDragStart = customOnDragStart || handleDragStart;
+  const finalOnTouchStart = customOnTouchStart || handleTouchStart;
+  const finalOnTouchMove = customOnTouchMove || handleTouchMove;
+  const finalOnTouchEnd = customOnTouchEnd || handleTouchEnd;
+
   const gridSide = Math.sqrt(gridSize);
 
   return (
     <div className="bg-white rounded-2xl p-6 shadow-xl">
       <h3 className="text-xl font-bold text-center mb-4 text-gray-800">
-        {title}
+        {title || "🎯 לוח הפאזל"}
       </h3>
       <div 
         className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg shadow-inner"
@@ -66,8 +93,8 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
                   ? 'border-gray-300 bg-gray-100' 
                   : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-300'
               }`}
-              onDragOver={onDragOver}
-              onDrop={(e) => onDrop(e, index)}
+              onDragOver={finalOnDragOver}
+              onDrop={(e) => finalOnDrop(e, index)}
               data-grid-index={index}
               title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
               style={{ 
@@ -91,10 +118,10 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
                         : 'ring-2 ring-red-400 opacity-80'
                     }`}
                     draggable={!piece.isCorrect}
-                    onDragStart={onDragStart ? (e) => onDragStart(e, piece) : undefined}
-                    onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
-                    onTouchMove={onTouchMove}
-                    onTouchEnd={onTouchEnd}
+                    onDragStart={finalOnDragStart ? (e) => finalOnDragStart(e, piece) : undefined}
+                    onTouchStart={finalOnTouchStart ? (e) => finalOnTouchStart(e, piece) : undefined}
+                    onTouchMove={finalOnTouchMove}
+                    onTouchEnd={finalOnTouchEnd}
                     unoptimized
                   />
                   {piece.isCorrect && (

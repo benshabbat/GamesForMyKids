@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useRef, useCallback } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { useRef, useCallback, useEffect } from 'react';
+import { usePuzzleContext } from '@/contexts';
 import { 
   FeedbackMessage,
   PuzzleGrid,
@@ -14,39 +14,28 @@ import {
   UnifiedHelpModal,
   FloatingDragPiece
 } from '@/components/shared/puzzle';
-import {
-  useImageManagement,
-  usePuzzleGameLogic,
-  useDragAndDrop,
-  useGameState,
-  useKeyboardShortcuts,
-  usePuzzleFeedback
-} from '@/hooks';
-import { type PuzzlePiece } from '@/lib/utils/puzzleUtils';
 
 export default function CustomPuzzleGame() {
-  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   
-  // Custom hooks for separated logic
-  const gameState = useGameState();
-  const imageManagement = useImageManagement();
-  const puzzleLogic = usePuzzleGameLogic({
-    difficulty: gameState.difficulty,
-    timer: gameState.timer
-  });
-  const dragAndDrop = useDragAndDrop();
-  const { feedbackMessage, feedbackType, showFeedback, speak } = usePuzzleFeedback();
-
-  // Handle game initialization
-  const initializeNewGame = useCallback((img: HTMLImageElement) => {
-    const newPieces = imageManagement.initializeGame(img, gameState.difficulty);
-    puzzleLogic.resetPuzzle(newPieces);
-    gameState.setGameStarted(true);
-    gameState.setIsCompleted(false);
-    gameState.setTimer(0);
-  }, [imageManagement, puzzleLogic, gameState]);
+  const { 
+    state, 
+    dispatch,
+    initializeGame, 
+    resetGame,
+    goHome,
+    handleImageUpload,
+    handlePreMadeImageSelect,
+    shufflePieces,
+    handleDragStart,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleDragOver,
+    handleDrop,
+    speak
+  } = usePuzzleContext();
 
   // Handle difficulty change with proper game restart
   const handleDifficultyChangeWithRestart = useCallback((newDifficulty: number) => {
@@ -57,83 +46,70 @@ export default function CustomPuzzleGame() {
     
     speak(`רמה חדשה נבחרה: ${difficultyName} עם ${newDifficulty} חלקים`);
     
-    gameState.setDifficulty(newDifficulty);
+    dispatch({ type: 'SET_DIFFICULTY', payload: newDifficulty });
     
-    if (imageManagement.image) {
-      const newPieces = imageManagement.initializeGame(imageManagement.image, newDifficulty);
-      puzzleLogic.resetPuzzle(newPieces);
-      gameState.setGameStarted(true);
-      gameState.setIsCompleted(false);
-      gameState.setTimer(0);
+    if (state.image) {
+      initializeGame(state.image, newDifficulty);
       speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
-    } else {
-      showFeedback(`רמת קושי שונתה ל${difficultyName} - ${newDifficulty} חלקים`, 'success');
     }
-  }, [speak, gameState, imageManagement, puzzleLogic, showFeedback]);
-
-  // Reset game function
-  const resetGame = useCallback(() => {
-    if (imageManagement.image) {
-      initializeNewGame(imageManagement.image);
-      speak('המשחק אופס');
-    }
-  }, [imageManagement.image, initializeNewGame, speak]);
+  }, [speak, dispatch, state.image, initializeGame]);
 
   // Enhanced toggle functions with speech
   const toggleHintsWithSpeech = useCallback(() => {
-    gameState.toggleHints();
-    speak(gameState.showHints ? 'רמזים הוסתרו' : 'רמזים מוצגים');
-  }, [gameState, speak]);
+    dispatch({ type: 'TOGGLE_HINTS' });
+    speak(state.showHints ? 'רמזים הוסתרו' : 'רמזים מוצגים');
+  }, [dispatch, state.showHints, speak]);
 
   const toggleDebugWithSpeech = useCallback(() => {
-    gameState.toggleDebug();
-    speak(gameState.showDebug ? 'מצב דיבוג כבוי' : 'מצב דיבוג פועל');
-  }, [gameState, speak]);
+    dispatch({ type: 'TOGGLE_DEBUG' });
+    speak(state.showDebug ? 'מצב דיבוג כבוי' : 'מצב דיבוג פועל');
+  }, [dispatch, state.showDebug, speak]);
 
-  // Handle drop with completion check
-  const handleDropWithCompletion = useCallback((piece: PuzzlePiece, gridIndex: number) => {
-    const isCorrect = puzzleLogic.handleDropLogic(piece, gridIndex);
-    
-    // Check for completion
-    const correctPieces = puzzleLogic.placedPieces.filter(p => p?.isCorrect).length;
-    if (correctPieces === gameState.difficulty) {
-      gameState.setIsCompleted(true);
-    }
-    
-    return isCorrect;
-  }, [puzzleLogic, gameState]);
+  const toggleHelp = useCallback(() => {
+    dispatch({ type: 'TOGGLE_HELP' });
+  }, [dispatch]);
 
-  // Initialize game when image changes
+  // Handle image upload with initialization
   const handleImageUploadWithInit = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    imageManagement.handleImageUpload(event);
-    // Image initialization will be handled in imageManagement hook
-  }, [imageManagement]);
+    handleImageUpload(event);
+  }, [handleImageUpload]);
 
   const handlePreMadeImageSelectWithInit = useCallback((imageSrc: string) => {
-    imageManagement.handlePreMadeImageSelect(imageSrc);
-    // Image initialization will be handled in imageManagement hook
-  }, [imageManagement]);
+    handlePreMadeImageSelect(imageSrc);
+  }, [handlePreMadeImageSelect]);
 
   // Set up keyboard shortcuts
-  useKeyboardShortcuts({
-    gameStarted: gameState.gameStarted,
-    showHelp: gameState.showHelp,
-    toggleHints: toggleHintsWithSpeech,
-    toggleDebug: toggleDebugWithSpeech,
-    toggleHelp: gameState.toggleHelp,
-    shufflePieces: puzzleLogic.shufflePieces,
-    resetGame
-  });
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key.toLowerCase()) {
+        case 'r':
+          if (state.gameStarted) resetGame();
+          break;
+        case 'h':
+          if (event.shiftKey) {
+            toggleHintsWithSpeech();
+          } else {
+            toggleHelp();
+          }
+          break;
+        case 'd':
+          toggleDebugWithSpeech();
+          break;
+        case 's':
+          if (state.gameStarted) shufflePieces();
+          break;
+        case 'escape':
+          if (state.showHelp) dispatch({ type: 'TOGGLE_HELP' });
+          break;
+      }
+    };
 
-  // Auto-initialize game when image is loaded
-  React.useEffect(() => {
-    if (imageManagement.image && !gameState.gameStarted) {
-      initializeNewGame(imageManagement.image);
-    }
-  }, [imageManagement.image, gameState.gameStarted, initializeNewGame]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.gameStarted, state.showHelp, toggleHintsWithSpeech, toggleDebugWithSpeech, toggleHelp, shufflePieces, resetGame, dispatch]);
 
   // Calculate current stats
-  const correctPieces = puzzleLogic.placedPieces.filter(p => p?.isCorrect).length;
+  const correctPieces = state.placedPieces.filter(p => p?.isCorrect).length;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
@@ -143,17 +119,17 @@ export default function CustomPuzzleGame() {
           <UnifiedHeader 
             title="🧩 פאזל מותאם אישית"
             subtitle="העלה תמונה וצור פאזל משלך!"
-            onGoHome={gameState.goHome} 
-            onToggleHelp={gameState.toggleHelp}
+            onGoHome={goHome} 
+            onToggleHelp={toggleHelp}
             type="custom"
           />
         </div>
 
         {/* Upload Section */}
-        {!imageManagement.image && (
+        {!state.image && (
           <div className="mb-6 sm:mb-8">
             <ImageUploadSection 
-              difficulty={gameState.difficulty}
+              difficulty={state.difficulty}
               fileInputRef={fileInputRef}
               onImageUpload={handleImageUploadWithInit}
               onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
@@ -163,16 +139,16 @@ export default function CustomPuzzleGame() {
         )}
 
         {/* Game Controls */}
-        {imageManagement.image && (
+        {state.image && (
           <div className="mb-4 sm:mb-6">
             <UnifiedControls 
               type="custom"
-              gameStarted={gameState.gameStarted}
-              hintsEnabled={gameState.showHints}
-              debugMode={gameState.showDebug}
-              difficulty={gameState.difficulty}
+              gameStarted={state.gameStarted}
+              hintsEnabled={state.showHints}
+              debugMode={state.showDebug}
+              difficulty={state.difficulty}
               fileInputRef={fileInputRef}
-              onShufflePieces={puzzleLogic.shufflePieces}
+              onShufflePieces={shufflePieces}
               onResetGame={resetGame}
               onToggleHints={toggleHintsWithSpeech}
               onToggleDebug={toggleDebugWithSpeech}
@@ -183,18 +159,18 @@ export default function CustomPuzzleGame() {
 
         {/* Feedback Message */}
         <div className="mb-4">
-          <FeedbackMessage message={feedbackMessage} type={feedbackType} />
+          <FeedbackMessage message="" type="success" />
         </div>
 
         {/* Help Modal */}
         <UnifiedHelpModal 
-          showHelp={gameState.showHelp} 
-          onToggleHelp={gameState.toggleHelp} 
+          showHelp={state.showHelp} 
+          onToggleHelp={toggleHelp} 
           type="custom"
         />
 
         {/* Game Area */}
-        {gameState.gameStarted && (
+        {state.gameStarted && (
           <>
             {/* Mobile Layout */}
             <div className="xl:hidden space-y-4 sm:space-y-6">
@@ -202,46 +178,46 @@ export default function CustomPuzzleGame() {
               <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
                 <PuzzleStats
                   correctPieces={correctPieces}
-                  totalPieces={gameState.difficulty}
-                  timeElapsed={gameState.timer}
-                  score={puzzleLogic.score}
-                  isComplete={gameState.isCompleted}
+                  totalPieces={state.difficulty}
+                  timeElapsed={state.timer}
+                  score={state.score}
+                  isComplete={state.isCompleted}
                 />
               </div>
 
               {/* Main Game Grid for Mobile */}
               <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-3 sm:p-4 border border-white/50">
                 <PuzzleGrid
-                  gridSize={gameState.difficulty}
-                  pieces={puzzleLogic.placedPieces}
-                  onDragOver={dragAndDrop.handleDragOver}
-                  onDrop={(e, gridIndex) => dragAndDrop.handleDrop(e, gridIndex, handleDropWithCompletion)}
-                  onDragStart={dragAndDrop.handleDragStart}
-                  onTouchStart={dragAndDrop.handleTouchStart}
-                  onTouchMove={dragAndDrop.handleTouchMove}
-                  onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                  gridSize={state.difficulty}
+                  pieces={state.placedPieces}
+                  onDragOver={handleDragOver}
+                  onDrop={handleDrop}
+                  onDragStart={handleDragStart}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                   title="🎯 לוח הפאזל"
-                  showPositionNumbers={gameState.showHints}
-                  showDebugInfo={gameState.showDebug}
+                  showPositionNumbers={state.showHints}
+                  showDebugInfo={state.showDebug}
                 />
               </div>
 
               {/* Pieces Pool for Mobile */}
               <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
                 <PiecesPool
-                  pieces={puzzleLogic.pieces}
-                  onDragStart={dragAndDrop.handleDragStart}
-                  onTouchStart={dragAndDrop.handleTouchStart}
-                  onTouchMove={dragAndDrop.handleTouchMove}
-                  onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                  pieces={state.pieces}
+                  onDragStart={handleDragStart}
+                  onTouchStart={handleTouchStart}
+                  onTouchMove={handleTouchMove}
+                  onTouchEnd={handleTouchEnd}
                   title="🧩 חלקי הפאזל"
                 />
               </div>
 
               {/* Reference Image for Mobile */}
-              {imageManagement.image && (
+              {state.image && (
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-4 border border-white/50">
-                  <ReferenceImage image={imageManagement.image} />
+                  <ReferenceImage image={state.image} />
                 </div>
               )}
             </div>
@@ -254,19 +230,19 @@ export default function CustomPuzzleGame() {
                 {/* Pieces Pool */}
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
                   <PiecesPool
-                    pieces={puzzleLogic.pieces}
-                    onDragStart={dragAndDrop.handleDragStart}
-                    onTouchStart={dragAndDrop.handleTouchStart}
-                    onTouchMove={dragAndDrop.handleTouchMove}
-                    onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                    pieces={state.pieces}
+                    onDragStart={handleDragStart}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
                     title="🧩 חלקי הפאזל"
                   />
                 </div>
                 
                 {/* Reference Image */}
-                {imageManagement.image && (
+                {state.image && (
                   <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50">
-                    <ReferenceImage image={imageManagement.image} />
+                    <ReferenceImage image={state.image} />
                   </div>
                 )}
               </div>
@@ -275,17 +251,17 @@ export default function CustomPuzzleGame() {
               <div className="xl:col-span-2">
                 <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-8 border border-white/50 min-h-[600px]">
                   <PuzzleGrid
-                    gridSize={gameState.difficulty}
-                    pieces={puzzleLogic.placedPieces}
-                    onDragOver={dragAndDrop.handleDragOver}
-                    onDrop={(e, gridIndex) => dragAndDrop.handleDrop(e, gridIndex, handleDropWithCompletion)}
-                    onDragStart={dragAndDrop.handleDragStart}
-                    onTouchStart={dragAndDrop.handleTouchStart}
-                    onTouchMove={dragAndDrop.handleTouchMove}
-                    onTouchEnd={(e) => dragAndDrop.handleTouchEnd(e, handleDropWithCompletion)}
+                    gridSize={state.difficulty}
+                    pieces={state.placedPieces}
+                    onDragOver={handleDragOver}
+                    onDrop={handleDrop}
+                    onDragStart={handleDragStart}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
                     title="🎯 לוח הפאזל"
-                    showPositionNumbers={gameState.showHints}
-                    showDebugInfo={gameState.showDebug}
+                    showPositionNumbers={state.showHints}
+                    showDebugInfo={state.showDebug}
                   />
                 </div>
               </div>
@@ -295,10 +271,10 @@ export default function CustomPuzzleGame() {
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50 sticky top-4">
                   <PuzzleStats
                     correctPieces={correctPieces}
-                    totalPieces={gameState.difficulty}
-                    timeElapsed={gameState.timer}
-                    score={puzzleLogic.score}
-                    isComplete={gameState.isCompleted}
+                    totalPieces={state.difficulty}
+                    timeElapsed={state.timer}
+                    score={state.score}
+                    isComplete={state.isCompleted}
                   />
                 </div>
               </div>
@@ -318,9 +294,9 @@ export default function CustomPuzzleGame() {
 
         {/* Floating Dragged Piece */}
         <FloatingDragPiece 
-          isDragging={dragAndDrop.touchState.isDragging}
-          draggedPiece={dragAndDrop.touchState.draggedPiece}
-          dragPosition={dragAndDrop.touchState.dragPosition}
+          isDragging={state.touchState.isDragging}
+          draggedPiece={state.touchState.draggedPiece}
+          dragPosition={state.touchState.dragPosition}
         />
       </div>
     </div>

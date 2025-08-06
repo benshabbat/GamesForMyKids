@@ -1,26 +1,36 @@
 import React from 'react';
 import { Clock, Trophy, Target, Star, CheckCircle } from 'lucide-react';
+import { usePuzzleContext } from '@/contexts';
 
 interface PuzzleStatsProps {
-  correctPieces: number;
-  totalPieces: number;
-  timeElapsed: number;
-  score: number;
-  isComplete: boolean;
   className?: string;
+  // Allow optional override props for special cases
+  correctPieces?: number;
+  totalPieces?: number;
+  timeElapsed?: number;
+  score?: number;
+  isComplete?: boolean;
 }
 
 /**
- * Shared puzzle statistics component
+ * Shared puzzle statistics component - now uses Context for data
  */
 export const PuzzleStats: React.FC<PuzzleStatsProps> = ({
-  correctPieces,
-  totalPieces,
-  timeElapsed,
-  score,
-  isComplete,
-  className = ""
+  className = "",
+  correctPieces: overrideCorrectPieces,
+  totalPieces: overrideTotalPieces,
+  timeElapsed: overrideTimeElapsed,
+  score: overrideScore,
+  isComplete: overrideIsComplete
 }) => {
+  const { state } = usePuzzleContext();
+  
+  // Use context values unless overridden
+  const correctPieces = overrideCorrectPieces ?? state.placedPieces.filter(p => p?.isCorrect).length;
+  const totalPieces = overrideTotalPieces ?? (state.selectedPuzzle?.gridSize || state.difficulty);
+  const timeElapsed = overrideTimeElapsed ?? state.timer;
+  const score = overrideScore ?? state.score;
+  const isComplete = overrideIsComplete ?? state.isCompleted;
   const completionPercentage = Math.round((correctPieces / totalPieces) * 100);
   const minutes = Math.floor(timeElapsed / 60);
   const seconds = timeElapsed % 60;

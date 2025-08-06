@@ -1,29 +1,45 @@
 import React from 'react';
 import Image from 'next/image';
 import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
+import { usePuzzleContext } from '@/contexts';
 
 interface PiecesPoolProps {
-  pieces: PuzzlePiece[];
-  onDragStart: (e: React.DragEvent, piece: PuzzlePiece) => void;
+  title?: string;
+  className?: string;
+  // Allow optional overrides for special cases
+  pieces?: PuzzlePiece[];
+  onDragStart?: (e: React.DragEvent, piece: PuzzlePiece) => void;
   onTouchStart?: (e: React.TouchEvent, piece: PuzzlePiece) => void;
   onTouchMove?: (e: React.TouchEvent) => void;
   onTouchEnd?: (e: React.TouchEvent) => void;
-  title?: string;
-  className?: string;
 }
 
 /**
- * Shared pieces pool component for displaying available puzzle pieces
+ * Shared pieces pool component - now uses Context for data and handlers
  */
 export const PiecesPool: React.FC<PiecesPoolProps> = ({
-  pieces,
-  onDragStart,
-  onTouchStart,
-  onTouchMove,
-  onTouchEnd,
   title = "🧩 חלקי הפאזל",
-  className = ""
+  className = "",
+  pieces: overridePieces,
+  onDragStart: customOnDragStart,
+  onTouchStart: customOnTouchStart,
+  onTouchMove: customOnTouchMove,
+  onTouchEnd: customOnTouchEnd
 }) => {
+  const { 
+    state,
+    handleDragStart,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd
+  } = usePuzzleContext();
+  
+  // Use context values unless overridden
+  const pieces = overridePieces ?? state.pieces;
+  const finalOnDragStart = customOnDragStart || handleDragStart;
+  const finalOnTouchStart = customOnTouchStart || handleTouchStart;
+  const finalOnTouchMove = customOnTouchMove || handleTouchMove;
+  const finalOnTouchEnd = customOnTouchEnd || handleTouchEnd;
   // Show pieces that are not placed at all (pieces placed incorrectly stay on the grid)
   const availablePieces = pieces.filter(piece => !piece.isPlaced);
   const totalPieces = pieces.length;
@@ -40,10 +56,10 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
             key={piece.id}
             className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg touch-none min-w-[80px] min-h-[80px]"
             draggable
-            onDragStart={(e) => onDragStart(e, piece)}
-            onTouchStart={onTouchStart ? (e) => onTouchStart(e, piece) : undefined}
-            onTouchMove={onTouchMove}
-            onTouchEnd={onTouchEnd}
+            onDragStart={(e) => finalOnDragStart(e, piece)}
+            onTouchStart={finalOnTouchStart ? (e) => finalOnTouchStart(e, piece) : undefined}
+            onTouchMove={finalOnTouchMove}
+            onTouchEnd={finalOnTouchEnd}
             title={`חלק ${piece.id} - מיועד לעמדה: ${piece.expectedPosition.row},${piece.expectedPosition.col}`}
             style={{ 
               touchAction: 'none',

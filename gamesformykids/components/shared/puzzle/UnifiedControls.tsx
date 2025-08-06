@@ -2,15 +2,18 @@
 
 import { RefObject } from 'react';
 import { Home, RotateCcw, Eye, Settings, Shuffle, Upload } from 'lucide-react';
+import { usePuzzleContext } from '@/contexts';
 
 interface UnifiedControlsProps {
   type: 'simple' | 'custom';
-  gameStarted: boolean;
-  hintsEnabled: boolean;
-  debugMode: boolean;
-  onResetGame: () => void;
-  onToggleHints: () => void;
-  onToggleDebug: () => void;
+  
+  // Optional overrides - if not provided, will use context
+  gameStarted?: boolean;
+  hintsEnabled?: boolean;
+  debugMode?: boolean;
+  onResetGame?: () => void;
+  onToggleHints?: () => void;
+  onToggleDebug?: () => void;
   
   // Simple puzzle specific
   onGoHome?: () => void;
@@ -24,18 +27,38 @@ interface UnifiedControlsProps {
 
 export default function UnifiedControls({
   type,
-  gameStarted,
-  hintsEnabled,
-  debugMode,
-  onResetGame,
-  onToggleHints,
-  onToggleDebug,
+  gameStarted: overrideGameStarted,
+  hintsEnabled: overrideHintsEnabled,
+  debugMode: overrideDebugMode,
+  onResetGame: customOnResetGame,
+  onToggleHints: customOnToggleHints,
+  onToggleDebug: customOnToggleDebug,
   onGoHome,
-  difficulty,
+  difficulty: overrideDifficulty,
   fileInputRef,
   onShufflePieces,
   onDifficultyChange
 }: UnifiedControlsProps) {
+  const { 
+    state, 
+    dispatch,
+    resetGame,
+    shufflePieces,
+    goToMenu
+  } = usePuzzleContext();
+  
+  // Use context values unless overridden
+  const gameStarted = overrideGameStarted ?? state.gameStarted;
+  const hintsEnabled = overrideHintsEnabled ?? state.showHints;
+  const debugMode = overrideDebugMode ?? state.showDebug;
+  const difficulty = overrideDifficulty ?? state.difficulty;
+  
+  // Use custom handlers if provided, otherwise use context handlers
+  const finalOnResetGame = customOnResetGame || resetGame;
+  const finalOnToggleHints = customOnToggleHints || (() => dispatch({ type: 'TOGGLE_HINTS' }));
+  const finalOnToggleDebug = customOnToggleDebug || (() => dispatch({ type: 'TOGGLE_DEBUG' }));
+  const finalOnShufflePieces = onShufflePieces || shufflePieces;
+  const finalOnGoHome = onGoHome || goToMenu;
   if (type === 'simple') {
     // Simple puzzle controls - horizontal layout
     return (
@@ -52,7 +75,7 @@ export default function UnifiedControls({
         )}
         
         <button
-          onClick={onResetGame}
+          onClick={finalOnResetGame}
           className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           disabled={!gameStarted}
         >
@@ -62,7 +85,7 @@ export default function UnifiedControls({
         </button>
         
         <button
-          onClick={onToggleHints}
+          onClick={finalOnToggleHints}
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
             hintsEnabled 
               ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white' 
@@ -75,7 +98,7 @@ export default function UnifiedControls({
         </button>
         
         <button
-          onClick={onToggleDebug}
+          onClick={finalOnToggleDebug}
           className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
             debugMode 
               ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white' 
@@ -107,9 +130,9 @@ export default function UnifiedControls({
             </button>
           )}
           
-          {onShufflePieces && (
+          {finalOnShufflePieces && (
             <button
-              onClick={onShufflePieces}
+              onClick={finalOnShufflePieces}
               className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
               disabled={!gameStarted}
             >
@@ -120,7 +143,7 @@ export default function UnifiedControls({
           )}
           
           <button
-            onClick={onResetGame}
+            onClick={finalOnResetGame}
             className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
             disabled={!gameStarted}
           >
@@ -130,7 +153,7 @@ export default function UnifiedControls({
           </button>
           
           <button
-            onClick={onToggleHints}
+            onClick={finalOnToggleHints}
             className={`inline-flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium ${
               hintsEnabled 
                 ? 'bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white' 
@@ -143,7 +166,7 @@ export default function UnifiedControls({
           </button>
           
           <button
-            onClick={onToggleDebug}
+            onClick={finalOnToggleDebug}
             className={`inline-flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium ${
               debugMode 
                 ? 'bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white' 
