@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   FeedbackMessage,
   PuzzleGrid,
@@ -24,6 +25,7 @@ import {
 import { type PuzzlePiece } from '@/lib/utils/puzzleUtils';
 
 export default function CustomPuzzleGame() {
+  const router = useRouter();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   

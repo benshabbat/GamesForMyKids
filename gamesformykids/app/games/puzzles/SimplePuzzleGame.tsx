@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 import { 
   createPuzzlePieces, 
   isPieceInCorrectPosition, 
@@ -23,6 +24,7 @@ import {
 import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
 
 export default function SimplePuzzleGame() {
+  const router = useRouter();
   const [selectedPuzzle, setSelectedPuzzle] = useState<SimplePuzzle | null>(null);
   const [pieces, setPieces] = useState<PuzzlePiece[]>([]);
   const [placedPieces, setPlacedPieces] = useState<(PuzzlePiece | null)[]>([]);
@@ -290,7 +292,7 @@ export default function SimplePuzzleGame() {
         <UnifiedHeader
           title="🧩 פאזלים פשוטים"
           subtitle="בחר פאזל ותתחיל לשחק!"
-          onGoHome={() => window.history.back()}
+          onGoHome={() => router.push('/')}
           onToggleHelp={toggleHelp}
           type="simple"
         />

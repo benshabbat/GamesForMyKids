@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface UseGameStateReturn {
   gameStarted: boolean;
@@ -22,6 +23,7 @@ interface UseGameStateReturn {
 }
 
 export function useGameState(): UseGameStateReturn {
+  const router = useRouter();
   const [gameStarted, setGameStarted] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const [timer, setTimer] = useState(0);
@@ -69,10 +71,8 @@ export function useGameState(): UseGameStateReturn {
 
   // Go back to home/games selection
   const goHome = useCallback(() => {
-    if (typeof window !== 'undefined') {
-      window.history.back();
-    }
-  }, []);
+    router.push('/');
+  }, [router]);
 
   return {
     gameStarted,
