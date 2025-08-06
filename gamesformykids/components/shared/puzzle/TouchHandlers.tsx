@@ -22,7 +22,8 @@ export interface TouchHandlersResult {
   setTouchState: React.Dispatch<React.SetStateAction<TouchState>>;
   handleTouchStart: (e: React.TouchEvent, piece: PuzzlePiece) => void;
   handleTouchMove: (e: React.TouchEvent) => void;
-  handleTouchEnd: (e: React.TouchEvent, onDrop: (piece: PuzzlePiece, gridIndex: number) => void) => void;
+  handleTouchEnd: () => void;
+  createTouchEndHandler: (onDrop: (piece: PuzzlePiece, gridIndex: number) => void) => (e: React.TouchEvent) => void;
 }
 
 export function useTouchHandlers(
@@ -60,36 +61,40 @@ export function useTouchHandlers(
     }));
   };
 
-  const handleTouchEnd = (
-    e: React.TouchEvent, 
-    onDrop: (piece: PuzzlePiece, gridIndex: number) => void
-  ) => {
-    if (!touchState.isDragging || !touchState.draggedPiece) {
-      setTouchState(initialTouchState);
-      return;
-    }
-    
-    e.preventDefault();
-    const touch = e.changedTouches[0];
-    
-    // Find the drop target
-    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-    const dropTarget = elementBelow?.closest('[data-grid-index]');
-    
-    if (dropTarget) {
-      const gridIndex = parseInt(dropTarget.getAttribute('data-grid-index') || '0');
-      onDrop(touchState.draggedPiece, gridIndex);
-    }
-    
+  const handleTouchEnd = () => {
     setTouchState(initialTouchState);
     setDraggedPiece(null);
   };
+
+  const createTouchEndHandler = (onDrop: (piece: PuzzlePiece, gridIndex: number) => void) => 
+    (e: React.TouchEvent) => {
+      if (!touchState.isDragging || !touchState.draggedPiece) {
+        setTouchState(initialTouchState);
+        return;
+      }
+      
+      e.preventDefault();
+      const touch = e.changedTouches[0];
+      
+      // Find the drop target
+      const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+      const dropTarget = elementBelow?.closest('[data-grid-index]');
+      
+      if (dropTarget) {
+        const gridIndex = parseInt(dropTarget.getAttribute('data-grid-index') || '0');
+        onDrop(touchState.draggedPiece, gridIndex);
+      }
+      
+      setTouchState(initialTouchState);
+      setDraggedPiece(null);
+    };
 
   return {
     touchState,
     setTouchState,
     handleTouchStart,
     handleTouchMove,
-    handleTouchEnd
+    handleTouchEnd,
+    createTouchEndHandler
   };
 }

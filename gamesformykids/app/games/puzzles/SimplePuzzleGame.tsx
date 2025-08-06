@@ -37,7 +37,7 @@ export default function SimplePuzzleGame() {
   const [debugMode, setDebugMode] = useState(false);
 
   // Touch handlers
-  const { touchState, handleTouchStart, handleTouchMove, handleTouchEnd } = useTouchHandlers(setDraggedPiece);
+  const { touchState, handleTouchStart, handleTouchMove, createTouchEndHandler } = useTouchHandlers(setDraggedPiece);
 
   // Use the shared feedback hook
   const { feedbackMessage, feedbackType, showFeedback, speak } = usePuzzleFeedback();
@@ -218,9 +218,7 @@ export default function SimplePuzzleGame() {
   };
 
   // Wrapping touch end to use our drop logic
-  const handleTouchEndWithDrop = (e: React.TouchEvent) => {
-    handleTouchEnd(e, handleDropLogic);
-  };
+  const handleTouchEndWithDrop = createTouchEndHandler(handleDropLogic);
 
   // Reset current game
   const resetGame = useCallback(() => {
