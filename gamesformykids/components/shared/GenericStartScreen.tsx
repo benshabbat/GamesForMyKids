@@ -1,6 +1,6 @@
 import GameInstructions from "@/components/shared/GameInstructions";
 import GameStartButton from "@/components/shared/GameStartButton";
-import StartScreenHeader from "@/components/shared/StartScreenHeader";
+import UnifiedHeader from "@/components/shared/UnifiedHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import { GameStep } from "@/lib/types";
 import { ReactNode } from "react";
@@ -35,7 +35,16 @@ interface GenericStartScreenProps<T> {
   // Item rendering function - either use renderItem OR customItemsRenderer
   renderItem?: (item: T, index: number) => ReactNode;
   customItemsRenderer?: () => ReactNode;
+  
+  // Layout options
+  showAudioCheck?: boolean;
+  className?: string;
 }
+
+/**
+ * GenericStartScreen - מסך התחלה גנרי וגמיש
+ * תומך בכל סוגי המשחקים עם אפשרויות עיצוב מלאות
+ */
 
 export default function GenericStartScreen<T>({
   title,
@@ -55,15 +64,18 @@ export default function GenericStartScreen<T>({
   itemsGridClass = "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
   renderItem,
   customItemsRenderer,
+  showAudioCheck = true,
+  className = "",
 }: GenericStartScreenProps<T>) {
   return (
     <div
-      className="min-h-screen p-4"
+      className={`min-h-screen p-4 ${className}`}
       style={{ background: backgroundStyle }}
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <StartScreenHeader
+        <UnifiedHeader
+          variant="start-screen"
           title={title}
           subTitle={subTitle}
           textColorHeader={textColorHeader}
@@ -87,7 +99,7 @@ export default function GenericStartScreen<T>({
         />
 
         {/* כפתור בדיקת שמע */}
-        <ButtonCheckAudio />
+        {showAudioCheck && <ButtonCheckAudio />}
 
         {/* דוגמת פריטים */}
         <div className="mt-12">
