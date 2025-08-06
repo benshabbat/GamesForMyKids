@@ -254,7 +254,7 @@ export default function WritingCanvas({
             <Palette className="w-5 h-5 text-purple-600" />
             <span className="text-sm font-medium text-gray-700">בחר צבע:</span>
           </div>
-          {strokeColors.map((color, index) => (
+          {strokeColors.map((color) => (
             <button
               key={color}
               onClick={() => changeStrokeColor(color)}
