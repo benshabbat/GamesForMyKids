@@ -316,6 +316,9 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     
     if (state.flippedCards.includes(cardIndex)) return;
     
+    // מניעת פתיחת יותר מ-2 קלפים בו זמנית
+    if (state.flippedCards.length >= 2) return;
+    
     console.log('Card clicked:', { cardIndex, cardId: card.id, animalName: card.animal.name });
     
     // Update moves
