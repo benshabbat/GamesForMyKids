@@ -1,8 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Home, Trophy, HelpCircle, X, Mouse, RotateCcw, Eye, Settings } from 'lucide-react';
-import Image from 'next/image';
 import { 
   createPuzzlePieces, 
   isPieceInCorrectPosition, 
@@ -14,103 +12,15 @@ import {
   FeedbackMessage,
   PuzzleGrid,
   PiecesPool,
-  PuzzleStats
+  PuzzleStats,
+  PuzzleSelector,
+  SimplePuzzleControls,
+  SimplePuzzleHeader,
+  SimplePuzzleHelpModal,
+  FloatingDragPiece,
+  useTouchHandlers
 } from '@/components/shared/puzzle';
-
-interface SimplePuzzle {
-  id: number;
-  name: string;
-  emoji: string;
-  color: string;
-  imageUrl: string;
-  gridSize: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-}
-
-// פאזלים פשוטים עם תמונות שמחולקות לחלקים
-const SIMPLE_PUZZLES: SimplePuzzle[] = [
-  {
-    id: 1,
-    name: "שועל חמוד עם יו-יו",
-    emoji: "🦊",
-    color: "#FF8C00",
-    imageUrl: "/images/Fox with Yo-Yo.png",
-    gridSize: 4, // 2x2
-    difficulty: "easy"
-  },
-  {
-    id: 2,
-    name: "שועל מגניב",
-    emoji: "🦊",
-    color: "#FF6347",
-    imageUrl: "/images/Cool Fox Character.png",
-    gridSize: 4, // 2x2
-    difficulty: "easy"
-  },
-  {
-    id: 3,
-    name: "חיות חמודות עם קשת בענן",
-    emoji: "🌈",
-    color: "#FF69B4",
-    imageUrl: "/images/Cute Animals with Rainbow.png",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  },
-  {
-    id: 4,
-    name: "חברים יפים ביער",
-    emoji: "🌲",
-    color: "#32CD32",
-    imageUrl: "/images/Happy Forest Friends.png",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  },
-  {
-    id: 5,
-    name: "משחקים בחוץ",
-    emoji: "🎈",
-    color: "#87CEEB",
-    imageUrl: "/images/Playing Outdoors.png",
-    gridSize: 16, // 4x4
-    difficulty: "hard"
-  },
-  {
-    id: 6,
-    name: "נסיכה עם צבי ביער",
-    emoji: "👸",
-    color: "#DDA0DD",
-    imageUrl: "/images/Princess with Deer.png",
-    gridSize: 16, // 4x4
-    difficulty: "hard"
-  },
-  {
-    id: 7,
-    name: "מסיבה ביער",
-    emoji: "🎉",
-    color: "#FFD700",
-    imageUrl: "/images/Forest Party.png",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  },
-  {
-    id: 8,
-    name: "ארץ הפטריות הקסומה",
-    emoji: "🍄",
-    color: "#FF1493",
-    imageUrl: "/images/Magical Mushroom Land.png",
-    gridSize: 16, // 4x4
-    difficulty: "hard"
-  },
-  {
-    id: 9,
-    name: "נסיכה ביער הקסום",
-    emoji: "🏰",
-    color: "#9370DB",
-    imageUrl: "/images/Princess in Magical Forest.png",
-    gridSize: 9, // 3x3
-    difficulty: "medium"
-  }
-];
+import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
 
 export default function SimplePuzzleGame() {
   const [selectedPuzzle, setSelectedPuzzle] = useState<SimplePuzzle | null>(null);
@@ -125,17 +35,9 @@ export default function SimplePuzzleGame() {
   const [showHelp, setShowHelp] = useState(false);
   const [hintsEnabled, setHintsEnabled] = useState(false);
   const [debugMode, setDebugMode] = useState(false);
-  const [touchState, setTouchState] = useState<{
-    draggedPiece: PuzzlePiece | null;
-    offset: { x: number; y: number };
-    isDragging: boolean;
-    dragPosition: { x: number; y: number };
-  }>({
-    draggedPiece: null,
-    offset: { x: 0, y: 0 },
-    isDragging: false,
-    dragPosition: { x: 0, y: 0 }
-  });
+
+  // Touch handlers
+  const { touchState, handleTouchStart, handleTouchMove, handleTouchEnd } = useTouchHandlers(setDraggedPiece);
 
   // Use the shared feedback hook
   const { feedbackMessage, feedbackType, showFeedback, speak } = usePuzzleFeedback();
@@ -204,60 +106,8 @@ export default function SimplePuzzleGame() {
     console.log('🎯 SimplePuzzle - Dragging piece:', piece.id, 'expected at:', piece.expectedPosition);
   };
 
-  // Touch handlers for mobile support
-  const handleTouchStart = (e: React.TouchEvent, piece: PuzzlePiece) => {
-    e.preventDefault();
-    const touch = e.touches[0];
-    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    
-    setTouchState({
-      draggedPiece: piece,
-      offset: {
-        x: touch.clientX - rect.left,
-        y: touch.clientY - rect.top
-      },
-      isDragging: true,
-      dragPosition: { x: touch.clientX, y: touch.clientY }
-    });
-    
-    setDraggedPiece(piece);
-    console.log('🎯 SimplePuzzle - Touch dragging piece:', piece.id);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    if (!touchState.isDragging || !touchState.draggedPiece) return;
-    e.preventDefault();
-    
-    const touch = e.touches[0];
-    setTouchState(prev => ({
-      ...prev,
-      dragPosition: { x: touch.clientX, y: touch.clientY }
-    }));
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchState.isDragging || !touchState.draggedPiece || !selectedPuzzle) {
-      setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
-      return;
-    }
-    
-    e.preventDefault();
-    const touch = e.changedTouches[0];
-    
-    // Find the drop target
-    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
-    const dropTarget = elementBelow?.closest('[data-grid-index]');
-    
-    if (dropTarget) {
-      const gridIndex = parseInt(dropTarget.getAttribute('data-grid-index') || '0');
-      handleDropLogic(touchState.draggedPiece, gridIndex);
-    }
-    
-    setTouchState({ draggedPiece: null, offset: { x: 0, y: 0 }, isDragging: false, dragPosition: { x: 0, y: 0 } });
-    setDraggedPiece(null);
-  };
-
-  const handleDropLogic = (piece: PuzzlePiece, gridIndex: number) => {
+  // Drop logic function to be used by both drag/drop and touch handlers
+  const handleDropLogic = useCallback((piece: PuzzlePiece, gridIndex: number) => {
     if (!selectedPuzzle) return;
     
     const gridSide = Math.sqrt(selectedPuzzle.gridSize);
@@ -351,7 +201,7 @@ export default function SimplePuzzleGame() {
       showFeedback('מדהים! השלמת את הפאזל! 🎊', 'success');
       speak('מדהים! השלמת את הפאזל בהצלחה!');
     }
-  };
+  }, [selectedPuzzle, placedPieces, setPieces, setPlacedPieces, setScore, setIsCompleted, showFeedback, speak, timer]);
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -365,6 +215,11 @@ export default function SimplePuzzleGame() {
     
     handleDropLogic(draggedPiece, gridIndex);
     setDraggedPiece(null);
+  };
+
+  // Wrapping touch end to use our drop logic
+  const handleTouchEndWithDrop = (e: React.TouchEvent) => {
+    handleTouchEnd(e, handleDropLogic);
   };
 
   // Reset current game
@@ -434,176 +289,36 @@ export default function SimplePuzzleGame() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-between items-center mb-4">
-            <button
-              onClick={() => window.history.back()}
-              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
-            >
-              <Home className="w-4 h-4" />
-              חזרה לבית
-            </button>
-            
-            <h1 className="text-4xl font-bold text-gray-800">🧩 פאזלים פשוטים</h1>
-            
-            <button
-              onClick={toggleHelp}
-              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-            >
-              <HelpCircle className="w-4 h-4" />
-              עזרה
-            </button>
-          </div>
-          <p className="text-lg text-gray-600">בחר פאזל ותתחיל לשחק!</p>
-        </div>
+        <SimplePuzzleHeader
+          onGoHome={() => window.history.back()}
+          onToggleHelp={toggleHelp}
+        />
 
         {/* Puzzle Selection */}
         {!selectedPuzzle && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
-            {SIMPLE_PUZZLES.map((puzzle) => (
-              <div
-                key={puzzle.id}
-                className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105"
-                style={{ borderTop: `6px solid ${puzzle.color}` }}
-                onClick={() => handlePuzzleSelect(puzzle)}
-              >
-                <div className="text-center">
-                  <div className="text-6xl mb-4">{puzzle.emoji}</div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-2">
-                    {puzzle.name}
-                  </h3>
-                  <div className="flex justify-center items-center gap-2 mb-4">
-                    <span className="text-sm bg-gray-100 px-3 py-1 rounded-full">
-                      {Math.sqrt(puzzle.gridSize)}x{Math.sqrt(puzzle.gridSize)}
-                    </span>
-                    <span className={`text-sm px-3 py-1 rounded-full text-white ${
-                      puzzle.difficulty === 'easy' ? 'bg-green-500' :
-                      puzzle.difficulty === 'medium' ? 'bg-yellow-500' : 'bg-red-500'
-                    }`}>
-                      {puzzle.difficulty === 'easy' ? 'קל' :
-                       puzzle.difficulty === 'medium' ? 'בינוני' : 'קשה'}
-                    </span>
-                  </div>
-                  <Image
-                    src={puzzle.imageUrl}
-                    alt={puzzle.name}
-                    width={200}
-                    height={200}
-                    className="w-full h-32 object-cover rounded-lg mb-4"
-                    unoptimized
-                  />
-                  <button className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg font-medium transition-colors">
-                    התחל לשחק
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+          <PuzzleSelector
+            puzzles={SIMPLE_PUZZLES}
+            onPuzzleSelect={handlePuzzleSelect}
+          />
         )}
 
         {/* Help Modal */}
-        {showHelp && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={toggleHelp}>
-            <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold">איך לשחק?</h3>
-                <button
-                  onClick={toggleHelp}
-                  className="text-gray-500 hover:text-gray-700"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              <div className="space-y-3 text-right">
-                <div className="flex items-center gap-2">
-                  <Mouse className="w-5 h-5 text-blue-500" />
-                  <span>גרור חלקים לכיוונים הנכונים</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <RotateCcw className="w-5 h-5 text-green-500" />
-                  <span>לחץ על R להתחלה מחדש</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <HelpCircle className="w-5 h-5 text-purple-500" />
-                  <span>לחץ על H לעזרה</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Eye className="w-5 h-5 text-orange-500" />
-                  <span>לחץ על Shift+H לרמזים</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Settings className="w-5 h-5 text-gray-500" />
-                  <span>לחץ על D למצב ניפוי באגים</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+        <SimplePuzzleHelpModal
+          showHelp={showHelp}
+          onToggleHelp={toggleHelp}
+        />
 
         {/* Game Controls */}
         {selectedPuzzle && (
-          <div className="flex justify-center gap-4 mb-6">
-            <button
-              onClick={goHome}
-              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
-            >
-              <Home className="w-4 h-4" />
-              בחר פאזל אחר
-            </button>
-            <button
-              onClick={resetGame}
-              className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg transition-colors"
-              disabled={!gameStarted}
-            >
-              <RotateCcw className="w-4 h-4" />
-              התחל מחדש
-            </button>
-            
-            <button
-              onClick={toggleHints}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                hintsEnabled 
-                  ? 'bg-green-500 hover:bg-green-600 text-white' 
-                  : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
-              }`}
-            >
-              <Eye className="w-4 h-4" />
-              רמזים {hintsEnabled ? 'פעיל' : 'כבוי'}
-            </button>
-            
-            <button
-              onClick={toggleDebug}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-colors ${
-                debugMode 
-                  ? 'bg-red-500 hover:bg-red-600 text-white' 
-                  : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
-              }`}
-            >
-              <Settings className="w-4 h-4" />
-              ניפוי באגים {debugMode ? 'פעיל' : 'כבוי'}
-            </button>
-          </div>
-        )}
-
-        {/* Game Controls */}
-        {selectedPuzzle && (
-          <div className="flex justify-center gap-4 mb-6">
-            <button
-              onClick={goHome}
-              className="inline-flex items-center gap-2 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition-colors"
-            >
-              <Home className="w-4 h-4" />
-              בחר פאזל אחר
-            </button>
-            <button
-              onClick={resetGame}
-              className="inline-flex items-center gap-2 bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg transition-colors"
-              disabled={!gameStarted}
-            >
-              <Trophy className="w-4 h-4" />
-              התחל מחדש
-            </button>
-          </div>
+          <SimplePuzzleControls
+            gameStarted={gameStarted}
+            hintsEnabled={hintsEnabled}
+            debugMode={debugMode}
+            onGoHome={goHome}
+            onResetGame={resetGame}
+            onToggleHints={toggleHints}
+            onToggleDebug={toggleDebug}
+          />
         )}
 
         {/* Feedback Message */}
@@ -629,7 +344,7 @@ export default function SimplePuzzleGame() {
                 onDragStart={handleDragStart}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
+                onTouchEnd={handleTouchEndWithDrop}
                 title="🧩 חלקי הפאזל"
               />
             </div>
@@ -644,7 +359,7 @@ export default function SimplePuzzleGame() {
                 onDragStart={handleDragStart}
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
+                onTouchEnd={handleTouchEndWithDrop}
                 title={`🎯 ${selectedPuzzle.name}`}
                 showPositionNumbers={hintsEnabled}
                 showDebugInfo={debugMode}
@@ -662,26 +377,11 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Floating Dragged Piece */}
-        {touchState.isDragging && touchState.draggedPiece && (
-          <div
-            className="fixed pointer-events-none z-50 opacity-80 transform -translate-x-1/2 -translate-y-1/2"
-            style={{
-              left: touchState.dragPosition.x,
-              top: touchState.dragPosition.y,
-            }}
-          >
-            <div className="w-20 h-20 rounded-lg overflow-hidden shadow-2xl border-4 border-blue-400 animate-pulse">
-              <Image
-                src={touchState.draggedPiece.canvas.toDataURL()}
-                alt={`Dragging piece ${touchState.draggedPiece.id}`}
-                width={80}
-                height={80}
-                className="w-full h-full object-cover"
-                unoptimized
-              />
-            </div>
-          </div>
-        )}
+        <FloatingDragPiece
+          isDragging={touchState.isDragging}
+          draggedPiece={touchState.draggedPiece}
+          dragPosition={touchState.dragPosition}
+        />
       </div>
     </div>
   );
