@@ -10,6 +10,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { GameType } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
@@ -26,7 +27,7 @@ import { GameHints } from "./GameHints";
 import { ProgressDisplay } from "./ProgressDisplay";
 
 interface AutoGamePageProps {
-  gameType: AutoGameType;
+  gameType: AutoGameType | GameType; // מקבל שני טיפוסים לגמישות
 }
 
 /**
@@ -36,9 +37,14 @@ interface AutoGamePageProps {
 export function AutoGamePage({ gameType }: AutoGamePageProps) {
   // 🎨 קבלת כל הקונפיגורציות אוטומטית
   const config = GAME_UI_CONFIGS[gameType];
-  const useGameHook = GAME_HOOKS_MAP[gameType];
+  const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType];
   const items = GAME_ITEMS_MAP[gameType];
   const CardComponent = GameCardMap[gameType];
+  
+  // בדיקה שהמשחק קיים במפה
+  if (!useGameHook) {
+    throw new Error(`Game type ${gameType} is not supported by AutoGamePage`);
+  }
   
   // State for UI enhancements
   const [showProgressModal, setShowProgressModal] = useState(false);

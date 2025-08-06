@@ -3,10 +3,16 @@ import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
-import { GAME_HOOKS_MAP, AutoGameType } from '@/lib/constants/gameHooksMap';
 
-// רשימת כל המשחקים שתומכים ב-AutoGamePage (מבוסס על GAME_HOOKS_MAP)
-const SUPPORTED_GAMES: AutoGameType[] = Object.keys(GAME_HOOKS_MAP) as AutoGameType[];
+// רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
+const SUPPORTED_GAMES = [
+  'animals', 'colors', 'fruits', 'vegetables', 'clothing',
+  'letters', 'shapes', 'numbers', 'smells-tastes', 'weather',
+  'transport', 'vehicles', 'tools', 'space', 'house',
+  'instruments', 'professions', 'emotions', 'math', 'memory'
+] as const;
+
+type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
 // מיפוי URL לGameType במקרים של חוסר התאמה
 const URL_TO_GAME_TYPE_MAP: Record<string, GameType> = {
@@ -46,11 +52,11 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   const actualGameType = URL_TO_GAME_TYPE_MAP[gameType] || (gameType as GameType);
   
   // בדיקה שזה משחק תקף שתומך ב-AutoGamePage
-  if (!SUPPORTED_GAMES.includes(actualGameType as AutoGameType)) {
+  if (!SUPPORTED_GAMES.includes(actualGameType as SupportedGameType)) {
     notFound();
   }
 
-  return <AutoGamePage gameType={actualGameType as AutoGameType} />;
+  return <AutoGamePage gameType={actualGameType as SupportedGameType} />;
 }
 
 // יצירת Static Paths לכל המשחקים
