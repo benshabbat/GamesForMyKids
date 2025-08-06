@@ -1,5 +1,11 @@
 "use client";
 
+/**
+ * Memory Game Page
+ * 
+ * Main page component for the memory card game
+ */
+
 import { MemoryProvider, useMemoryContext } from "@/contexts";
 import GameHeader from "./GameHeader";
 import GameWinMessage from "./GameWinMessage";
@@ -9,23 +15,19 @@ import TipsBox from "@/components/shared/TipsBox";
 
 function MemoryGameContent() {
   const {
-    state: {
-      animals,
-      gameStarted,
-      isGameWon,
-    },
+    state: { animals, gameStarted, isGameWon },
     initializeGame,
   } = useMemoryContext();
 
   if (!gameStarted) {
-    // המרת AnimalData ל-BaseGameItem עבור AutoStartScreen
+    // Convert AnimalData to BaseGameItem for AutoStartScreen
     const gameItems = animals.length > 0 ? animals.map(animal => ({
       name: animal.name,
       hebrew: animal.name,
       english: animal.name,
       emoji: animal.emoji,
-      color: '#8B5CF6', // צבע סגול כברירת מחדל
-      sound: [], // Array ריק כי לא משתמשים בזה ב-AutoStartScreen
+      color: '#8B5CF6',
+      sound: [],
     })) : [];
 
     return (
