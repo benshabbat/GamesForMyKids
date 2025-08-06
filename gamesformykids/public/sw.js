@@ -1,74 +1,91 @@
-// Ultra-lightweight Service Worker for 100% Lighthouse score
-const CACHE_NAME = 'games-cache-v5';
-
-// Minimal critical assets
-const CRITICAL_ASSETS = [
+// GamesForMyKids Service Worker
+const CACHE_NAME = 'games-for-my-kids-v1';
+const STATIC_ASSETS = [
   '/',
-  '/manifest.json',
+  '/games',
+  '/games/puzzles',
+  // Add other important routes here
 ];
 
-// Install - ultra-fast
+// Install event - cache static assets
 self.addEventListener('install', (event) => {
-  console.log('🚀 Installing ultra-lightweight SW');
+  console.log('🎮 GamesForMyKids Service Worker installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(CRITICAL_ASSETS);
-    })
+    caches.open(CACHE_NAME)
+      .then((cache) => {
+        console.log('📦 Caching static assets');
+        return cache.addAll(STATIC_ASSETS);
+      })
+      .catch((error) => {
+        console.log('❌ Cache install failed:', error);
+      })
   );
   self.skipWaiting();
 });
 
-// Activate - clean old caches
+// Activate event - clean up old caches
 self.addEventListener('activate', (event) => {
-  console.log('✅ SW activated');
+  console.log('✅ GamesForMyKids Service Worker activated');
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            console.log('🗑️ Deleting old cache:', cacheName);
+            return caches.delete(cacheName);
+          }
+        })
       );
     })
   );
   self.clients.claim();
 });
 
-// Fetch - smart caching without 404 errors
+// Fetch event - serve from cache when possible
 self.addEventListener('fetch', (event) => {
-  // Skip non-GET requests
-  if (event.request.method !== 'GET') return;
-  
-  const url = new URL(event.request.url);
-  
-  // Only handle same-origin requests
-  if (url.origin !== self.location.origin) return;
-  
-  // Handle static assets and pages
-  if (url.pathname.startsWith('/_next/static/') || 
-      url.pathname === '/' || 
-      url.pathname.startsWith('/games') ||
-      url.pathname === '/manifest.json') {
-    
-    event.respondWith(
-      caches.match(event.request).then((cached) => {
-        if (cached) {
-          return cached;
+  // Skip non-HTTP requests
+  if (!event.request.url.startsWith('http')) {
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request)
+      .then((response) => {
+        // Return cached version if available
+        if (response) {
+          return response;
         }
         
-        return fetch(event.request).then((response) => {
-          // Only cache successful responses
-          if (response.ok) {
-            const responseClone = response.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseClone);
+        // Otherwise fetch from network
+        return fetch(event.request)
+          .then((response) => {
+            // Don't cache non-successful responses
+            if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Clone the response for caching
+            const responseToCache = response.clone();
+            
+            // Cache the response for future use
+            caches.open(CACHE_NAME)
+              .then((cache) => {
+                cache.put(event.request, responseToCache);
+              });
+
+            return response;
+          })
+          .catch((error) => {
+            console.log('🌐 Network request failed:', error);
+            // You could return a custom offline page here
+            return new Response('אופס! נראה שאין חיבור לאינטרנט', {
+              status: 503,
+              statusText: 'Service Unavailable',
+              headers: new Headers({
+                'Content-Type': 'text/plain; charset=utf-8'
+              })
             });
-          }
-          return response;
-        }).catch(() => {
-          // Return cached version if available on network failure
-          return caches.match(event.request);
-        });
+          });
       })
-    );
-  }
+  );
 });
