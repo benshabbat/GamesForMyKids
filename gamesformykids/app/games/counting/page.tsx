@@ -20,7 +20,7 @@ export default function CountingGame() {
     resetGame,
   } = useCountingGame();
 
-  if (!gameState.isPlaying) {
+  if (!gameState || !gameState.isPlaying) {
     return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
   }
 

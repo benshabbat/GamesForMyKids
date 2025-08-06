@@ -188,7 +188,7 @@ export function useBubbleGame() {
     const LEVEL_SPEED_INCREASE_MS = 100;
     const MIN_BUBBLE_CREATION_INTERVAL_MS = 800;
     
-    if (gameState.isPlaying && bubbleCreationInterval.current) {
+    if (gameState && gameState.isPlaying && bubbleCreationInterval.current) {
       clearInterval(bubbleCreationInterval.current);
       const intervalMs = Math.max(
         MIN_BUBBLE_CREATION_INTERVAL_MS, 
@@ -199,7 +199,7 @@ export function useBubbleGame() {
         createBubble();
       }, intervalMs);
     }
-  }, [gameState.level, gameState.isPlaying, createBubble]);
+  }, [gameState, createBubble]);
 
   return {
     gameState,

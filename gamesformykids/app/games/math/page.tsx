@@ -20,7 +20,7 @@ export default function MathGame() {
     resetGame,
   } = useMathGame();
 
-  if (!gameState.isPlaying) {
+  if (!gameState || !gameState.isPlaying) {
     return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
   }
 

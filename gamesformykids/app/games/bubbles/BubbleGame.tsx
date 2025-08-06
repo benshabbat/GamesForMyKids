@@ -16,7 +16,7 @@ export default function BubbleGame() {
     handleBubblePop,
   } = useBubbleGame();
 
-  if (!gameState.isPlaying) {
+  if (!gameState || !gameState.isPlaying) {
     return <BubbleStartScreen onStart={startGame} />;
   }
 

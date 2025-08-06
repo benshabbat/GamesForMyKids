@@ -64,8 +64,8 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
     progressStats,
   } = useGameHook();
 
-  // 🖥️ רינדור מותנה - אם לא במשחק, הראה StartScreen
-  if (!gameState.isPlaying) {
+  // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
+  if (!gameState || !gameState.isPlaying) {
     return (
       <AutoStartScreen
         gameType={gameType}
@@ -87,8 +87,8 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
         <div className="text-center mb-8">
           <div className="flex justify-between items-center mb-4">
             <GameHeader
-              score={gameState.score}
-              level={gameState.level}
+              score={gameState?.score || 0}
+              level={gameState?.level || 1}
               onHome={() => (window.location.href = "/")}
               onReset={resetGame}
               levelColor={config.colors.subHeader}
@@ -109,7 +109,7 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
           </div>
 
           {/* Challenge Box אוטומטי */}
-          {gameState.currentChallenge && !gameState.showCelebration && (
+          {gameState && gameState.currentChallenge && !gameState.showCelebration && (
             <ChallengeBox
               title={config.challengeTitle || "איזה פריט שמעת?"}
               icon={config.challengeIcon || "🎯"}
@@ -121,7 +121,7 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
           )}
 
           {/* Celebration אוטומטי */}
-          {gameState.showCelebration && gameState.currentChallenge && (
+          {gameState && gameState.showCelebration && gameState.currentChallenge && (
             <CelebrationBox
               label={config.itemLabel || "פריט"}
               value={gameState.currentChallenge.hebrew}
@@ -133,9 +133,9 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
         <div className="space-y-6">
           {/* Grid אוטומטי */}
           <GameCardGrid
-            items={gameState.options}
+            items={gameState?.options || []}
             onItemClick={handleItemClick}
-            currentChallenge={gameState.currentChallenge}
+            currentChallenge={gameState?.currentChallenge}
             gridCols="grid-cols-2"
             maxWidth="max-w-2xl"
             renderCustomCard={(item) => (
