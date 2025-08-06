@@ -1,5 +1,18 @@
 'use client';
 
+/**
+ * Memory Game Context
+ * 
+ * This context manages the complete state and logic for the memory card game.
+ * It includes:
+ * - Game state management (started, paused, completed, won)
+ * - Card flip logic and match detection
+ * - Timer and scoring system
+ * - Audio context for game sounds
+ * - Difficulty levels (Easy: 8 cards, Medium: 12 cards, Hard: 16 cards)
+ * - UI helper functions for grid layout and animations
+ */
+
 import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimalData } from "@/lib/types/games";
@@ -100,7 +113,7 @@ const initialState: MemoryState = {
   difficulty: 'MEDIUM',
   gameStats: initialGameStats,
   cards: [],
-  animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.MEDIUM.pairs), // אתחול חיות לרמה בינונית
+  animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.MEDIUM.pairs),
   flippedCards: [],
   matchedPairs: [],
   audioContext: null,
@@ -260,6 +273,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
   const [state, dispatch] = useReducer(memoryReducer, initialState);
   const router = useRouter();
 
+  // ===============================================
+  // CONFIGURATION FUNCTIONS
+  // ===============================================
+  
   // Get difficulty configuration
   const getDifficultyConfig = useCallback(() => {
     return MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[state.difficulty];
@@ -273,6 +290,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     return shuffled.slice(0, config.pairs);
   }, [state.difficulty]);
 
+  // ===============================================
+  // AUDIO FUNCTIONS
+  // ===============================================
+  
   // Initialize audio context
   const initializeAudio = useCallback(() => {
     if (!state.audioContext) {
@@ -288,9 +309,13 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     }
   }, [state.audioContext]);
 
+  // ===============================================
+  // GAME INITIALIZATION
+  // ===============================================
+
   // Initialize game
   const initializeGame = useCallback((targetDifficulty?: DifficultyLevel) => {
-    // עצירת כל הגייה קודמת
+    // Stop any previous speech
     if (typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
@@ -325,6 +350,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     dispatch({ type: 'SET_GAME_STATS', payload: initialGameStats });
   }, [getAnimalsForDifficulty, initializeAudio, state.difficulty]);
 
+  // ===============================================
+  // GAME VALIDATION
+  // ===============================================
+  
   // Check if card can be clicked
   const canClickCard = useCallback((cardIndex: number) => {
     if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return false;
@@ -334,19 +363,70 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     
     if (state.flippedCards.includes(cardIndex)) return false;
     
-    // מניעת פתיחת יותר מ-2 קלפים בו זמנית
+    // Prevent opening more than 2 cards at once
     if (state.flippedCards.length >= 2) return false;
     
     return true;
   }, [state.isGamePaused, state.isCompleted, state.timeLeft, state.cards, state.flippedCards]);
 
+  // ===============================================
+  // GAME LOGIC - MATCH HANDLING
+  // ===============================================
+
+  // Handle successful match
+  const handleSuccessfulMatch = useCallback((firstCardIndex: number, secondCardIndex: number, animalName: string) => {
+    const newMatchedCards = [...state.cards];
+    newMatchedCards[firstCardIndex] = { ...newMatchedCards[firstCardIndex], isMatched: true };
+    newMatchedCards[secondCardIndex] = { ...newMatchedCards[secondCardIndex], isMatched: true };
+    
+    dispatch({ type: 'SET_CARDS', payload: newMatchedCards });
+    dispatch({ type: 'ADD_MATCHED_PAIR', payload: animalName });
+    dispatch({ type: 'CLEAR_FLIPPED_CARDS' });
+    
+    // Update stats
+    const newMatches = state.gameStats.matches + 1;
+    const newStreak = state.gameStats.streak + 1;
+    const newScore = state.gameStats.score + (100 * newStreak);
+    
+    dispatch({ 
+      type: 'UPDATE_GAME_STATS', 
+      payload: { 
+        matches: newMatches, 
+        streak: newStreak, 
+        score: newScore 
+      } 
+    });
+    
+    playMemorySuccessSound(state.audioContext);
+    
+    // Check if game is won
+    const config = getDifficultyConfig();
+    if (newMatches === config.pairs) {
+      dispatch({ type: 'SET_GAME_WON', payload: true });
+      dispatch({ type: 'SET_COMPLETED', payload: true });
+    }
+  }, [state.cards, state.gameStats, state.audioContext, getDifficultyConfig]);
+
+  // Handle failed match
+  const handleFailedMatch = useCallback((firstCardIndex: number, secondCardIndex: number) => {
+    const resetCards = [...state.cards];
+    resetCards[firstCardIndex] = { ...resetCards[firstCardIndex], isFlipped: false };
+    resetCards[secondCardIndex] = { ...resetCards[secondCardIndex], isFlipped: false };
+    
+    dispatch({ type: 'SET_CARDS', payload: resetCards });
+    dispatch({ type: 'CLEAR_FLIPPED_CARDS' });
+    dispatch({ type: 'UPDATE_GAME_STATS', payload: { streak: 0 } });
+  }, [state.cards]);
+
+  // ===============================================
+  // GAME LOGIC - CARD INTERACTION
+  // ===============================================
+  
   // Handle card click
   const handleCardClick = useCallback((cardIndex: number) => {
     if (!canClickCard(cardIndex)) return;
     
     const card = state.cards[cardIndex];
-    
-    console.log('Card clicked:', { cardIndex, cardId: card.id, animalName: card.animal.name });
     
     // Update moves
     if (state.flippedCards.length === 0) {
@@ -368,59 +448,20 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
       const firstCardIndex = state.flippedCards[0];
       const firstCard = state.cards[firstCardIndex];
       
-      console.log('Checking match:', { 
-        firstCard: firstCard.animal.name, 
-        secondCard: card.animal.name,
-        match: firstCard.animal.name === card.animal.name 
-      });
-      
       setTimeout(() => {
         if (firstCard.animal.name === card.animal.name) {
-          // Match found
-          const newMatchedCards = [...state.cards];
-          newMatchedCards[firstCardIndex] = { ...firstCard, isMatched: true };
-          newMatchedCards[cardIndex] = { ...card, isMatched: true };
-          
-          dispatch({ type: 'SET_CARDS', payload: newMatchedCards });
-          dispatch({ type: 'ADD_MATCHED_PAIR', payload: card.animal.name });
-          dispatch({ type: 'CLEAR_FLIPPED_CARDS' });
-          
-          // Update stats
-          const newMatches = state.gameStats.matches + 1;
-          const newStreak = state.gameStats.streak + 1;
-          const newScore = state.gameStats.score + (100 * newStreak);
-          
-          dispatch({ 
-            type: 'UPDATE_GAME_STATS', 
-            payload: { 
-              matches: newMatches, 
-              streak: newStreak, 
-              score: newScore 
-            } 
-          });
-          
-          playMemorySuccessSound(state.audioContext);
-          
-          // Check if game is won
-          const config = getDifficultyConfig();
-          if (newMatches === config.pairs) {
-            dispatch({ type: 'SET_GAME_WON', payload: true });
-            dispatch({ type: 'SET_COMPLETED', payload: true });
-          }
+          handleSuccessfulMatch(firstCardIndex, cardIndex, card.animal.name);
         } else {
-          // No match - flip cards back
-          const resetCards = [...state.cards];
-          resetCards[firstCardIndex] = { ...firstCard, isFlipped: false };
-          resetCards[cardIndex] = { ...card, isFlipped: false };
-          
-          dispatch({ type: 'SET_CARDS', payload: resetCards });
-          dispatch({ type: 'CLEAR_FLIPPED_CARDS' });
-          dispatch({ type: 'UPDATE_GAME_STATS', payload: { streak: 0 } });
+          handleFailedMatch(firstCardIndex, cardIndex);
         }
       }, 1000);
     }
-  }, [state, getDifficultyConfig, canClickCard]);
+  }, [state, canClickCard, handleSuccessfulMatch, handleFailedMatch]);
 
+  // ===============================================
+  // GAME CONTROL FUNCTIONS
+  // ===============================================
+  
   // Game control functions
   const pauseGame = useCallback(() => {
     dispatch({ type: 'SET_GAME_PAUSED', payload: true });
@@ -441,17 +482,20 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   const setDifficulty = useCallback((difficulty: DifficultyLevel) => {
     dispatch({ type: 'SET_DIFFICULTY', payload: difficulty });
-    // מתחיל את המשחק מחדש עם הרמה החדשה
     initializeGame(difficulty);
   }, [initializeGame]);
 
+  // ===============================================
+  // UI HELPER FUNCTIONS
+  // ===============================================
+  
   // Grid Layout Logic
   const getGridCols = useCallback(() => {
     const cardCount = state.cards.length;
-    if (cardCount === 8) return "grid-cols-2 md:grid-cols-4"; // 8 קלפים - 2x4
-    if (cardCount === 12) return "grid-cols-3 md:grid-cols-4"; // 12 קלפים - 3x4
-    if (cardCount === 16) return "grid-cols-4 md:grid-cols-4"; // 16 קלפים - 4x4
-    return "grid-cols-3 md:grid-cols-4"; // ברירת מחדל
+    if (cardCount === 8) return "grid-cols-2 md:grid-cols-4";
+    if (cardCount === 12) return "grid-cols-3 md:grid-cols-4";
+    if (cardCount === 16) return "grid-cols-4 md:grid-cols-4";
+    return "grid-cols-3 md:grid-cols-4";
   }, [state.cards.length]);
 
   // Card Display Data
@@ -467,7 +511,7 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     }
     
     return {
-      id: index, // משתמשים באינדקס כמזהה
+      id: index,
       emoji: memoryCard.animal.emoji,
       isFlipped: memoryCard.isFlipped,
       isMatched: memoryCard.isMatched
@@ -479,6 +523,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     return `${index * 0.1}s`;
   }, []);
 
+  // ===============================================
+  // COMPUTED VALUES AND STATUS
+  // ===============================================
+  
   // Game Status Calculations
   const getGameProgress = useCallback(() => {
     const totalPairs = getDifficultyConfig().pairs;
@@ -503,6 +551,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     return 'פעיל';
   }, [state.gameStarted, state.isGamePaused, state.isGameWon, state.isCompleted, state.timeLeft]);
 
+  // ===============================================
+  // SIDE EFFECTS
+  // ===============================================
+  
   // Timer effects
   useEffect(() => {
     if (!state.gameStarted || state.isGamePaused || state.isCompleted) return;
