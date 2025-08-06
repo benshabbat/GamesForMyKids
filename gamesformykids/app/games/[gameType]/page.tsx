@@ -45,12 +45,12 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   // המרת URL לGameType במקרה של חוסר התאמה
   const actualGameType = URL_TO_GAME_TYPE_MAP[gameType] || (gameType as GameType);
   
-  // בדיקה שזה משחק תקף
-  if (!SUPPORTED_GAMES.includes(actualGameType)) {
+  // בדיקה שזה משחק תקף שתומך ב-AutoGamePage
+  if (!SUPPORTED_GAMES.includes(actualGameType as AutoGameType)) {
     notFound();
   }
 
-  return <AutoGamePage gameType={actualGameType} />;
+  return <AutoGamePage gameType={actualGameType as AutoGameType} />;
 }
 
 // יצירת Static Paths לכל המשחקים
