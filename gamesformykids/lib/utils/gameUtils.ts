@@ -43,7 +43,7 @@ export function getRandomItem<T>(items: T[]): T {
   }
   
   const randomIndex = Math.floor(Math.random() * items.length);
-  return items[randomIndex]!;
+  return items[randomIndex];
 }
 
 /**
@@ -106,11 +106,11 @@ export async function speakStartMessage(): Promise<void> {
  */
 export async function speakItemName(itemName: string, translator: (name: string) => string): Promise<void> {
   if (!isSpeechEnabled()) {
-    // Speech not enabled, skipping speak
+    console.log("Speech not enabled, skipping speak");
     return;
   }
 
-  // Speaking item...
+  console.log("Speaking item:", itemName);
 
   // מבטל כל דיבור קודם
   cancelSpeech();
@@ -120,13 +120,13 @@ export async function speakItemName(itemName: string, translator: (name: string)
 
   try {
     const hebrewName = translator(itemName);
-    // Hebrew text to speak processed
+    console.log("Hebrew text to speak:", hebrewName);
     
     const success = await speakHebrew(hebrewName);
     if (!success) {
       console.warn("Failed to speak item:", itemName);
     } else {
-      // Successfully spoke item
+      console.log("Successfully spoke item:", itemName);
     }
   } catch (error) {
     console.error("שגיאה בהשמעת הפריט:", error);
@@ -324,10 +324,8 @@ export function playAnimalSound(
   emoji: string,
   frequencies: Record<string, number[]>
 ): void {
-  const animalFreqs = frequencies[emoji] || frequencies['default'] || [];
-  if (animalFreqs.length > 0) {
-    playCustomSound(audioContext, animalFreqs);
-  }
+  const animalFreqs = frequencies[emoji] || frequencies['default'];
+  playCustomSound(audioContext, animalFreqs);
 }
 
 /**

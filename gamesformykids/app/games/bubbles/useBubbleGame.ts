@@ -55,7 +55,7 @@ export function useBubbleGame() {
     if (!gameContainerRef.current) return;
 
     const containerWidth = gameContainerRef.current.offsetWidth;
-    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)] || bubbleTypes[0];
+    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)];
     const size = 40 + Math.random() * 60; // גודל בין 40-100px
     
     const newBubble: BubbleData = {
@@ -63,9 +63,9 @@ export function useBubbleGame() {
       x: Math.random() * (containerWidth - size),
       y: window.innerHeight + size,
       size,
-      color: bubbleType?.color || '#FF6B6B',
+      color: bubbleType.color,
       speed: 1 + Math.random() * 2 + gameState.level * 0.3, // מהירות גדלה עם הרמה
-      frequency: bubbleType?.frequency || 261.63,
+      frequency: bubbleType.frequency,
     };
 
     setGameState(prev => ({

@@ -155,16 +155,21 @@ export default function SimplePuzzleGame() {
 
   // Initialize game with selected puzzle
   const initializeGame = useCallback((puzzle: SimplePuzzle) => {
-    // Initializing game
+    console.log('🎮 SimplePuzzle - Initializing game with:', puzzle.name);
     
     const img = document.createElement('img') as HTMLImageElement;
     img.crossOrigin = 'anonymous';
     img.onload = () => {
-      // Image loaded, creating pieces...
+      console.log('🖼️ SimplePuzzle - Image loaded, creating pieces...');
       
       const newPieces = createPuzzlePieces(img, puzzle.gridSize, 'simple');
       
-      // Created pieces successfully
+      console.log('🎮 SimplePuzzle - Created pieces:', newPieces.map(p => ({
+        id: p.id,
+        expectedPos: `(${p.expectedPosition.row}, ${p.expectedPosition.col})`,
+        isPlaced: p.isPlaced,
+        isCorrect: p.isCorrect
+      })));
       
       setPieces(newPieces);
       setPlacedPieces(new Array(puzzle.gridSize).fill(null));
@@ -196,15 +201,13 @@ export default function SimplePuzzleGame() {
   const handleDragStart = (e: React.DragEvent, piece: PuzzlePiece) => {
     setDraggedPiece(piece);
     e.dataTransfer.effectAllowed = 'move';
-    // Dragging piece
+    console.log('🎯 SimplePuzzle - Dragging piece:', piece.id, 'expected at:', piece.expectedPosition);
   };
 
   // Touch handlers for mobile support
   const handleTouchStart = (e: React.TouchEvent, piece: PuzzlePiece) => {
     e.preventDefault();
     const touch = e.touches[0];
-    if (!touch) return;
-    
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     
     setTouchState({
@@ -218,7 +221,7 @@ export default function SimplePuzzleGame() {
     });
     
     setDraggedPiece(piece);
-    // Touch dragging piece
+    console.log('🎯 SimplePuzzle - Touch dragging piece:', piece.id);
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
@@ -226,8 +229,6 @@ export default function SimplePuzzleGame() {
     e.preventDefault();
     
     const touch = e.touches[0];
-    if (!touch) return;
-    
     setTouchState(prev => ({
       ...prev,
       dragPosition: { x: touch.clientX, y: touch.clientY }
@@ -242,7 +243,6 @@ export default function SimplePuzzleGame() {
     
     e.preventDefault();
     const touch = e.changedTouches[0];
-    if (!touch) return;
     
     // Find the drop target
     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -264,8 +264,13 @@ export default function SimplePuzzleGame() {
     const row = Math.floor(gridIndex / gridSide);
     const col = gridIndex % gridSide;
     
-    // Drop attempt processing
-    
+    console.log('🎯 SimplePuzzle - Drop attempt:', {
+      pieceId: piece.id,
+      droppedAt: `(${row}, ${col})`,
+      expectedAt: `(${piece.expectedPosition.row}, ${piece.expectedPosition.col})`,
+      gridIndex
+    });
+
     // Remove piece from current position if it's already placed
     const newPlacedPieces = [...placedPieces];
     const currentIndex = newPlacedPieces.findIndex(p => p?.id === piece.id);
@@ -278,14 +283,9 @@ export default function SimplePuzzleGame() {
     if (existingPiece) {
       // If there's a piece there, return it to the pool by marking it as not placed
       setPieces(prevPieces => 
-        prevPieces.map(p => {
-          if (p.id === existingPiece.id) {
-            const updated = { ...p, isPlaced: false, isCorrect: false };
-            delete updated.currentPosition;
-            return updated;
-          }
-          return p;
-        })
+        prevPieces.map(p => 
+          p.id === existingPiece.id ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } : p
+        )
       );
     }
 

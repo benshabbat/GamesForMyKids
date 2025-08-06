@@ -73,12 +73,13 @@ export default function GenericStartScreen<T>({
         {/* הסבר המשחק */}
         <GameInstructions
           steps={gameSteps}
-          bgClass={gameStepsBgClass || ''}
+          bgClass={gameStepsBgClass}
         />
 
         {/* כפתור התחלה */}
         <GameStartButton
           onStart={() => {
+            console.log("GenericStartScreen: onStart called");
             onStart();
           }}
           fromColor={buttonFromColor}

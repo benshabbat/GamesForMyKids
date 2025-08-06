@@ -41,9 +41,9 @@ export default function ImageUploadSection({
         <div className="mb-8">
           <h4 className="text-xl font-semibold text-gray-700 mb-6">✨ תמונות מוכנות</h4>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6 mb-6">
-            {previewImages.map((img) => (
+            {previewImages.map((img, index) => (
               <div 
-                key={img.src}
+                key={index}
                 onClick={() => onPreMadeImageSelect(img.src)}
                 className="group cursor-pointer border-3 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-400 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 bg-white"
               >

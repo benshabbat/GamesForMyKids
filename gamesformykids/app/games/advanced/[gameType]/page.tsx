@@ -9,8 +9,9 @@ export default function AdvancedGamePage() {
 
 // Generate static params for known game types (if any)
 export async function generateStaticParams() {
-  // Return at least one param to satisfy static export
   return [
-    { gameType: 'coming-soon' },
+    // Add game types here when they are implemented
+    // { gameType: 'puzzle-advanced' },
+    // { gameType: 'memory-advanced' },
   ];
 }

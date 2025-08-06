@@ -42,13 +42,13 @@ function useDrawingGame() {
     
     if ('touches' in e) {
       // Touch event
-      if (e.touches && e.touches.length > 0) {
-        clientX = e.touches[0]?.clientX;
-        clientY = e.touches[0]?.clientY;
+      if (e.touches.length > 0) {
+        clientX = e.touches[0].clientX;
+        clientY = e.touches[0].clientY;
       } else if (e.changedTouches && e.changedTouches.length > 0) {
         // For touchend events, use changedTouches
-        clientX = e.changedTouches[0]?.clientX;
-        clientY = e.changedTouches[0]?.clientY;
+        clientX = e.changedTouches[0].clientX;
+        clientY = e.changedTouches[0].clientY;
       } else {
         return { x: 0, y: 0 };
       }
@@ -61,11 +61,6 @@ function useDrawingGame() {
     // Calculate scaled position based on canvas display size vs actual size
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
-    
-    // Ensure clientX and clientY are not undefined
-    if (clientX === undefined || clientY === undefined) {
-      return { x: 0, y: 0 };
-    }
     
     return {
       x: (clientX - rect.left) * scaleX,

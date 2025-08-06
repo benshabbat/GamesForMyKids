@@ -82,9 +82,9 @@ const CategorizedGamesGrid = () => {
   };
 
   return (
-    <div className="w-full">
+    <div className="max-w-6xl mx-auto px-4 pb-8">
       {/* Navigation Buttons */}
-      <nav className="flex justify-center space-x-4 mb-8" role="navigation" aria-label="ניווט קטגוריות משחקים">
+      <div className="flex justify-center space-x-4 mb-8">
         <button
           onClick={() => {
             setSelectedCategory(null);
@@ -95,8 +95,6 @@ const CategorizedGamesGrid = () => {
               ? 'bg-purple-600 text-white shadow-lg'
               : 'bg-white text-purple-600 hover:bg-purple-50'
           }`}
-          aria-pressed={!selectedCategory && !showAllGames}
-          aria-label="הצג קטגוריות משחקים"
         >
           קטגוריות
         </button>
@@ -110,12 +108,10 @@ const CategorizedGamesGrid = () => {
               ? 'bg-purple-600 text-white shadow-lg'
               : 'bg-white text-purple-600 hover:bg-purple-50'
           }`}
-          aria-pressed={showAllGames}
-          aria-label={`הצג את כל המשחקים (${totalGamesCount} משחקים)`}
         >
           כל המשחקים ({totalGamesCount})
         </button>
-      </nav>
+      </div>
 
       {!selectedCategory && !showAllGames && (
         /* Categories View */

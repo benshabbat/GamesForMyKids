@@ -130,8 +130,8 @@ export function ProgressDisplay({
               <div className="p-4 bg-green-50 rounded-lg">
                 <h3 className="font-bold text-green-800 mb-2">💪 החוזקות שלך:</h3>
                 <ul className="text-sm text-green-700 space-y-1">
-                  {progressStats.strongestAreas.map((area) => (
-                    <li key={area}>• {area}</li>
+                  {progressStats.strongestAreas.map((area, index) => (
+                    <li key={index}>• {area}</li>
                   ))}
                 </ul>
               </div>
@@ -142,8 +142,8 @@ export function ProgressDisplay({
               <div className="p-4 bg-yellow-50 rounded-lg">
                 <h3 className="font-bold text-yellow-800 mb-2">🎯 תחומים לשיפור:</h3>
                 <ul className="text-sm text-yellow-700 space-y-1">
-                  {progressStats.weakestAreas.map((area) => (
-                    <li key={area}>• {area}</li>
+                  {progressStats.weakestAreas.map((area, index) => (
+                    <li key={index}>• {area}</li>
                   ))}
                 </ul>
               </div>
@@ -154,8 +154,8 @@ export function ProgressDisplay({
               <div className="p-4 bg-blue-50 rounded-lg">
                 <h3 className="font-bold text-blue-800 mb-2">🎓 מומלץ להתרגל:</h3>
                 <ul className="text-sm text-blue-700 space-y-1">
-                  {progressStats.recommendedPractice.map((practice) => (
-                    <li key={practice}>• {practice}</li>
+                  {progressStats.recommendedPractice.map((practice, index) => (
+                    <li key={index}>• {practice}</li>
                   ))}
                 </ul>
               </div>

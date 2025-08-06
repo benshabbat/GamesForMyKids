@@ -40,7 +40,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           <div className="flex gap-2">
             {steps.map((step, index) => (
               <div
-                key={step}
+                key={index}
                 className={`px-3 py-1 rounded-full text-sm ${
                   index === currentStep 
                     ? 'bg-green-500 text-white' 

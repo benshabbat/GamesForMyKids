@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from 'react';
 import { type PuzzlePiece } from '@/lib/utils/puzzleUtils';
-import { getTouchCoordinates, getTouchDragPosition, getElementFromTouch } from '@/lib/utils/touchHelpers';
 
 interface TouchState {
   draggedPiece: PuzzlePiece | null;
@@ -42,19 +41,17 @@ export function useDragAndDrop(): UseDragAndDropReturn {
   // Mobile touch start
   const handleTouchStart = useCallback((e: React.TouchEvent, piece: PuzzlePiece) => {
     e.preventDefault();
-    if (!e.touches[0]) return;
-    
+    const touch = e.touches[0];
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
-    const touchCoords = getTouchCoordinates(e.nativeEvent, rect);
-    const dragPos = getTouchDragPosition(e.nativeEvent);
-    
-    if (!touchCoords || !dragPos) return;
     
     setTouchState({
       draggedPiece: piece,
-      offset: touchCoords,
+      offset: {
+        x: touch.clientX - rect.left,
+        y: touch.clientY - rect.top
+      },
       isDragging: true,
-      dragPosition: dragPos
+      dragPosition: { x: touch.clientX, y: touch.clientY }
     });
     
     setDraggedPiece(piece);
@@ -67,8 +64,6 @@ export function useDragAndDrop(): UseDragAndDropReturn {
     e.preventDefault();
     
     const touch = e.touches[0];
-    if (!touch) return;
-    
     setTouchState(prev => ({
       ...prev,
       dragPosition: { x: touch.clientX, y: touch.clientY }
@@ -92,7 +87,6 @@ export function useDragAndDrop(): UseDragAndDropReturn {
     
     e.preventDefault();
     const touch = e.changedTouches[0];
-    if (!touch) return;
     
     // Find the drop target
     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);

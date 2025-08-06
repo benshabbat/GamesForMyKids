@@ -143,10 +143,7 @@ export function useMathGame() {
 
   const startGame = async () => {
     try {
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.info("Math game starting");
-      }
+      console.log("Math game starting");
       
       setGameState({
         currentChallenge: null,
@@ -164,12 +161,8 @@ export function useMathGame() {
       const challenge = generateMathChallenge();
       const options = generateOptions(challenge.correctAnswer);
 
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.info("Generated math challenge:", challenge);
-        // eslint-disable-next-line no-console
-        console.info("Generated options:", options);
-      }
+      console.log("Generated math challenge:", challenge);
+      console.log("Generated options:", options);
 
       setGameState((prev: MathGameState) => ({
         ...prev,
@@ -193,12 +186,8 @@ export function useMathGame() {
       const challenge = generateMathChallenge();
       const options = generateOptions(challenge.correctAnswer);
       
-      if (process.env.NODE_ENV === 'development') {
-        // eslint-disable-next-line no-console
-        console.info("Next math challenge:", challenge);
-        // eslint-disable-next-line no-console
-        console.info("Next options:", options);
-      }
+      console.log("Next math challenge:", challenge);
+      console.log("Next options:", options);
       
       const onComplete = async () => {
         setGameState((prev: MathGameState) => ({

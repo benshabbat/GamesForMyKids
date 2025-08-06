@@ -181,8 +181,6 @@ const CharityCoinGame: React.FC = () => {
     e.preventDefault(); // מניעת גלילה
     const rect = e.currentTarget.getBoundingClientRect();
     const touch = e.touches[0];
-    if (!touch) return;
-    
     const touchX = touch.clientX - rect.left;
     setBasketX(Math.max(0, Math.min(gameWidth - basketWidth, touchX - basketWidth / 2)));
   };
@@ -205,10 +203,10 @@ const CharityCoinGame: React.FC = () => {
           gameTime={gameTime}
           score={score}
           collectedCoins={collectedCoins}
-          nextGame={nextGame || { title: '', href: '/' }}
+          nextGame={nextGame}
           isMobile={isMobile}
           onStartGame={startGame}
-          onNavigateToNext={() => router.push(nextGame?.href || '/')}
+          onNavigateToNext={() => router.push(nextGame.href)}
           onNavigateHome={() => router.push('/')}
         />
 
@@ -258,7 +256,7 @@ const CharityCoinGame: React.FC = () => {
         {/* ניווט תחתון */}
         <GameNavigationTips 
           isMobile={isMobile}
-          nextGameTitle={nextGame?.title || ''}
+          nextGameTitle={nextGame.title}
         />
       </div>
     </div>

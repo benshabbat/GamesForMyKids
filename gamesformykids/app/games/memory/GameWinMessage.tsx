@@ -136,12 +136,12 @@ export default function GameWinMessage({ animals, gameStats, difficultyName, tim
       
       {/* הצגת כל החיות בחגיגה */}
       <div className="mt-4 flex flex-wrap justify-center gap-2 mb-4">
-        {animals.map((animal) => (
+        {animals.map((animal, index) => (
           <span 
-            key={`${animal.emoji}-${animal.name}-${Date.now()}`} 
+            key={animal.emoji + index} 
             className="text-3xl animate-bounce"
             style={{ 
-              animationDelay: `${Math.random() * 0.5}s`,
+              animationDelay: `${index * 0.1}s`,
               animationDuration: '1s'
             }}
           >

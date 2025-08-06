@@ -44,9 +44,9 @@ export function GameHints({ hints, hasMoreHints, onShowNextHint, className = "" 
       </div>
       
       <div className="space-y-2">
-        {hints.map((hint) => (
+        {hints.map((hint, index) => (
           <div
-            key={`${hint.type}-${hint.text}-${hint.order}`}
+            key={`${hint.type}-${index}`}
             className="bg-white border border-yellow-200 rounded-md p-3 text-yellow-900"
           >
             <div className="flex items-center">

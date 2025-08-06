@@ -164,11 +164,8 @@ export function useProgressTracking(gameType: GameType) {
       if (!gameTypeStats[session.gameType]) {
         gameTypeStats[session.gameType] = { score: 0, count: 0 };
       }
-      const stats = gameTypeStats[session.gameType];
-      if (stats) {
-        stats.score += session.score;
-        stats.count += 1;
-      }
+      gameTypeStats[session.gameType].score += session.score;
+      gameTypeStats[session.gameType].count += 1;
     });
 
     const gameTypeAverages = Object.entries(gameTypeStats).map(([type, stats]) => ({

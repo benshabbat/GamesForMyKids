@@ -64,8 +64,8 @@ export default async function AdvancedGameMain({ params }: AdvancedGameMainProps
         
         {/* תכונות המשחק */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          {gameInfo.features.map((feature) => (
-            <div key={feature} className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
+          {gameInfo.features.map((feature, index) => (
+            <div key={index} className="bg-white bg-opacity-20 rounded-lg p-3 text-center">
               <span className="text-sm font-medium">{feature}</span>
             </div>
           ))}

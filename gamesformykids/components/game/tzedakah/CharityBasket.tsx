@@ -34,14 +34,21 @@ export default function CharityBasket({
           <div className="absolute inset-2 opacity-50">
             <div className="w-full h-full bg-amber-700 rounded-t-2xl"></div>
             {/* קווים אופקיים */}
-            <div className="absolute left-2 right-2 h-px bg-amber-900 opacity-60" style={{ top: '20%' }} />
-            <div className="absolute left-2 right-2 h-px bg-amber-900 opacity-60" style={{ top: '40%' }} />
-            <div className="absolute left-2 right-2 h-px bg-amber-900 opacity-60" style={{ top: '60%' }} />
-            <div className="absolute left-2 right-2 h-px bg-amber-900 opacity-60" style={{ top: '80%' }} />
+            {[...Array(4)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute left-2 right-2 h-px bg-amber-900 opacity-60"
+                style={{ top: `${(i + 1) * 20}%` }}
+              />
+            ))}
             {/* קווים אנכיים */}
-            <div className="absolute top-2 bottom-2 w-px bg-amber-900 opacity-40" style={{ left: '25%' }} />
-            <div className="absolute top-2 bottom-2 w-px bg-amber-900 opacity-40" style={{ left: '50%' }} />
-            <div className="absolute top-2 bottom-2 w-px bg-amber-900 opacity-40" style={{ left: '75%' }} />
+            {[...Array(3)].map((_, i) => (
+              <div 
+                key={i} 
+                className="absolute top-2 bottom-2 w-px bg-amber-900 opacity-40"
+                style={{ left: `${(i + 1) * 25}%` }}
+              />
+            ))}
           </div>
 
           {/* ברק זהב בקצוות */}

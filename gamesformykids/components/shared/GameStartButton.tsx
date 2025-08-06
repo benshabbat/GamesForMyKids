@@ -16,10 +16,7 @@ function GameStartButton({
   return (
     <button
       onClick={() => {
-        if (process.env.NODE_ENV === 'development') {
-          // eslint-disable-next-line no-console
-          console.info("Start button clicked");
-        }
+        console.log("Start button clicked");
         onStart();
       }}
       className={buttonClass}

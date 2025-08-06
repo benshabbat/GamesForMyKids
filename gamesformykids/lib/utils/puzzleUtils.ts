@@ -29,7 +29,9 @@ export const createPuzzlePieces = (
   gridSize: number,
   type: 'simple' | 'custom' = 'simple'
 ): PuzzlePiece[] => {
-  // Creating puzzle pieces...
+  console.log('=== CREATE PUZZLE PIECES ===');
+  console.log('Image:', img.width, 'x', img.height);
+  console.log('GridSize:', gridSize, 'Type:', type);
   
   // Create temporary canvas
   const canvas = document.createElement('canvas');
@@ -48,7 +50,7 @@ export const createPuzzlePieces = (
   const pieceSize = size / gridSide;
   const pieces: PuzzlePiece[] = [];
 
-  // Processing puzzle creation...
+  console.log('Grid side:', gridSide, 'Piece size:', pieceSize);
 
   try {
     // Clear and prepare canvas
@@ -71,7 +73,7 @@ export const createPuzzlePieces = (
       offsetX = (size - drawWidth) / 2;
     }
 
-    // Drawing image...
+    console.log('Drawing image:', drawWidth, 'x', drawHeight, 'at offset:', offsetX, offsetY);
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
 
     // Create individual pieces
@@ -80,15 +82,23 @@ export const createPuzzlePieces = (
         const piece = createSinglePiece(canvas, row, col, pieceSize, gridSide, type);
         if (piece) {
           pieces.push(piece);
-          // Created piece successfully
+          console.log(`Created piece ${piece.id} for position (${row}, ${col})`);
         }
       }
     }
 
-    // Puzzle creation completed
+    console.log('=== FINAL RESULT ===');
+    console.log(`Successfully created ${pieces.length} puzzle pieces`);
+    console.log('Expected pieces:', gridSize);
+    
+    if (pieces.length > 0) {
+      console.log('First piece canvas dimensions:', pieces[0]?.canvas?.width, 'x', pieces[0]?.canvas?.height);
+      console.log('All pieces:', pieces.map(p => `Piece ${p.id}: (${p.correctRow},${p.correctCol})`));
+    }
     
     // Shuffle pieces for simple puzzles
     const shuffledPieces = type === 'simple' ? pieces.sort(() => Math.random() - 0.5) : pieces;
+    console.log('Returning pieces:', shuffledPieces.length);
     return shuffledPieces;
     
   } catch (error) {
