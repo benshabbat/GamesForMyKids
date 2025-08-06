@@ -287,6 +287,8 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Initialize game
   const initializeGame = useCallback((targetDifficulty?: DifficultyLevel) => {
+    console.log('Initializing game with difficulty:', targetDifficulty || state.difficulty);
+    
     initializeAudio();
     
     if (targetDifficulty) {
@@ -294,6 +296,8 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
     }
     
     const animals = getAnimalsForDifficulty(targetDifficulty);
+    console.log('Animals for difficulty:', animals.length, 'animals');
+    
     const genericCards = createShuffledMemoryCards(animals);
     const cards: MemoryCard[] = genericCards.map(card => ({
       id: card.id,
@@ -301,7 +305,11 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
       isFlipped: card.isFlipped,
       isMatched: card.isMatched
     }));
+    
+    console.log('Generated cards:', cards.length, 'cards');
+    
     const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[targetDifficulty || state.difficulty];
+    console.log('Config for difficulty:', config);
     
     dispatch({ type: 'SET_ANIMALS', payload: animals });
     dispatch({ type: 'SET_CARDS', payload: cards });
@@ -316,10 +324,14 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Handle card click
   const handleCardClick = useCallback((cardIndex: number) => {
+    console.log('Card clicked:', cardIndex, 'Total cards:', state.cards.length);
+    
     if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return;
     
     const card = state.cards[cardIndex];
     if (!card || card.isFlipped || card.isMatched) return;
+    
+    console.log('Card data:', card.animal.name, 'isFlipped:', card.isFlipped);
     
     if (state.flippedCards.includes(cardIndex)) return;
     
@@ -414,7 +426,9 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   const setDifficulty = useCallback((difficulty: DifficultyLevel) => {
     dispatch({ type: 'SET_DIFFICULTY', payload: difficulty });
-  }, []);
+    // מתחיל את המשחק מחדש עם הרמה החדשה
+    initializeGame(difficulty);
+  }, [initializeGame]);
 
   // Timer effects
   useEffect(() => {
