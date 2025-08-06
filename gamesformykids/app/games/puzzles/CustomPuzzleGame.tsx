@@ -22,45 +22,15 @@ export default function CustomPuzzleGame() {
   const { 
     state, 
     dispatch, 
-    initializeGame, 
     resetGame,
     handleImageUpload,
     handlePreMadeImageSelect,
     shufflePieces,
-    speak
-  } = usePuzzleContext();  // Handle difficulty change with proper game restart
-  const handleDifficultyChangeWithRestart = useCallback((newDifficulty: number) => {
-    const difficultyName = 
-      newDifficulty === 4 ? 'קל' : 
-      newDifficulty === 9 ? 'בינוני' : 
-      newDifficulty === 16 ? 'קשה' : 'מומחה';
-    
-    speak(`רמה חדשה נבחרה: ${difficultyName} עם ${newDifficulty} חלקים`);
-    
-    dispatch({ type: 'SET_DIFFICULTY', payload: newDifficulty });
-    
-    if (state.image) {
-      initializeGame(state.image, newDifficulty);
-      speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
-    }
-  }, [speak, dispatch, state.image, initializeGame]);
-
-  // Enhanced toggle functions with speech
-  const toggleHintsWithSpeech = useCallback(() => {
-    dispatch({ type: 'TOGGLE_HINTS' });
-    speak(state.showHints ? 'רמזים הוסתרו' : 'רמזים מוצגים');
-  }, [dispatch, state.showHints, speak]);
-
-  const toggleDebugWithSpeech = useCallback(() => {
-    dispatch({ type: 'TOGGLE_DEBUG' });
-    speak(state.showDebug ? 'מצב דיבוג כבוי' : 'מצב דיבוג פועל');
-  }, [dispatch, state.showDebug, speak]);
-
-  const toggleHelp = useCallback(() => {
-    dispatch({ type: 'TOGGLE_HELP' });
-  }, [dispatch]);
-
-  // Handle image upload with initialization
+    toggleHints,
+    toggleDebug,
+    toggleHelp,
+    changeDifficulty
+  } = usePuzzleContext();  // Handle image upload with initialization
   const handleImageUploadWithInit = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     handleImageUpload(event);
   }, [handleImageUpload]);
@@ -78,13 +48,13 @@ export default function CustomPuzzleGame() {
           break;
         case 'h':
           if (event.shiftKey) {
-            toggleHintsWithSpeech();
+            toggleHints();
           } else {
             toggleHelp();
           }
           break;
         case 'd':
-          toggleDebugWithSpeech();
+          toggleDebug();
           break;
         case 's':
           if (state.gameStarted) shufflePieces();
@@ -97,10 +67,7 @@ export default function CustomPuzzleGame() {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [state.gameStarted, state.showHelp, toggleHintsWithSpeech, toggleDebugWithSpeech, toggleHelp, shufflePieces, resetGame, dispatch]);
-
-  // Calculate current stats
-  const correctPieces = state.placedPieces.filter(p => p?.isCorrect).length;
+  }, [state.gameStarted, state.showHelp, toggleHints, toggleDebug, toggleHelp, shufflePieces, resetGame, dispatch]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
@@ -117,7 +84,7 @@ export default function CustomPuzzleGame() {
               fileInputRef={fileInputRef}
               onImageUpload={handleImageUploadWithInit}
               onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
-              onDifficultyChange={handleDifficultyChangeWithRestart}
+              onDifficultyChange={changeDifficulty}
             />
           </div>
         )}
@@ -127,16 +94,8 @@ export default function CustomPuzzleGame() {
           <div className="mb-4 sm:mb-6">
             <UnifiedControls 
               type="custom"
-              gameStarted={state.gameStarted}
-              hintsEnabled={state.showHints}
-              debugMode={state.showDebug}
-              difficulty={state.difficulty}
               fileInputRef={fileInputRef}
-              onShufflePieces={shufflePieces}
-              onResetGame={resetGame}
-              onToggleHints={toggleHintsWithSpeech}
-              onToggleDebug={toggleDebugWithSpeech}
-              onDifficultyChange={handleDifficultyChangeWithRestart}
+              onDifficultyChange={changeDifficulty}
             />
           </div>
         )}
@@ -161,7 +120,7 @@ export default function CustomPuzzleGame() {
 
               {/* Main Game Grid for Mobile */}
               <div className="bg-white/90 backdrop-blur-sm rounded-xl shadow-xl p-3 sm:p-4 border border-white/50">
-                <PuzzleGrid title="🎯 לוח הפאזל" />
+                <PuzzleGrid />
               </div>
 
               {/* Pieces Pool for Mobile */}
@@ -205,13 +164,7 @@ export default function CustomPuzzleGame() {
               {/* Right Sidebar - Stats */}
               <div className="xl:col-span-1">
                 <div className="bg-white/80 backdrop-blur-sm rounded-xl shadow-lg p-6 border border-white/50 sticky top-4">
-                  <PuzzleStats
-                    correctPieces={correctPieces}
-                    totalPieces={state.difficulty}
-                    timeElapsed={state.timer}
-                    score={state.score}
-                    isComplete={state.isCompleted}
-                  />
+                  <PuzzleStats />
                 </div>
               </div>
             </div>

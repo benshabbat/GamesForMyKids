@@ -181,6 +181,14 @@ interface PuzzleContextType {
   goHome: () => void;
   goToMenu: () => void;
   
+  // UI Toggles
+  toggleHints: () => void;
+  toggleDebug: () => void;
+  toggleHelp: () => void;
+  
+  // Difficulty Management
+  changeDifficulty: (newDifficulty: number) => void;
+  
   // Drag & Drop
   handleDragStart: (e: React.DragEvent, piece: PuzzlePiece) => void;
   handleTouchStart: (e: React.TouchEvent, piece: PuzzlePiece) => void;
@@ -471,6 +479,38 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     dispatch({ type: 'SET_DRAGGED_PIECE', payload: null });
   }, [state.draggedPiece, handleDropLogic]);
 
+  // UI Toggle functions
+  const toggleHints = useCallback(() => {
+    dispatch({ type: 'TOGGLE_HINTS' });
+    speak(state.showHints ? 'רמזים הוסתרו' : 'רמזים מוצגים');
+  }, [dispatch, state.showHints, speak]);
+
+  const toggleDebug = useCallback(() => {
+    dispatch({ type: 'TOGGLE_DEBUG' });
+    speak(state.showDebug ? 'מצב דיבוג כבוי' : 'מצב דיבוג פועל');
+  }, [dispatch, state.showDebug, speak]);
+
+  const toggleHelp = useCallback(() => {
+    dispatch({ type: 'TOGGLE_HELP' });
+  }, [dispatch]);
+
+  // Difficulty change with restart
+  const changeDifficulty = useCallback((newDifficulty: number) => {
+    const difficultyName = 
+      newDifficulty === 4 ? 'קל' : 
+      newDifficulty === 9 ? 'בינוני' : 
+      newDifficulty === 16 ? 'קשה' : 'מומחה';
+    
+    speak(`רמה חדשה נבחרה: ${difficultyName} עם ${newDifficulty} חלקים`);
+    
+    dispatch({ type: 'SET_DIFFICULTY', payload: newDifficulty });
+    
+    if (state.image) {
+      initializeGame(state.image, newDifficulty);
+      speak(`המשחק התחיל מחדש ברמת ${difficultyName}`);
+    }
+  }, [speak, dispatch, state.image, initializeGame]);
+
   const contextValue: PuzzleContextType = {
     state,
     dispatch,
@@ -483,6 +523,10 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     resetGame,
     goHome,
     goToMenu,
+    toggleHints,
+    toggleDebug,
+    toggleHelp,
+    changeDifficulty,
     handleDragStart,
     handleTouchStart,
     handleTouchMove,
