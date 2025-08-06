@@ -82,8 +82,8 @@ const strokeWidths = [4, 8, 12, 16, 20];
 
 const practiceSteps = [
   'הכרות עם האות',
-  'תרגול עקיבה',
-  'כתיבה חופשית'
+  'תרגול עקיבה וכתיבה מודרכת',
+  'כתיבה חופשית ויצירתית'
 ];
 
 interface HebrewLettersProviderProps {

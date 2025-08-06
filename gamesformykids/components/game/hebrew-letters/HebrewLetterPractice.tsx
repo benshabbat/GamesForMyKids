@@ -33,11 +33,6 @@ export default function HebrewLetterPractice({ letterData }: Props) {
     initializeLetter();
   }, [initializeLetter]);
 
-  // Debug: Log current step info when it changes
-  useEffect(() => {
-    console.log('Current step info changed:', currentStepInfo);
-  }, [currentStepInfo]);
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">
       <div className="max-w-4xl mx-auto">
@@ -53,13 +48,6 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               חזרה לאותיות
             </Button>
           </Link>
-          
-          {/* Debug info - temporary */}
-          <div className="bg-yellow-100 p-2 rounded text-xs">
-            שלב נוכחי: {currentStepInfo.stepIndex} / {practiceSteps.length - 1}
-            <br />
-            שלבים שהושלמו: {Array.from(practiceState.completedSteps).join(', ')}
-          </div>
           
           <div className="flex gap-2">
             {practiceSteps.map((step, index) => (
@@ -206,13 +194,13 @@ export default function HebrewLetterPractice({ letterData }: Props) {
         >
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-green-700 bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-500 rounded-xl p-4">
-              🖍️ תרגול עקיבה
+              🖍️ תרגול עקיבה וכתיבה מודרכת
             </h2>
-            <p className="text-gray-600 mt-2">עקבו באצבע על האותיות המנוקדות</p>
+            <p className="text-gray-600 mt-2">עקבו באצבע על האותיות המנוקדות או כתבו עם מדריך</p>
           </div>
           
           {/* Tracing Lines */}
-          <div className="space-y-6">
+          <div className="space-y-6 mb-8">
             {[1, 2].map((lineNum) => (
               <motion.div
                 key={lineNum}
@@ -260,6 +248,22 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               </motion.div>
             ))}
           </div>
+
+          {/* Writing Canvas with Guide for Tracing */}
+          <div className="text-center mb-4">
+            <h3 className="text-xl font-semibold text-blue-700 mb-2">
+              ✍️ תרגלו כתיבה עם מדריך
+            </h3>
+            <p className="text-gray-600 text-sm">
+              כתבו את האות {letterData.letter} על הקנבס - המדריך יעזור לכם!
+            </p>
+          </div>
+          
+          <WritingCanvas 
+            width={800} 
+            height={250} 
+            guideLetter={letterData.letter}
+          />
         </motion.div>
 
         {/* Writing Canvas - Interactive */}
@@ -271,17 +275,27 @@ export default function HebrewLetterPractice({ letterData }: Props) {
         >
           <div className="text-center mb-6">
             <h2 className="text-2xl font-bold text-green-700 bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-500 rounded-xl p-4">
-              ✏️ תרגול כתיבה חופשית
+              ✏️ כתיבה חופשית ויצירתית
             </h2>
             <p className="text-gray-600 mt-2">
-              השתמש בעכבר או במגע כדי לכתוב את האות {letterData.letter} על המסך
+              השתמש בעכבר או במגע כדי לכתוב את האות {letterData.letter} על המסך בחופשיות
+            </p>
+          </div>
+
+          {/* הסבר על כתיבה חופשית */}
+          <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-2 border-orange-400 rounded-xl p-4 mb-6">
+            <h3 className="text-lg font-semibold text-orange-700 mb-2">
+              🎨 כתיבה יצירתית - בלי מגבלות!
+            </h3>
+            <p className="text-orange-700 text-sm">
+              עכשיו אתם יכולים לכתוב בחופשיות ללא מדריך. נסו גדלים שונים, צבעים שונים, וכתבו כמה שיותר פעמים!
             </p>
           </div>
           
           <WritingCanvas 
             width={800} 
             height={300} 
-            guideLetter={letterData.letter}
+            guideLetter={undefined}
           />
         </motion.div>
 
@@ -319,7 +333,6 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           
           <Button
             onClick={() => {
-              console.log('כפתור נלחץ - שלב נוכחי:', currentStepInfo.stepIndex);
               if (currentStepInfo.isLast) {
                 completeCurrentStep(); // This will mark the letter as completed
               } else {
