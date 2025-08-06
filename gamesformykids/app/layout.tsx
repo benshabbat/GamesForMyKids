@@ -9,8 +9,9 @@ export const metadata: Metadata = {
   title: '2-5 משחקים לילדים ',
   description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5',
   keywords: 'משחקים, ילדים, חינוכי, זיכרון, צבעים',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
 };
+
+export const viewport = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
 
 export default function RootLayout({
   children,

@@ -86,9 +86,9 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
           const piece = pieces[index];
           
           return (
-            <div
+              <div
               key={`grid-${index}-${piece?.id || 'empty'}`}
-              className={`aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 touch-none min-h-[60px] min-w-[60px] ${
+              className={`puzzle-grid-cell aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 min-h-[60px] min-w-[60px] ${
                 piece 
                   ? 'border-gray-300 bg-gray-100' 
                   : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-300'
@@ -98,7 +98,7 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
               data-grid-index={index}
               title={piece ? `מקום ${index + 1} - תפוס` : `מקום ${index + 1} - ריק`}
               style={{ 
-                touchAction: 'none',
+                touchAction: 'manipulation',
                 userSelect: 'none',
                 WebkitUserSelect: 'none',
                 WebkitTouchCallout: 'none',
@@ -119,9 +119,24 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
                     }`}
                     draggable={!piece.isCorrect}
                     onDragStart={finalOnDragStart ? (e) => finalOnDragStart(e, piece) : undefined}
-                    onTouchStart={finalOnTouchStart ? (e) => finalOnTouchStart(e, piece) : undefined}
-                    onTouchMove={finalOnTouchMove}
-                    onTouchEnd={finalOnTouchEnd}
+                    onTouchStart={finalOnTouchStart ? (e) => {
+                      e.stopPropagation();
+                      finalOnTouchStart(e, piece);
+                    } : undefined}
+                    onTouchMove={finalOnTouchMove ? (e) => {
+                      e.stopPropagation();
+                      finalOnTouchMove(e);
+                    } : undefined}
+                    onTouchEnd={finalOnTouchEnd ? (e) => {
+                      e.stopPropagation();
+                      finalOnTouchEnd(e);
+                    } : undefined}
+                    style={{
+                      touchAction: 'none',
+                      userSelect: 'none',
+                      WebkitUserSelect: 'none',
+                      WebkitTouchCallout: 'none'
+                    }}
                     unoptimized
                   />
                   {piece.isCorrect && (

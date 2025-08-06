@@ -9,6 +9,18 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
+/* Puzzle Touch/Drag Support */
+.drop-zone-highlight {
+  background-color: rgba(59, 130, 246, 0.3) !important;
+  border-color: rgb(59, 130, 246) !important;
+  transform: scale(1.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.puzzle-grid-cell {
+  transition: all 0.2s ease-in-out;
+}
+
 /* אנימציות מותאמות למשחק הצדקה */
 @keyframes twinkle {
   0%, 100% {

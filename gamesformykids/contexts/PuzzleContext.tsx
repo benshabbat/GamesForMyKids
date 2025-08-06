@@ -279,8 +279,10 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     const row = Math.floor(gridIndex / gridSide);
     const col = gridIndex % gridSide;
     
-    // Remove piece from current position if it's already placed
+    // Create new array for placed pieces
     const newPlacedPieces = [...state.placedPieces];
+    
+    // Remove piece from its current position if it's already placed
     const currentIndex = newPlacedPieces.findIndex(p => p?.id === piece.id);
     if (currentIndex !== -1) {
       newPlacedPieces[currentIndex] = null;
@@ -289,14 +291,19 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     // Check if there's already a piece at the target position
     const existingPiece = newPlacedPieces[gridIndex];
     if (existingPiece) {
-      // Return existing piece to pool
+      // Return existing piece to pool by updating pieces array
       const updatedPieces = state.pieces.map(p => 
-        p.id === existingPiece.id ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined } : p
+        p.id === existingPiece.id ? { 
+          ...p, 
+          isPlaced: false, 
+          isCorrect: false, 
+          currentPosition: undefined 
+        } : p
       );
       dispatch({ type: 'SET_PIECES', payload: updatedPieces });
     }
 
-    // Clear target position
+    // Clear target position first
     newPlacedPieces[gridIndex] = null;
 
     // Check if placement is correct
@@ -320,6 +327,11 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
 
       showFeedback('כל הכבוד! החלק במקום הנכון! 🎉', 'success');
       speak('כל הכבוד! החלק במקום הנכון!');
+      
+      // Add haptic feedback for mobile
+      if (navigator.vibrate) {
+        navigator.vibrate(100); // Short vibration for success
+      }
     } else {
       const updatedPiece: PuzzlePiece = {
         ...piece,
@@ -338,6 +350,11 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
 
       showFeedback('לא במקום הנכון, אבל אפשר לנסות שוב 🔄', 'error');
       speak('לא במקום הנכון, נסה למקום אחר');
+      
+      // Add haptic feedback for mobile (shorter for error)
+      if (navigator.vibrate) {
+        navigator.vibrate([50, 50, 50]); // Three short vibrations for error
+      }
     }
 
     // Check for completion
@@ -431,29 +448,99 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     if (!state.touchState.isDragging) return;
     
     e.preventDefault();
+    e.stopPropagation();
     const touch = e.touches[0];
     
+    // Update drag position
     dispatch({ type: 'SET_TOUCH_STATE', payload: {
       ...state.touchState,
       dragPosition: { x: touch.clientX, y: touch.clientY }
     }});
+    
+    // Add visual feedback for valid drop zones
+    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    const gridCell = elementBelow?.closest('.puzzle-grid-cell');
+    
+    // Remove previous highlights
+    document.querySelectorAll('.puzzle-grid-cell').forEach(cell => {
+      cell.classList.remove('drop-zone-highlight');
+    });
+    
+    // Highlight current valid drop zone
+    if (gridCell && gridCell.getAttribute('data-grid-index')) {
+      gridCell.classList.add('drop-zone-highlight');
+    }
   }, [state.touchState]);
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (!state.touchState.isDragging || !state.touchState.draggedPiece) return;
     
+    e.preventDefault();
+    e.stopPropagation();
     const touch = e.changedTouches[0];
-    const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
     
-    if (elementBelow && elementBelow.classList.contains('puzzle-grid-cell')) {
-      const gridIndex = parseInt(elementBelow.getAttribute('data-grid-index') || '-1');
-      if (gridIndex >= 0) {
-        handleDropLogic(state.touchState.draggedPiece, gridIndex);
+    // Get element at touch position - try multiple points around the touch
+    let gridCell = null;
+    const searchRadius = 10; // pixels
+    
+    // First try the exact position
+    let elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
+    if (elementBelow) {
+      gridCell = elementBelow.closest('.puzzle-grid-cell');
+    }
+    
+    // If not found, try around the touch point
+    if (!gridCell) {
+      const positions = [
+        [touch.clientX - searchRadius, touch.clientY],
+        [touch.clientX + searchRadius, touch.clientY],
+        [touch.clientX, touch.clientY - searchRadius],
+        [touch.clientX, touch.clientY + searchRadius],
+        [touch.clientX - searchRadius, touch.clientY - searchRadius],
+        [touch.clientX + searchRadius, touch.clientY + searchRadius],
+      ];
+      
+      for (const [x, y] of positions) {
+        elementBelow = document.elementFromPoint(x, y);
+        if (elementBelow) {
+          gridCell = elementBelow.closest('.puzzle-grid-cell');
+          if (gridCell) break;
+        }
       }
     }
     
+    if (gridCell) {
+      const gridIndex = parseInt(gridCell.getAttribute('data-grid-index') || '-1');
+      if (gridIndex >= 0) {
+        // Debug feedback
+        if (state.showDebug) {
+          showFeedback(`מנסה לשים חלק ${state.touchState.draggedPiece.id} במקום ${gridIndex}`, 'success');
+        }
+        
+        const success = handleDropLogic(state.touchState.draggedPiece, gridIndex);
+        
+        if (state.showDebug) {
+          showFeedback(success ? '✅ החלק נשם בהצלחה!' : '❌ החלק לא במקום הנכון', success ? 'success' : 'error');
+        }
+      } else {
+        if (state.showDebug) {
+          showFeedback('לא נמצא אינדקס grid תקין', 'error');
+        }
+      }
+    } else {
+      if (state.showDebug) {
+        showFeedback(`לא נמצא grid cell תחת הנקודה ${touch.clientX},${touch.clientY}`, 'error');
+      }
+    }
+    
+    // Clean up visual feedback
+    document.querySelectorAll('.puzzle-grid-cell').forEach(cell => {
+      cell.classList.remove('drop-zone-highlight');
+    });
+    
+    // Reset touch state
     dispatch({ type: 'SET_TOUCH_STATE', payload: initialState.touchState });
-  }, [state.touchState, handleDropLogic]);
+  }, [state.touchState, state.showDebug, handleDropLogic, showFeedback]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
