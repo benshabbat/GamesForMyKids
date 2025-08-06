@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CategorizedGamesGrid from "@/components/CategorizedGamesGrid";
+import GameLayout from "@/components/shared/GameLayout";
 
 export const metadata: Metadata = {
   title: "דף הבית",
@@ -31,7 +32,11 @@ function GamesGridSkeleton() {
 
 export default function HomePage() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
+    <GameLayout 
+      backgroundStyle="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100"
+      maxWidth="6xl"
+      className="flex flex-col"
+    >
       <Header />
       <main className="flex-1" role="main" aria-label="תוכן ראשי - רשימת משחקים לילדים">
         <Suspense fallback={<GamesGridSkeleton />}>
@@ -39,6 +44,6 @@ export default function HomePage() {
         </Suspense>
       </main>
       <Footer />
-    </div>
+    </GameLayout>
   );
 }

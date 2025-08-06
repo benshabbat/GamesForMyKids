@@ -82,7 +82,7 @@ const CategorizedGamesGrid = () => {
   };
 
   return (
-    <div className="max-w-6xl mx-auto px-4 pb-8">
+    <div className="w-full">
       {/* Navigation Buttons */}
       <nav className="flex justify-center space-x-4 mb-8" role="navigation" aria-label="ניווט קטגוריות משחקים">
         <button

@@ -4,6 +4,7 @@ import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
+import GameLayout from "@/components/shared/GameLayout";
 import MathNumberCard from "./MathNumberCard";
 import { useMathGame } from "./useMathGame";
 import StartScreen from "./StartScreen";
@@ -25,22 +26,24 @@ export default function MathGame() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <GameHeader
-            score={gameState.score}
-            level={gameState.level}
-            onHome={() => (window.location.href = "/")}
-            onReset={resetGame}
-            scoreColor="text-orange-800"
-            levelColor="text-orange-600"
-          />
+    <GameLayout 
+      backgroundStyle="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100"
+      maxWidth="4xl"
+    >
+      {/* Header */}
+      <div className="text-center mb-8">
+        <GameHeader
+          score={gameState.score}
+          level={gameState.level}
+          onHome={() => (window.location.href = "/")}
+          onReset={resetGame}
+          scoreColor="text-orange-800"
+          levelColor="text-orange-600"
+        />
 
-          {/* האתגר הנוכחי */}
-          {gameState.currentChallenge && !gameState.showCelebration && (
-            <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
+        {/* האתגר הנוכחי */}
+        {gameState.currentChallenge && !gameState.showCelebration && (
+          <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-6">
                 פתור את התרגיל
               </h2>
@@ -135,6 +138,6 @@ export default function MathGame() {
           description="ספור את הסמלים שרואה על המסך כדי לפתור את התרגיל"
         />
       </div>
-    </div>
+    </GameLayout>
   );
 }
