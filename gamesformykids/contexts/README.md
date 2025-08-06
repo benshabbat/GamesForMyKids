@@ -16,25 +16,29 @@
 
 ## 🎯 תכונות עיקריות
 
-### 🎨 ניהול ציור
-- מצב קנבס לציור
-- ניהול צבעים ועובי קווים
-- שמירת מצב ו-Undo
+### 🎨 ניהול ציור מתקדם
+- מצב קנבס לציור עם תמיכה במגע ועכבר
+- ניהול צבעים ועובי קווים דינמי
+- שמירת מצב ו-Undo מתקדם
+- פונקציות עזר לחישוב מיקום ואיפוס
 
-### 📚 ניהול תרגול
-- התקדמות בשלבים
-- מעקב השלמת שלבים
+### 📚 ניהול תרגול חכם
+- התקדמות בשלבים עם מעקב מלא
+- מעקב השלמת שלבים ואותיות
 - מצבי תרגול שונים (מודרך, עקיבה, כתיבה חופשית)
+- לוגיקה חכמה למעבר בין שלבים
 
-### 🎉 מערכת עידוד
-- הודעות עידוד דינמיות
+### 🎉 מערכת עידוד ואודיו
+- הודעות עידוד דינמיות עם קול
 - הודעות ספציפיות לשלבים
-- חזותיות ואנימציות
+- תמיכה בדיבור עברי (Text-to-Speech)
+- בקרת עוצמה ומהירות דיבור
 
-### 📊 מעקב התקדמות
-- מעקב אותיות שהושלמו
-- אחוזי התקדמות
-- סטטיסטיקות מפורטות
+### 📊 אנליטיקה וסטטיסטיקות
+- מעקב זמן תרגול מפורט
+- היסטוריית פעילות מלאה
+- סטטיסטיקות לכל אות בנפרד
+- ייצוא נתונים ואיפוס
 
 ## 🚀 שימוש
 
@@ -52,21 +56,31 @@ function App() {
 }
 ```
 
-### שימוש בקומפוננטה
+### שימוש בקומפוננטה מתקדמת
 
 ```tsx
 import { useHebrewLetters } from '@/contexts/HebrewLettersContext';
+import HebrewLettersStatsPanel from '@/components/game/hebrew-letters/HebrewLettersStatsPanel';
 
-function MyComponent() {
+function AdvancedComponent() {
   const {
     currentLetter,
-    setCurrentLetter,
-    practiceState,
-    nextStep,
-    getStepMessage
+    drawingState,
+    initializeCanvas,
+    startDrawing,
+    playLetterSound,
+    learningStats,
+    exportLearningData
   } = useHebrewLetters();
 
-  // השתמש בפונקציות...
+  // השתמש בפונקציות המתקדמות...
+  
+  return (
+    <div>
+      <HebrewLettersStatsPanel letterName={currentLetter?.name} />
+      {/* שאר הקומפוננטות... */}
+    </div>
+  );
 }
 ```
 
@@ -77,21 +91,30 @@ function MyComponent() {
 - `setCurrentLetter(letter)` - הגדרת אות נוכחית
 - `drawingState` - מצב הציור הנוכחי
 - `practiceState` - מצב התרגול הנוכחי
+- `learningStats` - סטטיסטיקות למידה
 
-### פעולות תרגול
-- `nextStep()` - מעבר לשלב הבא
-- `previousStep()` - חזרה לשלב הקודם
-- `markStepCompleted(step)` - סימון שלב כהושלם
-- `completeCurrentStep()` - השלמת השלב הנוכחי
+### פעולות קנבס מתקדמות
+- `initializeCanvas(width, height, bg)` - אתחול קנבס
+- `startDrawing(x, y)` - התחלת ציור
+- `continueDrawing(x, y)` - המשך ציור
+- `stopDrawing()` - עצירת ציור
+- `getCanvasPosition(event, canvas)` - חישוב מיקום
+- `resetCanvas()` - איפוס מלא
 
-### פונקציות עזר
-- `getStepMessage(index)` - קבלת הודעה לשלב
-- `getCurrentInstructions()` - קבלת הוראות נוכחיות
-- `getOverallProgress()` - קבלת אחוז התקדמות כולל
+### פעולות אודיו
+- `playLetterSound(letter)` - השמעת שם האות
+- `playEncouragementSound()` - השמעת עידוד
+- `playStepCompletionSound()` - השמעת השלמת שלב
+- `toggleAudio()` - הפעלה/כיבוי אודיו
 
-### UI Helpers
-- `getStepTabStyle(index)` - עיצוב לכרטיסיית שלב
-- `getStepTabIcon(index)` - אייקון לכרטיסיית שלב
+### אנליטיקה
+- `startPracticeSession(letter)` - התחלת סשן תרגול
+- `endPracticeSession()` - סיום סשן תרגול
+- `logPracticeActivity(letter, step, time)` - רישום פעילות
+- `getTotalPracticeTime()` - קבלת זמן כולל
+- `getLetterStats(letter)` - סטטיסטיקות לאות
+- `exportLearningData()` - ייצוא נתונים
+- `resetAllStats()` - איפוס כל הסטטיסטיקות
 
 ## 🎨 קבועים זמינים
 

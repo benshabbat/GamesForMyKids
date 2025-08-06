@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLettersStats } from '@/hooks/games/useHebrewLettersStats';
 import { Button } from '@/components/ui/button';
 import { Download, RotateCcw, BarChart3, Timer, Trophy } from 'lucide-react';
 
@@ -15,31 +15,21 @@ export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersSta
     completedLetters,
     getTotalPracticeTime,
     getLetterStats,
-    exportLearningData,
-    resetAllStats
-  } = useHebrewLetters();
+    exportDetailedReport,
+    resetAllStats,
+    formatTime
+  } = useHebrewLettersStats();
 
   const totalTime = getTotalPracticeTime();
   const letterStats = letterName ? getLetterStats(letterName) : null;
 
-  const formatTime = (milliseconds: number) => {
-    const seconds = Math.floor(milliseconds / 1000);
-    const minutes = Math.floor(seconds / 60);
-    const hours = Math.floor(minutes / 60);
-    
-    if (hours > 0) {
-      return `${hours}:${String(minutes % 60).padStart(2, '0')}:${String(seconds % 60).padStart(2, '0')}`;
-    }
-    return `${minutes}:${String(seconds % 60).padStart(2, '0')}`;
-  };
-
   const handleExport = () => {
-    const data = exportLearningData();
+    const data = exportDetailedReport();
     const blob = new Blob([data], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = `hebrew-letters-progress-${new Date().toISOString().split('T')[0]}.json`;
+    link.download = `hebrew-letters-detailed-report-${new Date().toISOString().split('T')[0]}.json`;
     link.click();
     URL.revokeObjectURL(url);
   };
