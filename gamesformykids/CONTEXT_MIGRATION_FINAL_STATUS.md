@@ -9,7 +9,7 @@ ALL puzzle game components have been successfully migrated to use the Context AP
 ### ✅ **COMPLETELY MIGRATED TO CONTEXT** (Props drilling = 0%)
 
 #### Main Game Files:
-- `app/games/puzzles/SimplePuzzleGame.tsx` ✅ (Only legitimate props: onGoHome, onPuzzleSelect)
+- `app/games/puzzles/SimplePuzzleGame.tsx` ✅ **COMPLETELY CONTEXT-DRIVEN** - Zero props needed!
 - `app/games/puzzles/CustomPuzzleGame.tsx` ✅ (Only legitimate props: fileInputRef) - keyboard shortcuts removed
 - `app/games/puzzles/page.tsx` ✅ (Provides PuzzleProvider)
 
