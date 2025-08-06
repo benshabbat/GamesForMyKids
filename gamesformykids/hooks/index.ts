@@ -22,13 +22,6 @@ export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
 export { usePuzzleFeedback } from "./games/usePuzzleFeedback";
 
-// Hooks חדשים למשחקי פאזל
-export { useImageManagement } from "./games/useImageManagement";
-export { usePuzzleGameLogic } from "./games/usePuzzleGameLogic";
-export { useDragAndDrop } from "./games/useDragAndDrop";
-export { useGameState } from "./games/useGameState";
-export { useKeyboardShortcuts } from "./games/useKeyboardShortcuts";
-
 /**
  * ===============================================
  * שימוש - דוגמאות

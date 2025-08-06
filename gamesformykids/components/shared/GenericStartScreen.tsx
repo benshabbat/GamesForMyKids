@@ -90,7 +90,7 @@ export default function GenericStartScreen<T>({
 
         {/* כפתור התחלה */}
         <GameStartButton
-          onClick={() => {
+          onStart={() => {
             if (onStart) {
                 onStart();
             }

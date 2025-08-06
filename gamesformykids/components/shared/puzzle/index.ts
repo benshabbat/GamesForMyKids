@@ -14,7 +14,3 @@ export { default as UnifiedHelpModal } from './UnifiedHelpModal';
 
 // Specific components
 export { default as PuzzleSelector } from './PuzzleSelector';
-
-// Touch handling utilities
-export { useTouchHandlers, initialTouchState } from './TouchHandlers';
-export type { TouchState, TouchHandlersResult } from './TouchHandlers';

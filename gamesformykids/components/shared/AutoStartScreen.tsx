@@ -32,7 +32,7 @@ export default function AutoStartScreen({
 }: Omit<AutoStartScreenProps, 'gameId'>) {
   const config = GAME_UI_CONFIGS[gameType];
   
-  if (!uiConfig) {
+  if (!config) {
     return (
       <div className="text-center">
         <p>Game type not supported: {gameType}</p>
