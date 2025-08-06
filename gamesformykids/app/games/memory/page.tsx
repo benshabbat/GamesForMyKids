@@ -11,13 +11,10 @@ function MemoryGameContent() {
   const {
     state: {
       animals,
-      cards,
       gameStarted,
       isGameWon,
-      isGamePaused,
     },
     initializeGame,
-    handleCardClick,
   } = useMemoryContext();
 
   if (!gameStarted) {
@@ -48,18 +45,7 @@ function MemoryGameContent() {
 
         {isGameWon && <GameWinMessage />}
         
-        {gameStarted && (
-          <MemoryGameBoard 
-            cards={cards.map(card => ({
-              id: card.id,
-              emoji: card.animal.emoji,
-              isFlipped: card.isFlipped,
-              isMatched: card.isMatched
-            }))} 
-            onCardClick={handleCardClick}
-            isGamePaused={isGamePaused}
-          />
-        )}
+        {gameStarted && <MemoryGameBoard />}
       </div>
 
       <TipsBox

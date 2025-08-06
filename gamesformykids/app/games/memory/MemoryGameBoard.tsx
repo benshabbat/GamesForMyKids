@@ -1,16 +1,22 @@
-import { Card } from "@/lib/types/base";
+import { useMemoryContext } from "@/contexts";
 import MemoryCard from "./MemoryCard";
 
-interface MemoryGameBoardProps {
-  cards: Card[];
-  onCardClick: (id: number) => void;
-  isGamePaused?: boolean;
-}
+export default function MemoryGameBoard() {
+  const {
+    state: { cards, isGamePaused },
+    handleCardClick,
+  } = useMemoryContext();
 
-export default function MemoryGameBoard({ cards, onCardClick, isGamePaused }: MemoryGameBoardProps) {
+  // המרה מ-MemoryCard ל-Card format
+  const boardCards = cards.map(card => ({
+    id: card.id,
+    emoji: card.animal.emoji,
+    isFlipped: card.isFlipped,
+    isMatched: card.isMatched
+  }));
   // חישוב מספר העמודות בהתאם למספר הקלפים
   const getGridCols = () => {
-    const cardCount = cards.length;
+    const cardCount = boardCards.length;
     if (cardCount <= 12) return "grid-cols-3 md:grid-cols-4"; // 6 זוגות - 3x4
     if (cardCount <= 18) return "grid-cols-3 md:grid-cols-6"; // 9 זוגות - 3x6
     return "grid-cols-4 md:grid-cols-6"; // 12 זוגות - 4x6
@@ -31,7 +37,7 @@ export default function MemoryGameBoard({ cards, onCardClick, isGamePaused }: Me
       
       {/* לוח המשחק */}
       <div className={`grid ${getGridCols()} gap-4 max-w-2xl mx-auto ${isGamePaused ? 'blur-sm' : ''}`}>
-        {cards.map((card, index) => (
+        {boardCards.map((card, index) => (
           <div 
             key={card.id}
             className="animate-fade-in"
@@ -40,7 +46,7 @@ export default function MemoryGameBoard({ cards, onCardClick, isGamePaused }: Me
               animationFillMode: 'both'
             }}
           >
-            <MemoryCard card={card} onClick={onCardClick} />
+            <MemoryCard card={card} onClick={handleCardClick} />
           </div>
         ))}
       </div>
