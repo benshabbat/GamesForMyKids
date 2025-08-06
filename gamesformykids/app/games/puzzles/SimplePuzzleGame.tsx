@@ -14,9 +14,9 @@ import {
   PiecesPool,
   PuzzleStats,
   PuzzleSelector,
-  SimplePuzzleControls,
-  SimplePuzzleHeader,
-  SimplePuzzleHelpModal,
+  UnifiedControls,
+  UnifiedHeader,
+  UnifiedHelpModal,
   FloatingDragPiece,
   useTouchHandlers
 } from '@/components/shared/puzzle';
@@ -287,9 +287,12 @@ export default function SimplePuzzleGame() {
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <SimplePuzzleHeader
+        <UnifiedHeader
+          title="🧩 פאזלים פשוטים"
+          subtitle="בחר פאזל ותתחיל לשחק!"
           onGoHome={() => window.history.back()}
           onToggleHelp={toggleHelp}
+          type="simple"
         />
 
         {/* Puzzle Selection */}
@@ -301,14 +304,16 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Help Modal */}
-        <SimplePuzzleHelpModal
+        <UnifiedHelpModal
           showHelp={showHelp}
           onToggleHelp={toggleHelp}
+          type="simple"
         />
 
         {/* Game Controls */}
         {selectedPuzzle && (
-          <SimplePuzzleControls
+          <UnifiedControls
+            type="simple"
             gameStarted={gameStarted}
             hintsEnabled={hintsEnabled}
             debugMode={debugMode}
