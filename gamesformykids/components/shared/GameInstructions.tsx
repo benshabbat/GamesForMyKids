@@ -17,8 +17,8 @@ export default function GameInstructions({
     <div className={`${bgClass ?? "bg-white"} rounded-3xl p-8 mb-8 shadow-xl`}>
       <h2 className="text-3xl font-bold text-gray-800 mb-4">איך משחקים?</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
-        {steps.map((step, idx) => (
-          <div className="text-center" key={idx}>
+        {steps.map((step) => (
+          <div className="text-center" key={`${step.title}-${step.icon}`}>
             <div className="text-4xl mb-3">{step.icon}</div>
             <p>
               <strong>{step.title}</strong>

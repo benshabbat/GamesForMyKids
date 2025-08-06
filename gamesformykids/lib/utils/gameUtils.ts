@@ -106,11 +106,11 @@ export async function speakStartMessage(): Promise<void> {
  */
 export async function speakItemName(itemName: string, translator: (name: string) => string): Promise<void> {
   if (!isSpeechEnabled()) {
-    console.log("Speech not enabled, skipping speak");
+    // Speech not enabled, skipping speak
     return;
   }
 
-  console.log("Speaking item:", itemName);
+  // Speaking item...
 
   // מבטל כל דיבור קודם
   cancelSpeech();
@@ -120,13 +120,13 @@ export async function speakItemName(itemName: string, translator: (name: string)
 
   try {
     const hebrewName = translator(itemName);
-    console.log("Hebrew text to speak:", hebrewName);
+    // Hebrew text to speak processed
     
     const success = await speakHebrew(hebrewName);
     if (!success) {
       console.warn("Failed to speak item:", itemName);
     } else {
-      console.log("Successfully spoke item:", itemName);
+      // Successfully spoke item
     }
   } catch (error) {
     console.error("שגיאה בהשמעת הפריט:", error);
