@@ -1,20 +1,13 @@
 'use client';
 
 import Image from 'next/image';
-
-interface SimplePuzzle {
-  id: number;
-  name: string;
-  emoji: string;
-  color: string;
-  imageUrl: string;
-  gridSize: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-}
+import { usePuzzleContext } from '@/contexts';
+import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
 
 interface PuzzleSelectorProps {
-  puzzles: SimplePuzzle[];
-  onPuzzleSelect: (puzzle: SimplePuzzle) => void;
+  // Optional overrides - if not provided, will use context defaults
+  puzzles?: SimplePuzzle[];
+  onPuzzleSelect?: (puzzle: SimplePuzzle) => void;
   title?: string;
   subtitle?: string;
 }
@@ -25,6 +18,11 @@ export default function PuzzleSelector({
   title = "🧩 פאזלים פשוטים",
   subtitle = "בחר פאזל ותתחיל לשחק!"
 }: PuzzleSelectorProps) {
+  const { handlePuzzleSelect } = usePuzzleContext();
+  
+  // Use context defaults if props not provided
+  const actualPuzzles = puzzles || SIMPLE_PUZZLES;
+  const actualOnPuzzleSelect = onPuzzleSelect || handlePuzzleSelect;
   const getDifficultyText = (difficulty: string) => {
     switch (difficulty) {
       case 'easy': return 'קל';
@@ -53,12 +51,12 @@ export default function PuzzleSelector({
 
       {/* Puzzle Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {puzzles.map((puzzle) => (
+        {actualPuzzles.map((puzzle) => (
           <div
             key={puzzle.id}
             className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105 transform"
             style={{ borderTop: `6px solid ${puzzle.color}` }}
-            onClick={() => onPuzzleSelect(puzzle)}
+            onClick={() => actualOnPuzzleSelect(puzzle)}
           >
             <div className="text-center">
               <div className="text-6xl mb-4">{puzzle.emoji}</div>

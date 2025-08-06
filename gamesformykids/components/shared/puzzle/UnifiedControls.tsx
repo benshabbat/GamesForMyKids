@@ -44,7 +44,8 @@ export default function UnifiedControls({
     dispatch,
     resetGame,
     shufflePieces,
-    changeDifficulty
+    changeDifficulty,
+    goToMenu
   } = usePuzzleContext();
   
   // Use context values unless overridden
@@ -59,20 +60,19 @@ export default function UnifiedControls({
   const finalOnToggleDebug = customOnToggleDebug || (() => dispatch({ type: 'TOGGLE_DEBUG' }));
   const finalOnShufflePieces = onShufflePieces || shufflePieces;
   const finalOnDifficultyChange = onDifficultyChange || changeDifficulty;
+  const finalOnGoHome = onGoHome || goToMenu; // Use context goToMenu as default
   if (type === 'simple') {
     // Simple puzzle controls - horizontal layout
     return (
       <div className="flex justify-center gap-4 mb-6 flex-wrap">
-        {onGoHome && (
-          <button
-            onClick={onGoHome}
-            className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
-          >
-            <Home className="w-4 h-4" />
-            <span className="hidden sm:inline">בחר פאזל אחר</span>
-            <span className="sm:hidden">פאזל אחר</span>
-          </button>
-        )}
+        <button
+          onClick={finalOnGoHome}
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
+        >
+          <Home className="w-4 h-4" />
+          <span className="hidden sm:inline">בחר פאזל אחר</span>
+          <span className="sm:hidden">פאזל אחר</span>
+        </button>
         
         <button
           onClick={finalOnResetGame}

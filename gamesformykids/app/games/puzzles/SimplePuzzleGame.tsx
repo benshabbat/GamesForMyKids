@@ -12,14 +12,10 @@ import {
   UnifiedHelpModal,
   FloatingDragPiece
 } from '@/components/shared/puzzle';
-import { SIMPLE_PUZZLES } from '@/lib/constants/simplePuzzlesData';
 
 export default function SimplePuzzleGame() {
   const { 
-    state, 
-    goToMenu,
-    handlePuzzleSelect,
-    goHome
+    state
   } = usePuzzleContext();
 
   return (
@@ -27,16 +23,12 @@ export default function SimplePuzzleGame() {
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <UnifiedHeader
-          onGoHome={goHome}
           type="simple"
         />
 
         {/* Puzzle Selection */}
         {!state.selectedPuzzle && (
-          <PuzzleSelector
-            puzzles={SIMPLE_PUZZLES}
-            onPuzzleSelect={handlePuzzleSelect}
-          />
+          <PuzzleSelector />
         )}
 
         {/* Help Modal */}
@@ -46,7 +38,6 @@ export default function SimplePuzzleGame() {
         {state.selectedPuzzle && (
           <UnifiedControls
             type="simple"
-            onGoHome={goToMenu}
           />
         )}
 
