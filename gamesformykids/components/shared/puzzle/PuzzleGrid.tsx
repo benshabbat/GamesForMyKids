@@ -54,8 +54,8 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
           const col = index % gridSide;
           const piece = pieces[index];
           
-          if (showDebugInfo) {
-            console.log(`Grid slot ${index}: (${row},${col}) LEFT-TO-RIGHT - has piece: ${piece?.id || 'none'}`);
+          if (showDebugInfo && process.env.NODE_ENV === 'development') {
+            // Debug info removed for production
           }
           
           return (

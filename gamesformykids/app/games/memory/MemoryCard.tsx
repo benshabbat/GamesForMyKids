@@ -43,14 +43,14 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
       {/* אפקט כוכבים כאשר יש match */}
       {card.isMatched && (
         <div className="absolute inset-0 pointer-events-none">
-          {[...Array(6)].map((_, i) => (
+          {Array.from({ length: 6 }, (_, i) => `star-${card.id}-${i}`).map((starId) => (
             <div
-              key={i}
+              key={starId}
               className="absolute text-yellow-400 text-xl animate-bounce"
               style={{
                 top: `${Math.random() * 80 + 10}%`,
                 left: `${Math.random() * 80 + 10}%`,
-                animationDelay: `${i * 0.1}s`,
+                animationDelay: `${parseInt(starId.split('-')[2]) * 0.1}s`,
                 animationDuration: '2s'
               }}
             >

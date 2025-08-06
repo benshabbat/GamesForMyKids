@@ -55,10 +55,10 @@ export default function MathGame() {
                 <div className="flex justify-center items-center gap-8 text-5xl">
                   {/* מספר ראשון */}
                   <div className="flex flex-wrap justify-center gap-2">
-                    {Array.from({ length: gameState.currentChallenge.firstNumber }).map((_, index) => (
-                      <span key={`num1-${index}`} 
+                    {Array.from({ length: gameState.currentChallenge.firstNumber }, (_, index) => `num1-${Date.now()}-${index}`).map((id) => (
+                      <span key={id} 
                             className="text-blue-500 animate-bounce-in"
-                            style={{ animationDelay: `${index * 0.1}s` }}>
+                            style={{ animationDelay: `${parseInt(id.split('-')[2]) * 0.1}s` }}>
                         {gameState.currentChallenge!.emoji}
                       </span>
                     ))}
@@ -73,19 +73,19 @@ export default function MathGame() {
                   <div className="flex flex-wrap justify-center gap-2">
                     {gameState.currentChallenge.operation === 'addition' ? (
                       // עבור חיבור - הוסף עוד אימוג'ים מאותו סוג
-                      Array.from({ length: gameState.currentChallenge.secondNumber }).map((_, index) => (
-                        <span key={`num2-${index}`} 
+                      Array.from({ length: gameState.currentChallenge.secondNumber }, (_, index) => `add-${Date.now()}-${index}`).map((id) => (
+                        <span key={id} 
                               className="text-green-500 animate-bounce-in"
-                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + index) * 0.1}s` }}>
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2])) * 0.1}s` }}>
                           {gameState.currentChallenge!.emoji}
                         </span>
                       ))
                     ) : (
                       // עבור חיסור - הצג איקס אדום
-                      Array.from({ length: gameState.currentChallenge.secondNumber }).map((_, index) => (
-                        <span key={`num2-${index}`} 
+                      Array.from({ length: gameState.currentChallenge.secondNumber }, (_, index) => `sub-${Date.now()}-${index}`).map((id) => (
+                        <span key={id} 
                               className="text-red-500 animate-bounce-in"
-                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + index) * 0.1}s` }}>
+                              style={{ animationDelay: `${(gameState.currentChallenge!.firstNumber + parseInt(id.split('-')[2])) * 0.1}s` }}>
                           ❌
                         </span>
                       ))
@@ -116,9 +116,9 @@ export default function MathGame() {
         {/* אפשרויות התשובות */}
         <div className="grid grid-cols-2 gap-6 max-w-2xl mx-auto mb-8">
           {gameState.options && gameState.options.length > 0 ? (
-            gameState.options.map((answer, index) => (
+            gameState.options.map((answer) => (
               <MathNumberCard
-                key={`${answer}-${index}`}
+                key={`answer-${answer}-${Date.now()}`}
                 number={answer}
                 onClick={handleNumberClick}
               />

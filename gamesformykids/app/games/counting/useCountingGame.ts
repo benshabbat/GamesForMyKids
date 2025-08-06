@@ -105,7 +105,10 @@ export function useCountingGame() {
 
   const startGame = async () => {
     try {
-      console.log("StartGame function called");
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.info("StartGame function called");
+      }
       
       setGameState({
         currentChallenge: null,
@@ -122,8 +125,12 @@ export function useCountingGame() {
       const challenge = generateCountingChallenge();
       const options = generateOptions(challenge.correctAnswer);
 
-      console.log("Generated challenge:", challenge);
-      console.log("Generated options:", options);
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.info("Generated challenge:", challenge);
+        // eslint-disable-next-line no-console
+        console.info("Generated options:", options);
+      }
 
       setGameState((prev) => ({
         ...prev,
@@ -147,8 +154,12 @@ export function useCountingGame() {
       const challenge = generateCountingChallenge();
       const options = generateOptions(challenge.correctAnswer);
       
-      console.log("Next challenge:", challenge);
-      console.log("Next options:", options);
+      if (process.env.NODE_ENV === 'development') {
+        // eslint-disable-next-line no-console
+        console.info("Next challenge:", challenge);
+        // eslint-disable-next-line no-console
+        console.info("Next options:", options);
+      }
       
       const onComplete = async () => {
         setGameState((prev) => ({
