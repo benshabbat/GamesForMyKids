@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { usePuzzleContext } from '@/contexts';
 import { 
   FeedbackMessage,
@@ -24,20 +24,11 @@ export default function CustomPuzzleGame() {
     dispatch, 
     resetGame,
     handleImageUpload,
-    handlePreMadeImageSelect,
     shufflePieces,
     toggleHints,
     toggleDebug,
-    toggleHelp,
-    changeDifficulty
-  } = usePuzzleContext();  // Handle image upload with initialization
-  const handleImageUploadWithInit = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-    handleImageUpload(event);
-  }, [handleImageUpload]);
-
-  const handlePreMadeImageSelectWithInit = useCallback((imageSrc: string) => {
-    handlePreMadeImageSelect(imageSrc);
-  }, [handlePreMadeImageSelect]);
+    toggleHelp
+  } = usePuzzleContext();
 
   // Set up keyboard shortcuts
   useEffect(() => {
@@ -82,9 +73,6 @@ export default function CustomPuzzleGame() {
           <div className="mb-6 sm:mb-8">
             <ImageUploadSection 
               fileInputRef={fileInputRef}
-              onImageUpload={handleImageUploadWithInit}
-              onPreMadeImageSelect={handlePreMadeImageSelectWithInit}
-              onDifficultyChange={changeDifficulty}
             />
           </div>
         )}
@@ -95,7 +83,6 @@ export default function CustomPuzzleGame() {
             <UnifiedControls 
               type="custom"
               fileInputRef={fileInputRef}
-              onDifficultyChange={changeDifficulty}
             />
           </div>
         )}
@@ -175,7 +162,7 @@ export default function CustomPuzzleGame() {
         <input
           type="file"
           accept="image/*"
-          onChange={handleImageUploadWithInit}
+          onChange={handleImageUpload}
           ref={fileInputRef}
           className="hidden"
         />

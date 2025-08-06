@@ -44,7 +44,7 @@ export default function UnifiedControls({
     dispatch,
     resetGame,
     shufflePieces,
-    goToMenu
+    changeDifficulty
   } = usePuzzleContext();
   
   // Use context values unless overridden
@@ -58,7 +58,7 @@ export default function UnifiedControls({
   const finalOnToggleHints = customOnToggleHints || (() => dispatch({ type: 'TOGGLE_HINTS' }));
   const finalOnToggleDebug = customOnToggleDebug || (() => dispatch({ type: 'TOGGLE_DEBUG' }));
   const finalOnShufflePieces = onShufflePieces || shufflePieces;
-  const finalOnGoHome = onGoHome || goToMenu;
+  const finalOnDifficultyChange = onDifficultyChange || changeDifficulty;
   if (type === 'simple') {
     // Simple puzzle controls - horizontal layout
     return (
@@ -180,14 +180,14 @@ export default function UnifiedControls({
         </div>
         
         {/* Difficulty selector for custom puzzles */}
-        {difficulty !== undefined && onDifficultyChange && (
+        {difficulty !== undefined && finalOnDifficultyChange && (
           <div className="mt-6 pt-4 border-t border-gray-200">
             <h4 className="text-lg font-semibold text-gray-700 mb-3 text-center">רמת קושי</h4>
             <div className="flex justify-center gap-2">
               {[2, 3, 4, 5].map((level) => (
                 <button
                   key={level}
-                  onClick={() => onDifficultyChange(level)}
+                  onClick={() => finalOnDifficultyChange(level * level)}
                   className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 ${
                     difficulty === level
                       ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
