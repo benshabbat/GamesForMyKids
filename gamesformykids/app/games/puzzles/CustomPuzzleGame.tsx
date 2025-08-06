@@ -6,11 +6,11 @@ import {
   PuzzleGrid,
   PiecesPool,
   PuzzleStats,
-  PuzzleHeader,
+  UnifiedHeader,
   ImageUploadSection,
-  GameControls,
+  UnifiedControls,
   ReferenceImage,
-  HelpModal,
+  UnifiedHelpModal,
   FloatingDragPiece
 } from '@/components/shared/puzzle';
 import {
@@ -138,7 +138,13 @@ export default function CustomPuzzleGame() {
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         {/* Header */}
         <div className="mb-4 sm:mb-6">
-          <PuzzleHeader onGoHome={gameState.goHome} onToggleHelp={gameState.toggleHelp} />
+          <UnifiedHeader 
+            title="🧩 פאזל מותאם אישית"
+            subtitle="העלה תמונה וצור פאזל משלך!"
+            onGoHome={gameState.goHome} 
+            onToggleHelp={gameState.toggleHelp}
+            type="custom"
+          />
         </div>
 
         {/* Upload Section */}
@@ -157,10 +163,11 @@ export default function CustomPuzzleGame() {
         {/* Game Controls */}
         {imageManagement.image && (
           <div className="mb-4 sm:mb-6">
-            <GameControls 
+            <UnifiedControls 
+              type="custom"
               gameStarted={gameState.gameStarted}
-              showHints={gameState.showHints}
-              showDebug={gameState.showDebug}
+              hintsEnabled={gameState.showHints}
+              debugMode={gameState.showDebug}
               difficulty={gameState.difficulty}
               fileInputRef={fileInputRef}
               onShufflePieces={puzzleLogic.shufflePieces}
@@ -178,7 +185,11 @@ export default function CustomPuzzleGame() {
         </div>
 
         {/* Help Modal */}
-        <HelpModal showHelp={gameState.showHelp} onToggleHelp={gameState.toggleHelp} />
+        <UnifiedHelpModal 
+          showHelp={gameState.showHelp} 
+          onToggleHelp={gameState.toggleHelp} 
+          type="custom"
+        />
 
         {/* Game Area */}
         {gameState.gameStarted && (
