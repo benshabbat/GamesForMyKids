@@ -5,9 +5,11 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ArrowLeft, Home } from 'lucide-react';
+import { ArrowRight, ArrowLeft, Home, Volume2 } from 'lucide-react';
 import { useHebrewLetterPractice } from '@/hooks/games/useHebrewLetterPractice';
+import { useSpeechSynthesis } from '@/hooks/shared/useSpeechSynthesis';
 import WritingCanvas from './WritingCanvas';
+import LetterEncouragement from './LetterEncouragement';
 
 interface Props {
   letterData: HebrewLetter;
@@ -23,6 +25,8 @@ export default function HebrewLetterPractice({ letterData }: Props) {
     getCurrentInstructions,
     practiceSteps
   } = useHebrewLetterPractice(letterData);
+
+  const { speakLetter } = useSpeechSynthesis();
 
   // Initialize letter when component mounts
   useEffect(() => {
@@ -95,15 +99,67 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           transition={{ delay: 0.1 }}
           className="text-center mb-8"
         >
-          <div className="bg-gradient-to-br from-gray-50 to-gray-100 border-4 border-green-500 rounded-2xl p-8 shadow-lg">
-            <div className="text-8xl md:text-9xl font-bold text-green-700 mb-4 drop-shadow-lg">
+          <div className="bg-gradient-to-br from-green-50 to-blue-50 border-4 border-green-500 rounded-2xl p-8 shadow-xl relative overflow-hidden">
+            {/* רקע דקורטיבי */}
+            <div className="absolute inset-0 bg-gradient-to-r from-green-100/20 to-blue-100/20 rounded-2xl"></div>
+            
+            {/* האות הראשית */}
+            <motion.div 
+              className="text-8xl md:text-9xl font-bold text-green-700 mb-4 drop-shadow-lg relative z-10 cursor-pointer"
+              whileHover={{ scale: 1.05, rotate: 2 }}
+              transition={{ type: "spring", stiffness: 300 }}
+              onClick={() => speakLetter(letterData.letter, letterData.pronunciation)}
+              title="לחץ לשמיעת ההגייה"
+            >
               {letterData.letter}
-            </div>
+              
+              {/* אייקון קול */}
+              <motion.div 
+                className="absolute -top-4 -right-4 bg-blue-500 text-white p-2 rounded-full shadow-lg"
+                whileHover={{ scale: 1.1 }}
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+              >
+                <Volume2 className="w-6 h-6" />
+              </motion.div>
+            </motion.div>
+            
+            {/* הגייה */}
+            <motion.div 
+              className="text-2xl text-blue-600 font-semibold mb-2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              📢 &quot;{letterData.pronunciation}&quot;
+            </motion.div>
+            
+            {/* צורה סופית */}
             {letterData.finalForm && (
-              <div className="text-4xl text-gray-600 mb-2">
-                צורה סופית: {letterData.finalForm}
-              </div>
+              <motion.div 
+                className="text-4xl text-purple-600 mb-2 font-bold"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.5 }}
+              >
+                צורה סופית: <span className="text-purple-700">{letterData.finalForm}</span>
+              </motion.div>
             )}
+            
+            {/* דוגמאות למילים */}
+            <motion.div 
+              className="mt-4 flex flex-wrap justify-center gap-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7 }}
+            >
+              {letterData.examples.slice(0, 3).map((example, index) => (
+                <span key={index} className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium border border-yellow-300">
+                  {example}
+                </span>
+              ))}
+            </motion.div>
           </div>
         </motion.div>
 
@@ -122,6 +178,13 @@ export default function HebrewLetterPractice({ letterData }: Props) {
           </ul>
         </motion.div>
 
+        {/* רכיב עידוד */}
+        <LetterEncouragement 
+          letterName={letterData.name}
+          stepIndex={currentStepInfo.stepIndex}
+          isCompleted={currentStepInfo.isCompleted}
+        />
+
         {/* Tracing Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -133,30 +196,56 @@ export default function HebrewLetterPractice({ letterData }: Props) {
             <h2 className="text-2xl font-bold text-green-700 bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-500 rounded-xl p-4">
               🖍️ תרגול עקיבה
             </h2>
+            <p className="text-gray-600 mt-2">עקבו באצבע על האותיות המנוקדות</p>
           </div>
           
           {/* Tracing Lines */}
           <div className="space-y-6">
             {[1, 2].map((lineNum) => (
-              <div
+              <motion.div
                 key={lineNum}
-                className="flex items-center justify-around bg-gray-50 border-2 border-dashed border-green-500 rounded-xl p-6"
+                className="flex items-center justify-around bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-green-500 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
+                whileHover={{ scale: 1.02 }}
+                initial={{ opacity: 0, x: lineNum % 2 === 0 ? -50 : 50 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.4 + lineNum * 0.1 }}
               >
-                <div className="text-6xl font-bold text-green-400 opacity-70">
+                <motion.div 
+                  className="text-6xl font-bold text-green-400 opacity-70"
+                  whileHover={{ scale: 1.1, color: "#22c55e" }}
+                >
                   {letterData.letter}
-                </div>
+                </motion.div>
                 {[1, 2, 3, 4].map((pos) => (
-                  <div
+                  <motion.div
                     key={pos}
-                    className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition-all duration-300 hover:scale-110"
+                    className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition-all duration-300 hover:scale-110 relative group"
                     style={{
                       WebkitTextStroke: '3px #4CAF50'
                     }}
+                    whileHover={{ 
+                      rotate: [0, -5, 5, 0],
+                      transition: { duration: 0.3 }
+                    }}
+                    onHoverStart={() => {
+                      // אפקט קול כשעוברים על האות
+                      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(letterData.pronunciation);
+                        utterance.lang = 'he-IL';
+                        utterance.rate = 0.8;
+                        speechSynthesis.speak(utterance);
+                      }
+                    }}
                   >
                     {letterData.letter}
-                  </div>
+                    
+                    {/* טיפ הוראה */}
+                    <div className="absolute -top-8 left-1/2 transform -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
+                      עקוב עליי!
+                    </div>
+                  </motion.div>
                 ))}
-              </div>
+              </motion.div>
             ))}
           </div>
         </motion.div>
