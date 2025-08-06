@@ -57,9 +57,7 @@ export default function SimplePuzzleGame() {
 
             {/* Game Grid */}
             <div className="lg:col-span-2">
-              <PuzzleGrid
-                title={`🎯 ${state.selectedPuzzle.name}`}
-              />
+              <PuzzleGrid />
             </div>
           </div>
         )}

@@ -52,6 +52,10 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
   const showPositionNumbers = overrideShowPositionNumbers ?? state.showHints;
   const showDebugInfo = overrideShowDebugInfo ?? state.showDebug;
   
+  // Generate title from context if not provided
+  const puzzleTitle = title || 
+    (state.selectedPuzzle ? `🎯 ${state.selectedPuzzle.name}` : "🎯 לוח הפאזל");
+  
   // Use custom handlers if provided, otherwise use context handlers
   const finalOnDragOver = customOnDragOver || handleDragOver;
   const finalOnDrop = customOnDrop || handleDrop;
@@ -65,7 +69,7 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
   return (
     <div className="bg-white rounded-2xl p-6 shadow-xl">
       <h3 className="text-xl font-bold text-center mb-4 text-gray-800">
-        {title || "🎯 לוח הפאזל"}
+        {puzzleTitle}
       </h3>
       <div 
         className="grid gap-2 mx-auto bg-gray-200 p-4 rounded-lg shadow-inner"
