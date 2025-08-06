@@ -287,17 +287,15 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Initialize game
   const initializeGame = useCallback((targetDifficulty?: DifficultyLevel) => {
-    console.log('Initializing game with difficulty:', targetDifficulty || state.difficulty);
-    
     initializeAudio();
+    
+    const currentDifficulty = targetDifficulty || state.difficulty;
     
     if (targetDifficulty) {
       dispatch({ type: 'SET_DIFFICULTY', payload: targetDifficulty });
     }
     
-    const animals = getAnimalsForDifficulty(targetDifficulty);
-    console.log('Animals for difficulty:', animals.length, 'animals');
-    
+    const animals = getAnimalsForDifficulty(currentDifficulty);
     const genericCards = createShuffledMemoryCards(animals);
     const cards: MemoryCard[] = genericCards.map(card => ({
       id: card.id,
@@ -306,10 +304,7 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
       isMatched: card.isMatched
     }));
     
-    console.log('Generated cards:', cards.length, 'cards');
-    
-    const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[targetDifficulty || state.difficulty];
-    console.log('Config for difficulty:', config);
+    const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[currentDifficulty];
     
     dispatch({ type: 'SET_ANIMALS', payload: animals });
     dispatch({ type: 'SET_CARDS', payload: cards });
@@ -324,14 +319,10 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
 
   // Handle card click
   const handleCardClick = useCallback((cardIndex: number) => {
-    console.log('Card clicked:', cardIndex, 'Total cards:', state.cards.length);
-    
     if (state.isGamePaused || state.isCompleted || state.timeLeft <= 0) return;
     
     const card = state.cards[cardIndex];
     if (!card || card.isFlipped || card.isMatched) return;
-    
-    console.log('Card data:', card.animal.name, 'isFlipped:', card.isFlipped);
     
     if (state.flippedCards.includes(cardIndex)) return;
     
