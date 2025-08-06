@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useRef, useEffect } from 'react';
+import React, { useRef } from 'react';
 import { usePuzzleContext } from '@/contexts';
 import { 
   FeedbackMessage,
@@ -17,48 +17,11 @@ import {
 
 export default function CustomPuzzleGame() {
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  
+
   const { 
-    state, 
-    dispatch, 
-    resetGame,
-    handleImageUpload,
-    shufflePieces,
-    toggleHints,
-    toggleDebug,
-    toggleHelp
+    state,
+    handleImageUpload
   } = usePuzzleContext();
-
-  // Set up keyboard shortcuts
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      switch (event.key.toLowerCase()) {
-        case 'r':
-          if (state.gameStarted) resetGame();
-          break;
-        case 'h':
-          if (event.shiftKey) {
-            toggleHints();
-          } else {
-            toggleHelp();
-          }
-          break;
-        case 'd':
-          toggleDebug();
-          break;
-        case 's':
-          if (state.gameStarted) shufflePieces();
-          break;
-        case 'escape':
-          if (state.showHelp) dispatch({ type: 'TOGGLE_HELP' });
-          break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [state.gameStarted, state.showHelp, toggleHints, toggleDebug, toggleHelp, shufflePieces, resetGame, dispatch]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
@@ -166,7 +129,6 @@ export default function CustomPuzzleGame() {
           ref={fileInputRef}
           className="hidden"
         />
-        <canvas ref={canvasRef} className="hidden" />
 
         {/* Floating Dragged Piece */}
         <FloatingDragPiece />

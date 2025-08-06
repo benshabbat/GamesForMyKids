@@ -189,6 +189,9 @@ interface PuzzleContextType {
   // Difficulty Management
   changeDifficulty: (newDifficulty: number) => void;
   
+  // Puzzle Selection
+  handlePuzzleSelect: (puzzle: SimplePuzzle) => void;
+  
   // Drag & Drop
   handleDragStart: (e: React.DragEvent, piece: PuzzlePiece) => void;
   handleTouchStart: (e: React.TouchEvent, piece: PuzzlePiece) => void;
@@ -511,6 +514,41 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     }
   }, [speak, dispatch, state.image, initializeGame]);
 
+  // Handle puzzle selection for simple puzzles
+  const handlePuzzleSelect = useCallback((puzzle: SimplePuzzle) => {
+    initializeSimpleGame(puzzle);
+  }, [initializeSimpleGame]);
+
+  // Keyboard shortcuts effect
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      switch (event.key.toLowerCase()) {
+        case 'r':
+          if (state.gameStarted) resetGame();
+          break;
+        case 'h':
+          if (event.shiftKey) {
+            toggleHints();
+          } else {
+            toggleHelp();
+          }
+          break;
+        case 'd':
+          toggleDebug();
+          break;
+        case 's':
+          if (state.gameStarted) shufflePieces();
+          break;
+        case 'escape':
+          if (state.showHelp) dispatch({ type: 'TOGGLE_HELP' });
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [state.gameStarted, state.showHelp, toggleHints, toggleDebug, toggleHelp, shufflePieces, resetGame, dispatch]);
+
   const contextValue: PuzzleContextType = {
     state,
     dispatch,
@@ -527,6 +565,7 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     toggleDebug,
     toggleHelp,
     changeDifficulty,
+    handlePuzzleSelect,
     handleDragStart,
     handleTouchStart,
     handleTouchMove,

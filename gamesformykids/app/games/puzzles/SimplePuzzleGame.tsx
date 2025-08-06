@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import { usePuzzleContext } from '@/contexts';
 import { 
@@ -14,20 +13,15 @@ import {
   UnifiedHelpModal,
   FloatingDragPiece
 } from '@/components/shared/puzzle';
-import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
+import { SIMPLE_PUZZLES } from '@/lib/constants/simplePuzzlesData';
 
 export default function SimplePuzzleGame() {
   const router = useRouter();
   const { 
     state, 
-    initializeSimpleGame, 
-    goToMenu
+    goToMenu,
+    handlePuzzleSelect
   } = usePuzzleContext();
-
-  // Handle puzzle selection
-  const handlePuzzleSelect = useCallback((puzzle: SimplePuzzle) => {
-    initializeSimpleGame(puzzle);
-  }, [initializeSimpleGame]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
