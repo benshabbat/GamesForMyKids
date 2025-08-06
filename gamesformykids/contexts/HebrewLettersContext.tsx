@@ -42,6 +42,20 @@ interface HebrewLettersContextType {
   markStepCompleted: (step: number) => void;
   goToStep: (step: number) => void;
   
+  // Practice logic
+  initializeLetter: (letterData: HebrewLetter) => void;
+  completeCurrentStep: () => void;
+  isStepCompleted: (stepIndex: number) => boolean;
+  getCurrentStepInfo: () => {
+    stepIndex: number;
+    stepName: string;
+    isCompleted: boolean;
+    isFirst: boolean;
+    isLast: boolean;
+  };
+  getCurrentInstructions: () => string[];
+  getOverallProgress: () => number;
+  
   // Encouragement state
   encouragementState: EncouragementState;
   showStepEncouragement: () => void;
@@ -61,6 +75,8 @@ interface HebrewLettersContextType {
   // Helper functions
   getStepMessage: (stepIndex: number) => string;
   getCompletionMessage: (letterName: string) => string;
+  getStepTabStyle: (stepIndex: number) => string;
+  getStepTabIcon: (stepIndex: number) => string;
   
   // Achievements and progress
   completedLetters: Set<string>;
@@ -257,6 +273,98 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     setCompletedLetters(prev => new Set([...prev, letterName]));
   }, []);
 
+  // Practice logic functions
+  const initializeLetter = useCallback((letterData: HebrewLetter) => {
+    // Only set current letter if it's different or not set
+    if (!currentLetter || currentLetter.name !== letterData.name) {
+      setCurrentLetter(letterData);
+    }
+  }, [currentLetter, setCurrentLetter]);
+
+  const isStepCompleted = useCallback((stepIndex: number) => {
+    return practiceState.completedSteps.has(stepIndex);
+  }, [practiceState.completedSteps]);
+
+  const getCurrentStepInfo = useCallback(() => {
+    const currentStep = practiceState.currentStep;
+    return {
+      stepIndex: currentStep,
+      stepName: practiceSteps[currentStep],
+      isCompleted: isStepCompleted(currentStep),
+      isFirst: currentStep === 0,
+      isLast: currentStep === practiceSteps.length - 1
+    };
+  }, [practiceState.currentStep, isStepCompleted]);
+
+  const completeCurrentStep = useCallback(() => {
+    const currentStep = practiceState.currentStep;
+    markStepCompleted(currentStep);
+    
+    if (currentStep < practiceSteps.length - 1) {
+      nextStep();
+    } else {
+      // Mark entire letter as completed
+      if (currentLetter) {
+        markLetterCompleted(currentLetter.name);
+      }
+    }
+  }, [practiceState.currentStep, markStepCompleted, nextStep, currentLetter, markLetterCompleted]);
+
+  const getCurrentInstructions = useCallback(() => {
+    if (!currentLetter) return ['בחר אות לתרגול'];
+    
+    const stepIndex = practiceState.currentStep;
+    switch (stepIndex) {
+      case 0:
+        return [
+          `התבונני באות ${currentLetter.letter} הגדולה למעלה`,
+          `האות ${currentLetter.letter} נקראת "${currentLetter.pronunciation}"`,
+          `למד על צורת האות ואיך היא נכתבת`
+        ];
+      case 1:
+        return [
+          `עקבי באצבע על האותיות המנוקדות`,
+          `התחילי מהנקודה העליונה של האות`,
+          `עקבי לאט ובזהירות על הקווים`,
+          `או תרגלי כתיבה על הקנבס עם המדריך`
+        ];
+      case 2:
+        return [
+          `עכשיו תרגלי לכתוב את האות ${currentLetter.letter} בעצמך בחופשיות`,
+          `בלי מדריך - תהיי יצירתית!`,
+          `השתמשי בעכבר או במגע על המסך`,
+          `זכרי לכתוב מימין לשמאל`,
+          `נסי צבעים וגדלים שונים`
+        ];
+      default:
+        return [`תרגלי את האות ${currentLetter.letter}`];
+    }
+  }, [currentLetter, practiceState.currentStep]);
+
+  const getOverallProgress = useCallback(() => {
+    return Math.round((practiceState.completedSteps.size / practiceSteps.length) * 100);
+  }, [practiceState.completedSteps.size]);
+
+  // UI Helper functions
+  const getStepTabStyle = useCallback((stepIndex: number) => {
+    const isCurrentStep = stepIndex === practiceState.currentStep;
+    const isCompleted = practiceState.completedSteps.has(stepIndex);
+    
+    if (isCurrentStep) {
+      return 'bg-green-500 text-white shadow-lg';
+    } else if (isCompleted) {
+      return 'bg-green-200 text-green-800 hover:bg-green-300';
+    } else {
+      return 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300';
+    }
+  }, [practiceState.currentStep, practiceState.completedSteps]);
+
+  const getStepTabIcon = useCallback((stepIndex: number) => {
+    return practiceState.completedSteps.has(stepIndex) ? '✓' : '';
+  }, [practiceState.completedSteps]);
+
+  // Letter progress tracking was moved above
+
   const getLetterProgress = useCallback((letterName: string) => {
     if (completedLetters.has(letterName)) return 100;
     if (currentLetter?.name === letterName) {
@@ -295,6 +403,14 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     markStepCompleted,
     goToStep,
 
+    // Practice logic
+    initializeLetter,
+    completeCurrentStep,
+    isStepCompleted,
+    getCurrentStepInfo,
+    getCurrentInstructions,
+    getOverallProgress,
+
     // Encouragement state
     encouragementState,
     showStepEncouragement,
@@ -314,6 +430,8 @@ export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ ch
     // Helper functions
     getStepMessage,
     getCompletionMessage,
+    getStepTabStyle,
+    getStepTabIcon,
 
     // Progress tracking
     completedLetters,

@@ -17,11 +17,12 @@ interface Props {
 
 export default function HebrewLetterPractice({ letterData }: Props) {
   const {
-    practiceState,
     currentStepInfo,
     initializeLetter,
     goToStep,
     getCurrentInstructions,
+    getStepTabStyle,
+    getStepTabIcon,
     practiceSteps
   } = useHebrewLetterPractice(letterData);
 
@@ -54,18 +55,12 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               <button
                 key={index}
                 onClick={() => goToStep(index)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${
-                  index === currentStepInfo.stepIndex 
-                    ? 'bg-green-500 text-white shadow-lg' 
-                    : practiceState.completedSteps.has(index)
-                      ? 'bg-green-200 text-green-800 hover:bg-green-300'
-                      : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-300'
-                }`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${getStepTabStyle(index)}`}
               >
                 <span className="ml-1">{index + 1}</span>
                 {step}
-                {practiceState.completedSteps.has(index) && (
-                  <span className="mr-1">✓</span>
+                {getStepTabIcon(index) && (
+                  <span className="mr-1">{getStepTabIcon(index)}</span>
                 )}
               </button>
             ))}
