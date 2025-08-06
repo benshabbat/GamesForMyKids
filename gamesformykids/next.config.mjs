@@ -1,36 +1,31 @@
-import type { NextConfig } from "next";
-
-const nextConfig: NextConfig = {
-  // Vercel deployment configuration
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  // Vercel-optimized configuration
   distDir: '.next',
+  poweredByHeader: false,
+  compress: true,
   
-  // Image optimization for AVIF/WebP
+  // Image optimization
   images: {
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [320, 640, 768, 1024, 1280],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
-    minimumCacheTTL: 31536000, // 1 year
+    minimumCacheTTL: 31536000,
     dangerouslyAllowSVG: false,
   },
-  // Optimize for better FCP
-  poweredByHeader: false,
+  
+  // Experimental features
   experimental: {
     optimizePackageImports: ['framer-motion', 'lucide-react'],
-    // optimizeCss removed due to critters dependency issue
   },
-  // Enable compression
-  compress: true,
   
-  // Reduce bundle size - removed problematic modularizeImports
-  // modularizeImports removed to fix warnings
-  // Webpack optimizations - Ultra aggressive for 100% score
+  // Webpack optimization
   webpack: (config, { dev, isServer }) => {
     if (!dev && !isServer) {
-      // Ultra-aggressive production optimizations - safer chunking
       config.optimization.splitChunks = {
         chunks: 'all',
-        minSize: 10000, // Increased for stability
-        maxSize: 80000, // More conservative
+        minSize: 10000,
+        maxSize: 80000,
         cacheGroups: {
           default: {
             minChunks: 2,
@@ -42,7 +37,7 @@ const nextConfig: NextConfig = {
             name: 'vendors',
             priority: -10,
             chunks: 'all',
-            maxSize: 60000, // More conservative
+            maxSize: 60000,
           },
           react: {
             test: /[\\/]node_modules[\\/](react|react-dom)[\\/]/,
@@ -51,24 +46,18 @@ const nextConfig: NextConfig = {
             priority: 30,
             maxSize: 50000,
           },
-          // Removed problematic chunking that causes loading issues
         },
       };
       
-      // Safe tree shaking
       config.optimization.usedExports = true;
       config.optimization.sideEffects = false;
-      
-      // Stable module and chunk IDs
       config.optimization.moduleIds = 'deterministic';
       config.optimization.chunkIds = 'deterministic';
     }
     return config;
   },
-
-  // Remove custom asset prefix that causes issues
-
-  // Headers for aggressive caching and MIME types
+  
+  // Headers for caching
   async headers() {
     return [
       {
@@ -87,32 +76,6 @@ const nextConfig: NextConfig = {
       {
         source: '/(_next/static/.*)',
         headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ],
-      },
-      {
-        source: '/(_next/static/chunks/.*\\.js)',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'application/javascript; charset=utf-8'
-          },
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable'
-          }
-        ],
-      },
-      {
-        source: '/(_next/static/css/.*\\.css)',
-        headers: [
-          {
-            key: 'Content-Type',
-            value: 'text/css; charset=utf-8'
-          },
           {
             key: 'Cache-Control',
             value: 'public, max-age=31536000, immutable'
