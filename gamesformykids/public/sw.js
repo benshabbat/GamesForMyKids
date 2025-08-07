@@ -2,9 +2,9 @@
 const CACHE_NAME = 'games-for-my-kids-v1';
 const STATIC_ASSETS = [
   '/',
-  '/games',
-  '/games/puzzles',
-  // Add other important routes here
+  '/manifest.json',
+  '/favicon.ico',
+  // Core app files will be cached dynamically
 ];
 
 // Install event - cache static assets
@@ -12,9 +12,18 @@ self.addEventListener('install', (event) => {
   console.log('🎮 GamesForMyKids Service Worker installing...');
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then((cache) => {
+      .then(async (cache) => {
         console.log('📦 Caching static assets');
-        return cache.addAll(STATIC_ASSETS);
+        // Cache assets one by one to avoid failures
+        const cachePromises = STATIC_ASSETS.map(async (asset) => {
+          try {
+            await cache.add(asset);
+            console.log(`✅ Cached: ${asset}`);
+          } catch (error) {
+            console.log(`❌ Failed to cache ${asset}:`, error);
+          }
+        });
+        await Promise.allSettled(cachePromises);
       })
       .catch((error) => {
         console.log('❌ Cache install failed:', error);
@@ -48,6 +57,11 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Skip requests to external domains
+  if (!event.request.url.includes(self.location.origin)) {
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {
@@ -59,25 +73,41 @@ self.addEventListener('fetch', (event) => {
         // Otherwise fetch from network
         return fetch(event.request)
           .then((response) => {
-            // Don't cache non-successful responses
+            // Don't cache failed responses or non-basic responses
             if (!response || response.status !== 200 || response.type !== 'basic') {
+              return response;
+            }
+
+            // Don't cache authentication-related responses
+            if (response.status === 401 || response.status === 403) {
               return response;
             }
 
             // Clone the response for caching
             const responseToCache = response.clone();
             
-            // Cache the response for future use
-            caches.open(CACHE_NAME)
-              .then((cache) => {
-                cache.put(event.request, responseToCache);
-              });
+            // Cache the response for future use (for GET requests only)
+            if (event.request.method === 'GET') {
+              caches.open(CACHE_NAME)
+                .then((cache) => {
+                  cache.put(event.request, responseToCache);
+                })
+                .catch((error) => {
+                  console.log('❌ Failed to cache response:', error);
+                });
+            }
 
             return response;
           })
           .catch((error) => {
             console.log('🌐 Network request failed:', error);
-            // You could return a custom offline page here
+            
+            // For manifest.json specifically, try to serve from cache
+            if (event.request.url.includes('manifest.json')) {
+              return caches.match('/manifest.json');
+            }
+            
+            // For other requests, return a custom offline response
             return new Response('אופס! נראה שאין חיבור לאינטרנט', {
               status: 503,
               statusText: 'Service Unavailable',
