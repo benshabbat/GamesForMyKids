@@ -13,7 +13,7 @@ const GAME_CATEGORIES = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters", "numbers", "shapes", "colors"]
+    gameIds: ["letters", "hebrew-letters", "numbers", "shapes", "colors", "colored-shapes"]
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -21,7 +21,7 @@ const GAME_CATEGORIES = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments", "puzzles", "drawing"]
+    gameIds: ["instruments", "puzzles", "drawing", "building"]
   },
   nature: {
     title: "טבע ואוכל",
@@ -57,7 +57,7 @@ const GAME_CATEGORIES = {
   },
   games: {
     title: "משחקים מיוחדים",
-    description: "זיכרון, בועות ורגשות",
+    description: "זיכרון, בועות, רגשות וחושים",
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
@@ -72,7 +72,7 @@ const CategorizedGamesGrid = () => {
   // קבלת כל המשחקים מהרישום - נקבל את הרישומים המקוריים
   const allGameRegistrations = GamesRegistry.getAllGameRegistrations();
   const totalGamesCount = allGameRegistrations.length;
-
+  
   // פונקציה לקבלת משחקים לפי קטגוריה
   const getGamesByCategory = (categoryKey: string) => {
     const category = GAME_CATEGORIES[categoryKey as keyof typeof GAME_CATEGORIES];
@@ -161,7 +161,19 @@ const CategorizedGamesGrid = () => {
 
       {selectedCategory && (
         /* Selected Category Games */
-        <div>          
+        <div>
+          <div className="mb-6">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="mb-4 px-6 py-3 bg-purple-600 text-white rounded-full hover:bg-purple-700 transition-colors duration-300"
+            >
+              חזרה לקטגוריות ←
+            </button>
+            <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+              {GAME_CATEGORIES[selectedCategory as keyof typeof GAME_CATEGORIES]?.title || 'קטגוריה'}
+            </h2>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {getGamesByCategory(selectedCategory).map((game) => (
               <div key={game.id} className="relative">
@@ -175,7 +187,7 @@ const CategorizedGamesGrid = () => {
                     >
                       <div className="text-center text-white">
                         <div className="mb-4 flex justify-center">
-                          <game.icon className="w-10 h-10" />
+                          {React.createElement(game.icon, { className: "w-10 h-10" })}
                         </div>
                         <h3 className="text-xl font-bold mb-2">
                           {game.title}
@@ -196,7 +208,7 @@ const CategorizedGamesGrid = () => {
                     </div>
                     <div className="text-center text-white">
                       <div className="mb-4 flex justify-center">
-                        <game.icon className="w-10 h-10" />
+                        {React.createElement(game.icon, { className: "w-10 h-10" })}
                       </div>
                       <h3 className="text-xl font-bold mb-2">
                         {game.title}
@@ -229,7 +241,7 @@ const CategorizedGamesGrid = () => {
                     >
                       <div className="text-center text-white">
                         <div className="mb-4 flex justify-center">
-                          <game.icon className="w-10 h-10" />
+                          {React.createElement(game.icon, { className: "w-10 h-10" })}
                         </div>
                         <h3 className="text-xl font-bold mb-2">
                           {game.title}
@@ -250,7 +262,7 @@ const CategorizedGamesGrid = () => {
                     </div>
                     <div className="text-center text-white">
                       <div className="mb-4 flex justify-center">
-                        <game.icon className="w-10 h-10" />
+                        {React.createElement(game.icon, { className: "w-10 h-10" })}
                       </div>
                       <h3 className="text-xl font-bold mb-2">
                         {game.title}
