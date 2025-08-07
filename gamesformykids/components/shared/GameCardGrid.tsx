@@ -47,14 +47,30 @@ export function GameCardGrid<T extends GameItemType>({
   // Helper function to determine if an item is the current challenge
   const isCurrentItem = (item: T, challenge?: T | null): boolean => {
     if (!challenge) return false;
-    return item[compareKey] === challenge[compareKey];
+    
+    // Safe comparison for objects
+    if (typeof item === 'object' && item !== null && typeof challenge === 'object' && challenge !== null) {
+      if (compareKey in item && compareKey in challenge) {
+        return item[compareKey] === challenge[compareKey];
+      }
+    }
+    
+    // Direct comparison for primitives
+    return item === challenge;
   };
 
   // Helper function to get a unique key for each item
   const getItemKey = (item: T): string => {
-    // If the item has a name property, use that, otherwise use the compareKey
-    if ('name' in item) return String(item.name);
-    return String(item[compareKey]);
+    // Check if item is an object and has a name property
+    if (typeof item === 'object' && item !== null && 'name' in item) {
+      return String(item.name);
+    }
+    // Fallback to compareKey or item itself as string
+    if (typeof item === 'object' && item !== null && compareKey in item) {
+      return String(item[compareKey]);
+    }
+    // If item is a primitive (number, string), use it directly
+    return String(item);
   };
 
   return (

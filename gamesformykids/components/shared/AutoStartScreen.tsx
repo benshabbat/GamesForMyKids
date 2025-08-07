@@ -60,18 +60,23 @@ export default function AutoStartScreen({
       itemsDescription={config.itemsDescription}
       itemsDescriptionColor={config.colors.itemsDescription}
       itemsGridClass={config.grid.className}
-      renderItem={(item) => (
-        <GameItem
-          key={item.name}
-          hebrewText={item.hebrew}
-          color={item.color}
-          icon={<span className="text-3xl">{item.emoji}</span>}
-          shape="circle"
-          size="large"
-          onClick={() => onSpeak?.(item.name)}
-          hideSoundIcon={!config.grid.showSpeaker}
-        />
-      )}
+      renderItem={(item) => {
+        // Safe check for item properties
+        if (!item || typeof item !== 'object') return null;
+        
+        return (
+          <GameItem
+            key={item.name || String(item)}
+            hebrewText={item.hebrew || ''}
+            color={item.color || '#000'}
+            icon={<span className="text-3xl">{item.emoji || '🎯'}</span>}
+            shape="circle"
+            size="large"
+            onClick={() => onSpeak?.(item.name || '')}
+            hideSoundIcon={!config.grid.showSpeaker}
+          />
+        );
+      }}
     />
     </>
   );
