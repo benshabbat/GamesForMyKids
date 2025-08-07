@@ -50,6 +50,15 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
   const [nextPiece, setNextPiece] = useState<Piece | null>(null);
   const [linesCleared, setLinesCleared] = useState(0);
   const [showStartScreen, setShowStartScreen] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
+
+  // אופטימיזציה למובייל - התחלה לאחר טעינה מלאה
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   // Game Logic Functions
   const getRandomPiece = (): Piece => {
@@ -216,11 +225,11 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
     }
   }, [isGameRunning, movePiece, handleRotate]);
 
-  // Effects
+  // Effects - מטובח לביצועים
   useEffect(() => {
     if (!isGameRunning) return;
     
-    const dropSpeed = Math.max(100, 1000 - (level - 1) * 100);
+    const dropSpeed = Math.max(200, 1000 - (level - 1) * 100); // מוגבר מ-100 ל-200 לביצועים טובים יותר
     const gameLoop = setInterval(() => {
       movePiece(0, 1);
     }, dropSpeed);
@@ -229,8 +238,19 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
   }, [isGameRunning, level, movePiece]);
 
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
+    // אופטימיזציה למובייל - הוספת דיבאונס
+    let timeoutId: NodeJS.Timeout;
+    
+    const debouncedKeyHandler = (e: KeyboardEvent) => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(() => handleKeyPress(e), 50); // דיבאונס של 50ms
+    };
+
+    window.addEventListener('keydown', debouncedKeyHandler);
+    return () => {
+      window.removeEventListener('keydown', debouncedKeyHandler);
+      clearTimeout(timeoutId);
+    };
   }, [handleKeyPress]);
 
   // Display board with current piece
@@ -243,6 +263,17 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
     
     return displayBoard;
   };
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700 flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4 animate-bounce">🧩</div>
+          <div className="text-white text-2xl font-bold">טוען טטריס...</div>
+        </div>
+      </div>
+    );
+  }
 
   if (showStartScreen) {
     return (
@@ -292,12 +323,12 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
         className="bg-gradient-to-r from-purple-600 to-indigo-600"
       />
       
-      {/* Animated Background */}
-      <div className="absolute inset-0 opacity-20">
-        <div className="absolute top-10 left-10 w-32 h-32 bg-yellow-400 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute top-40 right-20 w-24 h-24 bg-pink-400 rounded-full blur-xl animate-bounce"></div>
-        <div className="absolute bottom-20 left-20 w-40 h-40 bg-green-400 rounded-full blur-xl animate-pulse"></div>
-        <div className="absolute bottom-40 right-10 w-28 h-28 bg-blue-400 rounded-full blur-xl animate-bounce"></div>
+      {/* Animated Background - אופטימיזציה למובייל */}
+      <div className="absolute inset-0 opacity-10 pointer-events-none">
+        <div className="absolute top-10 left-10 w-24 h-24 sm:w-32 sm:h-32 bg-yellow-400 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute top-40 right-20 w-16 h-16 sm:w-24 sm:h-24 bg-pink-400 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-20 left-20 w-28 h-28 sm:w-40 sm:h-40 bg-green-400 rounded-full blur-xl animate-pulse"></div>
+        <div className="absolute bottom-40 right-10 w-20 h-20 sm:w-28 sm:h-28 bg-blue-400 rounded-full blur-xl animate-pulse"></div>
       </div>
 
       <div className="relative z-10 flex flex-col items-center p-2 sm:p-4 pt-20">
@@ -405,18 +436,24 @@ const GameBoard = ({ displayBoard }: { displayBoard: Board }) => (
   <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-4 sm:p-6 shadow-2xl border border-white/20">
     <div className="grid grid-cols-10 gap-1 sm:gap-2 bg-gradient-to-br from-gray-800/80 to-gray-900/80 p-3 sm:p-4 rounded-2xl border border-gray-600/50">
       {displayBoard.map((row, y) =>
-        row.map((cell, x) => (
-          <div
-            key={`${y}-${x}`}
-            className="w-5 h-5 sm:w-7 sm:h-7 rounded-lg border-2 border-gray-600/50 transition-all duration-200 hover:scale-105"
-            style={{
-              background: cell ? cell : 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
-              boxShadow: cell 
-                ? '0 4px 15px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)' 
-                : 'inset 0 2px 4px rgba(0,0,0,0.3)'
-            }}
-          />
-        ))
+        row.map((cell, x) => {
+          const isEmpty = !cell || cell === 0;
+          return (
+            <div
+              key={`${y}-${x}`}
+              className={`w-5 h-5 sm:w-7 sm:h-7 rounded-lg border-2 border-gray-600/50 ${isEmpty ? '' : 'transform transition-all duration-150'}`}
+              style={{
+                background: isEmpty 
+                  ? 'linear-gradient(135deg, #1f2937 0%, #111827 100%)' 
+                  : cell,
+                boxShadow: isEmpty
+                  ? 'inset 0 2px 4px rgba(0,0,0,0.3)'
+                  : '0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.3)',
+                willChange: isEmpty ? 'auto' : 'transform' // אופטימיזציה למובייל
+              }}
+            />
+          );
+        })
       )}
     </div>
   </div>
@@ -436,67 +473,80 @@ const TouchControls = ({
   onMove: (dx: number, dy: number) => void;
   onRotate: () => void;
   onStartGame: () => void;
-}) => (
-  <div className="mt-8 w-full max-w-lg">
-    {/* Rotate Button */}
-    <div className="flex justify-center mb-6">
-      <button
-        onClick={onRotate}
-        className="bg-gradient-to-br from-green-400 to-emerald-500 text-white px-8 py-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-all duration-200 border-2 border-green-300/30 hover:shadow-green-400/50"
-        disabled={!isGameRunning}
-      >
-        🔄 סיבוב
-      </button>
-    </div>
-    
-    {/* Movement Controls */}
-    <div className="grid grid-cols-3 gap-4 mb-6">
-      <button
-        onClick={() => onMove(-1, 0)}
-        className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-all duration-200 border-2 border-blue-300/30 hover:shadow-blue-400/50"
-        disabled={!isGameRunning}
-      >
-        ⬅️
-      </button>
-      <button
-        onClick={() => onMove(0, 1)}
-        className="bg-gradient-to-br from-red-400 to-red-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-all duration-200 border-2 border-red-300/30 hover:shadow-red-400/50"
-        disabled={!isGameRunning}
-      >
-        ⬇️ מהר
-      </button>
-      <button
-        onClick={() => onMove(1, 0)}
-        className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-all duration-200 border-2 border-blue-300/30 hover:shadow-blue-400/50"
-        disabled={!isGameRunning}
-      >
-        ➡️
-      </button>
-    </div>
-    
-    {/* Start Button */}
-    <button
-      onClick={onStartGame}
-      className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 text-white px-8 py-5 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-all duration-200 border-2 border-white/30 hover:shadow-purple-400/50"
-    >
-      {gameOver ? '🔄 משחק חדש' : isGameRunning ? '🔄 התחל מחדש' : '▶️ התחל לשחק'}
-    </button>
-    
-    {/* Game Over Message */}
-    {gameOver && (
-      <div className="bg-gradient-to-br from-red-400/20 to-pink-500/20 backdrop-blur-lg border-2 border-red-400/50 rounded-2xl p-6 text-center mt-6 shadow-2xl animate-bounce">
-        <h3 className="text-2xl font-black text-white mb-2 drop-shadow-lg">🎯 המשחק הסתיים!</h3>
-        <p className="text-yellow-300 text-xl font-bold drop-shadow-lg">הניקוד שלך: {score.toLocaleString()}</p>
+}) => {
+  // אופטימיזציה למובייל - דיבאונס לכפתורים
+  const handleMove = useCallback((dx: number, dy: number) => {
+    if (!isGameRunning) return;
+    onMove(dx, dy);
+  }, [isGameRunning, onMove]);
+
+  const handleRotate = useCallback(() => {
+    if (!isGameRunning) return;
+    onRotate();
+  }, [isGameRunning, onRotate]);
+
+  return (
+    <div className="mt-8 w-full max-w-lg">
+      {/* Rotate Button */}
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={handleRotate}
+          className="bg-gradient-to-br from-green-400 to-emerald-500 text-white px-8 py-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-green-300/30 touch-manipulation"
+          disabled={!isGameRunning}
+        >
+          🔄 סיבוב
+        </button>
       </div>
-    )}
-    
-    {/* Control Instructions */}
-    <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-4 mt-6 text-center border border-white/20">
-      <p className="text-white/80 font-medium">
-        השתמש בכפתורים למעלה או בחיצי המקלדת 📱⌨️
-      </p>
+      
+      {/* Movement Controls */}
+      <div className="grid grid-cols-3 gap-4 mb-6">
+        <button
+          onClick={() => handleMove(-1, 0)}
+          className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
+          disabled={!isGameRunning}
+        >
+          ⬅️
+        </button>
+        <button
+          onClick={() => handleMove(0, 1)}
+          className="bg-gradient-to-br from-red-400 to-red-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
+          disabled={!isGameRunning}
+        >
+          ⬇️ מהר
+        </button>
+        <button
+          onClick={() => handleMove(1, 0)}
+          className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-4 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
+          disabled={!isGameRunning}
+        >
+          ➡️
+        </button>
+      </div>
+      
+      {/* Start Button */}
+      <button
+        onClick={onStartGame}
+        className="w-full bg-gradient-to-r from-purple-500 via-pink-500 to-yellow-500 text-white px-8 py-5 rounded-2xl font-black text-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-white/30 touch-manipulation"
+      >
+        {gameOver ? '🔄 משחק חדש' : isGameRunning ? '🔄 התחל מחדש' : '▶️ התחל לשחק'}
+      </button>
+      
+      {/* Game Over Message */}
+      {gameOver && (
+        <div className="bg-gradient-to-br from-red-400/20 to-pink-500/20 backdrop-blur-lg border-2 border-red-400/50 rounded-2xl p-6 text-center mt-6 shadow-2xl">
+          <h3 className="text-2xl font-black text-white mb-2 drop-shadow-lg">🎯 המשחק הסתיים!</h3>
+          <p className="text-yellow-300 text-xl font-bold drop-shadow-lg">הניקוד שלך: {score.toLocaleString()}</p>
+        </div>
+      )}
+      
+      {/* Control Instructions */}
+      <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-2xl p-4 mt-6 text-center border border-white/20">
+        <p className="text-white/80 font-medium">
+          השתמש בכפתורים למעלה או בחיצי המקלדת 📱⌨️
+        </p>
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 export default TetrisGame;
