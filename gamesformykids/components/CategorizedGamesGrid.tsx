@@ -13,7 +13,7 @@ const GAME_CATEGORIES = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters", "numbers", "shapes", "colors"]
+    gameIds: ["letters", "hebrew-letters", "numbers", "shapes", "colored-shapes", "colors"]
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -145,7 +145,7 @@ const CategorizedGamesGrid = () => {
                     <div className="bg-black bg-opacity-20 rounded-full py-2 px-4 inline-block border border-white border-opacity-30">
                       <span className="font-bold text-white drop-shadow-lg">
                         {gamesCount} משחקים
-                        {gamesCount !== availableCount && ` (${availableCount} זמינים)`}
+                        {availableCount < gamesCount && ` (${availableCount} זמינים)`}
                       </span>
                     </div>
                   </div>
@@ -161,18 +161,61 @@ const CategorizedGamesGrid = () => {
 
       {selectedCategory && (
         /* Selected Category Games */
-        <div>          
+        <div>
+          <div className="text-center mb-6">
+            <button
+              onClick={() => setSelectedCategory(null)}
+              className="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-medium transition-colors"
+            >
+              ← חזור לקטגוריות
+            </button>
+            <h2 className="text-3xl font-bold text-gray-800 mb-2">
+              {GAME_CATEGORIES[selectedCategory as keyof typeof GAME_CATEGORIES]?.title}
+            </h2>
+            <p className="text-lg text-gray-600 mb-3">
+              {GAME_CATEGORIES[selectedCategory as keyof typeof GAME_CATEGORIES]?.description}
+            </p>
+            <div className="inline-block bg-blue-100 rounded-full px-4 py-2">
+              <span className="text-blue-800 font-semibold">
+                {getGamesByCategory(selectedCategory).length} משחקים 
+                ({getGamesByCategory(selectedCategory).filter(g => g.available).length} זמינים)
+              </span>
+            </div>
+          </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {getGamesByCategory(selectedCategory).map((game) => (
-              <div key={game.id} className="relative">
-                {game.available ? (
-                  <Link href={game.href}>
-                    <div
-                      className={`
-                        relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl
-                        ${game.color}
-                      `}
-                    >
+            {getGamesByCategory(selectedCategory).length > 0 ? (
+              getGamesByCategory(selectedCategory).map((game) => (
+                <div key={game.id} className="relative">
+                  {game.available ? (
+                    <Link href={game.href}>
+                      <div
+                        className={`
+                          relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl
+                          ${game.color}
+                        `}
+                      >
+                        <div className="text-center text-white">
+                          <div className="mb-4 flex justify-center">
+                            <game.icon className="w-10 h-10" />
+                          </div>
+                          <h3 className="text-xl font-bold mb-2">
+                            {game.title}
+                          </h3>
+                          <p className="text-lg opacity-90">
+                            {game.description}
+                          </p>
+                        </div>
+                        <div className="absolute top-4 right-4">
+                          <Star className="w-5 h-5 text-yellow-300 fill-current" />
+                        </div>
+                      </div>
+                    </Link>
+                  ) : (
+                    <div className="relative p-6 rounded-3xl shadow-xl bg-gray-300 cursor-not-allowed">
+                      <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-3xl flex items-center justify-center">
+                        <span className="text-white text-xl font-bold">בקרוב!</span>
+                      </div>
                       <div className="text-center text-white">
                         <div className="mb-4 flex justify-center">
                           <game.icon className="w-10 h-10" />
@@ -184,31 +227,17 @@ const CategorizedGamesGrid = () => {
                           {game.description}
                         </p>
                       </div>
-                      <div className="absolute top-4 right-4">
-                        <Star className="w-5 h-5 text-yellow-300 fill-current" />
-                      </div>
                     </div>
-                  </Link>
-                ) : (
-                  <div className="relative p-6 rounded-3xl shadow-xl bg-gray-300 cursor-not-allowed">
-                    <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-3xl flex items-center justify-center">
-                      <span className="text-white text-xl font-bold">בקרוב!</span>
-                    </div>
-                    <div className="text-center text-white">
-                      <div className="mb-4 flex justify-center">
-                        <game.icon className="w-10 h-10" />
-                      </div>
-                      <h3 className="text-xl font-bold mb-2">
-                        {game.title}
-                      </h3>
-                      <p className="text-lg opacity-90">
-                        {game.description}
-                      </p>
-                    </div>
-                  </div>
-                )}
+                  )}
+                </div>
+              ))
+            ) : (
+              <div className="col-span-full text-center py-12">
+                <div className="text-6xl mb-4">🎮</div>
+                <h3 className="text-2xl font-bold text-gray-600 mb-2">אין עדיין משחקים בקטגוריה זו</h3>
+                <p className="text-gray-500">המשחקים בקטגוריה זו עדיין בפיתוח</p>
               </div>
-            ))}
+            )}
           </div>
         </div>
       )}
@@ -216,6 +245,9 @@ const CategorizedGamesGrid = () => {
       {showAllGames && (
         /* All Games View */
         <div>
+          <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+            כל המשחקים ({totalGamesCount})
+          </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {allGameRegistrations.map((game) => (
               <div key={game.id} className="relative">
