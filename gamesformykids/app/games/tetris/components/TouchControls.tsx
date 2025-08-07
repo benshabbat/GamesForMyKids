@@ -53,22 +53,22 @@ const TouchControls: React.FC<TouchControlsProps> = ({
         {/* Desktop Controls - Keyboard Instructions */}
         {isGameRunning && (
           <div className="bg-black/60 p-4 rounded-xl backdrop-blur-sm border border-blue-300/30">
-            <h3 className="text-white font-bold text-lg mb-3 text-center">Keyboard Controls</h3>
+            <h3 className="text-white font-bold text-lg mb-3 text-center">פקדי מקלדת</h3>
             <div className="space-y-2 text-white text-sm">
               <div className="flex justify-between">
-                <span>Move Left:</span>
+                <span>הזזה שמאלה:</span>
                 <span className="bg-gray-700 px-2 py-1 rounded">←</span>
               </div>
               <div className="flex justify-between">
-                <span>Move Right:</span>
+                <span>הזזה ימינה:</span>
                 <span className="bg-gray-700 px-2 py-1 rounded">→</span>
               </div>
               <div className="flex justify-between">
-                <span>Move Down:</span>
+                <span>הזזה מטה:</span>
                 <span className="bg-gray-700 px-2 py-1 rounded">↓</span>
               </div>
               <div className="flex justify-between">
-                <span>Rotate:</span>
+                <span>סיבוב:</span>
                 <span className="bg-gray-700 px-2 py-1 rounded">↑</span>
               </div>
             </div>
