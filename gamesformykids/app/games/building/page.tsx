@@ -1,7 +1,14 @@
 'use client';
 
 import React, { useState, useRef, useCallback, useEffect } from 'react';
-import { Trash2, Sparkles, Save, Volume2, VolumeX, Undo2, Redo2, Palette } from 'lucide-react';
+import { 
+  ColorPicker, 
+  ShapeCreator, 
+  ActionButtons, 
+  SettingsPanel, 
+  BlockRenderer, 
+  ParticleSystem 
+} from '@/components/game/building';
 
 interface Block {
   id: string;
@@ -236,6 +243,19 @@ export default function BuildingGame() {
     createParticles(block.x, block.y, block.color);
   }, [createParticles]);
 
+  const handleRotate = useCallback((block: Block) => {
+    setBlocks(prev => {
+      const newBlocks = prev.map(b => 
+        b.id === block.id 
+          ? { ...b, rotation: (b.rotation + 45) % 360 }
+          : b
+      );
+      addToHistory(newBlocks);
+      return newBlocks;
+    });
+    createParticles(block.x, block.y, block.color);
+  }, [addToHistory, createParticles]);
+
   const undo = useCallback(() => {
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1;
@@ -286,145 +306,6 @@ export default function BuildingGame() {
     alert('יצירה נשמרה! 🎉');
   }, [blocks, score]);
 
-  const renderShape = (block: Block) => {
-    const size = 60 * block.scale;
-    const baseStyle = {
-      backgroundColor: block.color,
-      transform: `rotate(${block.rotation}deg)`,
-      filter: block.shadow ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' : 'none',
-      border: '2px solid rgba(255,255,255,0.3)'
-    };
-
-    switch (block.shape) {
-      case 'square':
-        return (
-          <div 
-            style={{ 
-              ...baseStyle, 
-              width: `${size}px`,
-              height: `${size}px`,
-              borderRadius: '12px'
-            }} 
-          />
-        );
-      case 'rectangle':
-        return (
-          <div 
-            style={{ 
-              ...baseStyle, 
-              width: `${size * 1.3}px`, 
-              height: `${size * 0.7}px`, 
-              borderRadius: '12px' 
-            }} 
-          />
-        );
-      case 'circle':
-        return (
-          <div 
-            style={{ 
-              ...baseStyle, 
-              width: `${size}px`,
-              height: `${size}px`,
-              borderRadius: '50%' 
-            }} 
-          />
-        );
-      case 'triangle':
-        return (
-          <div style={{
-            width: '0',
-            height: '0',
-            borderLeft: `${size/2}px solid transparent`,
-            borderRight: `${size/2}px solid transparent`,
-            borderBottom: `${size}px solid ${block.color}`,
-            transform: `rotate(${block.rotation}deg)`,
-            filter: block.shadow ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' : 'none'
-          }} />
-        );
-      case 'star':
-        return (
-          <div style={{
-            ...baseStyle,
-            width: `${size}px`,
-            height: `${size}px`,
-            clipPath: 'polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%)',
-            borderRadius: '0'
-          }} />
-        );
-      case 'heart':
-        return (
-          <div style={{
-            ...baseStyle,
-            width: `${size}px`,
-            height: `${size * 0.9}px`,
-            position: 'relative',
-            borderRadius: '0'
-          }}>
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: `${size/4}px`,
-              width: `${size/2}px`,
-              height: `${size * 0.8}px`,
-              backgroundColor: block.color,
-              borderRadius: `${size/2}px ${size/2}px 0 0`,
-              transform: 'rotate(-45deg)',
-              transformOrigin: '0 100%'
-            }} />
-            <div style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              width: `${size/2}px`,
-              height: `${size * 0.8}px`,
-              backgroundColor: block.color,
-              borderRadius: `${size/2}px ${size/2}px 0 0`,
-              transform: 'rotate(45deg)',
-              transformOrigin: '100% 100%'
-            }} />
-          </div>
-        );
-      case 'diamond':
-        return (
-          <div style={{
-            ...baseStyle,
-            width: `${size}px`,
-            height: `${size}px`,
-            clipPath: 'polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%)',
-            borderRadius: '0'
-          }} />
-        );
-    }
-  };
-
-  const renderBlock = (block: Block) => {
-    return (
-      <div
-        key={block.id}
-        style={{
-          position: 'absolute',
-          left: block.x,
-          top: block.y,
-          cursor: 'grab',
-          userSelect: 'none',
-          zIndex: dragState.draggedBlock?.id === block.id ? 1000 : 1,
-          transition: dragState.draggedBlock?.id === block.id ? 'none' : 'all 0.3s ease'
-        }}
-        onMouseDown={(e) => handleMouseDown(e, block)}
-        onDoubleClick={() => handleDoubleClick(block)}
-        className={`${block.sparkles ? 'animate-pulse' : ''} hover:scale-110 transition-transform`}
-      >
-        {renderShape(block)}
-        {block.sparkles && (
-          <div className="absolute inset-0 pointer-events-none">
-            <Sparkles className="w-4 h-4 text-yellow-300 animate-ping absolute top-0 left-0" />
-            <Sparkles className="w-3 h-3 text-pink-300 animate-ping absolute bottom-0 right-0" style={{ animationDelay: '0.5s' }} />
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-4 relative overflow-hidden">
       {/* Animated background elements */}
@@ -435,20 +316,7 @@ export default function BuildingGame() {
       </div>
 
       {/* Particles */}
-      {particles.map(particle => (
-        <div
-          key={particle.id}
-          className="absolute pointer-events-none rounded-full"
-          style={{
-            left: particle.x,
-            top: particle.y,
-            width: particle.size,
-            height: particle.size,
-            backgroundColor: particle.color,
-            opacity: particle.life / 30
-          }}
-        />
-      ))}
+      <ParticleSystem particles={particles} />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with score and achievements */}
@@ -471,158 +339,42 @@ export default function BuildingGame() {
         {/* Enhanced Controls */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
           {/* Color Picker */}
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-            <h3 className="text-white font-bold text-lg mb-3 text-center flex items-center justify-center gap-2">
-              <Palette className="w-5 h-5" />
-              בחירת צבע
-            </h3>
-            <div className="grid grid-cols-5 gap-2 mb-3">
-              {COLORS.map(color => (
-                <button
-                  key={color}
-                  onClick={() => setSelectedColor(color)}
-                  className={`w-10 h-10 rounded-xl shadow-lg transition-all hover:scale-110 border-2 ${
-                    selectedColor === color ? 'border-white scale-110' : 'border-white/30'
-                  }`}
-                  style={{ backgroundColor: color }}
-                />
-              ))}
-            </div>
-            <div className="text-center">
-              <div 
-                className="w-full h-8 rounded-lg border-2 border-white/50"
-                style={{ backgroundColor: selectedColor }}
-              />
-              <p className="text-white/80 text-sm mt-1">צבע נבחר</p>
-            </div>
-          </div>
+          <ColorPicker 
+            colors={COLORS}
+            selectedColor={selectedColor}
+            onColorSelect={setSelectedColor}
+          />
 
           {/* Shape Creation */}
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-            <h3 className="text-white font-bold text-lg mb-3 text-center">צורות</h3>
-            <div className="grid grid-cols-4 gap-2 mb-3">
-              {SHAPES.map(shape => (
-                <button
-                  key={shape}
-                  onClick={() => createBlock(shape)}
-                  className="w-12 h-12 bg-white/90 hover:bg-white hover:scale-110 rounded-xl shadow-lg transition-all flex items-center justify-center text-lg border-2 border-transparent hover:border-gray-300"
-                  style={{ color: selectedColor }}
-                >
-                  {SHAPE_ICONS[shape]}
-                </button>
-              ))}
-            </div>
-            
-            {/* Tool Selection */}
-            <div className="flex gap-1">
-              <button
-                onClick={() => setSelectedTool('normal')}
-                className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all ${
-                  selectedTool === 'normal' ? 'bg-blue-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
-                }`}
-              >
-                רגיל
-              </button>
-              <button
-                onClick={() => setSelectedTool('magic')}
-                className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all ${
-                  selectedTool === 'magic' ? 'bg-purple-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
-                }`}
-              >
-                קסם ✨
-              </button>
-              <button
-                onClick={() => setSelectedTool('rainbow')}
-                className={`flex-1 py-2 px-2 rounded-lg text-xs font-bold transition-all ${
-                  selectedTool === 'rainbow' ? 'bg-pink-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
-                }`}
-              >
-                קשת 🌈
-              </button>
-            </div>
-          </div>
+          <ShapeCreator 
+            shapes={SHAPES}
+            shapeIcons={SHAPE_ICONS}
+            selectedColor={selectedColor}
+            selectedTool={selectedTool}
+            onCreateBlock={createBlock}
+            onToolSelect={setSelectedTool}
+          />
 
           {/* Action Buttons */}
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-            <h3 className="text-white font-bold text-lg mb-3 text-center">פעולות</h3>
-            <div className="grid grid-cols-2 gap-2">
-              <button
-                onClick={magicShuffle}
-                className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1"
-              >
-                <Sparkles className="w-4 h-4" />
-                קסם!
-              </button>
-              
-              <button
-                onClick={clearAll}
-                className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-3 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1"
-              >
-                <Trash2 className="w-4 h-4" />
-                נקה
-              </button>
-
-              <button
-                onClick={undo}
-                disabled={historyIndex <= 0}
-                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-400 text-white font-bold py-3 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1"
-              >
-                <Undo2 className="w-4 h-4" />
-                חזור
-              </button>
-
-              <button
-                onClick={redo}
-                disabled={historyIndex >= history.length - 1}
-                className="bg-green-500 hover:bg-green-600 disabled:bg-gray-400 text-white font-bold py-3 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1"
-              >
-                <Redo2 className="w-4 h-4" />
-                קדימה
-              </button>
-            </div>
-          </div>
+          <ActionButtons 
+            historyIndex={historyIndex}
+            historyLength={history.length}
+            onMagicShuffle={magicShuffle}
+            onClearAll={clearAll}
+            onUndo={undo}
+            onRedo={redo}
+          />
 
           {/* Settings & Save */}
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-            <h3 className="text-white font-bold text-lg mb-3 text-center">הגדרות</h3>
-            <div className="space-y-2">
-              <button
-                onClick={() => setSoundEnabled(!soundEnabled)}
-                className={`w-full py-2 px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
-                  soundEnabled ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
-                }`}
-              >
-                {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-                צלילים
-              </button>
-              
-              <button
-                onClick={() => setShowGrid(!showGrid)}
-                className={`w-full py-2 px-3 rounded-xl font-bold transition-all ${
-                  showGrid ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'
-                }`}
-              >
-                רשת: {showGrid ? 'ON' : 'OFF'}
-              </button>
-              
-              <button
-                onClick={() => setAnimationMode(!animationMode)}
-                className={`w-full py-2 px-3 rounded-xl font-bold transition-all ${
-                  animationMode ? 'bg-purple-500 text-white' : 'bg-gray-500 text-white'
-                }`}
-              >
-                אנימציה: {animationMode ? 'ON' : 'OFF'}
-              </button>
-              
-              <button
-                onClick={saveCreation}
-                className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
-              >
-                <Save className="w-4 h-4" />
-                שמור
-              </button>
-            </div>
-          </div>
+          <SettingsPanel 
+            soundEnabled={soundEnabled}
+            showGrid={showGrid}
+            animationMode={animationMode}
+            onToggleSound={() => setSoundEnabled(!soundEnabled)}
+            onToggleGrid={() => setShowGrid(!showGrid)}
+            onToggleAnimation={() => setAnimationMode(!animationMode)}
+            onSave={saveCreation}
+          />
         </div>
 
         {/* Enhanced Building Canvas */}
@@ -650,7 +402,16 @@ export default function BuildingGame() {
             </div>
           )}
           
-          {blocks.map(renderBlock)}
+          {blocks.map(block => (
+            <BlockRenderer 
+              key={block.id}
+              block={block}
+              isDragged={dragState.draggedBlock?.id === block.id}
+              onMouseDown={handleMouseDown}
+              onDoubleClick={handleDoubleClick}
+              onRotate={handleRotate}
+            />
+          ))}
         </div>
 
         {/* Instructions */}
@@ -671,7 +432,8 @@ export default function BuildingGame() {
                 <ul className="text-sm space-y-1">
                   <li>• לחץ על צורות להוספה</li>
                   <li>• גרור צורות עם העכבר</li>
-                  <li>• לחץ פעמיים לסיבוב</li>
+                  <li>• העבר עכבר על צורה ולחץ על ⟲ לסיבוב</li>
+                  <li>• לחץ פעמיים לסיבוב מהיר של 90°</li>
                 </ul>
               </div>
               <div>
