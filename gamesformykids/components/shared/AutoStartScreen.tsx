@@ -40,6 +40,28 @@ export default function AutoStartScreen({
     );
   }
 
+  // עבור משחק מתמטיקה - הצג דוגמאות תרגילים במקום items
+  const getMathExamplesRenderer = () => {
+    const mathExamples = [
+      { equation: "3 + 2 = ?", emoji: "🍎", description: "חיבור תפוחים" },
+      { equation: "5 - 1 = ?", emoji: "🎈", description: "חיסור בלונים" },
+      { equation: "2 + 3 = ?", emoji: "🌟", description: "חיבור כוכבים" },
+      { equation: "4 - 2 = ?", emoji: "🐶", description: "חיסור כלבים" },
+    ];
+
+    return (
+      <div className={config.grid.className}>
+        {mathExamples.map((example, index) => (
+          <div key={index} className="bg-white bg-opacity-20 rounded-xl p-4 border-2 border-white border-opacity-30">
+            <div className="text-3xl mb-2">{example.emoji}</div>
+            <div className="text-white font-bold text-lg mb-1">{example.equation}</div>
+            <div className="text-yellow-100 text-sm">{example.description}</div>
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <>
       {/* הניווט מוסר מכאן - הוא עכשיו ב-layout */}
@@ -60,7 +82,8 @@ export default function AutoStartScreen({
       itemsDescription={config.itemsDescription}
       itemsDescriptionColor={config.colors.itemsDescription}
       itemsGridClass={config.grid.className}
-      renderItem={(item) => {
+      customItemsRenderer={gameType === 'math' ? getMathExamplesRenderer : undefined}
+      renderItem={gameType !== 'math' ? (item) => {
         // Safe check for item properties
         if (!item || typeof item !== 'object') return null;
         
@@ -76,7 +99,7 @@ export default function AutoStartScreen({
             hideSoundIcon={!config.grid.showSpeaker}
           />
         );
-      }}
+      } : undefined}
     />
     </>
   );
