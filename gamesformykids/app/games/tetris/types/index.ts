@@ -48,6 +48,7 @@ export interface TouchControlsProps {
   onMove: (dx: number, dy: number) => void;
   onRotate: () => void;
   onStartGame: () => void;
+  isDesktop?: boolean;
 }
 
 export interface NextPieceDisplayProps {

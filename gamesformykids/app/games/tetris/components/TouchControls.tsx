@@ -7,7 +7,8 @@ const TouchControls: React.FC<TouchControlsProps> = ({
   score, 
   onMove, 
   onRotate, 
-  onStartGame 
+  onStartGame,
+  isDesktop = false
 }) => {
   // אופטימיזציה למובייל - דיבאונס לכפתורים
   const handleMove = useCallback((dx: number, dy: number) => {
@@ -20,6 +21,64 @@ const TouchControls: React.FC<TouchControlsProps> = ({
     onRotate();
   }, [isGameRunning, onRotate]);
 
+  // פריסה למחשב
+  if (isDesktop) {
+    return (
+      <div className="space-y-6">
+        {/* Game Over / Start Game */}
+        {gameOver && (
+          <div className="text-center bg-red-500/90 text-white p-4 rounded-xl backdrop-blur-sm border border-red-300/30">
+            <h2 className="text-2xl font-bold mb-2">Game Over!</h2>
+            <p className="text-lg mb-4">Your Score: {score}</p>
+            <button
+              onClick={onStartGame}
+              className="bg-gradient-to-br from-blue-500 to-purple-600 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:scale-105 transition-transform duration-200"
+            >
+              Play Again
+            </button>
+          </div>
+        )}
+
+        {!isGameRunning && !gameOver && (
+          <div className="text-center">
+            <button
+              onClick={onStartGame}
+              className="bg-gradient-to-br from-blue-500 to-purple-600 text-white px-8 py-4 rounded-xl font-bold text-xl shadow-lg hover:scale-105 transition-transform duration-200"
+            >
+              Start Game
+            </button>
+          </div>
+        )}
+
+        {/* Desktop Controls - Keyboard Instructions */}
+        {isGameRunning && (
+          <div className="bg-black/60 p-4 rounded-xl backdrop-blur-sm border border-blue-300/30">
+            <h3 className="text-white font-bold text-lg mb-3 text-center">Keyboard Controls</h3>
+            <div className="space-y-2 text-white text-sm">
+              <div className="flex justify-between">
+                <span>Move Left:</span>
+                <span className="bg-gray-700 px-2 py-1 rounded">←</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Move Right:</span>
+                <span className="bg-gray-700 px-2 py-1 rounded">→</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Move Down:</span>
+                <span className="bg-gray-700 px-2 py-1 rounded">↓</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Rotate:</span>
+                <span className="bg-gray-700 px-2 py-1 rounded">↑</span>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
+  // פריסה למובייל
   return (
     <div className="mt-8 w-full max-w-lg">
       {/* Rotate Button */}

@@ -68,9 +68,40 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
       
       <AnimatedBackground />
 
-      <div className="relative z-10 flex flex-col items-center p-2 sm:p-4 pt-20">
-        <div className="flex flex-col xl:flex-row gap-6 xl:gap-10 items-center xl:items-start w-full max-w-7xl">
+      <div className="relative z-10 flex flex-col items-center p-4 pt-20">
+        {/* Desktop Layout */}
+        <div className="hidden lg:grid lg:grid-cols-12 gap-8 w-full max-w-6xl">
+          {/* Left Info Panel */}
+          <div className="col-span-3">
+            <DesktopInfoPanel 
+              score={gameState.score} 
+              level={gameState.level} 
+              linesCleared={gameState.linesCleared} 
+              nextPiece={gameState.nextPiece} 
+            />
+          </div>
+
+          {/* Game Board - Center */}
+          <div className="col-span-6 flex justify-center">
+            <GameBoard displayBoard={displayBoard} />
+          </div>
           
+          {/* Right Controls Panel */}
+          <div className="col-span-3">
+            <TouchControls
+              isGameRunning={gameState.isGameRunning}
+              gameOver={gameState.gameOver}
+              score={gameState.score}
+              onMove={actions.movePiece}
+              onRotate={actions.handleRotate}
+              onStartGame={actions.startNewGame}
+              isDesktop={true}
+            />
+          </div>
+        </div>
+
+        {/* Mobile Layout */}
+        <div className="lg:hidden flex flex-col items-center w-full max-w-lg">
           {/* Mobile Info Panel */}
           <MobileInfoPanel 
             score={gameState.score} 
@@ -80,26 +111,21 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
           />
 
           {/* Game Board */}
-          <GameBoard displayBoard={displayBoard} />
-          
-          {/* Desktop Info Panel */}
-          <DesktopInfoPanel 
-            score={gameState.score} 
-            level={gameState.level} 
-            linesCleared={gameState.linesCleared} 
-            nextPiece={gameState.nextPiece} 
+          <div className="my-6">
+            <GameBoard displayBoard={displayBoard} />
+          </div>
+
+          {/* Touch Controls */}
+          <TouchControls
+            isGameRunning={gameState.isGameRunning}
+            gameOver={gameState.gameOver}
+            score={gameState.score}
+            onMove={actions.movePiece}
+            onRotate={actions.handleRotate}
+            onStartGame={actions.startNewGame}
+            isDesktop={false}
           />
         </div>
-
-        {/* Touch Controls */}
-        <TouchControls
-          isGameRunning={gameState.isGameRunning}
-          gameOver={gameState.gameOver}
-          score={gameState.score}
-          onMove={actions.movePiece}
-          onRotate={actions.handleRotate}
-          onStartGame={actions.startNewGame}
-        />
       </div>
     </div>
   );
