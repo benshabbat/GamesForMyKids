@@ -385,12 +385,12 @@ export default function BuildingGame() {
   }, [blocks, score]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-2 md:p-4 relative overflow-hidden no-select">
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-10 left-10 text-6xl opacity-20 animate-bounce" style={{ animationDelay: '0s' }}>🌟</div>
-        <div className="absolute top-32 right-20 text-4xl opacity-20 animate-bounce" style={{ animationDelay: '1s' }}>🎨</div>
-        <div className="absolute bottom-20 left-32 text-5xl opacity-20 animate-bounce" style={{ animationDelay: '2s' }}>🏗️</div>
+        <div className="absolute top-10 left-10 text-4xl md:text-6xl opacity-20 animate-bounce" style={{ animationDelay: '0s' }}>🌟</div>
+        <div className="absolute top-32 right-20 text-2xl md:text-4xl opacity-20 animate-bounce" style={{ animationDelay: '1s' }}>🎨</div>
+        <div className="absolute bottom-20 left-32 text-3xl md:text-5xl opacity-20 animate-bounce" style={{ animationDelay: '2s' }}>🏗️</div>
       </div>
 
       {/* Particles */}
@@ -478,11 +478,11 @@ export default function BuildingGame() {
           {blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-white/80">
-                <div className="text-8xl mb-6 animate-bounce">🎨</div>
-                <p className="text-2xl font-bold mb-2">ברוכים הבאים לסטודיו הקסום!</p>
-                <p className="text-lg">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
-                <p className="text-md mt-2 opacity-75">💡 טיפ: לחץ פעמיים על צורה כדי לסובב אותה!</p>
-                <p className="text-md mt-1 opacity-75">🎯 טיפ: לחץ פעם אחת על צורה כדי לבחור ולשנות גודל!</p>
+                <div className="text-6xl md:text-8xl mb-4 md:mb-6 animate-bounce">🎨</div>
+                <p className="text-xl md:text-2xl font-bold mb-2">ברוכים הבאים לסטודיו הקסום!</p>
+                <p className="text-base md:text-lg">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
+                <p className="text-sm md:text-md mt-2 opacity-75">💡 טיפ: לחץ פעמיים על צורה כדי לסובב אותה!</p>
+                <p className="text-sm md:text-md mt-1 opacity-75">🎯 טיפ: לחץ פעם אחת על צורה כדי לבחור ולשנות גודל!</p>
               </div>
             </div>
           )}
@@ -503,31 +503,31 @@ export default function BuildingGame() {
         </div>
 
         {/* Instructions */}
-        <div className="mt-6 text-center">
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 inline-block max-w-4xl">
-            <h3 className="text-white font-bold text-xl mb-4">מדריך המשחק המתקדם</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-white/90">
+        <div className="mt-4 md:mt-6 text-center">
+          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6 inline-block max-w-4xl">
+            <h3 className="text-white font-bold text-lg md:text-xl mb-3 md:mb-4">מדריך המשחק המתקדם</h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-white/90">
               <div>
-                <h4 className="font-semibold mb-2">🎨 צבעים:</h4>
-                <ul className="text-sm space-y-1">
+                <h4 className="font-semibold mb-2 text-sm md:text-base">🎨 צבעים:</h4>
+                <ul className="text-xs md:text-sm space-y-1">
                   <li>• בחר צבע מהפלטה</li>
                   <li>• הצבע הנבחר יושפע על הצורות החדשות</li>
                   <li>• כל צורה תיצבע בצבע הנבחר</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">🎮 בניה:</h4>
-                <ul className="text-sm space-y-1">
+                <h4 className="font-semibold mb-2 text-sm md:text-base">🎮 בניה:</h4>
+                <ul className="text-xs md:text-sm space-y-1">
                   <li>• לחץ על צורות להוספה</li>
-                  <li>• גרור צורות עם העכבר</li>
+                  <li>• גרור צורות עם העכבר/אצבע</li>
                   <li>• לחץ על צורה לבחירה</li>
                   <li>• העבר עכבר על צורה ולחץ על ⟲ לסיבוב</li>
                   <li>• לחץ פעמיים לסיבוב מהיר של 90°</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-2">📐 גדלים:</h4>
-                <ul className="text-sm space-y-1">
+                <h4 className="font-semibold mb-2 text-sm md:text-base">📐 גדלים:</h4>
+                <ul className="text-xs md:text-sm space-y-1">
                   <li>• קבע גודל לצורות חדשות</li>
                   <li>• בחר צורה ושנה את הגודל</li>
                   <li>• טווח: 0.5x עד 3x</li>
