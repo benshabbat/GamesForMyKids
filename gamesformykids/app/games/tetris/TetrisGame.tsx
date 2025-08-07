@@ -1,7 +1,6 @@
 'use client';
 
 import GenericStartScreen from '@/components/shared/GenericStartScreen';
-import { TetrisGameProps } from './types';
 import { useTetrisGame } from './hooks/useTetrisGame';
 import GameBoard from './components/GameBoard';
 import { MobileInfoPanel, DesktopInfoPanel } from './components/InfoPanels';
@@ -9,7 +8,7 @@ import TouchControls from './components/TouchControls';
 import AnimatedBackground from './components/AnimatedBackground';
 import LoadingScreen from './components/LoadingScreen';
 
-const TetrisGame: React.FC<TetrisGameProps> = () => {
+const TetrisGame: React.FC = () => {
   const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();
 
   if (gameState.isLoading) {
