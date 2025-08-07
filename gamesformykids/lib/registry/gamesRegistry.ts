@@ -19,6 +19,7 @@ import {
   Smile,
   Puzzle,
   Paintbrush,
+  Building,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -297,6 +298,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/drawing",
     available: true,
     order: 24,
+  },
+  {
+    id: "building",
+    title: "סטודיו הבנייה הקסום",
+    description: "בנה יצירות עם צורות צבעוניות!",
+    icon: Building,
+    color: "bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600",
+    href: "/games/building",
+    available: true,
+    order: 25,
   },
 ];
 

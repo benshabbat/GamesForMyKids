@@ -82,6 +82,7 @@ export const getGameConfig = (gameType: GameType): GameConfig => {
     colors: DEFAULT_CONFIG,
     letters: LETTER_CONFIG,
     shapes: DEFAULT_CONFIG,
+    'colored-shapes': DEFAULT_CONFIG,
     numbers: NUMBER_CONFIG,
     fruits: DEFAULT_CONFIG,
     animals: DEFAULT_CONFIG,
@@ -102,6 +103,7 @@ export const getGameConfig = (gameType: GameType): GameConfig => {
     emotions: DEFAULT_CONFIG,
     bubbles: DEFAULT_CONFIG,
     puzzles: DEFAULT_CONFIG,
+    building: DEFAULT_CONFIG,
   };
 
   return configs[gameType] || DEFAULT_CONFIG;

@@ -696,4 +696,34 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     tip: "💡 טיפ: התחל מהפינות והקצוות!",
     tipDescription: "חפש צבעים ודפוסים דומים כדי להרכיב את התמונה",
   },
+
+  building: {
+    title: "🏗️ סטודיו הבנייה הקסום 🏗️",
+    subTitle: "בנה יצירות עם צורות צבעוניות!",
+    itemsTitle: "הכלים הקסומים:",
+    itemsDescription: "בחר צורות וצבעים לבניית היצירה שלך!",
+    steps: [
+      { icon: "🎨", title: "1. תבחר", description: "צבע וכלי בנייה" },
+      { icon: "🔨", title: "2. תבנה", description: "גרור ושים צורות" },
+      { icon: "✨", title: "3. תיצור", description: "יצירה קסומה!" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%)",
+      header: "text-white",
+      subHeader: "text-purple-100",
+      itemsDescription: "text-white",
+      button: { from: "purple", to: "pink" },
+      stepsBg: "bg-white bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-4 gap-6 max-w-4xl mx-auto",
+    },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "בנה את היצירה שלך!",
+    challengeIcon: "🏗️🎨✨🌈",
+    challengeDescription: "השתמש בצורות וצבעים ליצירה!",
+    itemLabel: "כלי בנייה",
+    tip: "💡 טיפ: גרור כדי להזיז, לחץ פעמיים לסיבוב!",
+    tipDescription: "השתמש בכלים השונים ליצירת יצירות קסומות",
+  },
 };
