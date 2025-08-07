@@ -19,6 +19,7 @@ interface MathGameState {
   isPlaying: boolean;
   showCelebration: boolean;
   options: number[]; // Math game uses numbers as options, not objects
+  isCorrect?: boolean | null; // הוספה להתמודדות עם תשובות נכונות/שגויות
 }
 
 // אימוג'ים לחיבור וחיסור
@@ -153,7 +154,7 @@ export function useMathGame() {
         showCelebration: false,
         options: [],
         isCorrect: null,
-      } as MathGameState);
+      });
 
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
@@ -223,7 +224,7 @@ export function useMathGame() {
       showCelebration: false,
       options: [],
       isCorrect: null,
-    } as MathGameState);
+    });
   };
 
   return {

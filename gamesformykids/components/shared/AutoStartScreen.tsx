@@ -73,7 +73,7 @@ export default function AutoStartScreen({
       textColorSubHeader={config.colors.subHeader}
       gameSteps={config.steps}
       gameStepsBgClass={config.colors.stepsBg}
-      items={items}
+      items={gameType === 'math' ? [] : items}
       onStart={onStart}
       buttonFromColor={config.colors.button.from}
       buttonToColor={config.colors.button.to}
