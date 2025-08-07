@@ -10,7 +10,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { GameType } from "@/lib/types/base";
+import { GameType, BaseGameItem } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
@@ -28,13 +28,14 @@ import { ProgressDisplay } from "./ProgressDisplay";
 
 interface AutoGamePageProps {
   gameType: AutoGameType | GameType; // מקבל שני טיפוסים לגמישות
+  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode; // רינדר מותאם אישית
 }
 
 /**
  * 🎯 הקומפוננט הקסום שהופך כל משחק לאוטומטי
  * מקבל רק gameType ובונה את כל המשחק אוטומטית!
  */
-export function AutoGamePage({ gameType }: AutoGamePageProps) {
+export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
   // 🎨 קבלת כל הקונפיגורציות אוטומטית
   const config = GAME_UI_CONFIGS[gameType];
   const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType];
@@ -139,7 +140,9 @@ export function AutoGamePage({ gameType }: AutoGamePageProps) {
             gridCols="grid-cols-2"
             maxWidth="max-w-2xl"
             renderCustomCard={(item) => (
-              <CardComponent item={item} onClick={handleItemClick} />
+              renderCard ? renderCard(item, handleItemClick) : (
+                <CardComponent item={item} onClick={handleItemClick} />
+              )
             )}
           />
 

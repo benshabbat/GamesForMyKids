@@ -31,7 +31,7 @@ export * from './ui/shapes';
  * ===============================================
  */
 export const AVAILABLE_GAMES = [
-  'colors', 'letters', 'shapes', 'numbers', 
+  'colors', 'letters', 'shapes', 'colored-shapes', 'numbers', 
   'fruits', 'vegetables', 'animals', 'smell-taste',
   'weather', 'transport', 'vehicles', 'tools', 'space',
   'house', 'clothing', 'instruments', 'professions', 'emotions',

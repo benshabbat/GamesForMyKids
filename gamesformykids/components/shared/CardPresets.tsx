@@ -1,6 +1,8 @@
 import BaseGameCard from "./BaseGameCard";
 import { BaseGameItem } from "@/lib/types/base";
 import * as ShapeIcons from "../../public/icons/ShapeIcons";
+import ColoredShapeCard from "./ColoredShapeCard";
+import { ColoredShapeItem } from "@/lib/constants/gameData/basic";
 
 /**
  * ===============================================
@@ -381,6 +383,10 @@ const PuzzleCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (it
   <PuzzleCard puzzle={item} onClick={onClick} />
 );
 
+const ColoredShapeCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
+  <ColoredShapeCard item={item as ColoredShapeItem} onClick={onClick as (item: ColoredShapeItem) => void} />
+);
+
 /**
  * ===============================================
  * מיפוי מהיר לפי סוג משחק
@@ -392,6 +398,7 @@ export const GameCardMap: Record<GameType, React.ComponentType<{item: BaseGameIt
   vegetables: VegetableCardWrapper,
   colors: ColorCardWrapper,
   shapes: ShapeCardWrapper,
+  "colored-shapes": ColoredShapeCardWrapper,
   numbers: NumberCardWrapper,
   letters: LetterCardWrapper,
   transport: TransportCardWrapper,

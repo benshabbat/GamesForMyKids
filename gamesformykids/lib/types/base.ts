@@ -71,6 +71,7 @@ export type GameType =
   | 'colors'
   | 'letters'
   | 'shapes'
+  | 'colored-shapes'
   | 'numbers'
   | 'fruits'
   | 'animals'

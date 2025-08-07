@@ -23,6 +23,7 @@ import {
   ALL_VEHICLES,
   ALL_TOOLS,
   ALL_SPACE_OBJECTS,
+  ALL_COLORED_SHAPES,
   // TODO: להוסיף את שאר הקבועים במידת הצורך
 } from "@/lib/constants";
 
@@ -42,6 +43,7 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   shapes: ALL_SHAPES,
   numbers: ALL_NUMBERS,
   weather: ALL_WEATHERS,
+  "colored-shapes": ALL_COLORED_SHAPES, // ✅ חדש! משחק צורות צבעוניות
   
   // עודכן עם הקבועים הנכונים:
   "smells-tastes": ALL_SMELLS_TASTES, // ✅ עודכן!

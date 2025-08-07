@@ -134,6 +134,37 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצורות למטה לשמוע את השמות",
   },
 
+  "colored-shapes": {
+    title: "🔴🔺 משחק צורות צבעוניות 🟡🟦",
+    subTitle: "למד צורות וצבעים יחד!",
+    itemsTitle: "הצורות הצבעוניות שנלמד:",
+    itemsDescription: "לחץ על צורה צבעונית כדי לשמוע את השם שלה!",
+    steps: [
+      { icon: "👂", title: "1. תשמע", description: "איזו צורה באיזה צבע אני אומר" },
+      { icon: "🤔", title: "2. תחשוב", description: "איך נראית הצורה הצבעונית" },
+      { icon: "👆", title: "3. תלחץ", description: "על הצורה הצבעונית הנכונה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #a8e6cf 50%, #dcedc1 75%, #d4f1d4 100%)",
+      header: "text-white",
+      subHeader: "text-green-100",
+      itemsDescription: "text-green-100",
+      button: { from: "teal", to: "green" },
+      stepsBg: "bg-gradient-to-r from-orange-100 to-green-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto",
+      showSpeaker: true,
+    },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "איזו צורה צבעונית שמעת?",
+    challengeIcon: "🔴🔺🟡⭐🔵💎",
+    challengeDescription: "בחר את הצורה בצבע הנכון!",
+    itemLabel: "צורה צבעונית",
+    tip: "💡 טיפ: תשמע את שם הצורה והצבע יחד!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצורות למטה לשמוע את השמות",
+  },
+
   numbers: {
     title: "🔢 משחק מספרים 🎯",
     subTitle: "למד מספרים דרך שמיעה!",

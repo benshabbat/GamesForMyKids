@@ -21,6 +21,7 @@ const useVegetablesGame = () => useGenericGame(GAME_ITEMS_MAP.vegetables, 'veget
 const useClothingGame = () => useGenericGame(GAME_ITEMS_MAP.clothing, 'clothing');
 const useLettersGame = () => useGenericGame(GAME_ITEMS_MAP.letters, 'letters');
 const useShapesGame = () => useGenericGame(GAME_ITEMS_MAP.shapes, 'shapes');
+const useColoredShapesGame = () => useGenericGame(GAME_ITEMS_MAP["colored-shapes"], 'colored-shapes');
 const useNumbersGame = () => useGenericGame(GAME_ITEMS_MAP.numbers, 'numbers');
 const useSmellsTastesGame = () => useGenericGame(GAME_ITEMS_MAP["smells-tastes"], 'smells-tastes');
 const useWeatherGame = () => useGenericGame(GAME_ITEMS_MAP.weather, 'weather');
@@ -40,7 +41,7 @@ const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions, 'emotions'
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד
 export type AutoGameType = 
   | 'animals' | 'colors' | 'fruits' | 'vegetables' | 'clothing'
-  | 'letters' | 'shapes' | 'numbers' | 'smells-tastes' | 'weather'
+  | 'letters' | 'shapes' | 'colored-shapes' | 'numbers' | 'smells-tastes' | 'weather'
   | 'transport' | 'vehicles' | 'tools' | 'space' | 'house'
   | 'instruments' | 'professions' | 'emotions' | 'math';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
@@ -59,6 +60,7 @@ export const GAME_HOOKS_MAP = {
   clothing: useClothingGame,
   letters: useLettersGame,
   shapes: useShapesGame,
+  "colored-shapes": useColoredShapesGame,
   numbers: useNumbersGame,
   "smells-tastes": useSmellsTastesGame,
   weather: useWeatherGame,

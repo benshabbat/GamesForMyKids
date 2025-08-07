@@ -112,3 +112,202 @@ export const COLOR_GAME_CONSTANTS = createGameConfig(4, 1, 3);
 export const LETTER_GAME_CONSTANTS = createGameConfig(6, 2, 3);
 export const SHAPE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
 export const NUMBER_GAME_CONSTANTS = createGameConfig(5, 1, 3);
+
+/**
+ * ===============================================
+ * נתוני צורות צבעוניות - משלב צורות וצבעים
+ * ===============================================
+ */
+export interface ColoredShapeItem extends BaseGameItem {
+  shape: string; // שם הצורה
+  shapeHebrew: string; // שם הצורה בעברית
+  svg: string; // סוג ה-SVG
+  value: string; // ערך הצבע CSS
+  tailwindClass?: string; // מחלקת Tailwind אופציונלית
+}
+
+export const COLORED_SHAPES_CONSTANTS: Record<string, ColoredShapeItem> = {
+  // עיגול אדום
+  RED_CIRCLE: { 
+    name: "red_circle", 
+    hebrew: "עיגול אדום", 
+    english: "Red Circle", 
+    emoji: "🔴", 
+    color: "bg-gradient-to-br from-red-400 to-red-600", 
+    sound: [440, 550, 660],
+    shape: "circle",
+    shapeHebrew: "עיגול",
+    svg: "circle",
+    value: "#ef4444",
+    tailwindClass: "bg-red-500"
+  },
+  
+  // עיגול כחול
+  BLUE_CIRCLE: { 
+    name: "blue_circle", 
+    hebrew: "עיגול כחול", 
+    english: "Blue Circle", 
+    emoji: "🔵", 
+    color: "bg-gradient-to-br from-blue-400 to-blue-600", 
+    sound: [523, 659, 784],
+    shape: "circle",
+    shapeHebrew: "עיגול",
+    svg: "circle",
+    value: "#3b82f6",
+    tailwindClass: "bg-blue-500"
+  },
+  
+  // עיגול ירוק
+  GREEN_CIRCLE: { 
+    name: "green_circle", 
+    hebrew: "עיגול ירוק", 
+    english: "Green Circle", 
+    emoji: "🟢", 
+    color: "bg-gradient-to-br from-green-400 to-green-600", 
+    sound: [349, 440, 523],
+    shape: "circle",
+    shapeHebrew: "עיגול",
+    svg: "circle",
+    value: "#10b981",
+    tailwindClass: "bg-green-500"
+  },
+  
+  // עיגול צהוב
+  YELLOW_CIRCLE: { 
+    name: "yellow_circle", 
+    hebrew: "עיגול צהוב", 
+    english: "Yellow Circle", 
+    emoji: "🟡", 
+    color: "bg-gradient-to-br from-yellow-400 to-yellow-600", 
+    sound: [392, 494, 587],
+    shape: "circle",
+    shapeHebrew: "עיגול",
+    svg: "circle",
+    value: "#eab308",
+    tailwindClass: "bg-yellow-500"
+  },
+  
+  // ריבוע אדום
+  RED_SQUARE: { 
+    name: "red_square", 
+    hebrew: "ריבוע אדום", 
+    english: "Red Square", 
+    emoji: "🟥", 
+    color: "bg-gradient-to-br from-red-400 to-red-600", 
+    sound: [440, 550, 660],
+    shape: "square",
+    shapeHebrew: "ריבוע",
+    svg: "square",
+    value: "#ef4444",
+    tailwindClass: "bg-red-500"
+  },
+  
+  // ריבוע כחול
+  BLUE_SQUARE: { 
+    name: "blue_square", 
+    hebrew: "ריבוע כחול", 
+    english: "Blue Square", 
+    emoji: "🟦", 
+    color: "bg-gradient-to-br from-blue-400 to-blue-600", 
+    sound: [523, 659, 784],
+    shape: "square",
+    shapeHebrew: "ריבוע",
+    svg: "square",
+    value: "#3b82f6",
+    tailwindClass: "bg-blue-500"
+  },
+  
+  // ריבוע ירוק
+  GREEN_SQUARE: { 
+    name: "green_square", 
+    hebrew: "ריבוע ירוק", 
+    english: "Green Square", 
+    emoji: "🟩", 
+    color: "bg-gradient-to-br from-green-400 to-green-600", 
+    sound: [349, 440, 523],
+    shape: "square",
+    shapeHebrew: "ריבוע",
+    svg: "square",
+    value: "#10b981",
+    tailwindClass: "bg-green-500"
+  },
+  
+  // ריבוע צהוב
+  YELLOW_SQUARE: { 
+    name: "yellow_square", 
+    hebrew: "ריבוע צהוב", 
+    english: "Yellow Square", 
+    emoji: "🟨", 
+    color: "bg-gradient-to-br from-yellow-400 to-yellow-600", 
+    sound: [392, 494, 587],
+    shape: "square",
+    shapeHebrew: "ריבוע",
+    svg: "square",
+    value: "#eab308",
+    tailwindClass: "bg-yellow-500"
+  },
+  
+  // משולש ירוק
+  GREEN_TRIANGLE: { 
+    name: "green_triangle", 
+    hebrew: "משולש ירוק", 
+    english: "Green Triangle", 
+    emoji: "🔺", 
+    color: "bg-gradient-to-br from-green-400 to-green-600", 
+    sound: [349, 440, 523],
+    shape: "triangle",
+    shapeHebrew: "משולש",
+    svg: "triangle",
+    value: "#10b981",
+    tailwindClass: "bg-green-500"
+  },
+  
+  // משולש סגול
+  PURPLE_TRIANGLE: { 
+    name: "purple_triangle", 
+    hebrew: "משולש סגול", 
+    english: "Purple Triangle", 
+    emoji: "🔺", 
+    color: "bg-gradient-to-br from-purple-400 to-purple-600", 
+    sound: [294, 370, 440],
+    shape: "triangle",
+    shapeHebrew: "משולש",
+    svg: "triangle",
+    value: "#a855f7",
+    tailwindClass: "bg-purple-500"
+  },
+  
+  // כוכב צהוב
+  YELLOW_STAR: { 
+    name: "yellow_star", 
+    hebrew: "כוכב צהוב", 
+    english: "Yellow Star", 
+    emoji: "⭐", 
+    color: "bg-gradient-to-br from-yellow-400 to-yellow-600", 
+    sound: [392, 494, 587],
+    shape: "star",
+    shapeHebrew: "כוכב",
+    svg: "star",
+    value: "#eab308",
+    tailwindClass: "bg-yellow-500"
+  },
+  
+  // לב ורוד
+  PINK_HEART: { 
+    name: "pink_heart", 
+    hebrew: "לב ורוד", 
+    english: "Pink Heart", 
+    emoji: "💗", 
+    color: "bg-gradient-to-br from-pink-400 to-pink-600", 
+    sound: [587, 698, 784],
+    shape: "heart",
+    shapeHebrew: "לב",
+    svg: "heart",
+    value: "#ec4899",
+    tailwindClass: "bg-pink-500"
+  }
+};
+
+export const ALL_COLORED_SHAPES = createItemsList(COLORED_SHAPES_CONSTANTS);
+export const COLORED_SHAPES_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(COLORED_SHAPES_CONSTANTS);
+export const COLORED_SHAPES_GAME_CONSTANTS = createGameConfig(6, 1, 4);

@@ -88,6 +88,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 4,
   },
   {
+    id: "colored-shapes",
+    title: "משחק צורות צבעוניות",
+    description: "בחר צורה בצבע הנכון!",
+    icon: Circle,
+    color: "bg-gradient-to-r from-orange-400 to-green-400 hover:from-orange-500 hover:to-green-500",
+    href: "/games/colored-shapes",
+    available: true,
+    order: 4.5,
+  },
+  {
     id: "numbers",
     title: "משחק מספרים",
     description: "למד מספרים!",
