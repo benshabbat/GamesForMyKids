@@ -7,16 +7,34 @@ import {
   ActionButtons, 
   SettingsPanel, 
   BlockRenderer, 
-  ParticleSystem 
+  ParticleSystem,
+  GameNavigation 
 } from '@/components/game/building';
 import { useBuildingGame } from './hooks';
 import { SHAPE_ICONS } from './constants';
+import { getGameNavigation } from '@/lib/utils/gameNavigation';
 
 export default function BuildingGame() {
   const game = useBuildingGame();
+  const navigation = getGameNavigation('building');
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-2 md:p-4 relative overflow-hidden no-select">
+      {/* Game Navigation */}
+      <GameNavigation 
+        currentGameTitle="סטודיו הבנייה הקסום"
+        previousGame={navigation.previous ? {
+          href: navigation.previous.href,
+          title: navigation.previous.title,
+          icon: navigation.previous.icon
+        } : undefined}
+        nextGame={navigation.next ? {
+          href: navigation.next.href,
+          title: navigation.next.title,
+          icon: navigation.next.icon
+        } : undefined}
+      />
+
       {/* Animated background elements */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-10 text-4xl md:text-6xl opacity-20 animate-bounce" style={{ animationDelay: '0s' }}>🌟</div>
