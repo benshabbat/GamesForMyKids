@@ -28,41 +28,43 @@ export default function ColoredShapeCard({
     <div
       onClick={() => onClick(item)}
       className={`
-        relative group bg-white rounded-3xl p-6 shadow-xl 
+        relative group bg-white rounded-3xl p-8 shadow-xl 
         hover:shadow-2xl hover:scale-105 
         transform transition-all duration-300 cursor-pointer 
-        border-4 border-transparent hover:border-opacity-50
+        border-2 border-gray-100 hover:border-gray-200
         ${className}
       `}
-      style={{
-        background: `linear-gradient(135deg, ${item.value}20 0%, ${item.value}40 100%)`,
-        borderColor: item.value
-      }}
     >
       {/* סמל קול */}
       <Volume2 
-        className="absolute top-3 right-3 w-5 h-5 text-gray-600 
-                   group-hover:text-gray-800 transition-colors duration-200
+        className="absolute top-3 right-3 w-5 h-5 text-gray-500 
+                   group-hover:text-gray-700 transition-colors duration-200
                    opacity-70 group-hover:opacity-100" 
       />
 
       {/* הצורה */}
-      <div className="flex flex-col items-center justify-center space-y-4">
-        <div 
-          className="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center
-                     rounded-2xl transform group-hover:scale-110 transition-transform duration-300"
-          style={{
-            backgroundColor: item.value,
-            boxShadow: `0 8px 25px ${item.value}40`
-          }}
-        >
+      <div className="flex flex-col items-center justify-center space-y-6">
+        <div className="flex items-center justify-center">
           {ShapeComponent ? (
-            <ShapeComponent 
-              size={48} 
-              className="text-white drop-shadow-md" 
-            />
+            <div 
+              style={{ 
+                color: item.value,
+                filter: `drop-shadow(0 6px 12px ${item.value}30)`
+              }}
+            >
+              <ShapeComponent 
+                size={120} 
+                className={`transform group-hover:scale-110 transition-transform duration-300`}
+              />
+            </div>
           ) : (
-            <span className="text-3xl text-white font-bold">
+            <span 
+              className="text-8xl md:text-9xl font-bold transform group-hover:scale-110 transition-transform duration-300"
+              style={{ 
+                color: item.value,
+                filter: `drop-shadow(0 6px 12px ${item.value}30)`
+              }}
+            >
               {item.emoji}
             </span>
           )}
