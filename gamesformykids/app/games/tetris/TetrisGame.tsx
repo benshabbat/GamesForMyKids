@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import GenericStartScreen from '@/components/shared/GenericStartScreen';
 import { useTetrisGame } from './hooks/useTetrisGame';
 import GameBoard from './components/GameBoard';

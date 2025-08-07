@@ -1,4 +1,4 @@
-import TetrisGame from './TetrisGame';
+import TetrisGame from "./TetrisGame";
 
 export default function TetrisPage() {
   return <TetrisGame />;
