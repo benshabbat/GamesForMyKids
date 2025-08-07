@@ -9,7 +9,7 @@ import { GAME_ITEMS_MAP } from "./gameItemsMap";
 import { BaseGameState, BaseGameItem } from "@/lib/types/base";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
-// useMathGame - המשחק עבר לקטגוריה אחרת ויש לו דף ייעודי
+import { useMathGame } from "@/app/games/math/useMathGame";
 // Memory game כעת משתמש בקונטקסט ולא בhook נפרד
 
 // יצירת hooks כלליים לכל המשחקים - כולם משתמשים ב-useGenericGame!
@@ -43,8 +43,8 @@ export type AutoGameType =
   | 'animals' | 'colors' | 'fruits' | 'vegetables' | 'clothing'
   | 'letters' | 'shapes' | 'colored-shapes' | 'numbers' | 'smells-tastes' | 'weather'
   | 'transport' | 'vehicles' | 'tools' | 'space' | 'house'
-  | 'instruments' | 'professions' | 'emotions';
-// הערה: 'memory' ו-'math' הוסרו כי יש להם דפים ייעודיים משלהם
+  | 'instruments' | 'professions' | 'emotions' | 'math';
+// הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
  * 🎯 מפה מרכזית של כל ה-Hooks
@@ -72,7 +72,9 @@ export const GAME_HOOKS_MAP = {
   instruments: useInstrumentsGame,
   professions: useProfessionsGame,
   emotions: useEmotionsGame,
-  // משחקים מיוחדים כמו math ו-memory יש להם דפים ייעודיים ולא נכללים כאן
+  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
+  math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
+  // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 } as const satisfies Record<AutoGameType, () => {
   gameState: BaseGameState<BaseGameItem>;
   speakItemName: (itemName: string) => Promise<void>;
