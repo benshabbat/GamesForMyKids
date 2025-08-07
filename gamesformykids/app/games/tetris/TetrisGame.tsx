@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-import UnifiedHeader from '@/components/shared/UnifiedHeader';
 import GenericStartScreen from '@/components/shared/GenericStartScreen';
 import { TetrisGameProps } from './types';
 import { useTetrisGame } from './hooks/useTetrisGame';
