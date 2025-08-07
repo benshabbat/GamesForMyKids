@@ -1,12 +1,22 @@
 "use client";
 
+import { UniversalGameNavigation } from '@/components/shared';
+
 interface GamesLayoutProps {
   children: React.ReactNode;
 }
 
 /**
- * Layout פשוט למשחקים - האוטומציה מתבצעת ב-[gameType] route
+ * Layout למשחקים עם ניווט אוניברסלי
  */
 export default function GamesLayout({ children }: GamesLayoutProps) {
-  return <div>{children}</div>;
+  return (
+    <div className="relative">
+      {/* Universal Game Navigation */}
+      <UniversalGameNavigation />
+      
+      {/* Game Content */}
+      {children}
+    </div>
+  );
 }
