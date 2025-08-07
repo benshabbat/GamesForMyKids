@@ -11,7 +11,7 @@ import TouchControls from './components/TouchControls';
 import AnimatedBackground from './components/AnimatedBackground';
 import LoadingScreen from './components/LoadingScreen';
 
-const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
+const TetrisGame: React.FC<TetrisGameProps> = () => {
   const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();
 
   if (gameState.isLoading) {
@@ -21,12 +21,6 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
   if (gameState.showStartScreen) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700">
-        <UnifiedHeader 
-          title="🧩 טטריס לילדים"
-          onHome={onBack}
-          variant="start-screen"
-          className="bg-gradient-to-r from-purple-600 to-indigo-600"
-        />
         <GenericStartScreen
           title="🧩 טטריס לילדים 🧩"
           subTitle="המשחק הכי כיפי בעולם!"
@@ -59,13 +53,6 @@ const TetrisGame: React.FC<TetrisGameProps> = ({ onBack }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-800 relative overflow-hidden">
-      <UnifiedHeader 
-        title="🧩 טטריס לילדים"
-        onHome={actions.goToStartScreen}
-        variant="game-header"
-        className="bg-gradient-to-r from-purple-600 to-indigo-600"
-      />
-      
       <AnimatedBackground />
 
       <div className="relative z-10 flex flex-col items-center p-4 pt-20">
