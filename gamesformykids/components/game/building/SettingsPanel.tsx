@@ -3,13 +3,30 @@
 import React from 'react';
 import { Volume2, VolumeX, Save } from 'lucide-react';
 
+interface Block {
+  id: string;
+  x: number;
+  y: number;
+  color: string;
+  shape: 'square' | 'rectangle' | 'triangle' | 'circle' | 'star' | 'heart' | 'diamond';
+  rotation: number;
+  scale: number;
+  size: number;
+  shadow: boolean;
+  sparkles: boolean;
+}
+
 interface SettingsPanelProps {
   soundEnabled: boolean;
   showGrid: boolean;
   animationMode: boolean;
+  selectedSize: number;
+  selectedBlock: Block | null;
   onToggleSound: () => void;
   onToggleGrid: () => void;
   onToggleAnimation: () => void;
+  onSizeChange: (size: number) => void;
+  onSelectedBlockSizeChange: (size: number) => void;
   onSave: () => void;
 }
 
@@ -17,28 +34,32 @@ export default function SettingsPanel({
   soundEnabled, 
   showGrid, 
   animationMode, 
+  selectedSize,
+  selectedBlock,
   onToggleSound, 
   onToggleGrid, 
   onToggleAnimation, 
+  onSizeChange,
+  onSelectedBlockSizeChange,
   onSave 
 }: SettingsPanelProps) {
   return (
-    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4">
-      <h3 className="text-white font-bold text-lg mb-3 text-center">הגדרות</h3>
-      <div className="space-y-2">
+    <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
+      <h3 className="text-white font-bold text-base md:text-lg mb-2 md:mb-3 text-center">הגדרות</h3>
+      <div className="space-y-1 md:space-y-2">
         <button
           onClick={onToggleSound}
-          className={`w-full py-2 px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-2 ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation ${
             soundEnabled ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
-          {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
+          {soundEnabled ? <Volume2 className="w-3 h-3 md:w-4 md:h-4" /> : <VolumeX className="w-3 h-3 md:w-4 md:h-4" />}
           צלילים
         </button>
         
         <button
           onClick={onToggleGrid}
-          className={`w-full py-2 px-3 rounded-xl font-bold transition-all ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all text-sm md:text-base touch-manipulation ${
             showGrid ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
@@ -47,18 +68,63 @@ export default function SettingsPanel({
         
         <button
           onClick={onToggleAnimation}
-          className={`w-full py-2 px-3 rounded-xl font-bold transition-all ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all text-sm md:text-base touch-manipulation ${
             animationMode ? 'bg-purple-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
           אנימציה: {animationMode ? 'ON' : 'OFF'}
         </button>
         
+        {/* Size Control */}
+        <div className="bg-white/10 rounded-xl p-2 md:p-3">
+          <label className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
+            גודל צורות חדשות: {selectedSize.toFixed(1)}x
+          </label>
+          <input
+            type="range"
+            min="0.5"
+            max="2"
+            step="0.1"
+            value={selectedSize}
+            onChange={(e) => onSizeChange(parseFloat(e.target.value))}
+            className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
+          />
+          <div className="flex justify-between text-xs text-white/70 mt-1">
+            <span>קטן</span>
+            <span>גדול</span>
+          </div>
+        </div>
+
+        {/* Selected Block Size Control */}
+        {selectedBlock && (
+          <div className="bg-orange-500/20 rounded-xl p-2 md:p-3 border-2 border-orange-400">
+            <label className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
+              גודל צורה נבחרת: {selectedBlock.size.toFixed(1)}x
+            </label>
+            <div className="text-center text-xs text-white/80 mb-1 md:mb-2">
+              {selectedBlock.shape} {selectedBlock.color}
+            </div>
+            <input
+              type="range"
+              min="0.5"
+              max="3"
+              step="0.1"
+              value={selectedBlock.size}
+              onChange={(e) => onSelectedBlockSizeChange(parseFloat(e.target.value))}
+              className="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer slider touch-manipulation"
+            />
+            <div className="flex justify-between text-xs text-white/70 mt-1">
+              <span>קטן</span>
+              <span>ענק</span>
+            </div>
+          </div>
+        )}
+        
         <button
           onClick={onSave}
-          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-2"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation"
         >
-          <Save className="w-4 h-4" />
+          <Save className="w-3 h-3 md:w-4 md:h-4" />
           שמור
         </button>
       </div>

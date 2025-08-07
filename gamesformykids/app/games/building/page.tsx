@@ -18,6 +18,7 @@ interface Block {
   shape: 'square' | 'rectangle' | 'triangle' | 'circle' | 'star' | 'heart' | 'diamond';
   rotation: number;
   scale: number;
+  size: number; // Base size multiplier
   shadow: boolean;
   sparkles: boolean;
 }
@@ -71,6 +72,8 @@ export default function BuildingGame() {
   const [soundEnabled, setSoundEnabled] = useState(false);
   const [selectedTool, setSelectedTool] = useState<'normal' | 'magic' | 'rainbow'>('normal');
   const [selectedColor, setSelectedColor] = useState(COLORS[0]);
+  const [selectedSize, setSelectedSize] = useState(1); // Size multiplier (0.5 to 2)
+  const [selectedBlock, setSelectedBlock] = useState<Block | null>(null); // Currently selected block for editing
   const [showGrid, setShowGrid] = useState(false);
   const [animationMode, setAnimationMode] = useState(false);
   const canvasRef = useRef<HTMLDivElement>(null);
@@ -162,6 +165,7 @@ export default function BuildingGame() {
       shape,
       rotation: selectedTool === 'magic' ? Math.random() * 360 : 0,
       scale: selectedTool === 'magic' ? 0.8 + Math.random() * 0.4 : 1,
+      size: selectedSize,
       shadow: selectedTool === 'magic',
       sparkles: selectedTool === 'magic'
     };
@@ -181,7 +185,7 @@ export default function BuildingGame() {
     if (newBlocks.filter(b => b.shape === 'star').length >= 5 && !achievements.includes('star-collector')) {
       setAchievements(prev => [...prev, 'star-collector']);
     }
-  }, [nextId, blocks, selectedTool, getBlockColor, addToHistory, achievements, playSound, createParticles]);
+  }, [nextId, blocks, selectedTool, selectedSize, getBlockColor, addToHistory, achievements, playSound, createParticles]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent, block: Block) => {
     e.preventDefault();
@@ -190,6 +194,27 @@ export default function BuildingGame() {
 
     const offsetX = e.clientX - rect.left - block.x;
     const offsetY = e.clientY - rect.top - block.y;
+
+    setDragState({
+      isDragging: true,
+      dragOffset: { x: offsetX, y: offsetY },
+      draggedBlock: block
+    });
+
+    setBlocks(prev => {
+      const filtered = prev.filter(b => b.id !== block.id);
+      return [...filtered, block];
+    });
+  }, []);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent, block: Block) => {
+    e.preventDefault();
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const touch = e.touches[0];
+    const offsetX = touch.clientX - rect.left - block.x;
+    const offsetY = touch.clientY - rect.top - block.y;
 
     setDragState({
       isDragging: true,
@@ -223,7 +248,39 @@ export default function BuildingGame() {
     ));
   }, [dragState, showGrid]);
 
+  const handleTouchMove = useCallback((e: React.TouchEvent) => {
+    if (!dragState.isDragging || !dragState.draggedBlock) return;
+
+    const rect = canvasRef.current?.getBoundingClientRect();
+    if (!rect) return;
+
+    const touch = e.touches[0];
+    const newX = touch.clientX - rect.left - dragState.dragOffset.x;
+    const newY = touch.clientY - rect.top - dragState.dragOffset.y;
+
+    setBlocks(prev => prev.map(block =>
+      block.id === dragState.draggedBlock!.id
+        ? { 
+            ...block, 
+            x: showGrid ? Math.round(Math.max(0, Math.min(newX, rect.width - 60)) / 20) * 20 : Math.max(0, Math.min(newX, rect.width - 60)),
+            y: showGrid ? Math.round(Math.max(0, Math.min(newY, rect.height - 60)) / 20) * 20 : Math.max(0, Math.min(newY, rect.height - 60))
+          }
+        : block
+    ));
+  }, [dragState, showGrid]);
+
   const handleMouseUp = useCallback(() => {
+    if (dragState.isDragging && dragState.draggedBlock) {
+      addToHistory(blocks);
+    }
+    setDragState({
+      isDragging: false,
+      dragOffset: { x: 0, y: 0 },
+      draggedBlock: null
+    });
+  }, [dragState, blocks, addToHistory]);
+
+  const handleTouchEnd = useCallback(() => {
     if (dragState.isDragging && dragState.draggedBlock) {
       addToHistory(blocks);
     }
@@ -242,6 +299,27 @@ export default function BuildingGame() {
     ));
     createParticles(block.x, block.y, block.color);
   }, [createParticles]);
+
+  const handleBlockClick = useCallback((block: Block) => {
+    setSelectedBlock(selectedBlock?.id === block.id ? null : block);
+  }, [selectedBlock]);
+
+  const updateSelectedBlockSize = useCallback((newSize: number) => {
+    if (!selectedBlock) return;
+    
+    setBlocks(prev => {
+      const newBlocks = prev.map(b => 
+        b.id === selectedBlock.id 
+          ? { ...b, size: newSize }
+          : b
+      );
+      addToHistory(newBlocks);
+      return newBlocks;
+    });
+    
+    // Update selected block reference
+    setSelectedBlock(prev => prev ? { ...prev, size: newSize } : null);
+  }, [selectedBlock, addToHistory]);
 
   const handleRotate = useCallback((block: Block) => {
     setBlocks(prev => {
@@ -320,24 +398,24 @@ export default function BuildingGame() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with score and achievements */}
-        <div className="text-center mb-6">
-          <h1 className="text-5xl font-bold text-white mb-4 drop-shadow-xl animate-pulse">
+        <div className="text-center mb-4 md:mb-6">
+          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-xl animate-pulse">
             🏗️ סטודיו הבנייה הקסום 🏗️
           </h1>
-          <div className="flex justify-center items-center gap-6 mb-4">
-            <div className="bg-yellow-400/90 backdrop-blur-sm rounded-xl px-4 py-2">
-              <span className="text-xl font-bold text-gray-800">ניקוד: {score}</span>
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-6 mb-2 md:mb-4">
+            <div className="bg-yellow-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
+              <span className="text-lg md:text-xl font-bold text-gray-800">ניקוד: {score}</span>
             </div>
             {achievements.length > 0 && (
-              <div className="bg-purple-400/90 backdrop-blur-sm rounded-xl px-4 py-2">
-                <span className="text-white font-bold">🏆 הישגים: {achievements.length}</span>
+              <div className="bg-purple-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
+                <span className="text-white font-bold text-sm md:text-base">🏆 הישגים: {achievements.length}</span>
               </div>
             )}
           </div>
         </div>
 
         {/* Enhanced Controls */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-6">
           {/* Color Picker */}
           <ColorPicker 
             colors={COLORS}
@@ -370,9 +448,13 @@ export default function BuildingGame() {
             soundEnabled={soundEnabled}
             showGrid={showGrid}
             animationMode={animationMode}
+            selectedSize={selectedSize}
+            selectedBlock={selectedBlock}
             onToggleSound={() => setSoundEnabled(!soundEnabled)}
             onToggleGrid={() => setShowGrid(!showGrid)}
             onToggleAnimation={() => setAnimationMode(!animationMode)}
+            onSizeChange={setSelectedSize}
+            onSelectedBlockSizeChange={updateSelectedBlockSize}
             onSave={saveCreation}
           />
         </div>
@@ -380,9 +462,8 @@ export default function BuildingGame() {
         {/* Enhanced Building Canvas */}
         <div
           ref={canvasRef}
-          className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl"
+          className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl touch-manipulation h-96 md:h-[600px]"
           style={{ 
-            height: '600px', 
             width: '100%',
             backgroundImage: showGrid ? 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)' : 'none',
             backgroundSize: showGrid ? '20px 20px' : 'auto'
@@ -390,6 +471,9 @@ export default function BuildingGame() {
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
           onMouseLeave={handleMouseUp}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={() => setSelectedBlock(null)} // Deselect when clicking empty space
         >
           {blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
@@ -398,6 +482,7 @@ export default function BuildingGame() {
                 <p className="text-2xl font-bold mb-2">ברוכים הבאים לסטודיו הקסום!</p>
                 <p className="text-lg">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
                 <p className="text-md mt-2 opacity-75">💡 טיפ: לחץ פעמיים על צורה כדי לסובב אותה!</p>
+                <p className="text-md mt-1 opacity-75">🎯 טיפ: לחץ פעם אחת על צורה כדי לבחור ולשנות גודל!</p>
               </div>
             </div>
           )}
@@ -407,9 +492,12 @@ export default function BuildingGame() {
               key={block.id}
               block={block}
               isDragged={dragState.draggedBlock?.id === block.id}
+              isSelected={selectedBlock?.id === block.id}
               onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
               onDoubleClick={handleDoubleClick}
               onRotate={handleRotate}
+              onSelect={handleBlockClick}
             />
           ))}
         </div>
@@ -432,8 +520,18 @@ export default function BuildingGame() {
                 <ul className="text-sm space-y-1">
                   <li>• לחץ על צורות להוספה</li>
                   <li>• גרור צורות עם העכבר</li>
+                  <li>• לחץ על צורה לבחירה</li>
                   <li>• העבר עכבר על צורה ולחץ על ⟲ לסיבוב</li>
                   <li>• לחץ פעמיים לסיבוב מהיר של 90°</li>
+                </ul>
+              </div>
+              <div>
+                <h4 className="font-semibold mb-2">📐 גדלים:</h4>
+                <ul className="text-sm space-y-1">
+                  <li>• קבע גודל לצורות חדשות</li>
+                  <li>• בחר צורה ושנה את הגודל</li>
+                  <li>• טווח: 0.5x עד 3x</li>
+                  <li>• צורה נבחרת מודגשת בכתום</li>
                 </ul>
               </div>
               <div>
