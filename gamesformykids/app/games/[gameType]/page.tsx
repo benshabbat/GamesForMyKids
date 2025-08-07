@@ -13,6 +13,9 @@ const SUPPORTED_GAMES = [
 ] as const;
 // הערה: 'memory' ו-'math' הוסרו כי יש להם דפים ייעודיים משלהם
 
+// נתיבים עם דפים ייעודיים שאסור לטפל בהם בנתיב הדינמי
+const DEDICATED_ROUTES = ['entertainment', 'educational', 'memory', 'math', 'hebrew-letters', 'bubbles', 'drawing', 'building', 'puzzles', 'tzedakah', 'counting', 'colored-shapes', 'advanced'];
+
 type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
 // מיפוי URL לGameType במקרים של חוסר התאמה
@@ -50,7 +53,6 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   const { gameType } = await params;
   
   // בדיקה שזה לא נתיב שיש לו דף ייעודי (למניעת קונפליקטים)
-  const DEDICATED_ROUTES = ['entertainment', 'educational', 'memory', 'math', 'hebrew-letters', 'bubbles', 'drawing', 'building', 'puzzles', 'tzedakah', 'counting', 'colored-shapes', 'advanced'];
   if (DEDICATED_ROUTES.includes(gameType)) {
     notFound();
   }
@@ -74,7 +76,6 @@ export async function generateStaticParams() {
   }));
   
   // הוספת URL-ים עם מיפוי מיוחד (רק אם אין להם דפים ייעודיים)
-  const DEDICATED_ROUTES = ['entertainment', 'educational', 'memory', 'math', 'hebrew-letters', 'bubbles', 'drawing', 'building', 'puzzles', 'tzedakah', 'counting', 'colored-shapes', 'advanced'];
   const mappedPaths = Object.keys(URL_TO_GAME_TYPE_MAP)
     .filter(urlGameType => !DEDICATED_ROUTES.includes(urlGameType))
     .map((urlGameType) => ({
