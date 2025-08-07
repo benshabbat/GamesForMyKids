@@ -1,8 +1,8 @@
 'use client';
 
+import React, { createElement, useEffect } from 'react';
 import Link from 'next/link';
 import { Home, ArrowLeft, ArrowRight } from 'lucide-react';
-import { createElement, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import { getGameNavigation } from '@/lib/utils/gameNavigation';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
@@ -12,10 +12,18 @@ interface UniversalGameNavigationProps {
 }
 
 function renderIcon(icon: React.ComponentType<{ className?: string }> | React.ReactNode, className: string = "w-4 h-4 md:w-5 md:h-5") {
-  if (typeof icon === 'function') {
-    return createElement(icon, { className });
+  try {
+    if (typeof icon === 'function') {
+      return createElement(icon, { className });
+    }
+    if (React.isValidElement(icon)) {
+      return icon;
+    }
+    return null;
+  } catch (error) {
+    console.warn('Error rendering icon:', error);
+    return null;
   }
-  return icon;
 }
 
 export default function UniversalGameNavigation({ 
@@ -29,9 +37,11 @@ export default function UniversalGameNavigation({
   // Get current game info
   const currentGame = GamesRegistry.getGameById(gameId);
   const navigation = getGameNavigation(gameId);
-  
+
   // Keyboard shortcuts
   useEffect(() => {
+    if (!currentGame) return;
+    
     const handleKeyPress = (event: KeyboardEvent) => {
       // Escape key - go home
       if (event.key === 'Escape' && showHomeButton) {
@@ -53,7 +63,12 @@ export default function UniversalGameNavigation({
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [navigation.previous, navigation.next, showHomeButton]);
+  }, [navigation.previous, navigation.next, showHomeButton, currentGame]);
+
+  // Don't render navigation on non-game pages or if currentGame is not found
+  if (!gameId || !currentGame || gameId === 'games') {
+    return null;
+  }
 
   // Don't render navigation on non-game pages
   if (!gameId || !currentGame) {
@@ -82,7 +97,7 @@ export default function UniversalGameNavigation({
             title={`${navigation.previous.title} (←)`}
           >
             <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
-            {renderIcon(navigation.previous.icon)}
+            {navigation.previous.icon && renderIcon(navigation.previous.icon)}
             <span className="hidden lg:inline">{navigation.previous.title}</span>
           </Link>
         )}
@@ -104,7 +119,7 @@ export default function UniversalGameNavigation({
             title={`${navigation.next.title} (→)`}
           >
             <span className="hidden lg:inline">{navigation.next.title}</span>
-            {renderIcon(navigation.next.icon)}
+            {navigation.next.icon && renderIcon(navigation.next.icon)}
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           </Link>
         )}
