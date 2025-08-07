@@ -163,22 +163,24 @@ export const useTetrisGame = () => {
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
     if (!gameState.isGameRunning) return;
     
+    // מנע גלילת מסך במהלך המשחק
+    if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' '].includes(e.key)) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
     switch (e.key) {
       case 'ArrowLeft':
-        e.preventDefault();
         movePiece(-1, 0);
         break;
       case 'ArrowRight':
-        e.preventDefault();
         movePiece(1, 0);
         break;
       case 'ArrowDown':
-        e.preventDefault();
         movePiece(0, 1);
         break;
       case 'ArrowUp':
       case ' ':
-        e.preventDefault();
         handleRotate();
         break;
     }
@@ -197,18 +199,10 @@ export const useTetrisGame = () => {
   }, [gameState.isGameRunning, gameState.level, movePiece]);
 
   useEffect(() => {
-    // אופטימיזציה למובייל - הוספת דיבאונס
-    let timeoutId: NodeJS.Timeout;
-    
-    const debouncedKeyHandler = (e: KeyboardEvent) => {
-      clearTimeout(timeoutId);
-      timeoutId = setTimeout(() => handleKeyPress(e), 50);
-    };
-
-    window.addEventListener('keydown', debouncedKeyHandler);
+    // טיפול ישיר בחצי מקלדת - בלי דיבאונס כדי לא להפריע להפעלה
+    window.addEventListener('keydown', handleKeyPress);
     return () => {
-      window.removeEventListener('keydown', debouncedKeyHandler);
-      clearTimeout(timeoutId);
+      window.removeEventListener('keydown', handleKeyPress);
     };
   }, [handleKeyPress]);
 

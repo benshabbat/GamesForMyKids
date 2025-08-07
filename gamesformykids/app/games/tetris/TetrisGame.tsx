@@ -86,7 +86,7 @@ const TetrisGame: React.FC<TetrisGameProps> = () => {
         </div>
 
         {/* Mobile Layout */}
-        <div className="lg:hidden flex flex-col items-center w-full max-w-lg">
+        <div className="lg:hidden flex flex-col items-center w-full max-w-sm px-4">
           {/* Mobile Info Panel */}
           <MobileInfoPanel 
             score={gameState.score} 
@@ -96,7 +96,7 @@ const TetrisGame: React.FC<TetrisGameProps> = () => {
           />
 
           {/* Game Board */}
-          <div className="my-6">
+          <div className="my-4">
             <GameBoard displayBoard={displayBoard} />
           </div>
 
