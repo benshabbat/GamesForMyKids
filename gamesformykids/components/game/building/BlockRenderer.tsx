@@ -110,49 +110,67 @@ export default function BlockRenderer({
             transform: `rotate(${block.rotation}deg)`,
             filter: block.shadow ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' : 'none'
           }}>
-            {/* Better heart shape using pure CSS */}
+            {/* Improved heart shape with better proportions */}
             <div 
               style={{
-                position: 'relative',
-                width: `${size * 0.8}px`,
-                height: `${size * 0.7}px`,
-                left: `${size * 0.1}px`,
-                top: `${size * 0.15}px`
+                position: 'absolute',
+                width: `${size * 0.9}px`,
+                height: `${size * 0.8}px`,
+                left: `${size * 0.05}px`,
+                top: `${size * 0.1}px`
               }}
             >
-              {/* Main heart shape */}
-              <div style={{
-                width: `${size * 0.8}px`,
-                height: `${size * 0.65}px`,
-                position: 'relative',
-                transform: 'rotate(-45deg)',
-                backgroundColor: block.color,
-                borderRadius: `${size * 0.4}px ${size * 0.4}px 0 ${size * 0.4}px`,
-                border: '2px solid rgba(255,255,255,0.3)'
-              }} />
-              {/* Heart left bump */}
+              {/* Left heart lobe */}
               <div style={{
                 position: 'absolute',
                 width: `${size * 0.4}px`,
-                height: `${size * 0.4}px`,
+                height: `${size * 0.5}px`,
                 backgroundColor: block.color,
-                borderRadius: '50%',
-                top: `${size * -0.15}px`,
+                borderRadius: `${size * 0.2}px ${size * 0.2}px 0 ${size * 0.2}px`,
+                top: 0,
                 left: `${size * 0.05}px`,
                 transform: 'rotate(-45deg)',
+                transformOrigin: 'center bottom',
                 border: '2px solid rgba(255,255,255,0.3)'
               }} />
-              {/* Heart right bump */}
+              
+              {/* Right heart lobe */}
               <div style={{
                 position: 'absolute',
                 width: `${size * 0.4}px`,
-                height: `${size * 0.4}px`,
+                height: `${size * 0.5}px`,
                 backgroundColor: block.color,
-                borderRadius: '50%',
-                top: `${size * -0.15}px`,
-                left: `${size * 0.35}px`,
-                transform: 'rotate(-45deg)',
+                borderRadius: `${size * 0.2}px ${size * 0.2}px ${size * 0.2}px 0`,
+                top: 0,
+                right: `${size * 0.05}px`,
+                transform: 'rotate(45deg)',
+                transformOrigin: 'center bottom',
                 border: '2px solid rgba(255,255,255,0.3)'
+              }} />
+              
+              {/* Heart point (bottom triangle) */}
+              <div style={{
+                position: 'absolute',
+                width: 0,
+                height: 0,
+                borderLeft: `${size * 0.25}px solid transparent`,
+                borderRight: `${size * 0.25}px solid transparent`,
+                borderTop: `${size * 0.35}px solid ${block.color}`,
+                bottom: 0,
+                left: `${size * 0.2}px`,
+                filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.3))'
+              }} />
+              
+              {/* Heart center fill */}
+              <div style={{
+                position: 'absolute',
+                width: `${size * 0.6}px`,
+                height: `${size * 0.3}px`,
+                backgroundColor: block.color,
+                top: `${size * 0.15}px`,
+                left: `${size * 0.15}px`,
+                border: '2px solid rgba(255,255,255,0.3)',
+                borderRadius: `${size * 0.1}px`
               }} />
             </div>
           </div>
