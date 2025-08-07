@@ -52,6 +52,6 @@ export interface TouchControlsProps {
 }
 
 export interface NextPieceDisplayProps {
-  nextPiece: Piece;
+  nextPiece: Piece | null;
   isMobile?: boolean;
 }

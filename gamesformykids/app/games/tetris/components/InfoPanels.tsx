@@ -22,7 +22,7 @@ export const MobileInfoPanel: React.FC<InfoPanelProps> = ({ score, level, linesC
       </div>
     </div>
     
-    {nextPiece && <NextPieceDisplay nextPiece={nextPiece} isMobile />}
+    <NextPieceDisplay nextPiece={nextPiece} isMobile />
   </div>
 );
 
@@ -52,7 +52,7 @@ export const DesktopInfoPanel: React.FC<InfoPanelProps> = ({ score, level, lines
     <div className="bg-gradient-to-br from-green-600/80 to-green-800/80 backdrop-blur-lg p-6 rounded-2xl border border-green-300/30 shadow-2xl">
       <h3 className="text-white font-bold text-xl mb-4 text-center">Next Piece</h3>
       <div className="flex justify-center">
-        {nextPiece && <NextPieceDisplay nextPiece={nextPiece} />}
+        <NextPieceDisplay nextPiece={nextPiece} />
       </div>
     </div>
   </div>

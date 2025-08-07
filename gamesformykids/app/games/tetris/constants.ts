@@ -41,11 +41,21 @@ export const TETROMINOES: Record<string, { blocks: number[][]; color: string }> 
 // Game utility functions
 export const getRandomPiece = (): Piece => {
   const pieces = Object.keys(TETROMINOES);
+  if (pieces.length === 0) {
+    throw new Error('No tetrominoes defined');
+  }
+  
   const randomPiece = pieces[Math.floor(Math.random() * pieces.length)];
+  const pieceData = TETROMINOES[randomPiece];
+  
+  if (!pieceData || !pieceData.blocks || !pieceData.color) {
+    throw new Error(`Invalid tetromino data for piece: ${randomPiece}`);
+  }
+  
   return {
     type: randomPiece,
-    blocks: TETROMINOES[randomPiece].blocks,
-    color: TETROMINOES[randomPiece].color
+    blocks: pieceData.blocks,
+    color: pieceData.color
   };
 };
 
