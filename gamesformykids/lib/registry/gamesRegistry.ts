@@ -309,6 +309,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 25,
   },
+  {
+    id: "tetris",
+    title: "טטריס לילדים",
+    description: "המשחק הכי כיפי בעולם!",
+    icon: Puzzle,
+    color: "bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700",
+    href: "/games/tetris",
+    available: true,
+    order: 26,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים

@@ -92,4 +92,5 @@ export type GameType =
   | 'emotions'
   | 'bubbles'
   | 'puzzles'
-  | 'building';
+  | 'building'
+  | 'tetris';
