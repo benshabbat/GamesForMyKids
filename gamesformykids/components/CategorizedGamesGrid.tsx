@@ -21,7 +21,7 @@ const GAME_CATEGORIES = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments", "puzzles", "drawing"]
+    gameIds: ["instruments", "puzzles", "drawing", "building"]
   },
   nature: {
     title: "טבע ואוכל",
