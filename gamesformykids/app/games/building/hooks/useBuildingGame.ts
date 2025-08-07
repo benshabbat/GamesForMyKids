@@ -216,6 +216,7 @@ export const useBuildingGame = () => {
     
     // Drag and drop state and handlers
     dragState: dragAndDrop.dragState,
+    canvasRef: dragAndDrop.canvasRef,
     handleMouseDown: dragAndDrop.handleMouseDown,
     handleMouseMove: dragAndDrop.handleMouseMove,
     handleMouseUp: dragAndDrop.handleMouseUp,

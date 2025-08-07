@@ -92,6 +92,7 @@ export default function BuildingGame() {
 
         {/* Enhanced Building Canvas */}
         <div
+          ref={game.canvasRef}
           className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl touch-manipulation h-96 md:h-[600px]"
           style={{ 
             width: '100%',
