@@ -4,7 +4,7 @@ import React from 'react';
 import { Palette } from 'lucide-react';
 
 interface ColorPickerProps {
-  colors: string[];
+  colors: readonly string[];
   selectedColor: string;
   onColorSelect: (color: string) => void;
 }
