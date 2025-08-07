@@ -726,4 +726,36 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     tip: "💡 טיפ: גרור כדי להזיז, לחץ פעמיים לסיבוב!",
     tipDescription: "השתמש בכלים השונים ליצירת יצירות קסומות",
   },
+
+  tetris: {
+    title: "🧩 טטריס לילדים 🧩",
+    subTitle: "המשחק הכי כיפי בעולם!",
+    itemsTitle: "איך משחקים:",
+    itemsDescription: "למד את החוקים והתחל לשחק!",
+    steps: [
+      { icon: "⬇️", title: "1. נפילה", description: "חלקים נופלים מלמעלה" },
+      { icon: "🔄", title: "2. סיבוב", description: "סובב חלקים בחץ למעלה" },
+      { icon: "➡️", title: "3. הזזה", description: "הזז ימינה ושמאלה" },
+      { icon: "⚡", title: "4. ניקוי", description: "מלא שורות כדי לנקות" },
+      { icon: "🏆", title: "5. ניקוד", description: "השג ניקוד גבוה!" },
+    ],
+    colors: {
+      background: "bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700",
+      header: "text-yellow-300",
+      subHeader: "text-white/90",
+      itemsDescription: "text-blue-100",
+      button: { from: "from-yellow-400", to: "to-orange-500" },
+      stepsBg: "bg-white/20",
+    },
+    grid: {
+      className: "grid-cols-1",
+    },
+    // ✨ הוספות עבור AutoGamePage
+    challengeTitle: "שחק טטריס!",
+    challengeIcon: "🧩🎮⬇️🔄",
+    challengeDescription: "סדר את החלקים ונקה שורות!",
+    itemLabel: "חלק טטריס",
+    tip: "💡 טיפ: נסה לחשוב איך לסדר החלקים מראש!",
+    tipDescription: "השתמש בחיצי המקלדת או בכפתורי המגע לשלטון",
+  },
 };

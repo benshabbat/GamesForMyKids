@@ -418,4 +418,5 @@ export const GameCardMap: Record<GameType, React.ComponentType<{item: BaseGameIt
   math: NumberCardWrapper, // מתמטיקה עם מספרים
   memory: AnimalCardWrapper, // זיכרון עם חיות
   building: ShapeCardWrapper, // בנייה עם צורות
+  tetris: ShapeCardWrapper, // טטריס עם צורות
 } as const;

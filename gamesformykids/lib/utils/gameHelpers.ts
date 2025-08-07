@@ -104,6 +104,7 @@ export const getGameConfig = (gameType: GameType): GameConfig => {
     bubbles: DEFAULT_CONFIG,
     puzzles: DEFAULT_CONFIG,
     building: DEFAULT_CONFIG,
+    tetris: DEFAULT_CONFIG,
   };
 
   return configs[gameType] || DEFAULT_CONFIG;
