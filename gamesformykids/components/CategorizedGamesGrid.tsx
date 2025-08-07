@@ -84,7 +84,7 @@ const CategorizedGamesGrid = () => {
   return (
     <div className="max-w-6xl mx-auto px-4 pb-8">
       {/* Navigation Buttons */}
-      <div className="flex justify-center space-x-4 mb-8">
+      <div className="flex justify-center space-x-4 mb-8" suppressHydrationWarning>
         <button
           onClick={() => {
             setSelectedCategory(null);

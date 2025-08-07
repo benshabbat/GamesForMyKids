@@ -73,7 +73,7 @@ export default function EducationalGamesPage() {
                   >
                     <div className="text-center text-white">
                       <div className="mb-6 flex justify-center">
-                        <game.icon className="w-12 h-12" />
+                        {React.createElement(game.icon, { className: "w-12 h-12" })}
                       </div>
                       <h3 className="text-2xl font-bold mb-3">
                         {game.title}
@@ -101,7 +101,7 @@ export default function EducationalGamesPage() {
                   </div>
                   <div className="text-center text-white">
                     <div className="mb-6 flex justify-center">
-                      <game.icon className="w-12 h-12" />
+                      {React.createElement(game.icon, { className: "w-12 h-12" })}
                     </div>
                     <h3 className="text-2xl font-bold mb-3">
                       {game.title}
