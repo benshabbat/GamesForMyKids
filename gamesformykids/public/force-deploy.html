@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Force Deployment - Cache Buster</title>
+    <meta http-equiv="refresh" content="0;url=/" />
+</head>
+<body>
+    <p>Redirecting to home page...</p>
+    <script>
+        // Force cache invalidation
+        const timestamp = new Date().getTime();
+        console.log('Cache buster deployment:', timestamp);
+        window.location.href = '/?v=' + timestamp;
+    </script>
+</body>
+</html>
