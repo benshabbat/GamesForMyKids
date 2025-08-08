@@ -64,9 +64,11 @@ const GameRecommendations = () => {
               {ageGroup.recommendedGames.length > 0 ? (
                 ageGroup.recommendedGames.map((game) => (
                   <Link key={game.id} href={game.href}>
-                    <div className="flex items-center p-3 bg-gray-50 rounded-xl hover:bg-gray-100 transition-colors cursor-pointer">
+                    <div className="flex items-center p-3 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl hover:from-purple-50 hover:to-blue-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md border border-gray-100">
                       <div className="flex-shrink-0 ml-3">
-                        <game.icon className="w-8 h-8 text-purple-600" />
+                        <div className="bg-gradient-to-br from-purple-100 to-blue-100 p-1.5 rounded-lg">
+                          <game.icon className="w-8 h-8 text-purple-600" />
+                        </div>
                       </div>
                       <div className="flex-1">
                         <h4 className="font-semibold text-gray-800 text-sm">{game.title}</h4>
@@ -101,7 +103,7 @@ const GameRecommendations = () => {
 
       {/* Call to action */}
       <div className="text-center mt-8">
-        <div className="inline-block bg-gradient-to-r from-blue-500 to-purple-500 text-white px-6 py-3 rounded-full font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+        <div className="inline-block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-bold hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg backdrop-blur-sm">
           💡 לא בטוחים איזה משחק לבחור? התחילו עם המשחק המומלץ!
         </div>
       </div>

@@ -142,7 +142,7 @@ const CategorizedGamesGrid = () => {
                     <p className="text-lg opacity-90 mb-3">
                       {category.description}
                     </p>
-                    <div className="bg-black bg-opacity-20 rounded-full py-2 px-4 inline-block border border-white border-opacity-30">
+                    <div className="bg-gradient-to-r from-black/30 to-black/20 rounded-full py-2 px-4 inline-block border border-white/40 backdrop-blur-sm shadow-lg hover:from-black/40 hover:to-black/30 transition-all duration-300">
                       <span className="font-bold text-white drop-shadow-lg">
                         {gamesCount} משחקים
                         {availableCount < gamesCount && ` (${availableCount} זמינים)`}
@@ -191,23 +191,28 @@ const CategorizedGamesGrid = () => {
                     <Link href={game.href}>
                       <div
                         className={`
-                          relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl
+                          relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
                           ${game.color}
                         `}
                       >
-                        <div className="text-center text-white">
+                        {/* Gradient overlay for enhanced visual appeal */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                        
+                        <div className="relative text-center text-white">
                           <div className="mb-4 flex justify-center">
-                            <game.icon className="w-10 h-10" />
+                            <div className="bg-white/20 p-2 rounded-full backdrop-blur-sm">
+                              <game.icon className="w-10 h-10" />
+                            </div>
                           </div>
-                          <h3 className="text-xl font-bold mb-2">
+                          <h3 className="text-xl font-bold mb-2 drop-shadow-sm">
                             {game.title}
                           </h3>
-                          <p className="text-lg opacity-90">
+                          <p className="text-lg opacity-90 drop-shadow-sm">
                             {game.description}
                           </p>
                         </div>
                         <div className="absolute top-4 right-4">
-                          <Star className="w-5 h-5 text-yellow-300 fill-current" />
+                          <Star className="w-5 h-5 text-yellow-300 fill-current drop-shadow-sm" />
                         </div>
                       </div>
                     </Link>
@@ -255,23 +260,28 @@ const CategorizedGamesGrid = () => {
                   <Link href={game.href}>
                     <div
                       className={`
-                        relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl
+                        relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
                         ${game.color}
                       `}
                     >
-                      <div className="text-center text-white">
+                      {/* Gradient overlay for enhanced visual appeal */}
+                      <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+                      
+                      <div className="relative text-center text-white">
                         <div className="mb-4 flex justify-center">
-                          <game.icon className="w-10 h-10" />
+                          <div className="bg-white/20 p-2 rounded-full backdrop-blur-sm">
+                            <game.icon className="w-10 h-10" />
+                          </div>
                         </div>
-                        <h3 className="text-xl font-bold mb-2">
+                        <h3 className="text-xl font-bold mb-2 drop-shadow-sm">
                           {game.title}
                         </h3>
-                        <p className="text-lg opacity-90">
+                        <p className="text-lg opacity-90 drop-shadow-sm">
                           {game.description}
                         </p>
                       </div>
                       <div className="absolute top-4 right-4">
-                        <Star className="w-5 h-5 text-yellow-300 fill-current" />
+                        <Star className="w-5 h-5 text-yellow-300 fill-current drop-shadow-sm" />
                       </div>
                     </div>
                   </Link>
