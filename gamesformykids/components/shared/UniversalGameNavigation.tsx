@@ -88,7 +88,7 @@ export default function UniversalGameNavigation({
           <Link
             href={navigation.previous.href}
             className="bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300"
-            title={`${navigation.previous.title} (→)`}
+            title={`${navigation.previous.title} (←)`}
           >
             <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
             {navigation.previous.icon && renderIcon(navigation.previous.icon)}
@@ -112,7 +112,7 @@ export default function UniversalGameNavigation({
           <Link
             href={navigation.next.href}
             className="bg-green-500/90 backdrop-blur-sm hover:bg-green-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-green-400 hover:border-green-300"
-            title={`${navigation.next.title} (←)`}
+            title={`${navigation.next.title} (→)`}
           >
             <span className="hidden lg:inline">{navigation.next.title}</span>
             {navigation.next.icon && renderIcon(navigation.next.icon)}
