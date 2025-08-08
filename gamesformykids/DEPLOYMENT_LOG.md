@@ -43,5 +43,7 @@
 4. בדיקות Lighthouse רגולריות
 
 ---
-**עדכון אחרון:** 8 באוגוסט 2025
+**עדכון אחרון:** 8 באוגוסט 2025 - Cache Busting Fix
 **URL Production:** https://games-for-my-kids.vercel.app/
+**Build Version:** 1.0.2
+**Status:** תיקון בעיות cache ועדכון headers

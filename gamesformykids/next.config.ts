@@ -33,6 +33,37 @@ const nextConfig: NextConfig = {
           },
         ],
       },
+      // Cache busting for HTML pages to avoid caching issues
+      {
+        source: '/',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate, proxy-revalidate',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+          {
+            key: 'Expires',
+            value: '0',
+          },
+        ],
+      },
+      {
+        source: '/games/:path*',
+        headers: [
+          {
+            key: 'Cache-Control',
+            value: 'no-cache, no-store, must-revalidate, proxy-revalidate',
+          },
+          {
+            key: 'Pragma',
+            value: 'no-cache',
+          },
+        ],
+      },
       // SEO headers
       {
         source: '/(.*)',

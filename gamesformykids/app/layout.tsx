@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import { BUILD_INFO } from '@/lib/build-info';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -114,6 +115,13 @@ export default function RootLayout({
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
         <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        
+        {/* Cache busting */}
+        <meta name="build-version" content={BUILD_INFO.version} />
+        <meta name="build-timestamp" content={BUILD_INFO.timestamp.toString()} />
+        <meta name="cache-control" content="no-cache, no-store, must-revalidate" />
+        <meta name="pragma" content="no-cache" />
+        <meta name="expires" content="0" />
         
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#8b5cf6" />

@@ -6,7 +6,7 @@ const homePageStructuredData = {
   "@type": "WebApplication",
   "name": "משחקים לילדים 2-5",
   "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים",
-  "url": "https://gamesformykids.vercel.app",
+  "url": "https://games-for-my-kids.vercel.app",
   "applicationCategory": "GameApplication",
   "operatingSystem": "Any",
   "author": {
@@ -30,6 +30,9 @@ const homePageStructuredData = {
 };
 
 export default function HomePage() {
+  // Force cache invalidation with current timestamp
+  const timestamp = new Date().getTime();
+  
   return (
     <>
       <script
@@ -38,6 +41,11 @@ export default function HomePage() {
           __html: JSON.stringify(homePageStructuredData),
         }}
       />
+      {/* Cache busting meta tag */}
+      <meta name="cache-control" content="no-cache, no-store, must-revalidate" />
+      <meta name="pragma" content="no-cache" />
+      <meta name="expires" content="0" />
+      <meta name="build-time" content={timestamp.toString()} />
       <HomePageClient />
     </>
   );
