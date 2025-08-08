@@ -9,7 +9,7 @@ import TouchControls from './components/TouchControls';
 import AnimatedBackground from './components/AnimatedBackground';
 import LoadingScreen from './components/LoadingScreen';
 
-const TetrisGame: React.FC = () => {
+function TetrisGame(){
   const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();
 
   if (gameState.isLoading) {
