@@ -195,7 +195,7 @@ export default async function AdvancedGameMain({ params }: AdvancedGameMainProps
                 <h4 className="font-bold text-gray-800 mb-2">{info.title}</h4>
                 <p className="text-sm text-gray-600 mb-3">{info.description}</p>
                 <button className="text-blue-600 hover:text-blue-800 text-sm font-medium">
-                  נסו גם זה →
+                  ← נסו גם זה
                 </button>
               </div>
             ))}

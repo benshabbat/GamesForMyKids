@@ -69,7 +69,7 @@ export default function GameControls({
             >
               <span>🎮</span>
               <span>עבור ל{nextGame.title}</span>
-              <span>←</span>
+              <span>→</span>
             </button>
             
             <button

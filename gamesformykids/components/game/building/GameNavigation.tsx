@@ -68,7 +68,7 @@ export default function GameNavigation({
             className={`bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300 ${previousGame.className || ''}`}
             title={`${previousGame.title} (←)`}
           >
-            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
             {renderIcon(previousGame.icon)}
             <span className="hidden lg:inline">{previousGame.title}</span>
           </Link>
@@ -92,7 +92,7 @@ export default function GameNavigation({
           >
             <span className="hidden lg:inline">{nextGame.title}</span>
             {renderIcon(nextGame.icon)}
-            <ArrowRight className="w-4 h-4 md:w-5 md:h-5" />
+            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
           </Link>
         )}
       </div>

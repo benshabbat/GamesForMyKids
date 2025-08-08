@@ -2,7 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { Star, ArrowLeft } from 'lucide-react';
+import { Star, ArrowRight } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 const FeaturedGame = () => {
@@ -56,7 +56,7 @@ const FeaturedGame = () => {
               
               <div className="inline-flex items-center bg-gradient-to-r from-white/30 to-white/20 backdrop-blur-sm px-6 py-3 rounded-full font-bold text-lg hover:from-white/40 hover:to-white/30 transition-all duration-300 border border-white/30 shadow-lg">
                 <span className="ml-2 drop-shadow-sm">שחקו עכשיו</span>
-                <ArrowLeft className="w-5 h-5 drop-shadow-sm" />
+                <ArrowRight className="w-5 h-5 drop-shadow-sm" />
               </div>
             </div>
           </div>

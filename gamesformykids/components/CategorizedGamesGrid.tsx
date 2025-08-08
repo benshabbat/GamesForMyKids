@@ -167,7 +167,7 @@ const CategorizedGamesGrid = () => {
               onClick={() => setSelectedCategory(null)}
               className="mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-medium transition-colors"
             >
-              ← חזור לקטגוריות
+              → חזור לקטגוריות
             </button>
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
               {GAME_CATEGORIES[selectedCategory as keyof typeof GAME_CATEGORIES]?.title}

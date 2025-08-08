@@ -76,7 +76,7 @@ export default function AdvancedGamesSidebar() {
                   {game.difficulty}
                 </span>
                 <span className="text-sm opacity-75">
-                  לחצו לשחק ←
+                  ← לחצו לשחק
                 </span>
               </div>
             </div>

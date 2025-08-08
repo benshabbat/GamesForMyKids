@@ -5,6 +5,24 @@
   direction: rtl;
 }
 
+/* הפיכת חצים לכיוון נכון עבור RTL */
+.rtl-arrow-left {
+  transform: scaleX(-1);
+}
+
+.rtl-arrow-right {
+  transform: scaleX(-1);
+}
+
+/* תיקון כיוון עבור רכיבי ניווט */
+[dir="rtl"] .arrow-left {
+  transform: rotate(180deg);
+}
+
+[dir="rtl"] .arrow-right {
+  transform: rotate(180deg);
+}
+
 body {
   font-family: 'Inter', sans-serif;
 }
