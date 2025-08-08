@@ -90,26 +90,26 @@ const CategorizedGamesGrid = () => {
             setSelectedCategory(null);
             setShowAllGames(false);
           }}
-          className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${
+          className={`px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 ${
             !selectedCategory && !showAllGames
               ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-white text-purple-600 hover:bg-purple-50'
+              : 'bg-white text-purple-600 hover:bg-purple-50 shadow-md'
           }`}
         >
-          קטגוריות
+          📚 קטגוריות
         </button>
         <button
           onClick={() => {
             setSelectedCategory(null);
             setShowAllGames(true);
           }}
-          className={`px-6 py-3 rounded-full font-bold transition-all duration-300 ${
+          className={`px-6 py-3 rounded-full font-bold transition-all duration-300 transform hover:scale-105 ${
             showAllGames
               ? 'bg-purple-600 text-white shadow-lg'
-              : 'bg-white text-purple-600 hover:bg-purple-50'
+              : 'bg-white text-purple-600 hover:bg-purple-50 shadow-md'
           }`}
         >
-          כל המשחקים ({totalGamesCount})
+          🎮 כל המשחקים ({totalGamesCount})
         </button>
       </div>
 
