@@ -3,7 +3,7 @@ import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs'
 import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://gamesformykids.vercel.app'
+  const baseUrl = 'https://games-for-my-kids.vercel.app'
   
   // דף הבית
   const routes: MetadataRoute.Sitemap = [

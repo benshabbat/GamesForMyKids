@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap
-Sitemap: https://gamesformykids.vercel.app/sitemap.xml
+Sitemap: https://games-for-my-kids.vercel.app/sitemap.xml
 
 # דפים שלא רוצים לאנדקס (אם יש)
 # Disallow: /admin/

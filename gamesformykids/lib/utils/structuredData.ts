@@ -40,7 +40,7 @@ export function generateGameStructuredData({
     "publisher": {
       "@type": "Organization",
       "name": "GamesForMyKids",
-      "url": "https://gamesformykids.vercel.app"
+      "url": "https://games-for-my-kids.vercel.app"
     },
     "inLanguage": "he",
     "isAccessibleForFree": true,

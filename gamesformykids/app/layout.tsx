@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/davidchen-benshabbat' }],
   creator: 'דוד-חן בן שבת',
   publisher: 'GamesForMyKids',
-  metadataBase: new URL('https://gamesformykids.vercel.app'),
+  metadataBase: new URL('https://games-for-my-kids.vercel.app'),
   alternates: {
     canonical: '/',
   },
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד!',
     type: 'website',
     locale: 'he_IL',
-    url: 'https://gamesformykids.vercel.app',
+    url: 'https://games-for-my-kids.vercel.app',
     siteName: 'משחקים לילדים',
     images: [
       {
@@ -80,7 +80,7 @@ export default function RootLayout({
     "@type": "WebSite",
     "name": "משחקים לילדים 2-5",
     "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים",
-    "url": "https://gamesformykids.vercel.app",
+    "url": "https://games-for-my-kids.vercel.app",
     "author": {
       "@type": "Person",
       "name": "דוד-חן בן שבת",
@@ -99,7 +99,7 @@ export default function RootLayout({
     },
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://gamesformykids.vercel.app/games/{search_term_string}",
+      "target": "https://games-for-my-kids.vercel.app/games/{search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -121,7 +121,7 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
-        <link rel="canonical" href="https://gamesformykids.vercel.app" />
+        <link rel="canonical" href="https://games-for-my-kids.vercel.app" />
         
         {/* Structured Data */}
         <script
