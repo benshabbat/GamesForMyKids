@@ -78,7 +78,7 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         <div className="mt-8 text-center">
           <p className="text-sm text-white/80 mb-2">פותח באהבה על ידי</p>
           <a 
-            href="https://www.linkedin.com/in/david-chen-benshabbat" 
+            href="https://www.linkedin.com/in/davidchen-benshabbat" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-lg font-semibold text-white hover:text-yellow-300 transition-colors underline decoration-2 underline-offset-4"

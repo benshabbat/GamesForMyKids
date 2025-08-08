@@ -50,7 +50,7 @@ function Footer() {
           <div className="mt-6 pt-6 border-t border-gray-300">
             <p className="text-sm text-gray-600 mb-2">פותח באהבה על ידי</p>
             <a 
-              href="https://www.linkedin.com/in/david-chen-benshabbat" 
+              href="https://www.linkedin.com/in/davidchen-benshabbat" 
               target="_blank" 
               rel="noopener noreferrer"
               className="text-lg font-semibold text-purple-700 hover:text-purple-800 transition-colors underline decoration-2 underline-offset-4"

@@ -3,7 +3,18 @@
 An interactive educational games platform for children, featuring Hebrew language support and audio-based learning experiences.
 
 **פותח באהבה על ידי דוד-חן בן שבת** 💜  
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-David--Chen%20Benshabbat-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/david-chen-benshabbat)
+[![Link## 👨‍💻 Developer
+
+**דוד-חן בן שבת (David-Chen Benshabbat)**  
+- 💼 [LinkedIn Profile](https://www.linkedin.com/in/davidchen-benshabbat)
+- 💜 פותח באהבה עבור ילדים ובני המשפחה
+- 🎯 מתמחה בפיתוח חוויות למידה אינטראקטיביות
+
+## 📧 Contact
+
+For questions, suggestions, or support:
+- Open an issue on GitHub
+- Connect on [LinkedIn](https://www.linkedin.com/in/davidchen-benshabbat)//img.shields.io/badge/LinkedIn-David--Chen%20Benshabbat-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/davidchen-benshabbat)
 
 ## 🌟 Overview
 

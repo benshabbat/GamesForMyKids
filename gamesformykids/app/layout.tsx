@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
   description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד! פותח באהבה על ידי דוד-חן בן שבת.',
   keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות, משחקי למידה, דוד-חן בן שבת',
-  authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/david-chen-benshabbat' }],
+  authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/davidchen-benshabbat' }],
   creator: 'דוד-חן בן שבת',
   publisher: 'GamesForMyKids',
   openGraph: {
