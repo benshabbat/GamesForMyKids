@@ -1,9 +1,10 @@
 "use client";
 
 import { UniversalGameNavigation } from '@/components/shared';
+import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
