@@ -43,6 +43,30 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
   return {
     title: config.title,
     description: config.subTitle,
+    keywords: `${config.title}, משחקים לילדים, חינוכי, גיל 2-5, פעוטות, למידה, ${actualGameType}`,
+    openGraph: {
+      title: config.title,
+      description: config.subTitle,
+      type: 'article',
+      url: `https://gamesformykids.vercel.app/games/${gameType}`,
+      images: [
+        {
+          url: `/images/games/${actualGameType}-og.png`,
+          width: 1200,
+          height: 630,
+          alt: config.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: config.title,
+      description: config.subTitle,
+      images: [`/images/games/${actualGameType}-twitter.png`],
+    },
+    alternates: {
+      canonical: `/games/${gameType}`,
+    },
   };
 }
 

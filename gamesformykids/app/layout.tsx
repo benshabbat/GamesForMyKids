@@ -12,16 +12,33 @@ export const metadata: Metadata = {
   authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/davidchen-benshabbat' }],
   creator: 'דוד-חן בן שבת',
   publisher: 'GamesForMyKids',
+  metadataBase: new URL('https://gamesformykids.vercel.app'),
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
-    title: '🎮 משחקים לילדים 2-5',
-    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5. פותח באהבה על ידי דוד-חן בן שבת.',
+    title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
+    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד!',
     type: 'website',
     locale: 'he_IL',
+    url: 'https://gamesformykids.vercel.app',
+    siteName: 'משחקים לילדים',
+    images: [
+      {
+        url: '/images/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'משחקים לילדים - למידה מהנה וחינוכית',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🎮 משחקים לילדים 2-5',
-    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5. פותח באהבה על ידי דוד-חן בן שבת.',
+    site: '@GamesForMyKids',
+    creator: '@davidchen_dev',
+    title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
+    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים',
+    images: ['/images/twitter-image.png'],
   },
   robots: {
     index: true,
@@ -29,7 +46,14 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
     },
+  },
+  verification: {
+    google: 'your-google-verification-code',
+    // הוסף כאן קודי אימות נוספים כמו Bing, Yandex וכו'
   },
 };
 
@@ -40,6 +64,35 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const structuredData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "משחקים לילדים 2-5",
+    "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים",
+    "url": "https://gamesformykids.vercel.app",
+    "author": {
+      "@type": "Person",
+      "name": "דוד-חן בן שבת",
+      "url": "https://www.linkedin.com/in/davidchen-benshabbat"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "GamesForMyKids"
+    },
+    "inLanguage": "he",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "children",
+      "suggestedMinAge": 2,
+      "suggestedMaxAge": 5
+    },
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://gamesformykids.vercel.app/games/{search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  };
+
   return (
     <html lang="he" dir="rtl">
       <head>
@@ -49,6 +102,13 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
+        <link rel="canonical" href="https://gamesformykids.vercel.app" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData),
+          }}
+        />
       </head>
       <body className={inter.className}>
         <ServiceWorkerRegistration />

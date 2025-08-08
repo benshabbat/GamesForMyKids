@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://gamesformykids.vercel.app/sitemap.xml
+
+# דפים שלא רוצים לאנדקס (אם יש)
+# Disallow: /admin/
+# Disallow: /api/
+
+# עדיפויות crawling
+User-agent: Googlebot
+Allow: /
+Allow: /games/
+Allow: /games/*/
+
+User-agent: Bingbot
+Allow: /
+Allow: /games/
+Allow: /games/*/
