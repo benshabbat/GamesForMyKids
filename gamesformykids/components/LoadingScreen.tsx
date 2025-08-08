@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
@@ -10,14 +10,14 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
   const [progress, setProgress] = useState(0);
   const [currentEmoji, setCurrentEmoji] = useState(0);
   
-  const emojis = ['🎮', '🌟', '🎨', '📚', '🎯', '🧸'];
-  const loadingTexts = [
+  const emojis = useMemo(() => ['🎮', '🌟', '🎨', '📚', '🎯', '🧸'], []);
+  const loadingTexts = useMemo(() => [
     'טוען משחקים מהנים...',
     'מכין הפתעות...',
     'מארגן צבעים...',
     'בודק שהכל מושלם...',
     'כמעט מוכן!'
-  ];
+  ], []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +29,6 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
         return prev + 2;
       });
       
-      // Change emoji every 500ms
       setCurrentEmoji(prev => (prev + 1) % emojis.length);
     }, 50);
 
@@ -73,6 +72,20 @@ const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
               style={{ animationDelay: `${i * 0.2}s` }}
             />
           ))}
+        </div>
+        
+        {/* Developer credit */}
+        <div className="mt-8 text-center">
+          <p className="text-sm text-white/80 mb-2">פותח באהבה על ידי</p>
+          <a 
+            href="https://www.linkedin.com/in/david-chen-benshabbat" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="text-lg font-semibold text-white hover:text-yellow-300 transition-colors underline decoration-2 underline-offset-4"
+          >
+            דוד-חן בן שבת
+          </a>
+          <div className="text-xs text-white/70 mt-1">💼 LinkedIn</div>
         </div>
       </div>
     </div>

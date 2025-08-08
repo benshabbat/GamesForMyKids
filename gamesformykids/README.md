@@ -2,6 +2,9 @@
 
 An interactive educational games platform for children, featuring Hebrew language support and audio-based learning experiences.
 
+**פותח באהבה על ידי דוד-חן בן שבת** 💜  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-David--Chen%20Benshabbat-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/david-chen-benshabbat)
+
 ## 🌟 Overview
 
 This platform offers a collection of educational games designed to help children learn through interactive play. Each game focuses on different learning areas such as colors, numbers, animals, shapes, and more - all with Hebrew language support and audio pronunciation.
@@ -15,6 +18,8 @@ This platform offers a collection of educational games designed to help children
 - **🎭 Multiple Game Categories**: Animals, Colors, Numbers, Math, Shapes, and more
 - **🎉 Celebration Animations**: Positive reinforcement for correct answers
 - **🔧 Type-Safe Architecture**: Built with TypeScript for reliability
+- **⭐ Featured Game**: Daily recommended game rotation
+- **👶 Age-Appropriate**: Customized recommendations for ages 2-5
 
 ## 🎮 Available Games
 
@@ -214,9 +219,22 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 - Inspired by child development research
 - Community feedback and testing
 
-## 📧 Contact
+## �‍💻 Developer
 
-For questions, suggestions, or support, please open an issue on GitHub.
+**דוד-חן בן שבת (David-Chen Benshabbat)**  
+- 💼 [LinkedIn Profile](https://www.linkedin.com/in/david-chen-benshabbat)
+- 💜 פותח באהבה עבור ילדים ובני המשפחה
+- 🎯 מתמחה בפיתוח חוויות למידה אינטראקטיביות
+
+## �📧 Contact
+
+For questions, suggestions, or support:
+- Open an issue on GitHub
+- Connect on [LinkedIn](https://www.linkedin.com/in/david-chen-benshabbat)
+
+---
+
+**פותח באהבה על ידי דוד-חן בן שבת** 💜
 
 ---
 

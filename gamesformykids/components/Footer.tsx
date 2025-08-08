@@ -45,6 +45,20 @@ function Footer() {
             <span className="bg-green-100 px-3 py-1 rounded-full">🎯 חינוכי</span>
             <span className="bg-yellow-100 px-3 py-1 rounded-full">🎮 מהנה</span>
           </div>
+          
+          {/* Developer credit */}
+          <div className="mt-6 pt-6 border-t border-gray-300">
+            <p className="text-sm text-gray-600 mb-2">פותח באהבה על ידי</p>
+            <a 
+              href="https://www.linkedin.com/in/david-chen-benshabbat" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="text-lg font-semibold text-purple-700 hover:text-purple-800 transition-colors underline decoration-2 underline-offset-4"
+            >
+              דוד-חן בן שבת
+            </a>
+            <div className="text-xs text-gray-500 mt-1">💼 LinkedIn Profile</div>
+          </div>
         </div>
       </div>
     </footer>

@@ -7,21 +7,21 @@ const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
-  description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד!',
-  keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות, משחקי למידה',
-  authors: [{ name: 'GamesForMyKids' }],
-  creator: 'GamesForMyKids',
+  description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד! פותח באהבה על ידי דוד-חן בן שבת.',
+  keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות, משחקי למידה, דוד-חן בן שבת',
+  authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/david-chen-benshabbat' }],
+  creator: 'דוד-חן בן שבת',
   publisher: 'GamesForMyKids',
   openGraph: {
     title: '🎮 משחקים לילדים 2-5',
-    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5',
+    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5. פותח באהבה על ידי דוד-חן בן שבת.',
     type: 'website',
     locale: 'he_IL',
   },
   twitter: {
     card: 'summary_large_image',
     title: '🎮 משחקים לילדים 2-5',
-    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5',
+    description: 'משחקים חינוכיים ומהנים לילדים בגיל 2-5. פותח באהבה על ידי דוד-חן בן שבת.',
   },
   robots: {
     index: true,
