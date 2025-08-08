@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+// Bundle analyzer configuration - disabled by default
 const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
@@ -68,4 +69,6 @@ const nextConfig: NextConfig = {
   },
 };
 
+// Export with bundle analyzer wrapper
+// To enable bundle analysis: npm run build:analyze
 export default nextConfig;

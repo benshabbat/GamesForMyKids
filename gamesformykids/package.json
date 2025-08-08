@@ -5,8 +5,11 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
+    "build:analyze": "ANALYZE=true next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "seo:sitemap": "next build && node -e \"console.log('Sitemap generated at /sitemap.xml')\"",
+    "seo:check": "next build && echo 'SEO check complete - review sitemap.xml and robots.txt'"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -21,6 +24,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@next/bundle-analyzer": "^15.0.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

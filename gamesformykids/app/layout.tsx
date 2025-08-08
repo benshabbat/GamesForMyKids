@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -54,6 +55,16 @@ export const metadata: Metadata = {
   verification: {
     google: 'your-google-verification-code',
     // הוסף כאן קודי אימות נוספים כמו Bing, Yandex וכו'
+    other: {
+      'msvalidate.01': 'your-bing-verification-code',
+      'yandex-verification': 'your-yandex-verification-code',
+    },
+  },
+  other: {
+    // Pinterest verification
+    'p:domain_verify': 'your-pinterest-verification-code',
+    // WhatsApp Business
+    'whatsapp:account_verification': 'your-whatsapp-verification',
   },
 };
 
@@ -96,6 +107,14 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <head>
+        {/* Preload critical resources */}
+        <link rel="preload" href="/icons/icon-192x192.png" as="image" />
+        <link rel="preload" href="/icons/icon-512x512.png" as="image" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" />
+        <link rel="preconnect" href="https://www.google-analytics.com" />
+        <link rel="dns-prefetch" href="//fonts.googleapis.com" />
+        <link rel="dns-prefetch" href="//fonts.gstatic.com" />
+        
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#8b5cf6" />
         <meta name="mobile-web-app-capable" content="yes" />
@@ -103,6 +122,8 @@ export default function RootLayout({
         <meta name="apple-mobile-web-app-status-bar-style" content="default" />
         <meta name="apple-mobile-web-app-title" content="משחקים לילדים" />
         <link rel="canonical" href="https://gamesformykids.vercel.app" />
+        
+        {/* Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -111,6 +132,9 @@ export default function RootLayout({
         />
       </head>
       <body className={inter.className}>
+        {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
         <ServiceWorkerRegistration />
         {children}
       </body>

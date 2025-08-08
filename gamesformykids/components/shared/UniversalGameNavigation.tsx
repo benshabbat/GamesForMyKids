@@ -71,20 +71,6 @@ export default function UniversalGameNavigation({
 
   return (
     <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none">
-      {/* Left side - Home and Previous */}
-      <div className="flex gap-2 pointer-events-auto">
-        {showHomeButton && (
-          <Link
-            href="/"
-            className="bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-gray-200 hover:border-purple-300"
-            title="חזרה לעמוד הראשי (ESC)"
-          >
-            <Home className="w-4 h-4 md:w-5 md:h-5" />
-            <span className="hidden md:inline">בית</span>
-          </Link>
-        )}
-
-
       {/* Right side - Next */}
       <div className="flex gap-2 pointer-events-auto">
         {navigation.next && (
@@ -99,6 +85,20 @@ export default function UniversalGameNavigation({
           </Link>
         )}
       </div>
+      {/* Left side - Home and Previous */}
+      <div className="flex gap-2 pointer-events-auto">
+        {showHomeButton && (
+          <Link
+            href="/"
+            className="bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-gray-200 hover:border-purple-300"
+            title="חזרה לעמוד הראשי (ESC)"
+          >
+            <Home className="w-4 h-4 md:w-5 md:h-5" />
+            <span className="hidden md:inline">בית</span>
+          </Link>
+        )}
+
+
       {/* Center - Current game indicator */}
       {currentGame && (
         <div className="bg-black/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-xl text-sm md:text-base font-medium pointer-events-auto">
