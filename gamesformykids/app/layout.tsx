@@ -109,8 +109,6 @@ export default function RootLayout({
     <html lang="he" dir="rtl">
       <head>
         {/* Preload critical resources */}
-        <link rel="preload" href="/icons/icon-192x192.png" as="image" />
-        <link rel="preload" href="/icons/icon-512x512.png" as="image" />
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />
         <link rel="dns-prefetch" href="//fonts.googleapis.com" />
