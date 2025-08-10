@@ -18,7 +18,7 @@ export function StaticHeader() {
         </div>
       </div>
 
-      {/* Main content */}
+      {/* Main content - Critical for LCP */}
       <div className="relative z-10">
         <h1 className="text-5xl md:text-7xl font-bold text-purple-800 mb-4">
           🎮 משחקים לילדים 🎮
@@ -27,21 +27,21 @@ export function StaticHeader() {
           משחקים מהנים לגיל 2-5!
         </p>
 
-        {/* Static feature highlights */}
+        {/* Static feature highlights - optimized for faster paint */}
         <div className="max-w-4xl mx-auto mb-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
             <div className="bg-white/70 rounded-2xl p-4 shadow-md">
-              <div className="text-3xl mb-2">🎯</div>
+              <div className="text-3xl mb-2" role="img" aria-label="target">🎯</div>
               <h2 className="font-bold text-purple-800">למידה מהנה</h2>
               <p className="text-sm text-purple-600">אותיות, מספרים וצורות</p>
             </div>
             <div className="bg-white/70 rounded-2xl p-4 shadow-md">
-              <div className="text-3xl mb-2">🧠</div>
+              <div className="text-3xl mb-2" role="img" aria-label="brain">🧠</div>
               <h2 className="font-bold text-purple-800">פיתוח חשיבה</h2>
               <p className="text-sm text-purple-600">זיכרון ופתרון בעיות</p>
             </div>
             <div className="bg-white/70 rounded-2xl p-4 shadow-md">
-              <div className="text-3xl mb-2">🎨</div>
+              <div className="text-3xl mb-2" role="img" aria-label="art">🎨</div>
               <h2 className="font-bold text-purple-800">יצירתיות</h2>
               <p className="text-sm text-purple-600">ציור ובנייה</p>
             </div>
