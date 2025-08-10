@@ -13,7 +13,7 @@
  * - UI helper functions for grid layout and animations
  */
 
-import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
+import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { AnimalData } from "@/lib/types/games";
 import { 

@@ -5,8 +5,6 @@
 
 "use client";
 
-import React from 'react';
-
 interface Hint {
   type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
   text: string;

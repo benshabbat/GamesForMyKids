@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Star, Book, Palette, Calculator, Car, Home, Gamepad2, Apple } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";

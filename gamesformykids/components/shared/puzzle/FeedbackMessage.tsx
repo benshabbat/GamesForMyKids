@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { usePuzzleFeedback } from '@/hooks/games/usePuzzleFeedback';
 
 interface FeedbackMessageProps {

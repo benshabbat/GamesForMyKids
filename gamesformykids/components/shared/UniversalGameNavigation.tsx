@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createElement, useEffect } from "react";
+import { ComponentType, createElement, isValidElement, ReactNode, useEffect } from "react";
 import Link from "next/link";
 import { Home, ArrowLeft, ArrowRight } from "lucide-react";
 import { usePathname } from "next/navigation";
@@ -12,14 +12,14 @@ interface UniversalGameNavigationProps {
 }
 
 function renderIcon(
-  icon: React.ComponentType<{ className?: string }> | React.ReactNode,
+  icon: ComponentType<{ className?: string }> | ReactNode,
   className: string = "w-4 h-4 md:w-5 md:h-5"
 ) {
   try {
     if (typeof icon === "function") {
       return createElement(icon, { className });
     }
-    if (React.isValidElement(icon)) {
+    if (isValidElement(icon)) {
       return icon;
     }
     return null;

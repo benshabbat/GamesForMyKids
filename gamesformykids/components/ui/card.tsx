@@ -1,6 +1,7 @@
-import * as React from "react"
+import { forwardRef, HTMLAttributes } from "react"
 
-const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+
+const Card = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className = "", ...props }, ref) => (
     <div
       ref={ref}
@@ -11,14 +12,14 @@ const Card = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElemen
 )
 Card.displayName = "Card"
 
-const CardHeader = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CardHeader = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className = "", ...props }, ref) => (
     <div ref={ref} className={`flex flex-col space-y-1.5 p-6 ${className}`} {...props} />
   )
 )
 CardHeader.displayName = "CardHeader"
 
-const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTMLHeadingElement>>(
+const CardTitle = forwardRef<HTMLHeadingElement,  HTMLAttributes<HTMLHeadingElement>>(
   ({ className = "", ...props }, ref) => (
     <h3
       ref={ref}
@@ -29,21 +30,21 @@ const CardTitle = React.forwardRef<HTMLHeadingElement, React.HTMLAttributes<HTML
 )
 CardTitle.displayName = "CardTitle"
 
-const CardDescription = React.forwardRef<HTMLParagraphElement, React.HTMLAttributes<HTMLParagraphElement>>(
+const CardDescription = forwardRef<HTMLParagraphElement,HTMLAttributes<HTMLParagraphElement>>(
   ({ className = "", ...props }, ref) => (
     <p ref={ref} className={`text-sm text-gray-600 ${className}`} {...props} />
   )
 )
 CardDescription.displayName = "CardDescription"
 
-const CardContent = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CardContent = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className = "", ...props }, ref) => (
     <div ref={ref} className={`p-6 pt-0 ${className}`} {...props} />
   )
 )
 CardContent.displayName = "CardContent"
 
-const CardFooter = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(
+const CardFooter = forwardRef<HTMLDivElement, HTMLAttributes<HTMLDivElement>>(
   ({ className = "", ...props }, ref) => (
     <div ref={ref} className={`flex items-center p-6 pt-0 ${className}`} {...props} />
   )

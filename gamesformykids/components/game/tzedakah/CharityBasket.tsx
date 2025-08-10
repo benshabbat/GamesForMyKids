@@ -1,5 +1,3 @@
-import React from 'react';
-
 interface CharityBasketProps {
   basketX: number;
   basketWidth: number;

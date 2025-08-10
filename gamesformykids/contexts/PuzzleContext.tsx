@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
+import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { 
   createPuzzlePieces, 

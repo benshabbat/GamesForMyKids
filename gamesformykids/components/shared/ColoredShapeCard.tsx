@@ -3,8 +3,6 @@
  * קומפוננט כרטיס צורה צבעונית
  * ===============================================
  */
-
-import React from 'react';
 import { Volume2 } from 'lucide-react';
 import { SHAPE_ICON_MAP } from '@/lib/constants/ui/shapes';
 import { ColoredShapeItem } from '@/lib/constants/gameData/basic';

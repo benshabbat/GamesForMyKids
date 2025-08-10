@@ -1,4 +1,3 @@
-import React from 'react';
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import { PuzzlePiece } from '@/lib/utils/puzzleUtils';

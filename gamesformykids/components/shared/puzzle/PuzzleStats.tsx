@@ -1,4 +1,3 @@
-import React from 'react';
 import { Clock, Trophy, Target, Star, CheckCircle } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 

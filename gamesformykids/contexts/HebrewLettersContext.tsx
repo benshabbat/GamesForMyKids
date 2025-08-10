@@ -15,7 +15,7 @@
 
 'use client';
 
-import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
 import {
   STROKE_COLORS,
@@ -296,7 +296,7 @@ interface HebrewLettersProviderProps {
  * Provides context for Hebrew letter practice functionality across the application.
  * Manages state for drawing, practice progression, encouragement, and progress tracking.
  */
-export const HebrewLettersProvider: React.FC<HebrewLettersProviderProps> = ({ children }) => {
+export const HebrewLettersProvider= ({ children }: HebrewLettersProviderProps) => {
   // ========================================================================================
   // STATE MANAGEMENT
   // ========================================================================================

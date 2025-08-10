@@ -5,8 +5,6 @@
 
 "use client";
 
-import React from 'react';
-
 interface ProgressStats {
   totalGamesPlayed: number;
   averageScore: number;

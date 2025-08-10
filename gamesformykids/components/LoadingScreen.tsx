@@ -1,12 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 interface LoadingScreenProps {
   onLoadingComplete: () => void;
 }
 
-const LoadingScreen: React.FC<LoadingScreenProps> = ({ onLoadingComplete }) => {
+const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [currentEmoji, setCurrentEmoji] = useState(0);
   
