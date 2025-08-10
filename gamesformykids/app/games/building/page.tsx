@@ -10,7 +10,7 @@ import {
   BuildingCanvas,
   GameInstructions
 } from '@/components/game/building';
-import { BuildingProvider, useBuildingContext } from '@/contexts';
+import { BuildingProvider } from '@/contexts';
 
 function BuildingGameContent() {
   return (
