@@ -1,14 +1,11 @@
 'use client';
 
 import { Palette } from 'lucide-react';
+import { useBuildingContext } from '@/contexts/BuildingContext';
 
-interface ColorPickerProps {
-  colors: readonly string[];
-  selectedColor: string;
-  onColorSelect: (color: string) => void;
-}
+export default function ColorPicker() {
+  const { COLORS, selectedColor, handleColorSelect } = useBuildingContext();
 
-export default function ColorPicker({ colors, selectedColor, onColorSelect }: ColorPickerProps) {
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
       <h3 className="text-white font-bold text-base md:text-lg mb-2 md:mb-3 text-center flex items-center justify-center gap-1 md:gap-2">
@@ -16,10 +13,10 @@ export default function ColorPicker({ colors, selectedColor, onColorSelect }: Co
         בחירת צבע
       </h3>
       <div className="grid grid-cols-4 md:grid-cols-5 gap-1 md:gap-2 mb-2 md:mb-3">
-        {colors.map((color, index) => (
+        {COLORS.map((color, index) => (
           <button
             key={color}
-            onClick={() => onColorSelect(color)}
+            onClick={() => handleColorSelect(color)}
             className={`w-8 h-8 md:w-10 md:h-10 rounded-xl shadow-lg transition-all duration-200 hover:scale-110 hover:rotate-12 border-2 touch-manipulation relative overflow-hidden ${
               selectedColor === color ? 'border-white scale-110 ring-2 ring-white/50' : 'border-white/30'
             }`}

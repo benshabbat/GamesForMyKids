@@ -1,33 +1,27 @@
 'use client';
 
 import { Sparkles, Trash2, Undo2, Redo2 } from 'lucide-react';
+import { useBuildingContext } from '@/contexts/BuildingContext';
 
-interface ActionButtonsProps {
-  historyIndex: number;
-  historyLength: number;
-  onMagicShuffle: () => void;
-  onClearAll: () => void;
-  onUndo: () => void;
-  onRedo: () => void;
-}
+export default function ActionButtons() {
+  const { 
+    historyIndex, 
+    history, 
+    magicShuffle, 
+    clearAll, 
+    undo, 
+    redo 
+  } = useBuildingContext();
 
-export default function ActionButtons({ 
-  historyIndex, 
-  historyLength, 
-  onMagicShuffle, 
-  onClearAll, 
-  onUndo, 
-  onRedo 
-}: ActionButtonsProps) {
   const canUndo = historyIndex > 0;
-  const canRedo = historyIndex < historyLength - 1;
+  const canRedo = historyIndex < history.length - 1;
 
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
       <h3 className="text-white font-bold text-base md:text-lg mb-2 md:mb-3 text-center">פעולות</h3>
       <div className="grid grid-cols-2 gap-1 md:gap-2">
         <button
-          onClick={onMagicShuffle}
+          onClick={magicShuffle}
           className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
           title="ערבוב קסום של כל הצורות"
         >
@@ -36,7 +30,7 @@ export default function ActionButtons({
         </button>
         
         <button
-          onClick={onClearAll}
+          onClick={clearAll}
           className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
           title="מחיקת כל הצורות"
         >
@@ -45,7 +39,7 @@ export default function ActionButtons({
         </button>
 
         <button
-          onClick={onUndo}
+          onClick={undo}
           disabled={!canUndo}
           className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
             canUndo 
@@ -59,7 +53,7 @@ export default function ActionButtons({
         </button>
 
         <button
-          onClick={onRedo}
+          onClick={redo}
           disabled={!canRedo}
           className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
             canRedo 

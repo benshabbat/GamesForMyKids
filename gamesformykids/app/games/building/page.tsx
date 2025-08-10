@@ -8,11 +8,27 @@ import {
   BlockRenderer, 
   ParticleSystem 
 } from '@/components/game/building';
-import { useBuildingGame } from './hooks';
-import { SHAPE_ICONS } from './constants';
+import { BuildingProvider, useBuildingContext } from '@/contexts';
 
-export default function BuildingGame() {
-  const game = useBuildingGame();
+function BuildingGameContent() {
+  const { 
+    blocks, 
+    selectedBlock, 
+    score, 
+    achievements, 
+    showGrid, 
+    canvasRef,
+    handleMouseDown,
+    handleTouchStart,
+    handleDoubleClick,
+    handleRotate,
+    handleBlockClick,
+    handleMouseMove,
+    handleMouseUp,
+    handleTouchMove,
+    handleTouchEnd,
+    deselectBlock
+  } = useBuildingContext();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-2 md:p-4 relative overflow-hidden no-select">
@@ -24,7 +40,7 @@ export default function BuildingGame() {
       </div>
 
       {/* Particles */}
-      <ParticleSystem particles={game.particles} />
+      <ParticleSystem />
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with score and achievements */}
@@ -34,11 +50,11 @@ export default function BuildingGame() {
           </h1>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-6 mb-2 md:mb-4">
             <div className="bg-yellow-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
-              <span className="text-lg md:text-xl font-bold text-gray-800">ניקוד: {game.score}</span>
+              <span className="text-lg md:text-xl font-bold text-gray-800">ניקוד: {score}</span>
             </div>
-            {game.achievements.length > 0 && (
+            {achievements.length > 0 && (
               <div className="bg-purple-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
-                <span className="text-white font-bold text-sm md:text-base">🏆 הישגים: {game.achievements.length}</span>
+                <span className="text-white font-bold text-sm md:text-base">🏆 הישגים: {achievements.length}</span>
               </div>
             )}
           </div>
@@ -47,65 +63,35 @@ export default function BuildingGame() {
         {/* Enhanced Controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-6">
           {/* Color Picker */}
-          <ColorPicker 
-            colors={game.COLORS}
-            selectedColor={game.selectedColor}
-            onColorSelect={game.handleColorSelect}
-          />
+          <ColorPicker />
 
           {/* Shape Creation */}
-          <ShapeCreator 
-            shapes={game.SHAPES}
-            shapeIcons={SHAPE_ICONS}
-            selectedColor={game.selectedColor}
-            selectedTool={game.selectedTool}
-            onCreateBlock={game.createBlock}
-            onToolSelect={game.handleToolSelect}
-          />
+          <ShapeCreator />
 
           {/* Action Buttons */}
-          <ActionButtons 
-            historyIndex={game.historyIndex}
-            historyLength={game.history.length}
-            onMagicShuffle={game.magicShuffle}
-            onClearAll={game.clearAll}
-            onUndo={game.undo}
-            onRedo={game.redo}
-          />
+          <ActionButtons />
 
           {/* Settings & Save */}
-          <SettingsPanel 
-            soundEnabled={game.soundEnabled}
-            showGrid={game.showGrid}
-            animationMode={game.animationMode}
-            selectedSize={game.selectedSize}
-            selectedBlock={game.selectedBlock}
-            onToggleSound={() => game.setSoundEnabled(!game.soundEnabled)}
-            onToggleGrid={() => game.setShowGrid(!game.showGrid)}
-            onToggleAnimation={() => game.setAnimationMode(!game.animationMode)}
-            onSizeChange={game.handleSizeChange}
-            onSelectedBlockSizeChange={game.updateSelectedBlockSize}
-            onSave={game.saveCreation}
-          />
+          <SettingsPanel />
         </div>
 
         {/* Enhanced Building Canvas */}
         <div
-          ref={game.canvasRef}
+          ref={canvasRef}
           className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl touch-manipulation h-96 md:h-[600px]"
           style={{ 
             width: '100%',
-            backgroundImage: game.showGrid ? 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)' : 'none',
-            backgroundSize: game.showGrid ? '20px 20px' : 'auto'
+            backgroundImage: showGrid ? 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)' : 'none',
+            backgroundSize: showGrid ? '20px 20px' : 'auto'
           }}
-          onMouseMove={game.handleMouseMove}
-          onMouseUp={game.handleMouseUp}
-          onMouseLeave={game.handleMouseUp}
-          onTouchMove={game.handleTouchMove}
-          onTouchEnd={game.handleTouchEnd}
-          onClick={game.deselectBlock}
+          onMouseMove={handleMouseMove}
+          onMouseUp={handleMouseUp}
+          onMouseLeave={handleMouseUp}
+          onTouchMove={handleTouchMove}
+          onTouchEnd={handleTouchEnd}
+          onClick={deselectBlock}
         >
-          {game.blocks.length === 0 && (
+          {blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="text-center text-white/90">
                 <div className="text-6xl md:text-8xl mb-4 md:mb-6 animate-bounce">🎨</div>
@@ -119,17 +105,17 @@ export default function BuildingGame() {
             </div>
           )}
           
-          {game.blocks.map(block => (
+          {blocks.map(block => (
             <BlockRenderer 
               key={block.id}
               block={block}
-              isDragged={game.dragState?.draggedBlock?.id === block.id}
-              isSelected={game.selectedBlock?.id === block.id}
-              onMouseDown={game.handleMouseDown}
-              onTouchStart={game.handleTouchStart}
-              onDoubleClick={game.handleDoubleClick}
-              onRotate={game.handleRotate}
-              onSelect={game.handleBlockClick}
+              isDragged={selectedBlock?.id === block.id}
+              isSelected={selectedBlock?.id === block.id}
+              onMouseDown={handleMouseDown}
+              onTouchStart={handleTouchStart}
+              onDoubleClick={handleDoubleClick}
+              onRotate={handleRotate}
+              onSelect={handleBlockClick}
             />
           ))}
         </div>
@@ -169,5 +155,13 @@ export default function BuildingGame() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function BuildingGame() {
+  return (
+    <BuildingProvider>
+      <BuildingGameContent />
+    </BuildingProvider>
   );
 }

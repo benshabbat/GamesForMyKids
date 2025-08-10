@@ -1,21 +1,10 @@
 'use client';
 
-interface Particle {
-  id: string;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  life: number;
-  color: string;
-  size: number;
-}
+import { useBuildingContext } from '@/contexts/BuildingContext';
 
-interface ParticleSystemProps {
-  particles: Particle[];
-}
+export default function ParticleSystem() {
+  const { particles } = useBuildingContext();
 
-export default function ParticleSystem({ particles }: ParticleSystemProps) {
   return (
     <>
       {particles.map(particle => (
@@ -25,8 +14,8 @@ export default function ParticleSystem({ particles }: ParticleSystemProps) {
           style={{
             left: particle.x,
             top: particle.y,
-            width: particle.size,
-            height: particle.size,
+            width: particle.size || 6,
+            height: particle.size || 6,
             backgroundColor: particle.color,
             opacity: particle.life / 30
           }}
