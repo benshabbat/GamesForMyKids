@@ -5,31 +5,14 @@ import {
   ShapeCreator, 
   ActionButtons, 
   SettingsPanel, 
-  BlockRenderer, 
-  ParticleSystem 
+  ParticleSystem,
+  GameHeader,
+  BuildingCanvas,
+  GameInstructions
 } from '@/components/game/building';
 import { BuildingProvider, useBuildingContext } from '@/contexts';
 
 function BuildingGameContent() {
-  const { 
-    blocks, 
-    selectedBlock, 
-    score, 
-    achievements, 
-    showGrid, 
-    canvasRef,
-    handleMouseDown,
-    handleTouchStart,
-    handleDoubleClick,
-    handleRotate,
-    handleBlockClick,
-    handleMouseMove,
-    handleMouseUp,
-    handleTouchMove,
-    handleTouchEnd,
-    deselectBlock
-  } = useBuildingContext();
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-2 md:p-4 relative overflow-hidden no-select">
       {/* Animated background elements */}
@@ -44,115 +27,21 @@ function BuildingGameContent() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with score and achievements */}
-        <div className="text-center mb-4 md:mb-6">
-          <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-xl animate-pulse">
-            🏗️ סטודיו הבנייה הקסום 🏗️
-          </h1>
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-6 mb-2 md:mb-4">
-            <div className="bg-yellow-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
-              <span className="text-lg md:text-xl font-bold text-gray-800">ניקוד: {score}</span>
-            </div>
-            {achievements.length > 0 && (
-              <div className="bg-purple-400/90 backdrop-blur-sm rounded-xl px-3 py-1 md:px-4 md:py-2">
-                <span className="text-white font-bold text-sm md:text-base">🏆 הישגים: {achievements.length}</span>
-              </div>
-            )}
-          </div>
-        </div>
+        <GameHeader />
 
         {/* Enhanced Controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-6">
-          {/* Color Picker */}
           <ColorPicker />
-
-          {/* Shape Creation */}
           <ShapeCreator />
-
-          {/* Action Buttons */}
           <ActionButtons />
-
-          {/* Settings & Save */}
           <SettingsPanel />
         </div>
 
         {/* Enhanced Building Canvas */}
-        <div
-          ref={canvasRef}
-          className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl touch-manipulation h-96 md:h-[600px]"
-          style={{ 
-            width: '100%',
-            backgroundImage: showGrid ? 'linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)' : 'none',
-            backgroundSize: showGrid ? '20px 20px' : 'auto'
-          }}
-          onMouseMove={handleMouseMove}
-          onMouseUp={handleMouseUp}
-          onMouseLeave={handleMouseUp}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
-          onClick={deselectBlock}
-        >
-          {blocks.length === 0 && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white/90">
-                <div className="text-6xl md:text-8xl mb-4 md:mb-6 animate-bounce">🎨</div>
-                <p className="text-xl md:text-2xl font-bold mb-2">ברוכים הבאים לסטודיו הקסום!</p>
-                <p className="text-base md:text-lg mb-3">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
-                <div className="space-y-1 text-sm md:text-base opacity-75">
-                  <p>💡 לחיצה כפולה = סיבוב מהיר</p>
-                  <p>🎯 לחיצה יחידה = בחירה ושינוי גודל</p>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {blocks.map(block => (
-            <BlockRenderer 
-              key={block.id}
-              block={block}
-              isDragged={selectedBlock?.id === block.id}
-              isSelected={selectedBlock?.id === block.id}
-              onMouseDown={handleMouseDown}
-              onTouchStart={handleTouchStart}
-              onDoubleClick={handleDoubleClick}
-              onRotate={handleRotate}
-              onSelect={handleBlockClick}
-            />
-          ))}
-        </div>
+        <BuildingCanvas />
 
         {/* Instructions */}
-        <div className="mt-4 md:mt-6 text-center">
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6 inline-block max-w-4xl">
-            <h3 className="text-white font-bold text-lg md:text-xl mb-3 md:mb-4 flex items-center justify-center gap-2">
-              📖 מדריך משחק קצר
-            </h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-white/90">
-              <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">🎨 צבעים</h4>
-                <ul className="text-xs md:text-sm space-y-1">
-                  <li>• בחר צבע מהפלטה</li>
-                  <li>• צורות חדשות יצבעו בצבע הנבחר</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">🎮 בניה</h4>
-                <ul className="text-xs md:text-sm space-y-1">
-                  <li>• לחץ על צורות להוספה</li>
-                  <li>• גרור צורות במקום הרצוי</li>
-                  <li>• לחץ לבחירה וסיבוב</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">✨ כלים מיוחדים</h4>
-                <ul className="text-xs md:text-sm space-y-1">
-                  <li>• רגיל: צורות פשוטות</li>
-                  <li>• קסם: אפקטים מיוחדים</li>
-                  <li>• קשת: צבעים אקראיים</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <GameInstructions />
       </div>
     </div>
   );

@@ -1,41 +1,25 @@
 'use client';
 
 import { Sparkles, RotateCw } from 'lucide-react';
-
-interface Block {
-  id: string;
-  x: number;
-  y: number;
-  color: string;
-  shape: 'square' | 'rectangle' | 'triangle' | 'circle' | 'star' | 'heart' | 'diamond';
-  rotation: number;
-  scale: number;
-  size: number; // Base size multiplier
-  shadow: boolean;
-  sparkles: boolean;
-}
+import { useBuildingContext } from '@/contexts/BuildingContext';
+import { Block } from '@/app/games/building/types';
 
 interface BlockRendererProps {
   block: Block;
-  isDragged: boolean;
-  isSelected?: boolean;
-  onMouseDown: (e: React.MouseEvent, block: Block) => void;
-  onTouchStart?: (e: React.TouchEvent, block: Block) => void;
-  onDoubleClick: (block: Block) => void;
-  onRotate: (block: Block) => void;
-  onSelect?: (block: Block) => void;
 }
 
-export default function BlockRenderer({ 
-  block, 
-  isDragged, 
-  isSelected = false,
-  onMouseDown, 
-  onTouchStart,
-  onDoubleClick,
-  onRotate,
-  onSelect
-}: BlockRendererProps) {  const renderShape = (block: Block) => {
+export default function BlockRenderer({ block }: BlockRendererProps) {
+  const { 
+    selectedBlock,
+    handleMouseDown,
+    handleTouchStart,
+    handleDoubleClick,
+    handleRotate,
+    handleBlockClick
+  } = useBuildingContext();
+
+  const isDragged = selectedBlock?.id === block.id;
+  const isSelected = selectedBlock?.id === block.id;  const renderShape = (block: Block) => {
     const size = 60 * block.scale * block.size;
     const baseStyle = {
       backgroundColor: block.color,
@@ -191,7 +175,7 @@ export default function BlockRenderer({
       <button
         onClick={(e) => {
           e.stopPropagation();
-          onRotate(block);
+          handleRotate(block);
         }}
         className="absolute -top-2 -right-2 w-8 h-8 md:w-6 md:h-6 bg-blue-500 hover:bg-blue-600 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity z-10 touch-manipulation"
         title="סובב צורה"
@@ -202,12 +186,12 @@ export default function BlockRenderer({
       {/* Main block interaction */}
       <div
         className="absolute inset-0 touch-manipulation"
-        onMouseDown={(e) => onMouseDown(e, block)}
-        onTouchStart={(e) => onTouchStart?.(e, block)}
-        onDoubleClick={() => onDoubleClick(block)}
+        onMouseDown={(e) => handleMouseDown(e, block)}
+        onTouchStart={(e) => handleTouchStart?.(e, block)}
+        onDoubleClick={() => handleDoubleClick(block)}
         onClick={(e) => {
           e.stopPropagation();
-          onSelect?.(block);
+          handleBlockClick?.(block);
         }}
       />
       
