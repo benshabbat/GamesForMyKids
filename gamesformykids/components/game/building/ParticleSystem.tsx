@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface Particle {
   id: string;
   x: number;

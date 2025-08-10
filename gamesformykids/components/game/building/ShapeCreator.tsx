@@ -1,7 +1,5 @@
 'use client';
 
-import React from 'react';
-
 interface ShapeCreatorProps {
   shapes: readonly ('square' | 'rectangle' | 'triangle' | 'circle' | 'star' | 'heart' | 'diamond')[];
   shapeIcons: Record<string, string>;

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { Sparkles, Trash2, Undo2, Redo2 } from 'lucide-react';
 
 interface ActionButtonsProps {
