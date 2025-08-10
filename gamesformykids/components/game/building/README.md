@@ -4,37 +4,65 @@ This directory contains the modular components for the Building Game.
 
 ## Components
 
+# Building Game Components
+
+This directory contains the modular components for the Building Game. All components use the **BuildingContext** to avoid props drilling.
+
+## Context-Based Architecture
+
+All components access state and functions through `useBuildingContext()` hook, eliminating the need for props drilling.
+
+## Components
+
 ### ColorPicker
 - Displays a color palette for selection
 - Shows the currently selected color
-- Props: `colors`, `selectedColor`, `onColorSelect`
+- **No props needed** - uses BuildingContext
 
 ### ShapeCreator
 - Shows available shapes to create
 - Includes tool selection (normal, magic, rainbow)
-- Props: `shapes`, `shapeIcons`, `selectedColor`, `selectedTool`, `onCreateBlock`, `onToolSelect`
+- **No props needed** - uses BuildingContext
 
 ### ActionButtons
 - Contains game action buttons (magic shuffle, clear, undo, redo)
 - Handles history management
-- Props: `historyIndex`, `historyLength`, `onMagicShuffle`, `onClearAll`, `onUndo`, `onRedo`
+- **No props needed** - uses BuildingContext
 
 ### SettingsPanel
 - Game settings toggle buttons
 - Sound, grid, animation controls
 - Save functionality
-- Props: `soundEnabled`, `showGrid`, `animationMode`, etc.
+- **No props needed** - uses BuildingContext
 
 ### BlockRenderer
 - Renders individual blocks/shapes
 - Handles rotation, dragging, and interactions
 - Includes rotation button on hover
-- Props: `block`, `isDragged`, `onMouseDown`, `onDoubleClick`, `onRotate`
+- **Minimal props**: Only receives `block` object
 
 ### ParticleSystem
 - Renders particle effects
 - Simple component for visual feedback
-- Props: `particles`
+- **No props needed** - uses BuildingContext
+
+### GameHeader
+- Displays game title, score, and achievements
+- **No props needed** - uses BuildingContext
+
+### BuildingCanvas
+- Main canvas for building blocks
+- Handles drag and drop interactions
+- Shows welcome message when empty
+- **No props needed** - uses BuildingContext
+
+### EmptyCanvasWelcome
+- Welcome message shown when canvas is empty
+- **No props needed** - pure presentation component
+
+### GameInstructions
+- Displays game instructions and help
+- **No props needed** - pure presentation component
 
 ## Features Added
 

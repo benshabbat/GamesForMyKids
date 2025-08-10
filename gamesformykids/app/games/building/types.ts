@@ -25,7 +25,7 @@ export interface Particle {
   vy: number;
   life: number;
   color: string;
-  size: number;
+  size?: number;
 }
 
 export type ShapeType = 'square' | 'rectangle' | 'triangle' | 'circle' | 'star' | 'heart' | 'diamond';

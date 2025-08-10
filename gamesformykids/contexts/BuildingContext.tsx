@@ -1,20 +1,8 @@
 'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
+import { createContext, useContext, ReactNode } from 'react';
 import { useBuildingGame } from '@/app/games/building/hooks';
-import { Block, ShapeType, ToolType } from '@/app/games/building/types';
-
-// Types
-interface Particle {
-  id: string;
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  color: string;
-  life: number;
-  size?: number;
-}
+import { Block, ShapeType, ToolType, Particle } from '@/app/games/building/types';
 
 interface BuildingContextType {
   // State

@@ -46,7 +46,7 @@ export const useBuildingGame = () => {
           y: p.y + p.vy,
           vy: p.vy + 0.5,
           life: p.life - 1,
-          size: Math.max(0, p.size - 0.2)
+          size: Math.max(0, (p.size ?? 6) - 0.2)
         }))
         .filter(p => p.life > 0)
       );
