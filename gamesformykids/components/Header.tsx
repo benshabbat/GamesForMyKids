@@ -47,17 +47,17 @@ function Header() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
               <div className="text-3xl mb-2">🎯</div>
-              <h3 className="font-bold text-purple-800">למידה מהנה</h3>
+              <h2 className="font-bold text-purple-800">למידה מהנה</h2>
               <p className="text-sm text-purple-600">אותיות, מספרים וצורות</p>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
               <div className="text-3xl mb-2">🧠</div>
-              <h3 className="font-bold text-purple-800">פיתוח חשיבה</h3>
+              <h2 className="font-bold text-purple-800">פיתוח חשיבה</h2>
               <p className="text-sm text-purple-600">זיכרון ופתרון בעיות</p>
             </div>
             <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
               <div className="text-3xl mb-2">🎨</div>
-              <h3 className="font-bold text-purple-800">יצירתיות</h3>
+              <h2 className="font-bold text-purple-800">יצירתיות</h2>
               <p className="text-sm text-purple-600">ציור ובנייה</p>
             </div>
           </div>
