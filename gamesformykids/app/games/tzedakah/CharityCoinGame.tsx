@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
 import CharityGameHeader from '@/components/game/tzedakah/CharityGameHeader';
