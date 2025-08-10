@@ -69,7 +69,7 @@ export const useBuildingGame = () => {
     return () => clearInterval(interval);
   }, [animationMode]);
 
-  // Block creation
+  // Block creation with enhanced effects
   const createBlock = useCallback((shape: ShapeType) => {
     const position = getRandomPosition();
     const color = getBlockColor(selectedTool, selectedColor);
@@ -88,17 +88,18 @@ export const useBuildingGame = () => {
     setBlocks(newBlocks);
     addToHistory(newBlocks);
     addScore(10);
-    playSound(soundEnabled);
+    playSound(soundEnabled, 'create');
     createParticles(newBlock.x, newBlock.y, newBlock.color);
     checkAchievements(newBlocks);
   }, [blocks, selectedTool, selectedColor, selectedSize, addToHistory, addScore, soundEnabled, createParticles, checkAchievements]);
 
-  // Block interactions
+  // Enhanced block interactions
   const handleDoubleClick = useCallback((block: Block) => {
     const rotatedBlock = rotateBlock(block);
     setBlocks(prev => prev.map(b => b.id === block.id ? rotatedBlock : b));
+    playSound(soundEnabled, 'rotate');
     createParticles(block.x, block.y, block.color);
-  }, [createParticles]);
+  }, [soundEnabled, createParticles]);
 
   const handleBlockClick = useCallback((block: Block) => {
     setSelectedBlock(selectedBlock?.id === block.id ? null : block);
@@ -129,23 +130,29 @@ export const useBuildingGame = () => {
     setSelectedBlock(prev => prev ? { ...prev, size: newSize } : null);
   }, [selectedBlock, addToHistory]);
 
-  // Actions
+  // Enhanced clear with confirmation feel
   const clearAll = useCallback(() => {
     setBlocks([]);
+    setSelectedBlock(null);
     addToHistory([]);
     clearParticles();
-    playSound(soundEnabled);
+    playSound(soundEnabled, 'create');
   }, [addToHistory, clearParticles, soundEnabled]);
 
+  // Enhanced magic shuffle with particle effects
   const magicShuffle = useCallback(() => {
     const shuffledBlocks = shuffleBlocks(blocks);
     setBlocks(shuffledBlocks);
-    playSound(soundEnabled);
+    addToHistory(shuffledBlocks);
+    playSound(soundEnabled, 'magic');
     
+    // Create particle effects for all blocks
     blocks.forEach(block => {
       createParticles(block.x, block.y, block.color);
     });
-  }, [blocks, soundEnabled, createParticles]);
+    
+    addScore(blocks.length * 5); // Bonus points for magic
+  }, [blocks, soundEnabled, createParticles, addToHistory, addScore]);
 
   const saveCreation = useCallback(() => {
     const data = {

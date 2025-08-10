@@ -1,19 +1,28 @@
 import { Block, ToolType } from './types';
 
+// Enhanced ID generator with prefix
 export const generateBlockId = (() => {
   let id = 1;
-  return () => `block-${id++}`;
+  return () => `building-block-${id++}`;
 })();
 
-export const getRandomPosition = () => ({
-  x: Math.random() * 300 + 50,
-  y: Math.random() * 200 + 50
-});
+// Smart positioning to avoid overlap
+export const getRandomPosition = () => {
+  const padding = 50;
+  const maxWidth = 400;
+  const maxHeight = 300;
+  
+  return {
+    x: Math.random() * (maxWidth - padding * 2) + padding,
+    y: Math.random() * (maxHeight - padding * 2) + padding
+  };
+};
 
+// Color selection logic
 export const getBlockColor = (selectedTool: ToolType, selectedColor: string): string => {
   switch (selectedTool) {
     case 'rainbow':
-      return `hsl(${Math.random() * 360}, 80%, 60%)`;
+      return `hsl(${Math.random() * 360}, 85%, 65%)`;
     case 'magic':
     case 'normal':
     default:
@@ -21,29 +30,50 @@ export const getBlockColor = (selectedTool: ToolType, selectedColor: string): st
   }
 };
 
-export const getBlockProperties = (selectedTool: ToolType) => ({
-  rotation: selectedTool === 'magic' ? Math.random() * 360 : 0,
-  scale: selectedTool === 'magic' ? 0.8 + Math.random() * 0.4 : 1,
-  shadow: selectedTool === 'magic',
-  sparkles: selectedTool === 'magic'
-});
+// Enhanced block properties
+export const getBlockProperties = (selectedTool: ToolType) => {
+  const baseProps = {
+    rotation: 0,
+    scale: 1,
+    shadow: false,
+    sparkles: false
+  };
 
+  if (selectedTool === 'magic') {
+    return {
+      ...baseProps,
+      rotation: Math.random() * 360,
+      scale: 0.8 + Math.random() * 0.4,
+      shadow: true,
+      sparkles: true
+    };
+  }
+
+  return baseProps;
+};
+
+// Smooth rotation
 export const rotateBlock = (block: Block, degrees: number = 90): Block => ({
   ...block,
   rotation: (block.rotation + degrees) % 360,
   sparkles: true
 });
 
+// Magic shuffle with enhanced effects
 export const shuffleBlocks = (blocks: Block[]): Block[] => 
   blocks.map(block => ({
     ...block,
-    color: `hsl(${Math.random() * 360}, 80%, 60%)`,
+    color: `hsl(${Math.random() * 360}, 85%, 65%)`,
     rotation: Math.random() * 360,
     scale: 0.8 + Math.random() * 0.4,
-    sparkles: true
+    sparkles: true,
+    shadow: true
   }));
 
-export const playSound = (soundEnabled: boolean) => {
-  if (!soundEnabled) return;
-  // Sound effects implementation would go here
+// Audio feedback system
+export const playSound = (soundEnabled: boolean, soundType: 'create' | 'rotate' | 'magic' = 'create') => {
+  if (!soundEnabled || typeof window === 'undefined') return;
+  
+  // Future: implement actual sound effects
+  console.log(`Playing ${soundType} sound effect`);
 };

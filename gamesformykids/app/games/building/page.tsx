@@ -107,12 +107,14 @@ export default function BuildingGame() {
         >
           {game.blocks.length === 0 && (
             <div className="absolute inset-0 flex items-center justify-center">
-              <div className="text-center text-white/80">
+              <div className="text-center text-white/90">
                 <div className="text-6xl md:text-8xl mb-4 md:mb-6 animate-bounce">🎨</div>
                 <p className="text-xl md:text-2xl font-bold mb-2">ברוכים הבאים לסטודיו הקסום!</p>
-                <p className="text-base md:text-lg">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
-                <p className="text-sm md:text-md mt-2 opacity-75">💡 טיפ: לחץ פעמיים על צורה כדי לסובב אותה!</p>
-                <p className="text-sm md:text-md mt-1 opacity-75">🎯 טיפ: לחץ פעם אחת על צורה כדי לבחור ולשנות גודל!</p>
+                <p className="text-base md:text-lg mb-3">בחר צבע ולחץ על הצורות כדי להתחיל לבנות</p>
+                <div className="space-y-1 text-sm md:text-base opacity-75">
+                  <p>💡 לחיצה כפולה = סיבוב מהיר</p>
+                  <p>🎯 לחיצה יחידה = בחירה ושינוי גודל</p>
+                </div>
               </div>
             </div>
           )}
@@ -135,39 +137,29 @@ export default function BuildingGame() {
         {/* Instructions */}
         <div className="mt-4 md:mt-6 text-center">
           <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-4 md:p-6 inline-block max-w-4xl">
-            <h3 className="text-white font-bold text-lg md:text-xl mb-3 md:mb-4">מדריך המשחק המתקדם</h3>
+            <h3 className="text-white font-bold text-lg md:text-xl mb-3 md:mb-4 flex items-center justify-center gap-2">
+              📖 מדריך משחק קצר
+            </h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-4 text-white/90">
               <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">🎨 צבעים:</h4>
+                <h4 className="font-semibold mb-2 text-sm md:text-base">🎨 צבעים</h4>
                 <ul className="text-xs md:text-sm space-y-1">
                   <li>• בחר צבע מהפלטה</li>
-                  <li>• הצבע הנבחר יושפע על הצורות החדשות</li>
-                  <li>• כל צורה תיצבע בצבע הנבחר</li>
+                  <li>• צורות חדשות יצבעו בצבע הנבחר</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">🎮 בניה:</h4>
+                <h4 className="font-semibold mb-2 text-sm md:text-base">🎮 בניה</h4>
                 <ul className="text-xs md:text-sm space-y-1">
                   <li>• לחץ על צורות להוספה</li>
-                  <li>• גרור צורות עם העכבר/אצבע</li>
-                  <li>• לחץ על צורה לבחירה</li>
-                  <li>• העבר עכבר על צורה ולחץ על ⟲ לסיבוב</li>
-                  <li>• לחץ פעמיים לסיבוב מהיר של 90°</li>
+                  <li>• גרור צורות במקום הרצוי</li>
+                  <li>• לחץ לבחירה וסיבוב</li>
                 </ul>
               </div>
               <div>
-                <h4 className="font-semibold mb-2 text-sm md:text-base">📐 גדלים:</h4>
+                <h4 className="font-semibold mb-2 text-sm md:text-base">✨ כלים מיוחדים</h4>
                 <ul className="text-xs md:text-sm space-y-1">
-                  <li>• קבע גודל לצורות חדשות</li>
-                  <li>• בחר צורה ושנה את הגודל</li>
-                  <li>• טווח: 0.5x עד 3x</li>
-                  <li>• צורה נבחרת מודגשת בכתום</li>
-                </ul>
-              </div>
-              <div>
-                <h4 className="font-semibold mb-2">✨ כלים מיוחדים:</h4>
-                <ul className="text-sm space-y-1">
-                  <li>• רגיל: צורות עם הצבע הנבחר</li>
+                  <li>• רגיל: צורות פשוטות</li>
                   <li>• קסם: אפקטים מיוחדים</li>
                   <li>• קשת: צבעים אקראיים</li>
                 </ul>
