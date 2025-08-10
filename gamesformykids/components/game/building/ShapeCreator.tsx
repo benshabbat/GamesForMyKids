@@ -25,10 +25,19 @@ export default function ShapeCreator({
           <button
             key={shape}
             onClick={() => onCreateBlock(shape)}
-            className="w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white hover:scale-110 rounded-xl shadow-lg transition-all flex items-center justify-center text-base md:text-lg border-2 border-transparent hover:border-gray-300 touch-manipulation"
-            style={{ color: selectedColor }}
+            className={`w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white hover:scale-110 rounded-xl shadow-lg transition-all flex items-center justify-center text-base md:text-lg border-2 border-transparent hover:border-gray-300 touch-manipulation ${
+              shape === 'heart' ? 'hover:animate-pulse' : ''
+            }`}
+            style={{ 
+              color: selectedColor,
+              ...(shape === 'heart' && {
+                background: 'linear-gradient(135deg, rgba(255,255,255,0.9) 0%, rgba(255,182,193,0.3) 100%)'
+              })
+            }}
           >
-            {shapeIcons[shape]}
+            <span className={shape === 'heart' ? 'animate-bounce' : ''}>
+              {shapeIcons[shape]}
+            </span>
           </button>
         ))}
       </div>

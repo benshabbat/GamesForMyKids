@@ -4,7 +4,7 @@ export const COLORS = [
   '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FECA57',
   '#FF9FF3', '#54A0FF', '#5F27CD', '#00D2D3', '#FF9F43',
   '#FD79A8', '#6C5CE7', '#A29BFE', '#74B9FF', '#00B894',
-  '#E17055', '#81ECEC', '#74B9FF', '#A29BFE', '#FD79A8'
+  '#E17055', '#81ECEC', '#DDA0DD', '#98FB98', '#F0E68C'
 ] as const;
 
 export const SHAPES: readonly ShapeType[] = [
@@ -19,11 +19,11 @@ export const SHAPES: readonly ShapeType[] = [
 
 export const SHAPE_ICONS: Record<ShapeType, string> = {
   square: '⬜',
-  rectangle: '▬',
+  rectangle: '▬', 
   triangle: '🔺',
   circle: '⭕',
   star: '⭐',
-  heart: '❤️',
+  heart: '💖',
   diamond: '💎'
 } as const;
 

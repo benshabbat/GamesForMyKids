@@ -109,69 +109,51 @@ export default function BlockRenderer({
             transform: `rotate(${block.rotation}deg)`,
             filter: block.shadow ? 'drop-shadow(0 8px 16px rgba(0,0,0,0.3))' : 'none'
           }}>
-            {/* Improved heart shape with better proportions */}
-            <div 
-              style={{
-                position: 'absolute',
-                width: `${size * 0.9}px`,
-                height: `${size * 0.8}px`,
-                left: `${size * 0.05}px`,
-                top: `${size * 0.1}px`
-              }}
+            {/* Enhanced heart shape with modern design */}
+            <svg 
+              width={size} 
+              height={size} 
+              viewBox="0 0 100 100" 
+              style={{ overflow: 'visible' }}
             >
-              {/* Left heart lobe */}
-              <div style={{
-                position: 'absolute',
-                width: `${size * 0.4}px`,
-                height: `${size * 0.5}px`,
-                backgroundColor: block.color,
-                borderRadius: `${size * 0.2}px ${size * 0.2}px 0 ${size * 0.2}px`,
-                top: 0,
-                left: `${size * 0.05}px`,
-                transform: 'rotate(-45deg)',
-                transformOrigin: 'center bottom',
-                border: '2px solid rgba(255,255,255,0.3)'
-              }} />
+              <defs>
+                <linearGradient id={`heartGradient-${block.id}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stopColor={block.color} stopOpacity="1" />
+                  <stop offset="50%" stopColor={block.color} stopOpacity="0.9" />
+                  <stop offset="100%" stopColor={block.color} stopOpacity="0.8" />
+                </linearGradient>
+                <filter id={`heartShadow-${block.id}`}>
+                  <feDropShadow dx="2" dy="4" stdDeviation="3" floodOpacity="0.3"/>
+                </filter>
+              </defs>
               
-              {/* Right heart lobe */}
-              <div style={{
-                position: 'absolute',
-                width: `${size * 0.4}px`,
-                height: `${size * 0.5}px`,
-                backgroundColor: block.color,
-                borderRadius: `${size * 0.2}px ${size * 0.2}px ${size * 0.2}px 0`,
-                top: 0,
-                right: `${size * 0.05}px`,
-                transform: 'rotate(45deg)',
-                transformOrigin: 'center bottom',
-                border: '2px solid rgba(255,255,255,0.3)'
-              }} />
+              {/* Heart path with smooth curves */}
+              <path
+                d="M50,85 C50,85 20,60 20,40 C20,25 30,15 40,15 C45,15 50,20 50,25 C50,20 55,15 60,15 C70,15 80,25 80,40 C80,60 50,85 50,85 Z"
+                fill={`url(#heartGradient-${block.id})`}
+                stroke="rgba(255,255,255,0.4)"
+                strokeWidth="1.5"
+                filter={`url(#heartShadow-${block.id})`}
+              />
               
-              {/* Heart point (bottom triangle) */}
-              <div style={{
-                position: 'absolute',
-                width: 0,
-                height: 0,
-                borderLeft: `${size * 0.25}px solid transparent`,
-                borderRight: `${size * 0.25}px solid transparent`,
-                borderTop: `${size * 0.35}px solid ${block.color}`,
-                bottom: 0,
-                left: `${size * 0.2}px`,
-                filter: 'drop-shadow(0 0 2px rgba(255,255,255,0.3))'
-              }} />
-              
-              {/* Heart center fill */}
-              <div style={{
-                position: 'absolute',
-                width: `${size * 0.6}px`,
-                height: `${size * 0.3}px`,
-                backgroundColor: block.color,
-                top: `${size * 0.15}px`,
-                left: `${size * 0.15}px`,
-                border: '2px solid rgba(255,255,255,0.3)',
-                borderRadius: `${size * 0.1}px`
-              }} />
-            </div>
+              {/* Heart highlight for depth */}
+              <ellipse
+                cx="35"
+                cy="30"
+                rx="8"
+                ry="6"
+                fill="rgba(255,255,255,0.3)"
+                opacity="0.7"
+              />
+              <ellipse
+                cx="65"
+                cy="30"
+                rx="8"
+                ry="6"
+                fill="rgba(255,255,255,0.3)"
+                opacity="0.7"
+              />
+            </svg>
           </div>
         );
       case 'diamond':
