@@ -7,7 +7,10 @@ import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 const GameRecommendations = () => {
   const allGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
-  
+    // יצירת "משחק היום" על בסיס התאריך
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+  const featuredGame = allGames[dayOfYear % allGames.length];
   // קטגוריזציה לפי גיל (דמה - אפשר להוסיף מאפיין age למשחקים)
   const ageGroups = {
     "2-3": {
@@ -102,11 +105,11 @@ const GameRecommendations = () => {
       </div>
 
       {/* Call to action */}
-      <div className="text-center mt-8">
+      <Link href={featuredGame.href} className="mt-8 block text-center">
         <div className="inline-block bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-white px-6 py-3 rounded-full font-bold hover:from-blue-600 hover:via-purple-600 hover:to-pink-600 hover:shadow-xl transition-all duration-300 transform hover:scale-105 border border-white/20 shadow-lg backdrop-blur-sm">
           💡 לא בטוחים איזה משחק לבחור? התחילו עם המשחק המומלץ!
         </div>
-      </div>
+      </Link>
     </div>
   );
 };
