@@ -117,7 +117,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // טיפול בלחיצה על פריט
   const handleItemClick = async (selectedItem: T) => {
-    if (!gameState.currentChallenge) return;
+    if (!gameState.currentChallenge || gameState.showCelebration) return;
 
     if (selectedItem.name === gameState.currentChallenge.name) {
       // תשובה נכונה
@@ -140,7 +140,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
           options,
         }));
         
-        await delay(300);
+        await delay(500); // השהייה מעט יותר ארוכה כדי להימנע מחפיפת דיבור
+        // השמעת שם הפריט החדש בתחילת הסיבוב הבא
         await speakItemNameFunc(challenge.name);
       };
       
