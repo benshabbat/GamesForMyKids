@@ -1,9 +1,9 @@
-import React from 'react';
+import {ReactNode} from 'react';
 
 interface AdvancedLayoutProps {
-  children: React.ReactNode;
-  sidebar: React.ReactNode;
-  main: React.ReactNode;
+  children: ReactNode;
+  sidebar: ReactNode;
+  main: ReactNode;
 }
 
 export default function AdvancedLayout({ 

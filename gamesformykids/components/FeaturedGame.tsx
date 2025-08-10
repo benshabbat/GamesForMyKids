@@ -1,6 +1,5 @@
 "use client";
 
-import React from 'react';
 import Link from 'next/link';
 import { Star, ArrowRight } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
