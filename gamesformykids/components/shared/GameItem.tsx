@@ -45,7 +45,7 @@ export default function GameItem({
       hideSoundIcon={hideSoundIcon}
       textColor={textColor}
       borderColor={borderColor}
-      autoSpeak={true}
+      autoSpeak={!hideSoundIcon}
     />
   );
 }

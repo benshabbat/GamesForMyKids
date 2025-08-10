@@ -92,7 +92,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-4 md:grid-cols-6 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזו אות שמעת?",
@@ -123,7 +123,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-6 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזו צורה שמעת?",
@@ -154,7 +154,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזו צורה צבעונית שמעת?",
@@ -185,7 +185,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-4 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזה מספר שמעת?",
@@ -246,7 +246,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזו חיה שמעת?",
@@ -277,7 +277,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזה ירק שמעת?",
@@ -308,7 +308,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזה מזג אוויר שמעת?",
@@ -339,7 +339,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזה כלי תחבורה שמעת?",
@@ -370,7 +370,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -394,7 +394,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -418,7 +418,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
     // ✨ הוספות עבור AutoGamePage
     challengeTitle: "איזה בגד שמעת?",
@@ -449,7 +449,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -473,7 +473,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -497,7 +497,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -521,7 +521,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-4 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -545,7 +545,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -592,7 +592,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -616,7 +616,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
@@ -663,7 +663,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     },
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
-      showSpeaker: true,
+      showSpeaker: false,
     },
   },
 
