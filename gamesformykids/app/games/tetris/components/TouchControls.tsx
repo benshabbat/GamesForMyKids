@@ -1,7 +1,7 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import { TouchControlsProps } from '../types';
 
-const TouchControls: React.FC<TouchControlsProps> = ({ 
+const TouchControls = ({ 
   isGameRunning, 
   gameOver, 
   score, 
@@ -9,7 +9,7 @@ const TouchControls: React.FC<TouchControlsProps> = ({
   onRotate, 
   onStartGame,
   isDesktop = false
-}) => {
+}: TouchControlsProps) => {
   // אופטימיזציה למובייל - דיבאונס לכפתורים
   const handleMove = useCallback((dx: number, dy: number) => {
     if (!isGameRunning) return;

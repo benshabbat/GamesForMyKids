@@ -1,8 +1,7 @@
-import React from 'react';
 import { InfoPanelProps } from '../types';
 import NextPieceDisplay from './NextPieceDisplay';
 
-export const MobileInfoPanel: React.FC<InfoPanelProps> = ({ score, level, linesCleared, nextPiece }) => (
+export const MobileInfoPanel= ({ score, level, linesCleared, nextPiece }: InfoPanelProps) => (
   <div className="xl:hidden flex flex-row gap-4 w-full justify-center">
     <div className="bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg rounded-2xl p-4 shadow-2xl border border-white/20 flex-1 max-w-[180px]">
       <h2 className="text-xl font-black mb-2 text-center text-white drop-shadow-lg">📊 מידע</h2>
@@ -26,7 +25,7 @@ export const MobileInfoPanel: React.FC<InfoPanelProps> = ({ score, level, linesC
   </div>
 );
 
-export const DesktopInfoPanel: React.FC<InfoPanelProps> = ({ score, level, linesCleared, nextPiece }) => (
+export const DesktopInfoPanel = ({ score, level, linesCleared, nextPiece }: InfoPanelProps) => (
   <div className="space-y-6">
     {/* Score Card */}
     <div className="bg-gradient-to-br from-purple-600/80 to-purple-800/80 backdrop-blur-lg p-6 rounded-2xl border border-purple-300/30 shadow-2xl">

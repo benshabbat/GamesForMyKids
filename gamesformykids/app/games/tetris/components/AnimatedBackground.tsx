@@ -1,5 +1,3 @@
-import React from 'react';
-
 const AnimatedBackground: React.FC = () => (
   <div className="absolute inset-0 opacity-10 pointer-events-none">
     <div className="absolute top-10 left-10 w-24 h-24 sm:w-32 sm:h-32 bg-yellow-400 rounded-full blur-xl animate-pulse"></div>

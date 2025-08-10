@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Camera, Puzzle, Home } from 'lucide-react';
 import { PuzzleProvider } from '@/contexts';
 import CustomPuzzleGame from './CustomPuzzleGame';

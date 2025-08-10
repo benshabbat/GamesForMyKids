@@ -1,7 +1,6 @@
-import React from 'react';
 import { NextPieceDisplayProps } from '../types';
 
-const NextPieceDisplay: React.FC<NextPieceDisplayProps> = ({ nextPiece, isMobile = false }) => {
+const NextPieceDisplay = ({ nextPiece, isMobile = false }: NextPieceDisplayProps) => {
   if (!nextPiece) {
     return (
       <div className={`bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-lg rounded-2xl shadow-2xl border border-white/20 ${isMobile ? 'p-4 flex-1 max-w-[180px]' : 'p-6'}`}>
