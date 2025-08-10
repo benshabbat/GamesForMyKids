@@ -50,12 +50,15 @@ export default function AutoStartScreen({
     ];
 
     return (
-      <div className={config.grid.className}>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
         {mathExamples.map((example, index) => (
-          <div key={index} className="bg-white bg-opacity-20 rounded-xl p-4 border-2 border-white border-opacity-30">
-            <div className="text-3xl mb-2">{example.emoji}</div>
-            <div className="text-white font-bold text-lg mb-1">{example.equation}</div>
-            <div className="text-yellow-100 text-sm">{example.description}</div>
+          <div 
+            key={index} 
+            className="bg-white bg-opacity-90 rounded-xl p-4 border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+          >
+            <div className="text-4xl mb-3 text-center">{example.emoji}</div>
+            <div className="text-gray-800 font-bold text-xl mb-2 text-center">{example.equation}</div>
+            <div className="text-gray-600 text-sm text-center">{example.description}</div>
           </div>
         ))}
       </div>
