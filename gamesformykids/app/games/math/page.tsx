@@ -20,9 +20,15 @@ export default function MathGame() {
     resetGame,
   } = useMathGame();
 
+  console.log("MathGame component render - gameState:", gameState);
+
   if (!gameState || !gameState.isPlaying) {
+    console.log("Rendering StartScreen - isPlaying:", gameState?.isPlaying);
     return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
   }
+
+  console.log("Rendering main game - currentChallenge:", gameState.currentChallenge);
+  console.log("Rendering main game - options:", gameState.options);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 p-4">
@@ -100,6 +106,18 @@ export default function MathGame() {
                 🔊 (לחץ לשמיעה חוזרת)
               </div>
               <p className="text-xl text-gray-600">בחר את התשובה הנכונה!</p>
+            </div>
+          )}
+
+          {/* הודעת ללא נתונים אם אין challengte */}
+          {gameState.isPlaying && !gameState.currentChallenge && !gameState.showCelebration && (
+            <div className="bg-yellow-100 rounded-3xl p-8 mb-8 shadow-xl">
+              <h2 className="text-2xl font-bold text-yellow-800 mb-4">
+                טוען משחק...
+              </h2>
+              <p className="text-yellow-700">
+                המשחק מתכונן עבורך. רגע אחד!
+              </p>
             </div>
           )}
 
