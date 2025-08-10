@@ -5,7 +5,12 @@ import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import { BUILD_INFO } from '@/lib/build-info';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Inter({ 
+  subsets: ['latin'], 
+  display: 'swap',
+  preload: true,
+  variable: '--font-inter'
+});
 
 export const metadata: Metadata = {
   title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
@@ -108,6 +113,10 @@ export default function RootLayout({
   return (
     <html lang="he" dir="rtl">
       <head>
+        {/* Critical font preloading */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" crossOrigin="" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        
         {/* Preload critical resources */}
         <link rel="preconnect" href="https://www.googletagmanager.com" />
         <link rel="preconnect" href="https://www.google-analytics.com" />

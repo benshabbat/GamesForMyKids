@@ -9,23 +9,26 @@ import CategorizedGamesGrid from "@/components/CategorizedGamesGrid";
 import LoadingScreen from "@/components/LoadingScreen";
 
 export default function HomePageClient() {
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false); // Start with false for better LCP
+  const [shouldShowLoader, setShouldShowLoader] = useState(false);
 
   const handleLoadingComplete = () => {
     setIsLoading(false);
   };
 
-  // Skip loading screen in development or if user has visited before
+  // Optimize loading screen logic to reduce initial render delay
   useEffect(() => {
+    // Only show loading screen for new users and not in development
     const hasVisited = sessionStorage.getItem('hasVisited');
-    if (hasVisited || process.env.NODE_ENV === 'development') {
-      setIsLoading(false);
-    } else {
+    if (!hasVisited && process.env.NODE_ENV !== 'development') {
+      setShouldShowLoader(true);
+      setIsLoading(true);
       sessionStorage.setItem('hasVisited', 'true');
     }
   }, []);
 
-  if (isLoading) {
+  // Show content immediately if no loading screen is needed
+  if (isLoading && shouldShowLoader) {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
   }
 

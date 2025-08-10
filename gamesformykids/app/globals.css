@@ -1,5 +1,23 @@
 @import "tailwindcss";
 
+/* Critical CSS for LCP optimization */
+.font-bold {
+  font-weight: 700;
+}
+
+.text-5xl {
+  font-size: 3rem;
+  line-height: 1;
+}
+
+.text-purple-800 {
+  color: rgb(107 33 168);
+}
+
+.text-center {
+  text-align: center;
+}
+
 /* RTL Support */
 * {
   direction: rtl;
