@@ -21,6 +21,7 @@ export { useProgressTracking } from "./shared/useProgressTracking";
 export { useGameProgress } from "./shared/useGameProgress";
 export { useUserProfile } from "./shared/useUserProfile";
 export { useAchievements } from "./shared/useAchievements";
+export { useGameData, useGameItemsByCategory } from "./shared/useGameData";
 
 // Hooks למשחקים
 export { useSimpleGame } from "./games/useSimpleGame";

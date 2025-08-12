@@ -9,7 +9,11 @@
     "start": "next start",
     "lint": "next lint",
     "seo:sitemap": "next build && node -e \"console.log('Sitemap generated at /sitemap.xml')\"",
-    "seo:check": "next build && echo 'SEO check complete - review sitemap.xml and robots.txt'"
+    "seo:check": "next build && echo 'SEO check complete - review sitemap.xml and robots.txt'",
+    "supabase:create-tables": "node scripts/create-tables.js",
+    "supabase:migrate": "node scripts/migrate-to-supabase.js",
+    "supabase:migrate-es": "node scripts/migrate-to-supabase.mjs",
+    "supabase:seed": "node scripts/migrate-to-supabase.js"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
@@ -17,6 +21,7 @@
     "@supabase/supabase-js": "^2.55.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.1",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.525.0",
     "next": "15.3.5",
