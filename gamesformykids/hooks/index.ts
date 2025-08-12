@@ -17,6 +17,11 @@ export { useGameHints } from "./shared/useGameHints";
 export { useGamePerformance } from "./shared/useGamePerformance";
 export { useProgressTracking } from "./shared/useProgressTracking";
 
+// Supabase Hooks
+export { useGameProgress } from "./shared/useGameProgress";
+export { useUserProfile } from "./shared/useUserProfile";
+export { useAchievements } from "./shared/useAchievements";
+
 // Hooks למשחקים
 export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";

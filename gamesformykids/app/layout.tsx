@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import { AuthProvider } from '@/contexts/AuthContext';
 import { BUILD_INFO } from '@/lib/build-info';
 
 const inter = Inter({ 
@@ -151,7 +152,9 @@ export default function RootLayout({
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <ServiceWorkerRegistration />
-        {children}
+        <AuthProvider>
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );

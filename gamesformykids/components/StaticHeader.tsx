@@ -1,7 +1,14 @@
+import UserProfile from './UserProfile';
+
 // Server Component - renders statically for better LCP
 export function StaticHeader() {
   return (
     <header className="text-center py-12 relative overflow-hidden">
+      {/* User profile in top-right corner */}
+      <div className="absolute top-4 right-4 z-20">
+        <UserProfile />
+      </div>
+
       {/* Simplified background decorative elements */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute top-10 left-10 text-6xl opacity-20">
