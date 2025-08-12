@@ -12,6 +12,8 @@ interface AuthContextType {
   signOut: () => Promise<void>
   signInWithGoogle: () => Promise<void>
   signInWithGitHub: () => Promise<void>
+  signInWithEmail: (email: string, password: string) => Promise<{ error?: string }>
+  signUpWithEmail: (email: string, password: string, name?: string) => Promise<{ error?: string }>
   continueAsGuest: () => void
   requireAuth: () => boolean
 }
@@ -96,6 +98,41 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     })
   }
 
+  const signInWithEmail = async (email: string, password: string) => {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      if (error) {
+        return { error: error.message }
+      }
+      return {}
+    } catch {
+      return { error: 'שגיאה בהתחברות' }
+    }
+  }
+
+  const signUpWithEmail = async (email: string, password: string, name?: string) => {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            name: name || '',
+          },
+        },
+      })
+      if (error) {
+        return { error: error.message }
+      }
+      return {}
+    } catch {
+      return { error: 'שגיאה ברישום' }
+    }
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -106,6 +143,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         signOut,
         signInWithGoogle,
         signInWithGitHub,
+        signInWithEmail,
+        signUpWithEmail,
         continueAsGuest,
         requireAuth,
       }}
