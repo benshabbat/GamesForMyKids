@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function LoginPage() {
-  const { user, loading, signInWithGoogle, signInWithGitHub } = useAuth()
+  const { user, loading, signInWithGoogle, signInWithGitHub, continueAsGuest } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -30,11 +30,24 @@ export default function LoginPage() {
     <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
       <div className="w-full max-w-md space-y-8 rounded-xl bg-white p-8 shadow-lg">
         <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900">התחברות</h1>
-          <p className="mt-2 text-gray-600">התחבר כדי לשמור את ההתקדמות שלך במשחקים</p>
+          <h1 className="text-3xl font-bold text-gray-900">ברוכים הבאים!</h1>
+          <p className="mt-2 text-gray-600">בחרו איך תרצו להמשיך</p>
         </div>
 
         <div className="space-y-4">
+          {/* Guest Mode - Primary Option */}
+          <button
+            onClick={continueAsGuest}
+            className="w-full flex items-center justify-center px-4 py-4 rounded-lg shadow-sm bg-green-600 text-white hover:bg-green-700 transition-colors text-lg font-semibold"
+          >
+            <span className="text-2xl mr-3">🎮</span>
+            שחק בלי התחברות
+          </button>
+          
+          <div className="text-center text-sm text-gray-500 my-4">
+            או התחברו כדי לשמור את ההתקדמות
+          </div>
+
           <button
             onClick={signInWithGoogle}
             className="w-full flex items-center justify-center px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 hover:bg-gray-50 transition-colors"
@@ -71,8 +84,9 @@ export default function LoginPage() {
           </button>
         </div>
 
-        <div className="text-center text-sm text-gray-500">
-          <p>על ידי התחברות, אתה מסכים לתנאי השימוש שלנו</p>
+        <div className="text-center text-xs text-gray-500">
+          <p>משחקים זמינים לכולם!</p>
+          <p>התחברות שומרת את ההתקדמות והציונים</p>
         </div>
       </div>
     </div>

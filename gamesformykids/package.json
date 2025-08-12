@@ -13,7 +13,8 @@
     "supabase:create-tables": "node scripts/create-tables.js",
     "supabase:migrate": "node scripts/migrate-to-supabase.js",
     "supabase:migrate-es": "node scripts/migrate-to-supabase.mjs",
-    "supabase:seed": "node scripts/migrate-to-supabase.js"
+    "supabase:seed": "node scripts/migrate-to-supabase.js",
+    "migrate:all-data": "node scripts/migrate-all-data.mjs"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",

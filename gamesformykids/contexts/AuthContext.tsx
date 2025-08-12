@@ -8,9 +8,12 @@ interface AuthContextType {
   user: User | null
   session: Session | null
   loading: boolean
+  isGuest: boolean
   signOut: () => Promise<void>
   signInWithGoogle: () => Promise<void>
   signInWithGitHub: () => Promise<void>
+  continueAsGuest: () => void
+  requireAuth: () => boolean
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -19,8 +22,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [session, setSession] = useState<Session | null>(null)
   const [loading, setLoading] = useState(true)
+  const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
+    // Check if user chose guest mode
+    const guestMode = localStorage.getItem('guestMode')
+    if (guestMode === 'true') {
+      setIsGuest(true)
+      setLoading(false)
+      return
+    }
+
     // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session)
@@ -36,6 +48,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setSession(session)
         setUser(session?.user ?? null)
         setLoading(false)
+        
+        // Clear guest mode if user signs in
+        if (session) {
+          setIsGuest(false)
+          localStorage.removeItem('guestMode')
+        }
       }
     )
 
@@ -44,6 +62,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut()
+    setIsGuest(false)
+    localStorage.removeItem('guestMode')
+  }
+
+  const continueAsGuest = () => {
+    setIsGuest(true)
+    setLoading(false)
+    localStorage.setItem('guestMode', 'true')
+  }
+
+  const requireAuth = () => {
+    // Return false for now - make all features available to guests
+    // This can be changed later for specific features that require auth
+    return false
   }
 
   const signInWithGoogle = async () => {
@@ -70,9 +102,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         user,
         session,
         loading,
+        isGuest,
         signOut,
         signInWithGoogle,
         signInWithGitHub,
+        continueAsGuest,
+        requireAuth,
       }}
     >
       {children}

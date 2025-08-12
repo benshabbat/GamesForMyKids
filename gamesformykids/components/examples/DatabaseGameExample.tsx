@@ -7,7 +7,7 @@
 
 import React from 'react'
 import { useGameData } from '@/hooks/shared/useGameData'
-import { BaseGameCard } from '@/components/shared/BaseGameCard'
+import BaseGameCard from '@/components/shared/BaseGameCard'
 
 export function DatabaseGameExample() {
   const { 
@@ -16,7 +16,7 @@ export function DatabaseGameExample() {
     loading, 
     error,
     getItemsByCategory,
-    getGameType
+    getGameTypeByName
   } = useGameData()
 
   if (loading) {
@@ -46,7 +46,7 @@ export function DatabaseGameExample() {
   const numbers = getItemsByCategory('numbers')
   const animals = getItemsByCategory('animals')
 
-  const colorsGameType = getGameType('colors')
+  const colorsGameType = getGameTypeByName('colors')
 
   return (
     <div className="p-6 max-w-4xl mx-auto">
@@ -102,7 +102,8 @@ export function DatabaseGameExample() {
                 hebrew: color.hebrew,
                 english: color.english,
                 emoji: color.emoji,
-                color: color.color_class
+                color: color.color_class || '',
+                sound: color.sound_frequencies || []
               }}
               onClick={() => console.log('Color selected:', color.name)}
               className="h-20"
@@ -123,7 +124,8 @@ export function DatabaseGameExample() {
                 hebrew: shape.hebrew,
                 english: shape.english,
                 emoji: shape.emoji,
-                color: shape.color_class
+                color: shape.color_class || '',
+                sound: shape.sound_frequencies || []
               }}
               onClick={() => console.log('Shape selected:', shape.name)}
               className="h-24"

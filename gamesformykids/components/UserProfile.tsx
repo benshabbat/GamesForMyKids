@@ -6,7 +6,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export function UserProfile() {
-  const { user, signOut, loading } = useAuth()
+  const { user, signOut, loading, isGuest } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   if (loading) {
@@ -15,6 +15,25 @@ export function UserProfile() {
     )
   }
 
+  // Guest user
+  if (isGuest) {
+    return (
+      <div className="flex items-center space-x-2 space-x-reverse">
+        <div className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm flex items-center">
+          <span className="mr-1">🎮</span>
+          משתמש אורח
+        </div>
+        <Link
+          href="/login"
+          className="bg-blue-500 text-white px-3 py-1 rounded-lg hover:bg-blue-600 transition-colors text-sm"
+        >
+          התחבר
+        </Link>
+      </div>
+    )
+  }
+
+  // No user and not guest - show login
   if (!user) {
     return (
       <Link
@@ -26,6 +45,7 @@ export function UserProfile() {
     )
   }
 
+  // Authenticated user
   return (
     <div className="relative">
       <button

@@ -4,7 +4,7 @@ import { useGameData, useGameItemsByCategory } from '@/hooks'
 import { useEffect, useState } from 'react'
 import { GameType, BaseGameItem } from '@/lib/types/base'
 import { convertGameItemsToBaseItems } from '@/lib/adapters/supabaseDataAdapter'
-import { AutoStartScreen } from '@/components/shared/AutoStartScreen'
+import AutoStartScreen from '@/components/shared/AutoStartScreen'
 import { useBaseGame } from '@/hooks'
 
 interface SupabaseGamePageProps {
@@ -28,29 +28,25 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
   const gameTypeInfo = getGameTypeByName(gameType)
 
   const {
-    currentItem,
-    isCorrect,
-    gameWon,
-    score,
-    level,
+    gameState,
+    speakItemName,
+    startGame,
     handleItemClick,
-    nextQuestion,
-    speakItem,
-    resetGame,
-    gameConfig
+    resetGame
   } = useBaseGame({
-    items: gameItems,
     gameType,
-    onGameComplete: () => {
-      // Game completion logic handled by useBaseGame
+    items: gameItems,
+    pronunciations: {},
+    gameConstants: {
+      BASE_COUNT: 4,
+      INCREMENT: 1,
+      LEVEL_THRESHOLD: 3
     }
   })
 
   const handleStart = () => {
     setGameStarted(true)
-    if (gameItems.length > 0) {
-      nextQuestion()
-    }
+    startGame()
   }
 
   const handleRestart = () => {
@@ -83,14 +79,19 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
         gameType={gameType}
         items={gameItems}
         onStart={handleStart}
-        onSpeak={speakItem}
-        title={gameTypeInfo?.display_name_hebrew || gameType}
-        description={gameTypeInfo?.description}
+        onSpeak={(name: string) => speakItemName(name)}
       />
     )
   }
 
-  if (gameWon) {
+  // Extract values from gameState
+  const isGameWon = gameState.showCelebration
+  const currentChallenge = gameState.currentChallenge
+  const currentScore = gameState.score
+  const currentLevel = gameState.level
+  const gameOptions = gameState.options
+
+  if (isGameWon) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
         <div className="text-center bg-white rounded-2xl p-8 shadow-lg">
@@ -99,10 +100,10 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
           <p className="text-xl text-gray-600 mb-6">סיימת את המשחק בהצלחה!</p>
           <div className="space-y-4">
             <div className="text-lg">
-              <span className="font-semibold">ניקוד:</span> {score}
+              <span className="font-semibold">ניקוד:</span> {currentScore}
             </div>
             <div className="text-lg">
-              <span className="font-semibold">רמה:</span> {level}
+              <span className="font-semibold">רמה:</span> {currentLevel}
             </div>
             <button
               onClick={handleRestart}
@@ -125,20 +126,20 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
             {gameTypeInfo?.display_name_hebrew || gameType}
           </h1>
           <div className="flex justify-center space-x-4 space-x-reverse text-lg">
-            <span>ניקוד: {score}</span>
-            <span>רמה: {level}</span>
+            <span>ניקוד: {currentScore}</span>
+            <span>רמה: {currentLevel}</span>
           </div>
         </div>
 
         {/* Current Question */}
-        {currentItem && (
+        {currentChallenge && (
           <div className="text-center mb-8">
-            <div className="text-6xl mb-4">{currentItem.emoji}</div>
+            <div className="text-6xl mb-4">{currentChallenge.emoji}</div>
             <h2 className="text-2xl font-bold text-gray-800 mb-4">
-              מצא את: {currentItem.hebrew}
+              מצא את: {currentChallenge.hebrew}
             </h2>
             <button
-              onClick={() => speakItem(currentItem)}
+              onClick={() => speakItemName(currentChallenge.name)}
               className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
             >
               🔊 שמע שוב
@@ -148,18 +149,14 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
 
         {/* Game Grid */}
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 mb-8">
-          {gameItems.slice(0, gameConfig.itemsPerRound).map((item, index) => (
+          {gameOptions.map((item, index) => (
             <button
               key={`${item.name}-${index}`}
               onClick={() => handleItemClick(item)}
-              disabled={isCorrect !== null}
               className={`
                 relative p-6 rounded-2xl border-4 transition-all duration-300 transform hover:scale-105
                 ${item.color || 'bg-white border-gray-300'}
-                ${isCorrect === true && item === currentItem ? 'border-green-500 bg-green-100' : ''}
-                ${isCorrect === false && item === currentItem ? 'border-red-500 bg-red-100' : ''}
-                ${isCorrect === null ? 'hover:border-purple-400' : ''}
-                disabled:cursor-not-allowed
+                hover:border-purple-400
               `}
             >
               <div className="text-4xl mb-2">{item.emoji}</div>
@@ -167,27 +164,6 @@ export function SupabaseGamePage({ gameType }: SupabaseGamePageProps) {
             </button>
           ))}
         </div>
-
-        {/* Feedback */}
-        {isCorrect !== null && (
-          <div className="text-center">
-            {isCorrect ? (
-              <div className="text-green-600 text-xl font-bold mb-4">
-                🎉 נכון מאוד!
-              </div>
-            ) : (
-              <div className="text-red-600 text-xl font-bold mb-4">
-                ❌ לא נכון, נסה שוב
-              </div>
-            )}
-            <button
-              onClick={nextQuestion}
-              className="bg-purple-500 text-white px-6 py-3 rounded-lg hover:bg-purple-600 transition-colors"
-            >
-              המשך
-            </button>
-          </div>
-        )}
       </div>
     </div>
   )

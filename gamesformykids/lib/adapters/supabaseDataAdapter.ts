@@ -5,8 +5,24 @@
  * application format, maintaining compatibility while using the database.
  */
 
-import { BaseGameItem, NumberItem, ShapeItem } from '@/lib/types/base'
+import { BaseGameItem } from '../types/base';
+import { NumberItem, ShapeItem } from '../types/games';
 import { GameItem } from '@/hooks/shared/useGameData'
+
+// Define colored shape item type for typed returns
+export interface ColoredShapeItem {
+  name: string
+  hebrew: string
+  english: string
+  emoji: string
+  color: string
+  sound: number[]
+  shape: string
+  shapeHebrew: string
+  svg: string
+  value: string
+  tailwindClass: string
+}
 
 /**
  * Convert Supabase GameItem to BaseGameItem format
@@ -92,7 +108,7 @@ export function getShapeItems(dbItems: GameItem[]): ShapeItem[] {
   )
 }
 
-export function getColoredShapeItems(dbItems: GameItem[]): any[] {
+export function getColoredShapeItems(dbItems: GameItem[]): ColoredShapeItem[] {
   return dbItems
     .filter(item => item.category === 'shapes' && item.subcategory === 'colored')
     .map(item => ({
@@ -159,7 +175,7 @@ export function getMemoryGameAnimals(dbItems: GameItem[]): Array<{emoji: string,
  */
 export function createGameConstants(dbItems: GameItem[], category: string) {
   const items = dbItems.filter(item => item.category === category)
-  const constants: Record<string, any> = {}
+  const constants: Record<string, BaseGameItem> = {}
   
   items.forEach(item => {
     const key = item.name.toUpperCase()
