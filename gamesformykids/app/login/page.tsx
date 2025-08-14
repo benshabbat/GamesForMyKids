@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
 export default function LoginPage() {
-  const { user, loading, signInWithGoogle, signInWithGitHub, signInWithEmail, signUpWithEmail, continueAsGuest } = useAuth()
+  const { user, loading, signInWithGoogle, signInWithEmail, signUpWithEmail, continueAsGuest } = useAuth()
   const router = useRouter()
   const [isRegistering, setIsRegistering] = useState(false)
   const [email, setEmail] = useState('')
