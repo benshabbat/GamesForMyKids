@@ -5,9 +5,10 @@
 
 'use client';
 
-import React, { ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { GameTypeProvider } from '@/contexts/GameTypeContext';
 import { GameProgressProvider } from '@/contexts/GameProgressContext';
+import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameType } from '@/lib/types/base';
 
 interface EnhancedGameWrapperProps {
@@ -30,12 +31,14 @@ export function EnhancedGameWrapper({
 }: EnhancedGameWrapperProps) {
   return (
     <GameTypeProvider initialGameType={gameType}>
-      <GameProgressProvider 
-        maxLevel={maxLevel}
-        pointsPerCorrect={pointsPerCorrect}
-      >
-        {children}
-      </GameProgressProvider>
+      <GameConfigProvider gameType={gameType}>
+        <GameProgressProvider 
+          maxLevel={maxLevel}
+          pointsPerCorrect={pointsPerCorrect}
+        >
+          {children}
+        </GameProgressProvider>
+      </GameConfigProvider>
     </GameTypeProvider>
   );
 }
@@ -46,7 +49,7 @@ export function EnhancedGameWrapper({
  */
 import { GameProgressDisplay } from './GameProgressDisplay';
 import { GameNavigation } from './GameNavigation';
-import AutoGamePageWithProvider from './AutoGamePageWithProvider';
+import { AutoGamePage } from './AutoGamePage';
 
 interface CompleteGameLayoutProps {
   gameType: GameType;
@@ -91,7 +94,7 @@ export function CompleteGameLayout({
         
         {/* Main Game Content */}
         <main className="container mx-auto px-4 pb-8">
-          <AutoGamePageWithProvider gameType={gameType} />
+          <AutoGamePage gameType={gameType} />
         </main>
       </div>
     </EnhancedGameWrapper>
