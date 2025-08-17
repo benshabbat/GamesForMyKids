@@ -17,7 +17,6 @@ import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
 import { GameCardMap } from "./CardPresets";
 import { useGameType } from "@/contexts/GameTypeContext";
-import { useGameContext } from "@/hooks/shared/useGameContext";
 
 // רכיבים משותפים
 import AutoStartScreen from "./AutoStartScreen";
