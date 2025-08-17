@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
 import { BaseGameItem, ColorItem, ShapeItem, NumberItem } from "@/lib/types";
+import { useGameActions, useGameInfo } from "@/hooks/shared/useGameContext";
 
 // Combined type for all our game items
 type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
@@ -8,8 +9,8 @@ interface GameCardGridProps<T extends GameItemType> {
   // Core properties
   /** Array of items to display in the grid */
   items: T[];
-  /** Callback function when an item is clicked */
-  onItemClick: (item: T) => void;
+  /** Callback function when an item is clicked - אופציונלי אם משתמשים בקונטקסט */
+  onItemClick?: (item: T) => void;
   /** The current challenge/selected item (used to highlight the correct item) */
   currentChallenge?: T | null;
   
@@ -30,11 +31,15 @@ interface GameCardGridProps<T extends GameItemType> {
   renderCustomCard?: (item: T, isCorrect: boolean) => ReactNode;
   /** Additional CSS classes to apply to default cards */
   cardClassName?: string;
+  
+  // Context usage
+  /** Whether to use game context for click handling (default: false) */
+  useContext?: boolean;
 }
 
 export function GameCardGrid<T extends GameItemType>({
   items,
-  onItemClick,
+  onItemClick: propOnItemClick,
   currentChallenge,
   gridCols = "grid-cols-2 md:grid-cols-3",
   maxWidth = "max-w-3xl",
@@ -43,7 +48,32 @@ export function GameCardGrid<T extends GameItemType>({
   compareKey = 'name' as keyof T,
   renderCustomCard,
   cardClassName = "",
+  useContext = false,
 }: GameCardGridProps<T>) {
+  
+  // 🎮 שימוש בקונטקסט אם מבוקש
+  const gameActions = useGameActions();
+  const gameInfo = useGameInfo();
+  
+  // החלטה על הפונקציה הסופית לטיפול בקליק
+  const handleItemClick = propOnItemClick || (useContext ? ((item: T) => {
+    // לוגיקה חכמה - בדיקה אם הפריט נכון
+    const isCorrect = currentChallenge ? isCurrentItem(item, currentChallenge) : false;
+    
+    if (isCorrect && gameActions?.onCorrect) {
+      gameActions.onCorrect({ 
+        item_id: String('id' in item ? (item as { id: string | number }).id : item.name), 
+        item_name: String(item.name),
+        gameType: gameInfo?.gameType 
+      });
+    } else if (!isCorrect && gameActions?.onWrong) {
+      gameActions.onWrong({ 
+        item_id: String('id' in item ? (item as { id: string | number }).id : item.name), 
+        item_name: String(item.name),
+        gameType: gameInfo?.gameType 
+      });
+    }
+  }) : () => {});
   // Helper function to determine if an item is the current challenge
   const isCurrentItem = (item: T, challenge?: T | null): boolean => {
     if (!challenge) return false;
@@ -85,7 +115,7 @@ export function GameCardGrid<T extends GameItemType>({
             ) : (
               // Default card rendering
               <div
-                onClick={() => onItemClick(item)}
+                onClick={() => handleItemClick(item)}
                 className={`
                   aspect-square rounded-3xl cursor-pointer transition-all 
                   duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl

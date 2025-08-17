@@ -4,3 +4,12 @@ export { HebrewLettersProvider, useHebrewLetters } from './HebrewLettersContext'
 export { BuildingProvider, useBuildingContext } from './BuildingContext';
 export { GameTypeProvider, useGameType, useCurrentGameType, useCurrentGameConfig, type GameTypeState, type GameTypeContextValue } from './GameTypeContext';
 export { GameProgressProvider, useGameProgress, useGameScore, useGameStats, type GameProgress, type GameProgressContextValue } from './GameProgressContext';
+export { 
+  GameConfigProvider, 
+  useGameConfig, 
+  useAutoGameConfig, 
+  useGameUIConfig, 
+  useGameItems, 
+  useGameCardComponent,
+  type GameConfigContextValue 
+} from './GameConfigContext';

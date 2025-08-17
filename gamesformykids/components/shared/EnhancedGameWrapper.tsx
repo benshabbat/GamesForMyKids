@@ -46,7 +46,7 @@ export function EnhancedGameWrapper({
  */
 import { GameProgressDisplay } from './GameProgressDisplay';
 import { GameNavigation } from './GameNavigation';
-import { AutoGamePage } from './AutoGamePage';
+import AutoGamePageWithProvider from './AutoGamePageWithProvider';
 
 interface CompleteGameLayoutProps {
   gameType: GameType;
@@ -91,7 +91,7 @@ export function CompleteGameLayout({
         
         {/* Main Game Content */}
         <main className="container mx-auto px-4 pb-8">
-          <AutoGamePage gameType={gameType} />
+          <AutoGamePageWithProvider gameType={gameType} />
         </main>
       </div>
     </EnhancedGameWrapper>

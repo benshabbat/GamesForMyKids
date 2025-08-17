@@ -12,11 +12,9 @@
 
 import { useState, useEffect } from "react";
 import { GameType, BaseGameItem } from "@/lib/types/base";
-import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
-import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
-import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
-import { GameCardMap } from "./CardPresets";
+import { AutoGameType } from "@/lib/constants/gameHooksMap";
 import { useGameType } from "@/contexts/GameTypeContext";
+import { useAutoGameConfig } from "@/contexts/GameConfigContext";
 
 // רכיבים משותפים
 import AutoStartScreen from "./AutoStartScreen";
@@ -38,28 +36,21 @@ interface AutoGamePageProps {
  * מקבל רק gameType ובונה את כל המשחק אוטומטית!
  */
 export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
-  // � עדכון הקונטקסט עם סוג המשחק הנוכחי
+  // 🎮 עדכון הקונטקסט עם סוג המשחק הנוכחי
   const { setCurrentGameType } = useGameType();
   
   useEffect(() => {
     setCurrentGameType(gameType);
   }, [gameType, setCurrentGameType]);
 
-  // �🎨 קבלת כל הקונפיגורציות אוטומטית
-  const config = GAME_UI_CONFIGS[gameType];
-  const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType];
-  const items = GAME_ITEMS_MAP[gameType];
-  const CardComponent = GameCardMap[gameType];
-  
-  // בדיקה שהמשחק קיים במפה
-  if (!useGameHook) {
-    throw new Error(`Game type ${gameType} is not supported by AutoGamePage`);
-  }
+  // 🎨 קבלת כל הקונפיגורציות אוטומטית מהקונטקסט
+  const { config, items, CardComponent, useGameHook } = useAutoGameConfig(gameType);
   
   // State for UI enhancements
   const [showProgressModal, setShowProgressModal] = useState(false);
   
   // 🎮 הפעלת ה-Hook הנכון אוטומטית
+  const gameHookResult = useGameHook();
   const {
     gameState,
     speakItemName,
@@ -72,7 +63,7 @@ export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
     showNextHint,
     currentAccuracy,
     progressStats,
-  } = useGameHook();
+  } = gameHookResult;
 
   // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
   if (!gameState || !gameState.isPlaying) {
