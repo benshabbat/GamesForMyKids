@@ -35,6 +35,13 @@ export interface GameUIConfig {
   itemLabel?: string;
   tip?: string;
   tipDescription?: string;
+  // 🔍 מטאדאטה SEO
+  metadata?: {
+    keywords?: string;
+    description?: string;
+    ogImagePath?: string;
+    twitterImagePath?: string;
+  };
 }
 
 /**
@@ -70,6 +77,11 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     itemLabel: "צבע",
     tip: "💡 טיפ: תשמע את שם הצבע!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצבעים למטה לשמוע את השמות",
+    // 🔍 מטאדאטה SEO
+    metadata: {
+      keywords: "משחק צבעים לילדים, למידת צבעים, משחקים חינוכיים, גיל 2-5, פעוטות, צבעים בעברית",
+      description: "משחק אינטראקטיבי ללימוד צבעים לילדים בגילאי 2-5. למדו צבעים בעברית דרך משחק מהנה וחינוכי!",
+    },
   },
 
   letters: {
@@ -255,6 +267,11 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     itemLabel: "חיה",
     tip: "💡 טיפ: תשמע את שם החיה שאני אומר!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על החיות למטה לשמוע את השמות",
+    // 🔍 מטאדאטה SEO
+    metadata: {
+      keywords: "משחק חיות לילדים, למידת בעלי חיים, משחקים חינוכיים, גיל 2-5, פעוטות, חיות בעברית",
+      description: "משחק אינטראקטיבי ללימוד בעלי חיים לילדים בגילאי 2-5. למדו על חיות שונות בעברית דרך משחק מהנה!",
+    },
   },
 
   vegetables: {

@@ -1,7 +1,7 @@
 import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
-import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
+import { generateGameMetadata } from '@/contexts/GameConfigContext';
 import { EnhancedGameWrapper, AutoGamePage } from '@/components/shared';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
@@ -32,42 +32,8 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
   
   // המרת URL לGameType במקרה של חוסר התאמה
   const actualGameType = URL_TO_GAME_TYPE_MAP[gameType] || (gameType as GameType);
-  const config = GAME_UI_CONFIGS[actualGameType];
   
-  if (!config) {
-    return {
-      title: 'משחק לא נמצא',
-    };
-  }
-
-  return {
-    title: config.title,
-    description: config.subTitle,
-    keywords: `${config.title}, משחקים לילדים, חינוכי, גיל 2-5, פעוטות, למידה, ${actualGameType}`,
-    openGraph: {
-      title: config.title,
-      description: config.subTitle,
-      type: 'article',
-      url: `https://gamesformykids.vercel.app/games/${gameType}`,
-      images: [
-        {
-          url: `/images/games/${actualGameType}-og.png`,
-          width: 1200,
-          height: 630,
-          alt: config.title,
-        },
-      ],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: config.title,
-      description: config.subTitle,
-      images: [`/images/games/${actualGameType}-twitter.png`],
-    },
-    alternates: {
-      canonical: `/games/${gameType}`,
-    },
-  };
+  return generateGameMetadata(actualGameType, gameType);
 }
 
 export default async function UniversalGamePage({ params }: GamePageProps) {

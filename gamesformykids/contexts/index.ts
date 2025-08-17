@@ -11,5 +11,7 @@ export {
   useGameUIConfig, 
   useGameItems, 
   useGameCardComponent,
+  generateGameMetadata,
+  useGameMetadata,
   type GameConfigContextValue 
 } from './GameConfigContext';
