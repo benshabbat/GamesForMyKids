@@ -12,7 +12,7 @@ import { useGameType } from '@/contexts/GameTypeContext';
 // Extend Window interface for gtag
 declare global {
   interface Window {
-    gtag?: (...args: any[]) => void;
+    gtag?: (command: string, action: string, parameters?: Record<string, unknown>) => void;
   }
 }
 

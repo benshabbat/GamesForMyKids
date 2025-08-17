@@ -1,9 +1,9 @@
-import { AutoGamePage } from "@/components/shared/AutoGamePage";
 import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
 import { EnhancedGameWrapper } from '@/components/shared/EnhancedGameWrapper';
+import { SimpleEnhancedGamePage } from '@/components/shared/SimpleEnhancedGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
 const SUPPORTED_GAMES = [
@@ -84,7 +84,7 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
 
   return (
     <EnhancedGameWrapper gameType={actualGameType as SupportedGameType}>
-      <AutoGamePage gameType={actualGameType as SupportedGameType} />
+      <SimpleEnhancedGamePage gameType={actualGameType as SupportedGameType} />
     </EnhancedGameWrapper>
   );
 }
