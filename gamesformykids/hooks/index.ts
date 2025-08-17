@@ -8,6 +8,7 @@
  */
 
 // Hooks בסיסיים ומשותפים
+export { useAutoGame, type GameLogicState } from './shared/useAutoGame';
 export { useGameAudio } from "./shared/useGameAudio";
 export { useGameAnalytics } from "./shared/useGameAnalytics";
 export { useGameOptions } from "./shared/useGameOptions";

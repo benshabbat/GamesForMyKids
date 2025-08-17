@@ -1,18 +1,25 @@
 /**
  * ===============================================
- * AutoGamePage - הקומפוננט הקסום 🎯
+ * AutoGamePage - עמוד משחק עם קונטקסט מלא 🎯
  * ===============================================
  * 
- * הופך כל דף משחק מ-120 שורות ל-3 שורות!
- * כל הלוגיקה במקום אחד - אוטומציה מושלמת
- * עכשיו עם קונטקסטים וhook מותאם - ללא props drilling!
- * 🚀 חדש: כל הלוגיקה ב-useAutoGame hook!
+ * עמוד משחק שמקבל הכל מקונטקסט - ללא props בכלל!
+ * - GameLogicContext מספק את כל הלוגיקה והמידע
+ * - פשוט מציג את התוכן בהתאם למצב
+ * - אפס props drilling! 🚀
  */
 
 "use client";
 
 import { BaseGameItem } from "@/lib/types/base";
-import { useAutoGame } from "@/hooks/shared/useAutoGame";
+import { 
+  useGameLogic, 
+  useGameState, 
+  useGameActions, 
+  useGameConfigFromLogic, 
+  useGameHints, 
+  useGameUI 
+} from '@/contexts';
 
 // רכיבים משותפים
 import AutoStartScreen from "./AutoStartScreen";
@@ -29,50 +36,54 @@ interface AutoGamePageProps {
 }
 
 /**
- * 🎯 הקומפוננט הקסום שהופך כל משחק לאוטומטי
- * עכשיו ללא props drilling וכל הלוגיקה בhook מותאם!
- * 🚀 gameType אופציונלי - אם לא מועבר, יילקח מהקונטקסט
+ * 🎯 עמוד משחק מלא עם קונטקסט - ללא props!
+ * כל הנתונים מגיעים מהקונטקסט - אפס העברת פרמטרים!
  */
-export function AutoGamePage({ renderCard }: AutoGamePageProps) {
-  // � כל הלוגיקה בhook אחד מותאם!
-  const {
-    // Game State
-    gameState,
-    isPlaying,
-    showCelebration,
-    currentChallenge,
-    options,
-    score,
-    level,
-    
-    // Game Actions
-    startGame,
-    resetGame,
-    handleItemClick,
-    speakItemName,
-    
-    // Enhanced Features
-    hints,
-    hasMoreHints,
-    showNextHint,
-    currentAccuracy,
-    
-    // UI State
-    showProgressModal,
-    setShowProgressModal,
-    
-    // Configuration
-    config,
-    items,
-    CardComponent,
-    gameType: resolvedGameType
-  } = useAutoGame();
+export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
+  // 🎮 כל הנתונים מהקונטקסט!
+  const { isReady, error } = useGameLogic();
+  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level } = useGameState();
+  const { startGame, resetGame, handleItemClick, speakItemName } = useGameActions();
+  const { config, items, CardComponent, gameType } = useGameConfigFromLogic();
+  const { hints, hasMoreHints, showNextHint, currentAccuracy } = useGameHints();
+  const { showProgressModal, setShowProgressModal } = useGameUI();
+
+  // 🔄 Loading state
+  if (!isReady) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="text-6xl mb-4">⏳</div>
+          <h2 className="text-2xl font-bold text-gray-600">טוען משחק...</h2>
+        </div>
+      </div>
+    );
+  }
+
+  // ❌ Error state
+  if (error) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-red-50">
+        <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
+          <div className="text-6xl mb-4">😞</div>
+          <h2 className="text-2xl font-bold text-red-600 mb-2">שגיאה במשחק</h2>
+          <p className="text-gray-600 mb-4">{error}</p>
+          <button
+            onClick={() => window.location.reload()}
+            className="px-6 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg transition-colors"
+          >
+            נסה שוב
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
   if (!gameState || !isPlaying) {
     return (
       <AutoStartScreen
-        gameType={resolvedGameType}
+        gameType={gameType}
         items={items}
         onStart={startGame}
         onSpeak={speakItemName}
@@ -108,7 +119,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
               "
               title="הצג סטטיסטיקות"
             >
-              📊 {currentAccuracy || 0}%
+              📊 {Math.round(currentAccuracy || 0)}%
             </button>
           </div>
 
@@ -173,7 +184,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
                 transition-all duration-200 font-bold
               "
             >
-              📊 דיוק: {currentAccuracy || 0}%
+              📊 דיוק: {Math.round(currentAccuracy || 0)}%
             </button>
           </div>
 

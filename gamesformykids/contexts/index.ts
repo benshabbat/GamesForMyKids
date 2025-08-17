@@ -15,3 +15,13 @@ export {
   useGameMetadata,
   type GameConfigContextValue 
 } from './GameConfigContext';
+export {
+  GameLogicProvider,
+  useGameLogic,
+  useGameState,
+  useGameActions,
+  useGameUI,
+  useGameConfig as useGameConfigFromLogic,
+  useGameHints,
+  type GameLogicContextValue
+} from './GameLogicContext';

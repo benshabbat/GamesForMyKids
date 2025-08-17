@@ -7,6 +7,7 @@ export { default as UniversalGameNavigation } from './UniversalGameNavigation';
 
 // Main Game Components
 export { AutoGamePage } from './AutoGamePage';
+export { AutoGamePageWithContext } from './AutoGamePageWithContext';
 export { default as AutoStartScreen } from './AutoStartScreen';
 
 // Game UI Components
