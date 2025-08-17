@@ -94,7 +94,7 @@ export function CompleteGameLayout({
         
         {/* Main Game Content */}
         <main className="container mx-auto px-4 pb-8">
-          <AutoGamePage gameType={gameType} />
+          <AutoGamePage />
         </main>
       </div>
     </EnhancedGameWrapper>

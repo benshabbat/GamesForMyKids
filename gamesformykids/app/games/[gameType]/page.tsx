@@ -49,7 +49,7 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
 
   return (
     <EnhancedGameWrapper gameType={actualGameType as SupportedGameType}>
-      <AutoGamePage gameType={actualGameType as SupportedGameType} />
+      <AutoGamePage />
     </EnhancedGameWrapper>
   );
 }

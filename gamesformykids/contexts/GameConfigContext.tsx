@@ -146,26 +146,30 @@ export function useGameConfig(): GameConfigContextValue {
 
 /**
  * 🎯 Hook מותאם עבור AutoGamePage
- * מחזיר את כל מה שצריך במקום אחד
+ * מחזיר את כל מה שצריך במקום אחד - ללא props drilling!
  */
-export function useAutoGameConfig(gameType: AutoGameType | GameType) {
+export function useAutoGameConfig(gameType?: AutoGameType | GameType) {
   const { 
     config, 
     items, 
     CardComponent, 
     isReady, 
-    error 
+    error,
+    gameType: contextGameType 
   } = useGameConfig();
   
+  // השתמש ב-gameType מהפרמטר או מהקונטקסט
+  const actualGameType = gameType || contextGameType;
+  
   // אם המשחק לא נתמך
-  if (!isReady || error) {
-    throw new Error(error || `Game type ${gameType} is not supported by AutoGamePage`);
+  if (!isReady || error || !actualGameType) {
+    throw new Error(error || `Game type ${actualGameType} is not supported by AutoGamePage`);
   }
   
   // הפעלת ה-hook עם טיפוס המתאים
-  const gameHook = GAME_HOOKS_MAP[gameType as AutoGameType];
+  const gameHook = GAME_HOOKS_MAP[actualGameType as AutoGameType];
   if (!gameHook) {
-    throw new Error(`Game hook not found for ${gameType}`);
+    throw new Error(`Game hook not found for ${actualGameType}`);
   }
   
   return {
@@ -173,6 +177,7 @@ export function useAutoGameConfig(gameType: AutoGameType | GameType) {
     items: items!,
     CardComponent: CardComponent!,
     useGameHook: gameHook,
+    gameType: actualGameType,
   };
 }
 

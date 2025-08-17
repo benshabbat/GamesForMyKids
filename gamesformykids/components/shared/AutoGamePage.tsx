@@ -6,14 +6,14 @@
  * הופך כל דף משחק מ-120 שורות ל-3 שורות!
  * כל הלוגיקה במקום אחד - אוטומציה מושלמת
  * עכשיו עם קונטקסטים - ללא props drilling!
+ * 🚀 חדש: קבלת gameType מהקונטקסט!
  */
 
 "use client";
 
-import { useState, useEffect } from "react";
-import { GameType, BaseGameItem } from "@/lib/types/base";
+import { useState } from "react";
+import { BaseGameItem, GameType } from "@/lib/types/base";
 import { AutoGameType } from "@/lib/constants/gameHooksMap";
-import { useGameType } from "@/contexts/GameTypeContext";
 import { useAutoGameConfig } from "@/contexts/GameConfigContext";
 
 // רכיבים משותפים
@@ -27,24 +27,18 @@ import { GameHints } from "./GameHints";
 import { ProgressDisplay } from "./ProgressDisplay";
 
 interface AutoGamePageProps {
-  gameType: AutoGameType | GameType; // מקבל שני טיפוסים לגמישות
-  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode; // רינדר מותאם אישית
+  gameType?: GameType | AutoGameType; // אופציונלי - אם לא מועבר, יילקח מהקונטקסט
+  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode; // רינדר מותאם אישית - אופציונלי בלבד
 }
 
 /**
  * 🎯 הקומפוננט הקסום שהופך כל משחק לאוטומטי
- * מקבל רק gameType ובונה את כל המשחק אוטומטית!
+ * עכשיו ללא props drilling - מקבל הכל מהקונטקסט!
+ * 🚀 gameType אופציונלי - אם לא מועבר, יילקח מהקונטקסט
  */
 export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
-  // 🎮 עדכון הקונטקסט עם סוג המשחק הנוכחי
-  const { setCurrentGameType } = useGameType();
-  
-  useEffect(() => {
-    setCurrentGameType(gameType);
-  }, [gameType, setCurrentGameType]);
-
   // 🎨 קבלת כל הקונפיגורציות אוטומטית מהקונטקסט
-  const { config, items, CardComponent, useGameHook } = useAutoGameConfig(gameType);
+  const { config, items, CardComponent, useGameHook, gameType: resolvedGameType } = useAutoGameConfig(gameType);
   
   // State for UI enhancements
   const [showProgressModal, setShowProgressModal] = useState(false);
@@ -69,7 +63,7 @@ export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
   if (!gameState || !gameState.isPlaying) {
     return (
       <AutoStartScreen
-        gameType={gameType}
+        gameType={resolvedGameType}
         items={items}
         onStart={startGame}
         onSpeak={speakItemName}
