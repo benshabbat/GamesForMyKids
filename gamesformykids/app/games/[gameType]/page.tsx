@@ -2,7 +2,10 @@ import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/contexts/GameConfigContext';
-import { EnhancedGameWrapper, AutoGamePage } from '@/components/shared';
+import { GameTypeProvider } from '@/contexts/GameTypeContext';
+import { GameConfigProvider } from '@/contexts/GameConfigContext';
+import { GameLogicProvider } from '@/contexts/GameLogicContext';
+import { AutoGamePageWithContext } from '@/components/shared/AutoGamePageWithContext';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
 const SUPPORTED_GAMES = [
@@ -36,6 +39,12 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
   return generateGameMetadata(actualGameType, gameType);
 }
 
+/**
+ * 🎮 Universal Game Page עם קונטקסט מלא!
+ * - אפס props drilling
+ * - כל הנתונים בקונטקסט
+ * - פשוט מעטפת קונטקסטים + הקומפוננט
+ */
 export default async function UniversalGamePage({ params }: GamePageProps) {
   const { gameType } = await params;
   
@@ -48,9 +57,13 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   }
 
   return (
-    <EnhancedGameWrapper gameType={actualGameType as SupportedGameType}>
-      <AutoGamePage />
-    </EnhancedGameWrapper>
+    <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
+      <GameConfigProvider gameType={actualGameType as SupportedGameType}>
+        <GameLogicProvider>
+          <AutoGamePageWithContext />
+        </GameLogicProvider>
+      </GameConfigProvider>
+    </GameTypeProvider>
   );
 }
 
