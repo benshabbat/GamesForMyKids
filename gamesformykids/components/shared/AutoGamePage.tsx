@@ -9,12 +9,13 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameType, BaseGameItem } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
 import { GameCardMap } from "./CardPresets";
+import { useGameType } from "@/contexts/GameTypeContext";
 
 // רכיבים משותפים
 import AutoStartScreen from "./AutoStartScreen";
@@ -36,7 +37,14 @@ interface AutoGamePageProps {
  * מקבל רק gameType ובונה את כל המשחק אוטומטית!
  */
 export function AutoGamePage({ gameType, renderCard }: AutoGamePageProps) {
-  // 🎨 קבלת כל הקונפיגורציות אוטומטית
+  // � עדכון הקונטקסט עם סוג המשחק הנוכחי
+  const { setCurrentGameType } = useGameType();
+  
+  useEffect(() => {
+    setCurrentGameType(gameType);
+  }, [gameType, setCurrentGameType]);
+
+  // �🎨 קבלת כל הקונפיגורציות אוטומטית
   const config = GAME_UI_CONFIGS[gameType];
   const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType];
   const items = GAME_ITEMS_MAP[gameType];
