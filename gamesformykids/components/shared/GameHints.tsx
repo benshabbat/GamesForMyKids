@@ -1,9 +1,13 @@
 /**
  * קומפוננט להצגת רמזים במשחק
  * מציג רמזים חכמים בהתבסס על טעויות השחקן
+ * 
+ * 🎯 אפס props - הכל מהקונטקסט!
  */
 
 "use client";
+
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 interface Hint {
   type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
@@ -13,14 +17,19 @@ interface Hint {
   order: number;
 }
 
-interface GameHintsProps {
-  hints: Hint[];
-  hasMoreHints: boolean;
-  onShowNextHint: () => void;
-  className?: string;
-}
-
-export function GameHints({ hints, hasMoreHints, onShowNextHint, className = "" }: GameHintsProps) {
+/**
+ * 🎯 GameHints עם קונטקסט - ללא props!
+ */
+export function GameHints({ className = "" }: { className?: string }) {
+  const { 
+    gameState,
+    showNextHint,
+    hasMoreHints 
+  } = useUniversalGame();
+  
+  // בצורה זמנית, אם אין hints בקונטקסט, נראה hints ריקים
+  const hints: Hint[] = gameState?.hints || [];
+  
   if (hints.length === 0) {
     return null;
   }
@@ -33,7 +42,7 @@ export function GameHints({ hints, hasMoreHints, onShowNextHint, className = "" 
         </h3>
         {hasMoreHints && (
           <button
-            onClick={onShowNextHint}
+            onClick={showNextHint}
             className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors"
           >
             רמז נוסף

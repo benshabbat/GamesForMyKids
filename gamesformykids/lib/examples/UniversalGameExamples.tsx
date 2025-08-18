@@ -8,7 +8,6 @@
 
 "use client";
 
-import React from 'react';
 import { useUniversalGame, useGameData, useGameControls, useGameConfiguration, useGameEnhancements } from '@/contexts/UniversalGameContext';
 
 /**

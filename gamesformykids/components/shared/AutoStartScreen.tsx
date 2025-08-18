@@ -1,41 +1,31 @@
 /**
  * ===============================================
- * AutoStartScreen - קומפוננט StartScreen אוטומטי
+ * AutoStartScreen - קומפוננט StartScreen עם קונטקסט
  * ===============================================
  * 
- * 🚀 ULTRA DRY Solution!
- * מחליף את כל ה-StartScreen קבצים עם קומפוננט אחד חכם
- * 
- * מעבר מ-20+ קבצי StartScreen ל-1 קומפוננט!
- * רק צריך לציין את סוג המשחק והפריטים
+ * 🎯 אפס props - הכל מהקונטקסט!
  */
 
-import { AutoStartScreenProps } from "@/lib/types/startScreen";
-import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "./GameItem";
 
 /**
- * AutoStartScreen - קומפוננט אוטומטי ל-StartScreen
- * 
- * @param gameType - סוג המשחק (מהטיפוס GameType)
- * @param gameId - זהות המשחק לצורך הניווט
- * @param items - רשימת פריטי המשחק
- * @param onStart - פונקציה להתחלת המשחק
- * @param onSpeak - פונקציה אופציונלית להשמעת שמות
+ * 🎯 AutoStartScreen עם קונטקסט - ללא props!
  */
-export default function AutoStartScreen({ 
-  gameType, 
-  items, 
-  onStart, 
-  onSpeak 
-}: Omit<AutoStartScreenProps, 'gameId'>) {
-  const config = GAME_UI_CONFIGS[gameType];
+export default function AutoStartScreen() {
+  const { 
+    gameType, 
+    items, 
+    startGame, 
+    speakItemName, 
+    config 
+  } = useUniversalGame();
   
   if (!config) {
     return (
-      <div className="text-center">
-        <p>Game type not supported: {gameType}</p>
+      <div className="text-center p-8">
+        <p className="text-xl text-red-500">Game type not supported: {gameType}</p>
       </div>
     );
   }
@@ -77,7 +67,7 @@ export default function AutoStartScreen({
       gameSteps={config.steps}
       gameStepsBgClass={config.colors.stepsBg}
       items={gameType === 'math' ? [] : items}
-      onStart={onStart}
+      onStart={startGame}
       buttonFromColor={config.colors.button.from}
       buttonToColor={config.colors.button.to}
       backgroundStyle={config.colors.background}
@@ -98,7 +88,7 @@ export default function AutoStartScreen({
             icon={<span className="text-3xl">{item.emoji || '🎯'}</span>}
             shape="circle"
             size="large"
-            onClick={() => onSpeak?.(item.name || '')}
+            onClick={() => speakItemName?.(item.name || '')}
             hideSoundIcon={!config.grid.showSpeaker}
           />
         );

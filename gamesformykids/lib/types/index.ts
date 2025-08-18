@@ -10,8 +10,5 @@ export * from './base';
 // טיפוסים למשחקים
 export * from './games';
 
-// טיפוסים למסכי התחלה
-export * from './startScreen';
-
 // טיפוסים לממשק המשתמש
 export * from './ui';

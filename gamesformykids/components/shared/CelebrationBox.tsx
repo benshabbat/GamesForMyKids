@@ -1,12 +1,25 @@
 import GenericBox from "./GenericBox";
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
-type CelebrationBoxProps = {
-  label: string; // לדוג' "צבע", "צורה", "אות"
-  value: string; // הערך בעברית
-  points?: number; // ניקוד (ברירת מחדל: 10)
-};
+/**
+ * 🎯 CelebrationBox עם קונטקסט - ללא props!
+ */
+export default function CelebrationBox() {
+  const { 
+    config, 
+    currentChallenge, 
+    showCelebration 
+  } = useUniversalGame();
+  
+  // אם אין חגיגה או אין אתגר נוכחי, לא להציג
+  if (!showCelebration || !currentChallenge) {
+    return null;
+  }
+  
+  const label = config.itemLabel || "פריט";
+  const value = currentChallenge.hebrew;
+  const points = 10; // יכול להיות דינמי מהקונטקסט בעתיד
 
-export default function CelebrationBox({ label, value, points = 10 }: CelebrationBoxProps) {
   return (
     <GenericBox
       title="מעולה!"

@@ -1,18 +1,24 @@
-interface InstructionStep {
-  icon: string;
-  title: string;
-  description: string;
-}
+/**
+ * קומפוננט להצגת הוראות המשחק
+ * 
+ * 🎯 אפס props - הכל מהקונטקסט!
+ */
 
-interface GameInstructionsProps {
-  steps: InstructionStep[];
-  bgClass?: string;
-}
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
-export default function GameInstructions({
-  steps,
-  bgClass,
-}: GameInstructionsProps) {
+/**
+ * 🎯 GameInstructions עם קונטקסט - ללא props!
+ */
+export default function GameInstructions() {
+  const { config } = useUniversalGame();
+  
+  if (!config || !config.steps) {
+    return null;
+  }
+  
+  const steps = config.steps;
+  const bgClass = config.colors?.stepsBg;
+
   return (
     <div className={`${bgClass ?? "bg-white"} rounded-3xl p-8 mb-8 shadow-xl`}>
       <h2 className="text-3xl font-bold text-gray-800 mb-4">איך משחקים?</h2>

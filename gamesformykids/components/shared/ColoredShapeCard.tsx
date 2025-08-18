@@ -1,30 +1,35 @@
 /**
  * ===============================================
  * קומפוננט כרטיס צורה צבעונית
+ * 🎯 אפס props - הכל מהקונטקסט!
  * ===============================================
  */
 import { Volume2 } from 'lucide-react';
 import { SHAPE_ICON_MAP } from '@/lib/constants/ui/shapes';
 import { ColoredShapeItem } from '@/lib/constants/gameData/basic';
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 interface ColoredShapeCardProps {
   item: ColoredShapeItem;
-  onClick: (item: ColoredShapeItem) => void;
   className?: string;
 }
 
+/**
+ * 🎯 ColoredShapeCard עם קונטקסט - ללא onClick prop!
+ */
 export default function ColoredShapeCard({ 
   item, 
-  onClick, 
   className = "" 
 }: ColoredShapeCardProps) {
+  
+  const { handleItemClick } = useUniversalGame();
   
   // קבלת הקומפוננט של הצורה
   const ShapeComponent = SHAPE_ICON_MAP[item.svg as keyof typeof SHAPE_ICON_MAP];
 
   return (
     <div
-      onClick={() => onClick(item)}
+      onClick={() => handleItemClick(item)}
       className={`
         relative group bg-white rounded-3xl p-8 shadow-xl 
         hover:shadow-2xl hover:scale-105 
