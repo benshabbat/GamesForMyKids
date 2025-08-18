@@ -10,14 +10,12 @@ export default function BubbleGame() {
   const {
     gameState,
     gameContainerRef,
-    startGame,
     stopGame,
-    resetGame,
     handleBubblePop,
   } = useBubbleGame();
 
   if (!gameState || !gameState.isPlaying) {
-    return <BubbleStartScreen onStart={startGame} />;
+    return <BubbleStartScreen />;
   }
 
   return (
@@ -30,13 +28,7 @@ export default function BubbleGame() {
     >
       {/* כותרת המשחק */}
       <div className="relative z-10 p-4">
-        <GameHeader
-          score={gameState.score}
-          level={gameState.level}
-          onHome={() => (window.location.href = "/")}
-          onReset={resetGame}
-          levelColor="text-blue-600"
-        />
+        <GameHeader />
       </div>
 
       {/* אזור המשחק */}
@@ -67,10 +59,7 @@ export default function BubbleGame() {
 
       {/* הוראות משחק */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
-        <TipsBox
-          tip="💡 טיפ: לחץ על הבועות לפני שהן בורחות!"
-          description="כל בועה מנגנת צליל שונה - נסה ליצור מנגינות!"
-        />
+        <TipsBox />
       </div>
 
       {/* כפתור עצירה */}

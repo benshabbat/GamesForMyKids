@@ -30,7 +30,7 @@ function TetrisGame(){
           ]}
           gameStepsBgClass="bg-white/20"
           items={[]}
-          onStart={actions.startNewGame}
+          customOnStart={actions.startNewGame}
           buttonFromColor="from-yellow-400"
           buttonToColor="to-orange-500"
           backgroundStyle="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700"
@@ -57,12 +57,7 @@ function TetrisGame(){
         <div className="hidden lg:grid lg:grid-cols-12 gap-8 w-full max-w-6xl">
           {/* Left Info Panel */}
           <div className="col-span-3">
-            <DesktopInfoPanel 
-              score={gameState.score} 
-              level={gameState.level} 
-              linesCleared={gameState.linesCleared} 
-              nextPiece={gameState.nextPiece} 
-            />
+            <DesktopInfoPanel />
           </div>
 
           {/* Game Board - Center */}
@@ -87,12 +82,7 @@ function TetrisGame(){
         {/* Mobile Layout */}
         <div className="lg:hidden flex flex-col items-center w-full max-w-sm px-4">
           {/* Mobile Info Panel */}
-          <MobileInfoPanel 
-            score={gameState.score} 
-            level={gameState.level} 
-            linesCleared={gameState.linesCleared} 
-            nextPiece={gameState.nextPiece} 
-          />
+          <MobileInfoPanel />
 
           {/* Game Board */}
           <div className="my-4">

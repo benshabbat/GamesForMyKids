@@ -10,6 +10,8 @@ import { ReactNode } from 'react';
  * שלב הדרכה במשחק
  */
 export interface GameStep {
+  stepNumber?: number;
+  stepText?: string; // alias ל-description 
   icon: string;
   title: string;
   description: string;

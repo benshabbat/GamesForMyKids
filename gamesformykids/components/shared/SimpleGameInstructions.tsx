@@ -24,7 +24,7 @@ export default function SimpleGameInstructions({
           <div className="text-center" key={idx}>
             <div className="text-4xl mb-3">{step.icon}</div>
             <p>
-              <strong>{step.stepNumber}. {step.stepText}</strong>
+              <strong>{step.stepNumber || (idx + 1)}. {step.stepText || step.description}</strong>
             </p>
           </div>
         ))}
