@@ -1,26 +1,21 @@
 "use client";
 
-import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import MathNumberCard from "./MathNumberCard";
 import { useMathGame } from "./useMathGame";
-import StartScreen from "./StartScreen";
+import MathStartScreen from "./MathStartScreen";
 
 export default function MathGame() {
-  // משחק המתמטיקה לא משתמש ב-items כמו שאר המשחקים
-  const emptyItems: BaseGameItem[] = [];
-
   const {
     gameState,
     speakQuestion,
-    startGame,
     handleNumberClick,
   } = useMathGame();
 
   if (!gameState || !gameState.isPlaying) {
-    return <StartScreen items={emptyItems} customOnStart={startGame} />;
+    return <MathStartScreen />;
   }
 
   return (

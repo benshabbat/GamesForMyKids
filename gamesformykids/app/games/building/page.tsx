@@ -12,15 +12,13 @@ import {
 } from '@/components/game/building';
 import { BuildingProvider, useBuildingContext } from '@/contexts';
 import { SimpleGameProgressProvider } from '@/contexts/SimpleGameProgressContext';
-import StartScreen from './StartScreen';
-import { BaseGameItem } from '@/lib/types';
+import BuildingStartScreen from './BuildingStartScreen';
 
 function BuildingGameContent() {
-  const { isPlaying, startGame } = useBuildingContext();
+  const { isPlaying } = useBuildingContext();
 
   if (!isPlaying) {
-    const emptyItems: BaseGameItem[] = [];
-    return <StartScreen items={emptyItems} customOnStart={startGame} />;
+    return <BuildingStartScreen />;
   }
 
   return (

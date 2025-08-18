@@ -1,26 +1,20 @@
 "use client";
 
-import { BaseGameItem } from "@/lib/types";
 import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import CountingCard from "./CountingCard";
 import { useCountingGame } from "./useCountingGame";
-import StartScreen from "./StartScreen";
+import CountingStartScreen from "./CountingStartScreen";
 
 export default function CountingGame() {
-  // משחק הספירה לא משתמש ב-items כמו שאר המשחקים
-  const emptyItems: BaseGameItem[] = [];
-
   const {
     gameState,
-    speakQuestion,
-    startGame,
     handleNumberClick,
   } = useCountingGame();
 
   if (!gameState || !gameState.isPlaying) {
-    return <StartScreen items={emptyItems} customOnStart={startGame} onSpeak={speakQuestion} />;
+    return <CountingStartScreen />;
   }
 
   return (
