@@ -17,14 +17,13 @@ export default function MathGame() {
     speakQuestion,
     startGame,
     handleNumberClick,
-    resetGame,
   } = useMathGame();
 
   console.log("MathGame component render - gameState:", gameState);
 
   if (!gameState || !gameState.isPlaying) {
     console.log("Rendering StartScreen - isPlaying:", gameState?.isPlaying);
-    return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
+    return <StartScreen items={emptyItems} customOnStart={startGame} />;
   }
 
   console.log("Rendering main game - currentChallenge:", gameState.currentChallenge);
@@ -35,13 +34,7 @@ export default function MathGame() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <GameHeader
-            score={gameState.score}
-            level={gameState.level}
-            onHome={() => (window.location.href = "/")}
-            onReset={resetGame}
-            levelColor="text-orange-600"
-          />
+          <GameHeader />
 
           {/* האתגר הנוכחי */}
           {gameState.currentChallenge && !gameState.showCelebration && (
@@ -123,10 +116,7 @@ export default function MathGame() {
 
           {/* חגיגת הצלחה */}
           {gameState.showCelebration && gameState.currentChallenge && (
-            <CelebrationBox 
-              label="תשובה" 
-              value={`${gameState.currentChallenge.firstNumber} ${gameState.currentChallenge.operation === 'addition' ? '+' : '-'} ${gameState.currentChallenge.secondNumber} = ${gameState.currentChallenge.correctAnswer}`} 
-            />
+            <CelebrationBox />
           )}
         </div>
 
@@ -147,10 +137,7 @@ export default function MathGame() {
           )}
         </div>
         
-        <TipsBox
-          tip="💡 טיפ: השתמש בסמלים כדי לעזור לך לחשב!"
-          description="ספור את הסמלים שרואה על המסך כדי לפתור את התרגיל"
-        />
+        <TipsBox />
       </div>
     </div>
   );

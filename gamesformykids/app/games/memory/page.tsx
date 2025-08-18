@@ -18,8 +18,7 @@ import TipsBox from "@/components/shared/TipsBox";
 
 function MemoryGameContent() {
   const {
-    state: { animals, gameStarted, isGameWon, gameStats, timer, difficulty },
-    initializeGame,
+    state: { gameStarted, isGameWon, gameStats, timer, difficulty },
   } = useMemoryContext();
 
   const { user } = useAuth();
@@ -49,23 +48,8 @@ function MemoryGameContent() {
   }, [isGameWon, user, gameStats.score, timer, difficulty, updateScore, updateLevel, addPlayTime, checkScoreAchievements, checkLevelAchievements]);
 
   if (!gameStarted) {
-    // Convert AnimalData to BaseGameItem for AutoStartScreen
-    const gameItems = animals.length > 0 ? animals.map(animal => ({
-      name: animal.name,
-      hebrew: animal.name,
-      english: animal.name,
-      emoji: animal.emoji,
-      color: '#8B5CF6',
-      sound: [],
-    })) : [];
-
     return (
-      <AutoStartScreen 
-        gameType="memory" 
-        items={gameItems} 
-        onStart={initializeGame} 
-        onSpeak={() => {}} 
-      />
+      <AutoStartScreen />
     );
   }
 
@@ -79,10 +63,7 @@ function MemoryGameContent() {
         {gameStarted && <MemoryGameBoard />}
       </div>
 
-      <TipsBox
-        tip="💡 טיפ: נסה לזכור איפה כל חיה מסתתרת!"
-        description="לחץ על קלף כדי לחשוף חיה, ונסה למצוא את הזוג שלה. השתמש בזיכרון שלך כדי לזכור מיקומים!"
-      />
+      <TipsBox />
     </div>
   );
 }
