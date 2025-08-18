@@ -5,11 +5,11 @@ import { BaseGameItem } from "@/lib/types";
 
 interface StartScreenProps {
   items: BaseGameItem[];
-  onStart: () => void;
+  customOnStart?: () => void;
   onSpeak?: (name: string) => void;
 }
 
-export default function StartScreen({ onStart }: StartScreenProps) {
+export default function StartScreen({ customOnStart }: StartScreenProps) {
   // דוגמאות ספירה להצגה במסך התחלה
   const countingExamples = [
     { count: 3, emoji: "🍎", name: "תפוחים", hebrew: "3 תפוחים" },
@@ -66,7 +66,7 @@ export default function StartScreen({ onStart }: StartScreenProps) {
       ]}
       gameStepsBgClass="bg-purple-100/50"
       items={[]}
-      onStart={onStart}
+      customOnStart={customOnStart}
       buttonFromColor="from-purple-500"
       buttonToColor="to-pink-500"
       backgroundStyle="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"

@@ -20,7 +20,7 @@ function BuildingGameContent() {
 
   if (!isPlaying) {
     const emptyItems: BaseGameItem[] = [];
-    return <StartScreen items={emptyItems} onStart={startGame} />;
+    return <StartScreen items={emptyItems} customOnStart={startGame} />;
   }
 
   return (

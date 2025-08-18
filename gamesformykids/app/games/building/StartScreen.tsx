@@ -4,12 +4,12 @@ import GenericStartScreen from "@/components/shared/GenericStartScreen";
 import { BaseGameItem } from "@/lib/types";
 
 interface StartScreenProps {
-  items: BaseGameItem[];
-  onStart: () => void;
+  items: BaseGameItem[]; // נשמור לשמירה על תאימות
+  customOnStart?: () => void;
   onSpeak?: (name: string) => void;
 }
 
-export default function StartScreen({ onStart }: StartScreenProps) {
+export default function StartScreen({ customOnStart }: StartScreenProps) {
   // דוגמאות בנייה להצגה במסך התחלה
   const buildingExamples = [
     { emoji: "🏠", name: "בית", hebrew: "בנה בית", description: "בנה בית יפה עם קירות וגג" },
@@ -66,7 +66,7 @@ export default function StartScreen({ onStart }: StartScreenProps) {
       ]}
       gameStepsBgClass="bg-purple-100/50"
       items={[]}
-      onStart={onStart}
+      customOnStart={customOnStart}
       buttonFromColor="from-purple-500"
       buttonToColor="to-pink-500"
       backgroundStyle="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"

@@ -17,11 +17,10 @@ export default function CountingGame() {
     speakQuestion,
     startGame,
     handleNumberClick,
-    resetGame,
   } = useCountingGame();
 
   if (!gameState || !gameState.isPlaying) {
-    return <StartScreen items={emptyItems} onStart={startGame} onSpeak={speakQuestion} />;
+    return <StartScreen items={emptyItems} customOnStart={startGame} onSpeak={speakQuestion} />;
   }
 
   return (
@@ -29,13 +28,7 @@ export default function CountingGame() {
       <div className="max-w-4xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <GameHeader
-            score={gameState.score}
-            level={gameState.level}
-            onHome={() => (window.location.href = "/")}
-            onReset={resetGame}
-            levelColor="text-purple-600"
-          />
+          <GameHeader />
         </div>
 
         {/* Challenge Display */}
@@ -63,17 +56,11 @@ export default function CountingGame() {
         </div>
 
         {/* Tips */}
-        <TipsBox 
-          tip="💡 טיפ: ספור את האימוג'ים על המסך!"
-          description="שים לב לכמות האימוג'ים ובחר את המספר הנכון"
-        />
+        <TipsBox />
 
         {/* Celebration */}
         {gameState.showCelebration && gameState.currentChallenge && (
-          <CelebrationBox 
-            label="תשובה נכונה!" 
-            value={`יש ${gameState.currentChallenge.correctAnswer} ${gameState.currentChallenge.correctAnswer === 1 ? gameState.currentChallenge.itemName : gameState.currentChallenge.itemPlural}`}
-          />
+          <CelebrationBox />
         )}
       </div>
     </div>

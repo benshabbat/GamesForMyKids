@@ -16,7 +16,7 @@ interface GenericStartScreenProps<T> {
   gameSteps: GameStep[];
   gameStepsBgClass?: string;
   items: T[];
-  onStart: () => void;
+  customOnStart?: () => void; // אופציונלי - לדריסת התנהגות ברירת המחדל
   onSpeak?: (name: string) => void;
   
   // Button colors
@@ -54,7 +54,7 @@ export default function GenericStartScreen<T>({
   gameSteps,
   gameStepsBgClass,
   items,
-  onStart,
+  customOnStart,
   buttonFromColor,
   buttonToColor,
   backgroundStyle,
@@ -89,11 +89,7 @@ export default function GenericStartScreen<T>({
 
         {/* כפתור התחלה */}
         <SimpleGameStartButton
-          onStart={() => {
-            if (onStart) {
-                onStart();
-            }
-        }}
+          customOnStart={customOnStart}
           fromColor={buttonFromColor}
           toColor={buttonToColor}
         />
