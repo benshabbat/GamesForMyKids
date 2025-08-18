@@ -14,8 +14,7 @@ const SUPPORTED_GAMES = [
   'animals', 'colors', 'fruits', 'vegetables', 'clothing',
   'letters', 'shapes', 'numbers', 'smells-tastes', 'weather',
   'transport', 'vehicles', 'tools', 'space', 'house',
-  'instruments', 'professions', 'emotions', 'math', 'colored-shapes',
-  'memory'
+  'instruments', 'professions', 'emotions', 'math', 'colored-shapes'
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

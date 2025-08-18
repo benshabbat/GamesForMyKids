@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import GameHeader from "./GameHeader";
 import GameWinMessage from "./GameWinMessage";
 import MemoryGameBoard from "./MemoryGameBoard";
-import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import MemoryStartScreen from "./MemoryStartScreen";
 
 function MemoryGameContent() {
   const {
@@ -48,7 +48,7 @@ function MemoryGameContent() {
 
   if (!gameStarted) {
     return (
-      <AutoStartScreen />
+      <MemoryStartScreen />
     );
   }
 
