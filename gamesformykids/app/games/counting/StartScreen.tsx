@@ -51,16 +51,22 @@ export default function StartScreen({ customOnStart }: StartScreenProps) {
         {
           stepNumber: 1,
           stepText: "בחרו את המספר הנכון",
+          title: "שלב 1",
+          description: "בחרו את המספר הנכון",
           icon: "👆"
         },
         {
           stepNumber: 2,
           stepText: "ספרו את הפריטים במסך",
+          title: "שלב 2",
+          description: "ספרו את הפריטים במסך",
           icon: "🔢"
         },
         {
           stepNumber: 3,
           stepText: "לחצו על המספר הנכון",
+          title: "שלב 3",
+          description: "לחצו על המספר הנכון",
           icon: "✅"
         }
       ]}

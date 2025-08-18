@@ -28,7 +28,7 @@ export function GameHints({ className = "" }: { className?: string }) {
   } = useUniversalGame();
   
   // בצורה זמנית, אם אין hints בקונטקסט, נראה hints ריקים
-  const hints: Hint[] = gameState?.hints || [];
+  const hints: Hint[] = [];
   
   if (hints.length === 0) {
     return null;

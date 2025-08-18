@@ -51,16 +51,22 @@ export default function StartScreen({ customOnStart }: StartScreenProps) {
         {
           stepNumber: 1,
           stepText: "בחרו צבע ואלמנט לבנייה",
+          title: "שלב 1",
+          description: "בחרו צבע ואלמנט לבנייה",
           icon: "🎨"
         },
         {
           stepNumber: 2,
           stepText: "לחצו על המסך כדי להוסיף אלמנט",
+          title: "שלב 2",
+          description: "לחצו על המסך כדי להוסיף אלמנט",
           icon: "👆"
         },
         {
           stepNumber: 3,
           stepText: "בנו יצירות מדהימות!",
+          title: "שלב 3",
+          description: "בנו יצירות מדהימות!",
           icon: "🏗️"
         }
       ]}

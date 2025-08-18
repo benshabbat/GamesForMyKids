@@ -69,14 +69,7 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
 
   // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
   if (!game.gameState || !game.isPlaying) {
-    return (
-      <AutoStartScreen
-        gameType={game.gameType}
-        items={game.items}
-        onStart={game.startGame}
-        onSpeak={game.speakItemName}
-      />
-    );
+    return <AutoStartScreen />;
   }
 
   // 🎯 רינדור המשחק עצמו
@@ -89,13 +82,7 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
         {/* Header אוטומטי עם סטטיסטיקות */}
         <div className="text-center mb-8">
           <div className="flex justify-between items-center mb-4">
-            <GameHeader
-              score={game.score}
-              level={game.level}
-              onHome={() => (window.location.href = "/")}
-              onReset={game.resetGame}
-              levelColor={game.config.colors.subHeader}
-            />
+            <GameHeader />
             
             {/* כפתור סטטיסטיקות */}
             <button
@@ -113,22 +100,12 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
 
           {/* Challenge Box אוטומטי */}
           {game.gameState && game.currentChallenge && !game.showCelebration && (
-            <ChallengeBox
-              title={game.config.challengeTitle || "איזה פריט שמעת?"}
-              icon={game.config.challengeIcon || "🎯"}
-              iconColor={game.config.colors.header}
-              challengeText={game.currentChallenge.hebrew}
-              onSpeak={() => game.speakItemName(game.currentChallenge!.name)}
-              description={game.config.challengeDescription || "בחר את הפריט הנכון!"}
-            />
+            <ChallengeBox />
           )}
 
           {/* Celebration אוטומטי */}
           {game.gameState && game.showCelebration && game.currentChallenge && (
-            <CelebrationBox
-              label={game.config.itemLabel || "פריט"}
-              value={game.currentChallenge.hebrew}
-            />
+            <CelebrationBox />
           )}
         </div>
 
@@ -150,16 +127,7 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
 
           {/* רמזים חכמים */}
           {game.hints && game.hints.length > 0 && (
-            <GameHints
-              hints={game.hints.map((hint, index) => ({ 
-                text: hint, 
-                type: 'description' as const,
-                isRevealed: true,
-                order: index + 1
-              }))}
-              hasMoreHints={game.hasMoreHints}
-              onShowNextHint={game.showNextHint}
-            />
+            <GameHints />
           )}
 
           {/* סטטיסטיקות בכפתור */}
@@ -177,19 +145,11 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
           </div>
 
           {/* Tips אוטומטי */}
-          <TipsBox
-            tip={game.config.tip || "💡 טיפ: הקשב בקפידה!"}
-            description={game.config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב"}
-          />
+          <TipsBox />
         </div>
 
         {/* מודל סטטיסטיקות */}
-        <ProgressDisplay
-          currentAccuracy={game.currentAccuracy}
-          progressStats={null}
-          isVisible={game.showProgressModal}
-          onClose={() => game.setShowProgressModal(false)}
-        />
+        <ProgressDisplay />
       </div>
     </div>
   );

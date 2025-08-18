@@ -61,17 +61,9 @@ export function GameCardGrid<T extends GameItemType>({
     const isCorrect = currentChallenge ? isCurrentItem(item, currentChallenge) : false;
     
     if (isCorrect && gameActions?.onCorrect) {
-      gameActions.onCorrect({ 
-        item_id: String('id' in item ? (item as { id: string | number }).id : item.name), 
-        item_name: String(item.name),
-        gameType: gameInfo?.gameType 
-      });
+      gameActions.onCorrect();
     } else if (!isCorrect && gameActions?.onWrong) {
-      gameActions.onWrong({ 
-        item_id: String('id' in item ? (item as { id: string | number }).id : item.name), 
-        item_name: String(item.name),
-        gameType: gameInfo?.gameType 
-      });
+      gameActions.onWrong();
     }
   }) : () => {});
   // Helper function to determine if an item is the current challenge

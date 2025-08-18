@@ -51,7 +51,16 @@ export function ProgressDisplay({ className = "" }: { className?: string } = {})
   if (!showProgressModal) return null;
   
   // סטטיסטיקות זמניות - יכולות להיות מהקונטקסט בעתיד
-  const progressStats: ProgressStats | null = null;
+  const progressStats: ProgressStats = {
+    totalGamesPlayed: 0,
+    averageScore: 0,
+    bestScore: 0,
+    mostDifficultItems: [],
+    improvementTrend: 'stable' as const,
+    strongestAreas: [],
+    weakestAreas: [],
+    recommendedPractice: []
+  };
 
   const getAccuracyColor = (accuracy: number) => {
     if (accuracy >= 90) return 'text-green-600';

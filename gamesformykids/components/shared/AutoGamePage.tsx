@@ -70,14 +70,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
 
   // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
   if (!gameState || !isPlaying) {
-    return (
-      <AutoStartScreen
-        gameType={resolvedGameType}
-        items={items}
-        onStart={startGame}
-        onSpeak={speakItemName}
-      />
-    );
+    return <AutoStartScreen />;
   }
 
   // 🎯 רינדור המשחק עצמו
@@ -90,13 +83,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
         {/* Header אוטומטי עם סטטיסטיקות */}
         <div className="text-center mb-8">
           <div className="flex justify-between items-center mb-4">
-            <GameHeader
-              score={score}
-              level={level}
-              onHome={() => (window.location.href = "/")}
-              onReset={resetGame}
-              levelColor={config.colors.subHeader}
-            />
+            <GameHeader />
             
             {/* כפתור סטטיסטיקות */}
             <button
@@ -114,22 +101,12 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
 
           {/* Challenge Box אוטומטי */}
           {gameState && currentChallenge && !showCelebration && (
-            <ChallengeBox
-              title={config.challengeTitle || "איזה פריט שמעת?"}
-              icon={config.challengeIcon || "🎯"}
-              iconColor={config.colors.header}
-              challengeText={currentChallenge.hebrew}
-              onSpeak={() => speakItemName(currentChallenge!.name)}
-              description={config.challengeDescription || "בחר את הפריט הנכון!"}
-            />
+            <ChallengeBox />
           )}
 
           {/* Celebration אוטומטי */}
           {gameState && showCelebration && currentChallenge && (
-            <CelebrationBox
-              label={config.itemLabel || "פריט"}
-              value={currentChallenge.hebrew}
-            />
+            <CelebrationBox />
           )}
         </div>
 
@@ -151,16 +128,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
 
           {/* רמזים חכמים */}
           {hints && hints.length > 0 && (
-            <GameHints
-              hints={hints.map((hint, index) => ({ 
-                text: hint, 
-                type: 'description' as const,
-                isRevealed: true,
-                order: index + 1
-              }))}
-              hasMoreHints={hasMoreHints || false}
-              onShowNextHint={showNextHint || (() => {})}
-            />
+            <GameHints />
           )}
 
           {/* סטטיסטיקות בכפתור */}
@@ -178,19 +146,11 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
           </div>
 
           {/* Tips אוטומטי */}
-          <TipsBox
-            tip={config.tip || "💡 טיפ: הקשב בקפידה!"}
-            description={config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב"}
-          />
+          <TipsBox />
         </div>
 
         {/* מודל סטטיסטיקות */}
-        <ProgressDisplay
-          currentAccuracy={currentAccuracy || 0}
-          progressStats={null}
-          isVisible={showProgressModal}
-          onClose={() => setShowProgressModal(false)}
-        />
+        <ProgressDisplay />
       </div>
     </div>
   );
