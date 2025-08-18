@@ -19,15 +19,9 @@ export default function MathGame() {
     handleNumberClick,
   } = useMathGame();
 
-  console.log("MathGame component render - gameState:", gameState);
-
   if (!gameState || !gameState.isPlaying) {
-    console.log("Rendering StartScreen - isPlaying:", gameState?.isPlaying);
     return <StartScreen items={emptyItems} customOnStart={startGame} />;
   }
-
-  console.log("Rendering main game - currentChallenge:", gameState.currentChallenge);
-  console.log("Rendering main game - options:", gameState.options);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100 p-4">

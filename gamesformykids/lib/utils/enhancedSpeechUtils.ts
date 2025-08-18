@@ -67,13 +67,11 @@ export async function speak(
 ): Promise<boolean> {
   // בדיקת זמינות ה-API
   if (!speechEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) {
-    console.log("Speech API not available");
     return false;
   }
   
   // אם כבר מדבר, אל תתחיל דיבור נוסף
   if (isSpeaking) {
-    console.log("Already speaking, can't start new speech");
     return false;
   }
 
@@ -133,18 +131,11 @@ export async function speak(
 
       // טיפול באירועים
       utterance.onend = () => {
-        console.log("Speech completed successfully");
         finishSpeaking(true);
       };
       
-      utterance.onerror = (event) => {
-        console.log("Speech error:", event.error);
+      utterance.onerror = () => {
         finishSpeaking(false);
-      };
-      
-      // טיפול במקרה שהדיבור נפסק באמצע
-      utterance.onboundary = (event) => {
-        console.log("Speech boundary:", event.name, "at position:", event.charIndex);
       };
       
       utterance.onstart = () => {

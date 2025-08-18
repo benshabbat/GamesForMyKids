@@ -381,7 +381,6 @@ export const HebrewLettersProvider= ({ children }: HebrewLettersProviderProps) =
 
   const downloadCanvas = useCallback((filename = 'hebrew-letter-practice.png') => {
     // This would be implemented by the component using the context
-    console.log(`Download canvas as ${filename}`);
   }, []);
 
   const getCanvasPosition = useCallback((event: MouseEvent | TouchEvent, canvas: HTMLCanvasElement) => {
