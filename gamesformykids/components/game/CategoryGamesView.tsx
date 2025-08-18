@@ -1,24 +1,7 @@
 "use client";
 
 import GameCard from "./GameCard";
-
-interface Category {
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ size?: number }>;
-  gradient: string;
-  gameIds: string[];
-}
-
-interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  available: boolean;
-  color: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { Category, GameRegistration } from "@/lib/types";
 
 interface CategoryGamesViewProps {
   selectedCategory: string;

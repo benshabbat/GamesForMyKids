@@ -1,24 +1,7 @@
 "use client";
 
 import CategoryCard from "./CategoryCard";
-
-interface Category {
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ size?: number }>;
-  gradient: string;
-  gameIds: string[];
-}
-
-interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  available: boolean;
-  color: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { Category, GameRegistration } from "@/lib/types";
 
 interface CategoriesViewProps {
   categories: Record<string, Category>;
@@ -52,7 +35,6 @@ export default function CategoriesView({
           return (
             <CategoryCard
               key={key}
-              categoryKey={key}
               category={category}
               gamesCount={gamesCount}
               availableCount={availableCount}

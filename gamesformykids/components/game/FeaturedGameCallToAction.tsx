@@ -1,16 +1,7 @@
 "use client";
 
 import Link from 'next/link';
-
-interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  available: boolean;
-  color: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { GameRegistration } from "@/lib/types";
 
 interface FeaturedGameCallToActionProps {
   featuredGame: GameRegistration;

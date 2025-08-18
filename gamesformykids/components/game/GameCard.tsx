@@ -2,16 +2,7 @@
 
 import Link from "next/link";
 import { Star } from "lucide-react";
-
-interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  available: boolean;
-  color: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { GameRegistration } from "@/lib/types";
 
 interface GameCardProps {
   game: GameRegistration;

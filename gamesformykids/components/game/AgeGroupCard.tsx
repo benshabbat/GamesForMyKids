@@ -2,24 +2,10 @@
 
 import Link from 'next/link';
 import { Users, Award } from 'lucide-react';
-
-interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  href: string;
-  available: boolean;
-  color: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
+import { AgeGroup } from "@/lib/types/game.types";
 
 interface AgeGroupCardProps {
-  ageGroup: {
-    title: string;
-    icon: string;
-    description: string;
-    recommendedGames: GameRegistration[];
-  };
+  ageGroup: AgeGroup;
 }
 
 export default function AgeGroupCard({ ageGroup }: AgeGroupCardProps) {

@@ -1,22 +1,16 @@
 "use client";
 
 import { Star } from "lucide-react";
+import { Category } from "@/lib/types";
 
 interface CategoryCardProps {
-  categoryKey: string;
-  category: {
-    title: string;
-    description: string;
-    icon: React.ComponentType<{ size?: number }>;
-    gradient: string;
-  };
+  category: Category;
   gamesCount: number;
   availableCount: number;
   onClick: () => void;
 }
 
 export default function CategoryCard({
-  categoryKey,
   category,
   gamesCount,
   availableCount,
@@ -26,7 +20,6 @@ export default function CategoryCard({
 
   return (
     <div
-      key={categoryKey}
       onClick={onClick}
       className={`relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl bg-gradient-to-br ${category.gradient}`}
     >
