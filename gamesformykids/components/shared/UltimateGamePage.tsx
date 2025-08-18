@@ -23,7 +23,7 @@ import CelebrationBox from "./CelebrationBox";
 import { GameCardGrid } from "./GameCardGrid";
 import TipsBox from "./TipsBox";
 import { GameHints } from "./GameHints";
-import { ProgressDisplay } from "./ProgressDisplay";
+import SimpleProgressDisplay from "./SimpleProgressDisplay";
 
 /**
  * 🎯 הקומפוננט הסופי - אפס props, הכל מהקונטקסט!
@@ -70,12 +70,7 @@ export function UltimateGamePage() {
   if (!game.gameState || !game.isPlaying) {
     return (
       <div style={{ background: game.config.colors.background }} className="min-h-screen">
-        <AutoStartScreen
-          gameType={game.gameType}
-          items={game.items}
-          onStart={game.startGame}
-          onSpeak={game.speakItemName}
-        />
+        <AutoStartScreen />
       </div>
     );
   }
@@ -90,13 +85,7 @@ export function UltimateGamePage() {
         {/* 🎯 Game Header */}
         <div className="text-center mb-8">
           <div className="flex justify-between items-center mb-6">
-            <GameHeader
-              score={game.score}
-              level={game.level}
-              onHome={() => (window.location.href = "/")}
-              onReset={game.resetGame}
-              levelColor={game.config.colors.subHeader}
-            />
+            <GameHeader />
             
             {/* 📊 Stats Button */}
             <button
@@ -115,24 +104,14 @@ export function UltimateGamePage() {
           {/* 🎯 Challenge */}
           {game.currentChallenge && !game.showCelebration && (
             <div className="mb-6">
-              <ChallengeBox
-                title={game.config.challengeTitle || "איזה פריט שמעת?"}
-                icon={game.config.challengeIcon || "🎯"}
-                iconColor={game.config.colors.header}
-                challengeText={game.currentChallenge.hebrew}
-                onSpeak={() => game.speakItemName(game.currentChallenge!.name)}
-                description={game.config.challengeDescription || "בחר את הפריט הנכון!"}
-              />
+              <ChallengeBox />
             </div>
           )}
 
           {/* 🎉 Celebration */}
           {game.showCelebration && game.currentChallenge && (
             <div className="mb-6">
-              <CelebrationBox
-                label={game.config.itemLabel || "פריט"}
-                value={game.currentChallenge.hebrew}
-              />
+              <CelebrationBox />
             </div>
           )}
         </div>
@@ -156,16 +135,7 @@ export function UltimateGamePage() {
           {/* 💡 Hints */}
           {game.hints.length > 0 && (
             <div className="bg-yellow-50/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <GameHints
-                hints={game.hints.map((hint, index) => ({ 
-                  text: hint, 
-                  type: 'description' as const,
-                  isRevealed: true,
-                  order: index + 1
-                }))}
-                hasMoreHints={game.hasMoreHints}
-                onShowNextHint={game.showNextHint}
-              />
+              <GameHints />
             </div>
           )}
 
@@ -185,20 +155,12 @@ export function UltimateGamePage() {
 
           {/* 💡 Tips */}
           <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl shadow-lg">
-            <TipsBox
-              tip={game.config.tip || "💡 טיפ: הקשב בקפידה!"}
-              description={game.config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב"}
-            />
+            <TipsBox />
           </div>
         </div>
 
         {/* 📊 Progress Modal */}
-        <ProgressDisplay
-          currentAccuracy={game.currentAccuracy}
-          progressStats={null}
-          isVisible={game.showProgressModal}
-          onClose={() => game.setShowProgressModal(false)}
-        />
+        <SimpleProgressDisplay />
       </div>
     </div>
   );

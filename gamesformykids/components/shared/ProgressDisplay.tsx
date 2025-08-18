@@ -1,9 +1,13 @@
 /**
  * קומפוננט להצגת סטטיסטיקות ביצועים
  * מציג מידע על קדמה, דיוק ותחומים לשיפור
+ * 
+ * 🎯 אפס props - הכל מהקונטקסט!
  */
 
 "use client";
+
+import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 interface ProgressStats {
   totalGamesPlayed: number;
@@ -14,14 +18,6 @@ interface ProgressStats {
   weakestAreas: string[];
   improvementTrend: 'improving' | 'stable' | 'declining';
   recommendedPractice: string[];
-}
-
-interface ProgressDisplayProps {
-  currentAccuracy: number;
-  progressStats: ProgressStats | null;
-  isVisible: boolean;
-  onClose: () => void;
-  className?: string;
 }
 
 const TREND_ICONS = {
@@ -42,14 +38,20 @@ const TREND_MESSAGES = {
   declining: 'בואו נשפר יחד! 💪',
 };
 
-export function ProgressDisplay({ 
-  currentAccuracy, 
-  progressStats, 
-  isVisible, 
-  onClose,
-  className = ""
-}: ProgressDisplayProps) {
-  if (!isVisible) return null;
+/**
+ * 🎯 ProgressDisplay עם קונטקסט - ללא props!
+ */
+export function ProgressDisplay({ className = "" }: { className?: string } = {}) {
+  const { 
+    currentAccuracy, 
+    showProgressModal, 
+    setShowProgressModal 
+  } = useUniversalGame();
+  
+  if (!showProgressModal) return null;
+  
+  // סטטיסטיקות זמניות - יכולות להיות מהקונטקסט בעתיד
+  const progressStats: ProgressStats | null = null;
 
   const getAccuracyColor = (accuracy: number) => {
     if (accuracy >= 90) return 'text-green-600';
@@ -70,7 +72,7 @@ export function ProgressDisplay({
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">📊 הסטטיסטיקות שלך</h2>
           <button
-            onClick={onClose}
+            onClick={() => setShowProgressModal(false)}
             className="text-gray-500 hover:text-gray-700 text-2xl font-bold"
           >
             ×
@@ -169,7 +171,7 @@ export function ProgressDisplay({
         {/* Close Button */}
         <div className="mt-6 text-center">
           <button
-            onClick={onClose}
+            onClick={() => setShowProgressModal(false)}
             className="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"
           >
             סגור

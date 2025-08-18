@@ -5,6 +5,10 @@ import { useBuildingGame } from '@/app/games/building/hooks';
 import { Block, ShapeType, ToolType, Particle } from '@/app/games/building/types';
 
 interface BuildingContextType {
+  // Game state
+  isPlaying: boolean;
+  startGame: () => void;
+  
   // State
   blocks: Block[];
   selectedBlock: Block | null;
@@ -79,6 +83,10 @@ export const BuildingProvider: React.FC<BuildingProviderProps> = ({ children }) 
   const game = useBuildingGame();
 
   const contextValue: BuildingContextType = {
+    // Game state
+    isPlaying: game.isPlaying,
+    startGame: game.startGame,
+    
     // State
     blocks: game.blocks,
     selectedBlock: game.selectedBlock,

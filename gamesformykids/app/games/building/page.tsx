@@ -10,9 +10,18 @@ import {
   BuildingCanvas,
   GameInstructions
 } from '@/components/game/building';
-import { BuildingProvider } from '@/contexts';
+import { BuildingProvider, useBuildingContext } from '@/contexts';
+import StartScreen from './StartScreen';
+import { BaseGameItem } from '@/lib/types';
 
 function BuildingGameContent() {
+  const { isPlaying, startGame } = useBuildingContext();
+
+  if (!isPlaying) {
+    const emptyItems: BaseGameItem[] = [];
+    return <StartScreen items={emptyItems} onStart={startGame} />;
+  }
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600 p-2 md:p-4 relative overflow-hidden no-select">
       {/* Animated background elements */}

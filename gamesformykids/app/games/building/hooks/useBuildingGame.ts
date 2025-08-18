@@ -16,6 +16,9 @@ import { useDragAndDrop } from './useDragAndDrop';
 import { useAchievements } from './useAchievements';
 
 export const useBuildingGame = () => {
+  // Game state
+  const [isPlaying, setIsPlaying] = useState(false);
+  
   // Core state
   const [blocks, setBlocks] = useState<Block[]>([]);
   const [selectedBlock, setSelectedBlock] = useState<Block | null>(null);
@@ -181,7 +184,15 @@ export const useBuildingGame = () => {
     setSelectedBlock(null);
   }, []);
 
+  const startGame = useCallback(() => {
+    setIsPlaying(true);
+  }, []);
+
   return {
+    // Game state
+    isPlaying,
+    startGame,
+    
     // State
     blocks,
     selectedBlock,

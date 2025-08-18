@@ -13,9 +13,9 @@ const SUPPORTED_GAMES = [
   'animals', 'colors', 'fruits', 'vegetables', 'clothing',
   'letters', 'shapes', 'numbers', 'smells-tastes', 'weather',
   'transport', 'vehicles', 'tools', 'space', 'house',
-  'instruments', 'professions', 'emotions', 'math','colored-shapes'
+  'instruments', 'professions', 'emotions', 'math', 'colored-shapes',
+  'memory'
 ] as const;
-// הערה: 'memory' הוסר כי יש לו דף ייעודי עם קונטקסט
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
