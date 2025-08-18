@@ -10,6 +10,7 @@ export function DynamicCallToAction() {
 
   useEffect(() => {
     setIsClient(true);
+    // Only set the random game after client-side hydration
     const availableGames = GamesRegistry.getAllGameRegistrations().filter(
       (game) => game.available
     );
@@ -19,17 +20,21 @@ export function DynamicCallToAction() {
     }
   }, []);
 
-  // Always render the same structure to prevent hydration mismatch
-  // Only change the onClick behavior after client hydration
+  const handleClick = () => {
+    if (isClient && randomGame) {
+      window.location.href = randomGame.href;
+    } else if (isClient) {
+      // Fallback to a default game if no random game is selected
+      window.location.href = "/games";
+    }
+  };
+
+  // Always render exactly the same structure
   return (
     <div className="mt-6">
       <div 
         className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-bold text-lg shadow-md hover:shadow-lg transition-shadow duration-200 hover:bg-purple-600 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:ring-offset-2 cursor-pointer"
-        onClick={() => {
-          if (isClient && randomGame) {
-            window.location.href = randomGame.href;
-          }
-        }}
+        onClick={handleClick}
       >
         ✨ התחילו לשחק עכשיו! ✨
       </div>

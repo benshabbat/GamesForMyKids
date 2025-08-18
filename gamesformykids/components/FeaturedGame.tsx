@@ -2,18 +2,33 @@
 
 import Link from 'next/link';
 import { Star, ArrowRight } from 'lucide-react';
-import { GamesRegistry } from "@/lib/registry/gamesRegistry";
+import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
+import { useState, useEffect } from 'react';
 
 const FeaturedGame = () => {
-  // קבלת משחק אקראי זמין (או יומי על בסיס התאריך)
-  const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
-  
-  if (availableGames.length === 0) return null;
-  
-  // יצירת "משחק היום" על בסיס התאריך
-  const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
-  const featuredGame = availableGames[dayOfYear % availableGames.length];
+  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    
+    // קבלת משחק אקראי זמין (או יומי על בסיס התאריך)
+    const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
+    
+    if (availableGames.length === 0) return;
+    
+    // יצירת "משחק היום" על בסיס התאריך - רק בצד הקליינט
+    const today = new Date();
+    const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+    const selectedGame = availableGames[dayOfYear % availableGames.length];
+    
+    setFeaturedGame(selectedGame);
+  }, []);
+
+  // Don't render anything until mounted to prevent hydration mismatch
+  if (!mounted || !featuredGame) {
+    return null;
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 mb-12">

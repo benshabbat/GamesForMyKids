@@ -30,9 +30,6 @@ const homePageStructuredData = {
 };
 
 export default function HomePage() {
-  // Force cache invalidation with current timestamp
-  const timestamp = new Date().getTime();
-  
   return (
     <>
       <script
@@ -45,7 +42,6 @@ export default function HomePage() {
       <meta name="cache-control" content="no-cache, no-store, must-revalidate" />
       <meta name="pragma" content="no-cache" />
       <meta name="expires" content="0" />
-      <meta name="build-time" content={timestamp.toString()} />
       <HomePageClient />
     </>
   );

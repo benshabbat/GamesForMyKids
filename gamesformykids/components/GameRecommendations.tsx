@@ -1,16 +1,28 @@
 "use client";
 
-import { GamesRegistry } from "@/lib/registry/gamesRegistry";
+import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 import RecommendationsHeader from './game/RecommendationsHeader';
 import AgeGroupCard from './game/AgeGroupCard';
 import FeaturedGameCallToAction from './game/FeaturedGameCallToAction';
+import { useState, useEffect } from "react";
 
 const GameRecommendations = () => {
+  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
+
+  useEffect(() => {
+    const allGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
+    
+    if (allGames.length > 0) {
+      // יצירת "משחק היום" על בסיס התאריך - רק בצד הקליינט
+      const today = new Date();
+      const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+      const selectedGame = allGames[dayOfYear % allGames.length];
+      setFeaturedGame(selectedGame);
+    }
+  }, []);
+
   const allGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
-    // יצירת "משחק היום" על בסיס התאריך
-  const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
-  const featuredGame = allGames[dayOfYear % allGames.length];
+  
   // קטגוריזציה לפי גיל (דמה - אפשר להוסיף מאפיין age למשחקים)
   const ageGroups = {
     "2-3": {
@@ -60,7 +72,7 @@ const GameRecommendations = () => {
         ))}
       </div>
 
-      <FeaturedGameCallToAction featuredGame={featuredGame} />
+      {featuredGame && <FeaturedGameCallToAction featuredGame={featuredGame} />}
     </div>
   );
 };
