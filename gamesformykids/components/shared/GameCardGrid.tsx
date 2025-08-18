@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BaseGameItem, ColorItem, ShapeItem, NumberItem } from "@/lib/types";
-import { useGameActions, useGameInfo } from "@/hooks/shared/useGameContext";
+import { useGameActions } from "@/hooks/shared/useGameContext";
 
 // Combined type for all our game items
 type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
@@ -53,7 +53,6 @@ export function GameCardGrid<T extends GameItemType>({
   
   // 🎮 שימוש בקונטקסט אם מבוקש
   const gameActions = useGameActions();
-  const gameInfo = useGameInfo();
   
   // החלטה על הפונקציה הסופית לטיפול בקליק
   const handleItemClick = propOnItemClick || (useContext ? ((item: T) => {

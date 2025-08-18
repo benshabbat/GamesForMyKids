@@ -383,8 +383,8 @@ const PuzzleCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (it
   <PuzzleCard puzzle={item} onClick={onClick} />
 );
 
-const ColoredShapeCardWrapper = ({ item, onClick }: { item: BaseGameItem; onClick: (item: BaseGameItem) => void }) => (
-  <ColoredShapeCard item={item as ColoredShapeItem} onClick={onClick as (item: ColoredShapeItem) => void} />
+const ColoredShapeCardWrapper = ({ item }: { item: BaseGameItem }) => (
+  <ColoredShapeCard item={item as ColoredShapeItem} />
 );
 
 /**

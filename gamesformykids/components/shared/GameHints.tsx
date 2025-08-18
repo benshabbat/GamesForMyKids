@@ -22,7 +22,6 @@ interface Hint {
  */
 export function GameHints({ className = "" }: { className?: string }) {
   const { 
-    gameState,
     showNextHint,
     hasMoreHints 
   } = useUniversalGame();

@@ -48,7 +48,6 @@ export function EnhancedGameWrapper({
  * פריסה מלאה למשחק עם כל הקומפוננטים
  */
 import { GameProgressDisplay } from './GameProgressDisplay';
-import { GameNavigation } from './GameNavigation';
 import { AutoGamePage } from './AutoGamePage';
 
 interface CompleteGameLayoutProps {
@@ -75,10 +74,11 @@ export function CompleteGameLayout({
       pointsPerCorrect={pointsPerCorrect}
     >
       <div className="min-h-screen bg-gray-50">
-        {/* Navigation */}
+        {/* Navigation - temporarily disabled */}
         {showNavigation && (
           <div className="sticky top-0 z-10 bg-white shadow-sm">
-            <GameNavigation />
+            {/* <GameNavigation /> */}
+            <div className="p-4 text-center">Navigation Placeholder</div>
           </div>
         )}
         

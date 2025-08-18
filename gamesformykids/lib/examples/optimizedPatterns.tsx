@@ -31,8 +31,13 @@ export const OPTIMIZED_GAME_CONFIGS = {
 
 // 2. שימוש ב-Hook Factory
 import { createGameHook } from '@/lib/utils/hookFactory';
-import { ALL_COLORS } from '@/lib/constants/items/colors';
-import { ALL_ANIMALS } from '@/lib/constants/items/animals';
+import { BaseGameItem } from '@/lib/types';
+// import { ALL_COLORS } from '@/lib/constants/items/colors';
+// import { ALL_ANIMALS } from '@/lib/constants/items/animals';
+
+// Placeholder data until constants are created
+const ALL_COLORS: BaseGameItem[] = [];
+const ALL_ANIMALS: BaseGameItem[] = [];
 
 // במקום useGenericGame:
 export const useColorsGame = createGameHook(ALL_COLORS, 'colors');
@@ -65,13 +70,18 @@ export function GameWithOptimizedContext() {
 }
 
 function GameComponent() {
-  const { score, level, updateScore } = useScore();
+  // Placeholder - using dummy values until proper context is implemented
+  const score = 0;
+  const level = 1;
+  const updateScore = () => {
+    // Placeholder function for updating score
+  };
   
   return (
     <div>
       <p>Score: {score}</p>
       <p>Level: {level}</p>
-      <button onClick={() => updateScore(10)}>Add 10 points</button>
+      <button onClick={() => updateScore()}>Add 10 points</button>
     </div>
   );
 }

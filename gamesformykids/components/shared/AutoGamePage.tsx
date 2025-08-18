@@ -34,7 +34,7 @@ interface AutoGamePageProps {
  * 🚀 gameType אופציונלי - אם לא מועבר, יילקח מהקונטקסט
  */
 export function AutoGamePage({ renderCard }: AutoGamePageProps) {
-  // � כל הלוגיקה בhook אחד מותאם!
+  // 🎯 כל הלוגיקה בhook אחד מותאם!
   const {
     // Game State
     gameState,
@@ -42,30 +42,20 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
     showCelebration,
     currentChallenge,
     options,
-    score,
-    level,
     
     // Game Actions
-    startGame,
-    resetGame,
     handleItemClick,
-    speakItemName,
     
     // Enhanced Features
     hints,
-    hasMoreHints,
-    showNextHint,
     currentAccuracy,
     
     // UI State
-    showProgressModal,
     setShowProgressModal,
     
     // Configuration
     config,
-    items,
-    CardComponent,
-    gameType: resolvedGameType
+    CardComponent
   } = useAutoGame();
 
   // 🖥️ רינדור מותנה - אם לא במשחק או gameState לא קיים, הראה StartScreen
