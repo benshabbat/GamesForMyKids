@@ -1,6 +1,6 @@
-import GameInstructions from "@/components/shared/GameInstructions";
-import GameStartButton from "@/components/shared/GameStartButton";
-import UnifiedHeader from "@/components/shared/UnifiedHeader";
+import SimpleGameInstructions from "@/components/shared/SimpleGameInstructions";
+import SimpleGameStartButton from "@/components/shared/SimpleGameStartButton";
+import StartScreenHeader from "@/components/shared/StartScreenHeader";
 import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
 import { GameStep } from "@/lib/types";
 import { ReactNode } from "react";
@@ -74,8 +74,7 @@ export default function GenericStartScreen<T>({
     >
       <div className="max-w-4xl mx-auto text-center">
         {/* Header */}
-        <UnifiedHeader
-          variant="start-screen"
+        <StartScreenHeader
           title={title}
           subTitle={subTitle}
           textColorHeader={textColorHeader}
@@ -83,13 +82,13 @@ export default function GenericStartScreen<T>({
         />
 
         {/* הסבר המשחק */}
-        <GameInstructions
+        <SimpleGameInstructions
           steps={gameSteps}
           bgClass={gameStepsBgClass}
         />
 
         {/* כפתור התחלה */}
-        <GameStartButton
+        <SimpleGameStartButton
           onStart={() => {
             if (onStart) {
                 onStart();

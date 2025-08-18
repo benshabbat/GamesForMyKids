@@ -5,6 +5,7 @@ import { generateGameMetadata } from '@/contexts/GameConfigContext';
 import { GameTypeProvider } from '@/contexts/GameTypeContext';
 import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameLogicProvider } from '@/contexts/GameLogicContext';
+import { GameProgressProvider } from '@/contexts/GameProgressContext';
 import { UniversalGameProvider } from '@/contexts/UniversalGameContext';
 import { UltimateGamePage } from '@/components/shared/UltimateGamePage';
 
@@ -58,15 +59,17 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   }
 
   return (
-    <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
-      <GameConfigProvider gameType={actualGameType as SupportedGameType}>
-        <GameLogicProvider>
-          <UniversalGameProvider>
-            <UltimateGamePage />
-          </UniversalGameProvider>
-        </GameLogicProvider>
-      </GameConfigProvider>
-    </GameTypeProvider>
+    <GameProgressProvider>
+      <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
+        <GameConfigProvider gameType={actualGameType as SupportedGameType}>
+          <GameLogicProvider>
+            <UniversalGameProvider>
+              <UltimateGamePage />
+            </UniversalGameProvider>
+          </GameLogicProvider>
+        </GameConfigProvider>
+      </GameTypeProvider>
+    </GameProgressProvider>
   );
 }
 

@@ -57,7 +57,22 @@ export default function UnifiedHeader({
   useContext = false,
 }: UnifiedHeaderProps) {
   
-  // 🎮 תמיד נקרא את ה-hooks (לפי כללי React)
+  // � Start Screen Variant - לא צריך קונטקסט
+  if (variant === "start-screen") {
+    return (
+      <div className={`text-center mb-8 ${className}`}>
+        <h1 className={`text-4xl md:text-5xl font-bold mb-4 ${textColorHeader}`}>
+          {title}
+        </h1>
+        <p className={`text-xl md:text-2xl font-medium ${textColorSubHeader}`}>
+          {subTitle}
+        </p>
+        {children}
+      </div>
+    );
+  }
+  
+  // 🎮 Game Header Variant - עם קונטקסט
   const gameInfo = useGameInfo();
   const gameActions = useGameActions();
   
