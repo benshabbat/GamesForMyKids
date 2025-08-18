@@ -25,3 +25,11 @@ export {
   useGameHints,
   type GameLogicContextValue
 } from './GameLogicContext';
+export {
+  UniversalGameProvider,
+  useUniversalGame,
+  useGameData,
+  useGameControls,
+  useGameConfiguration,
+  useGameEnhancements
+} from './UniversalGameContext';

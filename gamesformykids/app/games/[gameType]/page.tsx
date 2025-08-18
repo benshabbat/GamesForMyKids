@@ -5,7 +5,8 @@ import { generateGameMetadata } from '@/contexts/GameConfigContext';
 import { GameTypeProvider } from '@/contexts/GameTypeContext';
 import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameLogicProvider } from '@/contexts/GameLogicContext';
-import { AutoGamePageWithContext } from '@/components/shared/AutoGamePageWithContext';
+import { UniversalGameProvider } from '@/contexts/UniversalGameContext';
+import { UltimateGamePage } from '@/components/shared/UltimateGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
 const SUPPORTED_GAMES = [
@@ -60,7 +61,9 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
     <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
       <GameConfigProvider gameType={actualGameType as SupportedGameType}>
         <GameLogicProvider>
-          <AutoGamePageWithContext />
+          <UniversalGameProvider>
+            <UltimateGamePage />
+          </UniversalGameProvider>
         </GameLogicProvider>
       </GameConfigProvider>
     </GameTypeProvider>

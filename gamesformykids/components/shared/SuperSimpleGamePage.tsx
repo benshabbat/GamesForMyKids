@@ -1,17 +1,14 @@
 /**
  * ===============================================
- * AutoGamePage - עמוד משחק עם קונטקסט מלא 🎯
+ * Super Simple Game Page - אפס props drilling! 🎯
  * ===============================================
  * 
- * עמוד משחק שמקבל הכל מקונטקסט - ללא props בכלל!
- * - UniversalGameContext מספק את כל הלוגיקה והמידע
- * - פשוט מציג את התוכן בהתאם למצב
- * - אפס props drilling! 🚀
+ * הקומפוננט הכי פשוט - משתמש רק ב-UniversalGameContext
+ * אפס props - הכל מגיע מהקונטקסט
  */
 
 "use client";
 
-import { BaseGameItem } from "@/lib/types/base";
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 // רכיבים משותפים
@@ -24,16 +21,11 @@ import TipsBox from "./TipsBox";
 import { GameHints } from "./GameHints";
 import { ProgressDisplay } from "./ProgressDisplay";
 
-interface AutoGamePageProps {
-  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode; // רינדר מותאם אישית - אופציונלי בלבד
-}
-
 /**
- * 🎯 עמוד משחק מלא עם קונטקסט - ללא props!
- * כל הנתונים מגיעים מהקונטקסט - אפס העברת פרמטרים!
+ * 🎯 עמוד משחק סופר פשוט - אפס props, הכל מהקונטקסט!
  */
-export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
-  // 🎮 כל הנתונים בשורה אחת מהקונטקסט האוניברסלי!
+export function SuperSimpleGamePage() {
+  // 🎮 כל מה שצריך במשפט אחד!
   const game = useUniversalGame();
 
   // 🔄 Loading state
@@ -112,7 +104,7 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
           </div>
 
           {/* Challenge Box אוטומטי */}
-          {game.gameState && game.currentChallenge && !game.showCelebration && (
+          {game.currentChallenge && !game.showCelebration && (
             <ChallengeBox
               title={game.config.challengeTitle || "איזה פריט שמעת?"}
               icon={game.config.challengeIcon || "🎯"}
@@ -124,7 +116,7 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
           )}
 
           {/* Celebration אוטומטי */}
-          {game.gameState && game.showCelebration && game.currentChallenge && (
+          {game.showCelebration && game.currentChallenge && (
             <CelebrationBox
               label={game.config.itemLabel || "פריט"}
               value={game.currentChallenge.hebrew}
@@ -142,14 +134,12 @@ export function AutoGamePageWithContext({ renderCard }: AutoGamePageProps) {
             gridCols="grid-cols-2"
             maxWidth="max-w-2xl"
             renderCustomCard={(item) => (
-              renderCard ? renderCard(item, game.handleItemClick) : (
-                <game.CardComponent item={item} onClick={game.handleItemClick} />
-              )
+              <game.CardComponent item={item} onClick={game.handleItemClick} />
             )}
           />
 
           {/* רמזים חכמים */}
-          {game.hints && game.hints.length > 0 && (
+          {game.hints.length > 0 && (
             <GameHints
               hints={game.hints.map((hint, index) => ({ 
                 text: hint, 
