@@ -14,7 +14,6 @@ import GameHeader from "./GameHeader";
 import GameWinMessage from "./GameWinMessage";
 import MemoryGameBoard from "./MemoryGameBoard";
 import AutoStartScreen from "@/components/shared/AutoStartScreen";
-import TipsBox from "@/components/shared/TipsBox";
 
 function MemoryGameContent() {
   const {
@@ -63,7 +62,7 @@ function MemoryGameContent() {
         {gameStarted && <MemoryGameBoard />}
       </div>
 
-      <TipsBox />
+      {/* Tips can be added here later without context dependency */}
     </div>
   );
 }

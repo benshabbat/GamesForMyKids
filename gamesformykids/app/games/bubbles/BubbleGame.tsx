@@ -3,8 +3,6 @@
 import { useBubbleGame } from './useBubbleGame';
 import BubbleStartScreen from './BubbleStartScreen';
 import Bubble from './Bubble';
-import GameHeader from '@/components/shared/GameHeader';
-import TipsBox from '@/components/shared/TipsBox';
 
 export default function BubbleGame() {
   const {
@@ -28,7 +26,10 @@ export default function BubbleGame() {
     >
       {/* כותרת המשחק */}
       <div className="relative z-10 p-4">
-        <GameHeader />
+        <div className="text-center">
+          <h1 className="text-3xl font-bold text-purple-800 mb-2">🫧 משחק הבועות</h1>
+          <p className="text-lg text-purple-600">ניקוד: {gameState.score} | רמה: {gameState.level}</p>
+        </div>
       </div>
 
       {/* אזור המשחק */}
@@ -59,7 +60,9 @@ export default function BubbleGame() {
 
       {/* הוראות משחק */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-20">
-        <TipsBox />
+        <div className="bg-yellow-100 border-2 border-yellow-300 rounded-lg p-3 text-center">
+          <p className="text-yellow-800 font-semibold">💡 לחץ על הבועות לפוצץ אותן!</p>
+        </div>
       </div>
 
       {/* כפתור עצירה */}

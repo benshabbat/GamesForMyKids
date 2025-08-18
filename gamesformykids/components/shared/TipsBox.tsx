@@ -1,14 +1,17 @@
 import GenericBox from "./GenericBox";
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+
+interface TipsBoxProps {
+  tip?: string;
+  description?: string;
+}
 
 /**
- * 🎯 TipsBox עם קונטקסט - ללא props!
+ * 🎯 TipsBox עם props אופציונליים
  */
-export default function TipsBox() {
-  const { config } = useUniversalGame();
-  
-  const tip = config.tip || "💡 טיפ: הקשב בקפידה!";
-  const description = config.tipDescription || "לחץ על הסמל למעלה כדי לשמוע שוב";
+export default function TipsBox({ 
+  tip = "💡 טיפ: הקשב בקפידה!",
+  description = "לחץ על הסמל למעלה כדי לשמוע שוב"
+}: TipsBoxProps = {}) {
   
   return (
     <div className="text-center mt-8">

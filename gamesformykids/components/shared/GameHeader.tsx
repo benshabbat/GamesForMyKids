@@ -1,14 +1,23 @@
 import UnifiedHeader from "./UnifiedHeader";
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+
+interface GameHeaderProps {
+  score?: number;
+  level?: number;
+  onReset?: () => void;
+  onHome?: () => void;
+  levelColor?: string;
+}
 
 /**
- * 🎯 GameHeader עם קונטקסט - ללא props!
+ * 🎯 GameHeader עם props אופציונליים
  */
-export default function GameHeader() {
-  const { score, level, resetGame, config } = useUniversalGame();
-  
-  const onHome = () => (window.location.href = "/");
-  const levelColor = config.colors?.subHeader || "text-purple-600";
+export default function GameHeader({
+  score = 0,
+  level = 1,
+  onReset,
+  onHome = () => (window.location.href = "/"),
+  levelColor = "text-purple-600"
+}: GameHeaderProps = {}) {
 
   return (
     <UnifiedHeader
@@ -16,7 +25,7 @@ export default function GameHeader() {
       score={score}
       level={level}
       onHome={onHome}
-      onReset={resetGame}
+      onReset={onReset}
       levelColor={levelColor}
     />
   );
