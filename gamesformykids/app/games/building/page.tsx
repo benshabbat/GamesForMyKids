@@ -10,7 +10,8 @@ import {
   BuildingCanvas,
   GameInstructions
 } from '@/components/game/building';
-import { BuildingProvider, useBuildingContext, GameProgressProvider } from '@/contexts';
+import { BuildingProvider, useBuildingContext } from '@/contexts';
+import { SimpleGameProgressProvider } from '@/contexts/SimpleGameProgressContext';
 import StartScreen from './StartScreen';
 import { BaseGameItem } from '@/lib/types';
 
@@ -58,10 +59,10 @@ function BuildingGameContent() {
 
 export default function BuildingGame() {
   return (
-    <GameProgressProvider>
+    <SimpleGameProgressProvider>
       <BuildingProvider>
         <BuildingGameContent />
       </BuildingProvider>
-    </GameProgressProvider>
+    </SimpleGameProgressProvider>
   );
 }

@@ -1,7 +1,7 @@
 import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
-import { generateGameMetadata } from '@/contexts/GameConfigContext';
+import { generateGameMetadata } from '@/lib/utils/gameMetadata';
 import { GameTypeProvider } from '@/contexts/GameTypeContext';
 import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameLogicProvider } from '@/contexts/GameLogicContext';
@@ -46,6 +46,7 @@ export async function generateMetadata({ params }: GamePageProps): Promise<Metad
  * - אפס props drilling
  * - כל הנתונים בקונטקסט
  * - פשוט מעטפת קונטקסטים + הקומפוננט
+ * - עדכון: תוקן סדר הProviders
  */
 export default async function UniversalGamePage({ params }: GamePageProps) {
   const { gameType } = await params;
@@ -59,8 +60,8 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   }
 
   return (
-    <GameProgressProvider>
-      <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
+    <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
+      <GameProgressProvider>
         <GameConfigProvider gameType={actualGameType as SupportedGameType}>
           <GameLogicProvider>
             <UniversalGameProvider>
@@ -68,8 +69,8 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
             </UniversalGameProvider>
           </GameLogicProvider>
         </GameConfigProvider>
-      </GameTypeProvider>
-    </GameProgressProvider>
+      </GameProgressProvider>
+    </GameTypeProvider>
   );
 }
 
