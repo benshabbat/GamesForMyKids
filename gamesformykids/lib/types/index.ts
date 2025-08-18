@@ -10,6 +10,7 @@ export * from './base';
 // טיפוסים למשחקים
 export * from './games';
 export * from './game.types';
+export * from './game-ui.types';
 
 // טיפוסים לממשק המשתמש
 export * from './ui';

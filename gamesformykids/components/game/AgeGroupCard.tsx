@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Users, Award } from 'lucide-react';
-import { AgeGroup } from "@/lib/types/game.types";
+import { AgeGroup } from "@/lib/types";
 
 interface AgeGroupCardProps {
   ageGroup: AgeGroup;
