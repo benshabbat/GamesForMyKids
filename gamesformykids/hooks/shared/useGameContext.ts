@@ -122,16 +122,37 @@ export function useGameContext(): GameContextHookReturn {
 
 /**
  * Hook מקוצר למידע בסיסי בלבד
+ * זה hook בטוח שמחזיר מידע גם כשלא כל הcontexts זמינים
  */
 export function useGameInfo() {
-  const { currentGameType, currentGameConfig } = useGameType();
-  const { progress } = useGameProgress();
+  let gameType = null;
+  let title = null;
+  let score = 0;
+  let level = 1;
+  
+  // נסיון לגשת לGameType context
+  try {
+    const { currentGameType, currentGameConfig } = useGameType();
+    gameType = currentGameType;
+    title = currentGameConfig?.title || null;
+  } catch {
+    // אם אין GameTypeProvider זמין, ההרשאה מ-ברירת המחדל תיישאר
+  }
+  
+  // נסיון לגשת לGameProgress context
+  try {
+    const { progress } = useGameProgress();
+    score = progress.score;
+    level = progress.level;
+  } catch {
+    // אם אין GameProgressProvider זמין, ההרשאה מ-ברירת המחדל תיישאר
+  }
   
   return {
-    gameType: currentGameType,
-    title: currentGameConfig?.title,
-    score: progress.score,
-    level: progress.level,
+    gameType,
+    title,
+    score,
+    level,
   };
 }
 
@@ -139,7 +160,20 @@ export function useGameInfo() {
  * Hook מקוצר לפעולות בלבד
  */
 export function useGameActions() {
-  const { handleCorrectAnswer, handleWrongAnswer, startGame, pauseGame } = useGameContext();
+  let handleCorrectAnswer = () => {};
+  let handleWrongAnswer = () => {};
+  let startGame = () => {};
+  let pauseGame = () => {};
+  
+  try {
+    const gameContext = useGameContext();
+    handleCorrectAnswer = gameContext.handleCorrectAnswer;
+    handleWrongAnswer = gameContext.handleWrongAnswer;
+    startGame = gameContext.startGame;
+    pauseGame = gameContext.pauseGame;
+  } catch {
+    // אם אין GameContext זמין, השתמש בפונקציות ריקות
+  }
   
   return {
     onCorrect: handleCorrectAnswer,
