@@ -139,14 +139,14 @@ export function useBubbleGame() {
       poppedCount: 0,
     });
 
-    // יצירת בועות במרווחים קבועים
+    // יצירת בועות במרווחים קבועים - מתחילים עם רמה 1
     bubbleCreationInterval.current = setInterval(() => {
       createBubble();
-    }, 2000 - gameState.level * 100); // תדירות גדלה עם הרמה
+    }, 2000); // מתחילים עם מרווח בסיסי
 
     // יצירת בועה ראשונה מיד
     setTimeout(createBubble, 500);
-  }, [createBubble, gameState.level]);
+  }, [createBubble]);
 
   // עצירת המשחק
   const stopGame = useCallback(() => {
