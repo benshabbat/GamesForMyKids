@@ -13,16 +13,13 @@
 "use client";
 
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
-import { BaseGameItem } from "@/lib/types/base";
 
-// רכיבים בסיסיים
+// רכיבים מפורקים
+import GameLoadingScreen from "./GameLoadingScreen";
+import GameErrorScreen from "./GameErrorScreen";
 import AutoStartScreen from "./AutoStartScreen";
-import GameHeader from "./GameHeader";
-import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
-import { GameCardGrid } from "./GameCardGrid";
-import TipsBox from "./TipsBox";
-import { GameHints } from "./GameHints";
+import GameHeaderSection from "./GameHeaderSection";
+import GameMainContent from "./GameMainContent";
 import SimpleProgressDisplay from "./SimpleProgressDisplay";
 
 /**
@@ -34,36 +31,12 @@ export function UltimateGamePage() {
 
   // 🔄 Loading
   if (!game.isReady) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-purple-100">
-        <div className="text-center">
-          <div className="text-8xl mb-6 animate-bounce">🎮</div>
-          <h2 className="text-3xl font-bold text-gray-700 mb-2">טוען משחק מדהים...</h2>
-          <div className="w-20 h-2 bg-gray-200 rounded-full mx-auto">
-            <div className="w-full h-full bg-gradient-to-r from-blue-500 to-purple-500 rounded-full animate-pulse"></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <GameLoadingScreen />;
   }
 
   // ❌ Error
   if (game.error) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-100 to-pink-100">
-        <div className="text-center p-8 bg-white rounded-xl shadow-2xl max-w-md mx-4">
-          <div className="text-8xl mb-6">😔</div>
-          <h2 className="text-2xl font-bold text-red-600 mb-4">אופס! משהו השתבש</h2>
-          <p className="text-gray-600 mb-6">{game.error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="px-8 py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white rounded-lg font-bold transition-all duration-200 transform hover:scale-105"
-          >
-            🔄 נסה שוב
-          </button>
-        </div>
-      </div>
-    );
+    return <GameErrorScreen error={game.error} />;
   }
 
   // 🏠 Start Screen
@@ -82,82 +55,11 @@ export function UltimateGamePage() {
       style={{ background: game.config.colors.background }}
     >
       <div className="max-w-5xl mx-auto">
-        {/* 🎯 Game Header */}
-        <div className="text-center mb-8">
-          <div className="flex justify-between items-center mb-6">
-            <GameHeader />
-            
-            {/* 📊 Stats Button */}
-            <button
-              onClick={() => game.setShowProgressModal(true)}
-              className="
-                px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg
-                hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105 
-                transition-all duration-200 font-bold flex items-center gap-2
-              "
-              title="הצג סטטיסטיקות מפורטות"
-            >
-              📊 {Math.round(game.currentAccuracy)}%
-            </button>
-          </div>
+        {/* 🎯 Game Header Section */}
+        <GameHeaderSection />
 
-          {/* 🎯 Challenge */}
-          {game.currentChallenge && !game.showCelebration && (
-            <div className="mb-6">
-              <ChallengeBox />
-            </div>
-          )}
-
-          {/* 🎉 Celebration */}
-          {game.showCelebration && game.currentChallenge && (
-            <div className="mb-6">
-              <CelebrationBox />
-            </div>
-          )}
-        </div>
-
-        {/* 🎮 Game Content */}
-        <div className="space-y-8">
-          {/* 🎯 Game Grid */}
-          <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
-            <GameCardGrid
-              items={game.options}
-              onItemClick={game.handleItemClick}
-              currentChallenge={game.currentChallenge}
-              gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
-              maxWidth="max-w-4xl"
-              renderCustomCard={(item: BaseGameItem) => (
-                <game.CardComponent item={item} onClick={game.handleItemClick} />
-              )}
-            />
-          </div>
-
-          {/* 💡 Hints */}
-          {game.hints.length > 0 && (
-            <div className="bg-yellow-50/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-              <GameHints />
-            </div>
-          )}
-
-          {/* 📊 Quick Stats */}
-          <div className="text-center">
-            <button
-              onClick={() => game.setShowProgressModal(true)}
-              className="
-                px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-xl shadow-lg
-                hover:from-purple-600 hover:to-pink-600 transform hover:scale-105 
-                transition-all duration-200 font-bold
-              "
-            >
-              📈 דיוק משחק: {Math.round(game.currentAccuracy)}%
-            </button>
-          </div>
-
-          {/* 💡 Tips */}
-          <div className="bg-blue-50/80 backdrop-blur-sm rounded-2xl shadow-lg">
-            <TipsBox />
-          </div>
-        </div>
+        {/*  Game Content */}
+        <GameMainContent />
 
         {/* 📊 Progress Modal */}
         <SimpleProgressDisplay />

@@ -32,7 +32,7 @@ export default function CountingStartScreen() {
           </button>
           
           <button
-            onClick={() => speakQuestion("ברוכים הבאים למשחק הספירה")}
+            onClick={speakQuestion}
             className="bg-gradient-to-r from-blue-500 to-cyan-500 hover:from-blue-600 hover:to-cyan-600 text-white font-bold py-2 px-6 rounded-full text-lg transition-all duration-300 transform hover:scale-105 shadow-lg w-full"
           >
             🔊 שמע הוראות
