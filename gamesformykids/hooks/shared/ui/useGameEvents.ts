@@ -66,7 +66,7 @@ export function useGameEvents(): GameEventsHookReturn {
     };
     
     // כאן ניתן להוסיף לוגיקה לשליחת אירועים לאנליטיקס
-    console.log('Game Event:', eventData);
+    // Game Event logged
     
     // אפשר לשלוח ל-Google Analytics, מסד נתונים וכו'
     if (typeof window !== 'undefined' && window.gtag) {

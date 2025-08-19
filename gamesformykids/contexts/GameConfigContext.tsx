@@ -119,7 +119,7 @@ export function GameConfigProvider({ children, gameType: propGameType }: GameCon
         useGameHook: null,
         isSupported: false,
         isReady: false,
-        error: err instanceof Error ? err.message : 'Unknown error',
+        error: err instanceof Error ? err.message : 'שגיאה לא ידועה',
       };
     }
   }, [gameType]);

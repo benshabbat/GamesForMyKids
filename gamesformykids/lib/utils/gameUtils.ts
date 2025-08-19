@@ -3,7 +3,8 @@
  */
 import React from 'react';
 import { FEEDBACK_MESSAGES, GAME_CONSTANTS, AUDIO_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../constants";
-import { speakHebrew, cancelSpeech, isSpeechEnabled } from "./enhancedSpeechUtils";
+import { speakHebrew, cancelSpeech, isSpeechEnabled } from './enhancedSpeechUtils';
+import { logError, logWarning } from './errorUtils';
 
 /**
  * פונקציית עזר להשהייה
@@ -65,7 +66,7 @@ export async function speakPositiveFeedback(): Promise<void> {
   try {
     await speakHebrew(getRandomFeedbackMessage('SUCCESS'));
   } catch (error) {
-    console.error("שגיאה בהשמעת משוב חיובי:", error);
+    logError("שגיאה בהשמעת משוב חיובי:", error);
   }
 }
 
@@ -79,7 +80,7 @@ export async function speakNegativeFeedback(): Promise<void> {
   try {
     await speakHebrew(getRandomFeedbackMessage('WRONG'));
   } catch (error) {
-    console.error("שגיאה בהשמעת משוב שלילי:", error);
+    logError("שגיאה בהשמעת משוב שלילי:", error);
   }
 }
 
@@ -93,7 +94,7 @@ export async function speakStartMessage(): Promise<void> {
   try {
     await speakHebrew(getRandomFeedbackMessage('START'));
   } catch (error) {
-    console.error("שגיאה בהשמעת ברכת התחלה:", error);
+    logError("שגיאה בהשמעת ברכת התחלה:", error);
   }
 }
 
@@ -120,10 +121,10 @@ export async function speakItemName(itemName: string, translator: (name: string)
     
     const success = await speakHebrew(hebrewName);
     if (!success) {
-      console.warn("Failed to speak item:", itemName);
+      logWarning("Failed to speak item:", itemName);
     }
   } catch (error) {
-    console.error("שגיאה בהשמעת הפריט:", error);
+    logError("שגיאה בהשמעת הפריט:", error);
   }
 }
 

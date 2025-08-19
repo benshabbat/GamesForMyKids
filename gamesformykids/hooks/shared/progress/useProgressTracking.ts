@@ -45,7 +45,9 @@ export function useProgressTracking(gameType: GameType) {
         const sessions = JSON.parse(savedSessions);
         setAllSessions(sessions);
       } catch (error) {
-        console.error('Error loading progress:', error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Error loading progress:', error);
+        }
       }
     }
   }, []);
@@ -114,7 +116,9 @@ export function useProgressTracking(gameType: GameType) {
         try {
           localStorage.setItem('gameProgress', JSON.stringify(newSessions));
         } catch (error) {
-          console.error('Error saving progress:', error);
+          if (process.env.NODE_ENV === 'development') {
+            console.error('Error saving progress:', error);
+          }
         }
         return newSessions;
       });

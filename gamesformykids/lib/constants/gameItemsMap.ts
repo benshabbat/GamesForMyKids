@@ -24,7 +24,7 @@ import {
   ALL_TOOLS,
   ALL_SPACE_OBJECTS,
   ALL_COLORED_SHAPES,
-  // TODO: להוסיף את שאר הקבועים במידת הצורך
+  // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
 import { GameType, BaseGameItem } from "@/lib/types/base";

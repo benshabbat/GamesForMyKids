@@ -139,14 +139,14 @@ export async function speak(
       };
       
       utterance.onstart = () => {
-        console.log("Speech started");
+        // Speech started
       };
 
       // הגבלת זמן מקסימלי למניעת "תקיעה" - זמן ארוך יותר לתיאורים ארוכים
       const timeout = Math.max(8000, text.length * 100); // לפחות 8 שניות או 100ms לכל תו
       setTimeout(() => {
         if (!resolved) {
-          console.log("Speech timeout, cancelling");
+          // Speech timeout, cancelling
           window.speechSynthesis.cancel();
           finishSpeaking(false);
         }
@@ -194,14 +194,14 @@ export function cancelSpeech(): void {
     typeof window !== "undefined" &&
     "speechSynthesis" in window
   ) {
-    console.log("Cancelling speech");
+    // Cancelling speech
     window.speechSynthesis.cancel();
     isSpeaking = false;
     
     // השהייה קצרה כדי לוודא שהביטול הושלם
     setTimeout(() => {
       if (window.speechSynthesis.speaking) {
-        console.log("Speech still active after cancel, forcing stop");
+        // Speech still active after cancel, forcing stop
         window.speechSynthesis.cancel();
       }
     }, 100);

@@ -1,0 +1,33 @@
+/**
+ * ===============================================
+ * טיפוסים לקומפוננטות Feedback
+ * ===============================================
+ */
+
+export interface Hint {
+  id: string;
+  text: string;
+  type: 'tip' | 'warning' | 'info';
+  priority: number;
+}
+
+export interface GameHintsProps {
+  hints: Hint[];
+  currentHintIndex?: number;
+  showHints?: boolean;
+  onHintChange?: (index: number) => void;
+}
+
+export interface TipsBoxProps {
+  tips: string[];
+  currentTip?: number;
+  autoRotate?: boolean;
+  interval?: number;
+}
+
+export interface SimpleGameInstructionsProps {
+  title: string;
+  instructions: string[];
+  showSteps?: boolean;
+  variant?: 'simple' | 'detailed';
+}

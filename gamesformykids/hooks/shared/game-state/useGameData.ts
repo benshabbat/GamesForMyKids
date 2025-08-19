@@ -11,7 +11,7 @@ export interface GameItem {
   subcategory?: string
   color_class?: string
   sound_frequencies: number[]
-  additional_data: Record<string, any>
+  additional_data: Record<string, unknown>
   created_at: string
   updated_at: string
 }
@@ -64,8 +64,12 @@ export function useGameData() {
       setGameItems(itemsResult.data || [])
       setGameTypes(typesResult.data || [])
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'שגיאה בטעינת נתוני המשחקים')
-      console.error('Error fetching game data:', err)
+      const errorMessage = err instanceof Error ? err.message : 'שגיאה בטעינת נתוני המשחקים';
+      setError(errorMessage);
+      // Log error in development mode only
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Error fetching game data:', err);
+      }
     } finally {
       setLoading(false)
     }

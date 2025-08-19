@@ -47,7 +47,7 @@ export function convertToNumberItem(dbItem: GameItem): NumberItem {
     hebrew: dbItem.hebrew,
     english: dbItem.english,
     emoji: dbItem.emoji,
-    digit: dbItem.additional_data?.digit || '',
+    digit: (dbItem.additional_data?.digit as string) || '',
     color: dbItem.color_class || '',
     sound: dbItem.sound_frequencies || []
   }
@@ -64,7 +64,7 @@ export function convertToShapeItem(dbItem: GameItem): ShapeItem {
     emoji: dbItem.emoji,
     color: dbItem.color_class || '',
     sound: dbItem.sound_frequencies || [],
-    svg: dbItem.additional_data?.svg || dbItem.name
+    svg: (dbItem.additional_data?.svg as string) || dbItem.name
   }
 }
 
@@ -118,11 +118,11 @@ export function getColoredShapeItems(dbItems: GameItem[]): ColoredShapeItem[] {
       emoji: item.emoji,
       color: item.color_class || '',
       sound: item.sound_frequencies || [],
-      shape: item.additional_data?.shape || '',
-      shapeHebrew: item.additional_data?.shapeHebrew || '',
-      svg: item.additional_data?.svg || '',
-      value: item.additional_data?.value || '',
-      tailwindClass: item.additional_data?.tailwindClass || ''
+      shape: (item.additional_data?.shape as string) || '',
+      shapeHebrew: (item.additional_data?.shapeHebrew as string) || '',
+      svg: (item.additional_data?.svg as string) || '',
+      value: (item.additional_data?.value as string) || '',
+      tailwindClass: (item.additional_data?.tailwindClass as string) || ''
     }))
 }
 

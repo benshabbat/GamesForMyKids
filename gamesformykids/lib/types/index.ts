@@ -12,6 +12,14 @@ export * from './games';
 export * from './game.types';
 export * from './game-ui.types';
 
-// טיפוסים לממשק המשתמש
-export * from './ui';
+// טיפוסים לממשק המשתמש (רק הישנים לתאימות)
+export * from './ui-legacy';
 export * from './ui.types';
+
+// טיפוסים חדשים מאורגנים (עם שמות מרחב למניעת התנגשויות)
+import * as ComponentTypes from './components';
+import * as HookTypes from './hooks';
+import * as ContextTypes from './contexts';
+import * as UtilTypes from './utils';
+
+export { ComponentTypes, HookTypes, ContextTypes, UtilTypes };
