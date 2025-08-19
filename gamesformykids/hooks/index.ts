@@ -7,14 +7,14 @@
  * וקלות תחזוקה וטיפול בבאגים.
  */
 
+// Common Game Patterns - פאתרנים נפוצים במשחקים
+export * from './shared/common';
+
 // Game State Hooks
 export * from './shared/game-state';
 
 // Progress & Achievements
 export * from './shared/progress';
-
-// Audio & Speech
-export * from './shared/audio';
 
 // Analytics & Performance  
 export * from './shared/analytics';
