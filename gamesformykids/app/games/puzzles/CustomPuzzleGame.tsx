@@ -13,7 +13,7 @@ import {
   ReferenceImage,
   UnifiedHelpModal,
   FloatingDragPiece
-} from '@/components/game/puzzles';
+} from './components';
 
 export default function CustomPuzzleGame() {
   const fileInputRef = useRef<HTMLInputElement>(null);

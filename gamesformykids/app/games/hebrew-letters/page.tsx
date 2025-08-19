@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { HebrewLettersProvider } from '@/contexts';
-import HebrewLettersHub from '@/components/game/hebrew-letters/HebrewLettersHub';
+import HebrewLettersHub from './components/HebrewLettersHub';
 
 export const metadata: Metadata = {
   title: 'תרגול כתיבה בעברית - אותיות',

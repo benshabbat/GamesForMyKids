@@ -9,7 +9,7 @@ import {
   BuildingGameHeader,
   BuildingCanvas,
   BuildingGameInstructions
-} from '@/components/game/building';
+} from './components';
 import { BuildingProvider, useBuildingContext } from '@/contexts';
 import { SimpleGameProgressProvider } from '@/contexts/SimpleGameProgressContext';
 import BuildingStartScreen from './BuildingStartScreen';

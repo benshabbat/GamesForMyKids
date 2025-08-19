@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { HebrewLettersProvider } from '@/contexts';
-import HebrewLetterPractice from '@/components/game/hebrew-letters/HebrewLetterPractice';
+import HebrewLetterPractice from '../components/HebrewLetterPractice';
 import { hebrewLetters } from '../constants/hebrewLetters';
 
 interface Props {

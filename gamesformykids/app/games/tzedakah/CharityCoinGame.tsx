@@ -3,12 +3,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
-import CharityGameHeader from '@/components/game/tzedakah/CharityGameHeader';
-import CharityCoin from '@/components/game/tzedakah/CharityCoin';
-import CharityBasket from '@/components/game/tzedakah/CharityBasket';
-import GameControls from '@/components/game/tzedakah/GameControls';
-import GameAreaBackground from '@/components/game/tzedakah/GameAreaBackground';
-import TzedakahGameInstructions from '@/components/game/tzedakah/TzedakahGameInstructions';
+import CharityGameHeader from './components/CharityGameHeader';
+import CharityCoin from './components/CharityCoin';
+import CharityBasket from './components/CharityBasket';
+import GameControls from './components/GameControls';
+import GameAreaBackground from './components/GameAreaBackground';
+import TzedakahGameInstructions from './components/TzedakahGameInstructions';
 import styles from './charity.module.css';
 
 interface Coin {

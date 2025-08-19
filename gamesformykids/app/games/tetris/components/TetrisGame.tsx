@@ -1,7 +1,7 @@
 'use client';
 
 import { GenericStartScreen } from '@/components/shared';
-import { useTetrisGame } from '../../../app/games/tetris/hooks/useTetrisGame';
+import { useTetrisGame } from '../hooks/useTetrisGame';
 import GameBoard from './GameBoard';
 import { MobileInfoPanel, DesktopInfoPanel } from './InfoPanels';
 import TouchControls from './TouchControls';

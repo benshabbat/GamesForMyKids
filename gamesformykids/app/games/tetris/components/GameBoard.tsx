@@ -1,4 +1,4 @@
-import { GameBoardProps } from '../../../app/games/tetris/types';
+import { GameBoardProps } from '../types';
 
 const GameBoard = ({ displayBoard }: GameBoardProps) => (
   <div className="bg-gradient-to-br from-gray-900/50 to-black/50 backdrop-blur-lg rounded-3xl p-3 lg:p-4 shadow-2xl border border-white/20">

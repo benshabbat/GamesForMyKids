@@ -10,10 +10,10 @@ import { MemoryProvider, useMemoryContext } from "@/contexts";
 import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
-import MemoryGameHeader from "@/components/game/memory/MemoryGameHeader";
-import GameWinMessage from "@/components/game/memory/GameWinMessage";
-import MemoryGameBoard from "@/components/game/memory/MemoryGameBoard";
-import MemoryStartScreen from "@/components/game/memory/MemoryStartScreen";
+import MemoryGameHeader from "./components/MemoryGameHeader";
+import GameWinMessage from "./components/GameWinMessage";
+import MemoryGameBoard from "./components/MemoryGameBoard";
+import MemoryStartScreen from "./components/MemoryStartScreen";
 
 function MemoryGameContent() {
   const {

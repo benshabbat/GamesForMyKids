@@ -1,5 +1,5 @@
 import NextPieceDisplay from './NextPieceDisplay';
-import { useTetrisGame } from '../../../app/games/tetris/hooks/useTetrisGame';
+import { useTetrisGame } from '../hooks/useTetrisGame';
 
 export const MobileInfoPanel = () => {
   const { gameState } = useTetrisGame();

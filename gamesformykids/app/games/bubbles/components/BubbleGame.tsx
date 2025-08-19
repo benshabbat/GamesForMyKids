@@ -1,6 +1,6 @@
 "use client";
 
-import { useBubbleGame } from '../../../app/games/bubbles/useBubbleGame';
+import { useBubbleGame } from '../hooks/useBubbleGame';
 import BubbleStartScreen from './BubbleStartScreen';
 import Bubble from './Bubble';
 

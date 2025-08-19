@@ -11,7 +11,7 @@ import {
   UnifiedHeader,
   UnifiedHelpModal,
   FloatingDragPiece
-} from '@/components/game/puzzles';
+} from './components';
 
 export default function SimplePuzzleGame() {
   const { 

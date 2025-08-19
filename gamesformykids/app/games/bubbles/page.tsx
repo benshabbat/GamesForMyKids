@@ -1,4 +1,4 @@
-import BubbleGame from "@/components/game/bubbles/BubbleGame";
+import BubbleGame from "./components/BubbleGame";
 
 export default function BubblePage() {
   return <BubbleGame />;
