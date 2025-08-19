@@ -9,7 +9,7 @@ import { GAME_ITEMS_MAP } from "./gameItemsMap";
 import { BaseGameState, BaseGameItem } from "@/lib/types/base";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
-import { useMathGame } from "@/app/games/math/useMathGame";
+import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 // Memory game כעת משתמש בקונטקסט ולא בhook נפרד
 
 // יצירת hooks כלליים לכל המשחקים - כולם משתמשים ב-useGenericGame!

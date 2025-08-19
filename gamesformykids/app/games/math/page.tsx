@@ -3,7 +3,7 @@
 import { GameHeader } from "@/components/shared";
 import { TipsBox } from "@/components/shared";
 import MathNumberCard from "./components/MathNumberCard";
-import { useMathGame } from "./useMathGame";
+import { useMathGame } from "./hooks/useMathGame";
 import MathStartScreen from "./components/MathStartScreen";
 
 export default function MathGame() {

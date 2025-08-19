@@ -45,7 +45,7 @@
 ### התקנה בסיסית
 
 ```tsx
-import { HebrewLettersProvider } from '@/contexts/HebrewLettersContext';
+import { HebrewLettersProvider } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
 
 function App() {
   return (
@@ -59,8 +59,8 @@ function App() {
 ### שימוש בקומפוננטה מתקדמת
 
 ```tsx
-import { useHebrewLetters } from '@/contexts/HebrewLettersContext';
-import HebrewLettersStatsPanel from '@/components/game/hebrew-letters/HebrewLettersStatsPanel';
+import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
+import HebrewLettersStatsPanel from '@/app/games/hebrew-letters/components/HebrewLettersStatsPanel';
 
 function AdvancedComponent() {
   const {
