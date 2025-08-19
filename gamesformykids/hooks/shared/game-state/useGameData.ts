@@ -1,40 +1,10 @@
 import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
+import { GameItem, GameTypeDbRecord, UseGameDataReturn } from "@/lib/types/hooks/game-state";
 
-export interface GameItem {
-  id: string
-  name: string
-  hebrew: string
-  english: string
-  emoji: string
-  category: string
-  subcategory?: string
-  color_class?: string
-  sound_frequencies: number[]
-  additional_data: Record<string, unknown>
-  created_at: string
-  updated_at: string
-}
-
-export interface GameType {
-  id: string
-  name: string
-  display_name_hebrew: string
-  display_name_english: string
-  description?: string
-  icon?: string
-  category: string
-  difficulty_level: string
-  min_age: number
-  max_age: number
-  is_active: boolean
-  created_at: string
-  updated_at: string
-}
-
-export function useGameData() {
+export function useGameData(): UseGameDataReturn {
   const [gameItems, setGameItems] = useState<GameItem[]>([])
-  const [gameTypes, setGameTypes] = useState<GameType[]>([])
+  const [gameTypes, setGameTypes] = useState<GameTypeDbRecord[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 

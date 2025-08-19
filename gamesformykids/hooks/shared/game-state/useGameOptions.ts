@@ -1,15 +1,8 @@
 import { useMemo } from "react";
 import { BaseGameItem } from "@/lib/types/base";
+import { UseGameOptionsProps } from "@/lib/types/hooks/game-state";
 import { generateOptions as generateGameOptions, getRandomItem } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
-
-interface UseGameOptionsProps {
-  allItems: BaseGameItem[];
-  level: number;
-  baseCount?: number;
-  increment?: number;  
-  levelThreshold?: number;
-}
 
 /**
  * Hook לניהול אפשרויות משחק ובחירת אתגרים

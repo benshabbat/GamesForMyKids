@@ -10,36 +10,7 @@ import { useGameType } from '@/contexts/GameTypeContext';
 import { useGameProgress } from '@/contexts/GameProgressContext';
 import { useGameEvents } from '../ui/useGameEvents';
 import { GameType } from '@/lib/types/base';
-
-export interface GameContextHookReturn {
-  // Game Type Info
-  gameType: string | null;
-  gameConfig: {
-    title: string;
-    subTitle: string;
-  } | null;
-  
-  // Progress Info
-  score: number;
-  level: number;
-  streak: number;
-  accuracy: number;
-  isGameActive: boolean;
-  
-  // Actions
-  startGame: () => void;
-  pauseGame: () => void;
-  resumeGame: () => void;
-  resetProgress: () => void;
-  handleCorrectAnswer: (data?: Record<string, unknown>) => void;
-  handleWrongAnswer: (data?: Record<string, unknown>) => void;
-  navigateToGame: (gameType: GameType) => void;
-  
-  // Status
-  timeSpent: number;
-  totalQuestions: number;
-  correctAnswers: number;
-}
+import { GameContextHookReturn } from "@/lib/types/hooks/game-state";
 
 /**
  * Hook מרכזי שמחבר את כל הקונטקסטים

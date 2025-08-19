@@ -31,8 +31,39 @@
 ✅ **Buttons**: SimpleGameStartButton
 
 ## עוד לעבוד עליו:
-- Hooks (8+ קבצים)
-- Contexts (9+ קבצים)
+
+### 6. Hooks - Game State
+- [ ] useGameOptions.ts
+- [ ] useBaseGame.ts  
+- [ ] useAdvancedGameState.ts
+- [ ] useAutoGame.ts
+- [ ] useGameData.ts
+- [ ] useGameContext.ts
+
+### 7. Hooks - Progress
+- [ ] useProgressTracking.ts
+- [ ] useGameProgress.ts
+- [ ] useAchievements.ts
+
+### 8. Hooks - UI
+- [ ] useGameHints.ts
+- [ ] useGameEvents.ts
+
+### 9. Hooks - User
+- [ ] useUserProfile.ts
+
+### 10. Contexts (9+ קבצים)
+- [ ] AuthContext.tsx
+- [ ] BuildingContext.tsx  
+- [ ] GameConfigContext.tsx
+- [ ] GameLogicContext.tsx
+- [ ] GameProgressContext.tsx
+- [ ] GameTypeContext.tsx
+- [ ] HebrewLettersContext.tsx
+- [ ] MemoryContext.tsx
+- [ ] PuzzleContext.tsx
+- [ ] SimpleGameProgressContext.tsx
+- [ ] UniversalGameContext.tsx
 
 ## סטטוס נוכחי
 ✅ **Build**: עובר בהצלחה  
@@ -59,14 +90,24 @@
 ### 6. Components - Buttons
 - [x] SimpleGameStartButton.tsx - ✅ הומר בהצלחה
 
-### 7. Hooks
-- [ ] useGameOptions.ts
-- [ ] useBaseGame.ts
-- [ ] useAdvancedGameState.ts
+### 7. Hooks - Game State (✅ הושלם!)
+- [x] useGameOptions.ts - ✅ הומר בהצלחה
+- [x] useBaseGame.ts - ✅ הומר בהצלחה
+- [x] useAdvancedGameState.ts - ✅ הומר בהצלחה
+- [x] useAutoGame.ts - ✅ הומר בהצלחה
+- [x] useGameData.ts - ✅ הומר בהצלחה
+- [x] useGameContext.ts - ✅ הומר בהצלחה
+
+### 8. Hooks - Progress
 - [ ] useProgressTracking.ts
+
+### 9. Hooks - UI
 - [ ] useGameHints.ts
 - [ ] useGameEvents.ts
 - [ ] useGamePerformance.ts
+
+### 10. Hooks - User
+- [ ] useUserProfile.ts
 
 ### 8. Contexts
 - [ ] UniversalGameContext.tsx

@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/base";
+import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
 import { useGamePerformance } from "../analytics/useGamePerformance";
@@ -13,17 +14,6 @@ import {
   speakStartMessage
 } from "@/lib/utils/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
-
-interface UseBaseGameConfig {
-  gameType: GameType;
-  items: BaseGameItem[];
-  pronunciations: Record<string, string>;
-  gameConstants: {
-    BASE_COUNT: number;
-    INCREMENT: number;
-    LEVEL_THRESHOLD: number;
-  };
-}
 
 /**
  * Hook בסיסי לכל המשחקים הפשוטים

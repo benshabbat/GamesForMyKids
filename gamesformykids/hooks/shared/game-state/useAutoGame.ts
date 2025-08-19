@@ -12,58 +12,8 @@
  */
 
 import { useState } from 'react';
-import { BaseGameItem, GameType } from "@/lib/types/base";
-import { GameUIConfig } from "@/lib/constants/ui/gameConfigs";
-import { AutoGameType } from "@/lib/constants/gameHooksMap";
+import { GameLogicState } from "@/lib/types/hooks/game-state";
 import { useAutoGameConfig } from '@/contexts/GameConfigContext';
-
-interface GameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-}
-
-interface GameState {
-  isPlaying: boolean;
-  showCelebration: boolean;
-  currentChallenge: BaseGameItem | null;
-  options: BaseGameItem[];
-  score: number;
-  level: number;
-}
-
-export interface GameLogicState {
-  // Game State
-  gameState: GameState | null;
-  isPlaying: boolean;
-  showCelebration: boolean;
-  currentChallenge: BaseGameItem | null;
-  options: BaseGameItem[] | null;
-  score: number;
-  level: number;
-  
-  // Game Actions
-  startGame: () => void;
-  resetGame: () => void;
-  handleItemClick: (item: BaseGameItem) => void;
-  speakItemName: (itemName: string) => void;
-  
-  // Enhanced Features
-  hints?: string[];
-  hasMoreHints?: boolean;
-  showNextHint?: () => void;
-  currentAccuracy?: number;
-  progressStats?: Record<string, unknown>;
-  
-  // UI State
-  showProgressModal: boolean;
-  setShowProgressModal: (show: boolean) => void;
-  
-  // Configuration
-  config: GameUIConfig;
-  items: BaseGameItem[];
-  CardComponent: React.ComponentType<GameCardProps>;
-  gameType: GameType | AutoGameType;
-}
 
 /**
  * 🎮 Hook מותאם שמרכז את כל לוגיקת המשחק

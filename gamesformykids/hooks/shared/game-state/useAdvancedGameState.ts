@@ -1,9 +1,6 @@
 import { useState, useCallback, useMemo } from "react";
 import { BaseGameState, BaseGameItem } from "@/lib/types/base";
-
-interface UseAdvancedGameStateConfig<T extends BaseGameItem> {
-  initialState: BaseGameState<T>;
-}
+import { UseAdvancedGameStateConfig } from "@/lib/types/hooks/game-state";
 
 /**
  * Hook מתקדם לניהול מצב משחק
