@@ -6,13 +6,10 @@
  */
 import { Volume2 } from 'lucide-react';
 import { SHAPE_ICON_MAP } from '@/lib/constants/ui/shapes';
-import { ColoredShapeItem } from '@/lib/constants/gameData/basic';
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { ComponentTypes } from '@/lib/types';
 
-interface ColoredShapeCardProps {
-  item: ColoredShapeItem;
-  className?: string;
-}
+type ColoredShapeCardProps = ComponentTypes.ColoredShapeCardProps;
 
 /**
  * 🎯 ColoredShapeCard עם קונטקסט - ללא onClick prop!

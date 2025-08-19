@@ -17,7 +17,12 @@ export interface UnifiedHeaderProps {
 export interface StartScreenHeaderProps {
   title: string;
   subtitle?: string;
+  subTitle?: string; // alias for compatibility
   showLogo?: boolean;
+  textColorHeader?: string;
+  textColorSubHeader?: string;
+  className?: string;
+  children?: React.ReactNode;
 }
 
 export interface GameHeaderProps {

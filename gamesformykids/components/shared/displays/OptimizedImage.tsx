@@ -1,16 +1,11 @@
 import Image from 'next/image';
 import { useState } from 'react';
+import { ComponentTypes } from '@/lib/types';
 
-interface OptimizedImageProps {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  className?: string;
-  priority?: boolean;
+type OptimizedImageProps = ComponentTypes.OptimizedImageProps & {
   placeholder?: 'blur' | 'empty';
   blurDataURL?: string;
-}
+};
 
 export default function OptimizedImage({
   src,

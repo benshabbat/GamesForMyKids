@@ -9,19 +9,17 @@ type GameHeaderProps = ComponentTypes.GameHeaderProps;
 export default function GameHeader({
   score = 0,
   level = 1,
-  onReset,
-  onHome = () => (window.location.href = "/"),
-  levelColor = "text-purple-600"
+  onHome = () => (window.location.href = "/")
 }: GameHeaderProps = {}) {
 
   return (
     <UnifiedHeader
-      variant="game-header"
+      title="משחק"
+      showScore={true}
       score={score}
       level={level}
-      onHome={onHome}
-      onReset={onReset}
-      levelColor={levelColor}
+      showBackButton={true}
+      onBack={onHome}
     />
   );
 }

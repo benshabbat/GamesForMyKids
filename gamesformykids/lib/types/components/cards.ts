@@ -19,7 +19,7 @@ export interface ColoredShapeItem {
   shapeHebrew: string;
   svg: string;
   value: string;
-  tailwindClass: string;
+  tailwindClass?: string; // Optional to match the real data
 }
 
 export type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
@@ -117,24 +117,74 @@ export interface BaseGameCardProps {
 
 export interface ColoredShapeCardProps {
   item: ColoredShapeItem;
-  onClick: () => void;
+  onClick?: () => void;
   isSelected?: boolean;
   showShape?: boolean;
   showColor?: boolean;
   showValue?: boolean;
   size?: 'small' | 'medium' | 'large';
   animationEnabled?: boolean;
+  className?: string;
 }
 
 export interface UnifiedCardProps {
-  item: BaseGameItem;
-  onClick: () => void;
+  // Data
+  item?: BaseGameItem;
+  onClick?: (item?: BaseGameItem) => void;
   isSelected?: boolean;
-  variant?: 'default' | 'large' | 'compact';
+  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto';
   showContent?: {
     hebrew?: boolean;
     english?: boolean;
     emoji?: boolean;
   };
   animationEnabled?: boolean;
+  
+  // Simple mode (like GameItem)
+  hebrewText?: string;
+  secondaryText?: string;
+  name?: string;
+  icon?: React.ReactNode;
+  
+  // Advanced mode (like BaseGameCard)
+  customContent?: React.ReactNode;
+  
+  // Appearance - Colors
+  color?: string;
+  gradientFrom?: string;
+  gradientTo?: string;
+  hoverFrom?: string;
+  hoverTo?: string;
+  borderColor?: string;
+  borderWidth?: string;
+  textColor?: string;
+  
+  // Appearance - Layout
+  size?: "small" | "medium" | "large";
+  shape?: "rounded" | "circle" | "square";
+  aspectRatio?: "square" | "wide" | "tall";
+  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+  
+  // Content display
+  showEmoji?: boolean;
+  showHebrew?: boolean;
+  showEnglish?: boolean;
+  showSoundIcon?: boolean;
+  hideSoundIcon?: boolean;
+  
+  // Effects
+  animation?: "bounce" | "pulse" | "none";
+  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
+  hoverEffect?: "scale" | "lift" | "glow" | "none";
+  backgroundPattern?: "stars" | "dots" | "none";
+  
+  // Special content
+  description?: string;
+  digit?: string;
+  svg?: string;
+  value?: string;
+  tailwindClass?: string;
+  
+  // CSS
+  className?: string;
 }

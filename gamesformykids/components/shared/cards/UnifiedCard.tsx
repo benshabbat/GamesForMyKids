@@ -1,11 +1,10 @@
 import { ReactNode } from "react";
 import { Volume2 } from "lucide-react";
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem, ComponentTypes } from "@/lib/types";
 import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
 
-interface UnifiedCardProps {
-  // Data
-  item?: BaseGameItem;
+type UnifiedCardProps = ComponentTypes.UnifiedCardProps & {
+  // Additional props specific to this implementation
   onClick?: (item?: BaseGameItem) => void;
   
   // Simple mode (like GameItem)

@@ -19,10 +19,12 @@ export interface GameHintsProps {
 }
 
 export interface TipsBoxProps {
-  tips: string[];
+  tips?: string[];
   currentTip?: number;
   autoRotate?: boolean;
   interval?: number;
+  tip?: string; // For single tip compatibility
+  description?: string; // For single tip compatibility
 }
 
 export interface SimpleGameInstructionsProps {

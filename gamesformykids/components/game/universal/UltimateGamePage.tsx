@@ -36,7 +36,7 @@ export function UltimateGamePage() {
 
   // ❌ Error
   if (game.error) {
-    return <GameErrorScreen error={game.error} />;
+    return <GameErrorScreen message={game.error} />;
   }
 
   // 🏠 Start Screen

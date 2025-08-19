@@ -118,7 +118,15 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
 
           {/* רמזים חכמים */}
           {hints && hints.length > 0 && (
-            <GameHints />
+            <GameHints 
+              hints={hints.map((hint, index) => ({
+                id: `hint-${index}`,
+                text: hint,
+                type: 'info' as const,
+                priority: index
+              }))}
+              showHints={true}
+            />
           )}
 
           {/* סטטיסטיקות בכפתור */}

@@ -17,7 +17,6 @@ export default function GenericStartScreen<T>({
   textColorHeader = "text-purple-800",
   textColorSubHeader = "text-purple-600",
   gameSteps = [],
-  gameStepsBgClass,
   items,
   customOnStart,
   buttonFromColor = "blue-400",
@@ -48,8 +47,10 @@ export default function GenericStartScreen<T>({
 
         {/* הסבר המשחק */}
         <SimpleGameInstructions
-          steps={gameSteps}
-          bgClass={gameStepsBgClass}
+          title="איך משחקים?"
+          instructions={gameSteps.map(step => step.description || step.stepText || "")}
+          showSteps={true}
+          variant="detailed"
         />
 
         {/* כפתור התחלה */}

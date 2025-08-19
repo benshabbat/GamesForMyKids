@@ -1,91 +1,53 @@
-/**
- * קומפוננט להצגת רמזים במשחק
- * מציג רמזים חכמים בהתבסס על טעויות השחקן
- * 
- * 🎯 אפס props - הכל מהקונטקסט!
- */
-
 "use client";
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
-
-interface Hint {
-  type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
-  text: string;
-  audioText?: string;
-  isRevealed: boolean;
-  order: number;
-}
+import type { ComponentTypes } from "@/lib/types";
 
 /**
- * 🎯 GameHints עם קונטקסט - ללא props!
+ * קומפוננט להצגת רמזים במשחק
  */
-export function GameHints({ className = "" }: { className?: string }) {
-  const { 
-    showNextHint,
-    hasMoreHints 
-  } = useUniversalGame();
-  
-  // בצורה זמנית, אם אין hints בקונטקסט, נראה hints ריקים
-  const hints: Hint[] = [];
-  
-  if (hints.length === 0) {
+export default function GameHints({
+  hints,
+  currentHintIndex = 0,
+  showHints = true,
+  onHintChange
+}: ComponentTypes.GameHintsProps) {
+  if (!showHints || !hints || hints.length === 0) {
     return null;
   }
 
+  const currentHint = hints[currentHintIndex];
+
   return (
-    <div className={`bg-yellow-50 border-2 border-yellow-200 rounded-lg p-4 ${className}`}>
-      <div className="flex items-center justify-between mb-3">
-        <h3 className="text-lg font-bold text-yellow-800 flex items-center">
-          💡 רמזים
-        </h3>
-        {hasMoreHints && (
+    <div className="bg-blue-50 border-2 border-blue-200 rounded-lg p-4 mb-4">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-blue-600 font-bold">💡 רמז:</span>
+        <span className="text-sm text-blue-500">
+          {currentHintIndex + 1} מתוך {hints.length}
+        </span>
+      </div>
+      
+      {currentHint && (
+        <p className="text-blue-800">{currentHint.text}</p>
+      )}
+      
+      {hints.length > 1 && (
+        <div className="flex gap-2 mt-3">
           <button
-            onClick={showNextHint}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md text-sm font-medium transition-colors"
+            onClick={() => onHintChange?.(Math.max(0, currentHintIndex - 1))}
+            disabled={currentHintIndex === 0}
+            className="px-3 py-1 bg-blue-200 text-blue-800 rounded disabled:opacity-50"
           >
-            רמז נוסף
+            ← קודם
           </button>
-        )}
-      </div>
-      
-      <div className="space-y-2">
-        {hints.map((hint, index) => (
-          <div
-            key={`${hint.type}-${index}`}
-            className="bg-white border border-yellow-200 rounded-md p-3 text-yellow-900"
+          <button
+            onClick={() => onHintChange?.(Math.min(hints.length - 1, currentHintIndex + 1))}
+            disabled={currentHintIndex === hints.length - 1}
+            className="px-3 py-1 bg-blue-200 text-blue-800 rounded disabled:opacity-50"
           >
-            <div className="flex items-center">
-              {getHintIcon(hint.type)}
-              <span className="mr-2 font-medium">{hint.text}</span>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {hints.length > 0 && (
-        <div className="mt-3 text-sm text-yellow-700 text-center">
-          {hints.length} רמזים זמינים
-          {hasMoreHints && " • לחץ לרמז נוסף"}
+            הבא →
+          </button>
         </div>
       )}
     </div>
   );
-}
-
-function getHintIcon(type: string): string {
-  switch (type) {
-    case 'sound':
-      return '🔊';
-    case 'color':
-      return '🎨';
-    case 'shape':
-      return '📐';
-    case 'description':
-      return '💭';
-    case 'visual':
-      return '👀';
-    default:
-      return '💡';
-  }
 }

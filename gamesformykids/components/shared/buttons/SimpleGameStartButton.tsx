@@ -1,11 +1,12 @@
 import { useGameActions } from '@/hooks';
+import { ComponentTypes } from '@/lib/types';
 
-interface SimpleGameStartButtonProps {
-  fromColor: string;
-  toColor: string;
+type SimpleGameStartButtonProps = ComponentTypes.SimpleGameStartButtonProps & {
+  fromColor?: string;
+  toColor?: string;
   text?: string;
-  customOnStart?: () => void; // אופציונלי - לדריסת התנהגות ברירת המחדל
-}
+  customOnStart?: () => void;
+};
 
 /**
  * SimpleGameStartButton - כפתור התחלה עם שימוש בקונטקסט

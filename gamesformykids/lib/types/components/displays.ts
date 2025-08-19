@@ -35,11 +35,16 @@ export interface OptimizedImageProps {
   priority?: boolean;
   className?: string;
   fallback?: string;
+  placeholder?: 'blur' | 'empty';
+  blurDataURL?: string;
 }
 
 export interface GenericBoxProps {
   title?: string;
+  icon?: string;
   children: React.ReactNode;
-  variant?: 'default' | 'success' | 'warning' | 'error';
+  variant?: 'default' | 'success' | 'warning' | 'error' | 'celebration' | 'challenge' | 'tips';
+  size?: 'small' | 'medium' | 'large';
+  animation?: string;
   className?: string;
 }

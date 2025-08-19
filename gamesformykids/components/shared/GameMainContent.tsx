@@ -3,7 +3,7 @@
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 import { BaseGameItem } from "@/lib/types/base";
 import { GameCardGrid } from "./cards/GameCardGrid";
-import { GameHints } from "./feedback/GameHints";
+import GameHints from "./feedback/GameHints";
 import TipsBox from "./feedback/TipsBox";
 
 export default function GameMainContent() {
@@ -28,7 +28,10 @@ export default function GameMainContent() {
       {/* 💡 Hints */}
       {game.hints.length > 0 && (
         <div className="bg-yellow-50/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
-          <GameHints />
+          <GameHints 
+            hints={[]}
+            showHints={false}
+          />
         </div>
       )}
 

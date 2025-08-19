@@ -1,9 +1,10 @@
 import GenericBox from "../displays/GenericBox";
+import { ComponentTypes } from "@/lib/types";
 
-interface TipsBoxProps {
+type TipsBoxProps = ComponentTypes.TipsBoxProps & {
   tip?: string;
   description?: string;
-}
+};
 
 /**
  * 🎯 TipsBox עם props אופציונליים

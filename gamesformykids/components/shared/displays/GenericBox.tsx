@@ -1,144 +1,62 @@
-import { ReactNode } from "react";
-
-interface GenericBoxProps {
-  // תוכן הקופסה
-  title: string;
-  icon?: string;
-  children: ReactNode;
-  
-  // עיצוב
-  variant?: "celebration" | "challenge" | "tips" | "error" | "info";
-  size?: "small" | "medium" | "large";
-  
-  // פעולות
-  onClick?: () => void;
-  onClose?: () => void;
-  
-  // עיצוב מותאם
-  className?: string;
-  titleColor?: string;
-  backgroundColor?: string;
-  borderColor?: string;
-  
-  // אנימציות
-  animation?: "bounce" | "pulse" | "none";
-}
+import type { ComponentTypes } from "@/lib/types";
 
 /**
- * GenericBox - קומפוננט Box גנרי שמחליף את כל ה-Box קומפוננטים
- * 
- * מחליף:
- * - CelebrationBox
- * - ChallengeBox  
- * - TipsBox
- * - כל Box עתידי
+ * GenericBox - קומפוננט Box גנרי
  */
-export default function GenericBox({
+export default function GenericBox({ 
   title,
   icon,
   children,
-  variant = "info",
+  variant = "default",
   size = "medium",
-  onClick,
-  onClose,
-  className = "",
-  titleColor,
-  backgroundColor,
-  borderColor,
-  animation = "none",
-}: GenericBoxProps) {
+  animation,
+  className = ""
+}: ComponentTypes.GenericBoxProps) {
   
-  // הגדרת עיצוב לפי variant
-  const variantStyles = {
-    celebration: {
-      bg: "bg-gradient-to-r from-yellow-200 to-orange-200",
-      title: "text-orange-800",
-      border: "border-orange-300",
-      defaultIcon: "🎉",
-      animation: "animate-bounce-gentle",
-    },
-    challenge: {
-      bg: "bg-white",
-      title: "text-gray-800", 
-      border: "border-gray-200",
-      defaultIcon: "🎯",
-      animation: "",
-    },
-    tips: {
-      bg: "bg-white bg-opacity-80",
-      title: "text-gray-700",
-      border: "border-gray-300",
-      defaultIcon: "💡",
-      animation: "",
-    },
-    error: {
-      bg: "bg-red-50",
-      title: "text-red-600",
-      border: "border-red-200",
-      defaultIcon: "⚠️",
-      animation: "",
-    },
-    info: {
-      bg: "bg-blue-50",
-      title: "text-blue-800",
-      border: "border-blue-200", 
-      defaultIcon: "ℹ️",
-      animation: "",
-    },
+  const getVariantStyles = () => {
+    switch (variant) {
+      case "success":
+        return "bg-green-50 border-green-200 text-green-800";
+      case "warning":
+        return "bg-yellow-50 border-yellow-200 text-yellow-800";
+      case "error":
+        return "bg-red-50 border-red-200 text-red-800";
+      case "celebration":
+        return "bg-green-50 border-green-200 text-green-800";
+      case "challenge":
+        return "bg-orange-50 border-orange-200 text-orange-800";
+      case "tips":
+        return "bg-blue-50 border-blue-200 text-blue-800";
+      default:
+        return "bg-blue-50 border-blue-200 text-blue-800";
+    }
   };
-  
-  // הגדרת גדלים
-  const sizeStyles = {
-    small: "p-4 text-lg",
-    medium: "p-6 text-xl md:text-2xl", 
-    large: "p-8 text-2xl md:text-3xl",
+
+  const getSizeStyles = () => {
+    switch (size) {
+      case "small":
+        return "p-2 text-sm";
+      case "large":
+        return "p-6 text-lg";
+      default:
+        return "p-4 text-base";
+    }
   };
-  
-  const currentVariant = variantStyles[variant];
-  const currentSize = sizeStyles[size];
-  
-  // בניית className סופית
-  const boxClassName = `
-    ${backgroundColor || currentVariant.bg}
-    ${borderColor || `border-2 ${currentVariant.border}`}
-    ${animation !== "none" ? currentVariant.animation : ""}
-    rounded-3xl shadow-xl mb-8
-    ${currentSize}
-    ${onClick ? "cursor-pointer hover:scale-105 transition-transform duration-300" : ""}
-    ${className}
-  `.trim().replace(/\s+/g, ' ');
-  
-  const titleClassName = `
-    ${currentSize.includes('text-lg') ? 'text-2xl md:text-3xl' : 
-      currentSize.includes('text-xl') ? 'text-3xl md:text-4xl' : 
-      'text-4xl md:text-5xl'}
-    font-bold mb-4
-    ${titleColor || currentVariant.title}
-  `.trim().replace(/\s+/g, ' ');
+
+  const animationClass = animation ? animation : "";
 
   return (
-    <div className={boxClassName} onClick={onClick}>
-      {/* כפתור סגירה אם נדרש */}
-      {onClose && (
-        <div className="flex justify-end mb-2">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onClose();
-            }}
-            className="text-gray-400 hover:text-gray-600 text-xl"
-          >
-            ✕
-          </button>
+    <div className={`rounded-lg border-2 ${getVariantStyles()} ${getSizeStyles()} ${animationClass} ${className}`}>
+      {(title || icon) && (
+        <div className="flex items-center gap-2 mb-2">
+          {icon && <span className="text-xl">{icon}</span>}
+          {title && (
+            <h3 className="font-bold text-lg">
+              {title}
+            </h3>
+          )}
         </div>
       )}
-      
-      {/* כותרת עם אייקון */}
-      <h2 className={titleClassName}>
-        {icon || currentVariant.defaultIcon} {title}
-      </h2>
-      
-      {/* תוכן */}
       {children}
     </div>
   );

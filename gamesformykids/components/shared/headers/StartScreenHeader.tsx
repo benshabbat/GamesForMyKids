@@ -1,13 +1,13 @@
 import { ReactNode } from "react";
+import { ComponentTypes } from "@/lib/types";
 
-interface StartScreenHeaderProps {
-  title: string;
-  subTitle: string;
+type StartScreenHeaderProps = ComponentTypes.StartScreenHeaderProps & {
+  subTitle: string; // Required in this component
   textColorHeader?: string;
   textColorSubHeader?: string;
   className?: string;
   children?: ReactNode;
-}
+};
 
 /**
  * StartScreenHeader - כותרת פשוטה למסכי התחלה
