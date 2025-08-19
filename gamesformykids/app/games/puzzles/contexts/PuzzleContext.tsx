@@ -2,118 +2,13 @@
 
 import { createContext, useContext, useReducer, useCallback, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  createPuzzlePieces, 
-  isPieceInCorrectPosition, 
-  calculateFinalScore,
-  type PuzzlePiece 
-} from '../utils/puzzleUtils';
+import { type PuzzlePiece, createPuzzlePieces, isPieceInCorrectPosition, calculateFinalScore } from '../utils/puzzleUtils';
 import { usePuzzleFeedback } from '../hooks/usePuzzleFeedback';
 import { type SimplePuzzle } from '../constants/simplePuzzlesData';
-import { 
-  PuzzleState, 
-  PuzzleAction 
-} from '../types/puzzle';
+import { PuzzleState, PuzzleAction } from '../types/puzzle';
 
-
-// Initial state for the puzzle
-
-const initialState: PuzzleState = {
-  gameStarted: false,
-  isCompleted: false,
-  timer: 0,
-  difficulty: 9,
-  score: 0,
-  showHints: false,
-  showDebug: false,
-  showHelp: false,
-  pieces: [],
-  placedPieces: [],
-  image: null,
-  imageLoaded: false,
-  draggedPiece: null,
-  touchState: {
-    draggedPiece: null,
-    offset: { x: 0, y: 0 },
-    isDragging: false,
-    dragPosition: { x: 0, y: 0 }
-  },
-  selectedPuzzle: null
-};
-
-function puzzleReducer(state: PuzzleState, action: PuzzleAction): PuzzleState {
-  switch (action.type) {
-    case 'SET_GAME_STARTED':
-      return { ...state, gameStarted: action.payload };
-    
-    case 'SET_COMPLETED':
-      return { ...state, isCompleted: action.payload };
-    
-    case 'SET_TIMER':
-      return { ...state, timer: action.payload };
-    
-    case 'INCREMENT_TIMER':
-      return { ...state, timer: state.timer + 1 };
-    
-    case 'SET_DIFFICULTY':
-      return { ...state, difficulty: action.payload };
-    
-    case 'SET_SCORE':
-      return { ...state, score: action.payload };
-    
-    case 'TOGGLE_HINTS':
-      return { ...state, showHints: !state.showHints };
-    
-    case 'TOGGLE_DEBUG':
-      return { ...state, showDebug: !state.showDebug };
-    
-    case 'TOGGLE_HELP':
-      return { ...state, showHelp: !state.showHelp };
-    
-    case 'SET_PIECES':
-      return { ...state, pieces: action.payload };
-    
-    case 'SET_PLACED_PIECES':
-      return { ...state, placedPieces: action.payload };
-    
-    case 'SET_IMAGE':
-      return { ...state, image: action.payload };
-    
-    case 'SET_IMAGE_LOADED':
-      return { ...state, imageLoaded: action.payload };
-    
-    case 'SET_DRAGGED_PIECE':
-      return { ...state, draggedPiece: action.payload };
-    
-    case 'SET_TOUCH_STATE':
-      return { ...state, touchState: action.payload };
-    
-    case 'SET_SELECTED_PUZZLE':
-      return { ...state, selectedPuzzle: action.payload };
-    
-    case 'RESET_GAME':
-      return {
-        ...state,
-        gameStarted: false,
-        isCompleted: false,
-        timer: 0,
-        score: 0,
-        pieces: [],
-        placedPieces: [],
-        draggedPiece: null,
-        touchState: initialState.touchState
-      };
-    
-    case 'RESET_TO_MENU':
-      return {
-        ...initialState,
-        difficulty: state.difficulty // Keep difficulty setting
-      };
-    
-    default:
-      return state;
-  }
-}
+// ייבוא הקבצים החדשים שפיצלנו
+import { puzzleReducer, initialPuzzleState } from '../state';
 
 // Context
 interface PuzzleContextType {
@@ -159,7 +54,7 @@ const PuzzleContext = createContext<PuzzleContextType | undefined>(undefined);
 
 // Provider Component
 export function PuzzleProvider({ children }: { children: React.ReactNode }) {
-  const [state, dispatch] = useReducer(puzzleReducer, initialState);
+  const [state, dispatch] = useReducer(puzzleReducer, initialPuzzleState);
   const router = useRouter();
   const { showFeedback, speak } = usePuzzleFeedback();
 
@@ -489,7 +384,7 @@ export function PuzzleProvider({ children }: { children: React.ReactNode }) {
     });
     
     // Reset touch state
-    dispatch({ type: 'SET_TOUCH_STATE', payload: initialState.touchState });
+    dispatch({ type: 'SET_TOUCH_STATE', payload: initialPuzzleState.touchState });
   }, [state.touchState, state.showDebug, handleDropLogic, showFeedback]);
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
