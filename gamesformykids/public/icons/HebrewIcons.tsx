@@ -1,7 +1,4 @@
-interface HebrewIconProps {
-  size?: number;
-  className?: string;
-}
+import { HebrewIconProps } from '@/lib/types/components/icons';
 
 // קומפוננט פשוט שמציג את האות א׳ בעברית
 export const HebrewLettersIcon = ({ size = 24, className = "" }: HebrewIconProps) => (

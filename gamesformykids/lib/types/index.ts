@@ -16,10 +16,14 @@ export * from './game-ui.types';
 export * from './ui-legacy';
 export * from './ui.types';
 
+// טיפוסים לאירועים
+export * from './events';
+
 // טיפוסים חדשים מאורגנים (עם שמות מרחב למניעת התנגשויות)
 import * as ComponentTypes from './components';
 import * as HookTypes from './hooks';
 import * as ContextTypes from './contexts';
 import * as UtilTypes from './utils';
+import * as EventTypes from './events';
 
-export { ComponentTypes, HookTypes, ContextTypes, UtilTypes };
+export { ComponentTypes, HookTypes, ContextTypes, UtilTypes, EventTypes };

@@ -9,32 +9,7 @@ import { useCallback, useEffect, useMemo } from 'react';
 import { useGameProgress, GameProgress } from '@/contexts/GameProgressContext';
 import { useGameType } from '@/contexts/GameTypeContext';
 import { UseGameEventsReturn } from '@/lib/types/hooks/ui';
-
-// Extend Window interface for gtag
-declare global {
-  interface Window {
-    gtag?: (command: string, action: string, parameters?: Record<string, unknown>) => void;
-  }
-}
-
-// Types for game events
-export type GameEvent = 
-  | 'game_start'
-  | 'game_pause'
-  | 'game_resume'
-  | 'correct_answer'
-  | 'wrong_answer'
-  | 'level_up'
-  | 'new_high_score'
-  | 'streak_milestone'
-  | 'game_complete';
-
-export interface GameEventData {
-  event: GameEvent;
-  gameType: string;
-  timestamp: number;
-  data?: Record<string, unknown>;
-}
+import { GameEvent, GameEventData } from '@/lib/types/events/game-events';
 
 
 export function useGameEvents(): UseGameEventsReturn {

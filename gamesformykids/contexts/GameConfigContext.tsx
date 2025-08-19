@@ -14,7 +14,7 @@
  * מחליף את כל ה-imports ב-AutoGamePage!
  */
 
-import { createContext, useContext, useMemo, ReactNode } from 'react';
+import { createContext, useContext, useMemo } from 'react';
 import { GameType, BaseGameItem } from "@/lib/types/base";
 import { GAME_UI_CONFIGS, GameUIConfig } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
@@ -22,37 +22,14 @@ import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
 import { GameCardMap } from "@/components/shared";
 import { useGameType } from './GameTypeContext';
 import { Metadata } from 'next';
-
-// Types
-interface GameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-}
-
-export interface GameConfigContextValue {
-  // Current game info
-  gameType: AutoGameType | GameType | null;
-  config: GameUIConfig | null;
-  items: BaseGameItem[] | null;
-  CardComponent: React.ComponentType<GameCardProps> | null;
-  useGameHook: unknown | null;
-  
-  // Validation
-  isSupported: boolean;
-  isReady: boolean;
-  
-  // Error handling
-  error: string | null;
-}
+import { 
+  GameCardProps, 
+  GameConfigContextValue, 
+  GameConfigProviderProps 
+} from '@/lib/types/contexts/game-config';
 
 // Create context
 const GameConfigContext = createContext<GameConfigContextValue | undefined>(undefined);
-
-// Provider Props
-interface GameConfigProviderProps {
-  children: ReactNode;
-  gameType?: AutoGameType | GameType;
-}
 
 /**
  * 🎯 GameConfig Provider - מספק את כל הקונפיגורציה למשחק

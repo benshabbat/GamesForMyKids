@@ -1,7 +1,4 @@
-interface ShapeIconProps {
-  size?: number;
-  className?: string;
-}
+import { ShapeIconProps } from '@/lib/types/components/icons';
 
 export const CircleIcon = ({ size = 120, className = "" }: ShapeIconProps) => (
   <svg width={size} height={size} viewBox="0 0 120 120" className={className}>

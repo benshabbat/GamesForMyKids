@@ -11,48 +11,19 @@
  * - Game-specific settings and preferences
  */
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
+import { createContext, useContext, useState, useCallback } from 'react';
 import { GameType } from "@/lib/types/base";
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
 import { useRouter } from 'next/navigation';
-
-// Types
-export interface GameTypeState {
-  currentGameType: GameType | null;
-  previousGameType: GameType | null;
-  gameHistory: GameType[];
-}
-
-export interface GameTypeContextValue {
-  // State
-  gameState: GameTypeState;
-  
-  // Current game info
-  currentGameType: GameType | null;
-  currentGameConfig: typeof GAME_UI_CONFIGS[GameType] | null;
-  currentGameItems: unknown[] | null;
-  
-  // Actions
-  setCurrentGameType: (gameType: GameType) => void;
-  navigateToGame: (gameType: GameType) => void;
-  goToPreviousGame: () => void;
-  clearGameHistory: () => void;
-  
-  // Utilities
-  isGameSupported: (gameType: string) => boolean;
-  getGameConfig: (gameType: GameType) => typeof GAME_UI_CONFIGS[GameType] | null;
-  getGameItems: (gameType: GameType) => unknown[] | null;
-}
+import { 
+  GameTypeState, 
+  GameTypeContextValue, 
+  GameTypeProviderProps 
+} from '@/lib/types/contexts/game-type';
 
 // Create context
 const GameTypeContext = createContext<GameTypeContextValue | undefined>(undefined);
-
-// Provider Props
-interface GameTypeProviderProps {
-  children: ReactNode;
-  initialGameType?: GameType;
-}
 
 /**
  * GameType Provider Component
