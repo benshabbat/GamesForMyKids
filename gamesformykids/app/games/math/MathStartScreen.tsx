@@ -1,10 +1,11 @@
 "use client";
 
-import { useMathGame } from './useMathGame';
+interface MathStartScreenProps {
+  startGame: () => Promise<void>;
+  speakQuestion: () => Promise<void>;
+}
 
-export default function MathStartScreen() {
-  const { startGame, speakQuestion } = useMathGame();
-
+export default function MathStartScreen({ startGame, speakQuestion }: MathStartScreenProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-yellow-100 via-orange-100 to-red-100">
       <div className="text-center p-8 bg-white/80 rounded-3xl shadow-xl max-w-md mx-4">
