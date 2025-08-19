@@ -1,12 +1,7 @@
 import UnifiedHeader from "./UnifiedHeader";
+import { ComponentTypes } from "@/lib/types";
 
-interface GameHeaderProps {
-  score?: number;
-  level?: number;
-  onReset?: () => void;
-  onHome?: () => void;
-  levelColor?: string;
-}
+type GameHeaderProps = ComponentTypes.GameHeaderProps;
 
 /**
  * 🎯 GameHeader עם props אופציונליים

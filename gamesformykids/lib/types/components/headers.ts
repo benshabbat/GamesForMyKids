@@ -21,10 +21,13 @@ export interface StartScreenHeaderProps {
 }
 
 export interface GameHeaderProps {
-  title: string;
+  title?: string;
   score?: number;
   level?: number;
   showBackButton?: boolean;
   onBack?: () => void;
+  onReset?: () => void;
+  onHome?: () => void;
+  levelColor?: string;
   customContent?: React.ReactNode;
 }

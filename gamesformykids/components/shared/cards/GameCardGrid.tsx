@@ -1,41 +1,10 @@
-import { ReactNode } from "react";
-import { BaseGameItem, ColorItem, ShapeItem, NumberItem } from "@/lib/types";
+import React from "react";
+import { ComponentTypes } from "@/lib/types";
 import { useGameActions } from "@/hooks";
 
-// Combined type for all our game items
-type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
-
-interface GameCardGridProps<T extends GameItemType> {
-  // Core properties
-  /** Array of items to display in the grid */
-  items: T[];
-  /** Callback function when an item is clicked - אופציונלי אם משתמשים בקונטקסט */
-  onItemClick?: (item: T) => void;
-  /** The current challenge/selected item (used to highlight the correct item) */
-  currentChallenge?: T | null;
-  
-  // Display options
-  /** Tailwind CSS grid column classes (default: "grid-cols-2 md:grid-cols-3") */
-  gridCols?: string;
-  /** Tailwind CSS max-width class (default: "max-w-3xl") */
-  maxWidth?: string;
-  /** Tailwind CSS gap class (default: "gap-6") */
-  gap?: string;
-  /** Whether to show a sound icon on cards (default: true) */
-  showSoundIcon?: boolean;
-  
-  // Comparison and rendering
-  /** Which property to use when comparing items (default: 'name') */
-  compareKey?: keyof T;
-  /** Custom render function for cards - if provided, default card rendering is not used */
-  renderCustomCard?: (item: T, isCorrect: boolean) => ReactNode;
-  /** Additional CSS classes to apply to default cards */
-  cardClassName?: string;
-  
-  // Context usage
-  /** Whether to use game context for click handling (default: false) */
-  useContext?: boolean;
-}
+// Use the new organized type from ComponentTypes
+type GameItemType = ComponentTypes.GameItemType;
+type GameCardGridProps<T extends GameItemType> = ComponentTypes.GameCardGridProps<T>;
 
 export function GameCardGrid<T extends GameItemType>({
   items,

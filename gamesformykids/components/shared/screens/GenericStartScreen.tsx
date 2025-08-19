@@ -2,44 +2,9 @@ import { SimpleGameInstructions } from "@/components/shared";
 import { SimpleGameStartButton } from "@/components/shared";
 import { StartScreenHeader } from "@/components/shared";
 import { ButtonCheckAudio } from "@/components/shared";
-import { GameStep } from "@/lib/types";
-import { ReactNode } from "react";
+import { ComponentTypes } from "@/lib/types";
 
-interface GenericStartScreenProps<T> {
-  // Header props
-  title: string;
-  subTitle: string;
-  textColorHeader?: string;
-  textColorSubHeader?: string;
-  
-  // Game props
-  gameSteps: GameStep[];
-  gameStepsBgClass?: string;
-  items: T[];
-  customOnStart?: () => void; // אופציונלי - לדריסת התנהגות ברירת המחדל
-  onSpeak?: (name: string) => void;
-  
-  // Button colors
-  buttonFromColor: string;
-  buttonToColor: string;
-  
-  // Background
-  backgroundStyle: string;
-  
-  // Items display
-  itemsTitle: string;
-  itemsDescription: string;
-  itemsDescriptionColor?: string;
-  itemsGridClass?: string;
-  
-  // Item rendering function - either use renderItem OR customItemsRenderer
-  renderItem?: (item: T, index: number) => ReactNode;
-  customItemsRenderer?: () => ReactNode;
-  
-  // Layout options
-  showAudioCheck?: boolean;
-  className?: string;
-}
+type GenericStartScreenProps<T> = ComponentTypes.GenericStartScreenProps<T>;
 
 /**
  * GenericStartScreen - מסך התחלה גנרי וגמיש
@@ -48,15 +13,15 @@ interface GenericStartScreenProps<T> {
 
 export default function GenericStartScreen<T>({
   title,
-  subTitle,
+  subTitle = "",
   textColorHeader = "text-purple-800",
   textColorSubHeader = "text-purple-600",
-  gameSteps,
+  gameSteps = [],
   gameStepsBgClass,
   items,
   customOnStart,
-  buttonFromColor,
-  buttonToColor,
+  buttonFromColor = "blue-400",
+  buttonToColor = "blue-600",
   backgroundStyle,
   itemsTitle,
   itemsDescription,

@@ -1,48 +1,7 @@
 import UnifiedCard from "./UnifiedCard";
-import { BaseGameItem } from "@/lib/types/base";
-import { ReactNode } from "react";
+import { ComponentTypes } from "@/lib/types";
 
-interface BaseGameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-  
-  // עיצוב הכרטיס
-  gradientFrom?: string;
-  gradientTo?: string;
-  hoverFrom?: string;
-  hoverTo?: string;
-  borderColor?: string;
-  borderWidth?: string;
-  
-  // תוכן הכרטיס
-  showEmoji?: boolean;
-  showHebrew?: boolean;
-  showEnglish?: boolean;
-  customContent?: ReactNode;
-  
-  // גודל וצורה
-  size?: "small" | "medium" | "large";
-  aspectRatio?: "square" | "wide" | "tall";
-  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
-  
-  // אנימציות ואפקטים
-  animation?: "bounce" | "pulse" | "none";
-  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
-  hoverEffect?: "scale" | "lift" | "glow" | "none";
-  
-  // אפקטים מיוחדים
-  backgroundPattern?: "stars" | "dots" | "none";
-  customDecoration?: ReactNode;
-  
-  // עבור כרטיסי מקצועות
-  description?: string;
-  
-  // עבור כרטיסי מספרים
-  digit?: string;
-  
-  // CSS classes נוספים
-  className?: string;
-}
+type BaseGameCardProps = ComponentTypes.BaseGameCardProps;
 
 /**
  * BaseGameCard - קארד גנרי DRY לכל המשחקים
@@ -91,7 +50,7 @@ export default function BaseGameCard({
   return (
     <UnifiedCard
       item={item}
-      onClick={(clickedItem) => onClick(clickedItem || item)}
+      onClick={() => onClick(item)}
       variant="advanced"
       gradientFrom={gradientFrom}
       gradientTo={gradientTo}
