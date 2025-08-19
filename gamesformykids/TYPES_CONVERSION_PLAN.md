@@ -40,6 +40,7 @@
 
 ### 8. ✅ Contexts שהומרו למופרדים
 - [x] MemoryContext.tsx - ✅ הומר בהצלחה - טיפוסים ב-lib/types/contexts/memory.ts
+- [x] HebrewLettersContext.tsx - ✅ הומר בהצלחה - טיפוסים ב-lib/types/contexts/hebrew-letters.ts
 
 ### 9. ❌ Contexts שטרם הומרו (מכילים טיפוסים פנימיים)
 - [ ] AuthContext.tsx - יש interface AuthContextType פנימי
@@ -48,7 +49,6 @@
 - [ ] GameLogicContext.tsx - טרם נבדק  
 - [ ] GameProgressContext.tsx - טרם נבדק
 - [ ] GameTypeContext.tsx - טרם נבדק
-- [ ] HebrewLettersContext.tsx - יש הרבה interfaces פנימיים
 
 ### 9. ❌ Hooks נוספים שטרם נבדקו
 - [ ] useBaseGame.ts
@@ -66,7 +66,7 @@
 ✅ **TypeScript**: ללא שגיאות  
 ✅ **ESLint**: ללא אזהרות
 
-## הושלמו עד כה (22 קבצים):
+## הושלמו עד כה (23 קבצים):
 ✅ **Cards**: GameCardGrid, BaseGameCard, ColoredShapeCard, UnifiedCard  
 ✅ **Headers**: GameHeader, StartScreenHeader, UnifiedHeader  
 ✅ **Screens**: GenericStartScreen, GameErrorScreen  
@@ -74,7 +74,7 @@
 ✅ **Feedback**: TipsBox, SimpleGameInstructions, GameHints, GameInstructions, CelebrationBox, ChallengeBox  
 ✅ **Buttons**: SimpleGameStartButton
 ✅ **Hooks**: useGameOptions, useGameData
-✅ **Contexts**: MemoryContext
+✅ **Contexts**: MemoryContext, HebrewLettersContext
 
 ## עדיפות גבוהה לעבוד עליו:
 1. **Contexts** - יש הרבה טיפוסים פנימיים שצריך להפריד
