@@ -107,15 +107,19 @@ export function useCountingGame() {
     try {
       console.log("StartGame function called");
       
-      setGameState({
+      // עדכון ראשוני - מעבר למצב משחק
+      setGameState(prev => ({
+        ...prev,
+        isPlaying: true,
         currentChallenge: null,
         score: 0,
         level: 1,
-        isPlaying: true,
         showCelebration: false,
         options: [],
-      });
+      }));
 
+      console.log("Game state updated to playing mode");
+      
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
       
@@ -125,11 +129,14 @@ export function useCountingGame() {
       console.log("Generated challenge:", challenge);
       console.log("Generated options:", options);
 
+      // עדכון שני - הוספת האתגר
       setGameState((prev) => ({
         ...prev,
         currentChallenge: challenge,
         options,
       }));
+
+      console.log("Challenge set in game state");
 
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakQuestion(challenge);

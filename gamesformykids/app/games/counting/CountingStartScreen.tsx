@@ -1,9 +1,15 @@
 "use client";
 
-import { useCountingGame } from './useCountingGame';
+interface CountingStartScreenProps {
+  startGame: () => Promise<void>;
+  speakQuestion: () => Promise<void>;
+}
 
-export default function CountingStartScreen() {
-  const { startGame, speakQuestion } = useCountingGame();
+export default function CountingStartScreen({ startGame, speakQuestion }: CountingStartScreenProps) {
+  const handleStartGame = () => {
+    console.log("Start game button clicked");
+    startGame();
+  };
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-100 via-pink-100 to-red-100">
@@ -25,7 +31,7 @@ export default function CountingStartScreen() {
         
         <div className="space-y-3">
           <button
-            onClick={startGame}
+            onClick={handleStartGame}
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg w-full"
           >
             🚀 התחל משחק

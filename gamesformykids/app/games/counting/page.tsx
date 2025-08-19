@@ -11,10 +11,15 @@ export default function CountingGame() {
   const {
     gameState,
     handleNumberClick,
+    startGame,
+    speakQuestion,
   } = useCountingGame();
 
+  console.log("CountingGame render - gameState:", gameState);
+
   if (!gameState || !gameState.isPlaying) {
-    return <CountingStartScreen />;
+    console.log("Showing start screen - isPlaying:", gameState?.isPlaying);
+    return <CountingStartScreen startGame={startGame} speakQuestion={speakQuestion} />;
   }
 
   return (
