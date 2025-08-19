@@ -1,6 +1,5 @@
 "use client";
 
-import CelebrationBox from "@/components/shared/CelebrationBox";
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
 import CountingCard from "./CountingCard";
@@ -59,7 +58,18 @@ export default function CountingGame() {
 
         {/* Celebration */}
         {gameState.showCelebration && gameState.currentChallenge && (
-          <CelebrationBox />
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-3xl p-8 text-center shadow-2xl transform animate-bounce">
+              <div className="text-6xl mb-4">🎉</div>
+              <h2 className="text-3xl font-bold text-green-600 mb-2">מעולה!</h2>
+              <p className="text-xl text-gray-700 mb-4">
+                התשובה נכונה! יש {gameState.currentChallenge.correctAnswer} {gameState.currentChallenge.itemPlural}
+              </p>
+              <div className="text-lg text-purple-600 font-semibold">
+                + 10 נקודות
+              </div>
+            </div>
+          </div>
         )}
       </div>
     </div>
