@@ -7,7 +7,7 @@
 
 import { BaseGameItem } from '../types/base';
 import { NumberItem, ShapeItem } from '../types/games';
-import { GameItem } from '@/hooks/shared/useGameData'
+import { GameItem } from '@/hooks'
 
 // Define colored shape item type for typed returns
 export interface ColoredShapeItem {

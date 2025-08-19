@@ -7,7 +7,7 @@
  */
 
 import { BaseGameItem, GameType } from "@/lib/types/base";
-import { useBaseGame } from "@/hooks/shared/useBaseGame";
+import { useBaseGame } from "@/hooks";
 
 /**
  * יוצר hook למשחק בצורה אוטומטית

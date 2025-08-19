@@ -1,4 +1,4 @@
-import { useBaseGame } from "@/hooks/shared/useBaseGame";
+import { useBaseGame } from "@/hooks";
 import { BaseGameItem, GameType } from "@/lib/types/base";
 
 interface UseSimpleGameProps {

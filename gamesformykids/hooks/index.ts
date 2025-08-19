@@ -7,24 +7,25 @@
  * וקלות תחזוקה וטיפול בבאגים.
  */
 
-// Hooks בסיסיים ומשותפים
-export { useAutoGame, type GameLogicState } from './shared/useAutoGame';
-export { useGameAudio } from "./shared/useGameAudio";
-export { useGameAnalytics } from "./shared/useGameAnalytics";
-export { useGameOptions } from "./shared/useGameOptions";
-export { useAdvancedGameState } from "./shared/useAdvancedGameState";
-export { useBaseGame } from "./shared/useBaseGame";
-export { useGameHints } from "./shared/useGameHints";
-export { useGamePerformance } from "./shared/useGamePerformance";
-export { useProgressTracking } from "./shared/useProgressTracking";
+// Game State Hooks
+export * from './shared/game-state';
 
-// Supabase Hooks
-export { useGameProgress } from "./shared/useGameProgress";
-export { useUserProfile } from "./shared/useUserProfile";
-export { useAchievements } from "./shared/useAchievements";
-export { useGameData, useGameItemsByCategory } from "./shared/useGameData";
+// Progress & Achievements
+export * from './shared/progress';
 
-// Hooks למשחקים
+// Audio & Speech
+export * from './shared/audio';
+
+// Analytics & Performance  
+export * from './shared/analytics';
+
+// User & Profile
+export * from './shared/user';
+
+// UI & Events
+export * from './shared/ui';
+
+// Games Hooks
 export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
 export { usePuzzleFeedback } from "./games/usePuzzleFeedback";

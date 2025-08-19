@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/base";
-import { useGameAudio } from "./useGameAudio";
+import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
-import { useGamePerformance } from "./useGamePerformance";
-import { useGameHints } from "./useGameHints";
-import { useProgressTracking } from "./useProgressTracking";
+import { useGamePerformance } from "../analytics/useGamePerformance";
+import { useGameHints } from "../ui/useGameHints";
+import { useProgressTracking } from "../progress/useProgressTracking";
 import { 
   delay, 
   speakItemName as speakItemNameUtil,

@@ -12,7 +12,7 @@
 "use client";
 
 import { BaseGameItem } from "@/lib/types/base";
-import { useAutoGame } from "@/hooks/shared/useAutoGame";
+import { useAutoGame } from "@/hooks";
 
 // רכיבים משותפים
 import { AutoStartScreen } from "../../shared";

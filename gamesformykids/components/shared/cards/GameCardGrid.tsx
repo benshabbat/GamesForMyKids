@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
 import { BaseGameItem, ColorItem, ShapeItem, NumberItem } from "@/lib/types";
-import { useGameActions } from "@/hooks/shared/useGameContext";
+import { useGameActions } from "@/hooks";
 
 // Combined type for all our game items
 type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;

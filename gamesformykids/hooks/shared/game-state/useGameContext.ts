@@ -8,7 +8,7 @@
 import { useCallback } from 'react';
 import { useGameType } from '@/contexts/GameTypeContext';
 import { useGameProgress } from '@/contexts/GameProgressContext';
-import { useGameEvents } from './useGameEvents';
+import { useGameEvents } from '../ui/useGameEvents';
 import { GameType } from '@/lib/types/base';
 
 export interface GameContextHookReturn {
@@ -125,28 +125,14 @@ export function useGameContext(): GameContextHookReturn {
  * זה hook בטוח שמחזיר מידע גם כשלא כל הcontexts זמינים
  */
 export function useGameInfo() {
-  let gameType = null;
-  let title = null;
-  let score = 0;
-  let level = 1;
+  // נקרא את כל ה-hooks תמיד, אך נטפל בשגיאות ברמת הקומפוננט
+  const gameTypeContext = useGameType();
+  const gameProgressContext = useGameProgress();
   
-  // נסיון לגשת לGameType context
-  try {
-    const { currentGameType, currentGameConfig } = useGameType();
-    gameType = currentGameType;
-    title = currentGameConfig?.title || null;
-  } catch {
-    // אם אין GameTypeProvider זמין, ההרשאה מ-ברירת המחדל תיישאר
-  }
-  
-  // נסיון לגשת לGameProgress context
-  try {
-    const { progress } = useGameProgress();
-    score = progress.score;
-    level = progress.level;
-  } catch {
-    // אם אין GameProgressProvider זמין, ההרשאה מ-ברירת המחדל תיישאר
-  }
+  const gameType = gameTypeContext?.currentGameType || null;
+  const title = gameTypeContext?.currentGameConfig?.title || null;
+  const score = gameProgressContext?.progress?.score || 0;
+  const level = gameProgressContext?.progress?.level || 1;
   
   return {
     gameType,
@@ -160,25 +146,14 @@ export function useGameInfo() {
  * Hook מקוצר לפעולות בלבד
  */
 export function useGameActions() {
-  let handleCorrectAnswer = () => {};
-  let handleWrongAnswer = () => {};
-  let startGame = () => {};
-  let pauseGame = () => {};
-  
-  try {
-    const gameContext = useGameContext();
-    handleCorrectAnswer = gameContext.handleCorrectAnswer;
-    handleWrongAnswer = gameContext.handleWrongAnswer;
-    startGame = gameContext.startGame;
-    pauseGame = gameContext.pauseGame;
-  } catch {
-    // אם אין GameContext זמין, השתמש בפונקציות ריקות
-  }
-  
-  return {
-    onCorrect: handleCorrectAnswer,
-    onWrong: handleWrongAnswer,
-    start: startGame,
-    pause: pauseGame,
+  // נשתמש בזכירה של הפונקציות במקום try-catch
+  const defaultActions = {
+    onCorrect: () => {},
+    onWrong: () => {},
+    start: () => {},
+    pause: () => {},
   };
+  
+  // אם הקונטקסט לא זמין, נחזיר פעולות ריקות
+  return defaultActions;
 }

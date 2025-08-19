@@ -1,6 +1,6 @@
 import { Home, RotateCcw } from "lucide-react";
 import { ReactNode } from "react";
-import { useGameInfo, useGameActions } from "@/hooks/shared/useGameContext";
+import { useGameInfo, useGameActions } from "@/hooks";
 
 interface UnifiedHeaderProps {
   // תצוגת כותרת (למסכי התחלה)

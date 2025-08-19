@@ -1,4 +1,4 @@
-import { useGameActions } from '@/hooks/shared/useGameContext';
+import { useGameActions } from '@/hooks';
 
 interface SimpleGameStartButtonProps {
   fromColor: string;
