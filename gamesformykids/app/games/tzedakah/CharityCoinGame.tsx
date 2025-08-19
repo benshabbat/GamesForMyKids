@@ -8,7 +8,7 @@ import CharityCoin from '@/components/game/tzedakah/CharityCoin';
 import CharityBasket from '@/components/game/tzedakah/CharityBasket';
 import GameControls from '@/components/game/tzedakah/GameControls';
 import GameAreaBackground from '@/components/game/tzedakah/GameAreaBackground';
-import GameInstructions from '@/components/game/tzedakah/GameInstructions';
+import TzedakahGameInstructions from '@/components/game/tzedakah/TzedakahGameInstructions';
 import styles from './charity.module.css';
 
 interface Coin {
@@ -245,7 +245,7 @@ const CharityCoinGame = () => {
             />
 
             {/* הוראות מעוצבות */}
-            <GameInstructions 
+            <TzedakahGameInstructions 
               gameStarted={gameStarted}
               isMobile={isMobile}
             />

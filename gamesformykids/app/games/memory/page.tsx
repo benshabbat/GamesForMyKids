@@ -10,10 +10,10 @@ import { MemoryProvider, useMemoryContext } from "@/contexts";
 import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEffect } from "react";
-import GameHeader from "./GameHeader";
-import GameWinMessage from "./GameWinMessage";
-import MemoryGameBoard from "./MemoryGameBoard";
-import MemoryStartScreen from "./MemoryStartScreen";
+import MemoryGameHeader from "@/components/game/memory/MemoryGameHeader";
+import GameWinMessage from "@/components/game/memory/GameWinMessage";
+import MemoryGameBoard from "@/components/game/memory/MemoryGameBoard";
+import MemoryStartScreen from "@/components/game/memory/MemoryStartScreen";
 
 function MemoryGameContent() {
   const {
@@ -55,7 +55,7 @@ function MemoryGameContent() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4">
       <div className="max-w-4xl mx-auto">
-        <GameHeader />
+        <MemoryGameHeader />
 
         {isGameWon && <GameWinMessage />}
         

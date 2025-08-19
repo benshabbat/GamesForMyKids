@@ -3,12 +3,13 @@
 // ======================================
 // מייצא את כל הקומפוננטים המשותפים
 
-export { default as UniversalGameNavigation } from './UniversalGameNavigation';
+// Universal Game Components moved to game/universal
+export { default as UniversalGameNavigation } from '../game/universal/UniversalGameNavigation';
 
 // Main Game Components
-export { AutoGamePageWithContext } from './AutoGamePageWithContext';
+
 export { default as AutoStartScreen } from './AutoStartScreen';
-export { UltimateGamePage } from './UltimateGamePage';
+export { UltimateGamePage } from '../game/universal/UltimateGamePage';
 
 // Game UI Components
 export { GameCardGrid } from './GameCardGrid';

@@ -6,9 +6,9 @@ import {
   ActionButtons, 
   SettingsPanel, 
   ParticleSystem,
-  GameHeader,
+  BuildingGameHeader,
   BuildingCanvas,
-  GameInstructions
+  BuildingGameInstructions
 } from '@/components/game/building';
 import { BuildingProvider, useBuildingContext } from '@/contexts';
 import { SimpleGameProgressProvider } from '@/contexts/SimpleGameProgressContext';
@@ -35,7 +35,7 @@ function BuildingGameContent() {
 
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header with score and achievements */}
-        <GameHeader />
+        <BuildingGameHeader />
 
         {/* Enhanced Controls */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-2 md:gap-4 mb-4 md:mb-6">
@@ -49,7 +49,7 @@ function BuildingGameContent() {
         <BuildingCanvas />
 
         {/* Instructions */}
-        <GameInstructions />
+        <BuildingGameInstructions />
       </div>
     </div>
   );

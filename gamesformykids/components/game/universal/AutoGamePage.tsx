@@ -15,14 +15,14 @@ import { BaseGameItem } from "@/lib/types/base";
 import { useAutoGame } from "@/hooks/shared/useAutoGame";
 
 // רכיבים משותפים
-import AutoStartScreen from "./AutoStartScreen";
-import GameHeader from "./GameHeader";
-import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
-import { GameCardGrid } from "./GameCardGrid";
-import TipsBox from "./TipsBox";
-import { GameHints } from "./GameHints";
-import { ProgressDisplay } from "./ProgressDisplay";
+import AutoStartScreen from "../../shared/AutoStartScreen";
+import GameHeader from "../../shared/GameHeader";
+import ChallengeBox from "../../shared/ChallengeBox";
+import CelebrationBox from "../../shared/CelebrationBox";
+import { GameCardGrid } from "../../shared/GameCardGrid";
+import TipsBox from "../../shared/TipsBox";
+import { GameHints } from "../../shared/GameHints";
+import { ProgressDisplay } from "../../shared/ProgressDisplay";
 
 interface AutoGamePageProps {
   renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode; // רינדר מותאם אישית - אופציונלי בלבד

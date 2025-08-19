@@ -2,9 +2,9 @@
 
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import CountingCard from "./CountingCard";
+import CountingCard from "@/components/game/counting/CountingCard";
 import { useCountingGame } from "./useCountingGame";
-import CountingStartScreen from "./CountingStartScreen";
+import CountingStartScreen from "@/components/game/counting/CountingStartScreen";
 
 export default function CountingGame() {
   const {

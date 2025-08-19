@@ -1,5 +1,5 @@
 import { useCallback } from 'react';
-import { TouchControlsProps } from '../types';
+import { TouchControlsProps } from '../../../app/games/tetris/types';
 
 const TouchControls = ({ 
   isGameRunning, 

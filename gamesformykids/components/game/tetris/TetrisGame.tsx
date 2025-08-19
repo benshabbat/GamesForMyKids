@@ -1,12 +1,12 @@
 'use client';
 
 import GenericStartScreen from '@/components/shared/GenericStartScreen';
-import { useTetrisGame } from './hooks/useTetrisGame';
-import GameBoard from './components/GameBoard';
-import { MobileInfoPanel, DesktopInfoPanel } from './components/InfoPanels';
-import TouchControls from './components/TouchControls';
-import AnimatedBackground from './components/AnimatedBackground';
-import LoadingScreen from './components/LoadingScreen';
+import { useTetrisGame } from '../../../app/games/tetris/hooks/useTetrisGame';
+import GameBoard from './GameBoard';
+import { MobileInfoPanel, DesktopInfoPanel } from './InfoPanels';
+import TouchControls from './TouchControls';
+import AnimatedBackground from './AnimatedBackground';
+import LoadingScreen from './LoadingScreen';
 
 function TetrisGame(){
   const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();

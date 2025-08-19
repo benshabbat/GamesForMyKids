@@ -1,4 +1,4 @@
-import { NextPieceDisplayProps } from '../types';
+import { NextPieceDisplayProps } from '../../../app/games/tetris/types';
 
 const NextPieceDisplay = ({ nextPiece, isMobile = false }: NextPieceDisplayProps) => {
   if (!nextPiece) {

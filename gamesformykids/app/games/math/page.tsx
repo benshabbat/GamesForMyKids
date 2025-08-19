@@ -2,9 +2,9 @@
 
 import GameHeader from "@/components/shared/GameHeader";
 import TipsBox from "@/components/shared/TipsBox";
-import MathNumberCard from "./MathNumberCard";
+import MathNumberCard from "@/components/game/math/MathNumberCard";
 import { useMathGame } from "./useMathGame";
-import MathStartScreen from "./MathStartScreen";
+import MathStartScreen from "@/components/game/math/MathStartScreen";
 
 export default function MathGame() {
   const {

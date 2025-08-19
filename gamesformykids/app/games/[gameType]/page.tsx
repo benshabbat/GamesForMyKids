@@ -7,7 +7,7 @@ import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameLogicProvider } from '@/contexts/GameLogicContext';
 import { GameProgressProvider } from '@/contexts/GameProgressContext';
 import { UniversalGameProvider } from '@/contexts/UniversalGameContext';
-import { UltimateGamePage } from '@/components/shared/UltimateGamePage';
+import { UltimateGamePage } from '@/components/game/universal/UltimateGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
 const SUPPORTED_GAMES = [
