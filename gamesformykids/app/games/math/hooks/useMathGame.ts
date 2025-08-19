@@ -144,8 +144,6 @@ export function useMathGame() {
 
   const startGame = async () => {
     try {
-      console.log("Math game starting");
-      
       setGameState({
         currentChallenge: null,
         score: 0,
@@ -155,8 +153,6 @@ export function useMathGame() {
         options: [],
         isCorrect: null,
       });
-
-      console.log("Game state set to playing");
       
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
@@ -164,16 +160,11 @@ export function useMathGame() {
       const challenge = generateMathChallenge();
       const options = generateOptions(challenge.correctAnswer);
 
-      console.log("Generated math challenge:", challenge);
-      console.log("Generated options:", options);
-
       setGameState((prev: MathGameState) => ({
         ...prev,
         currentChallenge: challenge,
         options,
       }));
-
-      console.log("Challenge and options set in state");
 
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakQuestion(challenge);

@@ -25,6 +25,10 @@ export * from './gameData/special';
 export * from './ui';
 export * from './ui/shapes';
 
+// קונפיגורציות UI ועיצוב
+export * from './ui/gameConfigs';
+export * from './ui/designTokens';
+
 /**
  * ===============================================
  * רשימה מרכזית של כל המשחקים הזמינים
