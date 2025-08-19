@@ -10,10 +10,11 @@ export default function BubbleGame() {
     gameContainerRef,
     stopGame,
     handleBubblePop,
+    startGame,
   } = useBubbleGame();
 
   if (!gameState || !gameState.isPlaying) {
-    return <BubbleStartScreen />;
+    return <BubbleStartScreen startGame={startGame} />;
   }
 
   return (

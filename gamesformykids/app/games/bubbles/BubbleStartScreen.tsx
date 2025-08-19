@@ -1,10 +1,10 @@
 "use client";
 
-import { useBubbleGame } from './useBubbleGame';
+interface BubbleStartScreenProps {
+  startGame: () => void;
+}
 
-export default function BubbleStartScreen() {
-  const { startGame } = useBubbleGame();
-
+export default function BubbleStartScreen({ startGame }: BubbleStartScreenProps) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-200 via-blue-200 to-cyan-200">
       <div className="text-center p-8 bg-white/80 rounded-3xl shadow-xl max-w-md mx-4">
