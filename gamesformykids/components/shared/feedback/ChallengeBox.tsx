@@ -1,10 +1,13 @@
 import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import type { ComponentTypes } from "@/lib/types";
 
 /**
  * 🎯 ChallengeBox עם קונטקסט - ללא props!
  */
-export default function ChallengeBox() {
+export default function ChallengeBox({ 
+  className = "" 
+}: ComponentTypes.ChallengeBoxProps) {
   const { 
     config, 
     currentChallenge, 
@@ -33,6 +36,7 @@ export default function ChallengeBox() {
       title={title}
       variant="challenge"
       size="large"
+      className={className}
     >
       <div
         className={`font-bold mb-4 cursor-pointer hover:scale-110 transition-transform ${iconColor}`}

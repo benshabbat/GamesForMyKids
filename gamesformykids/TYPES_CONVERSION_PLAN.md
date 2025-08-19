@@ -22,17 +22,15 @@
 ✅ **TypeScript**: ללא שגיאות  
 ✅ **ESLint**: ללא אזהרות
 
-## הושלמו עד כה (12 קבצים):
+## הושלמו עד כה (18 קבצים):
 ✅ **Cards**: GameCardGrid, BaseGameCard, ColoredShapeCard, UnifiedCard  
 ✅ **Headers**: GameHeader, StartScreenHeader, UnifiedHeader  
 ✅ **Screens**: GenericStartScreen, GameErrorScreen  
-✅ **Displays**: OptimizedImage, GenericBox  
-✅ **Feedback**: TipsBox, SimpleGameInstructions, GameHints  
+✅ **Displays**: OptimizedImage, GenericBox, ProgressDisplay, GameProgressDisplay  
+✅ **Feedback**: TipsBox, SimpleGameInstructions, GameHints, GameInstructions, CelebrationBox, ChallengeBox  
 ✅ **Buttons**: SimpleGameStartButton
 
 ## עוד לעבוד עליו:
-- ProgressDisplay & GameProgressDisplay
-- GameInstructions & CelebrationBox & ChallengeBox
 - Hooks (8+ קבצים)
 - Contexts (9+ קבצים)
 

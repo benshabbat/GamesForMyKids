@@ -33,3 +33,18 @@ export interface SimpleGameInstructionsProps {
   showSteps?: boolean;
   variant?: 'simple' | 'detailed';
 }
+
+export interface GameInstructionsProps {
+  // Context-based component - no props needed
+  className?: string;
+}
+
+export interface CelebrationBoxProps {
+  // Context-based component - no props needed
+  className?: string;
+}
+
+export interface ChallengeBoxProps {
+  // Context-based component - no props needed
+  className?: string;
+}

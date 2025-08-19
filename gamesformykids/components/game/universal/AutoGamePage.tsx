@@ -148,7 +148,15 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
         </div>
 
         {/* מודל סטטיסטיקות */}
-        <ProgressDisplay />
+        <ProgressDisplay 
+          stats={{
+            totalItems: 10,
+            completedItems: 5,
+            averageTime: 2.5,
+            accuracy: 85,
+            streak: 3
+          }}
+        />
       </div>
     </div>
   );

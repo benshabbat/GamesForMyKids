@@ -1,10 +1,13 @@
 import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import type { ComponentTypes } from "@/lib/types";
 
 /**
  * 🎯 CelebrationBox עם קונטקסט - ללא props!
  */
-export default function CelebrationBox() {
+export default function CelebrationBox({ 
+  className = "" 
+}: ComponentTypes.CelebrationBoxProps) {
   const { 
     config, 
     currentChallenge, 
@@ -27,6 +30,7 @@ export default function CelebrationBox() {
       variant="celebration"
       animation="bounce"
       size="large"
+      className={className}
     >
       <p className="text-2xl text-orange-700">
         מצאת את ה{label} {value}!

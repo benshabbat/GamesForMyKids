@@ -1,15 +1,12 @@
-/**
- * קומפוננט להצגת הוראות המשחק
- * 
- * 🎯 אפס props - הכל מהקונטקסט!
- */
-
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import type { ComponentTypes } from "@/lib/types";
 
 /**
  * 🎯 GameInstructions עם קונטקסט - ללא props!
  */
-export default function GameInstructions() {
+export default function GameInstructions({ 
+  className = "" 
+}: ComponentTypes.GameInstructionsProps) {
   const { config } = useUniversalGame();
   
   if (!config || !config.steps) {
@@ -20,7 +17,7 @@ export default function GameInstructions() {
   const bgClass = config.colors?.stepsBg;
 
   return (
-    <div className={`${bgClass ?? "bg-white"} rounded-3xl p-8 mb-8 shadow-xl`}>
+    <div className={`${bgClass ?? "bg-white"} rounded-3xl p-8 mb-8 shadow-xl ${className}`}>
       <h2 className="text-3xl font-bold text-gray-800 mb-4">איך משחקים?</h2>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-lg">
         {steps.map((step, idx) => (
