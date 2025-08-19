@@ -3,7 +3,7 @@
  */
 
 import { BaseGameItem } from "@/lib/types/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
@@ -91,10 +91,10 @@ export const SMELL_TASTE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(S
  * קונפיגורציות משחקים
  * ===============================================
  */
-export const FRUIT_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const VEGETABLE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const ANIMAL_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const SMELL_TASTE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const FRUIT_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const VEGETABLE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const ANIMAL_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const SMELL_TASTE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 
 /**
  * ===============================================

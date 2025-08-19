@@ -4,7 +4,7 @@
 
 import { BaseGameItem } from "@/lib/types/base";
 import { ProfessionItem } from "@/lib/types/games";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
@@ -229,8 +229,8 @@ export const PROFESSION_HEBREW_PRONUNCIATIONS: Record<string, string> = {
  * קונפיגורציות משחקים
  * ===============================================
  */
-export const HOUSE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const CLOTHING_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const INSTRUMENT_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const PROFESSION_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const EMOTION_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const HOUSE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const CLOTHING_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const INSTRUMENT_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const PROFESSION_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const EMOTION_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;

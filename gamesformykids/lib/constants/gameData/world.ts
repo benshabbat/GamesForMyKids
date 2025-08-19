@@ -3,7 +3,7 @@
  */
 
 import { BaseGameItem } from "@/lib/types/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
@@ -103,8 +103,8 @@ export const WEATHER_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(WEATH
  * קונפיגורציות משחקים
  * ===============================================
  */
-export const TRANSPORT_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const VEHICLE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const TOOL_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const SPACE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
-export const WEATHER_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const TRANSPORT_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const VEHICLE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const TOOL_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const SPACE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const WEATHER_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;

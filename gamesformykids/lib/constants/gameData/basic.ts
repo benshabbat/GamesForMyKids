@@ -4,7 +4,7 @@
 
 import { BaseGameItem } from "@/lib/types/base";
 import { NumberItem, ShapeItem } from "@/lib/types/games";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createGameConfig, createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
@@ -108,9 +108,9 @@ export const NUMBER_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(NUMBER
  * קונפיגורציות משחקים
  * ===============================================
  */
-export const COLOR_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const COLOR_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 export const LETTER_GAME_CONSTANTS = createGameConfig(6, 2, 3);
-export const SHAPE_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const SHAPE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 export const NUMBER_GAME_CONSTANTS = createGameConfig(5, 1, 3);
 
 /**

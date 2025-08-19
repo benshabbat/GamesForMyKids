@@ -2,14 +2,14 @@
  * קונפיגורציות משחקים מיוחדים - ספירה, מתמטיקה וזיכרון
  */
 
-import { createGameConfig } from "@/lib/constants/core";
+import { DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
  * קונפיגורציית משחק הספירה
  * ===============================================
  */
-export const COUNTING_GAME_CONSTANTS = createGameConfig(4, 1, 3);
+export const COUNTING_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 
 /**
  * ===============================================

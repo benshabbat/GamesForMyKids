@@ -121,3 +121,9 @@ export const createGameConfig = (
   INCREMENT: increment,
   LEVEL_THRESHOLD: levelThreshold,
 });
+
+/**
+ * קונפיגורציית המשחק הסטנדרטית (4, 1, 3)
+ * נועדה לצמצם כפילויות בקבצי הקבועים
+ */
+export const DEFAULT_GAME_CONFIG = createGameConfig();
