@@ -5,9 +5,9 @@
  */
 
 // ייצוא טיפוסים ללא collisions
-export * from './hebrew-letters';
-export * from './memory';
-export * from './puzzle';
+export * from '@/app/games/hebrew-letters/types/hebrew-letters';
+export * from '@/app/games/memory/types/memory';
+export * from '@/app/games/puzzles/types/puzzle';
 export * from './general';
 
 // ייצוא מפורש לטיפוסים עם collisions
@@ -16,7 +16,7 @@ export type {
   PuzzleAction, 
   TouchState,
   PuzzleContextValue 
-} from './puzzle';
+} from '@/app/games/puzzles/types/puzzle';
 
 export type { 
   SimpleGameProgress, 
@@ -31,7 +31,7 @@ export type {
 export type {
   BuildingContextType,
   BuildingProviderProps
-} from './building';
+} from '@/app/games/building/types/building';
 
 export type {
   GameConfigContextValue,

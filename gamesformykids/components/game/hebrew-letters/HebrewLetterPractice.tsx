@@ -3,10 +3,10 @@
 import { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
+import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Home, Volume2, VolumeX } from 'lucide-react';
-import { useHebrewLetterPractice } from '@/hooks/games/useHebrewLetterPractice';
+import { useHebrewLetterPractice } from '@/app/games/hebrew-letters/hooks/useHebrewLetterPractice';
 import { useHebrewLetters } from '@/contexts';
 import WritingCanvas from './WritingCanvas';
 import LetterEncouragement from './LetterEncouragement';

@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useHebrewLettersStats } from '@/hooks/games/useHebrewLettersStats';
+import { useHebrewLettersStats } from '@/app/games/hebrew-letters/hooks/useHebrewLettersStats';
 import { Button } from '@/components/ui/button';
 import { Download, RotateCcw, BarChart3, Timer, Trophy } from 'lucide-react';
 

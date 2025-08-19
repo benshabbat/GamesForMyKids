@@ -5,8 +5,8 @@
  */
 
 // Import types from utils
-import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
-import { SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
+import { PuzzlePiece } from '../utils/puzzleUtils';
+import { SimplePuzzle } from '../constants/simplePuzzlesData';
 
 export interface TouchState {
   draggedPiece: PuzzlePiece | null;

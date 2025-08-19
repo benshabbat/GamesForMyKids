@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLetters } from '@/contexts';
-import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
+import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 export default function HebrewLettersStats() {
   const { completedLetters, getLetterProgress } = useHebrewLetters();

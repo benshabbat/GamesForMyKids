@@ -1,6 +1,6 @@
 'use client';
 
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 
 export default function GameHeader() {
   const { score, achievements } = useBuildingContext();

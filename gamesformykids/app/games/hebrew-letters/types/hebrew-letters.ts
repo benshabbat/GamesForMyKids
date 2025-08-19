@@ -5,7 +5,7 @@
  */
 
 import { ReactNode } from 'react';
-import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
+import { HebrewLetter } from '../constants/hebrewLetters';
 
 /**
  * Drawing state interface for canvas operations

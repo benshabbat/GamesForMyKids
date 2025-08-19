@@ -1,6 +1,6 @@
 'use client';
 
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 import { BlockRenderer } from '@/components/game/building';
 import EmptyCanvasWelcome from './EmptyCanvasWelcome';
 

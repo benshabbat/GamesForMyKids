@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
-import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
+import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 export const metadata: Metadata = {
   title: 'מפת האתר - כל המשחקים במקום אחד | משחקים לילדים',

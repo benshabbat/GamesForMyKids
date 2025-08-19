@@ -1,7 +1,7 @@
 'use client';
 
 import { Palette } from 'lucide-react';
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 
 export default function ColorPicker() {
   const { COLORS, selectedColor, handleColorSelect } = useBuildingContext();

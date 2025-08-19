@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { usePuzzleContext } from '@/contexts';
-import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
+import { SIMPLE_PUZZLES, type SimplePuzzle } from '@/app/games/puzzles/constants/simplePuzzlesData';
 
 interface PuzzleSelectorProps {
   // Optional overrides - if not provided, will use context defaults

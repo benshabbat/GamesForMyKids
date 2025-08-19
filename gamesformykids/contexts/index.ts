@@ -1,4 +1,4 @@
-export { PuzzleProvider, usePuzzleContext } from './PuzzleContext';
+export { PuzzleProvider, usePuzzleContext } from '@/app/games/puzzles/contexts/PuzzleContext';
 
 // Export types from contexts
 export type { 
@@ -6,7 +6,7 @@ export type {
   PuzzleAction, 
   TouchState,
   PuzzleContextValue 
-} from '@/lib/types/contexts/puzzle';
+} from '@/app/games/puzzles/types/puzzle';
 
 export type { 
   SimpleGameProgress, 
@@ -20,7 +20,7 @@ export type {
 export type {
   BuildingContextType,
   BuildingProviderProps
-} from '@/lib/types/contexts/building';
+} from '@/app/games/building/types/building';
 
 export type {
   GameConfigContextValue,
@@ -34,9 +34,9 @@ export type {
   GameTypeProviderProps
 } from '@/lib/types/contexts/game-type';
 
-export { MemoryProvider, useMemoryContext } from './MemoryContext';
-export { HebrewLettersProvider, useHebrewLetters } from './HebrewLettersContext';
-export { BuildingProvider, useBuildingContext } from './BuildingContext';
+export { MemoryProvider, useMemoryContext } from '@/app/games/memory/contexts/MemoryContext';
+export { HebrewLettersProvider, useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
+export { BuildingProvider, useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 export { GameTypeProvider, useGameType, useCurrentGameType, useCurrentGameConfig } from './GameTypeContext';
 export { GameProgressProvider, useGameProgress, useGameScore, useGameStats, type GameProgress, type GameProgressContextValue } from './GameProgressContext';
 export { 

@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs'
-import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters'
+import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://games-for-my-kids.vercel.app'

@@ -1,5 +1,5 @@
 
-import { usePuzzleFeedback } from '@/hooks/games/usePuzzleFeedback';
+import { usePuzzleFeedback } from '@/app/games/puzzles/hooks/usePuzzleFeedback';
 
 interface FeedbackMessageProps {
   // Allow optional override for special cases

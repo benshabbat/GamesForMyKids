@@ -16,7 +16,7 @@
 'use client';
 
 import { createContext, useContext, useState, useCallback } from 'react';
-import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
+import { HebrewLetter } from '../constants/hebrewLetters';
 import {
   STROKE_COLORS,
   STROKE_WIDTHS,
@@ -29,7 +29,7 @@ import {
   DEFAULT_AUDIO_STATE,
   DEFAULT_LEARNING_STATS,
   ENCOURAGEMENT_DURATION
-} from '@/lib/constants/hebrewLettersConstants';
+} from '../constants/hebrewLettersConstants';
 import {
   createGetStepMessage,
   createGetCompletionMessage,
@@ -45,7 +45,7 @@ import {
   LearningStats,
   HebrewLettersContextType,
   HebrewLettersProviderProps
-} from '@/lib/types/contexts/hebrew-letters';
+} from '../types/hebrew-letters';
 
 // ========================================================================================
 // CONTEXT CREATION
@@ -146,7 +146,7 @@ export const HebrewLettersProvider= ({ children }: HebrewLettersProviderProps) =
     });
   }, [updateDrawingState]);
 
-  const downloadCanvas = useCallback((filename = 'hebrew-letter-practice.png') => {
+  const downloadCanvas = useCallback(() => {
     // This would be implemented by the component using the context
   }, []);
 

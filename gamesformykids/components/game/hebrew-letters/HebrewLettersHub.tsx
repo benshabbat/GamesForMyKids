@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
+import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import HebrewLetterProgress from './HebrewLetterProgress';

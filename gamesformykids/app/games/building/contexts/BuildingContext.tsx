@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from 'react';
 import { useBuildingGame } from '@/app/games/building/hooks';
-import { BuildingContextType, BuildingProviderProps } from '@/lib/types/contexts/building';
+import { BuildingContextType, BuildingProviderProps } from '../types/building';
 
 // Context
 const BuildingContext = createContext<BuildingContextType | undefined>(undefined);

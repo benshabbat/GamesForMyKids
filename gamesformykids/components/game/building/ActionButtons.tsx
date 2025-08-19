@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, Trash2, Undo2, Redo2 } from 'lucide-react';
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 
 export default function ActionButtons() {
   const { 

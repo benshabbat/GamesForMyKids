@@ -1,7 +1,7 @@
 'use client';
 
 import { Volume2, VolumeX, Save } from 'lucide-react';
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 
 export default function SettingsPanel() {
   const {

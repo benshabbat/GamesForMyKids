@@ -7,16 +7,13 @@ import {
   isPieceInCorrectPosition, 
   calculateFinalScore,
   type PuzzlePiece 
-} from '@/lib/utils/puzzleUtils';
-import { usePuzzleFeedback } from '@/hooks/games/usePuzzleFeedback';
-import { type SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
+} from '../utils/puzzleUtils';
+import { usePuzzleFeedback } from '../hooks/usePuzzleFeedback';
+import { type SimplePuzzle } from '../constants/simplePuzzlesData';
 import { 
-  TouchState, 
   PuzzleState, 
-  PuzzleAction, 
-  PuzzleContextValue, 
-  PuzzleProviderProps 
-} from '@/lib/types/contexts/puzzle';
+  PuzzleAction 
+} from '../types/puzzle';
 
 
 // Initial state for the puzzle

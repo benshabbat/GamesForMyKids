@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, RotateCw } from 'lucide-react';
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 import { Block } from '@/app/games/building/types';
 
 interface BlockRendererProps {

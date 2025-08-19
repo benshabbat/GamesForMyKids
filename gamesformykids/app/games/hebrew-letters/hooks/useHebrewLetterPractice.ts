@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { useHebrewLetters } from '@/contexts';
-import { HebrewLetter } from '@/lib/constants/gameData/hebrewLetters';
+import { HebrewLetter } from '../constants/hebrewLetters';
 
 export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
   const {

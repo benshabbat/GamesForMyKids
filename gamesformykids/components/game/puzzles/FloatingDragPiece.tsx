@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
+import { PuzzlePiece } from '@/app/games/puzzles/utils/puzzleUtils';
 import { usePuzzleContext } from '@/contexts';
 
 interface FloatingDragPieceProps {

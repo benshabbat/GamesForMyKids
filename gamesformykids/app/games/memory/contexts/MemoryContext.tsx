@@ -32,7 +32,7 @@ import {
   MemoryAction,
   MemoryContextType,
   MemoryProviderProps
-} from "@/lib/types/contexts/memory";
+} from "../types/memory";
 
 const initialGameStats: GameStats = {
   moves: 0,

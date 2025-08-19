@@ -1,5 +1,5 @@
 // Hebrew Letters Context - Utility Functions
-import { STEP_MESSAGES, ENCOURAGEMENT_MESSAGES, PRACTICE_STEPS } from '@/lib/constants/hebrewLettersConstants';
+import { STEP_MESSAGES, ENCOURAGEMENT_MESSAGES, PRACTICE_STEPS } from '../constants/hebrewLettersConstants';
 
 /**
  * Get a step-specific message based on current state

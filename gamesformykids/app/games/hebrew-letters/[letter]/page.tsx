@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { HebrewLettersProvider } from '@/contexts';
 import HebrewLetterPractice from '@/components/game/hebrew-letters/HebrewLetterPractice';
-import { hebrewLetters } from '@/lib/constants/gameData/hebrewLetters';
+import { hebrewLetters } from '../constants/hebrewLetters';
 
 interface Props {
   params: Promise<{ letter: string }>;

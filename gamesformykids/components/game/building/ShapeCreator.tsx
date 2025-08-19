@@ -1,6 +1,6 @@
 'use client';
 
-import { useBuildingContext } from '@/contexts/BuildingContext';
+import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 import { SHAPE_ICONS } from '@/app/games/building/constants';
 
 export default function ShapeCreator() {

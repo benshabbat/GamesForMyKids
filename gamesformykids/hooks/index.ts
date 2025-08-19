@@ -28,7 +28,7 @@ export * from './shared/ui';
 // Games Hooks
 export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
-export { usePuzzleFeedback } from "./games/usePuzzleFeedback";
+export { usePuzzleFeedback } from "@/app/games/puzzles/hooks/usePuzzleFeedback";
 
 /**
  * ===============================================
@@ -61,4 +61,4 @@ export { usePuzzleFeedback } from "./games/usePuzzleFeedback";
  */
 
 // Hebrew Letters specific hooks
-export { default as useHebrewLetterPractice } from './games/useHebrewLetterPractice';
+export { default as useHebrewLetterPractice } from '@/app/games/hebrew-letters/hooks/useHebrewLetterPractice';
