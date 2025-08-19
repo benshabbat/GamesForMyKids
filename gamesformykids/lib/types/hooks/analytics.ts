@@ -4,12 +4,6 @@
  * ===============================================
  */
 
-export interface UseGamePerformanceProps {
-  gameType: string;
-  trackingEnabled?: boolean;
-  sampleRate?: number;
-}
-
 export interface PerformanceMetrics {
   averageResponseTime: number;
   accuracy: number;

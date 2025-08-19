@@ -5,21 +5,9 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/base';
+import { UseGameHintsProps, Hint, UseGameHintsReturn } from '@/lib/types/hooks/ui';
 
-interface UseGameHintsProps {
-  currentChallenge: BaseGameItem | null;
-  wrongAttempts: number;
-}
-
-interface Hint {
-  type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
-  text: string;
-  audioText?: string;
-  isRevealed: boolean;
-  order: number;
-}
-
-export function useGameHints({ currentChallenge, wrongAttempts }: UseGameHintsProps) {
+export function useGameHints({ currentChallenge, wrongAttempts }: UseGameHintsProps): UseGameHintsReturn {
   const [hints, setHints] = useState<Hint[]>([]);
   const [revealedHintsCount, setRevealedHintsCount] = useState(0);
 
@@ -127,10 +115,18 @@ export function useGameHints({ currentChallenge, wrongAttempts }: UseGameHintsPr
     }
   }, [hasMoreHints, revealNextHint]);
 
+  // Reset all hints
+  const resetHints = useCallback(() => {
+    setRevealedHintsCount(0);
+    setHints([]);
+  }, []);
+
   return {
     hints: getRevealedHints(),
     hasMoreHints: hasMoreHints(),
     showNextHint,
+    resetHints,
+    revealedHintsCount,
     revealedCount: revealedHintsCount,
     totalHints: hints.length,
   };

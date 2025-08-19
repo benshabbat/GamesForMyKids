@@ -8,6 +8,7 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import { useGameProgress, GameProgress } from '@/contexts/GameProgressContext';
 import { useGameType } from '@/contexts/GameTypeContext';
+import { UseGameEventsReturn } from '@/lib/types/hooks/ui';
 
 // Extend Window interface for gtag
 declare global {
@@ -35,17 +36,8 @@ export interface GameEventData {
   data?: Record<string, unknown>;
 }
 
-interface GameEventsHookReturn {
-  onCorrectAnswer: (data?: Record<string, unknown>) => void;
-  onWrongAnswer: (data?: Record<string, unknown>) => void;
-  onGameStart: () => void;
-  onGamePause: () => void;
-  onGameResume: () => void;
-  onLevelUp: () => void;
-  triggerEvent: (event: GameEvent, data?: Record<string, unknown>) => void;
-}
 
-export function useGameEvents(): GameEventsHookReturn {
+export function useGameEvents(): UseGameEventsReturn {
   const { 
     recordAttempt, 
     incrementLevel, 

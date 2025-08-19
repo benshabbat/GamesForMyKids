@@ -1,52 +1,89 @@
 /**
  * ===============================================
- * טיפוסים לContext של פאזל
+ * טיפוסים ל-PuzzleContext
  * ===============================================
  */
 
-export interface PuzzlePiece {
-  id: string;
-  x: number;
-  y: number;
-  correctX: number;
-  correctY: number;
-  isPlaced: boolean;
-  rotation: number;
-  image?: string;
-  shape?: 'square' | 'triangle' | 'circle' | 'rectangle';
+// Import types from utils
+import { PuzzlePiece } from '@/lib/utils/puzzleUtils';
+import { SimplePuzzle } from '@/lib/constants/simplePuzzlesData';
+
+export interface TouchState {
+  draggedPiece: PuzzlePiece | null;
+  offset: { x: number; y: number };
+  isDragging: boolean;
+  dragPosition: { x: number; y: number };
 }
 
 export interface PuzzleState {
+  // Game State
+  gameStarted: boolean;
+  isCompleted: boolean;
+  timer: number;
+  difficulty: number;
+  score: number;
+  
+  // UI State
+  showHints: boolean;
+  showDebug: boolean;
+  showHelp: boolean;
+  
+  // Puzzle Data
   pieces: PuzzlePiece[];
-  completedPieces: number;
-  totalPieces: number;
-  difficulty: 'easy' | 'medium' | 'hard';
-  gameStatus: 'idle' | 'playing' | 'completed';
-  startTime?: Date;
-  endTime?: Date;
-  moves: number;
-  hints: number;
+  placedPieces: (PuzzlePiece | null)[];
+  
+  // Image Management
+  image: HTMLImageElement | null;
+  imageLoaded: boolean;
+  
+  // Drag & Drop
+  draggedPiece: PuzzlePiece | null;
+  touchState: TouchState;
+  
+  // Simple Puzzle Mode
+  selectedPuzzle: SimplePuzzle | null;
 }
 
-export interface PuzzleContextType {
-  puzzleState: PuzzleState;
+export type PuzzleAction =
+  | { type: 'SET_GAME_STARTED'; payload: boolean }
+  | { type: 'SET_COMPLETED'; payload: boolean }
+  | { type: 'SET_TIMER'; payload: number }
+  | { type: 'INCREMENT_TIMER' }
+  | { type: 'SET_DIFFICULTY'; payload: number }
+  | { type: 'SET_SCORE'; payload: number }
+  | { type: 'TOGGLE_HINTS' }
+  | { type: 'TOGGLE_DEBUG' }
+  | { type: 'TOGGLE_HELP' }
+  | { type: 'SET_PIECES'; payload: PuzzlePiece[] }
+  | { type: 'SET_PLACED_PIECES'; payload: (PuzzlePiece | null)[] }
+  | { type: 'SET_IMAGE'; payload: HTMLImageElement | null }
+  | { type: 'SET_IMAGE_LOADED'; payload: boolean }
+  | { type: 'SET_DRAGGED_PIECE'; payload: PuzzlePiece | null }
+  | { type: 'SET_TOUCH_STATE'; payload: TouchState }
+  | { type: 'SET_SELECTED_PUZZLE'; payload: SimplePuzzle | null }
+  | { type: 'RESET_GAME' }
+  | { type: 'RESET_TO_MENU' };
+
+export interface PuzzleContextValue extends PuzzleState {
+  // Actions
+  startGame: (difficulty: number, puzzle?: SimplePuzzle) => void;
+  resetGame: () => void;
+  toggleHints: () => void;
+  toggleDebug: () => void;
+  toggleHelp: () => void;
   
-  // Game actions
-  startPuzzle: (difficulty?: 'easy' | 'medium' | 'hard') => void;
-  resetPuzzle: () => void;
+  // Piece Management
+  handleDragStart: (piece: PuzzlePiece, event: React.MouseEvent | React.TouchEvent) => void;
+  handleDragMove: (event: React.MouseEvent | React.TouchEvent) => void;
+  handleDragEnd: (event: React.MouseEvent | React.TouchEvent) => void;
+  placePiece: (piece: PuzzlePiece, position: number) => void;
   
-  // Piece actions
-  movePiece: (pieceId: string, x: number, y: number) => void;
-  rotatePiece: (pieceId: string) => void;
-  placePiece: (pieceId: string) => boolean;
-  
-  // Helpers
-  getHint: () => void;
-  isComplete: boolean;
-  canMovePiece: (pieceId: string) => boolean;
+  // Utils
+  isPieceInCorrectPosition: (piece: PuzzlePiece) => boolean;
+  getCompletedPercentage: () => number;
+  canShowHint: () => boolean;
 }
 
 export interface PuzzleProviderProps {
   children: React.ReactNode;
-  puzzleType?: string;
 }

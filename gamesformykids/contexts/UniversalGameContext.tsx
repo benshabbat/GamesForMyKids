@@ -1,8 +1,10 @@
 "use client";
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { GameType, BaseGameItem } from '@/lib/types/base';
-import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
+import { createContext, useContext } from 'react';
+import { 
+  UniversalGameContextValue, 
+  UniversalGameProviderProps 
+} from '@/lib/types/contexts/universal-game';
 import { useGameLogic, useGameState, useGameActions, useGameConfigFromLogic, useGameHints, useGameUI } from '@/contexts';
 
 /**
@@ -16,49 +18,7 @@ import { useGameLogic, useGameState, useGameActions, useGameConfigFromLogic, use
  * - פשוט לשימוש
  */
 
-interface GameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-}
-
-interface UniversalGameContextValue {
-  // Game State
-  gameState: unknown;
-  isPlaying: boolean;
-  showCelebration: boolean;
-  currentChallenge: BaseGameItem | null;
-  options: BaseGameItem[];
-  score: number;
-  level: number;
-  isReady: boolean;
-  error: string | null;
-  
-  // Game Actions
-  startGame: () => void;
-  resetGame: () => void;
-  handleItemClick: (item: BaseGameItem) => void;
-  speakItemName: (itemName: string) => void;
-  
-  // Game Config
-  config: GameUIConfig;
-  items: BaseGameItem[];
-  CardComponent: React.ComponentType<GameCardProps>;
-  gameType: GameType;
-  
-  // Hints & UI
-  hints: string[];
-  hasMoreHints: boolean;
-  showNextHint: () => void;
-  currentAccuracy: number;
-  showProgressModal: boolean;
-  setShowProgressModal: (show: boolean) => void;
-}
-
 const UniversalGameContext = createContext<UniversalGameContextValue | undefined>(undefined);
-
-interface UniversalGameProviderProps {
-  children: ReactNode;
-}
 
 /**
  * 🎮 Universal Game Provider - כל הלוגיקה במקום אחד!

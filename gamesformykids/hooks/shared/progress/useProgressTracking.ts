@@ -5,32 +5,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem, GameType } from '@/lib/types/base';
-
-interface GameSession {
-  gameType: GameType;
-  startTime: Date;
-  endTime?: Date;
-  score: number;
-  level: number;
-  correctAnswers: number;
-  totalAnswers: number;
-  mistakes: Array<{
-    item: string;
-    timestamp: Date;
-    attempts: number;
-  }>;
-}
-
-interface ProgressStats {
-  totalGamesPlayed: number;
-  averageScore: number;
-  bestScore: number;
-  mostDifficultItems: string[];
-  strongestAreas: GameType[];
-  weakestAreas: GameType[];
-  improvementTrend: 'improving' | 'stable' | 'declining';
-  recommendedPractice: string[];
-}
+import { GameSession, ProgressStats } from '@/lib/types/hooks/progress';
 
 export function useProgressTracking(gameType: GameType) {
   const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
@@ -55,13 +30,17 @@ export function useProgressTracking(gameType: GameType) {
   // Start a new game session
   const startSession = useCallback(() => {
     const session: GameSession = {
+      id: `session_${Date.now()}`,
       gameType,
       startTime: new Date(),
       score: 0,
       level: 1,
       correctAnswers: 0,
       totalAnswers: 0,
+      duration: 0,
+      accuracy: 0,
       mistakes: [],
+      completed: false,
     };
     setCurrentSession(session);
   }, [gameType]);
@@ -131,9 +110,13 @@ export function useProgressTracking(gameType: GameType) {
   const calculateProgressStats = useCallback((): ProgressStats => {
     if (allSessions.length === 0) {
       return {
+        totalSessions: 0,
+        totalTime: 0,
         totalGamesPlayed: 0,
+        gamesCompleted: 0,
         averageScore: 0,
         bestScore: 0,
+        averageAccuracy: 0,
         mostDifficultItems: [],
         strongestAreas: [],
         weakestAreas: [],
@@ -188,15 +171,15 @@ export function useProgressTracking(gameType: GameType) {
       .map(area => area.type);
 
     // Improvement trend (last 5 sessions vs previous 5)
-    let improvementTrend: 'improving' | 'stable' | 'declining' = 'stable';
+    let improvementTrend: 'up' | 'stable' | 'down' = 'stable';
     if (gameTypeSessions.length >= 10) {
       const recent = gameTypeSessions.slice(-5);
       const previous = gameTypeSessions.slice(-10, -5);
       const recentAvg = recent.reduce((sum, s) => sum + s.score, 0) / 5;
       const previousAvg = previous.reduce((sum, s) => sum + s.score, 0) / 5;
       
-      if (recentAvg > previousAvg * 1.1) improvementTrend = 'improving';
-      else if (recentAvg < previousAvg * 0.9) improvementTrend = 'declining';
+      if (recentAvg > previousAvg * 1.1) improvementTrend = 'up';
+      else if (recentAvg < previousAvg * 0.9) improvementTrend = 'down';
     }
 
     // Recommended practice areas
@@ -207,14 +190,18 @@ export function useProgressTracking(gameType: GameType) {
     if (weakestAreas.length > 0 && weakestAreas[0] !== gameType) {
       recommendedPractice.push(`נסה לשפר ב: ${weakestAreas[0]}`);
     }
-    if (improvementTrend === 'declining') {
+    if (improvementTrend === 'down') {
       recommendedPractice.push('קח הפסקה קצרה ותחזור רענן');
     }
 
     return {
+      totalSessions: allSessions.length,
+      totalTime: allSessions.reduce((sum, s) => sum + (s.duration || 0), 0),
       totalGamesPlayed,
+      gamesCompleted: allSessions.filter(s => s.completed).length,
       averageScore,
       bestScore,
+      averageAccuracy: gameTypeSessions.reduce((sum, s) => sum + s.accuracy, 0) / totalGamesPlayed || 0,
       mostDifficultItems,
       strongestAreas,
       weakestAreas,

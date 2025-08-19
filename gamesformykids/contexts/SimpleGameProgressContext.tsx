@@ -1,42 +1,13 @@
 'use client';
 
-import { createContext, useContext, useState, useCallback, ReactNode } from 'react';
-
-// Types
-export interface SimpleGameProgress {
-  score: number;
-  level: number;
-  attempts: number;
-  correctAnswers: number;
-  totalQuestions: number;
-  timeSpent: number;
-  startTime: number;
-  streakCount: number;
-  bestStreak: number;
-}
-
-export interface SimpleGameProgressContextValue {
-  progress: SimpleGameProgress;
-  
-  // Progress Actions
-  incrementScore: (points?: number) => void;
-  incrementLevel: () => void;
-  recordAttempt: (isCorrect: boolean) => void;
-  resetProgress: () => void;
-  updateProgress: (updates: Partial<SimpleGameProgress>) => void;
-  
-  // Computed values
-  getAccuracy: () => number;
-  getAverageTimePerQuestion: () => number;
-}
+import { createContext, useContext, useState, useCallback } from 'react';
+import { 
+  SimpleGameProgress, 
+  SimpleGameProgressContextValue, 
+  SimpleGameProgressProviderProps 
+} from '@/lib/types/contexts/simple-game-progress';
 
 const SimpleGameProgressContext = createContext<SimpleGameProgressContextValue | undefined>(undefined);
-
-interface SimpleGameProgressProviderProps {
-  children: ReactNode;
-  maxLevel?: number;
-  pointsPerCorrect?: number;
-}
 
 export function SimpleGameProgressProvider({ 
   children, 

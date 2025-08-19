@@ -5,13 +5,9 @@
 
 import { useEffect, useRef, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/base';
+import { UseGamePerformanceProps, UseGamePerformanceReturn } from '@/lib/types/hooks/ui';
 
-interface UseGamePerformanceProps {
-  items: BaseGameItem[];
-  currentChallenge: BaseGameItem | null;
-}
-
-export function useGamePerformance({ items, currentChallenge }: UseGamePerformanceProps) {
+export function useGamePerformance({ items, currentChallenge }: UseGamePerformanceProps): UseGamePerformanceReturn {
   const audioPreloadRef = useRef<Map<string, HTMLAudioElement>>(new Map());
   const imagePreloadRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const animationFrameRef = useRef<number | null>(null);
