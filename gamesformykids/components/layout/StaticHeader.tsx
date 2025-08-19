@@ -1,4 +1,4 @@
-import UserProfile from './UserProfile';
+import UserProfile from '../user/UserProfile';
 
 // Server Component - renders statically for better LCP
 export function StaticHeader() {

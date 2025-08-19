@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
-import CategoryNavigation from './game/CategoryNavigation';
-import CategoriesView from './game/CategoriesView';
-import CategoryGamesView from './game/CategoryGamesView';
-import AllGamesView from './game/AllGamesView';
+import CategoryNavigation from '../game/CategoryNavigation';
+import CategoriesView from '../game/CategoriesView';
+import CategoryGamesView from '../game/CategoryGamesView';
+import AllGamesView from '../game/AllGamesView';
 
 // הגדרת קטגוריות המשחקים
 const GAME_CATEGORIES = {

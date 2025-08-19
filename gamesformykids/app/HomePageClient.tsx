@@ -1,12 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import FeaturedGame from "@/components/FeaturedGame";
-import GameRecommendations from "@/components/GameRecommendations";
-import CategorizedGamesGrid from "@/components/CategorizedGamesGrid";
-import LoadingScreen from "@/components/LoadingScreen";
+import Header from "@/components/layout/Header";
+import Footer from "@/components/layout/Footer";
+import FeaturedGame from "@/components/marketing/FeaturedGame";
+import GameRecommendations from "@/components/marketing/GameRecommendations";
+import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
+import LoadingScreen from "@/components/layout/LoadingScreen";
 
 export default function HomePageClient() {
   const [isLoading, setIsLoading] = useState(false); // Start with false for better LCP

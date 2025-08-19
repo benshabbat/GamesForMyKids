@@ -1,9 +1,9 @@
 "use client";
 
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
-import RecommendationsHeader from './game/RecommendationsHeader';
-import AgeGroupCard from './game/AgeGroupCard';
-import FeaturedGameCallToAction from './game/FeaturedGameCallToAction';
+import RecommendationsHeader from '../game/RecommendationsHeader';
+import AgeGroupCard from '../game/AgeGroupCard';
+import FeaturedGameCallToAction from '../game/FeaturedGameCallToAction';
 import { useState, useEffect } from "react";
 
 const GameRecommendations = () => {

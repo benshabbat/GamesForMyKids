@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import ServiceWorkerRegistration from '@/components/ServiceWorkerRegistration';
-import GoogleAnalytics from '@/components/GoogleAnalytics';
+import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegistration';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { BUILD_INFO } from '@/lib/build-info';
 
