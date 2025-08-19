@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import DrawingGameClient from './DrawingGameClient';
+import DrawingGameClient from './components/DrawingGameClient';
 
 // מטא-דאטה עבור הדף
 export const metadata: Metadata = {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect, useCallback } from 'react';
-import styles from './drawing.module.css';
+import styles from '../drawing.module.css';
 
 // Hook לניהול משחק הציור
 function useDrawingGame() {
