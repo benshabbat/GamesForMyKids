@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { MathChallenge } from "@/lib/types/games";
-import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
+import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { 
   delay, 
   playSuccessSound as playSound, 
@@ -8,7 +8,7 @@ import {
   handleWrongGameAnswer,
   handleCorrectGameAnswer,
   speakStartMessage
-} from "@/lib/utils/gameUtils";
+} from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants";
 
 // Math game specific state interface

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
+import { initSpeechAndAudio } from '@/lib/utils/speech/enhancedSpeechUtils';
 
 interface BubbleData {
   id: number;

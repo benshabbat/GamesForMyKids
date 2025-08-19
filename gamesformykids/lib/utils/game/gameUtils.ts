@@ -1,10 +1,9 @@
 /**
  * אוסף פונקציות עזר גנריות למשחקים
  */
-import React from 'react';
-import { FEEDBACK_MESSAGES, GAME_CONSTANTS, AUDIO_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../constants";
-import { speakHebrew, cancelSpeech, isSpeechEnabled } from './enhancedSpeechUtils';
-import { logError, logWarning } from './errorUtils';
+import { FEEDBACK_MESSAGES, GAME_CONSTANTS, AUDIO_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../../constants";
+import { speakHebrew, cancelSpeech, isSpeechEnabled } from '../speech/enhancedSpeechUtils';
+import { logError, logWarning } from '../errorUtils';
 
 /**
  * פונקציית עזר להשהייה

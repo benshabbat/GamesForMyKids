@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { initSpeechAndAudio } from "@/lib/utils/enhancedSpeechUtils";
-import { playSuccessSound as playSound } from "@/lib/utils/gameUtils";
+import { initSpeechAndAudio } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { playSuccessSound as playSound } from "@/lib/utils/game/gameUtils";
 
 /**
  * Hook לניהול אודיו ודיבור במשחקים

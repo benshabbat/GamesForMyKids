@@ -5,5 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-// Export error handling utilities
+// Export organized utilities
+export * from './utils/game';
+export * from './utils/speech';
 export * from './utils/errorUtils';

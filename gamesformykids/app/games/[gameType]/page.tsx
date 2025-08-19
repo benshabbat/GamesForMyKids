@@ -1,7 +1,7 @@
 import { GameType } from "@/lib/types/base";
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
-import { generateGameMetadata } from '@/lib/utils/gameMetadata';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/contexts/GameTypeContext';
 import { GameConfigProvider } from '@/contexts/GameConfigContext';
 import { GameLogicProvider } from '@/contexts/GameLogicContext';

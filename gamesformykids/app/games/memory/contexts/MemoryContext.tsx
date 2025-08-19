@@ -19,7 +19,7 @@ import { AnimalData } from "@/lib/types/games";
 import { 
   playMemorySuccessSound, 
   createShuffledMemoryCards,  
-} from "@/lib/utils/gameUtils";
+} from "@/lib/utils/game/gameUtils";
 import { 
   MEMORY_GAME_ANIMALS, 
   MEMORY_GAME_CONSTANTS

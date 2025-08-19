@@ -4,7 +4,7 @@ import { ComponentType, createElement, isValidElement, ReactNode, useEffect } fr
 import Link from "next/link";
 import { Home, ArrowLeft, ArrowRight } from "lucide-react";
 import { usePathname } from "next/navigation";
-import { getGameNavigation } from "@/lib/utils/gameNavigation";
+import { getGameNavigation } from "@/lib/utils/game/gameNavigation";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 interface UniversalGameNavigationProps {

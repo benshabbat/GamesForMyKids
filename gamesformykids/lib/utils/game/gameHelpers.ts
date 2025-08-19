@@ -4,7 +4,8 @@
  * ===============================================
  */
 
-import { BaseGameItem, GameConfig, GameType } from '../types';
+import { BaseGameItem, GameConfig, GameType } from '../../types';
+import { shuffleArray } from './gameUtils';
 
 /**
  * קבועים למערכת המשחקים
@@ -54,8 +55,9 @@ export const createItemsList = <T extends Record<string, BaseGameItem>>(constant
 
 /**
  * פונקציה ליצירת קונפיגורציית משחק בסיסית
+ * Renamed from createGameConfig to avoid conflict with factory function
  */
-export const createGameConfig = (
+export const createBasicGameConfig = (
   baseCount: number = GAME_CONSTANTS.DEFAULT_BASE_COUNT,
   increment: number = GAME_CONSTANTS.DEFAULT_INCREMENT,
   levelThreshold: number = GAME_CONSTANTS.DEFAULT_LEVEL_THRESHOLD,
@@ -72,11 +74,11 @@ export const createGameConfig = (
  */
 export const getGameConfig = (gameType: GameType): GameConfig => {
   // קונפיגורציות ברירת מחדל
-  const DEFAULT_CONFIG = createGameConfig(4, 1, 3);
-  const LETTER_CONFIG = createGameConfig(6, 2, 3);
-  const NUMBER_CONFIG = createGameConfig(5, 1, 3);
-  const COUNTING_CONFIG = createGameConfig(5, 2, 3, 10);
-  const MATH_CONFIG = createGameConfig(5, 2, 3, 15);
+  const DEFAULT_CONFIG = createBasicGameConfig(4, 1, 3);
+  const LETTER_CONFIG = createBasicGameConfig(6, 2, 3);
+  const NUMBER_CONFIG = createBasicGameConfig(5, 1, 3);
+  const COUNTING_CONFIG = createBasicGameConfig(5, 2, 3, 10);
+  const MATH_CONFIG = createBasicGameConfig(5, 2, 3, 15);
 
   const configs: Record<GameType, GameConfig> = {
     colors: DEFAULT_CONFIG,
@@ -121,27 +123,6 @@ export const selectRandomItems = <T>(items: T[], count: number): T[] => {
   return shuffled.slice(0, count);
 };
 
-/**
- * פונקציה לערבוב מערך
- */
-export const shuffleArray = <T>(array: T[]): T[] => {
-  const shuffled = [...array];
-  for (let i = shuffled.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-  }
-  return shuffled;
-};
-
-/**
- * פונקציה לקבלת פריט אקראי מרשימה
- */
-export const getRandomItem = <T>(items: T[]): T => {
-  if (items.length === 0) {
-    throw new Error('Cannot get random item from empty array');
-  }
-  return items[Math.floor(Math.random() * items.length)];
-};
 
 /**
  * פונקציה לחישוב מספר הפריטים לפי רמה

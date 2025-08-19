@@ -12,7 +12,7 @@ import {
   handleWrongGameAnswer,
   handleCorrectGameAnswer,
   speakStartMessage
-} from "@/lib/utils/gameUtils";
+} from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
 
 /**

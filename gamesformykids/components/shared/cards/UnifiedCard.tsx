@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { Volume2 } from "lucide-react";
 import { BaseGameItem, ComponentTypes } from "@/lib/types";
-import { speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
+import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 
 type UnifiedCardProps = ComponentTypes.UnifiedCardProps & {
   // Additional props specific to this implementation

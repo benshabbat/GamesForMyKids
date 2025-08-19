@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
-import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/enhancedSpeechUtils";
+import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { 
   delay, 
   playSuccessSound as playSound, 
@@ -8,7 +8,7 @@ import {
   handleWrongGameAnswer,
   handleCorrectGameAnswer,
   speakStartMessage
-} from "@/lib/utils/gameUtils";
+} from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 
 // אימוג'ים לספירה עם שמות בעברית

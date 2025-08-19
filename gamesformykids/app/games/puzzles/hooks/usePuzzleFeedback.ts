@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
-import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/enhancedSpeechUtils';
-import { playSuccessSound } from '@/lib/utils/gameUtils';
+import { speakHebrew, initSpeechAndAudio } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { playSuccessSound } from '@/lib/utils/game/gameUtils';
 
 export interface FeedbackHook {
   feedbackMessage: string;
