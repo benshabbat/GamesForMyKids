@@ -1,6 +1,6 @@
 "use client";
 
-import GenericStartScreen from "@/components/shared/GenericStartScreen";
+import { GenericStartScreen } from "@/components/shared";
 import { BaseGameItem } from "@/lib/types";
 
 interface StartScreenProps {

@@ -1,4 +1,4 @@
-import GenericBox from "./GenericBox";
+import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 /**

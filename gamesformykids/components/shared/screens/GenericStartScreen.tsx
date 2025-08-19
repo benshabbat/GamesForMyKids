@@ -1,7 +1,7 @@
-import SimpleGameInstructions from "@/components/shared/SimpleGameInstructions";
-import SimpleGameStartButton from "@/components/shared/SimpleGameStartButton";
-import StartScreenHeader from "@/components/shared/StartScreenHeader";
-import ButtonCheckAudio from "@/components/shared/ButtonCheckAudio";
+import { SimpleGameInstructions } from "@/components/shared";
+import { SimpleGameStartButton } from "@/components/shared";
+import { StartScreenHeader } from "@/components/shared";
+import { ButtonCheckAudio } from "@/components/shared";
 import { GameStep } from "@/lib/types";
 import { ReactNode } from "react";
 

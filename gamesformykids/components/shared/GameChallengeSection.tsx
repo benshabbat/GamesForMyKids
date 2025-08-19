@@ -1,8 +1,8 @@
 "use client";
 
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
-import ChallengeBox from "./ChallengeBox";
-import CelebrationBox from "./CelebrationBox";
+import ChallengeBox from "./feedback/ChallengeBox";
+import CelebrationBox from "./feedback/CelebrationBox";
 
 export default function GameChallengeSection() {
   const { currentChallenge, showCelebration } = useUniversalGame();

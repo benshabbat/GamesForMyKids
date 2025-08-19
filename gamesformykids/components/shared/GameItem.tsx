@@ -1,4 +1,4 @@
-import UnifiedCard from "./UnifiedCard";
+import UnifiedCard from "./cards/UnifiedCard";
 import { ReactNode } from "react";
 
 interface GameItemProps {

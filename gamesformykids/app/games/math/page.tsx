@@ -1,7 +1,7 @@
 "use client";
 
-import GameHeader from "@/components/shared/GameHeader";
-import TipsBox from "@/components/shared/TipsBox";
+import { GameHeader } from "@/components/shared";
+import { TipsBox } from "@/components/shared";
 import MathNumberCard from "@/components/game/math/MathNumberCard";
 import { useMathGame } from "./useMathGame";
 import MathStartScreen from "@/components/game/math/MathStartScreen";

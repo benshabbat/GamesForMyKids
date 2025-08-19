@@ -1,4 +1,4 @@
-import GenericBox from "./GenericBox";
+import GenericBox from "../displays/GenericBox";
 
 interface TipsBoxProps {
   tip?: string;

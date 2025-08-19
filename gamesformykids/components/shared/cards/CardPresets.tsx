@@ -1,6 +1,6 @@
 import BaseGameCard from "./BaseGameCard";
 import { BaseGameItem } from "@/lib/types/base";
-import * as ShapeIcons from "../../public/icons/ShapeIcons";
+import * as ShapeIcons from "../../../public/icons/ShapeIcons";
 import ColoredShapeCard from "./ColoredShapeCard";
 import { ColoredShapeItem } from "@/lib/constants/gameData/basic";
 

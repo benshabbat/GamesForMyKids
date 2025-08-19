@@ -8,7 +8,7 @@
 
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 import GenericStartScreen from "./GenericStartScreen";
-import GameItem from "./GameItem";
+import GameItem from "../GameItem";
 
 /**
  * 🎯 AutoStartScreen עם קונטקסט - ללא props!

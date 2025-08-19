@@ -1,8 +1,8 @@
 "use client";
 
 import GameHeader from "./GameHeader";
-import GameStatsButton from "./GameStatsButton";
-import GameChallengeSection from "./GameChallengeSection";
+import GameStatsButton from "../buttons/GameStatsButton";
+import GameChallengeSection from "../GameChallengeSection";
 
 export default function GameHeaderSection() {
   return (

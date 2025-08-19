@@ -1,7 +1,7 @@
 "use client";
 
-import GameHeader from "@/components/shared/GameHeader";
-import TipsBox from "@/components/shared/TipsBox";
+import { GameHeader } from "@/components/shared";
+import { TipsBox } from "@/components/shared";
 import CountingCard from "@/components/game/counting/CountingCard";
 import { useCountingGame } from "./useCountingGame";
 import CountingStartScreen from "@/components/game/counting/CountingStartScreen";

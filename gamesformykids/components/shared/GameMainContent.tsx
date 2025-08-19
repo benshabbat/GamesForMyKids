@@ -2,9 +2,9 @@
 
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 import { BaseGameItem } from "@/lib/types/base";
-import { GameCardGrid } from "./GameCardGrid";
-import { GameHints } from "./GameHints";
-import TipsBox from "./TipsBox";
+import { GameCardGrid } from "./cards/GameCardGrid";
+import { GameHints } from "./feedback/GameHints";
+import TipsBox from "./feedback/TipsBox";
 
 export default function GameMainContent() {
   const game = useUniversalGame();

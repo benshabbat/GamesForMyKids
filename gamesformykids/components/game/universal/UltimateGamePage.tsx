@@ -15,12 +15,12 @@
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
 
 // רכיבים מפורקים
-import GameLoadingScreen from "../../shared/GameLoadingScreen";
-import GameErrorScreen from "../../shared/GameErrorScreen";
-import AutoStartScreen from "../../shared/AutoStartScreen";
-import GameHeaderSection from "../../shared/GameHeaderSection";
+import { GameLoadingScreen } from "../../shared";
+import { GameErrorScreen } from "../../shared";
+import { AutoStartScreen } from "../../shared";
+import { GameHeaderSection } from "../../shared";
 import GameMainContent from "../../shared/GameMainContent";
-import SimpleProgressDisplay from "../../shared/SimpleProgressDisplay";
+import { SimpleProgressDisplay } from "../../shared";
 
 /**
  * 🎯 הקומפוננט הסופי - אפס props, הכל מהקונטקסט!

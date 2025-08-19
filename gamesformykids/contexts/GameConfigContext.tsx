@@ -19,7 +19,7 @@ import { GameType, BaseGameItem } from "@/lib/types/base";
 import { GAME_UI_CONFIGS, GameUIConfig } from "@/lib/constants/ui/gameConfigs";
 import { GAME_HOOKS_MAP, AutoGameType } from "@/lib/constants/gameHooksMap";
 import { GAME_ITEMS_MAP } from "@/lib/constants/gameItemsMap";
-import { GameCardMap } from "@/components/shared/CardPresets";
+import { GameCardMap } from "@/components/shared";
 import { useGameType } from './GameTypeContext';
 import { Metadata } from 'next';
 
