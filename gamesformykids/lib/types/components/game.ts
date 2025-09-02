@@ -4,54 +4,71 @@
  * ===============================================
  */
 
-import { GameType } from '../base';
-import { Category, AgeGroup } from '../game.types';
+import { Category, AgeGroup, GameRegistration } from '../game';
 
-export interface CategoryGamesViewProps {
-  category: string;
-  games: GameType[];
-  onGameSelect: (gameType: GameType) => void;
-  title?: string;
-}
-
+/**
+ * Props לפריט משחק בסיסי
+ * @description קומפוננט המייצג פריט יחיד במשחק (כמו אות, מספר, צבע וכו')
+ */
 export interface GameItemProps {
+  /** הפריט המוצג */
   item: {
+    /** שם הפריט */
     name: string;
+    /** טקסט בעברית */
     hebrew?: string;
+    /** טקסט באנגלית */
     english?: string;
+    /** אמוג'י לתצוגה */
     emoji?: string;
   };
+  /** פונקציה שמתבצעת בלחיצה */
   onClick: () => void;
+  /** האם הפריט נבחר */
   isSelected?: boolean;
+  /** סוג התצוגה */
   variant?: 'card' | 'button' | 'tile';
 }
 
+/**
+ * Props לקלף קטגוריה
+ * @description קומפוננט המציג קטגוריית משחקים
+ */
 export interface CategoryCardProps {
+  /** הקטגוריה המוצגת */
   category: Category;
+  /** מספר כלל המשחקים בקטגוריה */
   gamesCount: number;
+  /** מספר המשחקים הזמינים */
   availableCount: number;
+  /** פונקציה שמתבצעת בלחיצה */
   onClick: () => void;
 }
 
+/**
+ * Props לקלף משחק
+ * @description קומפוננט המציג משחק ספציפי
+ */
 export interface GameCardProps {
-  game: import('../game.types').GameRegistration;
+  /** המשחק המוצג */
+  game: GameRegistration;
 }
 
 export interface CategoriesViewProps {
   categories: Record<string, Category>;
-  allGameRegistrations: import('../game.types').GameRegistration[];
+  allGameRegistrations: GameRegistration[];
   onCategorySelect: (categoryKey: string) => void;
 }
 
 export interface CategoryGamesViewProps {
   selectedCategory: string;
   categories: Record<string, Category>;
-  allGameRegistrations: import('../game.types').GameRegistration[];
+  allGameRegistrations: GameRegistration[];
   onBackToCategories: () => void;
 }
 
 export interface AllGamesViewProps {
-  allGameRegistrations: import('../game.types').GameRegistration[];
+  allGameRegistrations: GameRegistration[];
   totalGamesCount: number;
 }
 
@@ -73,5 +90,5 @@ export interface RecommendationsHeaderProps {
 }
 
 export interface FeaturedGameCallToActionProps {
-  featuredGame: import('../game.types').GameRegistration;
+  featuredGame: GameRegistration;
 }

@@ -1,7 +1,7 @@
 // Game UI Component Types
 import { GameStats, GameChallenge } from './game.types';
 
-export interface GameHeaderProps {
+export interface GameUIHeaderProps {
   title: string;
   description?: string;
   score?: number;

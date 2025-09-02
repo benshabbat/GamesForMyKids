@@ -4,26 +4,24 @@
  * ===============================================
  */
 
-// טיפוסים בסיסיים
+// ===== טיפוסים בסיסיים =====
 export * from './base';
 
-// טיפוסים למשחקים
+// ===== טיפוסים למשחקים =====
 export * from './games';
-export * from './game.types';
-export * from './game-ui.types';
+export * from './game';
+export * from './game-ui';
 
-// טיפוסים לממשק המשתמש (רק הישנים לתאימות)
-export * from './ui-legacy';
-export * from './ui.types';
+// ===== טיפוסים לממשק משתמש =====
+export * from './ui-core';
 
-// טיפוסים לאירועים
-export * from './events';
+// ===== ייצוא מאורגן לפי קטגוריות =====
+export * as Components from './components';
+export * as Contexts from './contexts';
+export * as Hooks from './hooks';
+export * as Utils from './utils';
+export * as Events from './events';
 
-// טיפוסים חדשים מאורגנים (עם שמות מרחב למניעת התנגשויות)
-import * as ComponentTypes from './components';
-import * as HookTypes from './hooks';
-import * as ContextTypes from './contexts';
-import * as UtilTypes from './utils';
-import * as EventTypes from './events';
-
-export { ComponentTypes, HookTypes, ContextTypes, UtilTypes, EventTypes };
+// ===== עוזרים לתאימות לאחור =====
+// נוסיף רק במידת הצורך
+// export * from './ui-legacy';

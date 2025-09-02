@@ -25,7 +25,7 @@ export interface GameSession {
   completed: boolean;
 }
 
-export interface ProgressStats {
+export interface UserProgressStats {
   totalSessions: number;
   totalTime: number;
   averageScore: number;

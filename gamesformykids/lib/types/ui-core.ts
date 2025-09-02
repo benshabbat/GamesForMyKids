@@ -15,7 +15,7 @@ export interface HeaderProps {
   className?: string;
 }
 
-export interface LoadingScreenProps {
+export interface SimpleLoadingScreenProps {
   onLoadingComplete?: () => void;
   message?: string;
 }

@@ -6,11 +6,7 @@
 
 import { BaseGameItem, GameType } from '../base';
 import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
-
-export interface GameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-}
+import { GameItemCardProps } from '../hooks/game-state';
 
 export interface UniversalGameContextValue {
   // Game State
@@ -33,7 +29,7 @@ export interface UniversalGameContextValue {
   // Game Config
   config: GameUIConfig;
   items: BaseGameItem[];
-  CardComponent: React.ComponentType<GameCardProps>;
+  CardComponent: React.ComponentType<GameItemCardProps>;
   gameType: GameType;
   
   // Hints & UI
@@ -43,8 +39,4 @@ export interface UniversalGameContextValue {
   currentAccuracy: number;
   showProgressModal: boolean;
   setShowProgressModal: (show: boolean) => void;
-}
-
-export interface UniversalGameProviderProps {
-  children: React.ReactNode;
 }

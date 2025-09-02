@@ -8,14 +8,7 @@ import { ReactNode } from 'react';
 import { GameType, BaseGameItem } from '../base';
 import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
 import { AutoGameType } from '@/lib/constants/gameHooksMap';
-
-/**
- * Props לקארד משחק
- */
-export interface GameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-}
+import { GameItemCardProps } from '../hooks/game-state';
 
 /**
  * Value של GameConfig Context
@@ -25,7 +18,7 @@ export interface GameConfigContextValue {
   gameType: AutoGameType | GameType | null;
   config: GameUIConfig | null;
   items: BaseGameItem[] | null;
-  CardComponent: React.ComponentType<GameCardProps> | null;
+  CardComponent: React.ComponentType<GameItemCardProps> | null;
   useGameHook: unknown | null;
   
   // Validation

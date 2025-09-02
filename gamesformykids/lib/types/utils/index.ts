@@ -46,7 +46,7 @@ export interface BubbleGameState {
   poppedBubbles: number;
 }
 
-export interface MathGameState {
+export interface BubbleGameMathState {
   currentProblem: {
     operand1: number;
     operand2: number;

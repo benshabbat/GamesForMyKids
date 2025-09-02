@@ -28,7 +28,7 @@ export interface UseBaseGameConfig {
   };
 }
 
-export interface GameCardProps {
+export interface GameItemCardProps {
   item: BaseGameItem;
   onClick: (item: BaseGameItem) => void;
 }
@@ -72,7 +72,7 @@ export interface GameLogicState {
   // Configuration
   config: GameUIConfig;
   items: BaseGameItem[];
-  CardComponent: React.ComponentType<GameCardProps>;
+  CardComponent: React.ComponentType<GameItemCardProps>;
   gameType: unknown; // GameType | AutoGameType
 }
 

@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-export interface ProgressStats {
+export interface GameProgressStats {
   totalItems: number;
   completedItems: number;
   averageTime: number;
@@ -18,11 +18,11 @@ export interface GameProgressDisplayProps {
   score: number;
   progress: number;
   showDetails?: boolean;
-  stats?: ProgressStats;
+  stats?: GameProgressStats;
 }
 
 export interface ProgressDisplayProps {
-  stats: ProgressStats;
+  stats: GameProgressStats;
   showDetailed?: boolean;
   variant?: 'compact' | 'detailed';
 }

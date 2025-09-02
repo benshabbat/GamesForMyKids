@@ -4,12 +4,17 @@
  * ===============================================
  */
 
-export * from './cards';
-export * from './screens';
-export * from './headers';
-export * from './buttons';
-export * from './displays';
-export * from './feedback';
-export * from './game';
-export * from './layout';
-export * from './icons';
+// ===== קומפוננטות בסיסיות =====
+export * from './buttons';    // כפתורים וקומפוננטות אינטראקטיביות
+export * from './headers';    // כותרות וניווט
+export * from './layout';     // מבנה עמוד ופריסה
+
+// ===== קומפוננטות משחק =====
+export * from './cards';      // קלפים ופריטי משחק
+export * from './game';       // קומפוננטות ספציפיות למשחקים
+export * from './icons';      // איקונים וגרפיקה
+
+// ===== תצוגה ומשוב =====
+export * from './displays';   // תצוגת מידע וסטטיסטיקות
+export * from './feedback';   // רמזים, הוראות וחגיגות
+export * from './screens';    // מסכים מלאים
