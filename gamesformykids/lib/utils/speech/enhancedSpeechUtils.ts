@@ -1,3 +1,5 @@
+import { AUDIO_CONSTANTS } from "../../constants/core";
+
 export interface SpeechOptions {
   lang?: string;
   rate?: number;
@@ -60,6 +62,29 @@ export function findHebrewVoice(voices?: SpeechSynthesisVoice[]): SpeechSynthesi
   );
 }
 
+// פונקציה להקטנת השהייה בהשמעת דיבור
+function getOptimizedSpeechSettings(options: SpeechOptions = {}) {
+  // נסה לטעון הגדרות מושמרות
+  let savedSettings = null;
+  if (typeof window !== 'undefined') {
+    try {
+      const saved = localStorage.getItem('games-audio-settings');
+      if (saved) {
+        savedSettings = JSON.parse(saved);
+      }
+    } catch {
+      // אם יש שגיאה, השתמש בהגדרות ברירת מחדל
+    }
+  }
+
+  return {
+    lang: options.lang || "he-IL",
+    rate: options.rate || savedSettings?.speechRate || AUDIO_CONSTANTS.SPEECH.HEBREW_RATE,
+    pitch: options.pitch || savedSettings?.speechPitch || AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
+    volume: options.volume || savedSettings?.volume || AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME,
+  };
+}
+
 // פונקציית דיבור משותפת (משופרת)
 export async function speak(
   text: string,
@@ -75,13 +100,8 @@ export async function speak(
     return false;
   }
 
-  // הגדרות ברירת מחדל
-  const { 
-    lang = "he-IL", 
-    rate = 0.7, 
-    pitch = 1.2, 
-    volume = 1.0 
-  } = options;
+  // השתמש בהגדרות מותאמות
+  const { lang, rate, pitch, volume } = getOptimizedSpeechSettings(options);
 
   try {
     // סמן שמדבר
@@ -90,12 +110,12 @@ export async function speak(
     // עצור כל דיבור קודם
     window.speechSynthesis.cancel();
     
-    // השהייה קצרה כדי לוודא שהדיבור הקודם באמת נעצר
-    await new Promise((resolve) => setTimeout(resolve, 300));
+    // השהייה מינימלית - מקבועים מרכזיים
+    await new Promise((resolve) => setTimeout(resolve, AUDIO_CONSTANTS.SPEECH.CANCEL_DELAY));
     
-    // בדיקה נוספת - אם עדיין יש דיבור פעיל, חכה עוד קצת
+    // בדיקה נוספת - מקבועים מרכזיים
     if (window.speechSynthesis.speaking) {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      await new Promise((resolve) => setTimeout(resolve, AUDIO_CONSTANTS.SPEECH.VERIFICATION_DELAY));
     }
 
     // יצירת אובייקט דיבור חדש
@@ -167,18 +187,18 @@ export async function speak(
 export async function speakHebrew(text: string): Promise<boolean> {
   return speak(text, {
     lang: "he-IL",
-    rate: 0.6, // קצב איטי יותר לבהירות טובה יותר
-    pitch: 1.2,
-    volume: 1.0,
+    rate: AUDIO_CONSTANTS.SPEECH.HEBREW_RATE,
+    pitch: AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
+    volume: AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME,
   });
 }
 
 export async function speakEnglish(text: string): Promise<boolean> {
   return speak(text, {
     lang: "en-US",
-    rate: 0.8,
-    pitch: 1.1,
-    volume: 1.0,
+    rate: AUDIO_CONSTANTS.SPEECH.ENGLISH_RATE,
+    pitch: AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
+    volume: AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME,
   });
 }
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
+import { AUDIO_CONSTANTS } from '../../../lib/constants/core';
 
 export const useSpeechSynthesis = () => {
   const speak = useCallback((text: string, options?: {
@@ -19,19 +20,22 @@ export const useSpeechSynthesis = () => {
 
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = options?.lang || 'he-IL';
-    utterance.rate = options?.rate || 0.8;
-    utterance.pitch = options?.pitch || 1;
-    utterance.volume = options?.volume || 1;
+    utterance.rate = options?.rate || AUDIO_CONSTANTS.SPEECH.HEBREW_RATE;
+    utterance.pitch = options?.pitch || AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH;
+    utterance.volume = options?.volume || AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME;
 
     window.speechSynthesis.speak(utterance);
   }, []);
 
   const speakLetter = useCallback((letterName: string, pronunciation: string) => {
-    speak(`האות ${letterName}, נקראת ${pronunciation}`, { rate: 0.7 });
+    speak(`האות ${letterName}, נקראת ${pronunciation}`, { rate: AUDIO_CONSTANTS.SPEECH.HEBREW_RATE });
   }, [speak]);
 
   const speakEncouragement = useCallback((message: string) => {
-    speak(message, { rate: 0.9, pitch: 1.2 });
+    speak(message, { 
+      rate: AUDIO_CONSTANTS.SPEECH.HEBREW_RATE * 1.06, // קצת יותר מהיר לעידוד
+      pitch: AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH 
+    });
   }, [speak]);
 
   return {

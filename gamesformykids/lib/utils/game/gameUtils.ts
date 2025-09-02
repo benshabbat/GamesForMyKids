@@ -1,7 +1,8 @@
 /**
  * אוסף פונקציות עזר גנריות למשחקים
  */
-import { FEEDBACK_MESSAGES, GAME_CONSTANTS, AUDIO_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../../constants";
+import { FEEDBACK_MESSAGES, GAME_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../../constants";
+import { AUDIO_CONSTANTS } from "../../constants/core";
 import { speakHebrew, cancelSpeech, isSpeechEnabled } from '../speech/enhancedSpeechUtils';
 import { logError, logWarning } from '../errorUtils';
 
