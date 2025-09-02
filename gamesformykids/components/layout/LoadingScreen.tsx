@@ -23,7 +23,7 @@ const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
     const interval = setInterval(() => {
       setProgress(prev => {
         if (prev >= 100) {
-          setTimeout(onLoadingComplete, 500);
+          setTimeout(onLoadingComplete, 200); // הפחתה מ-500 ל-200
           return 100;
         }
         return prev + 2;

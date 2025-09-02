@@ -144,8 +144,8 @@ export function useBubbleGame() {
       createBubble();
     }, 2000); // מתחילים עם מרווח בסיסי
 
-    // יצירת בועה ראשונה מיד
-    setTimeout(createBubble, 500);
+    // יצירת בועה ראשונה מהר יותר
+    setTimeout(createBubble, 200); // הפחתה מ-500 ל-200
   }, [createBubble]);
 
   // עצירת המשחק

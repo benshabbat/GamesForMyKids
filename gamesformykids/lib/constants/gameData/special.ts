@@ -31,7 +31,7 @@ export const MATH_GAME_CONSTANTS = {
  * ===============================================
  */
 export const MEMORY_GAME_CONSTANTS = {
-  FLIP_DURATION: 1000,
+  FLIP_DURATION: 600,  // הפחתה מ-1000 ל-600 לתגובה מהירה יותר
   SUCCESS_SOUND_FREQUENCIES: [523, 659, 784, 1047],
   BASE_COUNT: 4,
   INCREMENT: 1,

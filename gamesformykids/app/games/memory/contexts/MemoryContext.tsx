@@ -347,7 +347,7 @@ export function MemoryProvider({ children }: MemoryProviderProps) {
         } else {
           handleFailedMatch(firstCardIndex, cardIndex);
         }
-      }, 1000);
+      }, MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6); // הפחתה מ-100% ל-60% של זמן ההיפוך
     }
   }, [state, canClickCard, handleSuccessfulMatch, handleFailedMatch]);
 

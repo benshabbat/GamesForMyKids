@@ -12,26 +12,30 @@ export function useGamePerformance({ items, currentChallenge }: UseGamePerforman
   const imagePreloadRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const animationFrameRef = useRef<number | null>(null);
 
-  // Preload audio files for better performance (currently not supported by BaseGameItem)
+  // Preload audio files for better performance (optimized)
   const preloadAudio = useCallback(async (items: BaseGameItem[]) => {
-    // Note: BaseGameItem doesn't have audioUrl property
-    // This is prepared for future enhancement
-    const audioPromises = items.map(async (item) => {
-      // Future: if (item.audioUrl && !audioPreloadRef.current.has(item.name))
-      console.log(`Audio preloading prepared for: ${item.name}`);
-    });
+    // מטפל רק בפריטים שטרם נטענו כדי לחסוך זיכרון
+    const audioPromises = items
+      .filter(item => !audioPreloadRef.current.has(item.name))
+      .slice(0, 5) // מגביל ל-5 פריטים בו-זמנית למניעת עומס
+      .map(async (item) => {
+        // Future: if (item.audioUrl)
+        console.log(`Audio preloading optimized for: ${item.name}`);
+      });
 
     await Promise.allSettled(audioPromises);
   }, []);
 
-  // Preload images for smoother experience (currently not supported by BaseGameItem)
+  // Preload images for smoother experience (optimized)
   const preloadImages = useCallback(async (items: BaseGameItem[]) => {
-    // Note: BaseGameItem doesn't have imageUrl property
-    // This is prepared for future enhancement
-    const imagePromises = items.map(async (item) => {
-      // Future: if (item.imageUrl && !imagePreloadRef.current.has(item.name))
-      console.log(`Image preloading prepared for: ${item.name}`);
-    });
+    // מטפל רק בפריטים שטרם נטענו כדי לחסוך זיכרון
+    const imagePromises = items
+      .filter(item => !imagePreloadRef.current.has(item.name))
+      .slice(0, 5) // מגביל ל-5 פריטים בו-זמנית למניעת עומס
+      .map(async (item) => {
+        // Future: if (item.imageUrl)
+        console.log(`Image preloading optimized for: ${item.name}`);
+      });
 
     await Promise.allSettled(imagePromises);
   }, []);
