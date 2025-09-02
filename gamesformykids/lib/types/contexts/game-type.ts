@@ -5,7 +5,7 @@
  */
 
 import { ReactNode } from 'react';
-import { GameType } from '../base';
+import { GameType } from '../core/base';
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
 
 /**

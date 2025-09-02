@@ -1,13 +1,14 @@
 /**
  * ===============================================
- * טיפוסים לקומפוננטות Cards
+ * טיפוסים לקומפוננטות Cards - מחולק ונקי
  * ===============================================
  */
 
-import { BaseGameItem } from '../base';
-import { ColorItem, ShapeItem, NumberItem } from '../games';
+import { BaseGameItem } from '../core/base';
+import { ColorItem, ShapeItem, NumberItem } from '../games/items';
 
-// ColoredShapeItem מוגדר ב-adapter
+// ===== BASIC TYPES =====
+
 export interface ColoredShapeItem {
   name: string;
   hebrew: string;
@@ -19,137 +20,32 @@ export interface ColoredShapeItem {
   shapeHebrew: string;
   svg: string;
   value: string;
-  tailwindClass?: string; // Optional to match the real data
+  tailwindClass?: string;
 }
 
 export type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
 
-export interface GameCardGridProps<T extends GameItemType> {
-  // Core properties
-  /** Array of items to display in the grid */
-  items: T[];
-  /** Callback function when an item is clicked */
-  onItemClick?: (item: T) => void;
-  /** The current challenge/selected item (used to highlight the correct item) */
-  currentChallenge?: T | null;
-  /** The selected item */
-  selectedItem?: T | null;
-  /** Game title for accessibility */
-  gameTitle?: string;
-  
-  // Display options
-  /** Whether to show Hebrew text */
-  showHebrew?: boolean;
-  /** Whether to show English text */
-  showEnglish?: boolean;
-  /** Whether to show emoji */
-  showEmoji?: boolean;
-  /** Card display variant */
-  cardVariant?: 'default' | 'large' | 'compact';
-  /** Number of grid columns for responsive layout */
-  gridCols?: number | string;
-  /** Maximum width CSS class */
-  maxWidth?: string;
-  /** Gap CSS class */
-  gap?: string;
-  /** Whether to show sound icon on cards */
-  showSoundIcon?: boolean;
-  /** Animation enabled flag */
-  animationEnabled?: boolean;
-  
-  // Comparison and rendering
-  /** Which property to use when comparing items */
-  compareKey?: keyof T;
-  /** Custom render function for cards */
-  renderCustomCard?: (item: T, isCorrect: boolean) => React.ReactNode;
-  /** Additional CSS classes to apply to default cards */
-  cardClassName?: string;
-  
-  // Context usage
-  /** Whether to use game context for click handling */
-  useContext?: boolean;
+// ===== SHARED INTERFACES =====
+
+/**
+ * תוכן שמוצג על הכרטיס
+ */
+export interface CardContent {
+  hebrew?: boolean;
+  english?: boolean;
+  emoji?: boolean;
+  soundIcon?: boolean;
 }
 
-export interface BaseGameCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
-  isSelected?: boolean;
-  showHebrew?: boolean;
-  showEnglish?: boolean;
-  showEmoji?: boolean;
-  variant?: 'default' | 'large' | 'compact';
-  animationEnabled?: boolean;
-  
-  // עיצוב הכרטיס
-  gradientFrom?: string;
-  gradientTo?: string;
-  hoverFrom?: string;
-  hoverTo?: string;
-  borderColor?: string;
-  borderWidth?: string;
-  
-  // תוכן הכרטיס
-  customContent?: React.ReactNode;
-  
-  // גודל וצורה
+/**
+ * עיצוב הכרטיס
+ */
+export interface CardAppearance {
   size?: "small" | "medium" | "large";
-  aspectRatio?: "square" | "wide" | "tall";
-  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+  shape?: "rounded" | "circle" | "square";
+  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced';
   
-  // אנימציות ואפקטים
-  animation?: "bounce" | "pulse" | "none";
-  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
-  hoverEffect?: "scale" | "lift" | "glow" | "none";
-  
-  // אפקטים מיוחדים
-  backgroundPattern?: "stars" | "dots" | "none";
-  customDecoration?: React.ReactNode;
-  
-  // עבור כרטיסי מקצועות
-  description?: string;
-  
-  // עבור כרטיסי מספרים
-  digit?: string;
-  
-  // CSS classes נוספים
-  className?: string;
-}
-
-export interface ColoredShapeCardProps {
-  item: ColoredShapeItem;
-  onClick?: () => void;
-  isSelected?: boolean;
-  showShape?: boolean;
-  showColor?: boolean;
-  showValue?: boolean;
-  size?: 'small' | 'medium' | 'large';
-  animationEnabled?: boolean;
-  className?: string;
-}
-
-export interface UnifiedCardProps {
-  // Data
-  item?: BaseGameItem;
-  onClick?: (item?: BaseGameItem) => void;
-  isSelected?: boolean;
-  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto';
-  showContent?: {
-    hebrew?: boolean;
-    english?: boolean;
-    emoji?: boolean;
-  };
-  animationEnabled?: boolean;
-  
-  // Simple mode (like GameItem)
-  hebrewText?: string;
-  secondaryText?: string;
-  name?: string;
-  icon?: React.ReactNode;
-  
-  // Advanced mode (like BaseGameCard)
-  customContent?: React.ReactNode;
-  
-  // Appearance - Colors
+  // צבעים
   color?: string;
   gradientFrom?: string;
   gradientTo?: string;
@@ -159,37 +55,138 @@ export interface UnifiedCardProps {
   borderWidth?: string;
   textColor?: string;
   
-  // Appearance - Layout
-  size?: "small" | "medium" | "large";
-  shape?: "rounded" | "circle" | "square";
+  // צורה ומבנה
   aspectRatio?: "square" | "wide" | "tall";
   borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
   
-  // Content display
-  showEmoji?: boolean;
-  showHebrew?: boolean;
-  showEnglish?: boolean;
-  showSoundIcon?: boolean;
-  hideSoundIcon?: boolean;
-  
-  // Effects
+  // אפקטים
   animation?: "bounce" | "pulse" | "none";
   shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
   hoverEffect?: "scale" | "lift" | "glow" | "none";
   backgroundPattern?: "stars" | "dots" | "none";
-  
-  // Special content
+}
+
+/**
+ * התנהגות הכרטיס
+ */
+export interface CardBehavior {
+  animationEnabled?: boolean;
+  autoSpeak?: boolean;
+  onSpeak?: () => void;
+  useContext?: boolean;
+}
+
+/**
+ * תוכן מותאם אישית
+ */
+export interface CardCustomContent {
+  customContent?: React.ReactNode;
+  customDecoration?: React.ReactNode;
+  icon?: React.ReactNode;
   description?: string;
   digit?: string;
   svg?: string;
   value?: string;
-  tailwindClass?: string;
-  customDecoration?: React.ReactNode;
-  
-  // Audio
-  onSpeak?: () => void;
-  autoSpeak?: boolean;
-  
-  // CSS
+}
+
+// ===== MAIN CARD PROPS =====
+
+/**
+ * Props בסיסיים לכל כרטיס
+ */
+export interface BaseCardProps extends CardAppearance, CardBehavior, CardCustomContent {
   className?: string;
+  isSelected?: boolean;
+}
+
+/**
+ * כרטיס פריט משחק כללי
+ */
+export interface GameItemCardProps extends BaseCardProps {
+  item: BaseGameItem;
+  onClick: (item: BaseGameItem) => void;
+  showContent?: CardContent;
+}
+
+/**
+ * כרטיס פריט עם צבע וצורה
+ */
+export interface ColoredShapeCardProps extends BaseCardProps {
+  item: ColoredShapeItem;
+  onClick?: () => void;
+  showShape?: boolean;
+  showColor?: boolean;
+  showValue?: boolean;
+}
+
+/**
+ * כרטיס מאוחד - יכול להיות הכל
+ */
+export interface UnifiedCardProps extends BaseCardProps {
+  // Data
+  item?: BaseGameItem;
+  onClick?: (item?: BaseGameItem) => void;
+  showContent?: CardContent;
+  
+  // Simple mode - for direct text input
+  hebrewText?: string;
+  secondaryText?: string;
+  name?: string;
+  
+  // Display flags (deprecated - use showContent instead)
+  /** @deprecated Use showContent.hebrew instead */
+  showHebrew?: boolean;
+  /** @deprecated Use showContent.english instead */
+  showEnglish?: boolean;
+  /** @deprecated Use showContent.emoji instead */
+  showEmoji?: boolean;
+  /** @deprecated Use showContent.soundIcon instead */
+  showSoundIcon?: boolean;
+  /** @deprecated Use showContent.soundIcon instead */
+  hideSoundIcon?: boolean;
+}
+
+// ===== GRID COMPONENTS =====
+
+/**
+ * רשת כרטיסי משחק
+ */
+export interface GameCardGridProps<T extends GameItemType> {
+  // Core properties
+  items: T[];
+  onItemClick?: (item: T) => void;
+  currentChallenge?: T | null;
+  selectedItem?: T | null;
+  gameTitle?: string;
+  
+  // Display options
+  showContent?: CardContent;
+  cardProps?: Partial<BaseCardProps>;
+  
+  // Layout options
+  gridCols?: number | string;
+  maxWidth?: string;
+  gap?: string;
+  
+  // Comparison and rendering
+  compareKey?: keyof T;
+  renderCustomCard?: (item: T, isCorrect: boolean) => React.ReactNode;
+  cardClassName?: string;
+  
+  // Context usage
+  useContext?: boolean;
+  
+  // Legacy props (deprecated)
+  /** @deprecated Use showContent.hebrew instead */
+  showHebrew?: boolean;
+  /** @deprecated Use showContent.english instead */
+  showEnglish?: boolean;
+  /** @deprecated Use showContent.emoji instead */
+  showEmoji?: boolean;
+  /** @deprecated Use cardProps.variant instead */
+  cardVariant?: 'default' | 'large' | 'compact';
+  /** @deprecated Use showContent.soundIcon instead */
+  showSoundIcon?: boolean;
+  /** @deprecated Use cardProps.animationEnabled instead */
+  animationEnabled?: boolean;
 }

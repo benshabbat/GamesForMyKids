@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { BaseGameItem } from '../base';
+import { BaseGameItem } from '../core/base';
 
 export interface UseGameHintsProps {
   currentChallenge: BaseGameItem | null;

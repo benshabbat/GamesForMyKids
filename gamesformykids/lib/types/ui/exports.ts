@@ -5,8 +5,8 @@
  */
 
 // יבוא טיפוסים מהמקום החדש
-export * from './components/headers';
-export * from './components/buttons';
+export * from '../components/headers';
+export * from '../components/buttons';
 
 // טיפוסים מיוחדים לתאימות לאחור
-export * from './ui-legacy';
+export * from './legacy';

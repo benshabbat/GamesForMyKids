@@ -1,5 +1,5 @@
 // Game UI Component Types
-import { GameStats, GameChallenge } from './game.types';
+import { GameStats, GameChallenge } from './base';
 
 export interface GameUIHeaderProps {
   title: string;

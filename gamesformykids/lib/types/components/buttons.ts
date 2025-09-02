@@ -4,15 +4,13 @@
  * ===============================================
  */
 
-export interface SimpleGameStartButtonProps {
-  title?: string;
-  onClick?: () => void;
-  disabled?: boolean;
-  loading?: boolean;
-  variant?: 'primary' | 'secondary' | 'success';
-  size?: 'small' | 'medium' | 'large';
-  fromColor?: string;
-  toColor?: string;
-  text?: string;
-  customOnStart?: () => void;
-}
+// ייבוא מהטיפוסים המרכזיים
+export type { 
+  BaseButtonProps,
+  ButtonProps, 
+  GameStartButtonProps 
+} from '../ui/core';
+
+// אליאס לתאימות לאחור
+import type { GameStartButtonProps } from '../ui/core';
+export type SimpleGameStartButtonProps = GameStartButtonProps;

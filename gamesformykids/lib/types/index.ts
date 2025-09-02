@@ -5,15 +5,15 @@
  */
 
 // ===== טיפוסים בסיסיים =====
-export * from './base';
+export * from './core';
 
 // ===== טיפוסים למשחקים =====
-export * from './games';
-export * from './game';
-export * from './game-ui';
+export * from './games/base';
+export * from './games/items';
+export * from './games/ui';
 
 // ===== טיפוסים לממשק משתמש =====
-export * from './ui-core';
+export * from './ui';
 
 // ===== ייצוא מאורגן לפי קטגוריות =====
 export * as Components from './components';
@@ -22,6 +22,6 @@ export * as Hooks from './hooks';
 export * as Utils from './utils';
 export * as Events from './events';
 
-// ===== עוזרים לתאימות לאחור =====
-// נוסיף רק במידת הצורך
-// export * from './ui-legacy';
+// ===== ייצוא נוסף עם שמות ברורים =====
+export * as Core from './core';
+export * as UI from './ui';

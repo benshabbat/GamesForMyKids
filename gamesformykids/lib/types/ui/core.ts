@@ -1,12 +1,35 @@
 // UI Component Props Types
 
-export interface ButtonProps {
-  children: React.ReactNode;
+/**
+ * Props בסיסיים לכפתור
+ */
+export interface BaseButtonProps {
+  children?: React.ReactNode;
   onClick?: () => void;
+  disabled?: boolean;
+  loading?: boolean;
+  className?: string;
+}
+
+/**
+ * Props לכפתור רגיל
+ */
+export interface ButtonProps extends BaseButtonProps {
   variant?: 'primary' | 'secondary' | 'danger' | 'success';
   size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
-  className?: string;
+}
+
+/**
+ * Props לכפתור התחלת משחק
+ */
+export interface GameStartButtonProps extends BaseButtonProps {
+  title?: string;
+  text?: string;
+  variant?: 'primary' | 'secondary' | 'success';
+  size?: 'small' | 'medium' | 'large';
+  fromColor?: string;
+  toColor?: string;
+  customOnStart?: () => void;
 }
 
 export interface HeaderProps {

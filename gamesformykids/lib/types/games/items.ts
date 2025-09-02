@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { BaseGameItem, BaseGameState } from './base';
+import { BaseGameItem, BaseGameState } from '../core/base';
 
 /**
  * פריטים ייחודיים למשחקים מיוחדים

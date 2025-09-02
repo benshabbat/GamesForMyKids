@@ -4,7 +4,8 @@
  * ===============================================
  */
 
-import { BaseGameItem, GameType, BaseGameState } from '../base';
+import { BaseGameItem, GameType, BaseGameState } from '../core/base';
+import type { GameItemCardProps } from '../components/cards';
 
 // Import GameUIConfig from its proper location
 import type { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
@@ -26,11 +27,6 @@ export interface UseBaseGameConfig {
     INCREMENT: number;
     LEVEL_THRESHOLD: number;
   };
-}
-
-export interface GameItemCardProps {
-  item: BaseGameItem;
-  onClick: (item: BaseGameItem) => void;
 }
 
 export interface GameState {

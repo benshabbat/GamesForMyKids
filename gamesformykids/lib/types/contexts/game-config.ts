@@ -5,7 +5,7 @@
  */
 
 import { ReactNode } from 'react';
-import { GameType, BaseGameItem } from '../base';
+import { GameType, BaseGameItem } from '../core/base';
 import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
 import { AutoGameType } from '@/lib/constants/gameHooksMap';
 import { GameItemCardProps } from '../hooks/game-state';

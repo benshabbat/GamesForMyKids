@@ -7,12 +7,20 @@
 ```
 lib/types/
 ├── 📄 index.ts                 # ייצוא מרכזי לכל הטיפוסים
-├── 📄 base.ts                  # טיפוסים בסיסיים (BaseGameItem, BaseGameState)
-├── 📄 games.ts                 # טיפוסים ספציפיים למשחקים (משחקי מתמטיקה, צבעים)
-├── 📄 game.ts                  # טיפוסי משחק כלליים (GameRegistration, Category)
-├── 📄 game-ui.ts              # טיפוסים למשחקי UI (GameHeaderProps, GameStatsProps)
-├── 📄 ui-core.ts              # טיפוסי UI בסיסיים (ButtonProps, ModalProps)
-├── 📄 ui-legacy.ts            # טיפוסים ישנים לתאימות לאחור
+├── 📄 README.md               # המדריך הזה
+├── 📁 core/                   # טיפוסים בסיסיים
+│   ├── 📄 index.ts            # ייצוא מרכזי
+│   └── 📄 base.ts             # BaseGameItem, BaseGameState, GameType
+├── � games/                  # טיפוסים למשחקים
+│   ├── 📄 index.ts            # ייצוא מרכזי
+│   ├── 📄 base.ts             # GameRegistration, Category, AgeGroup
+│   ├── 📄 items.ts            # ShapeItem, NumberItem, ColorItem
+│   └── 📄 ui.ts               # GameUIHeaderProps, GameStatsProps
+├── � ui/                     # טיפוסי ממשק משתמש
+│   ├── 📄 index.ts            # ייצוא מרכזי
+│   ├── 📄 core.ts             # ButtonProps, ModalProps, ToastProps
+│   ├── 📄 exports.ts          # ייצוא מקומפוננטים ספציפיים
+│   └── 📄 legacy.ts           # טיפוסים ישנים לתאימות לאחור
 ├── 📁 components/             # טיפוסים לקומפוננטות React
 │   ├── 📄 index.ts            # ייצוא מרכזי עם תיאורים
 │   ├── 📄 buttons.ts          # כפתורים וקומפוננטות אינטראקטיביות
@@ -58,31 +66,56 @@ type GameCardProps = Components.GameCardProps;
 
 ### ייבוא טיפוסים בסיסיים
 ```typescript
+// טיפוסים בסיסיים
 import { 
   BaseGameItem, 
   BaseGameState, 
+  GameType 
+} from '@/lib/types/core';
+
+// טיפוסי משחקים
+import { 
   GameRegistration,
-  Category 
-} from '@/lib/types';
+  Category,
+  AgeGroup 
+} from '@/lib/types/games';
 ```
 
-### ייבוא טיפוסי קומפוננטות
+### ייבוא מתיקיות ספציפיות
 ```typescript
-import { Components } from '@/lib/types';
-
-// או ייבוא ישיר
+// קומפוננטות
 import { 
   GameCardProps, 
   CategoryCardProps,
   UnifiedCardProps 
 } from '@/lib/types/components';
+
+// UI בסיסי
+import { 
+  ButtonProps, 
+  ModalProps,
+  ToastProps 
+} from '@/lib/types/ui';
 ```
 
-### ייבוא טיפוסי Hooks
+### ייבוא עם Namespaces
 ```typescript
-import { Hooks } from '@/lib/types';
+import { Components, Core, Games } from '@/lib/types';
 
-type GameStateConfig = Hooks.UseGameOptionsProps;
+type GameCardProps = Components.GameCardProps;
+type BaseGameItem = Core.BaseGameItem;
+type GameRegistration = Games.GameRegistration;
+```
+
+### ייבוא הכל מקום אחד
+```typescript
+// ייבוא כללי - מועדף לטיפוסים נפוצים
+import { 
+  BaseGameItem, 
+  GameRegistration,
+  Category,
+  ButtonProps 
+} from '@/lib/types';
 ```
 
 ## 🧹 ניקוי דופליקייטים

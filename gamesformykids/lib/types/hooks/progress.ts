@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { GameType } from '../base';
+import { GameType } from '../core/base';
 
 export interface GameSession {
   id: string;

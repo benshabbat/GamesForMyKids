@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { Category, AgeGroup, GameRegistration } from '../game';
+import { Category, AgeGroup, GameRegistration } from '../games/base';
 
 /**
  * Props לפריט משחק בסיסי

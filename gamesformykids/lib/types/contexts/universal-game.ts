@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { BaseGameItem, GameType } from '../base';
+import { BaseGameItem, GameType } from '../core/base';
 import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
 import { GameItemCardProps } from '../hooks/game-state';
 
