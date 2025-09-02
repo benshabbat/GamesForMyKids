@@ -1,12 +1,6 @@
 "use client";
 
-interface CategoryNavigationProps {
-  selectedCategory: string | null;
-  showAllGames: boolean;
-  totalGamesCount: number;
-  onShowCategories: () => void;
-  onShowAllGames: () => void;
-}
+import { ComponentTypes } from "@/lib/types";
 
 export default function CategoryNavigation({
   selectedCategory,
@@ -14,7 +8,7 @@ export default function CategoryNavigation({
   totalGamesCount,
   onShowCategories,
   onShowAllGames
-}: CategoryNavigationProps) {
+}: ComponentTypes.CategoryNavigationProps) {
   return (
     <div className="flex justify-center space-x-4 mb-8">
       <button

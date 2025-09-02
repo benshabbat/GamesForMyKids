@@ -2,13 +2,9 @@
 
 import Link from 'next/link';
 import { Users, Award } from 'lucide-react';
-import { AgeGroup } from "@/lib/types";
+import { ComponentTypes } from "@/lib/types";
 
-interface AgeGroupCardProps {
-  ageGroup: AgeGroup;
-}
-
-export default function AgeGroupCard({ ageGroup }: AgeGroupCardProps) {
+export default function AgeGroupCard({ ageGroup }: ComponentTypes.AgeGroupCardProps) {
   return (
     <div className="bg-white rounded-2xl p-6 shadow-lg hover:shadow-xl transition-all duration-300">
       <div className="text-center mb-4">

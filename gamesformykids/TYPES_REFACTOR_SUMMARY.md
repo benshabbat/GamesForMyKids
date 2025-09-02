@@ -23,6 +23,41 @@
    - הועבר: הטיפוס ל`lib/types/components/game.ts`
    - עדכון: השתמש ב`ComponentTypes.CategoryCardProps`
 
+5. **GameCard.tsx**
+   - הוסר: `interface GameCardProps` מהקומפוננט
+   - הועבר: הטיפוס ל`lib/types/components/game.ts`
+   - עדכון: השתמש ב`ComponentTypes.GameCardProps`
+
+6. **GoogleAnalytics.tsx**
+   - הוסר: `interface GoogleAnalyticsProps` מהקומפוננט
+   - הועבר: הטיפוס ל`ui.types.ts`
+   - עדכון: השתמש ב`GoogleAnalyticsProps`
+
+7. **CategoriesView.tsx**
+   - הוסר: `interface CategoriesViewProps` מהקומפוננט
+   - הועבר: הטיפוס ל`lib/types/components/game.ts`
+   - עדכון: השתמש ב`ComponentTypes.CategoriesViewProps`
+
+8. **CategoryGamesView.tsx**
+   - הוסר: `interface CategoryGamesViewProps` מהקומפוננט
+   - הועבר: הטיפוס ל`lib/types/components/game.ts`
+   - עדכון: השתמש ב`ComponentTypes.CategoryGamesViewProps`
+
+9. **AllGamesView.tsx**
+   - הוסר: `interface AllGamesViewProps` מהקומפוננט
+   - הועבר: הטיפוס ל`lib/types/components/game.ts`
+   - עדכון: השתמש ב`ComponentTypes.AllGamesViewProps`
+
+10. **AgeGroupCard.tsx**
+    - הוסר: `interface AgeGroupCardProps` מהקומפוננט
+    - הועבר: הטיפוס ל`lib/types/components/game.ts`
+    - עדכון: השתמש ב`ComponentTypes.AgeGroupCardProps`
+
+11. **CategoryNavigation.tsx**
+    - הוסר: `interface CategoryNavigationProps` מהקומפוננט
+    - הועבר: הטיפוס ל`lib/types/components/game.ts`
+    - עדכון: השתמש ב`ComponentTypes.CategoryNavigationProps`
+
 ### 📁 עדכונים בקבצי טיפוסים
 
 1. **lib/types/components/cards.ts**
@@ -31,7 +66,16 @@
 
 2. **lib/types/components/game.ts**
    - הוסף: `CategoryCardProps` interface
-   - הוסף: import של `Category` מ`game.types.ts`
+   - הוסף: `GameCardProps` interface
+   - הוסף: `CategoriesViewProps` interface
+   - הוסף: `CategoryGamesViewProps` interface
+   - הוסף: `AllGamesViewProps` interface
+   - הוסף: `AgeGroupCardProps` interface
+   - הוסף: `CategoryNavigationProps` interface
+   - הוסף: import של `Category` ו`AgeGroup` מ`game.types.ts`
+
+3. **lib/types/ui.types.ts**
+   - הוסף: `GoogleAnalyticsProps` interface
 
 ## יתרונות
 
@@ -45,11 +89,12 @@
 
 ### קומפוננטים שעדיין יש להם טיפוסים מקומיים:
 
-1. `components/game/CategoriesView.tsx` - `CategoriesViewProps`
-2. `components/game/CategoryGamesView.tsx` - `CategoryGamesViewProps`
-3. `components/game/GameCard.tsx` - `GameCardProps`
-4. `components/game/AllGamesView.tsx` - `AllGamesViewProps`
-5. `components/analytics/GoogleAnalytics.tsx` - `GoogleAnalyticsProps`
+1. `components/game/RecommendationsHeader.tsx` - `RecommendationsHeaderProps`
+2. `components/game/FeaturedGameCallToAction.tsx` - `FeaturedGameCallToActionProps`
+3. `components/game/universal/AutoGamePage.tsx` - `AutoGamePageProps`
+4. `components/game/universal/UniversalGameNavigation.tsx` - `UniversalGameNavigationProps`
+5. `components/ui/button.tsx` - `ButtonProps` (משתמש בהרחבה של HTML)
+6. קומפוננטים ספציפיים למשחקים בתיקיות `app/games/*/components/`
 
 ### המלצות לשלב הבא:
 

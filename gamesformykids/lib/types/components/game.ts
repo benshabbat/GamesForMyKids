@@ -5,7 +5,7 @@
  */
 
 import { GameType } from '../base';
-import { Category } from '../game.types';
+import { Category, AgeGroup } from '../game.types';
 
 export interface CategoryGamesViewProps {
   category: string;
@@ -35,4 +35,43 @@ export interface CategoryCardProps {
 
 export interface GameCardProps {
   game: import('../game.types').GameRegistration;
+}
+
+export interface CategoriesViewProps {
+  categories: Record<string, Category>;
+  allGameRegistrations: import('../game.types').GameRegistration[];
+  onCategorySelect: (categoryKey: string) => void;
+}
+
+export interface CategoryGamesViewProps {
+  selectedCategory: string;
+  categories: Record<string, Category>;
+  allGameRegistrations: import('../game.types').GameRegistration[];
+  onBackToCategories: () => void;
+}
+
+export interface AllGamesViewProps {
+  allGameRegistrations: import('../game.types').GameRegistration[];
+  totalGamesCount: number;
+}
+
+export interface AgeGroupCardProps {
+  ageGroup: AgeGroup;
+}
+
+export interface CategoryNavigationProps {
+  selectedCategory: string | null;
+  showAllGames: boolean;
+  totalGamesCount: number;
+  onShowCategories: () => void;
+  onShowAllGames: () => void;
+}
+
+export interface RecommendationsHeaderProps {
+  title: string;
+  description: string;
+}
+
+export interface FeaturedGameCallToActionProps {
+  featuredGame: import('../game.types').GameRegistration;
 }

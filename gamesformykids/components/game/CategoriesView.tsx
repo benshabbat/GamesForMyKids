@@ -1,19 +1,13 @@
 "use client";
 
 import CategoryCard from "./CategoryCard";
-import { Category, GameRegistration } from "@/lib/types";
-
-interface CategoriesViewProps {
-  categories: Record<string, Category>;
-  allGameRegistrations: GameRegistration[];
-  onCategorySelect: (categoryKey: string) => void;
-}
+import { ComponentTypes } from "@/lib/types";
 
 export default function CategoriesView({
   categories,
   allGameRegistrations,
   onCategorySelect
-}: CategoriesViewProps) {
+}: ComponentTypes.CategoriesViewProps) {
   const getGamesByCategory = (categoryKey: string) => {
     const category = categories[categoryKey];
     if (!category) return [];

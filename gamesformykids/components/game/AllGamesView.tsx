@@ -1,17 +1,12 @@
 "use client";
 
 import GameCard from "./GameCard";
-import { GameRegistration } from "@/lib/types";
-
-interface AllGamesViewProps {
-  allGameRegistrations: GameRegistration[];
-  totalGamesCount: number;
-}
+import { ComponentTypes } from "@/lib/types";
 
 export default function AllGamesView({
   allGameRegistrations,
   totalGamesCount
-}: AllGamesViewProps) {
+}: ComponentTypes.AllGamesViewProps) {
   return (
     <div>
       <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
