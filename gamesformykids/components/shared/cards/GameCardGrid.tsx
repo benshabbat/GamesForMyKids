@@ -12,7 +12,7 @@ export function GameCardGrid<T extends GameItemType>({
   gridCols = "grid-cols-2 md:grid-cols-3",
   maxWidth = "max-w-3xl",
   gap = "gap-6",
-  showSoundIcon = true,
+  showSoundIcon = false,
   compareKey = 'name' as keyof T,
   renderCustomCard,
   cardClassName = "",

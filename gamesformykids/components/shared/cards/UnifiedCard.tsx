@@ -102,7 +102,7 @@ export default function UnifiedCard({
   showHebrew = true,
   showEnglish = false,
   showSoundIcon,
-  hideSoundIcon = false,
+  hideSoundIcon = true,
   
   // Effects
   animation = "none",
@@ -117,7 +117,7 @@ export default function UnifiedCard({
   
   // Audio
   onSpeak,
-  autoSpeak = true,
+  autoSpeak = false,
   
   className = "",
 }: UnifiedCardProps) {

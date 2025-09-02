@@ -28,7 +28,7 @@ export default function GameItem({
   shape = "rounded",
   size = "medium",
   onClick,
-  hideSoundIcon = false,
+  hideSoundIcon = true,
   textColor = "text-white",
   borderColor = "border-white/70"
 }: GameItemProps) {
@@ -45,7 +45,7 @@ export default function GameItem({
       hideSoundIcon={hideSoundIcon}
       textColor={textColor}
       borderColor={borderColor}
-      autoSpeak={!hideSoundIcon}
+      autoSpeak={false}
     />
   );
 }
