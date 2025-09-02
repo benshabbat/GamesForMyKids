@@ -1,21 +1,14 @@
 "use client";
 
 import { Star } from "lucide-react";
-import { Category } from "@/lib/types";
-
-interface CategoryCardProps {
-  category: Category;
-  gamesCount: number;
-  availableCount: number;
-  onClick: () => void;
-}
+import { ComponentTypes } from "@/lib/types";
 
 export default function CategoryCard({
   category,
   gamesCount,
   availableCount,
   onClick
-}: CategoryCardProps) {
+}: ComponentTypes.CategoryCardProps) {
   const Icon = category.icon;
 
   return (

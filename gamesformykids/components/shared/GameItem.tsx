@@ -1,20 +1,5 @@
 import UnifiedCard from "./cards/UnifiedCard";
-import { ReactNode } from "react";
-
-interface GameItemProps {
-  key?: string | number;
-  name?: string;
-  hebrewText: string;
-  secondaryText?: string;
-  color: string;
-  icon?: ReactNode;
-  shape?: "rounded" | "circle" | "square";
-  size?: "small" | "medium" | "large";
-  onClick?: () => void;
-  hideSoundIcon?: boolean;
-  textColor?: string;
-  borderColor?: string;
-}
+import { ComponentTypes } from "@/lib/types";
 
 /**
  * @deprecated השתמש ב-UnifiedCard עם variant="simple" במקום
@@ -31,7 +16,7 @@ export default function GameItem({
   hideSoundIcon = true,
   textColor = "text-white",
   borderColor = "border-white/70"
-}: GameItemProps) {
+}: ComponentTypes.GameItemProps) {
   return (
     <UnifiedCard
       variant="simple"

@@ -54,3 +54,7 @@ export interface ToastProps {
   duration?: number;
   onClose?: () => void;
 }
+
+export interface GoogleAnalyticsProps {
+  GA_MEASUREMENT_ID: string;
+}

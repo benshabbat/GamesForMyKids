@@ -2,13 +2,9 @@
 
 import Link from "next/link";
 import { Star } from "lucide-react";
-import { GameRegistration } from "@/lib/types";
+import { ComponentTypes } from "@/lib/types";
 
-interface GameCardProps {
-  game: GameRegistration;
-}
-
-export default function GameCard({ game }: GameCardProps) {
+export default function GameCard({ game }: ComponentTypes.GameCardProps) {
   if (game.available) {
     return (
       <div className="relative">

@@ -184,7 +184,30 @@ export interface UnifiedCardProps {
   svg?: string;
   value?: string;
   tailwindClass?: string;
+  customDecoration?: React.ReactNode;
+  
+  // Audio
+  onSpeak?: () => void;
+  autoSpeak?: boolean;
   
   // CSS
   className?: string;
+}
+
+/**
+ * @deprecated השתמש ב-UnifiedCard עם variant="simple" במקום
+ */
+export interface GameItemProps {
+  key?: string | number;
+  name?: string;
+  hebrewText: string;
+  secondaryText?: string;
+  color: string;
+  icon?: React.ReactNode;
+  shape?: "rounded" | "circle" | "square";
+  size?: "small" | "medium" | "large";
+  onClick?: () => void;
+  hideSoundIcon?: boolean;
+  textColor?: string;
+  borderColor?: string;
 }

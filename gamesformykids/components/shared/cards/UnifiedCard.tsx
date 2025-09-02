@@ -1,63 +1,6 @@
-import { ReactNode } from "react";
 import { Volume2 } from "lucide-react";
-import { BaseGameItem, ComponentTypes } from "@/lib/types";
+import { ComponentTypes } from "@/lib/types";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
-
-type UnifiedCardProps = ComponentTypes.UnifiedCardProps & {
-  // Additional props specific to this implementation
-  onClick?: (item?: BaseGameItem) => void;
-  
-  // Simple mode (like GameItem)
-  hebrewText?: string;
-  secondaryText?: string;
-  name?: string;
-  icon?: ReactNode;
-  
-  // Advanced mode (like BaseGameCard)
-  customContent?: ReactNode;
-  
-  // Appearance - Colors
-  color?: string;
-  gradientFrom?: string;
-  gradientTo?: string;
-  hoverFrom?: string;
-  hoverTo?: string;
-  borderColor?: string;
-  borderWidth?: string;
-  textColor?: string;
-  
-  // Appearance - Layout
-  variant?: "simple" | "advanced" | "auto";
-  size?: "small" | "medium" | "large";
-  shape?: "rounded" | "circle" | "square";
-  aspectRatio?: "square" | "wide" | "tall";
-  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
-  
-  // Content display
-  showEmoji?: boolean;
-  showHebrew?: boolean;
-  showEnglish?: boolean;
-  showSoundIcon?: boolean;
-  hideSoundIcon?: boolean;
-  
-  // Effects
-  animation?: "bounce" | "pulse" | "none";
-  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
-  hoverEffect?: "scale" | "lift" | "glow" | "none";
-  backgroundPattern?: "stars" | "dots" | "none";
-  
-  // Special content
-  description?: string;
-  digit?: string;
-  customDecoration?: ReactNode;
-  
-  // Audio
-  onSpeak?: () => void;
-  autoSpeak?: boolean;
-  
-  // CSS
-  className?: string;
-}
 
 /**
  * UnifiedCard - קומפוננט Card אחוד שמחליף:
@@ -120,7 +63,7 @@ export default function UnifiedCard({
   autoSpeak = false,
   
   className = "",
-}: UnifiedCardProps) {
+}: ComponentTypes.UnifiedCardProps) {
   
   // Auto-detect variant if not specified
   let actualVariant = variant;
