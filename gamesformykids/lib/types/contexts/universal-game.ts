@@ -4,6 +4,7 @@
  * ===============================================
  */
 
+import React from 'react';
 import { BaseGameItem, GameType } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
 
@@ -46,4 +47,13 @@ export interface UniversalGameContextValue {
   currentAccuracy: number;
   showProgressModal: boolean;
   setShowProgressModal: (show: boolean) => void;
+}
+
+/**
+ * טיפוס לProps של UniversalGameProvider
+ * SOLID Principle: Interface Segregation - פירוד אחריות
+ */
+export interface UniversalGameProviderProps {
+  children: React.ReactNode;
+  gameType?: GameType;
 }

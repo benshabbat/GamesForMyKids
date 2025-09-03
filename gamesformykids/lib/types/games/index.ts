@@ -17,14 +17,8 @@ export type {
 } from '../core/base';
 
 // ייצוא טייפים ספציפיים למשחקים קיימים
-export interface CountingChallenge {
-  targetNumber: number;
-  question: string;
-  correctAnswer: number;
-}
-
 export interface CountingGameState {
-  currentChallenge: CountingChallenge | null;
+  currentChallenge: import('./items').CountingChallenge | null;
   score: number;
   level: number;
   isPlaying: boolean;
@@ -38,16 +32,24 @@ export interface MathChallenge {
   operator: '+' | '-' | '*' | '/';
   answer: number;
   question: string;
+  // Legacy compatibility properties
+  firstNumber: number;
+  secondNumber: number;
+  operation: 'addition' | 'subtraction' | 'multiplication' | 'division';
+  correctAnswer: number;
+  emoji: string;
+  itemPlural: string;
+  itemName: string;
 }
 
 export interface AnimalData {
-  id: string;
+  id?: string;
   name: string;
-  hebrew: string;
-  english: string;
+  hebrew?: string;
+  english?: string;
   emoji: string;
-  color: string;
-  sound: number[];
+  color?: string;
+  sound: string | number[];
 }
 
 export interface NumberItem {

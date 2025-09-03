@@ -54,6 +54,12 @@ export interface MathChallenge {
   itemName: string;      // שם הפריט ביחיד (תפוח)
   itemPlural: string;    // שם הפריט ברבים (תפוחים)  
   emoji: string;         // האימוג'י הבודד
+  // New format for compatibility
+  operand1: number;
+  operand2: number;
+  operator: '+' | '-' | '*' | '/';
+  answer: number;
+  question: string;
 }
 
 /**

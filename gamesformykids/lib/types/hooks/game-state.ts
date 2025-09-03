@@ -11,6 +11,9 @@ import type { GameItemCardProps } from '../components/cards';
 // ייצוא הטייפ למען תאימות
 export type { GameItemCardProps };
 
+// Alias for backward compatibility
+export type GameCardProps = GameItemCardProps;
+
 // טייפ זמני לGameUIConfig עד שהקבצים יתוקנו
 export interface GameUIConfig {
   title: string;

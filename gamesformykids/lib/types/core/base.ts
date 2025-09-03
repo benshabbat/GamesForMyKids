@@ -45,17 +45,6 @@ export interface Audioable {
 }
 
 /**
- * פריט משחק בסיסי - עקרון Interface Segregation
- * יורש מכל הממשקים הרלוונטיים אבל שומר על תאימות לאחור
- */
-export interface BaseGameItem extends 
-  Identifiable, 
-  Nameable,
-  Translatable, 
-  Visualizable, 
-  Audioable {}
-
-/**
  * גרסה מקוצרת של BaseGameItem לתאימות לאחור - ללא id חובה
  * להשתמש כאשר id לא נדרש
  */
@@ -66,6 +55,30 @@ export interface BaseGameItemLegacy extends
   Audioable {
   readonly id?: string;
 }
+
+/**
+ * טייפ לנתוני משחקים ללא ID - לתמיכה בקבצי קבועים קיימים
+ * SOLID Principle: Single Responsibility - אחראי רק על נתוני פריט בסיסיים ללא מזהה
+ */
+export interface GameDataItem {
+  readonly name: string;
+  readonly hebrew: string;
+  readonly english: string;
+  readonly emoji?: string;
+  readonly color?: string;
+  readonly sound?: number[];
+}
+
+// טייפ אליאס זמני לתאימות לאחור  
+export type BaseGameItem = GameDataItem & { 
+  id?: string;
+  svg?: string; // לצורות
+  digit?: string; // למספרים
+  shape?: string; // לצורות צבועות
+  colorName?: string; // לצורות צבועות
+  svgPath?: string; // לצורות צבועות
+  plural?: string; // לרבים
+};
 
 /**
  * מצב משחק בסיסי - עקרון Single Responsibility

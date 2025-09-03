@@ -17,11 +17,19 @@ export type {
   DifficultyLevel
 } from './games/base';
 
+export type { 
+  MathChallenge,
+  CountingChallenge 
+} from './games/items';
+
 export * from './games/items';
 export * from './games/ui';
 
 // ===== טיפוסים לממשק משתמש =====
 export * from './ui';
+
+// ===== טיפוסים לקומפוננטים =====
+export * as ComponentTypes from './components';
 
 // ===== ייצוא מאורגן לפי קטגוריות =====
 export * as Components from './components';

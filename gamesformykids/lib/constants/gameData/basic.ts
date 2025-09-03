@@ -2,8 +2,7 @@
  * נתוני המשחקים - צבעים, אותיות, מספרים, צורות
  */
 
-import { BaseGameItem } from "@/lib/types/base";
-import { NumberItem, ShapeItem } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { createGameConfig, createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
@@ -59,7 +58,7 @@ export const LETTER_CONSTANTS: Record<string, BaseGameItem> = {
  * נתוני צורות
  * ===============================================
  */
-export const SHAPE_CONSTANTS: Record<string, ShapeItem> = {
+export const SHAPE_CONSTANTS: Record<string, BaseGameItem> = {
   CIRCLE: { name: "circle", hebrew: "עיגול", english: "Circle", emoji: "⭕", color: "bg-blue-500", sound: [523, 659, 784], svg: "circle" },
   SQUARE: { name: "square", hebrew: "ריבוע", english: "Square", emoji: "⬜", color: "bg-red-500", sound: [440, 550, 660], svg: "square" },
   TRIANGLE: { name: "triangle", hebrew: "משולש", english: "Triangle", emoji: "🔺", color: "bg-green-500", sound: [349, 440, 523], svg: "triangle" },
@@ -75,7 +74,7 @@ export const SHAPE_CONSTANTS: Record<string, ShapeItem> = {
  * נתוני מספרים
  * ===============================================
  */
-export const NUMBER_CONSTANTS: Record<string, NumberItem> = {
+export const NUMBER_CONSTANTS: Record<string, BaseGameItem> = {
   ZERO: { name: "zero", hebrew: "אפס", english: "Zero", emoji: "0️⃣", digit: "0", color: "", sound: [261, 329, 392] },
   ONE: { name: "one", hebrew: "אחד", english: "One", emoji: "1️⃣", digit: "1", color: "", sound: [293, 369, 440] },
   TWO: { name: "two", hebrew: "שתיים", english: "Two", emoji: "2️⃣", digit: "2", color: "", sound: [329, 415, 494] },
@@ -86,6 +85,7 @@ export const NUMBER_CONSTANTS: Record<string, NumberItem> = {
   SEVEN: { name: "seven", hebrew: "שבע", english: "Seven", emoji: "7️⃣", digit: "7", color: "", sound: [523, 659, 784] },
   EIGHT: { name: "eight", hebrew: "שמונה", english: "Eight", emoji: "8️⃣", digit: "8", color: "", sound: [587, 740, 880] },
   NINE: { name: "nine", hebrew: "תשע", english: "Nine", emoji: "9️⃣", digit: "9", color: "", sound: [659, 831, 988] },
+  TEN: { name: "ten", hebrew: "עשר", english: "Ten", emoji: "🔟", digit: "10", color: "", sound: [698, 880, 1047] }
 };
 
 /**
@@ -115,17 +115,23 @@ export const NUMBER_GAME_CONSTANTS = createGameConfig(5, 1, 3);
 
 /**
  * ===============================================
- * נתוני צורות צבעוניות - משלב צורות וצבעים
+ * צורות צבועות מתקדמות - SOLID Principle: Interface Segregation
  * ===============================================
  */
 export interface ColoredShapeItem extends BaseGameItem {
-  shape: string; // שם הצורה
-  shapeHebrew: string; // שם הצורה בעברית
-  svg: string; // סוג ה-SVG
-  value: string; // ערך הצבע CSS
-  tailwindClass?: string; // מחלקת Tailwind אופציונלית
+  readonly shape: string;
+  readonly colorName?: string;
+  readonly svgPath?: string;
+  readonly shapeHebrew?: string;
+  readonly value?: string;
+  readonly tailwindClass?: string;
 }
 
+/**
+ * ===============================================
+ * נתוני צורות צבעוניות - משלב צורות וצבעים
+ * ===============================================
+ */
 export const COLORED_SHAPES_CONSTANTS: Record<string, ColoredShapeItem> = {
   // עיגול אדום
   RED_CIRCLE: { 

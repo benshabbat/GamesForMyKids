@@ -1,16 +1,16 @@
 /**
- * נתוני המשחקים - פירות, ירקות, חיות ואוכל
+ * נתוני משחקים - טבע, חיות, אוכל
  */
 
-import { BaseGameItem } from "@/lib/types/base";
-import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
+import { BaseGameItem } from "@/lib/types/core/base";
+import { createGameConfig, createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
  * נתוני פירות
  * ===============================================
  */
-export const FRUIT_CONSTANTS: Record<string, BaseGameItem> = {
+export const FRUITS: Record<string, BaseGameItem> = {
   APPLE: { name: "apple", hebrew: "תפוח", english: "Apple", emoji: "🍎", color: "bg-red-500", sound: [440, 550, 660] },
   BANANA: { name: "banana", hebrew: "בננה", english: "Banana", emoji: "🍌", color: "bg-yellow-500", sound: [392, 494, 587] },
   ORANGE: { name: "orange", hebrew: "תפוז", english: "Orange", emoji: "🍊", color: "bg-orange-500", sound: [330, 415, 494] },
@@ -28,7 +28,7 @@ export const FRUIT_CONSTANTS: Record<string, BaseGameItem> = {
  * נתוני ירקות
  * ===============================================
  */
-export const VEGETABLE_CONSTANTS: Record<string, BaseGameItem> = {
+export const VEGETABLES: Record<string, BaseGameItem> = {
   CARROT: { name: "carrot", hebrew: "גזר", english: "Carrot", emoji: "🥕", color: "bg-orange-500", sound: [440, 550, 660] },
   TOMATO: { name: "tomato", hebrew: "עגבנייה", english: "Tomato", emoji: "🍅", color: "bg-red-500", sound: [392, 494, 587] },
   CUCUMBER: { name: "cucumber", hebrew: "מלפפון", english: "Cucumber", emoji: "🥒", color: "bg-green-500", sound: [349, 440, 523] },
@@ -44,7 +44,7 @@ export const VEGETABLE_CONSTANTS: Record<string, BaseGameItem> = {
  * נתוני חיות
  * ===============================================
  */
-export const ANIMAL_CONSTANTS: Record<string, BaseGameItem> = {
+export const ANIMALS: Record<string, BaseGameItem> = {
   DOG: { name: "dog", hebrew: "כלב", english: "Dog", emoji: "🐶", color: "bg-brown-500", sound: [200, 300, 150] },
   CAT: { name: "cat", hebrew: "חתול", english: "Cat", emoji: "🐱", color: "bg-gray-500", sound: [800, 1000, 600] },
   COW: { name: "cow", hebrew: "פרה", english: "Cow", emoji: "🐄", color: "bg-pink-300", sound: [100, 200, 150] },
@@ -76,14 +76,14 @@ export const SMELL_TASTE_CONSTANTS: Record<string, BaseGameItem> = {
  * רשימות ויצוא אוטומטי
  * ===============================================
  */
-export const ALL_FRUITS = createItemsList(FRUIT_CONSTANTS);
-export const ALL_VEGETABLES = createItemsList(VEGETABLE_CONSTANTS);
-export const ALL_ANIMALS = createItemsList(ANIMAL_CONSTANTS);
+export const ALL_FRUITS = createItemsList(FRUITS);
+export const ALL_VEGETABLES = createItemsList(VEGETABLES);
+export const ALL_ANIMALS = createItemsList(ANIMALS);
 export const ALL_SMELLS_TASTES = createItemsList(SMELL_TASTE_CONSTANTS);
 
-export const FRUIT_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(FRUIT_CONSTANTS);
-export const VEGETABLE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(VEGETABLE_CONSTANTS);
-export const ANIMAL_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(ANIMAL_CONSTANTS);
+export const FRUIT_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(FRUITS);
+export const VEGETABLE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(VEGETABLES);
+export const ANIMAL_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(ANIMALS);
 export const SMELL_TASTE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(SMELL_TASTE_CONSTANTS);
 
 /**

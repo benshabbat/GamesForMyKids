@@ -40,6 +40,9 @@ export interface UserProgressStats {
   recommendedPractice: string[];
 }
 
+// Alias for backward compatibility
+export type ProgressStats = UserProgressStats;
+
 export interface UseProgressTrackingProps {
   gameType: string;
   userId?: string;

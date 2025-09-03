@@ -2,7 +2,7 @@
  * נתוני המשחקים - בית, בגדים, כלי נגינה, מקצועות ורגשות
  */
 
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { ProfessionItem } from "@/lib/types/games";
 import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 

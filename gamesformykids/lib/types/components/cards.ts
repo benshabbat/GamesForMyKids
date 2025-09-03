@@ -1,31 +1,82 @@
 /**
  * ===============================================
- * טיפוסים לקומפוננטות Cards - מחולק ונקי
+ * טיפוסים לקומפוננטות Cards - Clean Code & SOLID
  * ===============================================
  */
 
+import type { ReactNode } from 'react';
 import { BaseGameItem } from '../core/base';
 import { ColorItem, ShapeItem, NumberItem } from '../games/items';
 
-// ===== BASIC TYPES =====
+// ===== SOLID Principle: Single Responsibility =====
 
-export interface ColoredShapeItem {
-  name: string;
-  hebrew: string;
-  english: string;
-  emoji: string;
-  color: string;
-  sound: number[];
-  shape: string;
-  shapeHebrew: string;
-  svg: string;
-  value: string;
-  tailwindClass?: string;
+/**
+ * מזהה יחיד לפריט - עקרון Single Responsibility
+ */
+export interface ItemIdentity {
+  readonly name: string;
 }
 
-export type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem;
+/**
+ * תוכן טקסטואלי - עקרון Single Responsibility
+ */
+export interface ItemTextContent {
+  readonly hebrew: string;
+  readonly english: string;
+}
 
-// ===== SHARED INTERFACES =====
+/**
+ * מאפיינים ויזואליים בסיסיים - עקרון Single Responsibility
+ */
+export interface ItemVisuals {
+  readonly emoji: string;
+  readonly color: string;
+}
+
+/**
+ * מאפיינים קוליים - עקרון Single Responsibility
+ */
+export interface ItemAudio {
+  readonly sound: ReadonlyArray<number>;
+}
+
+/**
+ * מאפיינים גיאומטריים - עקרון Single Responsibility
+ */
+export interface ShapeProperties {
+  readonly shape: string;
+  readonly shapeHebrew: string;
+  readonly svg: string;
+}
+
+/**
+ * מאפיינים של ערך - עקרון Single Responsibility
+ */
+export interface ValueProperties {
+  readonly value: string;
+  readonly tailwindClass?: string;
+}
+
+/**
+ * פריט צורה צבעונית - עקרון Interface Segregation
+ */
+export interface ColoredShapeItem extends 
+  ItemIdentity,
+  ItemTextContent,
+  ItemVisuals,
+  ItemAudio,
+  ShapeProperties,
+  ValueProperties {}
+
+// ===== SOLID Principle: Open/Closed =====
+
+/**
+ * טייפ union למיני פריטים - עקרון Open/Closed
+ * ניתן להוסיף טייפים חדשים מבלי לשנות קוד קיים
+ */
+export type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem | ColoredShapeItem;
+
+// ===== SOLID Principle: Interface Segregation =====
 
 /**
  * תוכן שמוצג על הכרטיס

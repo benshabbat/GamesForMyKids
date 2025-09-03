@@ -2,7 +2,7 @@
  * נתוני המשחקים - תחבורה, כלי עבודה, חלל ומזג אוויר
  */
 
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**

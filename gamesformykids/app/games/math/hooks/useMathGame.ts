@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { MathChallenge } from "@/lib/types/games";
+import { MathChallenge } from "@/lib/types";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { 
   delay, 
@@ -85,13 +85,20 @@ export function useMathGame() {
     }
     
     return {
+      // Legacy format
       firstNumber,
       secondNumber,
       operation,
       correctAnswer,
       itemName: item.name,
       itemPlural: item.plural,
-      emoji: item.emoji
+      emoji: item.emoji,
+      // New format for compatibility
+      operand1: firstNumber,
+      operand2: secondNumber,
+      operator: operation === 'addition' ? '+' : '-',
+      answer: correctAnswer,
+      question: `${firstNumber} ${operation === 'addition' ? '+' : '-'} ${secondNumber} = ?`
     };
   };
 
