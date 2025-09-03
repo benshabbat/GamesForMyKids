@@ -26,6 +26,8 @@ export interface AgeGroupCardProps {
  */
 export interface AllGamesViewProps {
   readonly games?: readonly GameRegistration[];
+  readonly allGameRegistrations?: readonly GameRegistration[];
+  readonly totalGamesCount?: number;
 }
 
 /**
@@ -33,6 +35,8 @@ export interface AllGamesViewProps {
  */
 export interface CategoriesViewProps {
   readonly categories?: readonly Category[];
+  readonly allGameRegistrations?: readonly GameRegistration[];
+  readonly onCategorySelect?: (category: Category) => void;
 }
 
 /**
@@ -211,6 +215,8 @@ export interface GameHintsProps {
 export interface GameStep {
   readonly step: number;
   readonly instruction: string;
+  readonly stepNumber?: number; // לתאימות לאחור
+  readonly icon?: string; // לתאימות לאחור
 }
 
 /**
