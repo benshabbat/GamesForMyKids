@@ -7,8 +7,8 @@
  * מחליף את useGameStartScreenConfig ואת כל הקבועים הפזורים
  */
 
-import { GameStep } from "@/lib/types/ui";
-import { GameType } from "@/lib/types/base";
+import { GameStep } from "@/lib/types/components";
+import { GameType } from "@/lib/types/core/base";
 
 export interface GameUIConfig {
   title: string;

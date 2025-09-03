@@ -213,10 +213,12 @@ export interface GameHintsProps {
  * צעדי משחק - עקרון Single Responsibility
  */
 export interface GameStep {
-  readonly step: number;
-  readonly instruction: string;
+  readonly step?: number;
+  readonly instruction?: string;
   readonly stepNumber?: number; // לתאימות לאחור
   readonly icon?: string; // לתאימות לאחור
+  readonly title?: string; // כותרת הצעד
+  readonly description?: string; // תיאור הצעד
 }
 
 /**

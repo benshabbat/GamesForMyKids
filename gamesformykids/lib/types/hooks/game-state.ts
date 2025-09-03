@@ -7,6 +7,7 @@
 import type { ComponentType } from 'react';
 import { BaseGameItem, GameType, BaseGameState } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
+import type { DifficultyLevel } from '../games/base';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
@@ -205,6 +206,43 @@ export interface GameContextHookReturn extends
   GameResponseActions {
   readonly isGameActive: boolean;
 }
+
+/**
+ * הגדרות בסיסיות למשחק פשוט - עקרון Single Responsibility
+ */
+export interface SimpleGameBasicConfig {
+  readonly gameType: string;
+}
+
+/**
+ * הגדרות קושי למשחק - עקרון Single Responsibility
+ */
+export interface GameDifficultyConfig {
+  readonly difficulty?: DifficultyLevel;
+}
+
+/**
+ * הגדרות התחלה אוטומטית - עקרון Single Responsibility
+ */
+export interface AutoStartConfig {
+  readonly autoStart?: boolean;
+}
+
+/**
+ * הגדרות זמן למשחק - עקרון Single Responsibility
+ */
+export interface GameTimeConfig {
+  readonly timeLimit?: number;
+}
+
+/**
+ * Props למשחק פשוט - עקרון Interface Segregation
+ */
+export interface UseSimpleGameProps extends 
+  SimpleGameBasicConfig,
+  GameDifficultyConfig,
+  AutoStartConfig,
+  GameTimeConfig {}
 
 export interface UseGameDataReturn {
   // Data

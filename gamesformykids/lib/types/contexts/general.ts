@@ -28,6 +28,20 @@ export interface SpecificGameTypeConfig {
 }
 
 /**
+ * Props ל-Universal Game Provider - עקרון Interface Segregation
+ */
+export interface UniversalGameProviderProps extends 
+  BaseProviderProps,
+  DefaultGameTypeConfig {}
+
+/**
+ * Props ל-Simple Game Progress Provider - עקרון Interface Segregation
+ */
+export interface SimpleGameProgressProviderProps extends 
+  BaseProviderProps,
+  SpecificGameTypeConfig {}
+
+/**
  * הגדרת סוג משחק אופציונלי - עקרון Single Responsibility
  */
 export interface OptionalGameTypeConfig {

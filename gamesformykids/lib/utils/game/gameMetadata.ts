@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { GameType } from "@/lib/types/base";
+import { GameType } from "@/lib/types/core/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 
 /**
