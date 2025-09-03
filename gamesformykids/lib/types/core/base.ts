@@ -76,10 +76,10 @@ export type BaseGameItem = GameDataItem & {
 };
 
 /**
- * מצב משחק בסיסי - עקרון Single Responsibility
+ * מצב אתגר משחק בסיסי - עקרון Single Responsibility
  * מכיל רק מידע על מצב נוכחי
  */
-export interface GameCurrentState<T extends BaseGameItem = BaseGameItem> {
+export interface GameChallengeState<T extends BaseGameItem = BaseGameItem> {
   readonly currentChallenge: T | null;
   readonly options: T[];
 }
@@ -105,7 +105,7 @@ export interface GamePlayState {
  * יורש מכל הממשקים הנדרשים
  */
 export interface BaseGameState<T extends BaseGameItem = BaseGameItem> extends 
-  GameCurrentState<T>,
+  GameChallengeState<T>,
   GameScoreState,
   GamePlayState {}
 

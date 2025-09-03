@@ -4,7 +4,6 @@
  * ===============================================
  */
 
-import type { ReactNode } from 'react';
 import { BaseGameItem } from '../core/base';
 import { ColorItem, ShapeItem, NumberItem } from '../games/items';
 
@@ -183,18 +182,6 @@ export interface UnifiedCardProps extends BaseCardProps {
   hebrewText?: string;
   secondaryText?: string;
   name?: string;
-  
-  // Display flags (deprecated - use showContent instead)
-  /** @deprecated Use showContent.hebrew instead */
-  showHebrew?: boolean;
-  /** @deprecated Use showContent.english instead */
-  showEnglish?: boolean;
-  /** @deprecated Use showContent.emoji instead */
-  showEmoji?: boolean;
-  /** @deprecated Use showContent.soundIcon instead */
-  showSoundIcon?: boolean;
-  /** @deprecated Use showContent.soundIcon instead */
-  hideSoundIcon?: boolean;
 }
 
 // ===== GRID COMPONENTS =====
@@ -226,18 +213,4 @@ export interface GameCardGridProps<T extends GameItemType> {
   
   // Context usage
   useContext?: boolean;
-  
-  // Legacy props (deprecated)
-  /** @deprecated Use showContent.hebrew instead */
-  showHebrew?: boolean;
-  /** @deprecated Use showContent.english instead */
-  showEnglish?: boolean;
-  /** @deprecated Use showContent.emoji instead */
-  showEmoji?: boolean;
-  /** @deprecated Use cardProps.variant instead */
-  cardVariant?: 'default' | 'large' | 'compact';
-  /** @deprecated Use showContent.soundIcon instead */
-  showSoundIcon?: boolean;
-  /** @deprecated Use cardProps.animationEnabled instead */
-  animationEnabled?: boolean;
 }

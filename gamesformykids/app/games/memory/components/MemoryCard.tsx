@@ -4,7 +4,7 @@
  * Individual memory card with flip animation and match detection
  */
 
-import { BaseGameItem } from '@/lib/types/core/base';
+import { Card } from '@/lib/types/core/base';
 
 interface MemoryCardProps {
   card: Card;

@@ -16,9 +16,9 @@ export type { GameItemCardProps };
 export type GameCardProps = GameItemCardProps;
 
 /**
- * תצורת UI למשחק - עקרון Single Responsibility
+ * תצורת UI בסיסית למשחק - עקרון Single Responsibility
  */
-export interface GameUIConfig {
+export interface BasicGameUIConfig {
   readonly title: string;
   readonly description: string;
   readonly instructions: readonly string[];
@@ -120,7 +120,7 @@ export interface GameUIState {
  * הגדרות משחק - עקרון Single Responsibility
  */
 export interface GameConfiguration {
-  readonly config: GameUIConfig;
+  readonly config: BasicGameUIConfig;
   readonly items: readonly BaseGameItem[];
   readonly CardComponent: ComponentType<GameItemCardProps>;
   readonly gameType: GameType;

@@ -7,6 +7,17 @@
 import { Category, AgeGroup, GameRegistration } from '../games/base';
 
 /**
+ * Step במשחק - להוראות משחק
+ */
+export interface GameStep {
+  readonly icon: string;
+  readonly title: string;
+  readonly description: string;
+  readonly stepNumber?: number;
+  readonly stepText?: string;
+}
+
+/**
  * Props לפריט משחק בסיסי
  * @description קומפוננט המייצג פריט יחיד במשחק (כמו אות, מספר, צבע וכו')
  */

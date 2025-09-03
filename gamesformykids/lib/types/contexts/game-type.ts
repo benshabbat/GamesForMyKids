@@ -40,9 +40,9 @@ export interface GameUIConfiguration {
 }
 
 /**
- * מפה של תצורות UI למשחקים - עקרון Open/Closed
+ * Type alias for UI configurations map - עקרון Open/Closed
  */
-export const GAME_UI_CONFIGS: Readonly<Record<string, GameUIConfiguration>> = {};
+export type GameUIConfigurationsMap = Readonly<Record<string, GameUIConfiguration>>;
 
 /**
  * מצב סוג משחק - עקרון Single Responsibility

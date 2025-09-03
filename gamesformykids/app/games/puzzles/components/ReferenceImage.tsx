@@ -7,7 +7,7 @@ interface ReferenceImageProps {
   image?: HTMLImageElement; // Optional - defaults to context image
 }
 
-export default function ReferenceImage({ image }: ReferenceImageProps = {}) {
+export default function ReferenceImage({ image }: ReferenceImageProps) {
   const { state } = usePuzzleContext();
   
   // Use prop if provided, otherwise use context

@@ -57,9 +57,9 @@ export interface ButtonStyling {
 }
 
 /**
- * Props לכפתור רגיל - עקרון Interface Segregation
+ * Props לכפתור משחק מורחב - עקרון Interface Segregation
  */
-export interface ButtonProps extends BaseButtonProps, ButtonStyling {}
+export interface GameButtonProps extends BaseButtonProps, ButtonStyling {}
 
 /**
  * מאפיינים לטקסט כפתור משחק - עקרון Single Responsibility

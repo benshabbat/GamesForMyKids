@@ -4,20 +4,14 @@
  * ===============================================
  */
 
-import React from 'react';
+import React, { ComponentType } from 'react';
 import { BaseGameItem, GameType } from '../core/base';
 
 // הערה: טיפוסים משותפים קיימים גם ב-hooks/game-state, יש להוסיף הפנייה מתאימה
 import { GameItemCardProps } from '../hooks/game-state';
+import type { GameUIConfig } from './game-config';
 
-/**
- * תצורת UI למשחק - עקרון Single Responsibility
- */
-export interface GameUIConfig {
-  readonly title: string;
-  readonly description: string;
-  readonly instructions: readonly string[];
-}
+// הערה: GameUIConfig מיובא מ-game-config לפי עקרון DRY
 
 /**
  * מצב משחק עם סטטיסטיקות - עקרון Single Responsibility
@@ -48,9 +42,9 @@ export interface GameReadinessState {
 }
 
 /**
- * פעולות משחק - עקרון Single Responsibility
+ * פעולות משחק בסיסיות - עקרון Single Responsibility
  */
-export interface GameActions {
+export interface BasicGameActions {
   readonly startGame: () => void;
   readonly resetGame: () => void;
   readonly handleItemClick: (item: BaseGameItem) => void;
@@ -58,12 +52,12 @@ export interface GameActions {
 }
 
 /**
- * תצורת משחק - עקרון Single Responsibility
+ * תצורת משחק אוניברסלית - עקרון Single Responsibility
  */
-export interface GameConfiguration {
+export interface UniversalGameConfiguration {
   readonly config: GameUIConfig;
   readonly items: readonly BaseGameItem[];
-  readonly CardComponent: React.ComponentType<GameItemCardProps>;
+  readonly CardComponent: ComponentType<GameItemCardProps>;
   readonly gameType: GameType;
 }
 
@@ -91,8 +85,8 @@ export interface UniversalGameContextValue extends
   GameStatistics,
   GameCurrentState,
   GameReadinessState,
-  GameActions,
-  GameConfiguration,
+  BasicGameActions,
+  UniversalGameConfiguration,
   GameHintsSystem,
   GameUI {}
 
