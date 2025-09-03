@@ -61,7 +61,7 @@ export interface GameLogicContextValue {
   
   // Configuration - זמין לכל הקומפוננטים
   config: GameUIConfig;
-  items: BaseGameItem[];
+  items: readonly BaseGameItem[];
   CardComponent: React.ComponentType<GameCardProps>;
   gameType: GameType | AutoGameType;
   
