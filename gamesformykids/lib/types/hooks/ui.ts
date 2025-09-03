@@ -5,6 +5,7 @@
  */
 
 import { BaseGameItem } from '../core/base';
+import type { GameLifecycleEvent, PlayerResponseEvent, GameProgressEvent } from '../events/game-events';
 
 /**
  * Props עבור רמזים במשחק - עקרון Single Responsibility
@@ -47,18 +48,13 @@ export interface UseGameEventsProps {
 }
 
 /**
- * סוגי אירועי משחק - עקרון Open/Closed
+ * סוגי אירועי משחק - עקרון DRY, uses existing types
  */
 export type GameEvent = 
-  | 'game_start'
-  | 'game_pause'
-  | 'game_resume'
-  | 'correct_answer'
-  | 'wrong_answer'
-  | 'level_up'
-  | 'new_high_score'
-  | 'streak_milestone'
-  | 'game_complete';
+  | GameLifecycleEvent
+  | PlayerResponseEvent
+  | GameProgressEvent
+  | 'streak_milestone';
 
 /**
  * החזרת Hook לאירועי משחק - עקרון Interface Segregation

@@ -1,64 +1,21 @@
 {
-  "timestamp": "2025-09-03T01:44:27.218Z",
+  "timestamp": "2025-09-03T01:54:15.584Z",
   "stats": {
     "filesScanned": 35,
-    "typesFound": 230,
+    "typesFound": 228,
     "duplicatesFound": 7
   },
   "duplicates": [
-    {
-      "signature": "ae35477b63d2609b46151ce0632ae3ff",
-      "normalizedContent": "readonly gameType: string",
-      "occurrences": [
-        {
-          "kind": "interface",
-          "name": "SpecificGameTypeConfig",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\contexts\\general.ts",
-          "position": 564,
-          "originalBody": "readonly gameType: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "GameTyped",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\core\\base.ts",
-          "position": 609,
-          "originalBody": "readonly gameType: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "GameContext",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\events\\game-events.ts",
-          "position": 1031,
-          "originalBody": "readonly gameType: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "SimpleGameBasicConfig",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\hooks\\game-state.ts",
-          "position": 5660,
-          "originalBody": "readonly gameType: string;"
-        }
-      ],
-      "severity": 400,
-      "recommendations": {
-        "baseName": "BaseGame",
-        "baseInterface": "   readonly gameType: string;"
-      }
-    },
     {
       "signature": "0e7085e2efa8257199d6e28189b315af",
       "normalizedContent": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
       "occurrences": [
         {
           "kind": "interface",
-          "name": "GameUI",
+          "name": "ProgressModalState",
           "normalizedBody": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
-          "filePath": "lib\\types\\contexts\\universal-game.ts",
-          "position": 2050,
+          "filePath": "lib\\types\\core\\base.ts",
+          "position": 726,
           "originalBody": "readonly showProgressModal: boolean;\r\n  readonly setShowProgressModal: (show: boolean) => void;"
         },
         {
@@ -72,7 +29,7 @@
       ],
       "severity": 360,
       "recommendations": {
-        "baseName": "BaseGame",
+        "baseName": "BaseState",
         "baseInterface": "   readonly setShowProgressModal: (show: boolean) => void;\n   readonly showProgressModal: boolean;"
       }
     },
@@ -254,6 +211,33 @@
       }
     },
     {
+      "signature": "ae35477b63d2609b46151ce0632ae3ff",
+      "normalizedContent": "readonly gameType: string",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "GameTyped",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\core\\base.ts",
+          "position": 609,
+          "originalBody": "readonly gameType: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "SimpleGameBasicConfig",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 5660,
+          "originalBody": "readonly gameType: string;"
+        }
+      ],
+      "severity": 100,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   readonly gameType: string;"
+      }
+    },
+    {
       "signature": "20e6c77bcaaf1aa8fe39238d570d6240",
       "normalizedContent": "className?: string;size?: number",
       "occurrences": [
@@ -289,7 +273,7 @@
           "name": "GameLifecycleEvent",
           "normalizedBody": "| 'game_start'",
           "filePath": "lib\\types\\events\\game-events.ts",
-          "position": 229,
+          "position": 279,
           "originalBody": "| 'game_start'"
         },
         {

@@ -5,9 +5,8 @@
  */
 
 import type { ComponentType } from 'react';
-import { BaseGameItem, GameType, BaseGameState } from '../core/base';
+import { BaseGameItem, GameType, BaseGameState, ProgressModalState, GameTyped, BaseDifficultyConfig } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
-import type { DifficultyLevel } from '../games/base';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
@@ -109,12 +108,9 @@ export interface GameResponseActions {
 }
 
 /**
- * מצב UI של משחק - עקרון Single Responsibility
+ * מצב UI של משחק - עקרון DRY, type alias
  */
-export interface GameUIState {
-  readonly showProgressModal: boolean;
-  readonly setShowProgressModal: (show: boolean) => void;
-}
+export type GameUIState = ProgressModalState;
 
 /**
  * הגדרות משחק - עקרון Single Responsibility
@@ -208,18 +204,14 @@ export interface GameContextHookReturn extends
 }
 
 /**
- * הגדרות בסיסיות למשחק פשוט - עקרון Single Responsibility
+ * הגדרות בסיסיות למשחק פשוט - עקרון DRY, type alias
  */
-export interface SimpleGameBasicConfig {
-  readonly gameType: string;
-}
+export type SimpleGameBasicConfig = GameTyped;
 
 /**
- * הגדרות קושי למשחק - עקרון Single Responsibility
+ * הגדרות קושי למשחק - עקרון DRY, type alias
  */
-export interface GameDifficultyConfig {
-  readonly difficulty?: DifficultyLevel;
-}
+export type GameDifficultyConfig = BaseDifficultyConfig;
 
 /**
  * הגדרות התחלה אוטומטית - עקרון Single Responsibility

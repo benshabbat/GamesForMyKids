@@ -1,21 +1,23 @@
 /**
  * ===============================================
- * Icon Component Types
+ * Icon Component Types - DRY Principle Applied
  * ===============================================
  */
 
 /**
- * Props עבור אייקון צורה
+ * Base props for all icons - עקרון DRY
  */
-export interface ShapeIconProps {
+export interface BaseIconProps {
   size?: number;
   className?: string;
 }
 
 /**
- * Props עבור אייקון עברי
+ * Props עבור אייקון צורה - type alias for clarity
  */
-export interface HebrewIconProps {
-  size?: number;
-  className?: string;
-}
+export type ShapeIconProps = BaseIconProps;
+
+/**
+ * Props עבור אייקון עברי - type alias for clarity
+ */
+export type HebrewIconProps = BaseIconProps;

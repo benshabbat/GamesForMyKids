@@ -34,17 +34,16 @@ export interface SimpleGameInstructionsProps {
   variant?: 'simple' | 'detailed';
 }
 
-export interface GameInstructionsProps {
+/**
+ * Base props for context-based components - עקרון DRY
+ */
+export interface ContextBasedComponentProps {
   // Context-based component - no props needed
   className?: string;
 }
 
-export interface CelebrationBoxProps {
-  // Context-based component - no props needed
-  className?: string;
-}
+export type GameInstructionsProps = ContextBasedComponentProps;
 
-export interface ChallengeBoxProps {
-  // Context-based component - no props needed
-  className?: string;
-}
+export type CelebrationBoxProps = ContextBasedComponentProps;
+
+export type ChallengeBoxProps = ContextBasedComponentProps;

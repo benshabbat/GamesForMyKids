@@ -4,8 +4,7 @@
  * ===============================================
  */
 
-import type { TitledEntity, Nameable } from '../core/base';
-import type { DifficultyLevel } from '../games/base';
+import type { TitledEntity, Nameable, BaseDifficultyConfig } from '../core/base';
 import type { Identifiable } from '../core/abstracts';
 
 /**
@@ -17,11 +16,9 @@ export interface StructuredDataBasicInfo extends TitledEntity {
 }
 
 /**
- * הגדרות קושי לStructured Data - עקרון Single Responsibility
+ * הגדרות קושי לStructured Data - עקרון DRY, type alias
  */
-export interface StructuredDataDifficulty {
-  readonly difficulty?: DifficultyLevel;
-}
+export type StructuredDataDifficulty = BaseDifficultyConfig;
 
 /**
  * טווח גילאים - עקרון Single Responsibility

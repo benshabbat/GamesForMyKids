@@ -6,7 +6,7 @@
 
 import { ReactNode } from 'react';
 import type { Identifiable } from './abstracts';
-import type { GameAvailability } from '../games/base';
+import type { GameAvailability, DifficultyLevel } from '../games/base';
 
 /**
  * שם בסיסי - עקרון Single Responsibility  
@@ -36,6 +36,13 @@ export interface GameTyped {
 export interface ProgressModalState {
   readonly showProgressModal: boolean;
   readonly setShowProgressModal: (show: boolean) => void;
+}
+
+/**
+ * ממשק בסיסי לרמת קושי - עקרון DRY
+ */
+export interface BaseDifficultyConfig {
+  readonly difficulty?: DifficultyLevel;
 }
 
 /**
