@@ -1,25 +1,63 @@
 /**
  * ===============================================
- * טיפוסים כלליים לContexts
+ * טיפוסים כלליים לContexts - Clean Code & SOLID
  * ===============================================
  */
 
-export interface GameTypeProviderProps {
-  children: React.ReactNode;
-  defaultGameType?: string;
+import { ReactNode } from 'react';
+
+/**
+ * Props בסיסיים לProvider - עקרון Single Responsibility
+ */
+export interface BaseProviderProps {
+  readonly children: ReactNode;
 }
 
-export interface GameProgressProviderProps {
-  children: React.ReactNode;
-  gameType?: string;
+/**
+ * הגדרות בסיסיות למשחק - עקרון Single Responsibility
+ */
+export interface DefaultGameTypeConfig {
+  readonly defaultGameType?: string;
 }
 
-export interface GameLogicProviderProps {
-  children: React.ReactNode;
-  gameType: string;
+/**
+ * הגדרת סוג משחק ספציפי - עקרון Single Responsibility
+ */
+export interface SpecificGameTypeConfig {
+  readonly gameType: string;
 }
 
-export interface GameConfigProviderProps {
-  children: React.ReactNode;
-  gameType: string;
+/**
+ * הגדרת סוג משחק אופציונלי - עקרון Single Responsibility
+ */
+export interface OptionalGameTypeConfig {
+  readonly gameType?: string;
 }
+
+/**
+ * Props ל-GameType Provider - עקרון Interface Segregation
+ */
+export interface GameTypeProviderProps extends 
+  BaseProviderProps,
+  DefaultGameTypeConfig {}
+
+/**
+ * Props ל-GameProgress Provider - עקרון Interface Segregation
+ */
+export interface GameProgressProviderProps extends 
+  BaseProviderProps,
+  OptionalGameTypeConfig {}
+
+/**
+ * Props ל-GameLogic Provider - עקרון Interface Segregation
+ */
+export interface GameLogicProviderProps extends 
+  BaseProviderProps,
+  SpecificGameTypeConfig {}
+
+/**
+ * Props ל-GameConfig Provider - עקרון Interface Segregation
+ */
+export interface GameConfigProviderProps extends 
+  BaseProviderProps,
+  SpecificGameTypeConfig {}

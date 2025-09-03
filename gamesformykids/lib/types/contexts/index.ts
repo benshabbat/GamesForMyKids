@@ -1,42 +1,17 @@
 /**
  * ===============================================
- * ייצוא מרכזי לטיפוסי Contexts
+ * ייצוא מרכזי לטיפוסי Contexts - Clean Code
  * ===============================================
  */
 
-// ייצוא טיפוסים ללא collisions
-export * from '@/app/games/hebrew-letters/types/hebrew-letters';
-export * from '@/app/games/memory/types/memory';
-export * from '@/app/games/puzzles/types/puzzle';
+// ייצוא טיפוסים מקומיים בלבד
 export * from './general';
 
-// ייצוא מפורש לטיפוסים עם collisions
+// ייצוא ממשקים מתוקנים
 export type { 
-  PuzzleState, 
-  PuzzleAction, 
-  TouchState,
-  PuzzleContextValue 
-} from '@/app/games/puzzles/types/puzzle';
-
-export type { 
-  SimpleGameProgress, 
-  SimpleGameProgressContextValue 
-} from './simple-game-progress';
-
-export type { 
-  UniversalGameContextValue as BaseUniversalGameContextValue
-} from './universal-game';
-
-// ייצוא טיפוסים חדשים
-export type {
-  BuildingContextType,
-  BuildingProviderProps
-} from '@/app/games/building/types/building';
-
-export type {
   GameConfigContextValue,
   GameConfigProviderProps,
-  GameCardProps as GameConfigCardProps
+  GameCardProps
 } from './game-config';
 
 export type {
@@ -44,3 +19,7 @@ export type {
   GameTypeContextValue,
   GameTypeProviderProps
 } from './game-type';
+
+export type {
+  UniversalGameContextValue
+} from './universal-game';

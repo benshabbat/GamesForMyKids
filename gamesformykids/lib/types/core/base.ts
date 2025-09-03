@@ -7,62 +7,174 @@
 import { ReactNode } from 'react';
 
 /**
- * פריט משחק בסיסי - מכיל את כל המאפיינים הנפוצים
+ * מזהה יחודי - עקרון Single Responsibility
  */
-export interface BaseGameItem {
-  name: string;
-  hebrew: string;
-  english: string;
-  emoji: string;
-  color: string;
-  sound: number[];
-  plural?: string; // רבים עבור משחקי מתמטיקה ורגשות
+export interface Identifiable {
+  readonly id: string;
 }
 
 /**
- * מצב משחק גנרי
+ * שם בסיסי - עקרון Single Responsibility  
  */
-export interface BaseGameState<T = BaseGameItem> {
-  currentChallenge: T | null;
-  score: number;
-  level: number;
-  isPlaying: boolean;
-  showCelebration: boolean;
-  options: T[];
+export interface Nameable {
+  readonly name: string;
 }
 
 /**
- * הגדרות משחק
+ * תרגום רב-לשוני - עקרון Single Responsibility
  */
-export interface GameConfig {
-  baseCount: number;
-  increment: number;
-  levelThreshold: number;
-  maxCount?: number;
+export interface Translatable {
+  readonly hebrew: string;
+  readonly english: string;
+  readonly plural?: string;
 }
 
 /**
- * משחק ברשימת המשחקים
+ * מאפיינים ויזואליים - עקרון Single Responsibility
  */
-export interface Game {
-  id: string;
-  title: string;
-  description: string;
-  icon: ReactNode;
-  color: string;  
-  href: string;
-  available: boolean;
+export interface Visualizable {
+  readonly emoji: string;
+  readonly color: string;
 }
 
 /**
- * כרטיס זיכרון
+ * מאפיינים קוליים - עקרון Single Responsibility
  */
-export interface Card {
-  id: number;
-  emoji: string;
-  isFlipped: boolean;
-  isMatched: boolean;
+export interface Audioable {
+  readonly sound: ReadonlyArray<number>;
 }
+
+/**
+ * פריט משחק בסיסי - עקרון Interface Segregation
+ * יורש מכל הממשקים הרלוונטיים אבל שומר על תאימות לאחור
+ */
+export interface BaseGameItem extends 
+  Identifiable, 
+  Nameable,
+  Translatable, 
+  Visualizable, 
+  Audioable {}
+
+/**
+ * גרסה מקוצרת של BaseGameItem לתאימות לאחור - ללא id חובה
+ * להשתמש כאשר id לא נדרש
+ */
+export interface BaseGameItemLegacy extends 
+  Nameable,
+  Translatable, 
+  Visualizable, 
+  Audioable {
+  readonly id?: string;
+}
+
+/**
+ * מצב משחק בסיסי - עקרון Single Responsibility
+ * מכיל רק מידע על מצב נוכחי
+ */
+export interface GameCurrentState<T extends BaseGameItem = BaseGameItem> {
+  readonly currentChallenge: T | null;
+  readonly options: ReadonlyArray<T>;
+}
+
+/**
+ * מצב משחק עם ניקוד - עקרון Single Responsibility
+ */
+export interface GameScoreState {
+  readonly score: number;
+  readonly level: number;
+}
+
+/**
+ * מצב משחק עם סטטוס - עקרון Single Responsibility
+ */
+export interface GamePlayState {
+  readonly isPlaying: boolean;
+  readonly showCelebration: boolean;
+}
+
+/**
+ * מצב משחק מלא - עקרון Interface Segregation
+ * יורש מכל הממשקים הנדרשים
+ */
+export interface BaseGameState<T extends BaseGameItem = BaseGameItem> extends 
+  GameCurrentState<T>,
+  GameScoreState,
+  GamePlayState {}
+
+/**
+ * הגדרות בסיסיות למשחק - עקרון Single Responsibility
+ */
+export interface BaseGameSettings {
+  readonly baseCount: number;
+  readonly increment: number;
+  readonly levelThreshold: number;
+}
+
+/**
+ * הגדרות מתקדמות למשחק - עקרון Interface Segregation
+ */
+export interface AdvancedGameSettings {
+  readonly maxCount?: number;
+  readonly timeLimit?: number;
+  readonly difficultyScaling?: boolean;
+}
+
+/**
+ * הגדרות משחק מלאות - עקרון Open/Closed
+ */
+export interface GameConfig extends BaseGameSettings, AdvancedGameSettings {}
+
+/**
+ * מאפיינים בסיסיים למשחק - עקרון Single Responsibility
+ */
+export interface GameBasicInfo extends Identifiable, Translatable {
+  readonly description: string;
+  readonly href: string;
+}
+
+/**
+ * מאפיינים ויזואליים למשחק - עקרון Single Responsibility
+ */
+export interface GameVisualInfo {
+  readonly icon: ReactNode;
+  readonly color: string;
+}
+
+/**
+ * מצב זמינות המשחק - עקרון Single Responsibility
+ */
+export interface GameAvailability {
+  readonly available: boolean;
+}
+
+/**
+ * משחק ברשימת המשחקים - עקרון Interface Segregation
+ */
+export interface Game extends 
+  GameBasicInfo,
+  GameVisualInfo,
+  GameAvailability {}
+
+/**
+ * מצב כרטיס זיכרון - עקרון Single Responsibility
+ */
+export interface CardState {
+  readonly isFlipped: boolean;
+  readonly isMatched: boolean;
+}
+
+/**
+ * מידע כרטיס זיכרון - עקרון Single Responsibility
+ */
+export interface CardInfo {
+  readonly id: number;
+  readonly emoji: string;
+}
+
+/**
+ * כרטיס זיכרון מלא - עקרון Interface Segregation
+ */
+export interface Card extends CardInfo, CardState {}
 
 /**
  * טיפוסי משחקים נתמכים

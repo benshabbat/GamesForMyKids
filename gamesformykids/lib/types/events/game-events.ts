@@ -1,32 +1,70 @@
 /**
  * ===============================================
- * Game Events Types
+ * Game Events Types - Clean Code & SOLID
  * ===============================================
  */
 
 /**
- * סוגי אירועים במשחק
+ * אירועי מחזור חיים של משחק - עקרון Single Responsibility
  */
-export type GameEvent = 
+export type GameLifecycleEvent = 
   | 'game_start'
   | 'game_pause'
   | 'game_resume'
-  | 'correct_answer'
-  | 'wrong_answer'
-  | 'level_up'
-  | 'new_high_score'
-  | 'streak_milestone'
   | 'game_complete';
 
 /**
- * נתוני אירוע משחק
+ * אירועי תגובת שחקן - עקרון Single Responsibility
  */
-export interface GameEventData {
-  event: GameEvent;
-  gameType: string;
-  timestamp: number;
-  data?: Record<string, unknown>;
+export type PlayerResponseEvent = 
+  | 'correct_answer'
+  | 'wrong_answer';
+
+/**
+ * אירועי התקדמות במשחק - עקרון Single Responsibility
+ */
+export type GameProgressEvent = 
+  | 'level_up'
+  | 'new_high_score'
+  | 'streak_milestone';
+
+/**
+ * כל סוגי האירועים במשחק - עקרון Open/Closed
+ */
+export type GameEvent = 
+  | GameLifecycleEvent
+  | PlayerResponseEvent
+  | GameProgressEvent;
+
+/**
+ * מידע בסיסי לאירוע - עקרון Single Responsibility
+ */
+export interface EventMetadata {
+  readonly event: GameEvent;
+  readonly timestamp: number;
 }
+
+/**
+ * הקשר משחק לאירוע - עקרון Single Responsibility
+ */
+export interface GameContext {
+  readonly gameType: string;
+}
+
+/**
+ * נתונים נוספים לאירוע - עקרון Single Responsibility
+ */
+export interface EventPayload {
+  readonly data?: Readonly<Record<string, unknown>>;
+}
+
+/**
+ * נתוני אירוע משחק מלאים - עקרון Interface Segregation
+ */
+export interface GameEventData extends 
+  EventMetadata,
+  GameContext,
+  EventPayload {}
 
 /**
  * הגדרת Window עבור gtag

@@ -1,12 +1,19 @@
 /**
  * ===============================================
- * טיפוסים ל-UniversalGameContext
+ * טיפוסים ל-UniversalGameContext - Clean Code
  * ===============================================
  */
 
 import { BaseGameItem, GameType } from '../core/base';
-import { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
 import { GameItemCardProps } from '../hooks/game-state';
+
+// טייפים זמניים למען תאימות
+export interface GameUIConfig {
+  title: string;
+  description: string;
+  instructions: string[];
+  [key: string]: unknown;
+}
 
 export interface UniversalGameContextValue {
   // Game State

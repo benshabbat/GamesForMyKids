@@ -4,11 +4,20 @@
  * ===============================================
  */
 
+import type { ComponentType } from 'react';
 import { BaseGameItem, GameType, BaseGameState } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
 
-// Import GameUIConfig from its proper location
-import type { GameUIConfig } from '@/lib/constants/ui/gameConfigs';
+// ייצוא הטייפ למען תאימות
+export type { GameItemCardProps };
+
+// טייפ זמני לGameUIConfig עד שהקבצים יתוקנו
+export interface GameUIConfig {
+  title: string;
+  description: string;
+  instructions: string[];
+  [key: string]: unknown;
+}
 
 export interface UseGameOptionsProps {
   allItems: BaseGameItem[];
@@ -68,7 +77,7 @@ export interface GameLogicState {
   // Configuration
   config: GameUIConfig;
   items: BaseGameItem[];
-  CardComponent: React.ComponentType<GameItemCardProps>;
+  CardComponent: ComponentType<GameItemCardProps>;
   gameType: unknown; // GameType | AutoGameType
 }
 

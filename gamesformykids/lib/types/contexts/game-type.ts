@@ -1,12 +1,14 @@
 /**
  * ===============================================
- * Game Type Context Types
+ * Game Type Context Types - Clean Code
  * ===============================================
  */
 
 import { ReactNode } from 'react';
 import { GameType } from '../core/base';
-import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
+
+// טייפ זמני למען תאימות
+export const GAME_UI_CONFIGS: Record<string, unknown> = {};
 
 /**
  * State של GameType
