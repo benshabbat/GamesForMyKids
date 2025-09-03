@@ -22,7 +22,7 @@ export abstract class BaseEntity {
   }
 
   public abstract validate(): boolean;
-  public abstract serialize(): Record<string, unknown>;
+  public abstract serialize(): Readonly<Record<string, string | number | boolean>>;
 }
 
 /**
@@ -35,7 +35,7 @@ export interface Identifiable<TId = string> {
 /**
  * ממשק לאובייקט שניתן לסידוק - עקרון Interface Segregation
  */
-export interface Serializable<T = Record<string, unknown>> {
+export interface Serializable<T = Readonly<Record<string, string | number | boolean>>> {
   serialize(): T;
 }
 
@@ -84,7 +84,7 @@ export abstract class BaseGame extends BaseEntity {
     return this._title.length > 0 && this._description.length > 0;
   }
 
-  public serialize(): Record<string, unknown> {
+  public serialize(): Readonly<Record<string, string | number | boolean>> {
     return {
       id: this.id,
       title: this.title,
@@ -151,24 +151,49 @@ export interface Observer<T> {
 /**
  * פאטרן Subject לניהול Observers - עקרון Dependency Inversion
  */
-export interface Subject<T> {
+export interface Subject<T extends object = object> {
   attach(observer: Observer<T>): void;
   detach(observer: Observer<T>): void;
   notify(data: T): void;
 }
 
 /**
+ * הקשר ביצוע לאסטרטגיה - עקרון Single Responsibility
+ */
+export interface ExecutionContext {
+  readonly type: string;
+  readonly config: Readonly<Record<string, object>>;
+}
+
+/**
+ * תוצאת ביצוע אסטרטגיה - עקרון Single Responsibility
+ */
+export interface ExecutionResult {
+  readonly success: boolean;
+  readonly data?: object;
+  readonly error?: string;
+}
+
+/**
  * ממשק לאסטרטגיית משחק - עקרון Strategy Pattern
  */
 export interface GameStrategy {
-  execute(context: unknown): unknown;
+  execute(context: ExecutionContext): ExecutionResult;
   canHandle(type: string): boolean;
+}
+
+/**
+ * הגדרת יצירת משחק - עקרון Single Responsibility
+ */
+export interface GameCreationConfig {
+  readonly type: string;
+  readonly config: Readonly<Record<string, object>>;
 }
 
 /**
  * Factory לייצור משחקים - עקרון Factory Pattern
  */
 export interface GameFactory<T extends BaseGame> {
-  createGame(type: string, config: unknown): T;
+  createGame(config: GameCreationConfig): T;
   getSupportedTypes(): ReadonlyArray<string>;
 }

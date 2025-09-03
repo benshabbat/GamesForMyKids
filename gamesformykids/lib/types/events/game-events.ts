@@ -55,7 +55,7 @@ export interface GameContext {
  * נתונים נוספים לאירוע - עקרון Single Responsibility
  */
 export interface EventPayload {
-  readonly data?: Readonly<Record<string, unknown>>;
+  readonly data?: Readonly<Record<string, string | number | boolean>>;
 }
 
 /**
@@ -71,6 +71,6 @@ export interface GameEventData extends
  */
 declare global {
   interface Window {
-    gtag?: (command: string, action: string, parameters?: Record<string, unknown>) => void;
+    gtag?: (command: string, action: string, parameters?: Readonly<Record<string, string | number | boolean>>) => void;
   }
 }

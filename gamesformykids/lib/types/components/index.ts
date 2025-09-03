@@ -123,91 +123,157 @@ export interface UnifiedCardProps extends AdvancedVisualProps {
 export interface GameCardGridProps<T = object> {
   readonly items: readonly T[];
   readonly renderItem?: (item: T, index: number) => ReactNode;
-};
+}
 
-export type GameItemType = Record<string, unknown>;
+/**
+ * טייפ כללי לפריט משחק - עקרון Single Responsibility
+ */
+export interface GameItemType {
+  readonly id: string;
+  readonly name: string;
+}
 
-export type GameItemProps = {
-  item: Record<string, unknown>;
-  onClick?: (item: Record<string, unknown>) => void;
-};
+/**
+ * Props לפריט משחק - עקרון Single Responsibility & Generics
+ */
+export interface GameItemProps<T = GameItemType> {
+  readonly item: T;
+  readonly onClick?: (item: T) => void;
+}
 
-export type GameProgressDisplayProps = {
-  score?: number;
-  level?: number;
-};
+/**
+ * Props להצגת התקדמות - עקרון Single Responsibility
+ */
+export interface GameProgressDisplayProps {
+  readonly score?: number;
+  readonly level?: number;
+}
 
-export type ProgressDisplayProps = {
-  current: number;
-  total: number;
-};
+/**
+ * Props להצגת מצב התקדמות - עקרון Single Responsibility
+ */
+export interface ProgressDisplayProps {
+  readonly current: number;
+  readonly total: number;
+}
 
-export type GenericBoxProps = {
-  title?: string;
-  children?: ReactNode;
-};
+/**
+ * Props לקופסה כללית - עקרון Single Responsibility
+ */
+export interface GenericBoxProps {
+  readonly title?: string;
+  readonly children?: ReactNode;
+}
 
-export type OptimizedImageProps = {
-  src: string;
-  alt: string;
-};
+/**
+ * Props לתמונה מותאמת - עקרון Single Responsibility
+ */
+export interface OptimizedImageProps {
+  readonly src: string;
+  readonly alt: string;
+}
 
-export type CelebrationBoxProps = {
-  label?: ReactNode;
-  value?: ReactNode;
-};
+/**
+ * Props לקופסת חגיגה - עקרון Single Responsibility
+ */
+export interface CelebrationBoxProps {
+  readonly label?: ReactNode;
+  readonly value?: ReactNode;
+}
 
-export type ChallengeBoxProps = {
-  icon?: ReactNode;
-  description?: ReactNode;
-  config?: Record<string, unknown>;
-};
+/**
+ * הגדרת אתגר - עקרון Single Responsibility
+ */
+export interface ChallengeConfig {
+  readonly difficulty: 'easy' | 'medium' | 'hard';
+  readonly timeLimit?: number;
+}
 
-export type GameHintsProps = {
-  hints: string[];
-};
+/**
+ * Props לקופסת אתגר - עקרון Interface Segregation
+ */
+export interface ChallengeBoxProps {
+  readonly icon?: ReactNode;
+  readonly description?: ReactNode;
+  readonly config?: ChallengeConfig;
+}
 
-export type GameInstructionsProps = {
-  steps?: Record<string, unknown>;
-  config?: Record<string, unknown>;
-};
+/**
+ * Props לרמזי משחק - עקרון Single Responsibility
+ */
+export interface GameHintsProps {
+  readonly hints: readonly string[];
+}
 
-export type SimpleGameInstructionsProps = {
-  instructions?: string[];
-};
+/**
+ * צעדי משחק - עקרון Single Responsibility
+ */
+export interface GameStep {
+  readonly step: number;
+  readonly instruction: string;
+}
 
-export type TipsBoxProps = {
-  tips?: string[];
-};
+/**
+ * Props להוראות משחק - עקרון Interface Segregation
+ */
+export interface GameInstructionsProps {
+  readonly steps?: readonly GameStep[];
+  readonly config?: ChallengeConfig;
+}
 
-export type GameHeaderProps = {
-  title?: string;
-  [key: string]: unknown;
-};
-export type StartScreenHeaderProps = {
-  title?: string;
-  [key: string]: unknown;
-};
-export type UnifiedHeaderProps = {
-  title?: string;
-  [key: string]: unknown;
-};
+/**
+ * Props להוראות פשוטות - עקרון Single Responsibility
+ */
+export interface SimpleGameInstructionsProps {
+  readonly instructions?: readonly string[];
+}
 
+/**
+ * Props לקופסת טיפים - עקרון Single Responsibility
+ */
+export interface TipsBoxProps {
+  readonly tips?: readonly string[];
+}
+
+/**
+ * Props לכותרת משחק - עקרון Single Responsibility
+ */
+export interface GameHeaderProps {
+  readonly title?: string;
+}
+
+/**
+ * Props לכותרת מסך התחלה - עקרון Liskov Substitution
+ */
+export type StartScreenHeaderProps = GameHeaderProps;
+
+/**
+ * Props לכותרת מאוחדת - עקרון Liskov Substitution
+ */
+export type UnifiedHeaderProps = GameHeaderProps;
+
+/**
+ * Props למסך שגיאה של משחק - עקרון Liskov Substitution
+ */
 export type GameErrorScreenProps = ErrorScreenProps;
-export type GenericStartScreenProps<T extends Record<string, unknown> = Record<string, unknown>> = {
-  title: string;
-  subTitle?: string;
-  description?: string;
-  items?: T[];
-  onStart?: () => void;
-  gameSteps?: unknown[];
-  textColorHeader?: string;
-  textColorSubHeader?: string;
-  gameStepsBgClass?: string;
-  buttonFromColor?: string;
-  buttonToColor?: string;
-  backgroundStyle?: string;
-  itemsTitle?: string;
+
+/**
+ * Props למסך התחלה כללי - עקרון Single Responsibility & Generics
+ */
+export interface GenericStartScreenProps<T = object> {
+  readonly title: string;
+  readonly subTitle?: string;
+  readonly description?: string;
+  readonly items?: readonly T[];
+  readonly onStart?: () => void;
+  readonly gameSteps?: readonly GameStep[];
+  readonly textColorHeader?: string;
+  readonly textColorSubHeader?: string;
+  readonly gameStepsBgClass?: string;
+  readonly buttonFromColor?: string;
+  readonly buttonToColor?: string;
+  readonly backgroundStyle?: string;
+  readonly itemsTitle?: string;
   itemsDescription?: string;
   itemsDescriptionColor?: string;
   itemsGridClass?: string;
