@@ -4,9 +4,9 @@
  * ===============================================
  */
 
-import type { ComponentType } from 'react';
 import { BaseGameItem, GameType, BaseGameState, ProgressModalState, GameTyped, BaseDifficultyConfig } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
+import { BaseGameConfiguration } from '../contexts/universal-game';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
@@ -113,14 +113,10 @@ export interface GameResponseActions {
 export type GameUIState = ProgressModalState;
 
 /**
- * הגדרות משחק - עקרון Single Responsibility
+ * הגדרות משחק - עקרון Single Responsibility  
+ * מרחיב את BaseGameConfiguration מ-universal-game
  */
-export interface GameConfiguration {
-  readonly config: BasicGameUIConfig;
-  readonly items: readonly BaseGameItem[];
-  readonly CardComponent: ComponentType<GameItemCardProps>;
-  readonly gameType: GameType;
-}
+export interface GameConfiguration extends BaseGameConfiguration {}
 
 /**
  * מצב משחק לוגי מלא - עקרון Interface Segregation
@@ -135,6 +131,7 @@ export interface GameLogicState extends
   GameConfiguration {
   readonly gameState: GameState | null;
   readonly isGameActive: boolean;
+  readonly progressStats?: Record<string, unknown>;
 }
 
 /**

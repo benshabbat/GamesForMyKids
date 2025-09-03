@@ -165,10 +165,7 @@ export interface TypedConfiguration {
   readonly config: Readonly<Record<string, object>>;
 }
 
-/**
- * הקשר ביצוע לאסטרטגיה - עקרון DRY, type alias
- */
-export type ExecutionContext = TypedConfiguration;
+// הערה: ExecutionContext ו-GameCreationConfig מחוקים - הם זהים ל-TypedConfiguration (עקרון DRY)
 
 /**
  * תוצאת ביצוע אסטרטגיה - עקרון Single Responsibility
@@ -183,19 +180,16 @@ export interface ExecutionResult {
  * ממשק לאסטרטגיית משחק - עקרון Strategy Pattern
  */
 export interface GameStrategy {
-  execute(context: ExecutionContext): ExecutionResult;
+  execute(context: TypedConfiguration): ExecutionResult;
   canHandle(type: string): boolean;
 }
 
-/**
- * הגדרת יצירת משחק - עקרון DRY, type alias
- */
-export type GameCreationConfig = TypedConfiguration;
+// הערה: GameCreationConfig מחוק - זהה ל-TypedConfiguration (עקרון DRY)
 
 /**
  * Factory לייצור משחקים - עקרון Factory Pattern
  */
 export interface GameFactory<T extends BaseGame> {
-  createGame(config: GameCreationConfig): T;
+  createGame(config: TypedConfiguration): T;
   getSupportedTypes(): ReadonlyArray<string>;
 }

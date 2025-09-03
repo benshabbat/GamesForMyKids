@@ -16,7 +16,6 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { BaseGameItem, GameType } from "@/lib/types/core/base";
 import { GameUIConfig } from "@/lib/constants/ui/gameConfigs";
-import { AutoGameType } from "@/lib/constants/gameHooksMap";
 import { useAutoGameConfig } from './GameConfigContext';
 
 interface GameCardProps {
@@ -63,7 +62,7 @@ export interface GameLogicContextValue {
   config: GameUIConfig;
   items: readonly BaseGameItem[];
   CardComponent: React.ComponentType<GameCardProps>;
-  gameType: GameType | AutoGameType;
+  gameType: GameType,
   
   // Status
   isReady: boolean;
@@ -132,7 +131,7 @@ export function GameLogicProvider({ children }: GameLogicProviderProps) {
     config,
     items,
     CardComponent,
-    gameType,
+    gameType: gameType as GameType,
     
     // Status
     isReady: true,

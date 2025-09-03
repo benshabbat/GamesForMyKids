@@ -81,7 +81,7 @@ export interface CardContent {
 export interface CardAppearance {
   size?: "small" | "medium" | "large";
   shape?: "rounded" | "circle" | "square";
-  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced';
+  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto';
   
   // צבעים
   color?: string;
@@ -170,6 +170,13 @@ export interface UnifiedCardProps extends BaseCardProps {
   hebrewText?: string;
   secondaryText?: string;
   name?: string;
+  
+  // Display control
+  showEmoji?: boolean;
+  showHebrew?: boolean;
+  showEnglish?: boolean;
+  showSoundIcon?: boolean;
+  hideSoundIcon?: boolean;
 }
 
 // ===== GRID COMPONENTS =====
@@ -187,6 +194,7 @@ export interface GameCardGridProps<T extends GameItemType> {
   
   // Display options
   showContent?: CardContent;
+  showSoundIcon?: boolean;
   cardProps?: Partial<BaseCardProps>;
   
   // Layout options

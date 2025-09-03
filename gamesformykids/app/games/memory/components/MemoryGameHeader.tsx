@@ -8,7 +8,7 @@ import { Home, RotateCcw, Play, Pause, Clock, Target, Zap } from "lucide-react";
 import { useMemoryContext } from "@/contexts";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 
-export default function GameHeader() {
+export default function MemoryGameHeader() {
   const {
     state: { gameStats, timeLeft, isGamePaused },
     resetGame,

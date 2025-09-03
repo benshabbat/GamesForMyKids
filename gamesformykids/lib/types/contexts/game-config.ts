@@ -4,42 +4,13 @@
  * ===============================================
  */
 
-import type { GameStep } from '../components';
 import { GameType, BaseGameItem } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
 import type { TypedConfiguration } from '../core/abstracts';
+import { GameUIConfig } from '../../constants/ui/gameConfigs';
 
-/**
- * תצורת UI למשחק - עקרון Single Responsibility
- */
-export interface GameUIConfig {
-  readonly title: string;
-  readonly description?: string;
-  readonly instructions?: readonly string[];
-  readonly subTitle?: string;
-  readonly itemsTitle?: string;
-  readonly itemsDescription?: string;
-  readonly challengeTitle?: string;
-  readonly challengeIcon?: string;
-  readonly challengeDescription?: string;
-  readonly itemLabel?: string;
-  readonly steps?: readonly GameStep[];
-  readonly colors?: {
-    readonly background?: string;
-    readonly header?: string;
-    readonly subHeader?: string;
-    readonly itemsDescription?: string;
-    readonly button?: { 
-      readonly from: string; 
-      readonly to: string; 
-    };
-    readonly stepsBg?: string;
-  };
-  readonly grid?: {
-    readonly className?: string;
-    readonly showSpeaker?: boolean;
-  };
-}
+// Re-export GameUIConfig from constants to avoid duplication
+export type { GameUIConfig } from '../../constants/ui/gameConfigs';
 
 /**
  * סוג משחק אוטומטי - עקרון DRY, type alias
@@ -54,7 +25,7 @@ export type AutoGameType = TypedConfiguration;
 export interface CurrentGameInfo {
   readonly gameType: AutoGameType | GameType | null;
   readonly config: GameUIConfig | null;
-  readonly items: readonly BaseGameItem[] | null;
+  readonly items: BaseGameItem[] | null;
   readonly CardComponent: React.ComponentType<GameItemCardProps> | null;
   readonly useGameHook: object | null;
 }
@@ -75,4 +46,20 @@ export interface GameConfigContextValue extends
   CurrentGameInfo,
   GameValidationStatus {}
 
-// הערה: GameConfigProviderProps מוגדר ב-general.ts לפי עקרון DRY
+/**
+ * Props לProvider של GameConfig Context
+ */
+export interface GameConfigProviderProps {
+  readonly children: React.ReactNode;
+  readonly gameType?: GameType;
+}
+
+/**
+ * Props לכרטיס משחק מתוך context
+ */
+export interface GameCardProps {
+  readonly gameType: GameType;
+  readonly items?: readonly BaseGameItem[];
+}
+
+// הערה: GameConfigProviderProps מוגדר כאן לפי עקרון DRY

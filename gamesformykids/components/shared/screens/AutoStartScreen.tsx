@@ -6,7 +6,8 @@
  * 🎯 אפס props - הכל מהקונטקסט!
  */
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/contexts';
+import { BaseGameItem } from '@/lib/types';
 import GenericStartScreen from "./GenericStartScreen";
 import GameItem from "../GameItem";
 
@@ -62,19 +63,19 @@ export default function AutoStartScreen() {
       <GenericStartScreen
       title={config.title}
       subTitle={config.subTitle}
-      textColorHeader={config.colors.header}
-      textColorSubHeader={config.colors.subHeader}
-      gameSteps={config.steps}
-      gameStepsBgClass={config.colors.stepsBg}
-      items={gameType === 'math' ? [] : items}
+      textColorHeader={config.colors?.header}
+      textColorSubHeader={config.colors?.subHeader}
+      gameSteps={config.steps ? [...config.steps] : undefined}
+      gameStepsBgClass={config.colors?.stepsBg}
+      items={gameType === 'math' ? [] : items as BaseGameItem[]}
       customOnStart={startGame}
-      buttonFromColor={config.colors.button.from}
-      buttonToColor={config.colors.button.to}
-      backgroundStyle={config.colors.background}
+      buttonFromColor={config.colors?.button?.from}
+      buttonToColor={config.colors?.button?.to}
+      backgroundStyle={config.colors?.background}
       itemsTitle={config.itemsTitle}
       itemsDescription={config.itemsDescription}
-      itemsDescriptionColor={config.colors.itemsDescription}
-      itemsGridClass={config.grid.className}
+      itemsDescriptionColor={config.colors?.itemsDescription}
+      itemsGridClass={config.grid?.className}
       customItemsRenderer={gameType === 'math' ? getMathExamplesRenderer : undefined}
       renderItem={gameType !== 'math' ? (item) => {
         // Safe check for item properties
@@ -83,13 +84,14 @@ export default function AutoStartScreen() {
         return (
           <GameItem
             key={item.name || String(item)}
+            item={item}
             hebrewText={item.hebrew || ''}
             color={item.color || '#000'}
             icon={<span className="text-3xl">{item.emoji || '🎯'}</span>}
             shape="circle"
             size="large"
             onClick={() => speakItemName?.(item.name || '')}
-            hideSoundIcon={!config.grid.showSpeaker}
+            hideSoundIcon={!config.grid?.showSpeaker}
           />
         );
       } : undefined}

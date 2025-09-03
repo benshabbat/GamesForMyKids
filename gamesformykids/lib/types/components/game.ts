@@ -5,12 +5,13 @@
  */
 
 import { Category, AgeGroup, GameRegistration } from '../games/base';
-import type { TitledEntity } from '../core/base';
 
 /**
  * Step במשחק - להוראות משחק, עקרון DRY
  */
-export interface GameStep extends TitledEntity {
+export interface GameStep {
+  readonly title: string;
+  readonly description: string; // חובה כיוון שהקומפוננט מצפה לזה
   readonly icon: string;
   readonly stepNumber?: number;
   readonly stepText?: string;
@@ -38,6 +39,17 @@ export interface GameItemProps {
   isSelected?: boolean;
   /** סוג התצוגה */
   variant?: 'card' | 'button' | 'tile';
+  
+  // נוספים לתאימות
+  hebrewText?: string;
+  secondaryText?: string;
+  color?: string;
+  icon?: React.ReactNode;
+  shape?: "rounded" | "circle" | "square";
+  size?: "small" | "medium" | "large";
+  hideSoundIcon?: boolean;
+  textColor?: string;
+  borderColor?: string;
 }
 
 /**

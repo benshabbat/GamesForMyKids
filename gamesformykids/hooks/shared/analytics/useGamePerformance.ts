@@ -79,8 +79,8 @@ export function useGamePerformance({ items, currentChallenge }: UseGamePerforman
   // Initialize preloading
   useEffect(() => {
     if (items.length > 0) {
-      preloadAudio(items);
-      preloadImages(items);
+      preloadAudio([...items]);
+      preloadImages([...items]);
     }
 
     return cleanup;

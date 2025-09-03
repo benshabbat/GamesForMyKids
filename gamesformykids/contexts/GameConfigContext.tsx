@@ -23,10 +23,10 @@ import { GameCardMap } from "@/components/shared";
 import { useGameType } from './GameTypeContext';
 import { Metadata } from 'next';
 import { 
-  GameCardProps, 
   GameConfigContextValue, 
   GameConfigProviderProps 
 } from '@/lib/types/contexts/game-config';
+import type { GameItemCardProps } from '@/lib/types/components/cards';
 
 // Create context
 const GameConfigContext = createContext<GameConfigContextValue | undefined>(undefined);
@@ -177,7 +177,7 @@ export function useGameItems(): BaseGameItem[] | null {
 /**
  * 🃏 Hook לקבלת Card Component בלבד
  */
-export function useGameCardComponent(): React.ComponentType<GameCardProps> | null {
+export function useGameCardComponent(): React.ComponentType<GameItemCardProps> | null {
   const { CardComponent } = useGameConfig();
   return CardComponent;
 }
@@ -249,5 +249,5 @@ export function useGameMetadata(gameUrlType?: string): Metadata {
     };
   }
   
-  return generateGameMetadata(gameType, gameUrlType);
+  return generateGameMetadata(gameType as GameType, gameUrlType);
 }

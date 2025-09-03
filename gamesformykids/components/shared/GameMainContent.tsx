@@ -14,7 +14,7 @@ export default function GameMainContent() {
       {/* 🎯 Game Grid */}
       <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-6 shadow-xl">
         <GameCardGrid
-          items={game.options}
+          items={game.options as BaseGameItem[]}
           onItemClick={game.handleItemClick}
           currentChallenge={game.currentChallenge}
           gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"

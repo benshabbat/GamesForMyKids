@@ -99,19 +99,7 @@ export type StandardGameState = BaseGameState<BaseGameItem>;
 /**
  * Type aliases לתאימות לאחור - כולם מצביעים לאותו type
  */
-export type LetterGameState = StandardGameState;
-export type FruitGameState = StandardGameState;
-export type AnimalGameState = StandardGameState;
-export type WeatherGameState = StandardGameState;
-export type TransportGameState = StandardGameState;
-export type VegetableGameState = StandardGameState;
-export type InstrumentGameState = StandardGameState;
-export type SpaceGameState = StandardGameState;
-export type ClothingGameState = StandardGameState;
-export type SmellTasteGameState = StandardGameState;
-export type HouseGameState = StandardGameState;
-export type ToolGameState = StandardGameState;
-export type VehicleGameState = StandardGameState;
+// הערה: מחקתי 12 type aliases זהים - עקרון DRY
 
 /**
  * נתונים מיוחדים (לתאימות לאחור)

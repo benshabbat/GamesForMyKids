@@ -34,7 +34,7 @@ export function convertToBaseGameItem(dbItem: GameItem): BaseGameItem {
     english: dbItem.english,
     emoji: dbItem.emoji,
     color: dbItem.color_class || '',
-    sound: dbItem.sound_frequencies || []
+    sound: [...(dbItem.sound_frequencies || [])]
   }
 }
 
@@ -47,9 +47,9 @@ export function convertToNumberItem(dbItem: GameItem): NumberItem {
     hebrew: dbItem.hebrew,
     english: dbItem.english,
     emoji: dbItem.emoji,
-    digit: (dbItem.additional_data?.digit as string) || '',
+    digit: String((dbItem.additional_data as Record<string, unknown>)?.digit || ''),
     color: dbItem.color_class || '',
-    sound: dbItem.sound_frequencies || []
+    sound: [...(dbItem.sound_frequencies || [])]
   }
 }
 
@@ -63,8 +63,8 @@ export function convertToShapeItem(dbItem: GameItem): ShapeItem {
     english: dbItem.english,
     emoji: dbItem.emoji,
     color: dbItem.color_class || '',
-    sound: dbItem.sound_frequencies || [],
-    svg: (dbItem.additional_data?.svg as string) || dbItem.name
+    sound: [...(dbItem.sound_frequencies || [])],
+    svg: String((dbItem.additional_data as Record<string, unknown>)?.svg || dbItem.name)
   }
 }
 
@@ -117,12 +117,12 @@ export function getColoredShapeItems(dbItems: GameItem[]): ColoredShapeItem[] {
       english: item.english,
       emoji: item.emoji,
       color: item.color_class || '',
-      sound: item.sound_frequencies || [],
-      shape: (item.additional_data?.shape as string) || '',
-      shapeHebrew: (item.additional_data?.shapeHebrew as string) || '',
-      svg: (item.additional_data?.svg as string) || '',
-      value: (item.additional_data?.value as string) || '',
-      tailwindClass: (item.additional_data?.tailwindClass as string) || ''
+      sound: [...(item.sound_frequencies || [])],
+      shape: String((item.additional_data as Record<string, unknown>)?.shape || ''),
+      shapeHebrew: String((item.additional_data as Record<string, unknown>)?.shapeHebrew || ''),
+      svg: String((item.additional_data as Record<string, unknown>)?.svg || ''),
+      value: String((item.additional_data as Record<string, unknown>)?.value || ''),
+      tailwindClass: String((item.additional_data as Record<string, unknown>)?.tailwindClass || '')
     }))
 }
 

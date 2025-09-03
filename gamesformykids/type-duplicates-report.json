@@ -1,36 +1,36 @@
 {
-  "timestamp": "2025-09-03T01:54:15.584Z",
+  "timestamp": "2025-09-03T08:13:24.587Z",
   "stats": {
     "filesScanned": 35,
-    "typesFound": 228,
-    "duplicatesFound": 7
+    "typesFound": 246,
+    "duplicatesFound": 9
   },
   "duplicates": [
     {
-      "signature": "0e7085e2efa8257199d6e28189b315af",
-      "normalizedContent": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
+      "signature": "ac5a81acabce50be99446a6cbe8881c3",
+      "normalizedContent": "readonly CardComponent: ComponentType<GameItemCardProps>;readonly config: GameUIConfig;readonly gameType: GameType;readonly items: readonly BaseGameItem[]",
       "occurrences": [
         {
           "kind": "interface",
-          "name": "ProgressModalState",
-          "normalizedBody": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
-          "filePath": "lib\\types\\core\\base.ts",
-          "position": 726,
-          "originalBody": "readonly showProgressModal: boolean;\r\n  readonly setShowProgressModal: (show: boolean) => void;"
+          "name": "UniversalGameConfiguration",
+          "normalizedBody": "readonly CardComponent: ComponentType<GameItemCardProps>;readonly config: GameUIConfig;readonly gameType: GameType;readonly items: readonly BaseGameItem[]",
+          "filePath": "lib\\types\\contexts\\universal-game.ts",
+          "position": 1684,
+          "originalBody": "readonly config: GameUIConfig;\r\n  readonly items: readonly BaseGameItem[];\r\n  readonly CardComponent: ComponentType<GameItemCardProps>;\r\n  readonly gameType: GameType;"
         },
         {
           "kind": "interface",
-          "name": "GameUIState",
-          "normalizedBody": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
+          "name": "GameConfiguration",
+          "normalizedBody": "readonly CardComponent: ComponentType<GameItemCardProps>;readonly config: GameUIConfig;readonly gameType: GameType;readonly items: readonly BaseGameItem[]",
           "filePath": "lib\\types\\hooks\\game-state.ts",
-          "position": 3159,
-          "originalBody": "readonly showProgressModal: boolean;\r\n  readonly setShowProgressModal: (show: boolean) => void;"
+          "position": 3320,
+          "originalBody": "readonly config: GameUIConfig;\r\n  readonly items: readonly BaseGameItem[];\r\n  readonly CardComponent: ComponentType<GameItemCardProps>;\r\n  readonly gameType: GameType;"
         }
       ],
-      "severity": 360,
+      "severity": 616,
       "recommendations": {
-        "baseName": "BaseState",
-        "baseInterface": "   readonly setShowProgressModal: (show: boolean) => void;\n   readonly showProgressModal: boolean;"
+        "baseName": "BaseGame",
+        "baseInterface": "   readonly CardComponent: ComponentType<GameItemCardProps>;\n   readonly config: GameUIConfig;\n   readonly gameType: GameType;\n   readonly items: readonly BaseGameItem[];"
       }
     },
     {
@@ -149,146 +149,216 @@
       }
     },
     {
-      "signature": "a45c79aa9dfff6ff7f2891d492748087",
-      "normalizedContent": "// Context-based component - no props needed className?: string",
-      "occurrences": [
-        {
-          "kind": "interface",
-          "name": "GameInstructionsProps",
-          "normalizedBody": "// Context-based component - no props needed className?: string",
-          "filePath": "lib\\types\\components\\feedback.ts",
-          "position": 817,
-          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "CelebrationBoxProps",
-          "normalizedBody": "// Context-based component - no props needed className?: string",
-          "filePath": "lib\\types\\components\\feedback.ts",
-          "position": 935,
-          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "ChallengeBoxProps",
-          "normalizedBody": "// Context-based component - no props needed className?: string",
-          "filePath": "lib\\types\\components\\feedback.ts",
-          "position": 1051,
-          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
-        }
-      ],
-      "severity": 189,
-      "recommendations": {
-        "baseName": "BaseProps",
-        "baseInterface": "   // Context-based component - no props needed className?: string;"
-      }
-    },
-    {
-      "signature": "e2f62453e2f572a81dd4853a4d96b608",
-      "normalizedContent": "readonly difficulty?: DifficultyLevel",
-      "occurrences": [
-        {
-          "kind": "interface",
-          "name": "GameDifficultyConfig",
-          "normalizedBody": "readonly difficulty?: DifficultyLevel",
-          "filePath": "lib\\types\\hooks\\game-state.ts",
-          "position": 5799,
-          "originalBody": "readonly difficulty?: DifficultyLevel;"
-        },
-        {
-          "kind": "interface",
-          "name": "StructuredDataDifficulty",
-          "normalizedBody": "readonly difficulty?: DifficultyLevel",
-          "filePath": "lib\\types\\utils\\index.ts",
-          "position": 636,
-          "originalBody": "readonly difficulty?: DifficultyLevel;"
-        }
-      ],
-      "severity": 148,
-      "recommendations": {
-        "baseName": "BaseDifficulty",
-        "baseInterface": "   readonly difficulty?: DifficultyLevel;"
-      }
-    },
-    {
-      "signature": "ae35477b63d2609b46151ce0632ae3ff",
-      "normalizedContent": "readonly gameType: string",
-      "occurrences": [
-        {
-          "kind": "interface",
-          "name": "GameTyped",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\core\\base.ts",
-          "position": 609,
-          "originalBody": "readonly gameType: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "SimpleGameBasicConfig",
-          "normalizedBody": "readonly gameType: string",
-          "filePath": "lib\\types\\hooks\\game-state.ts",
-          "position": 5660,
-          "originalBody": "readonly gameType: string;"
-        }
-      ],
-      "severity": 100,
-      "recommendations": {
-        "baseName": "BaseGame",
-        "baseInterface": "   readonly gameType: string;"
-      }
-    },
-    {
-      "signature": "20e6c77bcaaf1aa8fe39238d570d6240",
-      "normalizedContent": "className?: string;size?: number",
-      "occurrences": [
-        {
-          "kind": "interface",
-          "name": "ShapeIconProps",
-          "normalizedBody": "className?: string;size?: number",
-          "filePath": "lib\\types\\components\\icons.ts",
-          "position": 178,
-          "originalBody": "size?: number;\r\n  className?: string;"
-        },
-        {
-          "kind": "interface",
-          "name": "HebrewIconProps",
-          "normalizedBody": "className?: string;size?: number",
-          "filePath": "lib\\types\\components\\icons.ts",
-          "position": 296,
-          "originalBody": "size?: number;\r\n  className?: string;"
-        }
-      ],
-      "severity": 64,
-      "recommendations": {
-        "baseName": "BaseIcon",
-        "baseInterface": "   className?: string;\n   size?: number;"
-      }
-    },
-    {
-      "signature": "a89502e3ae399eaf54a977d304b4fb25",
-      "normalizedContent": "| 'game_start'",
+      "signature": "5b2827e026b8580b8f2e63d89a037443",
+      "normalizedContent": "TypedConfiguration",
       "occurrences": [
         {
           "kind": "type",
-          "name": "GameLifecycleEvent",
-          "normalizedBody": "| 'game_start'",
+          "name": "AutoGameType",
+          "normalizedBody": "TypedConfiguration",
+          "filePath": "lib\\types\\contexts\\game-config.ts",
+          "position": 605,
+          "originalBody": "TypedConfiguration"
+        },
+        {
+          "kind": "type",
+          "name": "ExecutionContext",
+          "normalizedBody": "TypedConfiguration",
+          "filePath": "lib\\types\\core\\abstracts.ts",
+          "position": 3983,
+          "originalBody": "TypedConfiguration"
+        },
+        {
+          "kind": "type",
+          "name": "GameCreationConfig",
+          "normalizedBody": "TypedConfiguration",
+          "filePath": "lib\\types\\core\\abstracts.ts",
+          "position": 4474,
+          "originalBody": "TypedConfiguration"
+        }
+      ],
+      "severity": 108,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   TypedConfiguration;"
+      }
+    },
+    {
+      "signature": "9d4a1ef3cb420cc6ed3f6ece4fc3612c",
+      "normalizedContent": "GameTyped",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "SpecificGameTypeConfig",
+          "normalizedBody": "GameTyped",
+          "filePath": "lib\\types\\contexts\\general.ts",
+          "position": 606,
+          "originalBody": "GameTyped"
+        },
+        {
+          "kind": "type",
+          "name": "GameContext",
+          "normalizedBody": "GameTyped",
           "filePath": "lib\\types\\events\\game-events.ts",
-          "position": 279,
-          "originalBody": "| 'game_start'"
+          "position": 1075,
+          "originalBody": "GameTyped"
+        },
+        {
+          "kind": "type",
+          "name": "SimpleGameBasicConfig",
+          "normalizedBody": "GameTyped",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 5618,
+          "originalBody": "GameTyped"
+        }
+      ],
+      "severity": 81,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   GameTyped;"
+      }
+    },
+    {
+      "signature": "fac785faecc00005983608972d9a5779",
+      "normalizedContent": "| GameLifecycleEvent",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "GameEvent",
+          "normalizedBody": "| GameLifecycleEvent",
+          "filePath": "lib\\types\\events\\game-events.ts",
+          "position": 757,
+          "originalBody": "| GameLifecycleEvent"
         },
         {
           "kind": "type",
           "name": "GameEvent",
-          "normalizedBody": "| 'game_start'",
+          "normalizedBody": "| GameLifecycleEvent",
           "filePath": "lib\\types\\hooks\\ui.ts",
-          "position": 1300,
-          "originalBody": "| 'game_start'"
+          "position": 1419,
+          "originalBody": "| GameLifecycleEvent"
         }
       ],
-      "severity": 56,
+      "severity": 80,
       "recommendations": {
         "baseName": "BaseGame",
-        "baseInterface": "   | 'game_start';"
+        "baseInterface": "   | GameLifecycleEvent;"
+      }
+    },
+    {
+      "signature": "840d20f7f06c2538e94efe803a5aec58",
+      "normalizedContent": "BaseDifficultyConfig",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "GameDifficultyConfig",
+          "normalizedBody": "BaseDifficultyConfig",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 5724,
+          "originalBody": "BaseDifficultyConfig"
+        },
+        {
+          "kind": "type",
+          "name": "StructuredDataDifficulty",
+          "normalizedBody": "BaseDifficultyConfig",
+          "filePath": "lib\\types\\utils\\index.ts",
+          "position": 597,
+          "originalBody": "BaseDifficultyConfig"
+        }
+      ],
+      "severity": 80,
+      "recommendations": {
+        "baseName": "BaseDifficulty",
+        "baseInterface": "   BaseDifficultyConfig;"
+      }
+    },
+    {
+      "signature": "35f680da70110053b1f4e14bcdc05203",
+      "normalizedContent": "ContextBasedComponentProps",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "GameInstructionsProps",
+          "normalizedBody": "ContextBasedComponentProps",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 1006,
+          "originalBody": "ContextBasedComponentProps"
+        },
+        {
+          "kind": "type",
+          "name": "CelebrationBoxProps",
+          "normalizedBody": "ContextBasedComponentProps",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 1073,
+          "originalBody": "ContextBasedComponentProps"
+        },
+        {
+          "kind": "type",
+          "name": "ChallengeBoxProps",
+          "normalizedBody": "ContextBasedComponentProps",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 1138,
+          "originalBody": "ContextBasedComponentProps"
+        }
+      ],
+      "severity": 78,
+      "recommendations": {
+        "baseName": "BaseProps",
+        "baseInterface": "   ContextBasedComponentProps;"
+      }
+    },
+    {
+      "signature": "5e01e92532ca5cdbe2f7936e4a3eb7e3",
+      "normalizedContent": "ProgressModalState",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "GameUI",
+          "normalizedBody": "ProgressModalState",
+          "filePath": "lib\\types\\contexts\\universal-game.ts",
+          "position": 2161,
+          "originalBody": "ProgressModalState"
+        },
+        {
+          "kind": "type",
+          "name": "GameUIState",
+          "normalizedBody": "ProgressModalState",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 3215,
+          "originalBody": "ProgressModalState"
+        }
+      ],
+      "severity": 72,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   ProgressModalState;"
+      }
+    },
+    {
+      "signature": "37498f561b84054fc117b2c543ba2cee",
+      "normalizedContent": "BaseIconProps",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "ShapeIconProps",
+          "normalizedBody": "BaseIconProps",
+          "filePath": "lib\\types\\components\\icons.ts",
+          "position": 358,
+          "originalBody": "BaseIconProps"
+        },
+        {
+          "kind": "type",
+          "name": "HebrewIconProps",
+          "normalizedBody": "BaseIconProps",
+          "filePath": "lib\\types\\components\\icons.ts",
+          "position": 467,
+          "originalBody": "BaseIconProps"
+        }
+      ],
+      "severity": 26,
+      "recommendations": {
+        "baseName": "BaseIcon",
+        "baseInterface": "   BaseIconProps;"
       }
     }
   ]

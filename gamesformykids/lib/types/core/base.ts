@@ -66,7 +66,7 @@ export interface Visualizable {
  * מאפיינים קוליים - עקרון Single Responsibility
  */
 export interface Audioable {
-  readonly sound: ReadonlyArray<number>;
+  readonly sound?: number[];
 }
 
 /**

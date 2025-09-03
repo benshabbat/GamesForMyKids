@@ -333,6 +333,8 @@ export class GamesRegistry {
     return GAMES_REGISTRY.sort((a, b) => a.order - b.order).map((game) => ({
       id: game.id,
       title: game.title,
+      hebrew: game.title, // Same as title for now
+      english: game.id, // Use id as English name
       description: game.description,
       icon: createElement(game.icon, { className: "w-8 h-8" }),
       color: game.color,

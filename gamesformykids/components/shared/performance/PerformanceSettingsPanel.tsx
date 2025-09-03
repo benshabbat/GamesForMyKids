@@ -5,7 +5,7 @@
 'use client';
 
 import React from 'react';
-import { useMemoryManagement } from '../../../hooks/shared/performance/useMemoryManagement';
+import { useMemoryManagement } from '../../../hooks/shared/analytics/useMemoryManagement';
 
 export function PerformanceSettingsPanel() {
   const [performanceMode, setPerformanceMode] = React.useState<'high' | 'balanced' | 'fast'>('balanced');

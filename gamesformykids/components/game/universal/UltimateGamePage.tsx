@@ -42,7 +42,7 @@ export function UltimateGamePage() {
   // 🏠 Start Screen
   if (!game.gameState || !game.isPlaying) {
     return (
-      <div style={{ background: game.config.colors.background }} className="min-h-screen">
+      <div style={{ background: game.config.colors?.background || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }} className="min-h-screen">
         <AutoStartScreen />
       </div>
     );
@@ -52,7 +52,7 @@ export function UltimateGamePage() {
   return (
     <div 
       className="min-h-screen p-4"
-      style={{ background: game.config.colors.background }}
+      style={{ background: game.config.colors?.background || 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)' }}
     >
       <div className="max-w-5xl mx-auto">
         {/* 🎯 Game Header Section */}

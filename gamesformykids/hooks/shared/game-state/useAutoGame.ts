@@ -13,6 +13,7 @@
 
 import { useState } from 'react';
 import { GameLogicState } from "@/lib/types/hooks/game-state";
+import { GameType } from "@/lib/types/core/base";
 import { useAutoGameConfig } from '@/contexts/GameConfigContext';
 
 /**
@@ -43,6 +44,7 @@ export function useAutoGame(): GameLogicState {
   return {
     // Game State
     gameState,
+    isGameActive: !!gameState,
     isPlaying: gameState?.isPlaying || false,
     showCelebration: gameState?.showCelebration || false,
     currentChallenge: gameState?.currentChallenge || null,
@@ -50,17 +52,29 @@ export function useAutoGame(): GameLogicState {
     score: gameState?.score || 0,
     level: gameState?.level || 1,
     
+    // Game Progress
+    streak: 0,
+    timeSpent: 0,
+    totalQuestions: 0,
+    correctAnswers: 0,
+    currentAccuracy,
+    
     // Game Actions
     startGame,
     resetGame,
     handleItemClick,
     speakItemName,
+    pauseGame: () => {},
+    resumeGame: () => {},
+    resetProgress: () => {},
+    navigateToGame: () => {},
+    handleCorrectAnswer: () => {},
+    handleWrongAnswer: () => {},
     
     // Enhanced Features
     hints: hints?.map(hint => typeof hint === 'string' ? hint : hint.text || ''),
     hasMoreHints,
     showNextHint,
-    currentAccuracy,
     progressStats: progressStats ? (progressStats as unknown as Record<string, unknown>) : undefined,
     
     // UI State
@@ -71,6 +85,6 @@ export function useAutoGame(): GameLogicState {
     config,
     items,
     CardComponent,
-    gameType,
+    gameType: gameType as GameType,
   };
 }

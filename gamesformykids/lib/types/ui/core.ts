@@ -41,6 +41,11 @@ export interface BaseButtonProps extends
   Loadable {}
 
 /**
+ * Type alias לתאימות לאחור - ButtonProps
+ */
+export type ButtonProps = BaseButtonProps;
+
+/**
  * סוגי וריאנטים לכפתור - עקרון Open/Closed
  */
 export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success';
@@ -243,4 +248,5 @@ export interface GoogleAnalyticsProps {
 export interface LoadingScreenProps {
   readonly message?: string;
   readonly showSpinner?: boolean;
+  readonly onLoadingComplete?: () => void;
 }

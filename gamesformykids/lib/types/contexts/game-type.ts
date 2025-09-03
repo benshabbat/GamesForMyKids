@@ -83,4 +83,12 @@ export interface GameTypeContextValue extends
   readonly currentGameItems: readonly BaseGameItem[] | null;
 }
 
-// הערה: GameTypeProviderProps מוגדר ב-general.ts לפי עקרון DRY
+/**
+ * Props לProvider של GameType Context
+ */
+export interface GameTypeProviderProps {
+  readonly children: React.ReactNode;
+  readonly initialGameType?: GameType;
+}
+
+// הערה: GameTypeProviderProps מוגדר כאן לפי עקרון DRY

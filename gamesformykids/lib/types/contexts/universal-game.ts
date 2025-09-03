@@ -35,7 +35,7 @@ export interface GameCurrentState {
   readonly showCelebration: boolean;
   readonly currentChallenge: BaseGameItem | null;
   readonly options: readonly BaseGameItem[];
-  readonly gameState?: object; // לתאימות לאחור
+  readonly gameState?: object | null; // לתאימות לאחור
 }
 
 /**
@@ -57,14 +57,19 @@ export interface BasicGameActions {
 }
 
 /**
- * תצורת משחק אוניברסלית - עקרון Single Responsibility
+ * תצורת משחק בסיסית - Base interface לכל התצורות - עקרון DRY
  */
-export interface UniversalGameConfiguration {
+export interface BaseGameConfiguration {
   readonly config: GameUIConfig;
   readonly items: readonly BaseGameItem[];
   readonly CardComponent: ComponentType<GameItemCardProps>;
   readonly gameType: GameType;
 }
+
+/**
+ * תצורת משחק אוניברסלית - עקרון Single Responsibility
+ */
+export interface UniversalGameConfiguration extends BaseGameConfiguration {}
 
 /**
  * מערכת רמזים - עקרון Single Responsibility
@@ -92,4 +97,11 @@ export interface UniversalGameContextValue extends
   GameHintsSystem,
   GameUI {}
 
-// הערה: UniversalGameProviderProps מוגדר ב-general.ts לפי עקרון DRY
+/**
+ * Props לProvider של UniversalGame Context
+ */
+export interface UniversalGameProviderProps {
+  readonly children: React.ReactNode;
+}
+
+// הערה: UniversalGameProviderProps מוגדר כאן לפי עקרון DRY

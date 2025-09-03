@@ -2,7 +2,7 @@
 
 import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 
-export default function GameHeader() {
+export default function BuildingGameHeader() {
   const { score, achievements } = useBuildingContext();
 
   return (

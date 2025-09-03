@@ -1,5 +1,5 @@
 /**
- * Game Context Hook
+ * Gamimport { GameContextHookReturn } from '@/lib/types/hooks/game-state';Context Hook
  * Hook מותאם אישית שמחבר בין כל הקונטקסטים
  */
 
@@ -66,28 +66,32 @@ export function useGameContext(): GameContextHookReturn {
   return {
     // Game Type Info
     gameType: currentGameType,
-    gameConfig: currentGameConfig,
+    gameConfig: currentGameConfig ? {
+      title: currentGameConfig.title,
+      subTitle: currentGameConfig.subTitle || ''
+    } : null,
     
-    // Progress Info
-    score: progress.score,
-    level: progress.level,
+    // Progress Info (GameProgress interface)
+    currentAccuracy: getAccuracy(),
     streak: progress.streakCount,
-    accuracy: getAccuracy(),
+    timeSpent: progress.timeSpent,
+    totalQuestions: progress.totalQuestions,
+    correctAnswers: progress.correctAnswers,
+    
+    // Game Active Status
     isGameActive,
     
     // Actions
     startGame,
     pauseGame,
     resumeGame,
+    resetGame: resetProgress, // alias
     resetProgress,
     handleCorrectAnswer,
     handleWrongAnswer,
+    handleItemClick: () => {}, // placeholder
+    speakItemName: () => {}, // placeholder
     navigateToGame,
-    
-    // Status
-    timeSpent: progress.timeSpent,
-    totalQuestions: progress.totalQuestions,
-    correctAnswers: progress.correctAnswers,
   };
 }
 

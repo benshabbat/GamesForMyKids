@@ -5,22 +5,26 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/core/base';
-import { UseGameHintsProps, Hint, UseGameHintsReturn } from '@/lib/types/hooks/ui';
+import { GameHint } from '@/lib/types/hooks/ui';
+import { UseGameHintsProps, UseGameHintsReturn } from '@/lib/types/hooks/ui';
 
-export function useGameHints({ currentChallenge, wrongAttempts }: UseGameHintsProps): UseGameHintsReturn {
-  const [hints, setHints] = useState<Hint[]>([]);
+export function useGameHints(props: UseGameHintsProps): UseGameHintsReturn {
+  const [hints, setHints] = useState<GameHint[]>([]);
+  const [currentHintIndex, setCurrentHintIndex] = useState(-1);
   const [revealedHintsCount, setRevealedHintsCount] = useState(0);
+  
+  // Extract props with defaults
+  const { currentChallenge, wrongAttempts = 0 } = props;
 
   // Generate contextual hints based on the challenge
-  const generateHints = useCallback((challenge: BaseGameItem): Hint[] => {
-    const hints: Hint[] = [];
+  const generateHints = useCallback((challenge: BaseGameItem): GameHint[] => {
+    const hints: GameHint[] = [];
 
-    // Sound hint - based on color which can give audio cues
+        // Sound hint - based on color which can give audio cues
     if (challenge.color) {
       hints.push({
         type: 'sound',
         text: `🔊 הקשב שוב לשם`,
-        audioText: challenge.hebrew,
         isRevealed: false,
         order: 1
       });
