@@ -9,7 +9,7 @@
 import { useUniversalGame } from '@/contexts';
 import { BaseGameItem } from '@/lib/types';
 import GenericStartScreen from "./GenericStartScreen";
-import GameItem from "../GameItem";
+import UnifiedCard from "../cards/UnifiedCard";
 
 /**
  * 🎯 AutoStartScreen עם קונטקסט - ללא props!
@@ -82,8 +82,9 @@ export default function AutoStartScreen() {
         if (!item || typeof item !== 'object') return null;
         
         return (
-          <GameItem
+          <UnifiedCard
             key={item.name || String(item)}
+            variant="simple"
             item={item}
             hebrewText={item.hebrew || ''}
             color={item.color || '#000'}

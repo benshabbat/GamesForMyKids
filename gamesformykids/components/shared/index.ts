@@ -26,7 +26,6 @@ export * from './headers';
 export * from './feedback';
 
 // Remaining components
-export { default as GameItem } from './GameItem';
 export { default as GameChallengeSection } from './GameChallengeSection';
 export { default as GameMainContent } from './GameMainContent';
 export { GameCardMap } from './GameCardMap';
