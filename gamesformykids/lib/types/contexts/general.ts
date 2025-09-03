@@ -21,10 +21,7 @@ export interface DefaultGameTypeConfig {
   readonly defaultGameType?: string;
 }
 
-/**
- * הגדרת סוג משחק ספציפי - עקרון DRY, type alias
- */
-export type SpecificGameTypeConfig = GameTyped;
+// הוסר SpecificGameTypeConfig - השתמש ישירות ב-GameTyped עקרון DRY
 
 /**
  * Props ל-Universal Game Provider - עקרון Interface Segregation
@@ -38,7 +35,7 @@ export interface UniversalGameProviderProps extends
  */
 export interface SimpleGameProgressProviderProps extends 
   BaseProviderProps,
-  SpecificGameTypeConfig {}
+  GameTyped {}
 
 /**
  * הגדרת סוג משחק אופציונלי - עקרון Single Responsibility
@@ -66,11 +63,11 @@ export interface GameProgressProviderProps extends
  */
 export interface GameLogicProviderProps extends 
   BaseProviderProps,
-  SpecificGameTypeConfig {}
+  GameTyped {}
 
 /**
  * Props ל-GameConfig Provider - עקרון Interface Segregation
  */
 export interface GameConfigProviderProps extends 
   BaseProviderProps,
-  SpecificGameTypeConfig {}
+  GameTyped {}

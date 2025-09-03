@@ -46,10 +46,7 @@ export interface EventMetadata {
   readonly timestamp: number;
 }
 
-/**
- * הקשר משחק לאירוע - עקרון DRY, type alias
- */
-export type GameContext = GameTyped;
+// הוסר GameContext - השתמש ישירות ב-GameTyped עקרון DRY
 
 /**
  * נתונים נוספים לאירוע - עקרון Single Responsibility
@@ -63,7 +60,7 @@ export interface EventPayload {
  */
 export interface GameEventData extends 
   EventMetadata,
-  GameContext,
+  GameTyped,
   EventPayload {}
 
 /**

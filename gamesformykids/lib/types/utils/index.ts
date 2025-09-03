@@ -15,10 +15,7 @@ export interface StructuredDataBasicInfo extends TitledEntity {
   // title ו description מגיעים מ-TitledEntity
 }
 
-/**
- * הגדרות קושי לStructured Data - עקרון DRY, type alias
- */
-export type StructuredDataDifficulty = BaseDifficultyConfig;
+// הוסר StructuredDataDifficulty - השתמש ישירות ב-BaseDifficultyConfig עקרון DRY
 
 /**
  * טווח גילאים - עקרון Single Responsibility
@@ -47,7 +44,7 @@ export interface GameFeatures {
  */
 export interface GameStructuredDataProps extends 
   StructuredDataBasicInfo,
-  StructuredDataDifficulty,
+  BaseDifficultyConfig,
   TargetAudience,
   GameFeatures {}
 

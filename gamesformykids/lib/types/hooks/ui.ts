@@ -5,7 +5,7 @@
  */
 
 import { BaseGameItem } from '../core/base';
-import type { GameLifecycleEvent, PlayerResponseEvent, GameProgressEvent } from '../events/game-events';
+import type { GameEvent } from '../events/game-events';
 
 /**
  * Props עבור רמזים במשחק - עקרון Single Responsibility
@@ -48,12 +48,10 @@ export interface UseGameEventsProps {
 }
 
 /**
- * סוגי אירועי משחק - עקרון DRY, uses existing types
+ * סוגי אירועי משחק מורחבים - עקרון DRY, uses existing types
  */
-export type GameEvent = 
-  | GameLifecycleEvent
-  | PlayerResponseEvent
-  | GameProgressEvent
+export type ExtendedGameEvent = 
+  | GameEvent
   | 'streak_milestone';
 
 /**
@@ -66,7 +64,7 @@ export interface UseGameEventsReturn {
   readonly onGamePause: () => void;
   readonly onGameResume: () => void;
   readonly onLevelUp: () => void;
-  readonly triggerEvent: (event: GameEvent, data?: Record<string, unknown>) => void;
+  readonly triggerEvent: (event: ExtendedGameEvent, data?: Record<string, unknown>) => void;
 }
 
 /**
