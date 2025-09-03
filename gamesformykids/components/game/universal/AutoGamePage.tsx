@@ -11,7 +11,7 @@
 
 "use client";
 
-import { BaseGameItem } from "@/lib/types/base";
+import { GameType, BaseGameItem } from '@/lib/types/core/base';
 import { useAutoGame } from "@/hooks";
 
 // רכיבים משותפים

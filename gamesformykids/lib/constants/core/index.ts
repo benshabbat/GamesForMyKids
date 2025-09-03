@@ -2,7 +2,7 @@
  * קבועי הליבה של המערכת
  */
 
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 
 /**
  * הגדרות בסיסיות של משחק

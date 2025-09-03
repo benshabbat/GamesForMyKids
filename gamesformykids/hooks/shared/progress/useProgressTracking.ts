@@ -4,7 +4,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
-import { BaseGameItem, GameType } from '@/lib/types/base';
+import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession, ProgressStats } from '@/lib/types/hooks/progress';
 
 export function useProgressTracking(gameType: GameType) {

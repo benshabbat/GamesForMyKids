@@ -9,7 +9,7 @@ import { useCallback } from 'react';
 import { useGameType } from '@/contexts/GameTypeContext';
 import { useGameProgress } from '@/contexts/GameProgressContext';
 import { useGameEvents } from '../ui/useGameEvents';
-import { GameType } from '@/lib/types/base';
+import { GameType } from '@/lib/types/core/base';
 import { GameContextHookReturn } from "@/lib/types/hooks/game-state";
 
 /**

@@ -1,4 +1,4 @@
-import { GameType } from "@/lib/types/base";
+import { GameType } from '@/lib/types/core/base';
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';

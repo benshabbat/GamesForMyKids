@@ -1,5 +1,5 @@
 import BaseGameCard from "./BaseGameCard";
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 import * as ShapeIcons from "../../../public/icons/ShapeIcons";
 import ColoredShapeCard from "./ColoredShapeCard";
 import { ColoredShapeItem } from "@/lib/constants/gameData/basic";
@@ -299,7 +299,7 @@ export const PuzzleCard = ({ puzzle, onClick }: { puzzle: BaseGameItem; onClick:
   />
 );
 
-import { GameType } from "@/lib/types/base";
+import { GameType } from "@/lib/types/core/base";
 
 /**
  * ===============================================

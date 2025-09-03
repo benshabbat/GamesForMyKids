@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { UseGameOptionsProps } from "@/lib/types/hooks/game-state";
 import { generateOptions as generateGameOptions, getRandomItem } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";

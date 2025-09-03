@@ -1,7 +1,7 @@
 "use client";
 
 import { useUniversalGame } from '@/contexts/UniversalGameContext';
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { GameCardGrid } from "./cards/GameCardGrid";
 import GameHints from "./feedback/GameHints";
 import TipsBox from "./feedback/TipsBox";

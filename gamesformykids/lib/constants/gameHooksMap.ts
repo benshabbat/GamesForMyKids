@@ -6,7 +6,7 @@
 
 import { useGenericGame } from "@/hooks/games/useGenericGame";
 import { GAME_ITEMS_MAP } from "./gameItemsMap";
-import { BaseGameState, BaseGameItem } from "@/lib/types/base";
+import { BaseGameState, BaseGameItem } from "@/lib/types/core/base";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";

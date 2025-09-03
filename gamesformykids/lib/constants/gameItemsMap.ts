@@ -27,7 +27,7 @@ import {
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
-import { GameType, BaseGameItem } from "@/lib/types/base";
+import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
 /**
  * 🎯 מפה מרכזית של כל פרטי המשחקים

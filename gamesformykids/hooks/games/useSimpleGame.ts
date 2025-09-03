@@ -1,5 +1,5 @@
 import { useBaseGame } from "@/hooks";
-import { BaseGameItem, GameType } from "@/lib/types/base";
+import { BaseGameItem, GameType } from "@/lib/types/core/base";
 
 interface UseSimpleGameProps {
   gameType: GameType;

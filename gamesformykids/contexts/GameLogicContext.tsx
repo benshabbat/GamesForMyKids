@@ -14,7 +14,7 @@
  */
 
 import { createContext, useContext, useState, ReactNode } from 'react';
-import { BaseGameItem, GameType } from "@/lib/types/base";
+import { BaseGameItem, GameType } from "@/lib/types/core/base";
 import { GameUIConfig } from "@/lib/constants/ui/gameConfigs";
 import { AutoGameType } from "@/lib/constants/gameHooksMap";
 import { useAutoGameConfig } from './GameConfigContext';

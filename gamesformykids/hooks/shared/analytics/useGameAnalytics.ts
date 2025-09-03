@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { BaseGameState, BaseGameItem } from "@/lib/types/base";
+import { BaseGameState, BaseGameItem } from "@/lib/types/core/base";
 
 /**
  * Hook לבדיקת ביצועים ואנליטיקס של המשחק

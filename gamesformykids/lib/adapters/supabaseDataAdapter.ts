@@ -5,8 +5,8 @@
  * application format, maintaining compatibility while using the database.
  */
 
-import { BaseGameItem } from '../types/base';
-import { NumberItem, ShapeItem } from '../types/games';
+import { BaseGameItem } from '../types/core/base';
+import { NumberItem, ShapeItem } from '../types/games/index';
 import { GameItem } from '@/hooks'
 
 // Define colored shape item type for typed returns

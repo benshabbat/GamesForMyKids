@@ -1,5 +1,5 @@
 import { useSimpleGame } from "@/hooks/games/useSimpleGame";
-import { BaseGameItem, GameType } from "@/lib/types/base";
+import { BaseGameItem, GameType } from "@/lib/types/core/base";
 
 /**
  * Hook כללי למשחקים - הפתרון האוניברסלי למשחקים פשוטים

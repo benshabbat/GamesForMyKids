@@ -12,7 +12,7 @@
  */
 
 import { createContext, useContext, useState, useCallback } from 'react';
-import { GameType } from "@/lib/types/base";
+import { GameType } from "@/lib/types/core/base";
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
 import { useRouter } from 'next/navigation';

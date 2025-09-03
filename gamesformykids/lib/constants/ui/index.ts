@@ -2,7 +2,7 @@
  * קבועי ממשק המשתמש - שלבי משחקים ועיצוב
  */
 
-import { GameStep } from "@/lib/types";
+import { GameStep } from "@/lib/types/components";
 
 /**
  * ===============================================

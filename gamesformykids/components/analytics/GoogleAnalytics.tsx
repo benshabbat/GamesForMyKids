@@ -1,5 +1,5 @@
 import Script from 'next/script';
-import { GoogleAnalyticsProps } from '@/lib/types/ui.types';
+import { AnalyticsConfig } from '@/lib/types/hooks/ui';
 
 export default function GoogleAnalytics({ GA_MEASUREMENT_ID }: GoogleAnalyticsProps) {
   return (

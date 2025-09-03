@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/base";
+import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";

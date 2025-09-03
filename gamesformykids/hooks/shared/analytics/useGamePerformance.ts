@@ -4,7 +4,7 @@
  */
 
 import { useEffect, useRef, useCallback } from 'react';
-import { BaseGameItem } from '@/lib/types/base';
+import { BaseGameItem } from '@/lib/types/core/base';
 import { UseGamePerformanceProps, UseGamePerformanceReturn } from '@/lib/types/hooks/ui';
 
 export function useGamePerformance({ items, currentChallenge }: UseGamePerformanceProps): UseGamePerformanceReturn {
