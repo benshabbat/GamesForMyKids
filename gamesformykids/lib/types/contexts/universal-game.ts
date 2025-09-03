@@ -6,9 +6,14 @@
 
 import React, { ComponentType } from 'react';
 import { BaseGameItem, GameType } from '../core/base';
+import type { ProgressModalState } from '../core/base';
 
 // הערה: טיפוסים משותפים קיימים גם ב-hooks/game-state, יש להוסיף הפנייה מתאימה
 import { GameItemCardProps } from '../hooks/game-state';
+
+/**
+ * מצב משחק כללי - עקרון Single Responsibility
+ */
 import type { GameUIConfig } from './game-config';
 
 // הערה: GameUIConfig מיובא מ-game-config לפי עקרון DRY
@@ -71,12 +76,9 @@ export interface GameHintsSystem {
 }
 
 /**
- * UI משחק - עקרון Single Responsibility
+ * UI משחק - עקרון DRY, שימוש ב-ProgressModalState
  */
-export interface GameUI {
-  readonly showProgressModal: boolean;
-  readonly setShowProgressModal: (show: boolean) => void;
-}
+export interface GameUI extends ProgressModalState {}
 
 /**
  * Value של UniversalGame Context - עקרון Interface Segregation

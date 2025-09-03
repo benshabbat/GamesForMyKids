@@ -31,6 +31,14 @@ export interface GameTyped {
 }
 
 /**
+ * ממשק לניהול modal התקדמות - עקרון DRY
+ */
+export interface ProgressModalState {
+  readonly showProgressModal: boolean;
+  readonly setShowProgressModal: (show: boolean) => void;
+}
+
+/**
  * תרגום רב-לשוני - עקרון Single Responsibility
  */
 export interface Translatable {

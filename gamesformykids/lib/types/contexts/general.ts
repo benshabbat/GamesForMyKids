@@ -5,6 +5,7 @@
  */
 
 import { ReactNode } from 'react';
+import type { GameTyped } from '../core/base';
 
 /**
  * Props בסיסיים לProvider - עקרון Single Responsibility
@@ -21,11 +22,9 @@ export interface DefaultGameTypeConfig {
 }
 
 /**
- * הגדרת סוג משחק ספציפי - עקרון Single Responsibility
+ * הגדרת סוג משחק ספציפי - עקרון DRY, שימוש ב-GameTyped
  */
-export interface SpecificGameTypeConfig {
-  readonly gameType: string;
-}
+export interface SpecificGameTypeConfig extends GameTyped {}
 
 /**
  * Props ל-Universal Game Provider - עקרון Interface Segregation

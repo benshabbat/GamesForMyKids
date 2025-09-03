@@ -4,6 +4,8 @@
  * ===============================================
  */
 
+import type { GameTyped } from '../core/base';
+
 /**
  * אירועי מחזור חיים של משחק - עקרון Single Responsibility
  */
@@ -45,11 +47,9 @@ export interface EventMetadata {
 }
 
 /**
- * הקשר משחק לאירוע - עקרון Single Responsibility
+ * הקשר משחק לאירוע - עקרון DRY, שימוש ב-GameTyped
  */
-export interface GameContext {
-  readonly gameType: string;
-}
+export interface GameContext extends GameTyped {}
 
 /**
  * נתונים נוספים לאירוע - עקרון Single Responsibility
