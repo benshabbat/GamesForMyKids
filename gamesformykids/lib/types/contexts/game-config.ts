@@ -48,14 +48,7 @@ export interface AutoGameType {
   readonly config: Readonly<Record<string, object>>;
 }
 
-/**
- * Props לכרטיס משחק - עקרון Single Responsibility
- */
-export interface GameCardProps {
-  readonly item: BaseGameItem;
-  readonly onClick?: () => void;
-  readonly className?: string;
-}
+// הערה: GameCardProps מוגדר ב-components/game.ts לפי עקרון DRY
 
 /**
  * מידע משחק נוכחי - עקרון Single Responsibility

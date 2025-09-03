@@ -6,6 +6,8 @@
 
 import React from 'react';
 import { BaseGameItem, GameType } from '../core/base';
+
+// הערה: טיפוסים משותפים קיימים גם ב-hooks/game-state, יש להוסיף הפנייה מתאימה
 import { GameItemCardProps } from '../hooks/game-state';
 
 /**

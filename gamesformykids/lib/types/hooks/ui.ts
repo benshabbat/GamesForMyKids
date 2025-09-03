@@ -15,9 +15,9 @@ export interface UseGameHintsProps {
 }
 
 /**
- * רמז במשחק - עקרון Single Responsibility
+ * רמז משחק באינטראקציה - עקרון Single Responsibility
  */
-export interface Hint {
+export interface GameHint {
   readonly type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
   readonly text: string;
   readonly audioText?: string;
@@ -29,7 +29,7 @@ export interface Hint {
  * החזרת Hook לרמזים - עקרון Interface Segregation
  */
 export interface UseGameHintsReturn {
-  readonly hints: Hint[];
+  readonly hints: GameHint[];
   readonly hasMoreHints: boolean;
   readonly showNextHint: () => void;
   readonly resetHints: () => void;
