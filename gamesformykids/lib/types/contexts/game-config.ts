@@ -42,9 +42,9 @@ export interface GameUIConfig {
 }
 
 /**
- * סוג משחק אוטומטי - עקרון DRY, שימוש ב-TypedConfiguration
+ * סוג משחק אוטומטי - עקרון DRY, type alias
  */
-export interface AutoGameType extends TypedConfiguration {}
+export type AutoGameType = TypedConfiguration;
 
 // הערה: GameCardProps מוגדר ב-components/game.ts לפי עקרון DRY
 

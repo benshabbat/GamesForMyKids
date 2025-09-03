@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import React, { ComponentType } from 'react';
+import { ComponentType } from 'react';
 import { BaseGameItem, GameType } from '../core/base';
 import type { ProgressModalState } from '../core/base';
 
@@ -76,9 +76,9 @@ export interface GameHintsSystem {
 }
 
 /**
- * UI משחק - עקרון DRY, שימוש ב-ProgressModalState
+ * UI משחק - עקרון DRY, type alias
  */
-export interface GameUI extends ProgressModalState {}
+export type GameUI = ProgressModalState;
 
 /**
  * Value של UniversalGame Context - עקרון Interface Segregation

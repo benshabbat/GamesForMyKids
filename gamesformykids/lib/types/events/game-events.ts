@@ -47,9 +47,9 @@ export interface EventMetadata {
 }
 
 /**
- * הקשר משחק לאירוע - עקרון DRY, שימוש ב-GameTyped
+ * הקשר משחק לאירוע - עקרון DRY, type alias
  */
-export interface GameContext extends GameTyped {}
+export type GameContext = GameTyped;
 
 /**
  * נתונים נוספים לאירוע - עקרון Single Responsibility

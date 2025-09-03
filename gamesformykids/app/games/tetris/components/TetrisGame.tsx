@@ -6,7 +6,7 @@ import GameBoard from './GameBoard';
 import { MobileInfoPanel, DesktopInfoPanel } from './InfoPanels';
 import TouchControls from './TouchControls';
 import AnimatedBackground from './AnimatedBackground';
-import LoadingScreen from './LoadingScreen';
+import LoadingScreen from '@/components/layout/LoadingScreen';
 
 function TetrisGame(){
   const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();

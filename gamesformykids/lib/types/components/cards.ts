@@ -10,21 +10,22 @@ import { ColorItem, ShapeItem, NumberItem } from '../games/items';
 import type { Nameable, Translatable, Visualizable, Audioable } from '../core/base';
 
 // ===== SOLID Principle: Single Responsibility =====
+// Using type aliases instead of empty interfaces for better DRY
 
 /**
- * תוכן טקסטואלי - שימוש ב-Translatable, עקרון DRY
+ * תוכן טקסטואלי - type alias for clarity
  */
-export interface ItemTextContent extends Translatable {}
+export type ItemTextContent = Translatable;
 
 /**
- * מאפיינים ויזואליים בסיסיים - שימוש ב-Visualizable, עקרון DRY
+ * מאפיינים ויזואליים בסיסיים - type alias for clarity
  */
-export interface ItemVisuals extends Visualizable {}
+export type ItemVisuals = Visualizable;
 
 /**
- * מאפיינים קוליים - שימוש ב-Audioable, עקרון DRY
+ * מאפיינים קוליים - type alias for clarity
  */
-export interface ItemAudio extends Audioable {}
+export type ItemAudio = Audioable;
 
 /**
  * מאפיינים גיאומטריים - עקרון Single Responsibility

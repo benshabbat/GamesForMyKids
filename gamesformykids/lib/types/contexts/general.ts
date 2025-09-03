@@ -22,9 +22,9 @@ export interface DefaultGameTypeConfig {
 }
 
 /**
- * הגדרת סוג משחק ספציפי - עקרון DRY, שימוש ב-GameTyped
+ * הגדרת סוג משחק ספציפי - עקרון DRY, type alias
  */
-export interface SpecificGameTypeConfig extends GameTyped {}
+export type SpecificGameTypeConfig = GameTyped;
 
 /**
  * Props ל-Universal Game Provider - עקרון Interface Segregation

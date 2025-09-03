@@ -166,9 +166,9 @@ export interface TypedConfiguration {
 }
 
 /**
- * הקשר ביצוע לאסטרטגיה - עקרון Single Responsibility
+ * הקשר ביצוע לאסטרטגיה - עקרון DRY, type alias
  */
-export interface ExecutionContext extends TypedConfiguration {}
+export type ExecutionContext = TypedConfiguration;
 
 /**
  * תוצאת ביצוע אסטרטגיה - עקרון Single Responsibility
@@ -188,9 +188,9 @@ export interface GameStrategy {
 }
 
 /**
- * הגדרת יצירת משחק - עקרון Single Responsibility
+ * הגדרת יצירת משחק - עקרון DRY, type alias
  */
-export interface GameCreationConfig extends TypedConfiguration {}
+export type GameCreationConfig = TypedConfiguration;
 
 /**
  * Factory לייצור משחקים - עקרון Factory Pattern

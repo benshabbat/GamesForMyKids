@@ -97,9 +97,9 @@ export interface GameStartButtonProps extends
   CustomAction {}
 
 /**
- * מאפיינים לכותרת - שימוש ב-TitledEntity, עקרון DRY
+ * מאפיינים לכותרת - עקרון DRY, type alias
  */
-export interface TitledComponent extends TitledEntity {}
+export type TitledComponent = TitledEntity;
 
 /**
  * Props לכותרת - עקרון Interface Segregation
