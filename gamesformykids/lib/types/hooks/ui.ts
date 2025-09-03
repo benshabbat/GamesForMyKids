@@ -1,40 +1,54 @@
 /**
  * ===============================================
- * טיפוסים לhooks של UI
+ * טיפוסים לhooks של UI - Clean Code & SOLID
  * ===============================================
  */
 
 import { BaseGameItem } from '../core/base';
 
+/**
+ * Props עבור רמזים במשחק - עקרון Single Responsibility
+ */
 export interface UseGameHintsProps {
-  currentChallenge: BaseGameItem | null;
-  wrongAttempts: number;
+  readonly currentChallenge: BaseGameItem | null;
+  readonly wrongAttempts: number;
 }
 
+/**
+ * רמז במשחק - עקרון Single Responsibility
+ */
 export interface Hint {
-  type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
-  text: string;
-  audioText?: string;
-  isRevealed: boolean;
-  order: number;
+  readonly type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
+  readonly text: string;
+  readonly audioText?: string;
+  readonly isRevealed: boolean;
+  readonly order: number;
 }
 
+/**
+ * החזרת Hook לרמזים - עקרון Interface Segregation
+ */
 export interface UseGameHintsReturn {
-  hints: Hint[];
-  hasMoreHints: boolean;
-  showNextHint: () => void;
-  resetHints: () => void;
-  revealedHintsCount: number;
-  revealedCount: number;
-  totalHints: number;
+  readonly hints: readonly Hint[];
+  readonly hasMoreHints: boolean;
+  readonly showNextHint: () => void;
+  readonly resetHints: () => void;
+  readonly revealedHintsCount: number;
+  readonly revealedCount: number;
+  readonly totalHints: number;
 }
 
+/**
+ * Props עבור אירועי משחק - עקרון Single Responsibility
+ */
 export interface UseGameEventsProps {
-  gameType?: string;
-  onGameStateChange?: (state: Record<string, unknown>) => void;
+  readonly gameType?: string;
+  readonly onGameStateChange?: (state: object) => void;
 }
 
-// Game event types (copied from useGameEvents)
+/**
+ * סוגי אירועי משחק - עקרון Open/Closed
+ */
 export type GameEvent = 
   | 'game_start'
   | 'game_pause'
@@ -46,34 +60,57 @@ export type GameEvent =
   | 'streak_milestone'
   | 'game_complete';
 
+/**
+ * החזרת Hook לאירועי משחק - עקרון Interface Segregation
+ */
 export interface UseGameEventsReturn {
-  onCorrectAnswer: (data?: Record<string, unknown>) => void;
-  onWrongAnswer: (data?: Record<string, unknown>) => void;
-  onGameStart: () => void;
-  onGamePause: () => void;
-  onGameResume: () => void;
-  onLevelUp: () => void;
-  triggerEvent: (event: GameEvent, data?: Record<string, unknown>) => void;
+  readonly onCorrectAnswer: (data?: object) => void;
+  readonly onWrongAnswer: (data?: object) => void;
+  readonly onGameStart: () => void;
+  readonly onGamePause: () => void;
+  readonly onGameResume: () => void;
+  readonly onLevelUp: () => void;
+  readonly triggerEvent: (event: GameEvent, data?: object) => void;
 }
 
+/**
+ * Props עבור ביצועי משחק - עקרון Single Responsibility
+ */
 export interface UseGamePerformanceProps {
-  items: BaseGameItem[];
-  currentChallenge: BaseGameItem | null;
+  readonly items: readonly BaseGameItem[];
+  readonly currentChallenge: BaseGameItem | null;
 }
 
+/**
+ * החזרת Hook לביצועי משחק - עקרון Interface Segregation
+ */
 export interface UseGamePerformanceReturn {
-  getPreloadedAudio: (itemName: string) => HTMLAudioElement | null;
-  getPreloadedImage: (itemName: string) => HTMLImageElement | null;
-  requestAnimationFrame: (callback: () => void) => void;
-  cleanup: () => void;
-  isAudioPreloaded: (itemName: string) => boolean;
-  isImagePreloaded: (itemName: string) => boolean;
+  readonly getPreloadedAudio: (itemName: string) => HTMLAudioElement | null;
+  readonly getPreloadedImage: (itemName: string) => HTMLImageElement | null;
+  readonly requestAnimationFrame: (callback: () => void) => void;
+  readonly cleanup: () => void;
+  readonly isAudioPreloaded: (itemName: string) => boolean;
+  readonly isImagePreloaded: (itemName: string) => boolean;
 }
 
+/**
+ * נתוני אירוע למעקב - עקרון Single Responsibility
+ */
+export interface EventData {
+  readonly gameType: string;
+  readonly score?: number;
+  readonly level?: number;
+  readonly duration?: number;
+  readonly context?: object;
+}
+
+/**
+ * החזרת Hook לאירועי משחק עם אנליטיקה - עקרון Interface Segregation
+ */
 export interface GameEventsHookReturn {
-  trackEvent: (eventName: string, eventData?: Record<string, unknown>) => void;
-  trackGameStart: (gameType: string) => void;
-  trackGameEnd: (gameType: string, score: number, duration: number) => void;
-  trackLevelComplete: (gameType: string, level: number, score: number) => void;
-  trackError: (error: string, context?: Record<string, unknown>) => void;
+  readonly trackEvent: (eventName: string, eventData?: object) => void;
+  readonly trackGameStart: (gameType: string) => void;
+  readonly trackGameEnd: (gameType: string, score: number, duration: number) => void;
+  readonly trackLevelComplete: (gameType: string, level: number, score: number) => void;
+  readonly trackError: (error: string, context?: object) => void;
 }

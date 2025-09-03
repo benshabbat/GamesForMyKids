@@ -1,6 +1,6 @@
 /**
  * ===============================================
- * Game Config Context Types - Clean Code
+ * Game Config Context Types - Clean Code & SOLID
  * ===============================================
  */
 
@@ -8,48 +8,63 @@ import { ReactNode } from 'react';
 import { GameType, BaseGameItem } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
 
-// טייפים זמניים למען תאימות
-export interface GameUIConfig {
-  title: string;
-  description: string;
-  instructions: string[];
-  [key: string]: unknown;
-}
-
-export interface AutoGameType {
-  type: string;
-  config: Record<string, unknown>;
-}
-
-export interface GameCardProps {
-  item: BaseGameItem;
-  onClick?: () => void;
-  className?: string;
-}
-
 /**
- * Value של GameConfig Context
+ * תצורת UI למשחק - עקרון Single Responsibility
  */
-export interface GameConfigContextValue {
-  // Current game info
-  gameType: AutoGameType | GameType | null;
-  config: GameUIConfig | null;
-  items: BaseGameItem[] | null;
-  CardComponent: React.ComponentType<GameItemCardProps> | null;
-  useGameHook: unknown | null;
-  
-  // Validation
-  isSupported: boolean;
-  isReady: boolean;
-  
-  // Error handling
-  error: string | null;
+export interface GameUIConfig {
+  readonly title: string;
+  readonly description: string;
+  readonly instructions: readonly string[];
 }
 
 /**
- * Props עבור GameConfig Provider
+ * סוג משחק אוטומטי - עקרון Single Responsibility
+ */
+export interface AutoGameType {
+  readonly type: string;
+  readonly config: Readonly<Record<string, object>>;
+}
+
+/**
+ * Props לכרטיס משחק - עקרון Single Responsibility
+ */
+export interface GameCardProps {
+  readonly item: BaseGameItem;
+  readonly onClick?: () => void;
+  readonly className?: string;
+}
+
+/**
+ * מידע משחק נוכחי - עקרון Single Responsibility
+ */
+export interface CurrentGameInfo {
+  readonly gameType: AutoGameType | GameType | null;
+  readonly config: GameUIConfig | null;
+  readonly items: readonly BaseGameItem[] | null;
+  readonly CardComponent: React.ComponentType<GameItemCardProps> | null;
+  readonly useGameHook: object | null;
+}
+
+/**
+ * מצב תקינות המשחק - עקרון Single Responsibility
+ */
+export interface GameValidationStatus {
+  readonly isSupported: boolean;
+  readonly isReady: boolean;
+  readonly error: string | null;
+}
+
+/**
+ * Value של GameConfig Context - עקרון Interface Segregation
+ */
+export interface GameConfigContextValue extends 
+  CurrentGameInfo,
+  GameValidationStatus {}
+
+/**
+ * Props עבור GameConfig Provider - עקרון Single Responsibility
  */
 export interface GameConfigProviderProps {
-  children: ReactNode;
-  gameType?: AutoGameType | GameType;
+  readonly children: ReactNode;
+  readonly gameType?: AutoGameType | GameType;
 }

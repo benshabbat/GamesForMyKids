@@ -1,6 +1,6 @@
  /**
  * ===============================================
- * טיפוסים לhooks של Game State
+ * טיפוסים לhooks של Game State - Clean Code & SOLID
  * ===============================================
  */
 
@@ -8,145 +8,202 @@ import type { ComponentType } from 'react';
 import { BaseGameItem, GameType, BaseGameState } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
 
-// ייצוא הטייפ למען תאימות
+// ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
 
-// Alias for backward compatibility
+// Alias for backward compatibility - עקרון Liskov Substitution
 export type GameCardProps = GameItemCardProps;
 
-// טייפ זמני לGameUIConfig עד שהקבצים יתוקנו
+/**
+ * תצורת UI למשחק - עקרון Single Responsibility
+ */
 export interface GameUIConfig {
-  title: string;
-  description: string;
-  instructions: string[];
-  [key: string]: unknown;
+  readonly title: string;
+  readonly description: string;
+  readonly instructions: readonly string[];
 }
 
+/**
+ * Props לאפשרויות משחק - עקרון Single Responsibility
+ */
 export interface UseGameOptionsProps {
-  allItems: BaseGameItem[];
-  level: number;
-  baseCount?: number;
-  increment?: number;  
-  levelThreshold?: number;
+  readonly allItems: readonly BaseGameItem[];
+  readonly level: number;
+  readonly baseCount?: number;
+  readonly increment?: number;  
+  readonly levelThreshold?: number;
 }
 
+/**
+ * קבועי משחק - עקרון Single Responsibility
+ */
+export interface GameConstants {
+  readonly BASE_COUNT: number;
+  readonly INCREMENT: number;
+  readonly LEVEL_THRESHOLD: number;
+}
+
+/**
+ * הגדרת משחק בסיסית - עקרון Interface Segregation
+ */
 export interface UseBaseGameConfig {
-  gameType: GameType;
-  items: BaseGameItem[];
-  pronunciations: Record<string, string>;
-  gameConstants: {
-    BASE_COUNT: number;
-    INCREMENT: number;
-    LEVEL_THRESHOLD: number;
-  };
+  readonly gameType: GameType;
+  readonly items: readonly BaseGameItem[];
+  readonly pronunciations: Readonly<Record<string, string>>;
+  readonly gameConstants: GameConstants;
 }
 
+/**
+ * מצב משחק נוכחי - עקרון Single Responsibility
+ */
 export interface GameState {
-  isPlaying: boolean;
-  showCelebration: boolean;
-  currentChallenge: BaseGameItem | null;
-  options: BaseGameItem[];
-  score: number;
-  level: number;
+  readonly isPlaying: boolean;
+  readonly showCelebration: boolean;
+  readonly currentChallenge: BaseGameItem | null;
+  readonly options: readonly BaseGameItem[];
+  readonly score: number;
+  readonly level: number;
 }
 
-export interface GameLogicState {
-  // Game State
-  gameState: GameState | null;
-  isPlaying: boolean;
-  showCelebration: boolean;
-  currentChallenge: BaseGameItem | null;
-  options: BaseGameItem[] | null;
-  score: number;
-  level: number;
-  
-  // Game Actions
-  startGame: () => void;
-  resetGame: () => void;
-  handleItemClick: (item: BaseGameItem) => void;
-  speakItemName: (itemName: string) => void;
-  
-  // Enhanced Features
-  hints?: string[];
-  hasMoreHints?: boolean;
-  showNextHint?: () => void;
-  currentAccuracy?: number;
-  progressStats?: Record<string, unknown>;
-  
-  // UI State
-  showProgressModal: boolean;
-  setShowProgressModal: (show: boolean) => void;
-  
-  // Configuration
-  config: GameUIConfig;
-  items: BaseGameItem[];
-  CardComponent: ComponentType<GameItemCardProps>;
-  gameType: unknown; // GameType | AutoGameType
+/**
+ * נתוני אימון וסטטיסטיקות - עקרון Single Responsibility
+ */
+export interface GameProgress {
+  readonly currentAccuracy: number;
+  readonly streak: number;
+  readonly timeSpent: number;
+  readonly totalQuestions: number;
+  readonly correctAnswers: number;
 }
 
+/**
+ * תכונות מתקדמות של משחק - עקרון Single Responsibility
+ */
+export interface GameEnhancements {
+  readonly hints?: readonly string[];
+  readonly hasMoreHints?: boolean;
+  readonly showNextHint?: () => void;
+}
+
+/**
+ * פעולות משחק - עקרון Single Responsibility
+ */
+export interface GameActions {
+  readonly startGame: () => void;
+  readonly resetGame: () => void;
+  readonly handleItemClick: (item: BaseGameItem) => void;
+  readonly speakItemName: (itemName: string) => void;
+  readonly pauseGame: () => void;
+  readonly resumeGame: () => void;
+  readonly resetProgress: () => void;
+  readonly navigateToGame: (gameType: GameType) => void;
+}
+
+/**
+ * פעולות תגובה למשחק - עקרון Single Responsibility
+ */
+export interface GameResponseActions {
+  readonly handleCorrectAnswer: (data?: object) => void;
+  readonly handleWrongAnswer: (data?: object) => void;
+}
+
+/**
+ * מצב UI של משחק - עקרון Single Responsibility
+ */
+export interface GameUIState {
+  readonly showProgressModal: boolean;
+  readonly setShowProgressModal: (show: boolean) => void;
+}
+
+/**
+ * הגדרות משחק - עקרון Single Responsibility
+ */
+export interface GameConfiguration {
+  readonly config: GameUIConfig;
+  readonly items: readonly BaseGameItem[];
+  readonly CardComponent: ComponentType<GameItemCardProps>;
+  readonly gameType: GameType;
+}
+
+/**
+ * מצב משחק לוגי מלא - עקרון Interface Segregation
+ */
+export interface GameLogicState extends 
+  GameState,
+  GameProgress,
+  GameEnhancements,
+  GameActions,
+  GameResponseActions,
+  GameUIState,
+  GameConfiguration {
+  readonly gameState: GameState | null;
+  readonly isGameActive: boolean;
+}
+
+/**
+ * הגדרת מתקדמת למצב משחק - עקרון Single Responsibility
+ */
 export interface UseAdvancedGameStateConfig<T extends BaseGameItem> {
-  initialState: BaseGameState<T>;
+  readonly initialState: BaseGameState<T>;
 }
 
+/**
+ * פריט משחק במסד נתונים - עקרון Single Responsibility
+ */
 export interface GameItem {
-  id: string
-  name: string
-  hebrew: string
-  english: string
-  emoji: string
-  category: string
-  subcategory?: string
-  color_class?: string
-  sound_frequencies: number[]
-  additional_data: Record<string, unknown>
-  created_at: string
-  updated_at: string
+  readonly id: string;
+  readonly name: string;
+  readonly hebrew: string;
+  readonly english: string;
+  readonly emoji: string;
+  readonly category: string;
+  readonly subcategory?: string;
+  readonly color_class?: string;
+  readonly sound_frequencies: readonly number[];
+  readonly additional_data: Readonly<Record<string, object>>;
+  readonly created_at: string;
+  readonly updated_at: string;
 }
 
+/**
+ * רשומת סוג משחק במסד נתונים - עקרון Single Responsibility
+ */
 export interface GameTypeDbRecord {
-  id: string
-  name: string
-  display_name_hebrew: string
-  display_name_english: string
-  description?: string
-  icon?: string
-  category: string
-  difficulty_level: string
-  min_age: number
-  max_age: number
-  is_active: boolean
-  created_at: string
-  updated_at: string
+  readonly id: string;
+  readonly name: string;
+  readonly display_name_hebrew: string;
+  readonly display_name_english: string;
+  readonly description?: string;
+  readonly icon?: string;
+  readonly category: string;
+  readonly difficulty_level: string;
+  readonly min_age: number;
+  readonly max_age: number;
+  readonly is_active: boolean;
+  readonly created_at: string;
+  readonly updated_at: string;
 }
 
-export interface GameContextHookReturn {
-  // Game Type Info
-  gameType: string | null;
-  gameConfig: {
-    title: string;
-    subTitle: string;
+/**
+ * מידע בסיסי על סוג משחק - עקרון Single Responsibility
+ */
+export interface GameTypeInfo {
+  readonly gameType: string | null;
+  readonly gameConfig: {
+    readonly title: string;
+    readonly subTitle: string;
   } | null;
-  
-  // Progress Info
-  score: number;
-  level: number;
-  streak: number;
-  accuracy: number;
-  isGameActive: boolean;
-  
-  // Actions
-  startGame: () => void;
-  pauseGame: () => void;
-  resumeGame: () => void;
-  resetProgress: () => void;
-  handleCorrectAnswer: (data?: Record<string, unknown>) => void;
-  handleWrongAnswer: (data?: Record<string, unknown>) => void;
-  navigateToGame: (gameType: GameType) => void;
-  
-  // Status
-  timeSpent: number;
-  totalQuestions: number;
-  correctAnswers: number;
+}
+
+/**
+ * החזרת Hook קונטקסט משחק מלאה - עקרון Interface Segregation
+ */
+export interface GameContextHookReturn extends 
+  GameTypeInfo,
+  GameProgress,
+  GameActions,
+  GameResponseActions {
+  readonly isGameActive: boolean;
 }
 
 export interface UseGameDataReturn {

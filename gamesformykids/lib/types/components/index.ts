@@ -1,10 +1,11 @@
 /**
  * ===============================================
- * ייצוא מרכזי לטיפוסי קומפוננטות - Clean Code
+ * ייצוא מרכזי לטיפוסי קומפוננטות - Clean Code & SOLID
  * ===============================================
  */
 
 import type { ReactNode } from 'react';
+import type { AgeGroup, Category, GameRegistration } from '../games/base';
 
 // ייצוא האינטרפייסים הקיימים מה-UI
 import type {
@@ -13,67 +14,115 @@ import type {
   NavigationProps
 } from '../ui/core';
 
-// Individual type exports for namespace access
-export type AgeGroupCardProps = {
-  ageGroup: Record<string, unknown>;
-};
+/**
+ * Props לכרטיס קבוצת גיל - עקרון Single Responsibility
+ */
+export interface AgeGroupCardProps {
+  readonly ageGroup: AgeGroup;
+}
 
-export type AllGamesViewProps = {
-  games?: Record<string, unknown>[];
-};
+/**
+ * Props לתצוגת כל המשחקים - עקרון Single Responsibility
+ */
+export interface AllGamesViewProps {
+  readonly games?: readonly GameRegistration[];
+}
 
-export type CategoriesViewProps = {
-  categories?: Record<string, unknown>[];
-};
+/**
+ * Props לתצוגת קטגוריות - עקרון Single Responsibility
+ */
+export interface CategoriesViewProps {
+  readonly categories?: readonly Category[];
+}
 
-export type CategoryGamesViewProps = {
-  category?: Record<string, unknown>;
-};
+/**
+ * Props לתצוגת משחקי קטגוריה - עקרון Single Responsibility
+ */
+export interface CategoryGamesViewProps {
+  readonly category?: Category;
+}
 
-export type CategoryCardProps = {
-  category: Record<string, unknown>;
-};
+/**
+ * Props לכרטיס קטגוריה - עקרון Single Responsibility
+ */
+export interface CategoryCardProps {
+  readonly category: Category;
+}
 
+/**
+ * Props לניווט קטגוריה - עקרון Liskov Substitution
+ */
 export type CategoryNavigationProps = NavigationProps;
 
-export type FeaturedGameCallToActionProps = {
-  featuredGame: Record<string, unknown>;
-};
+/**
+ * Props לקריאה לפעולה של משחק מומלץ - עקרון Single Responsibility
+ */
+export interface FeaturedGameCallToActionProps {
+  readonly featuredGame: GameRegistration;
+}
 
-export type GameCardProps = {
-  game: Record<string, unknown>;
-  onClick?: () => void;
-};
+/**
+ * Props לכרטיס משחק - עקרון Single Responsibility & Interface Segregation
+ */
+export interface GameCardProps {
+  readonly game: GameRegistration;
+  readonly onClick?: () => void;
+}
 
-export type RecommendationsHeaderProps = {
-  title: string;
-  description?: string;
-};
+/**
+ * Props לכותרת המלצות - עקרון Single Responsibility
+ */
+export interface RecommendationsHeaderProps {
+  readonly title: string;
+  readonly description?: string;
+}
 
+/**
+ * Props לכפתור התחלת משחק פשוט - עקרון Liskov Substitution
+ */
 export type SimpleGameStartButtonProps = ButtonProps;
 
-export type BaseGameCardProps = {
-  title: string;
-  onClick?: () => void;
-};
+/**
+ * Props בסיסיים לכרטיס משחק - עקרון Single Responsibility
+ */
+export interface BaseGameCardProps {
+  readonly title: string;
+  readonly onClick?: () => void;
+}
 
-export type ColoredShapeCardProps = {
-  item: Record<string, unknown>;
-  onClick?: (item: Record<string, unknown>) => void;
-};
+/**
+ * Props לכרטיס צורה צבועה - עקרון Single Responsibility & Interface Segregation
+ */
+export interface ColoredShapeCardProps<T = object> {
+  readonly item: T;
+  readonly onClick?: (item: T) => void;
+}
 
-export type UnifiedCardProps = {
-  size?: 'small' | 'medium' | 'large';
-  shape?: 'rounded' | 'circle' | 'square';
-  aspectRatio?: 'square' | 'wide' | 'tall';
-  hoverEffect?: 'scale' | 'lift' | 'glow' | 'none';
-  shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
-  animation?: 'bounce' | 'pulse' | 'none';
-};
+/**
+ * מאפיינים ויזואליים מתקדמים - עקרון Single Responsibility
+ */
+export interface AdvancedVisualProps {
+  readonly size?: 'small' | 'medium' | 'large';
+  readonly shape?: 'rounded' | 'circle' | 'square';
+  readonly aspectRatio?: 'square' | 'wide' | 'tall';
+  readonly hoverEffect?: 'scale' | 'lift' | 'glow' | 'none';
+  readonly shadow?: 'sm' | 'md' | 'lg' | 'xl' | '2xl' | 'none';
+  readonly animation?: 'bounce' | 'pulse' | 'none';
+}
 
-export type GameCardGridProps<T extends Record<string, unknown> = Record<string, unknown>> = {
-  items: T[];
-  renderItem?: (item: T, index: number) => ReactNode;
+/**
+ * Props לכרטיס מאוחד - עקרון Interface Segregation
+ */
+export interface UnifiedCardProps extends AdvancedVisualProps {
+  readonly children?: ReactNode;
+}
+
+/**
+ * Props עבור רשת כרטיסי משחק - עקרון Single Responsibility & Generics
+ */
+export interface GameCardGridProps<T = object> {
+  readonly items: readonly T[];
+  readonly renderItem?: (item: T, index: number) => ReactNode;
 };
 
 export type GameItemType = Record<string, unknown>;

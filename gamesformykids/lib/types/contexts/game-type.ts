@@ -1,52 +1,70 @@
 /**
  * ===============================================
- * Game Type Context Types - Clean Code
+ * Game Type Context Types - Clean Code & SOLID
  * ===============================================
  */
 
 import { ReactNode } from 'react';
-import { GameType } from '../core/base';
-
-// טייפ זמני למען תאימות
-export const GAME_UI_CONFIGS: Record<string, unknown> = {};
+import { GameType, BaseGameItem } from '../core/base';
 
 /**
- * State של GameType
+ * הגדרת תצורת UI למשחק - עקרון Single Responsibility
+ */
+export interface GameUIConfiguration {
+  readonly title: string;
+  readonly description: string;
+  readonly instructions: readonly string[];
+}
+
+/**
+ * מפה של תצורות UI למשחקים - עקרון Open/Closed
+ */
+export const GAME_UI_CONFIGS: Readonly<Record<string, GameUIConfiguration>> = {};
+
+/**
+ * מצב סוג משחק - עקרון Single Responsibility
  */
 export interface GameTypeState {
-  currentGameType: GameType | null;
-  previousGameType: GameType | null;
-  gameHistory: GameType[];
+  readonly currentGameType: GameType | null;
+  readonly previousGameType: GameType | null;
+  readonly gameHistory: readonly GameType[];
 }
 
 /**
- * Value של GameType Context
+ * פעולות לניהול סוג משחק - עקרון Single Responsibility
  */
-export interface GameTypeContextValue {
-  // State
-  gameState: GameTypeState;
-  
-  // Current game info
-  currentGameType: GameType | null;
-  currentGameConfig: typeof GAME_UI_CONFIGS[GameType] | null;
-  currentGameItems: unknown[] | null;
-  
-  // Actions
-  setCurrentGameType: (gameType: GameType) => void;
-  navigateToGame: (gameType: GameType) => void;
-  goToPreviousGame: () => void;
-  clearGameHistory: () => void;
-  
-  // Utilities
-  isGameSupported: (gameType: string) => boolean;
-  getGameConfig: (gameType: GameType) => typeof GAME_UI_CONFIGS[GameType] | null;
-  getGameItems: (gameType: GameType) => unknown[] | null;
+export interface GameTypeActions {
+  readonly setCurrentGameType: (gameType: GameType) => void;
+  readonly navigateToGame: (gameType: GameType) => void;
+  readonly goToPreviousGame: () => void;
+  readonly clearGameHistory: () => void;
 }
 
 /**
- * Props עבור GameType Provider
+ * כלים עזר לסוג משחק - עקרון Single Responsibility
+ */
+export interface GameTypeUtilities {
+  readonly isGameSupported: (gameType: string) => boolean;
+  readonly getGameConfig: (gameType: GameType) => GameUIConfiguration | null;
+  readonly getGameItems: (gameType: GameType) => readonly BaseGameItem[] | null;
+}
+
+/**
+ * Value של GameType Context - עקרון Interface Segregation
+ */
+export interface GameTypeContextValue extends 
+  GameTypeActions,
+  GameTypeUtilities {
+  readonly gameState: GameTypeState;
+  readonly currentGameType: GameType | null;
+  readonly currentGameConfig: GameUIConfiguration | null;
+  readonly currentGameItems: readonly BaseGameItem[] | null;
+}
+
+/**
+ * Props עבור GameType Provider - עקרון Single Responsibility
  */
 export interface GameTypeProviderProps {
-  children: ReactNode;
+  readonly children: ReactNode;
   initialGameType?: GameType;
 }
