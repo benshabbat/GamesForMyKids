@@ -29,3 +29,4 @@ export * from './feedback';
 export { default as GameItem } from './GameItem';
 export { default as GameChallengeSection } from './GameChallengeSection';
 export { default as GameMainContent } from './GameMainContent';
+export { GameCardMap } from './GameCardMap';
