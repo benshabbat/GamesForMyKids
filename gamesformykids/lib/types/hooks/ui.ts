@@ -29,7 +29,7 @@ export interface Hint {
  * החזרת Hook לרמזים - עקרון Interface Segregation
  */
 export interface UseGameHintsReturn {
-  readonly hints: readonly Hint[];
+  readonly hints: Hint[];
   readonly hasMoreHints: boolean;
   readonly showNextHint: () => void;
   readonly resetHints: () => void;
@@ -64,20 +64,20 @@ export type GameEvent =
  * החזרת Hook לאירועי משחק - עקרון Interface Segregation
  */
 export interface UseGameEventsReturn {
-  readonly onCorrectAnswer: (data?: object) => void;
-  readonly onWrongAnswer: (data?: object) => void;
+  readonly onCorrectAnswer: (data?: Record<string, unknown>) => void;
+  readonly onWrongAnswer: (data?: Record<string, unknown>) => void;
   readonly onGameStart: () => void;
   readonly onGamePause: () => void;
   readonly onGameResume: () => void;
   readonly onLevelUp: () => void;
-  readonly triggerEvent: (event: GameEvent, data?: object) => void;
+  readonly triggerEvent: (event: GameEvent, data?: Record<string, unknown>) => void;
 }
 
 /**
  * Props עבור ביצועי משחק - עקרון Single Responsibility
  */
 export interface UseGamePerformanceProps {
-  readonly items: readonly BaseGameItem[];
+  readonly items: BaseGameItem[];
   readonly currentChallenge: BaseGameItem | null;
 }
 
@@ -108,9 +108,9 @@ export interface EventData {
  * החזרת Hook לאירועי משחק עם אנליטיקה - עקרון Interface Segregation
  */
 export interface GameEventsHookReturn {
-  readonly trackEvent: (eventName: string, eventData?: object) => void;
+  readonly trackEvent: (eventName: string, eventData?: Record<string, unknown>) => void;
   readonly trackGameStart: (gameType: string) => void;
   readonly trackGameEnd: (gameType: string, score: number, duration: number) => void;
   readonly trackLevelComplete: (gameType: string, level: number, score: number) => void;
-  readonly trackError: (error: string, context?: object) => void;
+  readonly trackError: (error: string, context?: Record<string, unknown>) => void;
 }

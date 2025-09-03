@@ -86,7 +86,7 @@ export type BaseGameItem = GameDataItem & {
  */
 export interface GameCurrentState<T extends BaseGameItem = BaseGameItem> {
   readonly currentChallenge: T | null;
-  readonly options: ReadonlyArray<T>;
+  readonly options: T[];
 }
 
 /**

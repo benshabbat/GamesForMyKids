@@ -60,7 +60,7 @@ export interface GameState {
   readonly isPlaying: boolean;
   readonly showCelebration: boolean;
   readonly currentChallenge: BaseGameItem | null;
-  readonly options: readonly BaseGameItem[];
+  readonly options: BaseGameItem[];
   readonly score: number;
   readonly level: number;
 }
@@ -103,8 +103,8 @@ export interface GameActions {
  * פעולות תגובה למשחק - עקרון Single Responsibility
  */
 export interface GameResponseActions {
-  readonly handleCorrectAnswer: (data?: object) => void;
-  readonly handleWrongAnswer: (data?: object) => void;
+  readonly handleCorrectAnswer: (data?: Record<string, unknown>) => void;
+  readonly handleWrongAnswer: (data?: Record<string, unknown>) => void;
 }
 
 /**
@@ -120,7 +120,7 @@ export interface GameUIState {
  */
 export interface GameConfiguration {
   readonly config: GameUIConfig;
-  readonly items: readonly BaseGameItem[];
+  readonly items: BaseGameItem[];
   readonly CardComponent: ComponentType<GameItemCardProps>;
   readonly gameType: GameType;
 }
