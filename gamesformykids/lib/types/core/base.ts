@@ -24,6 +24,13 @@ export interface TitledEntity {
 }
 
 /**
+ * זיהוי סוג משחק - עקרון DRY
+ */
+export interface GameTyped {
+  readonly gameType: string;
+}
+
+/**
  * תרגום רב-לשוני - עקרון Single Responsibility
  */
 export interface Translatable {

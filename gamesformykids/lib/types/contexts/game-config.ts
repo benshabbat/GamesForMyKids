@@ -7,6 +7,7 @@
 import type { GameStep } from '../components';
 import { GameType, BaseGameItem } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
+import type { TypedConfiguration } from '../core/abstracts';
 
 /**
  * תצורת UI למשחק - עקרון Single Responsibility
@@ -41,12 +42,9 @@ export interface GameUIConfig {
 }
 
 /**
- * סוג משחק אוטומטי - עקרון Single Responsibility
+ * סוג משחק אוטומטי - עקרון DRY, שימוש ב-TypedConfiguration
  */
-export interface AutoGameType {
-  readonly type: string;
-  readonly config: Readonly<Record<string, object>>;
-}
+export interface AutoGameType extends TypedConfiguration {}
 
 // הערה: GameCardProps מוגדר ב-components/game.ts לפי עקרון DRY
 

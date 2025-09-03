@@ -158,12 +158,17 @@ export interface Subject<T extends object = object> {
 }
 
 /**
- * הקשר ביצוע לאסטרטגיה - עקרון Single Responsibility
+ * בסיס לזיהוי type עם config - עקרון DRY
  */
-export interface ExecutionContext {
+export interface TypedConfiguration {
   readonly type: string;
   readonly config: Readonly<Record<string, object>>;
 }
+
+/**
+ * הקשר ביצוע לאסטרטגיה - עקרון Single Responsibility
+ */
+export interface ExecutionContext extends TypedConfiguration {}
 
 /**
  * תוצאת ביצוע אסטרטגיה - עקרון Single Responsibility
@@ -185,10 +190,7 @@ export interface GameStrategy {
 /**
  * הגדרת יצירת משחק - עקרון Single Responsibility
  */
-export interface GameCreationConfig {
-  readonly type: string;
-  readonly config: Readonly<Record<string, object>>;
-}
+export interface GameCreationConfig extends TypedConfiguration {}
 
 /**
  * Factory לייצור משחקים - עקרון Factory Pattern

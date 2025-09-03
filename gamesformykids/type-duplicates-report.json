@@ -1,0 +1,311 @@
+{
+  "timestamp": "2025-09-03T01:44:27.218Z",
+  "stats": {
+    "filesScanned": 35,
+    "typesFound": 230,
+    "duplicatesFound": 7
+  },
+  "duplicates": [
+    {
+      "signature": "ae35477b63d2609b46151ce0632ae3ff",
+      "normalizedContent": "readonly gameType: string",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "SpecificGameTypeConfig",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\contexts\\general.ts",
+          "position": 564,
+          "originalBody": "readonly gameType: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "GameTyped",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\core\\base.ts",
+          "position": 609,
+          "originalBody": "readonly gameType: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "GameContext",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\events\\game-events.ts",
+          "position": 1031,
+          "originalBody": "readonly gameType: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "SimpleGameBasicConfig",
+          "normalizedBody": "readonly gameType: string",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 5660,
+          "originalBody": "readonly gameType: string;"
+        }
+      ],
+      "severity": 400,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   readonly gameType: string;"
+      }
+    },
+    {
+      "signature": "0e7085e2efa8257199d6e28189b315af",
+      "normalizedContent": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "GameUI",
+          "normalizedBody": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
+          "filePath": "lib\\types\\contexts\\universal-game.ts",
+          "position": 2050,
+          "originalBody": "readonly showProgressModal: boolean;\r\n  readonly setShowProgressModal: (show: boolean) => void;"
+        },
+        {
+          "kind": "interface",
+          "name": "GameUIState",
+          "normalizedBody": "readonly setShowProgressModal: (show: boolean) => void;readonly showProgressModal: boolean",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 3159,
+          "originalBody": "readonly showProgressModal: boolean;\r\n  readonly setShowProgressModal: (show: boolean) => void;"
+        }
+      ],
+      "severity": 360,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   readonly setShowProgressModal: (show: boolean) => void;\n   readonly showProgressModal: boolean;"
+      }
+    },
+    {
+      "signature": "2327f089f24086cce29f8d64e6d708f5",
+      "normalizedContent": "StandardGameState",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "LetterGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2461,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "FruitGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2511,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "AnimalGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2560,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "WeatherGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2610,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "TransportGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2661,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "VegetableGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2714,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "InstrumentGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2767,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "SpaceGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2821,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "ClothingGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2870,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "SmellTasteGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2922,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "HouseGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 2976,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "ToolGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 3025,
+          "originalBody": "StandardGameState"
+        },
+        {
+          "kind": "type",
+          "name": "VehicleGameState",
+          "normalizedBody": "StandardGameState",
+          "filePath": "lib\\types\\games\\items.ts",
+          "position": 3073,
+          "originalBody": "StandardGameState"
+        }
+      ],
+      "severity": 221,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   StandardGameState;"
+      }
+    },
+    {
+      "signature": "a45c79aa9dfff6ff7f2891d492748087",
+      "normalizedContent": "// Context-based component - no props needed className?: string",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "GameInstructionsProps",
+          "normalizedBody": "// Context-based component - no props needed className?: string",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 817,
+          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "CelebrationBoxProps",
+          "normalizedBody": "// Context-based component - no props needed className?: string",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 935,
+          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "ChallengeBoxProps",
+          "normalizedBody": "// Context-based component - no props needed className?: string",
+          "filePath": "lib\\types\\components\\feedback.ts",
+          "position": 1051,
+          "originalBody": "// Context-based component - no props needed\r\n  className?: string;"
+        }
+      ],
+      "severity": 189,
+      "recommendations": {
+        "baseName": "BaseProps",
+        "baseInterface": "   // Context-based component - no props needed className?: string;"
+      }
+    },
+    {
+      "signature": "e2f62453e2f572a81dd4853a4d96b608",
+      "normalizedContent": "readonly difficulty?: DifficultyLevel",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "GameDifficultyConfig",
+          "normalizedBody": "readonly difficulty?: DifficultyLevel",
+          "filePath": "lib\\types\\hooks\\game-state.ts",
+          "position": 5799,
+          "originalBody": "readonly difficulty?: DifficultyLevel;"
+        },
+        {
+          "kind": "interface",
+          "name": "StructuredDataDifficulty",
+          "normalizedBody": "readonly difficulty?: DifficultyLevel",
+          "filePath": "lib\\types\\utils\\index.ts",
+          "position": 636,
+          "originalBody": "readonly difficulty?: DifficultyLevel;"
+        }
+      ],
+      "severity": 148,
+      "recommendations": {
+        "baseName": "BaseDifficulty",
+        "baseInterface": "   readonly difficulty?: DifficultyLevel;"
+      }
+    },
+    {
+      "signature": "20e6c77bcaaf1aa8fe39238d570d6240",
+      "normalizedContent": "className?: string;size?: number",
+      "occurrences": [
+        {
+          "kind": "interface",
+          "name": "ShapeIconProps",
+          "normalizedBody": "className?: string;size?: number",
+          "filePath": "lib\\types\\components\\icons.ts",
+          "position": 178,
+          "originalBody": "size?: number;\r\n  className?: string;"
+        },
+        {
+          "kind": "interface",
+          "name": "HebrewIconProps",
+          "normalizedBody": "className?: string;size?: number",
+          "filePath": "lib\\types\\components\\icons.ts",
+          "position": 296,
+          "originalBody": "size?: number;\r\n  className?: string;"
+        }
+      ],
+      "severity": 64,
+      "recommendations": {
+        "baseName": "BaseIcon",
+        "baseInterface": "   className?: string;\n   size?: number;"
+      }
+    },
+    {
+      "signature": "a89502e3ae399eaf54a977d304b4fb25",
+      "normalizedContent": "| 'game_start'",
+      "occurrences": [
+        {
+          "kind": "type",
+          "name": "GameLifecycleEvent",
+          "normalizedBody": "| 'game_start'",
+          "filePath": "lib\\types\\events\\game-events.ts",
+          "position": 229,
+          "originalBody": "| 'game_start'"
+        },
+        {
+          "kind": "type",
+          "name": "GameEvent",
+          "normalizedBody": "| 'game_start'",
+          "filePath": "lib\\types\\hooks\\ui.ts",
+          "position": 1300,
+          "originalBody": "| 'game_start'"
+        }
+      ],
+      "severity": 56,
+      "recommendations": {
+        "baseName": "BaseGame",
+        "baseInterface": "   | 'game_start';"
+      }
+    }
+  ]
+}

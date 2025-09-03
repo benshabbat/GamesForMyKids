@@ -91,21 +91,27 @@ export interface MathGameState extends Omit<BaseGameState<never>, 'currentChalle
 }
 
 /**
- * מצבי משחק רגילים (משתמשים ב-BaseGameItem)
+ * מצבי משחק רגילים - עקרון DRY
+ * כל המשחקים הבסיסיים משתמשים באותו type
  */
-export type LetterGameState = BaseGameState<BaseGameItem>;
-export type FruitGameState = BaseGameState<BaseGameItem>;
-export type AnimalGameState = BaseGameState<BaseGameItem>;
-export type WeatherGameState = BaseGameState<BaseGameItem>;
-export type TransportGameState = BaseGameState<BaseGameItem>;
-export type VegetableGameState = BaseGameState<BaseGameItem>;
-export type InstrumentGameState = BaseGameState<BaseGameItem>;
-export type SpaceGameState = BaseGameState<BaseGameItem>;
-export type ClothingGameState = BaseGameState<BaseGameItem>;
-export type SmellTasteGameState = BaseGameState<BaseGameItem>;
-export type HouseGameState = BaseGameState<BaseGameItem>;
-export type ToolGameState = BaseGameState<BaseGameItem>;
-export type VehicleGameState = BaseGameState<BaseGameItem>;
+export type StandardGameState = BaseGameState<BaseGameItem>;
+
+/**
+ * Type aliases לתאימות לאחור - כולם מצביעים לאותו type
+ */
+export type LetterGameState = StandardGameState;
+export type FruitGameState = StandardGameState;
+export type AnimalGameState = StandardGameState;
+export type WeatherGameState = StandardGameState;
+export type TransportGameState = StandardGameState;
+export type VegetableGameState = StandardGameState;
+export type InstrumentGameState = StandardGameState;
+export type SpaceGameState = StandardGameState;
+export type ClothingGameState = StandardGameState;
+export type SmellTasteGameState = StandardGameState;
+export type HouseGameState = StandardGameState;
+export type ToolGameState = StandardGameState;
+export type VehicleGameState = StandardGameState;
 
 /**
  * נתונים מיוחדים (לתאימות לאחור)
