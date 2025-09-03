@@ -6,6 +6,8 @@
 
 import { ReactNode } from 'react';
 import type { Category } from '../games/base';
+import type { TitledEntity } from '../core/base';
+import type { Identifiable } from '../core/abstracts';
 
 /**
  * מאפיינים בסיסיים לכל רכיב - עקרון Single Responsibility
@@ -95,12 +97,9 @@ export interface GameStartButtonProps extends
   CustomAction {}
 
 /**
- * מאפיינים לכותרת - עקרון Single Responsibility
+ * מאפיינים לכותרת - שימוש ב-TitledEntity, עקרון DRY
  */
-export interface TitledComponent {
-  readonly title: string;
-  readonly description?: string;
-}
+export interface TitledComponent extends TitledEntity {}
 
 /**
  * Props לכותרת - עקרון Interface Segregation
@@ -145,10 +144,9 @@ export interface ErrorScreenProps extends ErrorInfo, ErrorRecoverable {
 }
 
 /**
- * פריט ניווט בסיסי - עקרון Single Responsibility
+ * פריט ניווט בסיסי - עקרון Single Responsibility + DRY
  */
-export interface NavigationItemBase {
-  readonly id: string;
+export interface NavigationItemBase extends Identifiable {
   readonly label: string;
   readonly href?: string;
   readonly active?: boolean;

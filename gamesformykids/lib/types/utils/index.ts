@@ -4,15 +4,16 @@
  * ===============================================
  */
 
+import type { TitledEntity, Nameable } from '../core/base';
 import type { DifficultyLevel } from '../games/base';
+import type { Identifiable } from '../core/abstracts';
 
 /**
- * מידע בסיסי לStructured Data - עקרון Single Responsibility
+ * מידע בסיסי לStructured Data - עקרון Single Responsibility + DRY
  */
-export interface StructuredDataBasicInfo {
+export interface StructuredDataBasicInfo extends TitledEntity {
   readonly gameType: string;
-  readonly title: string;
-  readonly description: string;
+  // title ו description מגיעים מ-TitledEntity
 }
 
 /**
@@ -78,11 +79,9 @@ export interface ThemeGeometry {
 }
 
 /**
- * ערכת נושא למשחק - עקרון Interface Segregation
+ * ערכת נושא למשחק - עקרון Interface Segregation + DRY
  */
-export interface GameTheme extends ThemeColors, ThemeTypography, ThemeGeometry {
-  readonly name: string;
-}
+export interface GameTheme extends ThemeColors, ThemeTypography, ThemeGeometry, Nameable {}
 
 /**
  * מיקום בועה - עקרון Single Responsibility
@@ -110,14 +109,13 @@ export interface BubbleVisuals {
 }
 
 /**
- * נתוני בועה - עקרון Interface Segregation
+ * נתוני בועה - עקרון Interface Segregation + DRY
  */
 export interface BubbleData extends 
   BubblePosition,
   BubblePhysics,
-  BubbleVisuals {
-  readonly id: string;
-}
+  BubbleVisuals,
+  Identifiable {}
 
 /**
  * סטטוס משחק - עקרון Open/Closed

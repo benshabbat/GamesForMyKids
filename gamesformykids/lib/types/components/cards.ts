@@ -7,37 +7,24 @@
 import { BaseGameItem } from '../core/base';
 import { ColorItem, ShapeItem, NumberItem } from '../games/items';
 
+import type { Nameable, Translatable, Visualizable, Audioable } from '../core/base';
+
 // ===== SOLID Principle: Single Responsibility =====
 
 /**
- * מזהה יחיד לפריט - עקרון Single Responsibility
+ * תוכן טקסטואלי - שימוש ב-Translatable, עקרון DRY
  */
-export interface ItemIdentity {
-  readonly name: string;
-}
+export interface ItemTextContent extends Translatable {}
 
 /**
- * תוכן טקסטואלי - עקרון Single Responsibility
+ * מאפיינים ויזואליים בסיסיים - שימוש ב-Visualizable, עקרון DRY
  */
-export interface ItemTextContent {
-  readonly hebrew: string;
-  readonly english: string;
-}
+export interface ItemVisuals extends Visualizable {}
 
 /**
- * מאפיינים ויזואליים בסיסיים - עקרון Single Responsibility
+ * מאפיינים קוליים - שימוש ב-Audioable, עקרון DRY
  */
-export interface ItemVisuals {
-  readonly emoji: string;
-  readonly color: string;
-}
-
-/**
- * מאפיינים קוליים - עקרון Single Responsibility
- */
-export interface ItemAudio {
-  readonly sound: ReadonlyArray<number>;
-}
+export interface ItemAudio extends Audioable {}
 
 /**
  * מאפיינים גיאומטריים - עקרון Single Responsibility
@@ -60,7 +47,7 @@ export interface ValueProperties {
  * פריט צורה צבעונית - עקרון Interface Segregation
  */
 export interface ColoredShapeItem extends 
-  ItemIdentity,
+  Nameable,
   ItemTextContent,
   ItemVisuals,
   ItemAudio,

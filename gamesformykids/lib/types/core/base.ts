@@ -16,6 +16,14 @@ export interface Nameable {
 }
 
 /**
+ * מאפיינים בסיסיים עם כותרת ותיאור - עקרון DRY
+ */
+export interface TitledEntity {
+  readonly title: string;
+  readonly description?: string;
+}
+
+/**
  * תרגום רב-לשוני - עקרון Single Responsibility
  */
 export interface Translatable {

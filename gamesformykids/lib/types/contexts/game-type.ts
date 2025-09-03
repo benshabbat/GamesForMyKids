@@ -6,13 +6,12 @@
 
 import type { GameStep } from '../components';
 import { GameType, BaseGameItem } from '../core/base';
+import type { TitledEntity } from '../core/base';
 
 /**
- * הגדרת תצורת UI למשחק - עקרון Single Responsibility
+ * הגדרת תצורת UI למשחק - עקרון Single Responsibility + DRY
  */
-export interface GameUIConfiguration {
-  readonly title: string;
-  readonly description?: string;
+export interface GameUIConfiguration extends TitledEntity {
   readonly instructions?: readonly string[];
   readonly subTitle?: string;
   readonly itemsTitle?: string;

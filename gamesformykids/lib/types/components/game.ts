@@ -5,14 +5,13 @@
  */
 
 import { Category, AgeGroup, GameRegistration } from '../games/base';
+import type { TitledEntity } from '../core/base';
 
 /**
- * Step במשחק - להוראות משחק
+ * Step במשחק - להוראות משחק, עקרון DRY
  */
-export interface GameStep {
+export interface GameStep extends TitledEntity {
   readonly icon: string;
-  readonly title: string;
-  readonly description: string;
   readonly stepNumber?: number;
   readonly stepText?: string;
 }
