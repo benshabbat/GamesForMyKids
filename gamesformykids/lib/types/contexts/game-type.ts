@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { ReactNode } from 'react';
+import type { GameStep } from '../components';
 import { GameType, BaseGameItem } from '../core/base';
 
 /**
@@ -12,8 +12,31 @@ import { GameType, BaseGameItem } from '../core/base';
  */
 export interface GameUIConfiguration {
   readonly title: string;
-  readonly description: string;
-  readonly instructions: readonly string[];
+  readonly description?: string;
+  readonly instructions?: readonly string[];
+  readonly subTitle?: string;
+  readonly itemsTitle?: string;
+  readonly itemsDescription?: string;
+  readonly challengeTitle?: string;
+  readonly challengeIcon?: string;
+  readonly challengeDescription?: string;
+  readonly itemLabel?: string;
+  readonly steps?: readonly GameStep[];
+  readonly colors?: {
+    readonly background?: string;
+    readonly header?: string;
+    readonly subHeader?: string;
+    readonly itemsDescription?: string;
+    readonly button?: { 
+      readonly from: string; 
+      readonly to: string; 
+    };
+    readonly stepsBg?: string;
+  };
+  readonly grid?: {
+    readonly className?: string;
+    readonly showSpeaker?: boolean;
+  };
 }
 
 /**
@@ -61,10 +84,4 @@ export interface GameTypeContextValue extends
   readonly currentGameItems: readonly BaseGameItem[] | null;
 }
 
-/**
- * Props עבור GameType Provider - עקרון Single Responsibility
- */
-export interface GameTypeProviderProps {
-  readonly children: ReactNode;
-  initialGameType?: GameType;
-}
+// הערה: GameTypeProviderProps מוגדר ב-general.ts לפי עקרון DRY

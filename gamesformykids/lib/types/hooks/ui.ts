@@ -77,7 +77,7 @@ export interface UseGameEventsReturn {
  * Props עבור ביצועי משחק - עקרון Single Responsibility
  */
 export interface UseGamePerformanceProps {
-  readonly items: BaseGameItem[];
+  readonly items: readonly BaseGameItem[];
   readonly currentChallenge: BaseGameItem | null;
 }
 

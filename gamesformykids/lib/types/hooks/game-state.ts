@@ -121,7 +121,7 @@ export interface GameUIState {
  */
 export interface GameConfiguration {
   readonly config: GameUIConfig;
-  readonly items: BaseGameItem[];
+  readonly items: readonly BaseGameItem[];
   readonly CardComponent: ComponentType<GameItemCardProps>;
   readonly gameType: GameType;
 }

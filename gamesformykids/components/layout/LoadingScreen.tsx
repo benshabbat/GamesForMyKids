@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from 'react';
-import { LoadingScreenProps } from '@/lib/types/ui.types';
+import { LoadingScreenProps } from '@/lib/types/ui/core';
 
 const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);

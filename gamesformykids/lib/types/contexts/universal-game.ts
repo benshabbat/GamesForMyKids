@@ -34,6 +34,7 @@ export interface GameCurrentState {
   readonly showCelebration: boolean;
   readonly currentChallenge: BaseGameItem | null;
   readonly options: readonly BaseGameItem[];
+  readonly gameState?: object; // לתאימות לאחור
 }
 
 /**
@@ -93,11 +94,4 @@ export interface UniversalGameContextValue extends
   GameHintsSystem,
   GameUI {}
 
-/**
- * טיפוס לProps של UniversalGameProvider
- * SOLID Principle: Interface Segregation - פירוד אחריות
- */
-export interface UniversalGameProviderProps {
-  children: React.ReactNode;
-  gameType?: GameType;
-}
+// הערה: UniversalGameProviderProps מוגדר ב-general.ts לפי עקרון DRY

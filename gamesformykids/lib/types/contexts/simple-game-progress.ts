@@ -31,8 +31,4 @@ export interface SimpleGameProgressContextValue {
   getAverageTimePerQuestion: () => number;
 }
 
-export interface SimpleGameProgressProviderProps {
-  children: React.ReactNode;
-  maxLevel?: number;
-  pointsPerCorrect?: number;
-}
+// הערה: SimpleGameProgressProviderProps מוגדר ב-general.ts לפי עקרון DRY

@@ -1,10 +1,10 @@
 /**
  * ===============================================
- * Game Config Context Types - Clean Code & SOLID
+ * Game Configuration Context Types - Clean Code & SOLID
  * ===============================================
  */
 
-import { ReactNode } from 'react';
+import type { GameStep } from '../components';
 import { GameType, BaseGameItem } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
 
@@ -13,8 +13,31 @@ import { GameItemCardProps } from '../hooks/game-state';
  */
 export interface GameUIConfig {
   readonly title: string;
-  readonly description: string;
-  readonly instructions: readonly string[];
+  readonly description?: string;
+  readonly instructions?: readonly string[];
+  readonly subTitle?: string;
+  readonly itemsTitle?: string;
+  readonly itemsDescription?: string;
+  readonly challengeTitle?: string;
+  readonly challengeIcon?: string;
+  readonly challengeDescription?: string;
+  readonly itemLabel?: string;
+  readonly steps?: readonly GameStep[];
+  readonly colors?: {
+    readonly background?: string;
+    readonly header?: string;
+    readonly subHeader?: string;
+    readonly itemsDescription?: string;
+    readonly button?: { 
+      readonly from: string; 
+      readonly to: string; 
+    };
+    readonly stepsBg?: string;
+  };
+  readonly grid?: {
+    readonly className?: string;
+    readonly showSpeaker?: boolean;
+  };
 }
 
 /**
@@ -61,10 +84,4 @@ export interface GameConfigContextValue extends
   CurrentGameInfo,
   GameValidationStatus {}
 
-/**
- * Props עבור GameConfig Provider - עקרון Single Responsibility
- */
-export interface GameConfigProviderProps {
-  readonly children: ReactNode;
-  readonly gameType?: AutoGameType | GameType;
-}
+// הערה: GameConfigProviderProps מוגדר ב-general.ts לפי עקרון DRY

@@ -6,6 +6,8 @@
 
 import type { ReactNode } from 'react';
 import type { AgeGroup, Category, GameRegistration } from '../games/base';
+import type { BaseGameItem } from '../core/base';
+import type { GameProgressStats } from './displays';
 
 // ייצוא האינטרפייסים הקיימים מה-UI
 import type {
@@ -44,6 +46,10 @@ export interface CategoriesViewProps {
  */
 export interface CategoryGamesViewProps {
   readonly category?: Category;
+  readonly selectedCategory?: Category;
+  readonly categories?: readonly Category[];
+  readonly allGameRegistrations?: readonly GameRegistration[];
+  readonly onBackToCategories?: () => void;
 }
 
 /**
@@ -51,6 +57,9 @@ export interface CategoryGamesViewProps {
  */
 export interface CategoryCardProps {
   readonly category: Category;
+  readonly gamesCount?: number;
+  readonly availableCount?: number;
+  readonly onClick?: (category: Category) => void;
 }
 
 /**
@@ -92,6 +101,17 @@ export type SimpleGameStartButtonProps = ButtonProps;
 export interface BaseGameCardProps {
   readonly title: string;
   readonly onClick?: () => void;
+  readonly item?: BaseGameItem;
+  readonly gradientFrom?: string;
+  readonly gradientTo?: string;
+  readonly hoverFrom?: string;
+  readonly hoverTo?: string;
+  readonly borderColor?: string;
+  readonly borderWidth?: string;
+  readonly showEmoji?: boolean;
+  readonly showHebrew?: boolean;
+  readonly showEnglish?: boolean;
+  readonly customContent?: ReactNode;
 }
 
 /**
@@ -157,8 +177,11 @@ export interface GameProgressDisplayProps {
  * Props להצגת מצב התקדמות - עקרון Single Responsibility
  */
 export interface ProgressDisplayProps {
-  readonly current: number;
-  readonly total: number;
+  readonly current?: number;
+  readonly total?: number;
+  readonly stats?: GameProgressStats;
+  readonly showDetailed?: boolean;
+  readonly variant?: 'compact' | 'detailed';
 }
 
 /**
@@ -219,6 +242,7 @@ export interface GameStep {
   readonly icon?: string; // לתאימות לאחור
   readonly title?: string; // כותרת הצעד
   readonly description?: string; // תיאור הצעד
+  readonly stepText?: string; // טקסט הצעד - לתאימות לאחור
 }
 
 /**

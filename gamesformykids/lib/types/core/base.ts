@@ -5,13 +5,8 @@
  */
 
 import { ReactNode } from 'react';
-
-/**
- * מזהה יחודי - עקרון Single Responsibility
- */
-export interface Identifiable {
-  readonly id: string;
-}
+import type { Identifiable } from './abstracts';
+import type { GameAvailability } from '../games/base';
 
 /**
  * שם בסיסי - עקרון Single Responsibility  
@@ -151,13 +146,6 @@ export interface GameBasicInfo extends Identifiable, Translatable {
 export interface GameVisualInfo {
   readonly icon: ReactNode;
   readonly color: string;
-}
-
-/**
- * מצב זמינות המשחק - עקרון Single Responsibility
- */
-export interface GameAvailability {
-  readonly available: boolean;
 }
 
 /**

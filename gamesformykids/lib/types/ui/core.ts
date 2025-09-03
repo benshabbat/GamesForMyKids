@@ -5,6 +5,7 @@
  */
 
 import { ReactNode } from 'react';
+import type { Category } from '../games/base';
 
 /**
  * מאפיינים בסיסיים לכל רכיב - עקרון Single Responsibility
@@ -137,7 +138,11 @@ export interface ErrorRecoverable {
 /**
  * Props למסך שגיאה - עקרון Interface Segregation
  */
-export interface ErrorScreenProps extends ErrorInfo, ErrorRecoverable {}
+export interface ErrorScreenProps extends ErrorInfo, ErrorRecoverable {
+  readonly message?: string;
+  readonly onGoHome?: () => void;
+  readonly errorDetails?: string;
+}
 
 /**
  * פריט ניווט בסיסי - עקרון Single Responsibility
@@ -174,6 +179,11 @@ export interface NavigationBehavior {
  */
 export interface NavigationProps extends NavigationBehavior {
   readonly items: ReadonlyArray<NavigationItem>;
+  readonly selectedCategory?: Category;
+  readonly showAllGames?: boolean;
+  readonly totalGamesCount?: number;
+  readonly onShowCategories?: () => void;
+  readonly onShowAllGames?: () => void;
 }
 
 /**
@@ -227,4 +237,12 @@ export interface ToastProps extends ToastContent, ToastTiming {}
  */
 export interface GoogleAnalyticsProps {
   readonly GA_MEASUREMENT_ID: string;
+}
+
+/**
+ * Props למסך טעינה - עקרון Single Responsibility
+ */
+export interface LoadingScreenProps {
+  readonly message?: string;
+  readonly showSpinner?: boolean;
 }
