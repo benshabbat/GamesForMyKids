@@ -56,6 +56,22 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'body-parts': DefaultGameCard,
   family: DefaultGameCard,
   dinosaurs: DefaultGameCard,
+  // משחקים נוספים חדשים
+  'world-food': DefaultGameCard,
+  recycling: DefaultGameCard,
+  medicine: DefaultGameCard,
+  'nature-sounds': DefaultGameCard,
+  'seasons-holidays': DefaultGameCard,
+  feelings: DefaultGameCard,
+  'shopping-money': DefaultGameCard,
+  'road-safety': DefaultGameCard,
+  // 6 משחקים חדשים נוספים
+  'ocean-life': DefaultGameCard,
+  'garden-plants': DefaultGameCard,
+  'magic-fairy-tales': DefaultGameCard,
+  'space-adventure': DefaultGameCard,
+  'cooking-kitchen': DefaultGameCard,
+  'circus-show': DefaultGameCard,
 };
 
 export default GameCardMap;

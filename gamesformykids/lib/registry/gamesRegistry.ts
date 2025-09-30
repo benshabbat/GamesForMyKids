@@ -35,7 +35,7 @@ import {
   ShoppingCart,
   Shield,
   // משחקים חדשים נוספים
-  Fish,
+  Waves,
   Flower,
   Rocket,
   PartyPopper,
@@ -473,7 +473,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     id: "ocean-life",
     title: "🐋 משחק חיי הים 🐠",
     description: "גלה את עולם הים הקסום וחיותיו המרהיבות!",
-    icon: Fish,
+    icon: Waves,
     color: "bg-blue-600 hover:bg-blue-700",
     href: "/games/ocean-life",
     available: true,
