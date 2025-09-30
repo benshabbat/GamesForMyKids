@@ -3,32 +3,34 @@
 import Link from 'next/link';
 import { Star, ArrowRight } from 'lucide-react';
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
-import { useState, useEffect } from 'react';
+
+// Function to get consistent daily featured game
+function getDailyFeaturedGame(): GameRegistration {
+  const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
+  
+  if (availableGames.length === 0) {
+    // Fallback game
+    return {
+      id: "colors",
+      title: "🎨 משחק צבעים 🎨",
+      description: "למד צבעים דרך משחק מהנה ואינטראקטיבי!",
+      icon: () => null,
+      color: "bg-blue-400",
+      href: "/games/colors",
+      available: true,
+      order: 1
+    };
+  }
+  
+  // Use current date to select consistent game across server and client
+  const today = new Date();
+  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
+  return availableGames[dayOfYear % availableGames.length];
+}
 
 const FeaturedGame = () => {
-  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => {
-    setMounted(true);
-    
-    // קבלת משחק אקראי זמין (או יומי על בסיס התאריך)
-    const availableGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
-    
-    if (availableGames.length === 0) return;
-    
-    // יצירת "משחק היום" על בסיס התאריך - רק בצד הקליינט
-    const today = new Date();
-    const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
-    const selectedGame = availableGames[dayOfYear % availableGames.length];
-    
-    setFeaturedGame(selectedGame);
-  }, []);
-
-  // Don't render anything until mounted to prevent hydration mismatch
-  if (!mounted || !featuredGame) {
-    return null;
-  }
+  // Use the same daily featured game for both SSR and client-side
+  const featuredGame = getDailyFeaturedGame();
 
   return (
     <div className="max-w-6xl mx-auto px-4 mb-12">
