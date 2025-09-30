@@ -251,4 +251,11 @@ export type GameType =
   | 'seasons-holidays'
   | 'feelings'
   | 'shopping-money'
-  | 'road-safety';
+  | 'road-safety'
+  // 6 משחקים חדשים נוספים
+  | 'ocean-life'
+  | 'garden-plants'
+  | 'magic-fairy-tales'
+  | 'space-adventure'
+  | 'cooking-kitchen'
+  | 'circus-show';

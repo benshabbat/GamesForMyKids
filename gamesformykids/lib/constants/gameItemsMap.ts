@@ -39,6 +39,11 @@ import {
   FEELINGS_ITEMS,
   SHOPPING_MONEY_ITEMS,
   ROAD_SAFETY_ITEMS,
+  // משחקים חדשים נוספים
+  OCEAN_LIFE_ITEMS,
+  GARDEN_PLANTS_ITEMS,
+  MAGIC_FAIRY_TALES_ITEMS,
+  CIRCUS_SHOW_ITEMS,
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
@@ -92,4 +97,11 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   feelings: FEELINGS_ITEMS, // ✅ משחק ריגושים ותחושות
   "shopping-money": SHOPPING_MONEY_ITEMS, // ✅ משחק קניות וכסף
   "road-safety": ROAD_SAFETY_ITEMS, // ✅ משחק בטיחות בדרכים
+  // 6 משחקים חדשים
+  "ocean-life": OCEAN_LIFE_ITEMS, // ✅ משחק חיי ים
+  "garden-plants": GARDEN_PLANTS_ITEMS, // ✅ משחק צמחי גן
+  "magic-fairy-tales": MAGIC_FAIRY_TALES_ITEMS, // ✅ משחק אגדות קסם
+  "space-adventure": ALL_SPACE_OBJECTS, // ✅ משחק הרפתקאות בחלל
+  "cooking-kitchen": KITCHEN_ITEMS, // ✅ משחק בישול במטבח
+  "circus-show": CIRCUS_SHOW_ITEMS, // ✅ משחק מופע קרקס
 } as const;

@@ -48,6 +48,13 @@ const useSeasonsHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["seasons-holi
 const useFeelingsGame = () => useGenericGame(GAME_ITEMS_MAP.feelings, 'feelings');
 const useShoppingMoneyGame = () => useGenericGame(GAME_ITEMS_MAP["shopping-money"], 'shopping-money');
 const useRoadSafetyGame = () => useGenericGame(GAME_ITEMS_MAP["road-safety"], 'road-safety');
+// 6 משחקים חדשים נוספים
+const useOceanLifeGame = () => useGenericGame(GAME_ITEMS_MAP["ocean-life"], 'ocean-life');
+const useGardenPlantsGame = () => useGenericGame(GAME_ITEMS_MAP["garden-plants"], 'garden-plants');
+const useMagicFairyTalesGame = () => useGenericGame(GAME_ITEMS_MAP["magic-fairy-tales"], 'magic-fairy-tales');
+const useSpaceAdventureGame = () => useGenericGame(GAME_ITEMS_MAP["space-adventure"], 'space-adventure');
+const useCookingKitchenGame = () => useGenericGame(GAME_ITEMS_MAP["cooking-kitchen"], 'cooking-kitchen');
+const useCircusShowGame = () => useGenericGame(GAME_ITEMS_MAP["circus-show"], 'circus-show');
 // משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
@@ -63,7 +70,10 @@ export type AutoGameType =
   | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs'
   // משחקים נוספים חדשים
   | 'world-food' | 'recycling' | 'medicine' | 'nature-sounds' 
-  | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety';
+  | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety'
+  // 6 משחקים חדשים נוספים
+  | 'ocean-life' | 'garden-plants' | 'magic-fairy-tales' 
+  | 'space-adventure' | 'cooking-kitchen' | 'circus-show';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -107,6 +117,13 @@ export const GAME_HOOKS_MAP = {
   feelings: useFeelingsGame,
   "shopping-money": useShoppingMoneyGame,
   "road-safety": useRoadSafetyGame,
+  // 6 משחקים חדשים נוספים
+  "ocean-life": useOceanLifeGame,
+  "garden-plants": useGardenPlantsGame,
+  "magic-fairy-tales": useMagicFairyTalesGame,
+  "space-adventure": useSpaceAdventureGame,
+  "cooking-kitchen": useCookingKitchenGame,
+  "circus-show": useCircusShowGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה

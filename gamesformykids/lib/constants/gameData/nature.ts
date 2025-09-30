@@ -3,7 +3,7 @@
  */
 
 import { BaseGameItem } from "@/lib/types/core/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
+import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 /**
  * ===============================================
@@ -73,6 +73,42 @@ export const SMELL_TASTE_CONSTANTS: Record<string, BaseGameItem> = {
 
 /**
  * ===============================================
+ * נתוני חיי ים
+ * ===============================================
+ */
+export const OCEAN_LIFE_CONSTANTS: Record<string, BaseGameItem> = {
+  FISH: { name: "fish", hebrew: "דג", english: "Fish", emoji: "🐟", color: "bg-blue-400", sound: [440, 554, 659] },
+  DOLPHIN: { name: "dolphin", hebrew: "דולפין", english: "Dolphin", emoji: "🐬", color: "bg-blue-500", sound: [523, 659, 784] },
+  WHALE: { name: "whale", hebrew: "לוויתן", english: "Whale", emoji: "🐋", color: "bg-blue-600", sound: [200, 250, 300] },
+  SHARK: { name: "shark", hebrew: "כריש", english: "Shark", emoji: "🦈", color: "bg-gray-600", sound: [150, 200, 250] },
+  OCTOPUS: { name: "octopus", hebrew: "תמנון", english: "Octopus", emoji: "🐙", color: "bg-purple-500", sound: [330, 415, 494] },
+  JELLYFISH: { name: "jellyfish", hebrew: "מדוזה", english: "Jellyfish", emoji: "🪼", color: "bg-pink-400", sound: [587, 740, 880] },
+  SEAHORSE: { name: "seahorse", hebrew: "סוס ים", english: "Seahorse", emoji: "🦓", color: "bg-yellow-500", sound: [392, 494, 587] },
+  STARFISH: { name: "starfish", hebrew: "כוכב ים", english: "Starfish", emoji: "⭐", color: "bg-orange-400", sound: [294, 370, 440] },
+  CRAB: { name: "crab", hebrew: "סרטן", english: "Crab", emoji: "🦀", color: "bg-red-500", sound: [262, 330, 392] },
+  TURTLE: { name: "turtle", hebrew: "צב", english: "Turtle", emoji: "🐢", color: "bg-green-600", sound: [220, 277, 330] },
+};
+
+/**
+ * ===============================================
+ * נתוני צמחי גן
+ * ===============================================
+ */
+export const GARDEN_PLANTS_CONSTANTS: Record<string, BaseGameItem> = {
+  ROSE: { name: "rose", hebrew: "ורד", english: "Rose", emoji: "🌹", color: "bg-red-500", sound: [523, 659, 784] },
+  SUNFLOWER: { name: "sunflower", hebrew: "חמנייה", english: "Sunflower", emoji: "🌻", color: "bg-yellow-500", sound: [440, 554, 659] },
+  TULIP: { name: "tulip", hebrew: "צבעוני", english: "Tulip", emoji: "🌷", color: "bg-pink-500", sound: [392, 494, 587] },
+  DAISY: { name: "daisy", hebrew: "חרצית", english: "Daisy", emoji: "🌼", color: "bg-yellow-400", sound: [349, 440, 523] },
+  LILY: { name: "lily", hebrew: "שושן", english: "Lily", emoji: "🌺", color: "bg-purple-400", sound: [330, 415, 494] },
+  TREE: { name: "tree", hebrew: "עץ", english: "Tree", emoji: "🌳", color: "bg-green-600", sound: [220, 277, 330] },
+  GRASS: { name: "grass", hebrew: "דשא", english: "Grass", emoji: "🌱", color: "bg-green-400", sound: [294, 370, 440] },
+  LEAF: { name: "leaf", hebrew: "עלה", english: "Leaf", emoji: "🍃", color: "bg-green-500", sound: [262, 330, 392] },
+  FLOWER: { name: "flower", hebrew: "פרח", english: "Flower", emoji: "💐", color: "bg-pink-400", sound: [587, 740, 880] },
+  CACTUS: { name: "cactus", hebrew: "קקטוס", english: "Cactus", emoji: "🌵", color: "bg-green-700", sound: [196, 247, 294] },
+};
+
+/**
+ * ===============================================
  * רשימות ויצוא אוטומטי
  * ===============================================
  */
@@ -80,11 +116,15 @@ export const ALL_FRUITS = createItemsList(FRUITS);
 export const ALL_VEGETABLES = createItemsList(VEGETABLES);
 export const ALL_ANIMALS = createItemsList(ANIMALS);
 export const ALL_SMELLS_TASTES = createItemsList(SMELL_TASTE_CONSTANTS);
+export const OCEAN_LIFE_ITEMS = createItemsList(OCEAN_LIFE_CONSTANTS);
+export const GARDEN_PLANTS_ITEMS = createItemsList(GARDEN_PLANTS_CONSTANTS);
 
 export const FRUIT_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(FRUITS);
 export const VEGETABLE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(VEGETABLES);
 export const ANIMAL_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(ANIMALS);
 export const SMELL_TASTE_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(SMELL_TASTE_CONSTANTS);
+export const OCEAN_LIFE_PRONUNCIATIONS = createPronunciationDictionary(OCEAN_LIFE_CONSTANTS);
+export const GARDEN_PLANTS_PRONUNCIATIONS = createPronunciationDictionary(GARDEN_PLANTS_CONSTANTS);
 
 /**
  * ===============================================
@@ -95,6 +135,16 @@ export const FRUIT_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 export const VEGETABLE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 export const ANIMAL_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 export const SMELL_TASTE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
+export const OCEAN_LIFE_CONFIG = {
+  ...DEFAULT_GAME_CONFIG,
+  title: "חיי ים",
+  description: "למד על בעלי חיים ימיים מרתקים!"
+};
+export const GARDEN_PLANTS_CONFIG = {
+  ...DEFAULT_GAME_CONFIG,
+  title: "צמחי גן",
+  description: "גלה צמחים ופרחים יפים בגן!"
+};
 
 /**
  * ===============================================
