@@ -44,6 +44,13 @@ import {
   GARDEN_PLANTS_ITEMS,
   MAGIC_FAIRY_TALES_ITEMS,
   CIRCUS_SHOW_ITEMS,
+  // 6 משחקים חדשים אחרונים
+  VIRTUAL_REALITY_ITEMS,
+  NEW_PROFESSIONS_ITEMS,
+  ADVANCED_WEATHER_ITEMS,
+  ADVANCED_COLORS_ITEMS,
+  JEWISH_HOLIDAYS_ITEMS,
+  LOGIC_GAMES_ITEMS,
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
@@ -104,4 +111,11 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "space-adventure": ALL_SPACE_OBJECTS, // ✅ משחק הרפתקאות בחלל
   "cooking-kitchen": KITCHEN_ITEMS, // ✅ משחק בישול במטבח
   "circus-show": CIRCUS_SHOW_ITEMS, // ✅ משחק מופע קרקס
+  // 6 משחקים טכנולוגיים חדשים
+  "virtual-reality": VIRTUAL_REALITY_ITEMS, // ✅ משחק מציאות מדומה
+  "new-professions": NEW_PROFESSIONS_ITEMS, // ✅ משחק מקצועות חדשים
+  "advanced-weather": ADVANCED_WEATHER_ITEMS, // ✅ משחק מזג אוויר מתקדם
+  "advanced-colors": ADVANCED_COLORS_ITEMS, // ✅ משחק צבעים מתקדם
+  "jewish-holidays": JEWISH_HOLIDAYS_ITEMS, // ✅ משחק חגים יהודיים
+  "logic-games": LOGIC_GAMES_ITEMS, // ✅ משחק משחקי לוגיקה
 } as const;

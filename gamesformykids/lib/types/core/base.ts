@@ -258,4 +258,11 @@ export type GameType =
   | 'magic-fairy-tales'
   | 'space-adventure'
   | 'cooking-kitchen'
-  | 'circus-show';
+  | 'circus-show'
+  // 6 משחקים חדשים נוספים 2
+  | 'virtual-reality'
+  | 'new-professions'
+  | 'advanced-weather'
+  | 'advanced-colors'
+  | 'jewish-holidays'
+  | 'logic-games';

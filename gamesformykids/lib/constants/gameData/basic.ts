@@ -317,3 +317,54 @@ export const COLORED_SHAPES_CONSTANTS: Record<string, ColoredShapeItem> = {
 export const ALL_COLORED_SHAPES = createItemsList(COLORED_SHAPES_CONSTANTS);
 export const COLORED_SHAPES_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(COLORED_SHAPES_CONSTANTS);
 export const COLORED_SHAPES_GAME_CONSTANTS = createGameConfig(6, 1, 4);
+
+/**
+ * ===============================================
+ * משחק צבעים מתקדם - גוונים וצבעים מיוחדים
+ * ===============================================
+ */
+export const ADVANCED_COLORS_CONSTANTS: Record<string, BaseGameItem> = {
+  TURQUOISE: { name: "turquoise", hebrew: "טורקיז", english: "Turquoise", emoji: "🟡", color: "bg-cyan-400", sound: [659, 784, 831] },
+  MAGENTA: { name: "magenta", hebrew: "מגנטה", english: "Magenta", emoji: "🟣", color: "bg-fuchsia-500", sound: [554, 659, 740] },
+  CORAL: { name: "coral", hebrew: "אלמוג", english: "Coral", emoji: "🪸", color: "bg-orange-300", sound: [494, 554, 622] },
+  AMBER: { name: "amber", hebrew: "ענבר", english: "Amber", emoji: "🟨", color: "bg-yellow-600", sound: [440, 523, 587] },
+  EMERALD: { name: "emerald", hebrew: "אמרלד", english: "Emerald", emoji: "🟢", color: "bg-emerald-500", sound: [392, 440, 494] },
+  RUBY: { name: "ruby", hebrew: "רובי", english: "Ruby", emoji: "🔴", color: "bg-red-600", sound: [740, 831, 880] },
+  SAPPHIRE: { name: "sapphire", hebrew: "ספיר", english: "Sapphire", emoji: "🔵", color: "bg-blue-600", sound: [349, 392, 440] },
+  LAVENDER: { name: "lavender", hebrew: "לבנדר", english: "Lavender", emoji: "🟣", color: "bg-purple-300", sound: [622, 698, 784] },
+  BURGUNDY: { name: "burgundy", hebrew: "בורגונדי", english: "Burgundy", emoji: "🍷", color: "bg-red-800", sound: [311, 349, 392] },
+  OLIVE: { name: "olive", hebrew: "זית", english: "Olive", emoji: "🫒", color: "bg-green-600", sound: [277, 311, 349] },
+  IVORY: { name: "ivory", hebrew: "שנהב", english: "Ivory", emoji: "🤍", color: "bg-yellow-50", sound: [831, 880, 988] },
+  PLATINUM: { name: "platinum", hebrew: "פלטינום", english: "Platinum", emoji: "⚪", color: "bg-gray-300", sound: [247, 277, 311] }
+};
+
+export const ADVANCED_COLORS_ITEMS = createItemsList(ADVANCED_COLORS_CONSTANTS);
+
+export const ADVANCED_COLORS_PRONUNCIATIONS = {
+  'turquoise': 'טוּר-קִיז',
+  'magenta': 'מַ-גֶ-נְטָה',
+  'coral': 'אַל-מוֹג',
+  'amber': 'עַנְ-בָר',
+  'emerald': 'אַמְ-רַלד',
+  'ruby': 'רוּ-בִי',
+  'sapphire': 'סַ-פִּיר',
+  'lavender': 'לַ-בֶנְ-דֶר',
+  'burgundy': 'בּוּר-גוּן-דִי',
+  'olive': 'זַ-יִת',
+  'ivory': 'שֶׁן-הָב',
+  'platinum': 'פְּלַ-טִי-נוּם'
+} as const;
+
+export const ADVANCED_COLORS_GAME_CONSTANTS = {
+  gameConfig: {
+    ...DEFAULT_GAME_CONFIG,
+    rounds: 12,
+    timePerRound: 7000,
+    pointsPerCorrect: 12,
+    hintsEnabled: true,
+    pronunciationEnabled: true,
+    maxHints: 2
+  },
+  items: ADVANCED_COLORS_ITEMS,
+  pronunciations: ADVANCED_COLORS_PRONUNCIATIONS
+} as const;

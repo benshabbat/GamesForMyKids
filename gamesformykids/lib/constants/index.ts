@@ -42,6 +42,9 @@ export * from './gameData/newGames';
 // נתוני משחקים נוספים - בריאות, טבע ובטיחות
 export * from './gameData/additionalGames';
 
+// נתוני משחקים מתקדמים - טכנולוגיה וחדשנות
+export * from './gameData/technology';
+
 // ממשק משתמש
 export * from './ui';
 export * from './ui/shapes';

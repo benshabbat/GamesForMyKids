@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple } from 'lucide-react';
+import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple, Heart, Microscope, Calendar } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import CategoryNavigation from '../game/CategoryNavigation';
 import CategoriesView from '../game/CategoriesView';
@@ -16,7 +16,7 @@ const GAME_CATEGORIES = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters", "hebrew-letters", "numbers", "shapes", "colored-shapes", "colors"]
+    gameIds: ["letters", "hebrew-letters", "numbers", "shapes", "colored-shapes", "colors", "advanced-colors"]
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -24,15 +24,15 @@ const GAME_CATEGORIES = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments", "puzzles", "drawing", "building"]
+    gameIds: ["instruments", "puzzles", "drawing", "building", "tetris", "magic-fairy-tales", "circus-show", "logic-games"]
   },
   nature: {
     title: "טבע ואוכל",
-    description: "חיות, פירות וירקות",
+    description: "חיות, פירות, ירקות וטבע",
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals", "fruits", "vegetables"]
+    gameIds: ["animals", "fruits", "vegetables", "ocean-life", "garden-plants", "smells-tastes", "nature-sounds", "dinosaurs"]
   },
   world: {
     title: "עולם ותחבורה",
@@ -40,15 +40,15 @@ const GAME_CATEGORIES = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport", "weather", "space"]
+    gameIds: ["transport", "vehicles", "weather", "space", "space-adventure", "world-food", "advanced-weather", "road-safety"]
   },
   home: {
     title: "בית וחיים",
-    description: "חפצי בית, בגדים, מקצועות וצדקה",
+    description: "חפצי בית, בגדים, מקצועות ומטבח",
     icon: Home,
     color: "bg-pink-500",
     gradient: "from-pink-400 to-pink-600",
-    gameIds: ["house", "clothing", "professions", "tools", "tzedakah"]
+    gameIds: ["house", "clothing", "professions", "tools", "tzedakah", "kitchen", "cooking-kitchen", "family", "body-parts", "new-professions"]
   },
   math: {
     title: "מתמטיקה וחשיבה",
@@ -56,7 +56,7 @@ const GAME_CATEGORIES = {
     icon: Calculator,
     color: "bg-indigo-500",
     gradient: "from-indigo-400 to-indigo-600",
-    gameIds: ["counting", "math"]
+    gameIds: ["counting", "math", "shopping-money"]
   },
   games: {
     title: "משחקים מיוחדים",
@@ -64,7 +64,31 @@ const GAME_CATEGORIES = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory", "bubbles", "emotions", "smelltaste"]
+    gameIds: ["memory", "bubbles", "emotions", "feelings", "sports"]
+  },
+  health: {
+    title: "בריאות ובטיחות",
+    description: "תרופות, בטיחות בדרכים ובריאות",
+    icon: Heart,
+    color: "bg-red-500",
+    gradient: "from-red-400 to-red-600",
+    gameIds: ["medicine", "road-safety", "body-parts"]
+  },
+  science: {
+    title: "מדע וטכנולוגיה",
+    description: "מחזור, דינוזאורים ומדע",
+    icon: Microscope,
+    color: "bg-cyan-500",
+    gradient: "from-cyan-400 to-cyan-600",
+    gameIds: ["recycling", "dinosaurs", "space-adventure", "virtual-reality"]
+  },
+  holidays: {
+    title: "חגים ועונות",
+    description: "חגים, עונות השנה ומסורות",
+    icon: Calendar,
+    color: "bg-yellow-500",
+    gradient: "from-yellow-400 to-yellow-600",
+    gameIds: ["seasons-holidays", "jewish-holidays"]
   }
 };
 

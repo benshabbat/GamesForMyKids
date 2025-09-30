@@ -55,6 +55,13 @@ const useMagicFairyTalesGame = () => useGenericGame(GAME_ITEMS_MAP["magic-fairy-
 const useSpaceAdventureGame = () => useGenericGame(GAME_ITEMS_MAP["space-adventure"], 'space-adventure');
 const useCookingKitchenGame = () => useGenericGame(GAME_ITEMS_MAP["cooking-kitchen"], 'cooking-kitchen');
 const useCircusShowGame = () => useGenericGame(GAME_ITEMS_MAP["circus-show"], 'circus-show');
+// 6 משחקים טכנולוגיים חדשים
+const useVirtualRealityGame = () => useGenericGame(GAME_ITEMS_MAP["virtual-reality"], 'virtual-reality');
+const useNewProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP["new-professions"], 'new-professions');
+const useAdvancedWeatherGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-weather"], 'advanced-weather');
+const useAdvancedColorsGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-colors"], 'advanced-colors');
+const useJewishHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["jewish-holidays"], 'jewish-holidays');
+const useLogicGamesGame = () => useGenericGame(GAME_ITEMS_MAP["logic-games"], 'logic-games');
 // משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
@@ -73,7 +80,10 @@ export type AutoGameType =
   | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety'
   // 6 משחקים חדשים נוספים
   | 'ocean-life' | 'garden-plants' | 'magic-fairy-tales' 
-  | 'space-adventure' | 'cooking-kitchen' | 'circus-show';
+  | 'space-adventure' | 'cooking-kitchen' | 'circus-show'
+  // 6 משחקים טכנולוגיים חדשים
+  | 'virtual-reality' | 'new-professions' | 'advanced-weather'
+  | 'advanced-colors' | 'jewish-holidays' | 'logic-games';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -124,6 +134,13 @@ export const GAME_HOOKS_MAP = {
   "space-adventure": useSpaceAdventureGame,
   "cooking-kitchen": useCookingKitchenGame,
   "circus-show": useCircusShowGame,
+  // 6 משחקים טכנולוגיים חדשים
+  "virtual-reality": useVirtualRealityGame,
+  "new-professions": useNewProfessionsGame,
+  "advanced-weather": useAdvancedWeatherGame,
+  "advanced-colors": useAdvancedColorsGame,
+  "jewish-holidays": useJewishHolidaysGame,
+  "logic-games": useLogicGamesGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה

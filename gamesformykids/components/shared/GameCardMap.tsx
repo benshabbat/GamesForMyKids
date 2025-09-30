@@ -72,6 +72,13 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'space-adventure': DefaultGameCard,
   'cooking-kitchen': DefaultGameCard,
   'circus-show': DefaultGameCard,
+  // 6 משחקים טכנולוגיים חדשים
+  'virtual-reality': DefaultGameCard,
+  'new-professions': DefaultGameCard,
+  'advanced-weather': DefaultGameCard,
+  'advanced-colors': DefaultGameCard,
+  'jewish-holidays': DefaultGameCard,
+  'logic-games': DefaultGameCard,
 };
 
 export default GameCardMap;
