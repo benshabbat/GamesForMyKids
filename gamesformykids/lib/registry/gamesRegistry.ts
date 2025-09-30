@@ -20,6 +20,12 @@ import {
   Puzzle,
   Paintbrush,
   Building,
+  // משחקים חדשים
+  Zap,
+  ChefHat,
+  Hand,
+  Users,
+  Bone,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -318,6 +324,57 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/tetris",
     available: true,
     order: 26,
+  },
+  // משחקים חדשים
+  {
+    id: "sports",
+    title: "משחק ספורט",
+    description: "למד על ספורט ופעילות גופנית!",
+    icon: Zap,
+    color: "bg-green-500 hover:bg-green-600",
+    href: "/games/sports",
+    available: true,
+    order: 27,
+  },
+  {
+    id: "kitchen",
+    title: "משחק כלי מטבח",
+    description: "למד על כלי מטבח ובישול!",
+    icon: ChefHat,
+    color: "bg-orange-500 hover:bg-orange-600",
+    href: "/games/kitchen",
+    available: true,
+    order: 28,
+  },
+  {
+    id: "body-parts",
+    title: "משחק חלקי הגוף",
+    description: "למד על חלקי הגוף השונים!",
+    icon: Hand,
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/body-parts",
+    available: true,
+    order: 29,
+  },
+  {
+    id: "family",
+    title: "משחק בני המשפחה",
+    description: "למד על בני המשפחה השונים!",
+    icon: Users,
+    color: "bg-blue-500 hover:bg-blue-600",
+    href: "/games/family",
+    available: true,
+    order: 30,
+  },
+  {
+    id: "dinosaurs",
+    title: "משחק דינוזאורים",
+    description: "למד על דינוזאורים מדהימים מהעבר!",
+    icon: Bone,
+    color: "bg-green-600 hover:bg-green-700",
+    href: "/games/dinosaurs",
+    available: true,
+    order: 31,
   },
 ];
 

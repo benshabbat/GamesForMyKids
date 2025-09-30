@@ -33,6 +33,12 @@ const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house, 'house');
 const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments, 'instruments');
 const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions, 'professions');
 const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions, 'emotions');
+// משחקים חדשים
+const useSportsGame = () => useGenericGame(GAME_ITEMS_MAP.sports, 'sports');
+const useKitchenGame = () => useGenericGame(GAME_ITEMS_MAP.kitchen, 'kitchen');
+const useBodyPartsGame = () => useGenericGame(GAME_ITEMS_MAP["body-parts"], 'body-parts');
+const useFamilyGame = () => useGenericGame(GAME_ITEMS_MAP.family, 'family');
+const useDinosaursGame = () => useGenericGame(GAME_ITEMS_MAP.dinosaurs, 'dinosaurs');
 // משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
@@ -43,7 +49,9 @@ export type AutoGameType =
   | 'animals' | 'colors' | 'fruits' | 'vegetables' | 'clothing'
   | 'letters' | 'shapes' | 'colored-shapes' | 'numbers' | 'smells-tastes' | 'weather'
   | 'transport' | 'vehicles' | 'tools' | 'space' | 'house'
-  | 'instruments' | 'professions' | 'emotions' | 'math';
+  | 'instruments' | 'professions' | 'emotions' | 'math'
+  // משחקים חדשים
+  | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -72,6 +80,12 @@ export const GAME_HOOKS_MAP = {
   instruments: useInstrumentsGame,
   professions: useProfessionsGame,
   emotions: useEmotionsGame,
+  // משחקים חדשים
+  sports: useSportsGame,
+  kitchen: useKitchenGame,
+  "body-parts": useBodyPartsGame,
+  family: useFamilyGame,
+  dinosaurs: useDinosaursGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה

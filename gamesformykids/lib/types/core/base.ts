@@ -236,4 +236,10 @@ export type GameType =
   | 'bubbles'
   | 'puzzles'
   | 'building'
-  | 'tetris';
+  | 'tetris'
+  // משחקים חדשים
+  | 'sports'
+  | 'kitchen'
+  | 'body-parts'
+  | 'family'
+  | 'dinosaurs';

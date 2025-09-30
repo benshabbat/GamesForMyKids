@@ -24,6 +24,12 @@ import {
   ALL_TOOLS,
   ALL_SPACE_OBJECTS,
   ALL_COLORED_SHAPES,
+  // משחקים חדשים
+  SPORTS_ITEMS,
+  KITCHEN_ITEMS,
+  BODY_PARTS_ITEMS,
+  FAMILY_ITEMS,
+  DINOSAURS_ITEMS,
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
@@ -62,4 +68,10 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   puzzles: ALL_SHAPES, // ✅ עודכן! (זמני - צריך נתוני פאזלים ייעודיים)
   building: ALL_SHAPES, // ✅ עודכן! משחק בנייה יצירתי
   tetris: ALL_SHAPES, // ✅ טטריס עם צורות
+  // משחקים חדשים
+  sports: SPORTS_ITEMS, // ✅ משחק ספורט
+  kitchen: KITCHEN_ITEMS, // ✅ משחק כלי מטבח
+  "body-parts": BODY_PARTS_ITEMS, // ✅ משחק חלקי גוף
+  family: FAMILY_ITEMS, // ✅ משחק בני משפחה
+  dinosaurs: DINOSAURS_ITEMS, // ✅ משחק דינוזאורים
 } as const;

@@ -21,6 +21,21 @@ export * from './gameData/lifestyle';
 // משחקים מיוחדים
 export * from './gameData/special';
 
+// נתוני משחקים חדשים - ספורט ופעילות
+export * from './gameData/sports';
+
+// נתוני משחקים חדשים - בישול ומטבח
+export * from './gameData/cooking';
+
+// נתוני משחקים חדשים - גוף ובריאות
+export * from './gameData/body';
+
+// נתוני משחקים חדשים - משפחה ויחסים
+export * from './gameData/family';
+
+// נתוני משחקים חדשים - דינוזאורים ופרהיסטוריה
+export * from './gameData/dinosaurs';
+
 // ממשק משתמש
 export * from './ui';
 export * from './ui/shapes';
@@ -39,7 +54,11 @@ export const AVAILABLE_GAMES = [
   'fruits', 'vegetables', 'animals', 'smell-taste',
   'weather', 'transport', 'vehicles', 'tools', 'space',
   'house', 'clothing', 'instruments', 'professions', 'emotions',
-  'memory', 'counting', 'math', 'puzzles', 'bubbles', 'drawing'
+  'memory', 'counting', 'math', 'puzzles', 'bubbles', 'drawing',
+  // משחקים חדשים
+  'sports', 'sports-equipment', 'kitchen', 'cooking-actions', 'prepared-food',
+  'body-parts', 'senses', 'body-actions', 'family', 'extended-family', 'family-roles',
+  'dinosaurs', 'dinosaur-types', 'prehistoric-periods', 'fossils'
 ] as const;
 
 export type GameType = typeof AVAILABLE_GAMES[number];

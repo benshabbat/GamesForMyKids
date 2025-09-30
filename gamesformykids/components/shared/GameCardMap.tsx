@@ -50,6 +50,12 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   puzzles: DefaultGameCard,
   building: DefaultGameCard,
   tetris: DefaultGameCard,
+  // משחקים חדשים
+  sports: DefaultGameCard,
+  kitchen: DefaultGameCard,
+  'body-parts': DefaultGameCard,
+  family: DefaultGameCard,
+  dinosaurs: DefaultGameCard,
 };
 
 export default GameCardMap;
