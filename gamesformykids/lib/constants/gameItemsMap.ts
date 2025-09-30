@@ -30,6 +30,15 @@ import {
   BODY_PARTS_ITEMS,
   FAMILY_ITEMS,
   DINOSAURS_ITEMS,
+  // משחקים נוספים חדשים
+  WORLD_FOOD_ITEMS,
+  RECYCLING_ITEMS,
+  MEDICINE_ITEMS,
+  NATURE_SOUNDS_ITEMS,
+  SEASONS_HOLIDAYS_ITEMS,
+  FEELINGS_ITEMS,
+  SHOPPING_MONEY_ITEMS,
+  ROAD_SAFETY_ITEMS,
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
 
@@ -74,4 +83,13 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "body-parts": BODY_PARTS_ITEMS, // ✅ משחק חלקי גוף
   family: FAMILY_ITEMS, // ✅ משחק בני משפחה
   dinosaurs: DINOSAURS_ITEMS, // ✅ משחק דינוזאורים
+  // משחקים נוספים חדשים
+  "world-food": WORLD_FOOD_ITEMS, // ✅ משחק מזון מסביב לעולם
+  recycling: RECYCLING_ITEMS, // ✅ משחק מחזור וקיימות
+  medicine: MEDICINE_ITEMS, // ✅ משחק מרקחת ותרופות
+  "nature-sounds": NATURE_SOUNDS_ITEMS, // ✅ משחק צלילי הטבע
+  "seasons-holidays": SEASONS_HOLIDAYS_ITEMS, // ✅ משחק עונות השנה ומועדים
+  feelings: FEELINGS_ITEMS, // ✅ משחק ריגושים ותחושות
+  "shopping-money": SHOPPING_MONEY_ITEMS, // ✅ משחק קניות וכסף
+  "road-safety": ROAD_SAFETY_ITEMS, // ✅ משחק בטיחות בדרכים
 } as const;

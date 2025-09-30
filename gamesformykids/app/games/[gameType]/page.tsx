@@ -16,7 +16,10 @@ const SUPPORTED_GAMES = [
   'transport', 'vehicles', 'tools', 'space', 'house',
   'instruments', 'professions', 'emotions', 'math', 'colored-shapes',
   // משחקים חדשים
-  'sports', 'kitchen', 'body-parts', 'family', 'dinosaurs'
+  'sports', 'kitchen', 'body-parts', 'family', 'dinosaurs',
+  // משחקים נוספים חדשים
+  'world-food', 'recycling', 'medicine', 'nature-sounds',
+  'seasons-holidays', 'feelings', 'shopping-money', 'road-safety'
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

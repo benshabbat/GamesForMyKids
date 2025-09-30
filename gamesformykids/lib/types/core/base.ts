@@ -242,4 +242,13 @@ export type GameType =
   | 'kitchen'
   | 'body-parts'
   | 'family'
-  | 'dinosaurs';
+  | 'dinosaurs'
+  // משחקים נוספים חדשים
+  | 'world-food'
+  | 'recycling'
+  | 'medicine'
+  | 'nature-sounds'
+  | 'seasons-holidays'
+  | 'feelings'
+  | 'shopping-money'
+  | 'road-safety';

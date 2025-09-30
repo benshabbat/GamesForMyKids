@@ -39,6 +39,15 @@ const useKitchenGame = () => useGenericGame(GAME_ITEMS_MAP.kitchen, 'kitchen');
 const useBodyPartsGame = () => useGenericGame(GAME_ITEMS_MAP["body-parts"], 'body-parts');
 const useFamilyGame = () => useGenericGame(GAME_ITEMS_MAP.family, 'family');
 const useDinosaursGame = () => useGenericGame(GAME_ITEMS_MAP.dinosaurs, 'dinosaurs');
+// משחקים נוספים חדשים
+const useWorldFoodGame = () => useGenericGame(GAME_ITEMS_MAP["world-food"], 'world-food');
+const useRecyclingGame = () => useGenericGame(GAME_ITEMS_MAP.recycling, 'recycling');
+const useMedicineGame = () => useGenericGame(GAME_ITEMS_MAP.medicine, 'medicine');
+const useNatureSoundsGame = () => useGenericGame(GAME_ITEMS_MAP["nature-sounds"], 'nature-sounds');
+const useSeasonsHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["seasons-holidays"], 'seasons-holidays');
+const useFeelingsGame = () => useGenericGame(GAME_ITEMS_MAP.feelings, 'feelings');
+const useShoppingMoneyGame = () => useGenericGame(GAME_ITEMS_MAP["shopping-money"], 'shopping-money');
+const useRoadSafetyGame = () => useGenericGame(GAME_ITEMS_MAP["road-safety"], 'road-safety');
 // משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
@@ -51,7 +60,10 @@ export type AutoGameType =
   | 'transport' | 'vehicles' | 'tools' | 'space' | 'house'
   | 'instruments' | 'professions' | 'emotions' | 'math'
   // משחקים חדשים
-  | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs';
+  | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs'
+  // משחקים נוספים חדשים
+  | 'world-food' | 'recycling' | 'medicine' | 'nature-sounds' 
+  | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -86,6 +98,15 @@ export const GAME_HOOKS_MAP = {
   "body-parts": useBodyPartsGame,
   family: useFamilyGame,
   dinosaurs: useDinosaursGame,
+  // משחקים נוספים חדשים
+  "world-food": useWorldFoodGame,
+  recycling: useRecyclingGame,
+  medicine: useMedicineGame,
+  "nature-sounds": useNatureSoundsGame,
+  "seasons-holidays": useSeasonsHolidaysGame,
+  feelings: useFeelingsGame,
+  "shopping-money": useShoppingMoneyGame,
+  "road-safety": useRoadSafetyGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
