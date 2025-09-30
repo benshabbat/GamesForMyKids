@@ -31,21 +31,19 @@ function getDailyGame(): GameRegistration {
 }
 
 // Small client component just for the dynamic CTA button
-export function DynamicCallToAction() {
+export default function DynamicCallToActionContent() {
   const [dailyGame, setDailyGame] = useState<GameRegistration | null>(null);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Ensure this only runs on client side
-    setIsClient(true);
+    // This will only run on client side since this component is loaded with ssr: false
     setDailyGame(getDailyGame());
   }, []);
 
   // Show loading state while client is initializing
-  if (!isClient || !dailyGame) {
+  if (!dailyGame) {
     return (
       <div className="mt-6">
-        <div className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-3 rounded-full font-bold text-lg shadow-md opacity-50 animate-pulse cursor-not-allowed">
+        <div className="inline-block bg-gradient-to-r from-gray-300 to-gray-300 text-gray-500 px-8 py-3 rounded-full font-bold text-lg shadow-md animate-pulse cursor-not-allowed">
           ✨ טוען... ✨
         </div>
       </div>

@@ -29,18 +29,16 @@ function getDailyFeaturedGame(): GameRegistration {
   return availableGames[dayOfYear % availableGames.length];
 }
 
-const FeaturedGame = () => {
+const FeaturedGameContent = () => {
   const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
-  const [isClient, setIsClient] = useState(false);
 
   useEffect(() => {
-    // Ensure this only runs on client side
-    setIsClient(true);
+    // This will only run on client side since this component is loaded with ssr: false
     setFeaturedGame(getDailyFeaturedGame());
   }, []);
 
-  // Show loading skeleton while client is initializing
-  if (!isClient || !featuredGame) {
+  // If no game yet, show loading
+  if (!featuredGame) {
     return (
       <div className="max-w-6xl mx-auto px-4 mb-12">
         <div className="text-center mb-6">
@@ -76,45 +74,39 @@ const FeaturedGame = () => {
       </div>
       
       <div className="relative max-w-2xl mx-auto">
-        <Link href={featuredGame.href}>
-          <div className="relative bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden">
-            {/* Decorative elements */}
-            <div className="absolute top-4 right-4">
-              <div className="flex space-x-1">
-                {[1, 2, 3].map((i) => (
-                  <Star key={i} className="w-6 h-6 text-yellow-200 fill-current animate-pulse" style={{animationDelay: `${i * 0.2}s`}} />
-                ))}
-              </div>
+        <div className="absolute inset-0 bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl blur-lg opacity-30 animate-pulse"></div>
+        
+        <div className="relative bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-8 shadow-2xl">
+          <div className="flex flex-col md:flex-row items-center gap-8">
+            <div className="relative bg-white bg-opacity-20 rounded-2xl p-6 backdrop-blur-sm">
+              <Link href={featuredGame.href} className="block">
+                <div className="bg-white bg-opacity-80 rounded-xl p-4 hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105">
+                  <featuredGame.icon className="w-16 h-16 text-gray-700 mx-auto" />
+                </div>
+              </Link>
             </div>
             
-            <div className="absolute -top-10 -left-10 w-32 h-32 bg-white bg-opacity-10 rounded-full"></div>
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-white bg-opacity-10 rounded-full"></div>
-            
-            {/* Content */}
-            <div className="relative z-10 text-center text-white">
-              <div className="mb-6 flex justify-center">
-                <div className="bg-white bg-opacity-20 p-4 rounded-full">
-                  <featuredGame.icon className="w-16 h-16" />
-                </div>
-              </div>
-              
-              <h3 className="text-3xl font-bold mb-4 drop-shadow-lg">
+            <div className="flex-1 text-center md:text-right">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-4">
                 {featuredGame.title}
               </h3>
-              
-              <p className="text-xl opacity-95 mb-6 leading-relaxed">
+              <p className="text-lg text-white opacity-90 mb-6">
                 {featuredGame.description}
               </p>
-                <div className="inline-flex items-center bg-gradient-to-r from-white/30 to-white/20 backdrop-blur-sm px-6 py-3 rounded-full font-bold text-lg hover:from-white/40 hover:to-white/30 transition-all duration-300 border border-white/30 shadow-lg">
-                  <span className="ml-2 drop-shadow-sm">שחקו עכשיו</span>
-                  <ArrowRight className="w-5 h-5 drop-shadow-sm" />
-                </div>
+              
+              <Link href={featuredGame.href}>
+                <button className="inline-flex items-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-50 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                  <Star className="w-5 h-5 fill-current" />
+                  בואו נשחק!
+                  <ArrowRight className="w-5 h-5" />
+                </button>
+              </Link>
             </div>
           </div>
-        </Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default FeaturedGame;
+export default FeaturedGameContent;

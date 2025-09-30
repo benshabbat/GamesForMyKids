@@ -1,9 +1,9 @@
 import { StaticHeader } from "./StaticHeader";
 import dynamic from "next/dynamic";
 
-// Import DynamicCallToAction with no SSR to prevent hydration mismatch
+// Import ClientOnlyDynamicCallToAction with no SSR to prevent hydration mismatch
 const DynamicCallToAction = dynamic(
-  () => import("../marketing/DynamicCallToAction").then(mod => ({ default: mod.DynamicCallToAction })),
+  () => import("../marketing/ClientOnlyDynamicCallToAction").then(mod => ({ default: mod.ClientOnlyDynamicCallToAction })),
   { 
     ssr: false,
     loading: () => null // Don't show loading component to avoid mismatch

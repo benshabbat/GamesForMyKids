@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
-import FeaturedGame from "@/components/marketing/FeaturedGame";
+import FeaturedGame from "@/components/marketing/ClientOnlyFeaturedGame";
 import GameRecommendations from "@/components/marketing/GameRecommendations";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
