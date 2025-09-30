@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Star, ArrowRight } from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 
 // Function to get consistent daily featured game
@@ -29,8 +30,37 @@ function getDailyFeaturedGame(): GameRegistration {
 }
 
 const FeaturedGame = () => {
-  // Use the same daily featured game for both SSR and client-side
-  const featuredGame = getDailyFeaturedGame();
+  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
+
+  useEffect(() => {
+    // Load the featured game only on client side to avoid hydration mismatch
+    setFeaturedGame(getDailyFeaturedGame());
+  }, []);
+
+  // Show loading state while featuredGame is being determined
+  if (!featuredGame) {
+    return (
+      <div className="max-w-6xl mx-auto px-4 mb-12">
+        <div className="text-center mb-6">
+          <h2 className="text-3xl font-bold text-gray-800 mb-2">⭐ משחק היום ⭐</h2>
+          <p className="text-lg text-gray-600">המשחק המומלץ שלנו עבורכם היום!</p>
+        </div>
+        
+        <div className="relative max-w-2xl mx-auto">
+          <div className="relative bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-8 shadow-2xl animate-pulse">
+            <div className="text-center text-white">
+              <div className="mb-6 flex justify-center">
+                <div className="bg-white bg-opacity-20 p-4 rounded-full w-24 h-24"></div>
+              </div>
+              <div className="h-8 bg-white bg-opacity-20 rounded mb-4"></div>
+              <div className="h-6 bg-white bg-opacity-20 rounded mb-6"></div>
+              <div className="h-12 bg-white bg-opacity-20 rounded"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-6xl mx-auto px-4 mb-12">
