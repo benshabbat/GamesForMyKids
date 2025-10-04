@@ -62,6 +62,13 @@ const useAdvancedWeatherGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-wea
 const useAdvancedColorsGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-colors"], 'advanced-colors');
 const useJewishHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["jewish-holidays"], 'jewish-holidays');
 const useLogicGamesGame = () => useGenericGame(GAME_ITEMS_MAP["logic-games"], 'logic-games');
+// 6 משחקים חדשניים יוצאי דופן
+const useSoundImitationGame = () => useGenericGame(GAME_ITEMS_MAP["sound-imitation"], 'sound-imitation');
+const useBodyMovementsGame = () => useGenericGame(GAME_ITEMS_MAP["body-movements"], 'body-movements');
+const useTouchSensesGame = () => useGenericGame(GAME_ITEMS_MAP["touch-senses"], 'touch-senses');
+const useEmotionalSocialGame = () => useGenericGame(GAME_ITEMS_MAP["emotional-social"], 'emotional-social');
+const useTimeClockGame = () => useGenericGame(GAME_ITEMS_MAP["time-clock"], 'time-clock');
+const useClimatePlanetGame = () => useGenericGame(GAME_ITEMS_MAP["climate-planet"], 'climate-planet');
 // משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
@@ -83,7 +90,10 @@ export type AutoGameType =
   | 'space-adventure' | 'cooking-kitchen' | 'circus-show'
   // 6 משחקים טכנולוגיים חדשים
   | 'virtual-reality' | 'new-professions' | 'advanced-weather'
-  | 'advanced-colors' | 'jewish-holidays' | 'logic-games';
+  | 'advanced-colors' | 'jewish-holidays' | 'logic-games'
+  // 6 משחקים חדשניים יוצאי דופן
+  | 'sound-imitation' | 'body-movements' | 'touch-senses'
+  | 'emotional-social' | 'time-clock' | 'climate-planet';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -141,6 +151,13 @@ export const GAME_HOOKS_MAP = {
   "advanced-colors": useAdvancedColorsGame,
   "jewish-holidays": useJewishHolidaysGame,
   "logic-games": useLogicGamesGame,
+  // 6 משחקים חדשניים יוצאי דופן
+  "sound-imitation": useSoundImitationGame,
+  "body-movements": useBodyMovementsGame,
+  "touch-senses": useTouchSensesGame,
+  "emotional-social": useEmotionalSocialGame,
+  "time-clock": useTimeClockGame,
+  "climate-planet": useClimatePlanetGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה

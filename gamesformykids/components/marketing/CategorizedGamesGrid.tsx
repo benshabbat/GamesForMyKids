@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple, Heart, Microscope, Calendar } from 'lucide-react';
+import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple, Heart, Microscope, Calendar, Sparkles } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import CategoryNavigation from '../game/CategoryNavigation';
 import CategoriesView from '../game/CategoriesView';
@@ -64,7 +64,7 @@ const GAME_CATEGORIES = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory", "bubbles", "emotions", "feelings", "sports"]
+    gameIds: ["memory", "bubbles", "emotions", "feelings", "sports", "circus-show"]
   },
   health: {
     title: "בריאות ובטיחות",
@@ -72,7 +72,7 @@ const GAME_CATEGORIES = {
     icon: Heart,
     color: "bg-red-500",
     gradient: "from-red-400 to-red-600",
-    gameIds: ["medicine", "road-safety", "body-parts"]
+    gameIds: ["medicine", "road-safety", "body-parts", "body-movements", "touch-senses"]
   },
   science: {
     title: "מדע וטכנולוגיה",
@@ -80,7 +80,7 @@ const GAME_CATEGORIES = {
     icon: Microscope,
     color: "bg-cyan-500",
     gradient: "from-cyan-400 to-cyan-600",
-    gameIds: ["recycling", "dinosaurs", "space-adventure", "virtual-reality"]
+    gameIds: ["recycling", "dinosaurs", "space-adventure", "virtual-reality", "new-professions", "climate-planet"]
   },
   holidays: {
     title: "חגים ועונות",
@@ -88,7 +88,15 @@ const GAME_CATEGORIES = {
     icon: Calendar,
     color: "bg-yellow-500",
     gradient: "from-yellow-400 to-yellow-600",
-    gameIds: ["seasons-holidays", "jewish-holidays"]
+    gameIds: ["seasons-holidays", "jewish-holidays", "time-clock"]
+  },
+  innovative: {
+    title: "משחקים חדשניים",
+    description: "משחקים אינטראקטיביים ויוצאי דופן",
+    icon: Sparkles,
+    color: "bg-gradient-to-r from-purple-500 to-pink-500",
+    gradient: "from-purple-400 to-pink-600",
+    gameIds: ["sound-imitation", "emotional-social", "advanced-weather", "advanced-colors", "logic-games"]
   }
 };
 

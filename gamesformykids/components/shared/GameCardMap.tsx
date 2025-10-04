@@ -79,6 +79,13 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'advanced-colors': DefaultGameCard,
   'jewish-holidays': DefaultGameCard,
   'logic-games': DefaultGameCard,
+  // 6 משחקים חדשניים יוצאי דופן
+  'sound-imitation': DefaultGameCard,
+  'body-movements': DefaultGameCard,
+  'touch-senses': DefaultGameCard,
+  'emotional-social': DefaultGameCard,
+  'time-clock': DefaultGameCard,
+  'climate-planet': DefaultGameCard,
 };
 
 export default GameCardMap;

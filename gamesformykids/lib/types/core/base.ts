@@ -265,4 +265,11 @@ export type GameType =
   | 'advanced-weather'
   | 'advanced-colors'
   | 'jewish-holidays'
-  | 'logic-games';
+  | 'logic-games'
+  // 6 משחקים חדשניים יוצאי דופן
+  | 'sound-imitation'
+  | 'body-movements'
+  | 'touch-senses'
+  | 'emotional-social'
+  | 'time-clock'
+  | 'climate-planet';

@@ -45,6 +45,9 @@ export * from './gameData/additionalGames';
 // נתוני משחקים מתקדמים - טכנולוגיה וחדשנות
 export * from './gameData/technology';
 
+// נתוני משחקים חדשניים - משחקים יוצאי דופן
+export * from './gameData/innovative';
+
 // ממשק משתמש
 export * from './ui';
 export * from './ui/shapes';

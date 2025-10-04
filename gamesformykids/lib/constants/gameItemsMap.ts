@@ -1,5 +1,20 @@
 /**
- * ===============================================
+ * ======================================  // 6 משחקים טכנולוגיים חדשים
+  VIRTUAL_REALITY_ITEMS,
+  NEW_PROFESSIONS_ITEMS,
+  ADVANCED_WEATHER_ITEMS,
+  ADVANCED_COLORS_ITEMS,
+  JEWISH_HOLIDAYS_ITEMS,
+  LOGIC_GAMES_ITEMS,
+  // 6 משחקים חדשניים יוצאי דופן
+  SOUND_IMITATION_ITEMS,
+  BODY_MOVEMENTS_ITEMS,
+  TOUCH_SENSES_ITEMS,
+  EMOTIONAL_SOCIAL_ITEMS,
+  TIME_CLOCK_ITEMS,
+  CLIMATE_PLANET_ITEMS,
+  // קבועים נוספים יתווספו במידת הצורך
+} from "@/lib/constants";
  * מפת פרטי משחקים - אוטומציה מלאה
  * ===============================================
  */
@@ -118,4 +133,11 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "advanced-colors": ADVANCED_COLORS_ITEMS, // ✅ משחק צבעים מתקדם
   "jewish-holidays": JEWISH_HOLIDAYS_ITEMS, // ✅ משחק חגים יהודיים
   "logic-games": LOGIC_GAMES_ITEMS, // ✅ משחק משחקי לוגיקה
+  // 6 משחקים חדשניים יוצאי דופן
+  "sound-imitation": SOUND_IMITATION_ITEMS, // ✅ משחק חיקוי קולות ורעשים
+  "body-movements": BODY_MOVEMENTS_ITEMS, // ✅ משחק תנועות גוף וריקוד
+  "touch-senses": TOUCH_SENSES_ITEMS, // ✅ משחק מגע וחושים
+  "emotional-social": EMOTIONAL_SOCIAL_ITEMS, // ✅ משחק מציאות רגשית וחברתית
+  "time-clock": TIME_CLOCK_ITEMS, // ✅ משחק זמן ושעות היום
+  "climate-planet": CLIMATE_PLANET_ITEMS, // ✅ משחק אקלים וכדור הארץ
 } as const;
