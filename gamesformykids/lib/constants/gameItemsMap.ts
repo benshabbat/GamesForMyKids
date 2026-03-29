@@ -4,64 +4,40 @@
  * ===============================================
  */
 
-import { 
-  ALL_ANIMALS, 
-  ALL_COLORS, 
-  ALL_FRUITS, 
-  ALL_VEGETABLES, 
-  ALL_CLOTHING,
-  ALL_LETTERS,
-  ALL_SHAPES,
-  ALL_NUMBERS,
-  ALL_WEATHERS,
-  ALL_EMOTIONS,
-  ALL_HOUSE_ITEMS,
-  ALL_INSTRUMENTS,
-  ALL_PROFESSIONS,
-  ALL_SMELLS_TASTES,
-  ALL_TRANSPORTS,
-  ALL_VEHICLES,
-  ALL_TOOLS,
-  ALL_SPACE_OBJECTS,
-  ALL_COLORED_SHAPES,
-  // משחקים חדשים
-  SPORTS_ITEMS,
-  KITCHEN_ITEMS,
-  BODY_PARTS_ITEMS,
-  FAMILY_ITEMS,
-  DINOSAURS_ITEMS,
-  // משחקים נוספים חדשים
-  WORLD_FOOD_ITEMS,
-  RECYCLING_ITEMS,
+import { ALL_COLORS, ALL_LETTERS, ALL_SHAPES, ALL_NUMBERS, ALL_COLORED_SHAPES, ADVANCED_COLORS_ITEMS } from "@/lib/constants/gameData/basic";
+import { ALL_ANIMALS, ALL_FRUITS, ALL_VEGETABLES, ALL_SMELLS_TASTES, OCEAN_LIFE_ITEMS, GARDEN_PLANTS_ITEMS } from "@/lib/constants/gameData/nature";
+import { ALL_TRANSPORTS, ALL_VEHICLES, ALL_TOOLS, ALL_SPACE_OBJECTS, ALL_WEATHERS, ADVANCED_WEATHER_ITEMS } from "@/lib/constants/gameData/world";
+import { ALL_HOUSE_ITEMS, ALL_CLOTHING, ALL_INSTRUMENTS, ALL_PROFESSIONS, ALL_EMOTIONS } from "@/lib/constants/gameData/lifestyle";
+import { MAGIC_FAIRY_TALES_ITEMS, CIRCUS_SHOW_ITEMS } from "@/lib/constants/gameData/special";
+import { SPORTS_ITEMS } from "@/lib/constants/gameData/sports";
+import { KITCHEN_ITEMS } from "@/lib/constants/gameData/cooking";
+import { BODY_PARTS_ITEMS } from "@/lib/constants/gameData/body";
+import { FAMILY_ITEMS } from "@/lib/constants/gameData/family";
+import { DINOSAURS_ITEMS } from "@/lib/constants/gameData/dinosaurs";
+import { WORLD_FOOD_ITEMS, RECYCLING_ITEMS } from "@/lib/constants/gameData/newGames";
+import {
   MEDICINE_ITEMS,
   NATURE_SOUNDS_ITEMS,
   SEASONS_HOLIDAYS_ITEMS,
   FEELINGS_ITEMS,
   SHOPPING_MONEY_ITEMS,
   ROAD_SAFETY_ITEMS,
-  // משחקים חדשים נוספים
-  OCEAN_LIFE_ITEMS,
-  GARDEN_PLANTS_ITEMS,
-  MAGIC_FAIRY_TALES_ITEMS,
-  CIRCUS_SHOW_ITEMS,
-  // 6 משחקים חדשים אחרונים
+} from "@/lib/constants/gameData/additionalGames";
+import {
   VIRTUAL_REALITY_ITEMS,
   NEW_PROFESSIONS_ITEMS,
-  ADVANCED_WEATHER_ITEMS,
-  ADVANCED_COLORS_ITEMS,
   JEWISH_HOLIDAYS_ITEMS,
   LOGIC_GAMES_ITEMS,
-  // 6 משחקים חדשניים יוצאי דופן
+} from "@/lib/constants/gameData/technology";
+import {
   SOUND_IMITATION_ITEMS,
   BODY_MOVEMENTS_ITEMS,
   TOUCH_SENSES_ITEMS,
   EMOTIONAL_SOCIAL_ITEMS,
   TIME_CLOCK_ITEMS,
   CLIMATE_PLANET_ITEMS,
-  // קבועים נוספים יתווספו במידת הצורך
-} from "@/lib/constants";
-
-import { 
+} from "@/lib/constants/gameData/innovative";
+import {
   BIRDS_ITEMS,
   BUGS_INSECTS_ITEMS,
   SUPERHEROES_ITEMS,

@@ -5,7 +5,7 @@ import {
   UniversalGameContextValue, 
   UniversalGameProviderProps 
 } from '@/lib/types/contexts/universal-game';
-import { useGameLogic, useGameState, useGameActions, useGameConfigFromLogic, useGameHints, useGameUI } from '@/contexts';
+import { useGameLogic, useGameState, useGameActions, useGameConfig as useGameConfigFromLogic, useGameHints, useGameUI } from './GameLogicContext';
 
 /**
  * ===============================================
