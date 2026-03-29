@@ -18,9 +18,8 @@ export function useGamePerformance({ items, currentChallenge }: UseGamePerforman
     const audioPromises = items
       .filter(item => !audioPreloadRef.current.has(item.name))
       .slice(0, 5) // מגביל ל-5 פריטים בו-זמנית למניעת עומס
-      .map(async (item) => {
-        // Future: if (item.audioUrl)
-        console.log(`Audio preloading optimized for: ${item.name}`);
+      .map(async () => {
+        // Future: preload actual audio URL from item.audioUrl when available
       });
 
     await Promise.allSettled(audioPromises);
@@ -32,9 +31,8 @@ export function useGamePerformance({ items, currentChallenge }: UseGamePerforman
     const imagePromises = items
       .filter(item => !imagePreloadRef.current.has(item.name))
       .slice(0, 5) // מגביל ל-5 פריטים בו-זמנית למניעת עומס
-      .map(async (item) => {
-        // Future: if (item.imageUrl)
-        console.log(`Image preloading optimized for: ${item.name}`);
+      .map(async () => {
+        // Future: preload actual image URL from item.imageUrl when available
       });
 
     await Promise.allSettled(imagePromises);

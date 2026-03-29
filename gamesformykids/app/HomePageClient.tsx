@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FeaturedGame from "@/components/marketing/ClientOnlyFeaturedGame";
@@ -12,9 +12,9 @@ export default function HomePageClient() {
   const [isLoading, setIsLoading] = useState(false); // Start with false for better LCP
   const [shouldShowLoader, setShouldShowLoader] = useState(false);
 
-  const handleLoadingComplete = () => {
+  const handleLoadingComplete = useCallback(() => {
     setIsLoading(false);
-  };
+  }, []);
 
   // Optimize loading screen logic to reduce initial render delay
   useEffect(() => {

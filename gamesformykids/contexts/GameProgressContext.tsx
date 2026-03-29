@@ -153,13 +153,14 @@ export function GameProgressProvider({
 
   const setGameActive = useCallback((active: boolean) => {
     setIsGameActive(active);
-    if (active && progress.startTime === 0) {
-      setProgress(prev => ({
-        ...prev,
-        startTime: Date.now()
-      }));
+    if (active) {
+      // Functional update avoids stale closure on progress.startTime —
+      // prevents re-creating this callback on every timer tick (every 1s)
+      setProgress(prev =>
+        prev.startTime === 0 ? { ...prev, startTime: Date.now() } : prev
+      );
     }
-  }, [progress.startTime]);
+  }, []); // empty deps: relies only on stable setIsGameActive / setProgress setters
 
   // Statistics
   const getAccuracy = useCallback(() => {

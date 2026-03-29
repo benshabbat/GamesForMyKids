@@ -1,20 +1,21 @@
 "use client";
 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { LoadingScreenProps } from '@/lib/types/ui/core';
 
-const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
+// קבועים ברמת המודול — נוצרים פעם אחת, ללא עלות useMemo בכל רינדור
+const LOADING_EMOJIS = ['🎮', '🌟', '🎨', '📚', '🎯', '🧸'] as const;
+const LOADING_TEXTS = [
+  'טוען משחקים מהנים...',
+  'מכין הפתעות...',
+  'מארגן צבעים...',
+  'בודק שהכל מושלם...',
+  'כמעט מוכן!',
+] as const;
+
+const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
   const [progress, setProgress] = useState(0);
   const [currentEmoji, setCurrentEmoji] = useState(0);
-  
-  const emojis = useMemo(() => ['🎮', '🌟', '🎨', '📚', '🎯', '🧸'], []);
-  const loadingTexts = useMemo(() => [
-    'טוען משחקים מהנים...',
-    'מכין הפתעות...',
-    'מארגן צבעים...',
-    'בודק שהכל מושלם...',
-    'כמעט מוכן!'
-  ], []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -28,11 +29,11 @@ const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
         return prev + 2;
       });
       
-      setCurrentEmoji(prev => (prev + 1) % emojis.length);
+      setCurrentEmoji(prev => (prev + 1) % LOADING_EMOJIS.length);
     }, 50);
 
     return () => clearInterval(interval);
-  }, [onLoadingComplete, emojis.length]);
+  }, [onLoadingComplete]);
 
   const currentTextIndex = Math.floor(progress / 20);
 
@@ -41,12 +42,12 @@ const LoadingScreen= ({ onLoadingComplete }: LoadingScreenProps) => {
       <div className="text-center text-white">
         {/* Animated emoji */}
         <div className="text-8xl mb-8 animate-bounce">
-          {emojis[currentEmoji]}
+          {LOADING_EMOJIS[currentEmoji]}
         </div>
         
         {/* Loading text */}
         <h2 className="text-3xl font-bold mb-8 drop-shadow-lg">
-          {loadingTexts[Math.min(currentTextIndex, loadingTexts.length - 1)]}
+          {LOADING_TEXTS[Math.min(currentTextIndex, LOADING_TEXTS.length - 1)]}
         </h2>
         
         {/* Progress bar */}

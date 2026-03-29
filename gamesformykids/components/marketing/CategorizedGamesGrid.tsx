@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useState, useMemo, useCallback } from 'react';
 import { Book, Palette, Calculator, Car, Home, Gamepad2, Apple, Heart, Microscope, Calendar, Sparkles } from 'lucide-react';
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import CategoryNavigation from '../game/CategoryNavigation';
@@ -104,27 +104,27 @@ const CategorizedGamesGrid = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [showAllGames, setShowAllGames] = useState(false);
 
-  // קבלת כל המשחקים מהרישום - נקבל את הרישומים המקוריים
-  const allGameRegistrations = GamesRegistry.getAllGameRegistrations();
+  // מחושב פעם אחת — הרישום לא משתנה בזמן ריצה
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
   const totalGamesCount = allGameRegistrations.length;
 
-  const handleShowCategories = () => {
+  const handleShowCategories = useCallback(() => {
     setSelectedCategory(null);
     setShowAllGames(false);
-  };
+  }, []);
 
-  const handleShowAllGames = () => {
+  const handleShowAllGames = useCallback(() => {
     setSelectedCategory(null);
     setShowAllGames(true);
-  };
+  }, []);
 
-  const handleCategorySelect = (categoryKey: string) => {
+  const handleCategorySelect = useCallback((categoryKey: string) => {
     setSelectedCategory(categoryKey);
-  };
+  }, []);
 
-  const handleBackToCategories = () => {
+  const handleBackToCategories = useCallback(() => {
     setSelectedCategory(null);
-  };
+  }, []);
 
   return (
     <div className="max-w-6xl mx-auto px-4 pb-8">

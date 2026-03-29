@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useEffect, useState } from 'react'
+import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
 
@@ -79,27 +79,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return () => subscription.unsubscribe()
   }, [])
 
-  const signOut = async () => {
+  const signOut = useCallback(async () => {
     if (isSupabaseConfigured) {
       await supabase.auth.signOut().catch(() => {})
     }
     setIsGuest(false)
     localStorage.removeItem('guestMode')
-  }
+  }, [])
 
-  const continueAsGuest = () => {
+  const continueAsGuest = useCallback(() => {
     setIsGuest(true)
     setLoading(false)
     localStorage.setItem('guestMode', 'true')
-  }
+  }, [])
 
-  const requireAuth = () => {
-    // Return false for now - make all features available to guests
-    // This can be changed later for specific features that require auth
+  const requireAuth = useCallback(() => {
+    // Return false — all features available to guests
     return false
-  }
+  }, [])
 
-  const signInWithGoogle = async () => {
+  const signInWithGoogle = useCallback(async () => {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'google',
@@ -107,9 +106,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     }).catch(() => {})
-  }
+  }, [])
 
-  const signInWithGitHub = async () => {
+  const signInWithGitHub = useCallback(async () => {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'github',
@@ -117,9 +116,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
     }).catch(() => {})
-  }
+  }, [])
 
-  const signInWithEmail = async (email: string, password: string) => {
+  const signInWithEmail = useCallback(async (email: string, password: string) => {
     if (!isSupabaseConfigured) return { error: 'שירות ההתחברות אינו זמין כרגע' }
     try {
       const { error } = await supabase.auth.signInWithPassword({
@@ -133,9 +132,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {
       return { error: 'שגיאה בהתחברות' }
     }
-  }
+  }, [])
 
-  const signUpWithEmail = async (email: string, password: string, name?: string) => {
+  const signUpWithEmail = useCallback(async (email: string, password: string, name?: string) => {
     if (!isSupabaseConfigured) return { error: 'שירות ההתחברות אינו זמין כרגע' }
     try {
       const { error } = await supabase.auth.signUp({
@@ -154,7 +153,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch {
       return { error: 'שגיאה ברישום' }
     }
-  }
+  }, [])
 
   return (
     <AuthContext.Provider
