@@ -14,27 +14,27 @@ export default function CategoryCard({
   return (
     <div
       onClick={onClick}
-      className={`relative p-6 rounded-3xl shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl bg-gradient-to-br ${category.gradient}`}
+      className={`relative p-3 md:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl bg-gradient-to-br ${category.gradient}`}
     >
       <div className="text-center text-white">
-        <div className="mb-4 flex justify-center">
-          <Icon size={48} />
+        <div className="mb-2 md:mb-4 flex justify-center">
+          <Icon size={32} className="md:hidden" />
+          <Icon size={48} className="hidden md:block" />
         </div>
-        <h3 className="text-2xl font-bold mb-2">
+        <h3 className="text-base md:text-2xl font-bold mb-1 md:mb-2 leading-tight">
           {category.title}
         </h3>
-        <p className="text-lg opacity-90 mb-3">
+        <p className="text-xs md:text-lg opacity-90 mb-2 md:mb-3 hidden sm:block">
           {category.description}
         </p>
-        <div className="bg-gradient-to-r from-black/30 to-black/20 rounded-full py-2 px-4 inline-block border border-white/40 backdrop-blur-sm shadow-lg hover:from-black/40 hover:to-black/30 transition-all duration-300">
-          <span className="font-bold text-white drop-shadow-lg">
+        <div className="bg-black/25 rounded-full py-1 px-2 md:py-2 md:px-4 inline-block border border-white/30 shadow-md">
+          <span className="font-bold text-white text-xs md:text-sm drop-shadow">
             {gamesCount} משחקים
-            {availableCount < gamesCount && ` (${availableCount} זמינים)`}
           </span>
         </div>
       </div>
-      <div className="absolute top-4 right-4">
-        <Star className="w-6 h-6 text-yellow-300 fill-current" />
+      <div className="absolute top-2 right-2 md:top-4 md:right-4">
+        <Star className="w-4 h-4 md:w-6 md:h-6 text-yellow-300 fill-current" />
       </div>
     </div>
   );

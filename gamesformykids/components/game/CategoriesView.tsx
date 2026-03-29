@@ -17,10 +17,10 @@ export default function CategoriesView({
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-center text-gray-800 mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
         בחר קטגוריה 📚
       </h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {Object.entries(categories).map(([key, category]) => {
           const categoryGames = getGamesByCategory(key);
           const gamesCount = categoryGames.length;

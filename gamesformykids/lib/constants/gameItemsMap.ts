@@ -1,20 +1,5 @@
 /**
- * ======================================  // 6 משחקים טכנולוגיים חדשים
-  VIRTUAL_REALITY_ITEMS,
-  NEW_PROFESSIONS_ITEMS,
-  ADVANCED_WEATHER_ITEMS,
-  ADVANCED_COLORS_ITEMS,
-  JEWISH_HOLIDAYS_ITEMS,
-  LOGIC_GAMES_ITEMS,
-  // 6 משחקים חדשניים יוצאי דופן
-  SOUND_IMITATION_ITEMS,
-  BODY_MOVEMENTS_ITEMS,
-  TOUCH_SENSES_ITEMS,
-  EMOTIONAL_SOCIAL_ITEMS,
-  TIME_CLOCK_ITEMS,
-  CLIMATE_PLANET_ITEMS,
-  // קבועים נוספים יתווספו במידת הצורך
-} from "@/lib/constants";
+ * ===============================================
  * מפת פרטי משחקים - אוטומציה מלאה
  * ===============================================
  */
