@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import { Button } from '@/components/ui/button';
 import { ArrowLeft, Home, Volume2, VolumeX } from 'lucide-react';
 import { useHebrewLetterPractice } from '@/app/games/hebrew-letters/hooks/useHebrewLetterPractice';
-import { useHebrewLetters } from '@/contexts';
 import WritingCanvas from './WritingCanvas';
 import LetterEncouragement from './LetterEncouragement';
 
@@ -18,32 +16,15 @@ interface Props {
 export default function HebrewLetterPractice({ letterData }: Props) {
   const {
     currentStepInfo,
-    initializeLetter,
     goToStep,
     getCurrentInstructions,
     getStepTabStyle,
     getStepTabIcon,
-    practiceSteps
-  } = useHebrewLetterPractice(letterData);
-
-  const { 
+    practiceSteps,
     playLetterSound,
-    startPracticeSession,
-    endPracticeSession,
     toggleAudio,
-    isAudioEnabled 
-  } = useHebrewLetters();
-
-  // Initialize letter when component mounts
-  useEffect(() => {
-    initializeLetter();
-    startPracticeSession(letterData.name);
-    
-    // Cleanup on unmount
-    return () => {
-      endPracticeSession();
-    };
-  }, [initializeLetter, startPracticeSession, endPracticeSession, letterData.name]);
+    isAudioEnabled,
+  } = useHebrewLetterPractice(letterData);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">

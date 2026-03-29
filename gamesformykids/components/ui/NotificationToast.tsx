@@ -17,9 +17,9 @@
  *   useUIStore.getState().addNotification('שמרת!', 'success');
  */
 
-import { useEffect, useRef } from 'react'
 import { useNotifications, useUIStore } from '@/lib/stores'
 import type { Notification, NotificationType } from '@/lib/stores'
+import { useToastTimer } from './useToastTimer'
 
 // ── Style helpers ──────────────────────────────────────────
 const typeStyles: Record<NotificationType, { bg: string; icon: string }> = {
@@ -31,20 +31,8 @@ const typeStyles: Record<NotificationType, { bg: string; icon: string }> = {
 
 function Toast({ notif }: { notif: Notification }) {
   const remove = useUIStore((s) => s.removeNotification)
-  const barRef = useRef<HTMLDivElement>(null)
+  const { barRef } = useToastTimer(notif.duration)
   const { bg, icon } = typeStyles[notif.type]
-
-  // Animate the progress bar countdown
-  useEffect(() => {
-    if (!barRef.current || notif.duration <= 0) return
-    const el = barRef.current
-    el.style.transition = 'none'
-    el.style.width = '100%'
-    // Force reflow so the transition starts correctly
-    void el.offsetWidth
-    el.style.transition = `width ${notif.duration}ms linear`
-    el.style.width = '0%'
-  }, [notif.duration])
 
   return (
     <div

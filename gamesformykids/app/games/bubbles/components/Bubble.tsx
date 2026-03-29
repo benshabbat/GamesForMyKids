@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useBubble } from './useBubble';
 
 interface BubbleProps {
   id: number;
@@ -12,35 +12,7 @@ interface BubbleProps {
 }
 
 export default function Bubble({ id, x, y, size, color, speed, frequency, onPop }: BubbleProps) {
-  const [position, setPosition] = useState({ x, y });
-  const [isPopped, setIsPopped] = useState(false);
-
-  useEffect(() => {
-    if (isPopped) return;
-
-    const interval = setInterval(() => {
-      setPosition(prev => ({
-        x: prev.x,
-        y: prev.y - speed
-      }));
-    }, 16); // ~60fps
-
-    return () => clearInterval(interval);
-  }, [speed, isPopped]);
-
-  // הסרת בועה כשהיא יוצאת מהמסך
-  useEffect(() => {
-    if (position.y < -size) {
-      onPop(id, 0); // ללא צליל כשהבועה יוצאת מהמסך
-    }
-  }, [position.y, size, id, onPop]);
-
-  const handleClick = () => {
-    if (isPopped) return;
-    
-    setIsPopped(true);
-    onPop(id, frequency);
-  };
+  const { position, isPopped, handleClick } = useBubble({ id, x, y, size, speed, frequency, onPop });
 
   if (isPopped) {
     return null;

@@ -1,8 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect } from 'react';
-import { useHebrewLetters } from '@/contexts';
+import { useLetterEncouragement } from './useLetterEncouragement';
 
 interface LetterEncouragementProps {
   letterName: string;
@@ -15,29 +14,7 @@ export default function LetterEncouragement({
   stepIndex, 
   isCompleted 
 }: LetterEncouragementProps) {
-  const [showCompletion, setShowCompletion] = useState(false);
-  const { 
-    encouragementState, 
-    getStepMessage, 
-    showStepEncouragement,
-    playEncouragementSound 
-  } = useHebrewLetters();
-
-  useEffect(() => {
-    if (isCompleted) {
-      setShowCompletion(true);
-      showStepEncouragement();
-      
-      // השמע הודעת עידוד
-      playEncouragementSound();
-      
-      const timer = setTimeout(() => {
-        setShowCompletion(false);
-      }, 3000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [isCompleted, showStepEncouragement, playEncouragementSound]);
+  const { showCompletion, encouragementState, getStepMessage } = useLetterEncouragement({ isCompleted });
 
   return (
     <>

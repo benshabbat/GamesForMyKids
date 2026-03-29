@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Eraser, RotateCcw, Download, Palette, Eye, EyeOff } from 'lucide-react';
-import { useHebrewLetters } from '@/contexts';
 import LetterGuideOverlay from './LetterGuideOverlay';
+import { useWritingCanvas } from './useWritingCanvas';
 
 interface WritingCanvasProps {
   width?: number;
@@ -19,105 +18,24 @@ export default function WritingCanvas({
   backgroundColor = '#ffffff',
   guideLetter,
 }: WritingCanvasProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
-  
   const {
+    canvasRef,
     drawingState,
-    updateDrawingState,
-    clearCanvas: clearCanvasState,
-    saveCanvasState,
-    undoLastAction,
     strokeColors,
     strokeWidths,
-    initializeCanvas,
-    startDrawing: startDrawingContext,
-    continueDrawing,
-    stopDrawing: stopDrawingContext,
-    getCanvasPosition,
-    resetCanvas
-  } = useHebrewLetters();
-
-  // Initialize canvas when component mounts
-  useEffect(() => {
-    initializeCanvas(width, height, backgroundColor);
-  }, [initializeCanvas, width, height, backgroundColor]);
-
-  // Initialize canvas
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-
-    // Set canvas properties
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = drawingState.currentStrokeColor;
-    ctx.lineWidth = drawingState.currentStrokeWidth;
-
-    // Set background
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, width, height);
-
-    contextRef.current = ctx;
-  }, [width, height, backgroundColor, drawingState.currentStrokeColor, drawingState.currentStrokeWidth]);
-
-  // Update canvas properties when drawing state changes
-  useEffect(() => {
-    const ctx = contextRef.current;
-    if (!ctx) return;
-
-    ctx.strokeStyle = drawingState.currentStrokeColor;
-    ctx.lineWidth = drawingState.currentStrokeWidth;
-  }, [drawingState.currentStrokeColor, drawingState.currentStrokeWidth]);
-
-  const getMousePos = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
-
-    return getCanvasPosition(e.nativeEvent, canvas);
-  }, [getCanvasPosition]);
-
-  const getTouchPos = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas || e.touches.length === 0) return { x: 0, y: 0 };
-
-    return getCanvasPosition(e.nativeEvent, canvas);
-  }, [getCanvasPosition]);
-
-  const startDrawing = useCallback((x: number, y: number) => {
-    const ctx = contextRef.current;
-    if (!ctx) return;
-
-    // Save current state before starting new stroke
-    const imageData = ctx.getImageData(0, 0, width, height);
-    saveCanvasState(imageData);
-
-    startDrawingContext(x, y);
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-  }, [width, height, saveCanvasState, startDrawingContext]);
-
-  const draw = useCallback((x: number, y: number) => {
-    if (!drawingState.isDrawing) return;
-    const ctx = contextRef.current;
-    if (!ctx) return;
-
-    continueDrawing(x, y);
-    ctx.lineTo(x, y);
-    ctx.stroke();
-  }, [drawingState.isDrawing, continueDrawing]);
-
-  const stopDrawing = useCallback(() => {
-    if (!drawingState.isDrawing) return;
-    const ctx = contextRef.current;
-    if (!ctx) return;
-    
-    stopDrawingContext();
-    ctx.closePath();
-  }, [drawingState.isDrawing, stopDrawingContext]);
+    resetCanvas,
+    getMousePos,
+    getTouchPos,
+    startDrawing,
+    draw,
+    stopDrawing,
+    clearCanvas,
+    undoLastStroke,
+    downloadCanvas,
+    changeStrokeColor,
+    changeStrokeWidth,
+    toggleGuide,
+  } = useWritingCanvas({ width, height, backgroundColor });
 
   // Mouse events
   const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -130,9 +48,7 @@ export default function WritingCanvas({
     draw(x, y);
   };
 
-  const handleMouseUp = () => {
-    stopDrawing();
-  };
+  const handleMouseUp = () => stopDrawing();
 
   // Touch events
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
@@ -150,46 +66,6 @@ export default function WritingCanvas({
   const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     stopDrawing();
-  };
-
-  const clearCanvas = () => {
-    const ctx = contextRef.current;
-    if (!ctx) return;
-    
-    clearCanvasState();
-    ctx.fillStyle = backgroundColor;
-    ctx.fillRect(0, 0, width, height);
-  };
-
-  const undoLastStroke = () => {
-    const ctx = contextRef.current;
-    if (!ctx || drawingState.paths.length === 0) return;
-    
-    const lastState = drawingState.paths[drawingState.paths.length - 1];
-    ctx.putImageData(lastState, 0, 0);
-    undoLastAction();
-  };
-
-  const downloadCanvas = () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    const link = document.createElement('a');
-    link.download = 'my-hebrew-letter.png';
-    link.href = canvas.toDataURL();
-    link.click();
-  };
-
-  const changeStrokeColor = (color: string) => {
-    updateDrawingState({ currentStrokeColor: color });
-  };
-
-  const changeStrokeWidth = (strokeWidth: number) => {
-    updateDrawingState({ currentStrokeWidth: strokeWidth });
-  };
-
-  const toggleGuide = () => {
-    updateDrawingState({ showLetterGuide: !drawingState.showLetterGuide });
   };
 
   return (

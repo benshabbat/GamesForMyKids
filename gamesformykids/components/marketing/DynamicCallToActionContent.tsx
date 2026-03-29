@@ -1,43 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
+import { useDailyGame } from "./useDailyGame";
 import Link from "next/link";
-
-// Function to get a consistent game based on date
-function getDailyGame(): GameRegistration {
-  const availableGames = GamesRegistry.getAllGameRegistrations().filter(
-    (game) => game.available
-  );
-  
-  if (availableGames.length === 0) {
-    // Fallback game
-    return {
-      id: "colors",
-      title: "🎨 משחק צבעים 🎨", 
-      description: "למד צבעים!",
-      icon: () => null,
-      color: "bg-blue-400",
-      href: "/games/colors",
-      available: true,
-      order: 1
-    };
-  }
-  
-  // Use current date to select consistent game across server and client
-  const today = new Date();
-  const dayOfYear = Math.floor((today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24);
-  return availableGames[dayOfYear % availableGames.length];
-}
 
 // Small client component just for the dynamic CTA button
 export default function DynamicCallToActionContent() {
-  const [dailyGame, setDailyGame] = useState<GameRegistration | null>(null);
-
-  useEffect(() => {
-    // This will only run on client side since this component is loaded with ssr: false
-    setDailyGame(getDailyGame());
-  }, []);
+  const { dailyGame } = useDailyGame();
 
   // Show loading state while client is initializing
   if (!dailyGame) {

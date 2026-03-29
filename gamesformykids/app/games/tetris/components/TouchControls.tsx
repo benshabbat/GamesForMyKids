@@ -1,5 +1,5 @@
-import { useCallback } from 'react';
 import { TouchControlsProps } from '../types';
+import { useTouchControls } from './useTouchControls';
 
 const TouchControls = ({ 
   isGameRunning, 
@@ -10,16 +10,7 @@ const TouchControls = ({
   onStartGame,
   isDesktop = false
 }: TouchControlsProps) => {
-  // אופטימיזציה למובייל - דיבאונס לכפתורים
-  const handleMove = useCallback((dx: number, dy: number) => {
-    if (!isGameRunning) return;
-    onMove(dx, dy);
-  }, [isGameRunning, onMove]);
-
-  const handleRotate = useCallback(() => {
-    if (!isGameRunning) return;
-    onRotate();
-  }, [isGameRunning, onRotate]);
+  const { handleMove, handleRotate } = useTouchControls({ isGameRunning, onMove, onRotate });
 
   // פריסה למחשב
   if (isDesktop) {
