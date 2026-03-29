@@ -42,7 +42,7 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
 
   return (
     <div className="relative">
-      <div className="relative p-3 md:p-6 rounded-2xl md:rounded-3xl shadow-lg bg-gray-300 cursor-not-allowed">
+      <div className="relative p-3 md:p-6 rounded-2xl md:rounded-3xl shadow-lg bg-gray-300 cursor-not-allowed overflow-hidden">
         <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-2xl md:rounded-3xl flex items-center justify-center">
           <span className="text-white text-sm md:text-xl font-bold">בקרוב!</span>
         </div>

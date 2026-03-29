@@ -10,15 +10,10 @@ export default function CategoryGamesView({
   onBackToCategories
 }: ComponentTypes.CategoryGamesViewProps) {
   const category = categories[selectedCategory];
-  
-  const getGamesByCategory = (categoryKey: string) => {
-    const cat = categories[categoryKey];
-    if (!cat) return [];
-    
-    return allGameRegistrations.filter(game => cat.gameIds.includes(game.id));
-  };
 
-  const categoryGames = getGamesByCategory(selectedCategory);
+  const categoryGames = category
+    ? allGameRegistrations.filter(game => category.gameIds.includes(game.id))
+    : [];
 
   if (!category) return null;
 

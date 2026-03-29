@@ -61,8 +61,6 @@ export interface CategoryCardProps {
   category: Category;
   /** מספר כלל המשחקים בקטגוריה */
   gamesCount: number;
-  /** מספר המשחקים הזמינים */
-  availableCount: number;
   /** פונקציה שמתבצעת בלחיצה */
   onClick: () => void;
 }

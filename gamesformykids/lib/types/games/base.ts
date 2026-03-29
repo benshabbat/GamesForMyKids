@@ -51,7 +51,7 @@ export interface CategoryInfo {
  * מאפיינים ויזואליים לקטגוריה - עקרון Single Responsibility
  */
 export interface CategoryVisuals {
-  readonly icon: ComponentType<{ size?: number }>;
+  readonly icon: ComponentType<{ size?: number; className?: string }>;
   readonly gradient: string;
 }
 

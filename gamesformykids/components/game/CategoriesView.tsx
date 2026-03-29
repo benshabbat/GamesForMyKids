@@ -8,13 +8,6 @@ export default function CategoriesView({
   allGameRegistrations,
   onCategorySelect
 }: ComponentTypes.CategoriesViewProps) {
-  const getGamesByCategory = (categoryKey: string) => {
-    const category = categories[categoryKey];
-    if (!category) return [];
-    
-    return allGameRegistrations.filter(game => category.gameIds.includes(game.id));
-  };
-
   return (
     <div>
       <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
@@ -22,16 +15,15 @@ export default function CategoriesView({
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
         {Object.entries(categories).map(([key, category]) => {
-          const categoryGames = getGamesByCategory(key);
-          const gamesCount = categoryGames.length;
-          const availableCount = categoryGames.filter(g => g.available).length;
-          
+          const gamesCount = allGameRegistrations.filter(game =>
+            category.gameIds.includes(game.id)
+          ).length;
+
           return (
             <CategoryCard
               key={key}
               category={category}
               gamesCount={gamesCount}
-              availableCount={availableCount}
               onClick={() => onCategorySelect(key)}
             />
           );

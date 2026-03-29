@@ -6,7 +6,6 @@ import { ComponentTypes } from "@/lib/types";
 export default function CategoryCard({
   category,
   gamesCount,
-  availableCount,
   onClick
 }: ComponentTypes.CategoryCardProps) {
   const Icon = category.icon;
@@ -18,8 +17,7 @@ export default function CategoryCard({
     >
       <div className="text-center text-white">
         <div className="mb-2 md:mb-4 flex justify-center">
-          <Icon size={32} className="md:hidden" />
-          <Icon size={48} className="hidden md:block" />
+          <Icon className="w-8 h-8 md:w-12 md:h-12" />
         </div>
         <h3 className="text-base md:text-2xl font-bold mb-1 md:mb-2 leading-tight">
           {category.title}

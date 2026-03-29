@@ -24,7 +24,7 @@ const GAME_CATEGORIES = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments", "puzzles", "drawing", "building", "tetris", "magic-fairy-tales", "circus-show", "logic-games"]
+    gameIds: ["instruments", "puzzles", "drawing", "building", "tetris", "magic-fairy-tales", "circus-show", "logic-games", "art-craft", "superheroes", "fairy-tale-chars"]
   },
   nature: {
     title: "טבע ואוכל",
@@ -32,7 +32,7 @@ const GAME_CATEGORIES = {
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals", "fruits", "vegetables", "ocean-life", "garden-plants", "smells-tastes", "nature-sounds", "dinosaurs"]
+    gameIds: ["animals", "fruits", "vegetables", "ocean-life", "garden-plants", "smells-tastes", "nature-sounds", "dinosaurs", "birds", "bugs-insects"]
   },
   world: {
     title: "עולם ותחבורה",
@@ -40,7 +40,7 @@ const GAME_CATEGORIES = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport", "vehicles", "weather", "space", "space-adventure", "world-food", "advanced-weather", "road-safety"]
+    gameIds: ["transport", "vehicles", "weather", "space", "space-adventure", "world-food", "advanced-weather", "road-safety", "camping"]
   },
   home: {
     title: "בית וחיים",
