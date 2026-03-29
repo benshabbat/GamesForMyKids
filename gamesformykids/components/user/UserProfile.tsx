@@ -1,13 +1,11 @@
 'use client'
 
-import { useAuth } from '@/contexts/AuthContext'
-import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useUserProfile } from './useUserProfile'
 
 export function UserProfile() {
-  const { user, signOut, loading, isGuest } = useAuth()
-  const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const { user, loading, isGuest, isMenuOpen, toggleMenu, closeMenu, handleSignOut } = useUserProfile()
 
   if (loading) {
     return (
@@ -49,7 +47,7 @@ export function UserProfile() {
   return (
     <div className="relative">
       <button
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        onClick={toggleMenu}
         className="flex items-center space-x-2 space-x-reverse"
       >
         <Image
@@ -74,22 +72,19 @@ export function UserProfile() {
             <Link
               href="/profile"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               פרופיל
             </Link>
             <Link
               href="/settings"
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              onClick={() => setIsMenuOpen(false)}
+              onClick={closeMenu}
             >
               הגדרות
             </Link>
             <button
-              onClick={() => {
-                signOut()
-                setIsMenuOpen(false)
-              }}
+              onClick={handleSignOut}
               className="block w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
             >
               התנתק

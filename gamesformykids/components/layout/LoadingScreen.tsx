@@ -1,41 +1,10 @@
 "use client";
 
-import { useState, useEffect } from 'react';
 import { LoadingScreenProps } from '@/lib/types/ui/core';
-
-// קבועים ברמת המודול — נוצרים פעם אחת, ללא עלות useMemo בכל רינדור
-const LOADING_EMOJIS = ['🎮', '🌟', '🎨', '📚', '🎯', '🧸'] as const;
-const LOADING_TEXTS = [
-  'טוען משחקים מהנים...',
-  'מכין הפתעות...',
-  'מארגן צבעים...',
-  'בודק שהכל מושלם...',
-  'כמעט מוכן!',
-] as const;
+import { useLoadingScreen, LOADING_EMOJIS, LOADING_TEXTS } from './useLoadingScreen';
 
 const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
-  const [progress, setProgress] = useState(0);
-  const [currentEmoji, setCurrentEmoji] = useState(0);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 100) {
-          if (onLoadingComplete) {
-            setTimeout(onLoadingComplete, 200); // הפחתה מ-500 ל-200
-          }
-          return 100;
-        }
-        return prev + 2;
-      });
-      
-      setCurrentEmoji(prev => (prev + 1) % LOADING_EMOJIS.length);
-    }, 50);
-
-    return () => clearInterval(interval);
-  }, [onLoadingComplete]);
-
-  const currentTextIndex = Math.floor(progress / 20);
+  const { progress, currentEmoji, currentTextIndex } = useLoadingScreen({ onLoadingComplete });
 
   return (
     <div className="fixed inset-0 bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 flex items-center justify-center z-50">

@@ -1,55 +1,22 @@
 "use client";
 
 /**
- * Memory Game Page
- * 
- * Main page component for the memory card game
+ * Memory Game Page — תצוגה בלבד.
+ * כל הלוגיקה ב-useMemoryGameContent.
  */
 
-import { MemoryProvider, useMemoryContext } from "@/contexts";
-import { useGameProgress, useAchievements } from "@/hooks";
-import { useAuth } from "@/contexts/AuthContext";
-import { useEffect } from "react";
+import { MemoryProvider } from "@/contexts";
 import MemoryGameHeader from "./components/MemoryGameHeader";
 import GameWinMessage from "./components/GameWinMessage";
 import MemoryGameBoard from "./components/MemoryGameBoard";
 import MemoryStartScreen from "./components/MemoryStartScreen";
+import { useMemoryGameContent } from "./useMemoryGameContent";
 
 function MemoryGameContent() {
-  const {
-    state: { gameStarted, isGameWon, gameStats, timer, difficulty },
-  } = useMemoryContext();
-
-  const { user } = useAuth();
-  const { updateScore, updateLevel, addPlayTime } = useGameProgress('memory');
-  const { checkScoreAchievements, checkLevelAchievements } = useAchievements('memory');
-
-  // Track game completion and update progress
-  useEffect(() => {
-    if (isGameWon && user && gameStats.score > 0) {
-      // Update score and level based on difficulty
-      updateScore('memory', gameStats.score);
-      
-      // Map difficulty to level number
-      const levelMap = { 'EASY': 1, 'MEDIUM': 2, 'HARD': 3 };
-      const currentLevel = levelMap[difficulty] || 1;
-      updateLevel('memory', currentLevel);
-      
-      // Add play time (timer is in seconds)
-      if (timer > 0) {
-        addPlayTime('memory', timer);
-      }
-
-      // Check for achievements
-      checkScoreAchievements('memory', gameStats.score);
-      checkLevelAchievements('memory', currentLevel);
-    }
-  }, [isGameWon, user, gameStats.score, timer, difficulty, updateScore, updateLevel, addPlayTime, checkScoreAchievements, checkLevelAchievements]);
+  const { gameStarted, isGameWon } = useMemoryGameContent();
 
   if (!gameStarted) {
-    return (
-      <MemoryStartScreen />
-    );
+    return <MemoryStartScreen />;
   }
 
   return (

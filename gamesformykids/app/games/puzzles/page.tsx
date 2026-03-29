@@ -1,13 +1,13 @@
 "use client";
 
-import { useState } from 'react';
 import { Camera, Puzzle, Home } from 'lucide-react';
 import { PuzzleProvider } from '@/contexts';
 import CustomPuzzleGame from './CustomPuzzleGame';
 import SimplePuzzleGame from './SimplePuzzleGame';
+import { usePuzzlePage } from './usePuzzlePage';
 
 export default function PuzzleGamePage() {
-  const [gameMode, setGameMode] = useState<'menu' | 'simple' | 'custom'>('menu');
+  const { gameMode, setSimpleMode, setCustomMode } = usePuzzlePage();
 
   if (gameMode === 'simple') {
     return (
@@ -45,7 +45,7 @@ export default function PuzzleGamePage() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* פאזל פשוט */}
           <div
-            onClick={() => setGameMode('simple')}
+            onClick={setSimpleMode}
             className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             <div className="text-center">
@@ -72,7 +72,7 @@ export default function PuzzleGamePage() {
 
           {/* פאזל תמונות מותאמות אישית */}
           <div
-            onClick={() => setGameMode('custom')}
+            onClick={setCustomMode}
             className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
           >
             <div className="text-center">
