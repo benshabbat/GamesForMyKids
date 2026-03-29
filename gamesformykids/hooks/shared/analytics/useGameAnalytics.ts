@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef } from "react";
 import { BaseGameState, BaseGameItem } from "@/lib/types/core/base";
 

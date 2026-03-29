@@ -6,6 +6,8 @@
  * מנהל הגדרות כלליות לכל המשחקים
  */
 
+'use client';
+
 import { useState, useCallback, useEffect } from 'react';
 
 export interface GameSettings {

@@ -1,5 +1,7 @@
 'use client';
 
+'use client';
+
 import { useCallback } from 'react';
 import { AUDIO_CONSTANTS } from '../../../lib/constants/core';
 

@@ -6,6 +6,8 @@
  * Hook משותף לפאתרנים חוזרים במשחקים
  */
 
+'use client';
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 export interface GameTimer {

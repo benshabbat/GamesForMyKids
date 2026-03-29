@@ -5,6 +5,8 @@
 
 'use client';
 
+'use client';
+
 import { useCallback, useEffect, useMemo } from 'react';
 import { useGameProgress, GameProgress } from '@/contexts/GameProgressContext';
 import { useGameType } from '@/contexts/GameTypeContext';

@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { GameItem, GameTypeDbRecord, UseGameDataReturn } from "@/lib/types/hooks/game-state";

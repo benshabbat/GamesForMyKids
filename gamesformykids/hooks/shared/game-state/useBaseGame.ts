@@ -1,3 +1,5 @@
+'use client';
+
 import { useState } from "react";
 import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";

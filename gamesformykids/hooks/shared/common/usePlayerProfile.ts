@@ -6,6 +6,8 @@
  * מנהל פרטי שחקן, הישגים וסטטיסטיקות
  */
 
+'use client';
+
 import { useState, useCallback, useEffect } from 'react';
 
 export interface PlayerProfile {

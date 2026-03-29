@@ -6,6 +6,8 @@
  * מנהל רמות קושי אדפטיביות במשחקים
  */
 
+'use client';
+
 import { useState, useCallback, useEffect } from 'react';
 
 export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';

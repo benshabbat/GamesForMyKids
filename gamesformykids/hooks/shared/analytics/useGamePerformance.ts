@@ -3,6 +3,8 @@
  * מטפל בזיכרון, preloading ואנימציות חלקות
  */
 
+'use client';
+
 import { useEffect, useRef, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/core/base';
 import { UseGamePerformanceProps, UseGamePerformanceReturn } from '@/lib/types/hooks/ui';

@@ -11,6 +11,8 @@
  * - אינטגרציה עם הקונטקסטים
  */
 
+'use client';
+
 import { useState } from 'react';
 import { GameLogicState } from "@/lib/types/hooks/game-state";
 import { GameType } from "@/lib/types/core/base";

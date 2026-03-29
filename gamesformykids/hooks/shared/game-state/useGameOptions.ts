@@ -1,3 +1,5 @@
+'use client';
+
 import { useMemo } from "react";
 import { BaseGameItem } from "@/lib/types/core/base";
 import { UseGameOptionsProps } from "@/lib/types/hooks/game-state";

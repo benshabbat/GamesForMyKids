@@ -3,6 +3,8 @@
  * מספק רמזים מותאמים אישית בהתבסס על טעויות השחקן
  */
 
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/core/base';
 import { GameHint } from '@/lib/types/hooks/ui';

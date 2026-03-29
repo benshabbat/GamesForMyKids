@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import { initSpeechAndAudio } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { playSuccessSound as playSound } from "@/lib/utils/game/gameUtils";

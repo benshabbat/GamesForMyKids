@@ -3,6 +3,8 @@
  * מנתח דפוסי טעויות ומספק המלצות
  */
 
+'use client';
+
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession, ProgressStats } from '@/lib/types/hooks/progress';
