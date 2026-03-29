@@ -48,6 +48,9 @@ export * from './gameData/technology';
 // נתוני משחקים חדשניים - משחקים יוצאי דופן
 export * from './gameData/innovative';
 
+// נתוני משחקים כיפיים - ציפורים, חרקים, גיבורי על, אמנות, טיול ואגדות
+export * from './gameData/funGames';
+
 // ממשק משתמש
 export * from './ui';
 export * from './ui/shapes';

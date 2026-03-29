@@ -66,8 +66,24 @@ import {
   ADVANCED_COLORS_ITEMS,
   JEWISH_HOLIDAYS_ITEMS,
   LOGIC_GAMES_ITEMS,
+  // 6 משחקים חדשניים יוצאי דופן
+  SOUND_IMITATION_ITEMS,
+  BODY_MOVEMENTS_ITEMS,
+  TOUCH_SENSES_ITEMS,
+  EMOTIONAL_SOCIAL_ITEMS,
+  TIME_CLOCK_ITEMS,
+  CLIMATE_PLANET_ITEMS,
   // קבועים נוספים יתווספו במידת הצורך
 } from "@/lib/constants";
+
+import { 
+  BIRDS_ITEMS,
+  BUGS_INSECTS_ITEMS,
+  SUPERHEROES_ITEMS,
+  ART_CRAFT_ITEMS,
+  CAMPING_ITEMS,
+  FAIRY_TALE_CHARS_ITEMS,
+} from "@/lib/constants/gameData/funGames";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -140,4 +156,11 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "emotional-social": EMOTIONAL_SOCIAL_ITEMS, // ✅ משחק מציאות רגשית וחברתית
   "time-clock": TIME_CLOCK_ITEMS, // ✅ משחק זמן ושעות היום
   "climate-planet": CLIMATE_PLANET_ITEMS, // ✅ משחק אקלים וכדור הארץ
+  // 6 משחקים כיפיים חדשים
+  "birds": BIRDS_ITEMS, // ✅ משחק ציפורים
+  "bugs-insects": BUGS_INSECTS_ITEMS, // ✅ משחק חרקים ופרפרים
+  "superheroes": SUPERHEROES_ITEMS, // ✅ משחק גיבורי על
+  "art-craft": ART_CRAFT_ITEMS, // ✅ משחק אמנות ויצירה
+  "camping": CAMPING_ITEMS, // ✅ משחק טיול ושטח
+  "fairy-tale-chars": FAIRY_TALE_CHARS_ITEMS, // ✅ משחק דמויות מאגדות
 } as const;

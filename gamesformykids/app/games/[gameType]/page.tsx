@@ -19,7 +19,9 @@ const SUPPORTED_GAMES = [
   'sports', 'kitchen', 'body-parts', 'family', 'dinosaurs',
   // משחקים נוספים חדשים
   'world-food', 'recycling', 'medicine', 'nature-sounds',
-  'seasons-holidays', 'feelings', 'shopping-money', 'road-safety'
+  'seasons-holidays', 'feelings', 'shopping-money', 'road-safety',
+  // 6 משחקים כיפיים חדשים
+  'birds', 'bugs-insects', 'superheroes', 'art-craft', 'camping', 'fairy-tale-chars'
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

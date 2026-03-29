@@ -272,4 +272,11 @@ export type GameType =
   | 'touch-senses'
   | 'emotional-social'
   | 'time-clock'
-  | 'climate-planet';
+  | 'climate-planet'
+  // 6 משחקים כיפיים חדשים
+  | 'birds'
+  | 'bugs-insects'
+  | 'superheroes'
+  | 'art-craft'
+  | 'camping'
+  | 'fairy-tale-chars';
