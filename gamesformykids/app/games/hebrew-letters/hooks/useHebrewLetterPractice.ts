@@ -1,3 +1,5 @@
+'use client';
+
 import { useCallback, useEffect } from 'react';
 import { useHebrewLetters } from '@/contexts';
 import { HebrewLetter } from '../constants/hebrewLetters';
