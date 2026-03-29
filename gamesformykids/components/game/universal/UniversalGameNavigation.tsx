@@ -1,11 +1,9 @@
 "use client";
 
-import { ComponentType, createElement, isValidElement, ReactNode, useEffect } from "react";
+import { ComponentType, createElement, isValidElement, ReactNode } from "react";
 import Link from "next/link";
 import { Home, ArrowLeft, ArrowRight } from "lucide-react";
-import { usePathname } from "next/navigation";
-import { getGameNavigation } from "@/lib/utils/game/gameNavigation";
-import { GamesRegistry } from "@/lib/registry/gamesRegistry";
+import { useUniversalGameNavigation } from "./useUniversalGameNavigation";
 
 interface UniversalGameNavigationProps {
   showHomeButton?: boolean;
@@ -16,12 +14,8 @@ function renderIcon(
   className: string = "w-4 h-4 md:w-5 md:h-5"
 ) {
   try {
-    if (typeof icon === "function") {
-      return createElement(icon, { className });
-    }
-    if (isValidElement(icon)) {
-      return icon;
-    }
+    if (typeof icon === "function") return createElement(icon, { className });
+    if (isValidElement(icon)) return icon;
     return null;
   } catch (error) {
     console.warn("Error rendering icon:", error);
@@ -32,42 +26,10 @@ function renderIcon(
 export default function UniversalGameNavigation({
   showHomeButton = true,
 }: UniversalGameNavigationProps) {
-  const pathname = usePathname();
+  const { currentGame, navigation, shouldRender } =
+    useUniversalGameNavigation({ showHomeButton });
 
-  // Extract game ID from pathname (e.g., "/games/building" -> "building")
-  const gameId = pathname.split("/").pop() || "";
-
-  // Get current game info
-  const currentGame = GamesRegistry.getGameById(gameId);
-  const navigation = getGameNavigation(gameId);
-
-  // Keyboard shortcuts - רק ESC לחזרה לבית, בלי חצים כדי לא להפריע למשחקים
-  useEffect(() => {
-    if (!currentGame) return;
-
-    const handleKeyPress = (event: KeyboardEvent) => {
-      // Escape key - go home
-      if (event.key === "Escape" && showHomeButton) {
-        window.location.href = "/";
-        return;
-      }
-
-      // הוסרו חצי המקלדת כדי לא להפריע למשחקים שמשתמשים בהם
-    };
-
-    window.addEventListener("keydown", handleKeyPress);
-    return () => window.removeEventListener("keydown", handleKeyPress);
-  }, [showHomeButton, currentGame]);
-
-  // Don't render navigation on non-game pages or if currentGame is not found
-  if (!gameId || !currentGame || gameId === "games") {
-    return null;
-  }
-
-  // Don't render navigation on non-game pages
-  if (!gameId || !currentGame) {
-    return null;
-  }
+  if (!shouldRender) return null;
 
   return (
     <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none">
