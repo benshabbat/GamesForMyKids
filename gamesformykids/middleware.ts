@@ -6,9 +6,17 @@ export async function updateSession(request: NextRequest) {
     request,
   })
 
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+
+  // If Supabase is not configured, allow all routes
+  if (!supabaseUrl || !supabaseAnonKey) {
+    return supabaseResponse
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseAnonKey,
     {
       cookies: {
         getAll() {
@@ -27,27 +35,31 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  // Get user but don't require authentication for most pages
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  try {
+    // Get user but don't require authentication for most pages
+    const {
+      data: { user },
+    } = await supabase.auth.getUser()
 
-  // Protected routes - only these require authentication
-  const protectedRoutes = ['/profile', '/settings', '/analytics']
-  const isProtectedRoute = protectedRoutes.some(route => 
-    request.nextUrl.pathname.startsWith(route)
-  )
+    // Protected routes - only these require authentication
+    const protectedRoutes = ['/profile', '/settings', '/analytics']
+    const isProtectedRoute = protectedRoutes.some(route => 
+      request.nextUrl.pathname.startsWith(route)
+    )
 
-  // Only redirect to login for protected routes when user is not authenticated
-  if (
-    !user &&
-    isProtectedRoute &&
-    !request.nextUrl.pathname.startsWith('/login') &&
-    !request.nextUrl.pathname.startsWith('/auth')
-  ) {
-    const url = request.nextUrl.clone()
-    url.pathname = '/login'
-    return NextResponse.redirect(url)
+    // Only redirect to login for protected routes when user is not authenticated
+    if (
+      !user &&
+      isProtectedRoute &&
+      !request.nextUrl.pathname.startsWith('/login') &&
+      !request.nextUrl.pathname.startsWith('/auth')
+    ) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/login'
+      return NextResponse.redirect(url)
+    }
+  } catch {
+    // If Supabase is unavailable, allow all routes to pass through
   }
 
   // Allow all other pages to be accessed without authentication

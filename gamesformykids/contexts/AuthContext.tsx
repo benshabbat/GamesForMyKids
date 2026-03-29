@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from 'react'
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
-import { supabase } from '../lib/supabase/client'
+import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
 
 interface AuthContextType {
   user: User | null
@@ -27,6 +27,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
+    // If Supabase is not configured, fall back to guest mode immediately
+    if (!isSupabaseConfigured) {
+      setIsGuest(true)
+      setLoading(false)
+      return
+    }
+
     // Check if user chose guest mode
     const guestMode = localStorage.getItem('guestMode')
     if (guestMode === 'true') {
@@ -35,10 +42,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       return
     }
 
-    // Get initial session
+    // Get initial session with timeout to avoid hanging if Supabase is down
+    const sessionTimeout = setTimeout(() => {
+      setIsGuest(true)
+      setLoading(false)
+    }, 5000)
+
     supabase.auth.getSession().then(({ data: { session } }) => {
+      clearTimeout(sessionTimeout)
       setSession(session)
       setUser(session?.user ?? null)
+      setLoading(false)
+    }).catch(() => {
+      clearTimeout(sessionTimeout)
+      setIsGuest(true)
       setLoading(false)
     })
 
@@ -63,7 +80,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const signOut = async () => {
-    await supabase.auth.signOut()
+    if (isSupabaseConfigured) {
+      await supabase.auth.signOut().catch(() => {})
+    }
     setIsGuest(false)
     localStorage.removeItem('guestMode')
   }
@@ -81,24 +100,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signInWithGoogle = async () => {
+    if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
-    })
+    }).catch(() => {})
   }
 
   const signInWithGitHub = async () => {
+    if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'github',
       options: {
         redirectTo: `${window.location.origin}/auth/callback`,
       },
-    })
+    }).catch(() => {})
   }
 
   const signInWithEmail = async (email: string, password: string) => {
+    if (!isSupabaseConfigured) return { error: 'שירות ההתחברות אינו זמין כרגע' }
     try {
       const { error } = await supabase.auth.signInWithPassword({
         email,
@@ -114,6 +136,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const signUpWithEmail = async (email: string, password: string, name?: string) => {
+    if (!isSupabaseConfigured) return { error: 'שירות ההתחברות אינו זמין כרגע' }
     try {
       const { error } = await supabase.auth.signUp({
         email,
