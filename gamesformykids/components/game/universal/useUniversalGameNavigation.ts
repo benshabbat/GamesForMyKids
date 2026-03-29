@@ -1,5 +1,7 @@
 "use client";
 
+'use client';
+
 import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { getGameNavigation } from "@/lib/utils/game/gameNavigation";

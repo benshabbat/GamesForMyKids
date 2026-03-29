@@ -1,5 +1,7 @@
 "use client";
 
+'use client';
+
 import { useState, useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import type { User } from "@supabase/supabase-js";

@@ -1,5 +1,7 @@
 "use client";
 
+'use client';
+
 import { useState, useEffect } from "react";
 import { LoadingScreenProps } from "@/lib/types/ui/core";
 
