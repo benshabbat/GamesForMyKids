@@ -732,6 +732,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 63,
   },
+  {
+    id: "tzadikim",
+    title: "📜 סיפורי צדיקים",
+    description: "למד על גדולי ישראל ומה שלמדנו מהם!",
+    icon: BookOpen,
+    color: "bg-amber-600 hover:bg-amber-700",
+    href: "/games/tzadikim",
+    available: true,
+    order: 64,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
