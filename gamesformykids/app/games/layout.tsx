@@ -13,11 +13,13 @@ interface GamesLayoutProps {
 export default function GamesLayout({ children }: GamesLayoutProps) {
   return (
     <div className="relative">
-      {/* Universal Game Navigation */}
+      {/* Universal Game Navigation — fixed, floats above content */}
       <UniversalGameNavigation />
       
-      {/* Game Content */}
-      {children}
+      {/* Game Content — pt reserves space below the fixed nav bar (~56px = top-4 + button height) */}
+      <div className="pt-16 md:pt-20">
+        {children}
+      </div>
     </div>
   );
 }

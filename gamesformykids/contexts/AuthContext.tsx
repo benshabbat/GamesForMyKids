@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState, useCallback } from 'react'
 import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
+import { useAuthStore } from '@/lib/stores'
 
 interface AuthContextType {
   user: User | null
@@ -27,10 +28,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isGuest, setIsGuest] = useState(false)
 
   useEffect(() => {
+    const { setAuthState } = useAuthStore.getState()
+
     // If Supabase is not configured, fall back to guest mode immediately
     if (!isSupabaseConfigured) {
       setIsGuest(true)
       setLoading(false)
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
       return
     }
 
@@ -39,6 +43,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (guestMode === 'true') {
       setIsGuest(true)
       setLoading(false)
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
       return
     }
 
@@ -46,6 +51,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const sessionTimeout = setTimeout(() => {
       setIsGuest(true)
       setLoading(false)
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
     }, 5000)
 
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -53,10 +59,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setSession(session)
       setUser(session?.user ?? null)
       setLoading(false)
+      setAuthState({ user: session?.user ?? null, session, isGuest: false, loading: false })
     }).catch(() => {
       clearTimeout(sessionTimeout)
       setIsGuest(true)
       setLoading(false)
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
     })
 
     // Listen for auth changes
@@ -73,6 +81,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           setIsGuest(false)
           localStorage.removeItem('guestMode')
         }
+
+        // Sync with Zustand store
+        setAuthState({
+          user: session?.user ?? null,
+          session,
+          isGuest: !session,
+          loading: false,
+        })
       }
     )
 
@@ -83,14 +99,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (isSupabaseConfigured) {
       await supabase.auth.signOut().catch(() => {})
     }
+    setUser(null)
+    setSession(null)
     setIsGuest(false)
     localStorage.removeItem('guestMode')
+    useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: false, loading: false })
   }, [])
 
   const continueAsGuest = useCallback(() => {
     setIsGuest(true)
     setLoading(false)
     localStorage.setItem('guestMode', 'true')
+    useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: true, loading: false })
   }, [])
 
   const requireAuth = useCallback(() => {

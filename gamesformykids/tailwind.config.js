@@ -18,7 +18,16 @@ module.exports = {
         'safe-bottom': 'env(safe-area-inset-bottom)',
         'safe-left': 'env(safe-area-inset-left)',
         'safe-right': 'env(safe-area-inset-right)',
-      }
+      },
+      keyframes: {
+        'slide-in-up': {
+          '0%':   { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+      },
+      animation: {
+        'slide-in-up': 'slide-in-up 0.2s ease-out',
+      },
     },
   },
   plugins: [],

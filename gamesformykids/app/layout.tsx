@@ -5,6 +5,7 @@ import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegis
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { AuthProvider } from '@/contexts/AuthContext';
 import { BUILD_INFO } from '@/lib/build-info';
+import NotificationToast from '@/components/ui/NotificationToast';
 
 const inter = Inter({ 
   subsets: ['latin'], 
@@ -154,6 +155,7 @@ export default function RootLayout({
         <ServiceWorkerRegistration />
         <AuthProvider>
           {children}
+          <NotificationToast />
         </AuthProvider>
       </body>
     </html>
