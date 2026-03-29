@@ -1,6 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const TzadikimGame = dynamic(() => import('./TzadikimGame'), { ssr: false });
+import TzadikimGameClient from './TzadikimGameClient';
 
 export const metadata = {
   title: 'סיפורי צדיקים',
@@ -8,5 +6,5 @@ export const metadata = {
 };
 
 export default function TzadikimPage() {
-  return <TzadikimGame />;
+  return <TzadikimGameClient />;
 }
