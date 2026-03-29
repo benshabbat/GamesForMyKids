@@ -1,5 +1,7 @@
 "use client";
 
+'use client';
+
 import { useState, useEffect, useCallback } from "react";
 
 export interface UseHomePageReturn {

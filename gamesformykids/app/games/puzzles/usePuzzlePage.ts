@@ -1,5 +1,7 @@
 "use client";
 
+'use client';
+
 import { useState, useCallback } from "react";
 
 export type PuzzleGameMode = "menu" | "simple" | "custom";

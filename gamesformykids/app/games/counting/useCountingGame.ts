@@ -1,3 +1,5 @@
+'use client';
+
 import { useState, useEffect } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
