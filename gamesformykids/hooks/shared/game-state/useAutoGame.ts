@@ -74,7 +74,7 @@ export function useAutoGame(): GameLogicState {
     handleWrongAnswer: () => {},
     
     // Enhanced Features
-    hints: hints?.map(hint => typeof hint === 'string' ? hint : hint.text || ''),
+    hints: hints?.map((hint: string | { text?: string }) => typeof hint === 'string' ? hint : hint.text || ''),
     hasMoreHints,
     showNextHint,
     progressStats: progressStats ? (progressStats as unknown as Record<string, unknown>) : undefined,

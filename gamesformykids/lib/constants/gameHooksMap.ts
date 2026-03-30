@@ -6,11 +6,14 @@
 
 import { useGenericGame } from "@/hooks/games/useGenericGame";
 import { GAME_ITEMS_MAP } from "./gameItemsMap";
-import { BaseGameState, BaseGameItem } from "@/lib/types/core/base";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 // Memory game כעת משתמש בקונטקסט ולא בhook נפרד
+
+// טיפוס בסיסי לפונקציית Hook
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type AnyGameHookFn = () => any;
 
 // יצירת hooks כלליים לכל המשחקים - כולם משתמשים ב-useGenericGame!
 // הערה: משחקי Math ו-Memory לא כלולים כי יש להם לוגיקה מיוחדת משלהם
@@ -111,7 +114,7 @@ export type AutoGameType =
  * 
  * הערה: משחקי Math ו-Memory משתמשים בהוקים מיוחדים משלהם
  */
-export const GAME_HOOKS_MAP = {
+export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   animals: useAnimalsGame,
   colors: useColorsGame,
   fruits: useFruitsGame,
@@ -175,27 +178,8 @@ export const GAME_HOOKS_MAP = {
   "camping": useCampingGame,
   "fairy-tale-chars": useFairyTaleCharsGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
-  math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
+  math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
-} as const satisfies Record<AutoGameType, () => {
-  gameState: BaseGameState<BaseGameItem>;
-  speakItemName: (itemName: string) => Promise<void>;
-  startGame: () => Promise<void>;
-  handleItemClick: (selectedItem: BaseGameItem) => Promise<void>;
-  resetGame: () => void;
-  // שיפורים חדשים
-  hints?: Array<{
-    type: 'color' | 'shape' | 'sound' | 'description' | 'visual';
-    text: string;
-    audioText?: string;
-    isRevealed: boolean;
-    order: number;
-  }>;
-  hasMoreHints?: boolean;
-  showNextHint?: () => void;
-  currentAccuracy?: number;
-  progressStats?: object | null;
-  performanceHooks?: object;
-}>;
+};
 
-export type GameHookType = typeof GAME_HOOKS_MAP[keyof typeof GAME_HOOKS_MAP];
+export type GameHookType = AnyGameHookFn;

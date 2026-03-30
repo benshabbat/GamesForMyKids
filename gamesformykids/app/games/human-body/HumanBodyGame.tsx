@@ -13,7 +13,7 @@ const CATEGORY_COLORS: Record<string, string> = {
 
 export default function HumanBodyGame() {
   const {
-    phase, category, categories, currentQuestion,
+    phase, category, currentQuestion,
     currentIndex, total, choices, selected, isCorrect,
     score, startGame, selectAnswer, nextQuestion, goToMenu,
   } = useHumanBodyGame();
