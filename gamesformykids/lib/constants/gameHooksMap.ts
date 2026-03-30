@@ -69,7 +69,13 @@ const useTouchSensesGame = () => useGenericGame(GAME_ITEMS_MAP["touch-senses"], 
 const useEmotionalSocialGame = () => useGenericGame(GAME_ITEMS_MAP["emotional-social"], 'emotional-social');
 const useTimeClockGame = () => useGenericGame(GAME_ITEMS_MAP["time-clock"], 'time-clock');
 const useClimatePlanetGame = () => useGenericGame(GAME_ITEMS_MAP["climate-planet"], 'climate-planet');
-// משחקים אלה הוסרו כי יש להם לוגיקה מיוחדת שלא תואמת ל-AutoGamePage:
+// 6 משחקים כיפיים חדשים
+const useBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["birds"], 'birds');
+const useBugsInsectsGame = () => useGenericGame(GAME_ITEMS_MAP["bugs-insects"], 'bugs-insects');
+const useSuperheroesGame = () => useGenericGame(GAME_ITEMS_MAP["superheroes"], 'superheroes');
+const useArtCraftGame = () => useGenericGame(GAME_ITEMS_MAP["art-craft"], 'art-craft');
+const useCampingGame = () => useGenericGame(GAME_ITEMS_MAP["camping"], 'camping');
+const useFairyTaleCharsGame = () => useGenericGame(GAME_ITEMS_MAP["fairy-tale-chars"], 'fairy-tale-chars');
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -93,7 +99,10 @@ export type AutoGameType =
   | 'advanced-colors' | 'jewish-holidays' | 'logic-games'
   // 6 משחקים חדשניים יוצאי דופן
   | 'sound-imitation' | 'body-movements' | 'touch-senses'
-  | 'emotional-social' | 'time-clock' | 'climate-planet';
+  | 'emotional-social' | 'time-clock' | 'climate-planet'
+  // 6 משחקים כיפויים חדשים
+  | 'birds' | 'bugs-insects' | 'superheroes'
+  | 'art-craft' | 'camping' | 'fairy-tale-chars';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -158,6 +167,13 @@ export const GAME_HOOKS_MAP = {
   "emotional-social": useEmotionalSocialGame,
   "time-clock": useTimeClockGame,
   "climate-planet": useClimatePlanetGame,
+  // 6 משחקים כיפויים חדשים
+  "birds": useBirdsGame,
+  "bugs-insects": useBugsInsectsGame,
+  "superheroes": useSuperheroesGame,
+  "art-craft": useArtCraftGame,
+  "camping": useCampingGame,
+  "fairy-tale-chars": useFairyTaleCharsGame,
   // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame as unknown as typeof useAnimalsGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה

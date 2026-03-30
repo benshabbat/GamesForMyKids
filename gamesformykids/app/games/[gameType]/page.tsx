@@ -21,7 +21,13 @@ const SUPPORTED_GAMES = [
   'world-food', 'recycling', 'medicine', 'nature-sounds',
   'seasons-holidays', 'feelings', 'shopping-money', 'road-safety',
   // 6 משחקים כיפיים חדשים
-  'birds', 'bugs-insects', 'superheroes', 'art-craft', 'camping', 'fairy-tale-chars'
+  'birds', 'bugs-insects', 'superheroes', 'art-craft', 'camping', 'fairy-tale-chars',
+  // 6 משחקים חדשים נוספים
+  'ocean-life', 'garden-plants', 'magic-fairy-tales', 'space-adventure', 'cooking-kitchen', 'circus-show',
+  // 6 משחקים טכנולוגיים חדשים
+  'virtual-reality', 'new-professions', 'advanced-weather', 'advanced-colors', 'jewish-holidays', 'logic-games',
+  // 6 משחקים חדשניים יוצאי דופן
+  'sound-imitation', 'body-movements', 'touch-senses', 'emotional-social', 'time-clock', 'climate-planet',
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];
