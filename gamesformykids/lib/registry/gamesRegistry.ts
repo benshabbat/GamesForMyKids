@@ -60,6 +60,11 @@ import {
   // משחקים חדשים נוספים - אצווה 3
   PenLine,
   ArrowLeftRight,
+  // משחקים חדשים נוספים - אצווה 4
+  Lightbulb,
+  Trophy,
+  Flag,
+  Languages,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -892,6 +897,56 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/world-languages",
     available: true,
     order: 79,
+  },
+  {
+    id: "riddles",
+    title: "🧩 חידות לילדים",
+    description: "פתור חידות מסקרנות ומהנות!",
+    icon: Lightbulb,
+    color: "bg-purple-600 hover:bg-purple-700",
+    href: "/games/riddles",
+    available: true,
+    order: 80,
+  },
+  {
+    id: "sports-quiz",
+    title: "🏆 חידון ספורט",
+    description: "שאלות על עולם הספורט!",
+    icon: Trophy,
+    color: "bg-green-600 hover:bg-green-700",
+    href: "/games/sports-quiz",
+    available: true,
+    order: 81,
+  },
+  {
+    id: "instruments",
+    title: "🎵 כלי נגינה",
+    description: "זהה כלי נגינה לפי תיאורם!",
+    icon: Music,
+    color: "bg-amber-500 hover:bg-amber-600",
+    href: "/games/instruments",
+    available: true,
+    order: 82,
+  },
+  {
+    id: "israel",
+    title: "🇮🇱 ישראל שלי",
+    description: "ידע על מדינת ישראל!",
+    icon: Flag,
+    color: "bg-blue-600 hover:bg-blue-700",
+    href: "/games/israel",
+    available: true,
+    order: 83,
+  },
+  {
+    id: "english-words",
+    title: "🔤 אנגלית לילדים",
+    description: "למד מילים בסיסיות באנגלית!",
+    icon: Languages,
+    color: "bg-indigo-600 hover:bg-indigo-700",
+    href: "/games/english-words",
+    available: true,
+    order: 84,
   },
 ];
 
