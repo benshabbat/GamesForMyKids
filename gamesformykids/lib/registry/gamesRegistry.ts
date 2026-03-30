@@ -57,8 +57,6 @@ import {
   Bug,
   Mountain,
   Crown,
-  Backpack,
-  Wand2,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";

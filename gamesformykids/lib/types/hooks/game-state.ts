@@ -116,7 +116,7 @@ export type GameUIState = ProgressModalState;
  * הגדרות משחק - עקרון Single Responsibility  
  * מרחיב את BaseGameConfiguration מ-universal-game
  */
-export interface GameConfiguration extends BaseGameConfiguration {}
+export type GameConfiguration = BaseGameConfiguration;
 
 /**
  * מצב משחק לוגי מלא - עקרון Interface Segregation

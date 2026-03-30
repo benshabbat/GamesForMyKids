@@ -55,7 +55,7 @@ export default function ResultView({
           </div>
 
           <p className="text-gray-500 mb-8 text-sm">
-            סה"כ: {score} / {maxScore} נקודות
+            {`סה"כ: ${score} / ${maxScore} נקודות`}
           </p>
 
           {/* כפתורים */}

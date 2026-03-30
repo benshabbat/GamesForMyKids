@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback } from 'react';
 import { WORD_PUZZLES, WordPuzzle, shuffleLetters } from './data/words';
 
 export type WordPhase = 'menu' | 'playing' | 'result';

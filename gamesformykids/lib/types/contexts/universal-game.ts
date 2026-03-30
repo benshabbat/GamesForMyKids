@@ -69,7 +69,7 @@ export interface BaseGameConfiguration {
 /**
  * תצורת משחק אוניברסלית - עקרון Single Responsibility
  */
-export interface UniversalGameConfiguration extends BaseGameConfiguration {}
+export type UniversalGameConfiguration = BaseGameConfiguration;
 
 /**
  * מערכת רמזים - עקרון Single Responsibility
