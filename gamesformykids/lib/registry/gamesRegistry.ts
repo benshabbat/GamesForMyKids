@@ -57,6 +57,9 @@ import {
   Bug,
   Mountain,
   Crown,
+  // משחקים חדשים נוספים - אצווה 3
+  PenLine,
+  ArrowLeftRight,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -839,6 +842,56 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/science",
     available: true,
     order: 74,
+  },
+  {
+    id: "clock",
+    title: "⏰ הכרת השעון",
+    description: "למד לקרוא שעון עם שעון אנלוגי!",
+    icon: Clock,
+    color: "bg-violet-600 hover:bg-violet-700",
+    href: "/games/clock",
+    available: true,
+    order: 75,
+  },
+  {
+    id: "spelling",
+    title: "📝 כתיב עברי",
+    description: "בחר את האיות הנכון בעברית!",
+    icon: PenLine,
+    color: "bg-rose-500 hover:bg-rose-600",
+    href: "/games/spelling",
+    available: true,
+    order: 76,
+  },
+  {
+    id: "sequences",
+    title: "🔢 סדרות מספרים",
+    description: "מה המספר הבא בסדרה?",
+    icon: Hash,
+    color: "bg-cyan-600 hover:bg-cyan-700",
+    href: "/games/sequences",
+    available: true,
+    order: 77,
+  },
+  {
+    id: "opposites",
+    title: "🙃 ניגודים",
+    description: "גדול-קטן, חם-קר ועוד הפכים!",
+    icon: ArrowLeftRight,
+    color: "bg-orange-500 hover:bg-orange-600",
+    href: "/games/opposites",
+    available: true,
+    order: 78,
+  },
+  {
+    id: "world-languages",
+    title: "🌐 שפות העולם",
+    description: "באיזו שפה מדברים בכל מדינה?",
+    icon: Earth,
+    color: "bg-emerald-500 hover:bg-emerald-600",
+    href: "/games/world-languages",
+    available: true,
+    order: 79,
   },
 ];
 

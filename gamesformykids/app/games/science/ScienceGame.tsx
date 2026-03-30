@@ -1,6 +1,6 @@
 'use client';
 import { useScienceGame } from './useScienceGame';
-import { TOPICS, TOPIC_EMOJIS, ScienceTopic } from './data/questions';
+import { TOPICS, TOPIC_EMOJIS } from './data/questions';
 
 export default function ScienceGame() {
   const {
