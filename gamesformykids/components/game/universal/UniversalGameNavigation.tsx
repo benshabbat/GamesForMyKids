@@ -1,6 +1,6 @@
 "use client";
 
-import { ComponentType, createElement, isValidElement, ReactNode } from "react";
+import { ComponentType, createElement, isValidElement, ReactNode, useState, useEffect } from "react";
 import Link from "next/link";
 import { Home, ArrowLeft, ArrowRight } from "lucide-react";
 import { useUniversalGameNavigation } from "./useUniversalGameNavigation";
@@ -26,10 +26,13 @@ function renderIcon(
 export default function UniversalGameNavigation({
   showHomeButton = true,
 }: UniversalGameNavigationProps) {
+  const [mounted, setMounted] = useState(false);
   const { currentGame, navigation, shouldRender } =
     useUniversalGameNavigation({ showHomeButton });
 
-  if (!shouldRender) return null;
+  useEffect(() => { setMounted(true); }, []);
+
+  if (!mounted || !shouldRender) return null;
 
   return (
     <div className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none">
