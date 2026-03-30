@@ -71,6 +71,11 @@ import {
   SmilePlus,
   Leaf,
   Box,
+  // משחקים חדשים נוספים - אצווה 6
+  Plane,
+  Utensils,
+  Map,
+  Baby,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -1003,6 +1008,56 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/shapes-3d",
     available: true,
     order: 89,
+  },
+  {
+    id: "human-body",
+    title: "🦴 גוף האדם",
+    description: "גלה את פלאות גוף האדם!",
+    icon: Bone,
+    color: "bg-red-500 hover:bg-red-600",
+    href: "/games/human-body",
+    available: true,
+    order: 90,
+  },
+  {
+    id: "transport",
+    title: "🚗 כלי תחבורה",
+    description: "גלה כלי רכב מהיבשה, הים והאוויר!",
+    icon: Plane,
+    color: "bg-sky-500 hover:bg-sky-600",
+    href: "/games/transport",
+    available: true,
+    order: 91,
+  },
+  {
+    id: "healthy-food",
+    title: "🥗 אוכל בריא",
+    description: "למד על תזונה נכונה ומזינה!",
+    icon: Utensils,
+    color: "bg-lime-500 hover:bg-lime-600",
+    href: "/games/healthy-food",
+    available: true,
+    order: 92,
+  },
+  {
+    id: "continents",
+    title: "🌍 יבשות העולם",
+    description: "גלה את 7 יבשות כדור הארץ!",
+    icon: Map,
+    color: "bg-teal-500 hover:bg-teal-600",
+    href: "/games/continents",
+    available: true,
+    order: 93,
+  },
+  {
+    id: "family",
+    title: "👨‍👩‍👧‍👦 המשפחה",
+    description: "למד על קשרים משפחתיים!",
+    icon: Baby,
+    color: "bg-rose-500 hover:bg-rose-600",
+    href: "/games/family",
+    available: true,
+    order: 94,
   },
 ];
 
