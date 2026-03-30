@@ -3,14 +3,9 @@ import {ReactNode} from 'react';
 interface AdvancedLayoutProps {
   children: ReactNode;
   sidebar: ReactNode;
-  main: ReactNode;
 }
 
-export default function AdvancedLayout({ 
-  children, 
-  sidebar, 
-  main 
-}: AdvancedLayoutProps) {
+export default function AdvancedLayout({ children, sidebar }: AdvancedLayoutProps) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-50">
       {/* כותרת ראשית */}
@@ -27,20 +22,18 @@ export default function AdvancedLayout({
 
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="flex flex-col lg:flex-row gap-6">
-          {/* תפריט צד */}
-          <div className="lg:w-80">
-            {sidebar}
-          </div>
-          
-          {/* תוכן ראשי */}
+          {sidebar && (
+            <div className="lg:w-80">
+              {sidebar}
+            </div>
+          )}
           <div className="flex-1">
-            {main}
+            {children}
           </div>
         </div>
-        
-        {/* תוכן נוסף */}
-        {children}
       </div>
     </div>
   );
 }
+
+

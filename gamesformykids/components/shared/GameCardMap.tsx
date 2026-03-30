@@ -86,6 +86,13 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'emotional-social': DefaultGameCard,
   'time-clock': DefaultGameCard,
   'climate-planet': DefaultGameCard,
+  // 6 משחקים כיפיים חדשים
+  'birds': DefaultGameCard,
+  'bugs-insects': DefaultGameCard,
+  'superheroes': DefaultGameCard,
+  'art-craft': DefaultGameCard,
+  'camping': DefaultGameCard,
+  'fairy-tale-chars': DefaultGameCard,
 };
 
 export default GameCardMap;
