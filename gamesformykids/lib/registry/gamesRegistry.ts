@@ -76,6 +76,8 @@ import {
   Utensils,
   Map,
   Baby,
+  // אצווה 7 — כדורגל
+  CircleDot,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -1058,6 +1060,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/family",
     available: true,
     order: 94,
+  },
+  {
+    id: "soccer",
+    title: "⚽ כדורגל",
+    description: "שאלות על ספורט המלכים!",
+    icon: CircleDot,
+    color: "bg-green-600 hover:bg-green-700",
+    href: "/games/soccer",
+    available: true,
+    order: 95,
   },
 ];
 
