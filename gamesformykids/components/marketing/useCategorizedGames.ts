@@ -129,6 +129,14 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
       "frogger","stack","color-tap","jumper","simon",
     ],
   },
+  educational: {
+    title: "📚 משחקים חינוכיים",
+    description: "מתמטיקה, שפה וידע כללי לילדים",
+    icon: Book,
+    color: "bg-teal-500",
+    gradient: "from-teal-400 to-cyan-600",
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble"],
+  },
 };
 
 // ── Hook ————————————————————————————————————————————————————
