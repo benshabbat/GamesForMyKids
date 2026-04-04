@@ -78,6 +78,12 @@ import {
   Baby,
   // אצווה 7 — כדורגל
   CircleDot,
+  // אצווה 8 — משחקי ארקייד
+  Hammer,
+  Layers,
+  Wind,
+  Gamepad2,
+  Flame,
 } from "lucide-react";
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
@@ -1121,6 +1127,56 @@ const GAMES_REGISTRY: GameRegistration[] = [
     href: "/games/space-defender",
     available: true,
     order: 100,
+  },
+  {
+    id: "whack-a-mole",
+    title: "🔨 חבט על החפרפרת",
+    description: "חבט על החפרפרות לפני שהן נעלמות — אל תחבוט על הפצצות!",
+    icon: Hammer,
+    color: "bg-amber-500 hover:bg-amber-600",
+    href: "/games/whack-a-mole",
+    available: true,
+    order: 101,
+  },
+  {
+    id: "brick-breaker",
+    title: "🧱 שובר לבנים",
+    description: "שבר את כל הלבנים עם הכדור לפני שאוזל החיים!",
+    icon: Layers,
+    color: "bg-purple-600 hover:bg-purple-700",
+    href: "/games/brick-breaker",
+    available: true,
+    order: 102,
+  },
+  {
+    id: "balloon-pop",
+    title: "🎈 פוצץ בלונים",
+    description: "פוצץ בלונים לפני שהם בורחים — הישמר מהפצצות!",
+    icon: Wind,
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/balloon-pop",
+    available: true,
+    order: 103,
+  },
+  {
+    id: "pong",
+    title: "🏓 פונג",
+    description: "שחק פונג קלאסי מול המחשב — ראשון ל-7 נקודות מנצח!",
+    icon: Gamepad2,
+    color: "bg-slate-600 hover:bg-slate-700",
+    href: "/games/pong",
+    available: true,
+    order: 104,
+  },
+  {
+    id: "meteor-dodge",
+    title: "☄️ התחמק ממטאורים",
+    description: "הזז את הספינה והתחמק ממטאורים נופלים — אסוף כוכבים!",
+    icon: Flame,
+    color: "bg-orange-600 hover:bg-orange-700",
+    href: "/games/meteor-dodge",
+    available: true,
+    order: 105,
   },
 ];
 
