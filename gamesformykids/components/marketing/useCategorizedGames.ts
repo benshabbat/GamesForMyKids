@@ -15,6 +15,7 @@ import {
   Microscope,
   Calendar,
   Sparkles,
+  Joystick,
 } from "lucide-react";
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 import { ComponentType } from "react";
@@ -117,6 +118,17 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     color: "bg-gradient-to-r from-purple-500 to-pink-500",
     gradient: "from-purple-400 to-pink-600",
     gameIds: ["sound-imitation","emotional-social","advanced-weather","advanced-colors","logic-games"],
+  },
+  arcade: {
+    title: "🕹️ ארקייד",
+    description: "משחקי פעולה וארקייד כיפיים",
+    icon: Joystick,
+    color: "bg-rose-500",
+    gradient: "from-rose-400 to-red-600",
+    gameIds: [
+      "flappy-bird","snake","dino-runner","catch-fruit","space-defender",
+      "whack-a-mole","brick-breaker","balloon-pop","pong","meteor-dodge",
+    ],
   },
 };
 
