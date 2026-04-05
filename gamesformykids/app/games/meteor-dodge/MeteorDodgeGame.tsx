@@ -1,6 +1,6 @@
 'use client';
 
-import { useMeteorDodgeGame } from './useMeteorDodgeGame';
+import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
 
 export default function MeteorDodgeGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight } = useMeteorDodgeGame();

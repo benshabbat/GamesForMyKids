@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 360;
-const H = 520;
+export const W = 360;
+export const H = 520;
 const BASKET_W = 70;
 const BASKET_H = 40;
 const BASKET_Y = H - 60;

@@ -2,12 +2,12 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 360;
-const H = 560;
+export const W = 360;
+export const H = 560;
 const PAD_W = 70;
 const PAD_H = 12;
 const BALL_R = 8;
-const WIN_SCORE = 7;
+export const WIN_SCORE = 7;
 const AI_SPEED = 3.5;
 
 type Phase = 'menu' | 'playing' | 'result';

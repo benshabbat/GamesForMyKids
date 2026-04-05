@@ -1,6 +1,6 @@
 'use client';
 
-import { useCatchFruitGame } from './useCatchFruitGame';
+import { useCatchFruitGame, W, H } from './useCatchFruitGame';
 
 export default function CatchFruitGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart } = useCatchFruitGame();

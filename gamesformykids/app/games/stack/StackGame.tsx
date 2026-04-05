@@ -1,6 +1,6 @@
 'use client';
 
-import { useStackGame } from './useStackGame';
+import { useStackGame, W, H } from './useStackGame';
 
 export default function StackGame() {
   const { canvasRef, ui, startGame, drop, handleCanvasClick } = useStackGame();

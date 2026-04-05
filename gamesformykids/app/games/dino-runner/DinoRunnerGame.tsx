@@ -1,6 +1,6 @@
 'use client';
 
-import { useDinoRunnerGame } from './useDinoRunnerGame';
+import { useDinoRunnerGame, W, H } from './useDinoRunnerGame';
 
 export default function DinoRunnerGame() {
   const { canvasRef, ui, jump, handleTap } = useDinoRunnerGame();

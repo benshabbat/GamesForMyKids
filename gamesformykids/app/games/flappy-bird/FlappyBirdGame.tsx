@@ -1,6 +1,6 @@
 'use client';
 
-import { useFlappyBirdGame } from './useFlappyBirdGame';
+import { useFlappyBirdGame, W, H } from './useFlappyBirdGame';
 
 export default function FlappyBirdGame() {
   const { canvasRef, ui, handleInput } = useFlappyBirdGame();

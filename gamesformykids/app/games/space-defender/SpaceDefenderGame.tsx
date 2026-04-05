@@ -1,6 +1,6 @@
 'use client';
 
-import { useSpaceDefenderGame } from './useSpaceDefenderGame';
+import { useSpaceDefenderGame, W, H } from './useSpaceDefenderGame';
 
 export default function SpaceDefenderGame() {
   const { canvasRef, ui, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight } = useSpaceDefenderGame();

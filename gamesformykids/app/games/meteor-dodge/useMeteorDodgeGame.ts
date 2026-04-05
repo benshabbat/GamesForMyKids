@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 360;
-const H = 560;
+export const W = 360;
+export const H = 560;
 const PLAYER_R = 18;
 const PLAYER_Y = H - 70;
 const METEOR_EMOJIS = ['☄️', '🪨', '💫', '⚡'];

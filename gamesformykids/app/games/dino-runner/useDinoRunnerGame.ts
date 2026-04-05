@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 400;
-const H = 220;
+export const W = 400;
+export const H = 220;
 const GROUND_Y = 160;
 const DINO_X = 60;
 const DINO_W = 40;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useSnakeGame } from './useSnakeGame';
+import { useSnakeGame, W, H } from './useSnakeGame';
 
 export default function SnakeGame() {
   const { canvasRef, ui, startGame, handleTouchStart, handleTouchEnd, controlDir } = useSnakeGame();

@@ -1,6 +1,6 @@
 'use client';
 
-import { useFroggerGame } from './useFroggerGame';
+import { useFroggerGame, W, H } from './useFroggerGame';
 
 export default function FroggerGame() {
   const { canvasRef, ui, startGame, moveFrog, handleTouchStart, handleTouchEnd } = useFroggerGame();

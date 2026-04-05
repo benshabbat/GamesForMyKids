@@ -5,8 +5,8 @@ import { useEffect, useRef, useCallback, useState } from 'react';
 const COLS = 20;
 const ROWS = 20;
 const CELL = 20;
-const W = COLS * CELL;
-const H = ROWS * CELL;
+export const W = COLS * CELL;
+export const H = ROWS * CELL;
 
 type Dir = 'U' | 'D' | 'L' | 'R';
 type Phase = 'menu' | 'playing' | 'dead';

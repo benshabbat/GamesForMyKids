@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 360;
-const H = 560;
+export const W = 360;
+export const H = 560;
 const SHIP_W = 40;
 const SHIP_H = 40;
 const BULLET_SPEED = 8;

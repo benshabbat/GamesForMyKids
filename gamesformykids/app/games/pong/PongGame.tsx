@@ -1,6 +1,6 @@
 'use client';
 
-import { usePongGame } from './usePongGame';
+import { usePongGame, W, H, WIN_SCORE } from './usePongGame';
 
 export default function PongGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, playerWon, nudgeLeft, nudgeRight } = usePongGame();

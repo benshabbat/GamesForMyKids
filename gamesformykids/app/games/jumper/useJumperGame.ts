@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 300;
-const H = 500;
+export const W = 300;
+export const H = 500;
 const GRAVITY = 0.32;
 const JUMP_VY = -10.5;
 const PLAT_W = 70;

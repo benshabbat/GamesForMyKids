@@ -1,6 +1,6 @@
 'use client';
 
-import { useJumperGame } from './useJumperGame';
+import { useJumperGame, W, H } from './useJumperGame';
 
 export default function JumperGame() {
   const { canvasRef, ui, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight } = useJumperGame();

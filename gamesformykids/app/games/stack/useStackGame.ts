@@ -2,8 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
-const W = 300;
-const H = 480;
+export const W = 300;
+export const H = 480;
 const BH = 22;
 const FLOOR_Y = H - 40;
 const INIT_W = 170;
