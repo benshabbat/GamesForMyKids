@@ -4,7 +4,7 @@ import {
   TRIVIA_QUESTIONS, QUESTIONS_PER_GAME, TriviaQuestion, TriviaCategory,
 } from './data/questions';
 
-export type TriviaPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as TriviaPhase } from '@/lib/types';
 
 export function useTriviaGame() {
   const [phase, setPhase] = useState<TriviaPhase>('menu');

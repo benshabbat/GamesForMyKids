@@ -4,7 +4,7 @@ import {
   SCIENCE_QUESTIONS, QUESTIONS_PER_GAME, ScienceQuestion, ScienceTopic,
 } from './data/questions';
 
-export type SciencePhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as SciencePhase } from '@/lib/types';
 
 export function useScienceGame() {
   const [phase, setPhase] = useState<SciencePhase>('menu');

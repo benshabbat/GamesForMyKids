@@ -1,8 +1,7 @@
 'use client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 
-export type Op = '+' | '-' | '×';
-export type GamePhase = 'menu' | 'playing' | 'dead';
+import type { ArithOp as Op, PhaseDead as GamePhase } from '@/lib/types';
 
 export interface Question { text: string; answer: number; choices: number[]; }
 

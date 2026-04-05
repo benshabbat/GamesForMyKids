@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { TARGET_EMOJIS, GAME_DURATION, Target, getLifetime, getSpawnInterval } from './data/targets';
 
-export type ReflexPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as ReflexPhase } from '@/lib/types';
 
 export function useReflexGame() {
   const [phase, setPhase] = useState<ReflexPhase>('menu');

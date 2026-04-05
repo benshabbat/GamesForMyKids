@@ -1,8 +1,6 @@
 // Tetris Types
-export interface Position {
-  x: number;
-  y: number;
-}
+import type { Point } from '@/lib/types';
+export type Position = Point;
 
 export interface Piece {
   type: string;

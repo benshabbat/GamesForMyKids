@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback, useRef } from 'react';
 const EMOJIS = ['🍎','🌟','🐶','🎈','🍕','🚗','🌸','🦋','🍦','🎸','🐱','🏆','🍇','🦄','🎯'];
 
 export type Op = '+' | '-';
-export type GamePhase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as GamePhase } from '@/lib/types';
 
 export interface Question {
   a: number; b: number; op: Op; answer: number;

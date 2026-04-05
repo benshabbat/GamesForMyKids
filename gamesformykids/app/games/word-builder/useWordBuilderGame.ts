@@ -3,7 +3,7 @@
 import { useState, useCallback } from 'react';
 import { WORD_PUZZLES, WordPuzzle, shuffleLetters } from './data/words';
 
-export type WordPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as WordPhase } from '@/lib/types';
 
 export function useWordBuilderGame() {
   const [phase, setPhase] = useState<WordPhase>('menu');

@@ -8,7 +8,7 @@ export const BUBBLE_COLORS = [
   'bg-fuchsia-400','bg-amber-400','bg-emerald-400',
 ];
 
-export type GamePhase = 'menu' | 'playing' | 'results';
+import type { PhaseResults as GamePhase } from '@/lib/types';
 
 export interface Bubble { id: number; num: number; x: number; y: number; color: string; popped: boolean; }
 

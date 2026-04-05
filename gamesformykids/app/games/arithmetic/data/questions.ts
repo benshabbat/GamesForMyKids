@@ -1,4 +1,5 @@
-export type Operation = '+' | '-' | '×';
+import type { ArithOp as Operation } from '@/lib/types';
+export type { Operation };
 
 export interface ArithmeticLevel {
   id: number;

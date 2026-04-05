@@ -25,6 +25,7 @@ export type {
 export * from './games/items';
 export * from './games/ui';
 export * from './games/phase';
+export * from './games/shared';
 
 // ===== טיפוסים לממשק משתמש =====
 export * from './ui';

@@ -1,8 +1,5 @@
-export interface QuizQuestion {
-  question: string;
-  answers: string[];
-  correctIndex: number;
-}
+import type { QuizQuestion } from '@/lib/types';
+export type { QuizQuestion };
 
 export interface TzaddikStory {
   id: string;

@@ -9,8 +9,7 @@ export const W = COLS * CELL;
 export const H = ROWS * CELL;
 
 type Dir = 'U' | 'D' | 'L' | 'R';
-import type { PhaseDead as Phase } from '@/lib/types';
-interface Pt { x: number; y: number; }
+import type { PhaseDead as Phase, Point as Pt } from '@/lib/types';
 
 const EMOJIS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝'];
 const SPEEDS = [180, 160, 140, 120, 100, 85, 70];

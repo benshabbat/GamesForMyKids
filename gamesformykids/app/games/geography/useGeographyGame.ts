@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { COUNTRIES, QUESTIONS_PER_GAME, Country, QuestionMode } from './data/countries';
 
-export type GeoPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as GeoPhase } from '@/lib/types';
 
 interface GeoQuestion {
   country: Country;

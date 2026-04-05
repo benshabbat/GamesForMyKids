@@ -9,6 +9,7 @@ export * from './base';
 export * from './items';
 export * from './ui';
 export * from './phase';
+export * from './shared';
 
 // ייצוא לתאימות לאחור - משתמש בגרסה הישנה שלא דורשת id
 export type {

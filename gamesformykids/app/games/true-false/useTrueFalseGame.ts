@@ -31,7 +31,7 @@ export const FACTS = [
 
 export const TIME_PER_Q = 6;
 
-export type GamePhase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as GamePhase } from '@/lib/types';
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];

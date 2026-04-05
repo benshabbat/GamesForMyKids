@@ -3,7 +3,7 @@
 import { useState, useCallback, useMemo } from 'react';
 import { ANIMALS, CATEGORY_NAMES, Animal, AnimalCategory } from './data/animals';
 
-export type AnimalsPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as AnimalsPhase } from '@/lib/types';
 export type QuestionMode = 'emoji-to-name' | 'name-to-emoji';
 
 interface Question {

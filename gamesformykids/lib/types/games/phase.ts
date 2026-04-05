@@ -20,3 +20,6 @@ export type PhaseWonDead = 'menu' | 'playing' | 'won' | 'dead';
 
 /** שלבי משחק סיימון */
 export type PhaseSimon = 'menu' | 'showing' | 'input' | 'dead';
+
+/** שלבי משחק עם תוצאות (results) — number-bubbles, word-scramble */
+export type PhaseResults = 'menu' | 'playing' | 'results';

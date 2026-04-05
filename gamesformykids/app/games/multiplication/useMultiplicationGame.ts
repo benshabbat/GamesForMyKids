@@ -3,7 +3,7 @@
 import { useState, useCallback, useEffect, useRef } from 'react';
 import { generateQuestion, TIME_PER_QUESTION, QUESTIONS_PER_LEVEL, MultiplicationQuestion } from './data/tables';
 
-export type MultiPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as MultiPhase } from '@/lib/types';
 
 export function useMultiplicationGame() {
   const [phase, setPhase] = useState<MultiPhase>('menu');

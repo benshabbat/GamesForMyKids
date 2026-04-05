@@ -12,9 +12,8 @@ const GRAVITY = 0.7;
 const JUMP_V = -14;
 const BASE_SPEED = 4;
 
-import type { PhaseDead as Phase } from '@/lib/types';
+import type { PhaseDead as Phase, Point as Cloud } from '@/lib/types';
 interface Obstacle { x: number; w: number; h: number; emoji: string; }
-interface Cloud { x: number; y: number; }
 
 const OBSTACLE_EMOJIS = ['🌵', '🪨', '🌴', '🌿', '🍄'];
 

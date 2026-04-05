@@ -22,7 +22,7 @@ export const WORD_LIST: WordEntry[] = [
   { word: 'עץ',    emoji: '🌳', hint: 'גדל עם עלים' },
 ];
 
-export type GamePhase = 'menu' | 'playing' | 'results';
+import type { PhaseResults as GamePhase } from '@/lib/types';
 
 export interface LetterSlot { ch: string; picked: boolean; idx: number; }
 export interface PickedLetter { ch: string; srcIdx: number; }

@@ -5,7 +5,7 @@ import {
   ArithmeticLevel, ArithmeticQuestion,
 } from './data/questions';
 
-export type ArithmeticPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as ArithmeticPhase } from '@/lib/types';
 
 export function useArithmeticGame() {
   const [phase, setPhase] = useState<ArithmeticPhase>('menu');

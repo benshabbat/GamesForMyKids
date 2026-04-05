@@ -2,7 +2,7 @@
 import { useState, useCallback } from 'react';
 import { COLOR_MIXES, QUESTIONS_PER_GAME, ColorMix } from './data/mixes';
 
-export type ColorMixPhase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as ColorMixPhase } from '@/lib/types';
 
 interface ColorMixQuestion {
   mix: ColorMix;
