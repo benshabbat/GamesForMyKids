@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -11,7 +11,7 @@ const BULLET_R = 5;
 const ASTEROID_EMOJIS = ['☄️', '🪨', '💫'];
 const GAME_DURATION = 60;
 
-type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 interface Bullet { id: number; x: number; y: number; }
 interface Asteroid { id: number; x: number; y: number; speed: number; r: number; emoji: string; angle: number; spin: number; }
 

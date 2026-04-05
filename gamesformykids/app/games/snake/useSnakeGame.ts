@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -9,7 +9,7 @@ export const W = COLS * CELL;
 export const H = ROWS * CELL;
 
 type Dir = 'U' | 'D' | 'L' | 'R';
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 interface Pt { x: number; y: number; }
 
 const EMOJIS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝'];

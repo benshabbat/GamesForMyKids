@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -10,7 +10,7 @@ const BASKET_Y = H - 60;
 const FRUIT_R = 22;
 const GAME_DURATION = 45;
 
-type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 interface FallingItem { id: number; x: number; y: number; speed: number; emoji: string; isBad: boolean; }
 
 const GOOD_FRUITS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝', '🍌', '🍉', '🍐', '🫐'];

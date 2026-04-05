@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -15,7 +15,7 @@ const BALLOON_COLORS: [string, string][] = [
 ];
 const BOMB_CHANCE = 0.12;
 
-export type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 
 export interface Balloon {
   id: number;

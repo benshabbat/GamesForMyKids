@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 
@@ -13,7 +13,7 @@ export const COLORS = [
   { name: 'תכלת',  bg: 'bg-cyan-400',   hex: '#22d3ee', emoji: '🩵' },
 ];
 
-export type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 export type ColorItem = typeof COLORS[0];
 
 export const TIME_PER_Q = 5;

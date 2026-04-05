@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
 
@@ -8,7 +8,7 @@ const MOLES = ['🐹', '🐭', '🦔', '🐿️'];
 const BAD = '💣';
 
 export type HoleState = 'empty' | 'mole' | 'bad' | 'hit' | 'miss';
-export type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 
 interface Hole {
   state: HoleState;

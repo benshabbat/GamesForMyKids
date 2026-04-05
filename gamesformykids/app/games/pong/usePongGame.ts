@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -10,7 +10,7 @@ const BALL_R = 8;
 export const WIN_SCORE = 7;
 const AI_SPEED = 3.5;
 
-type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 
 export function usePongGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

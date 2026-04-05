@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -24,7 +24,7 @@ const ROW_COLORS = [
   ['#8B5CF6', '#7C3AED'],
 ];
 
-type Phase = 'menu' | 'playing' | 'won' | 'dead';
+import type { PhaseWonDead as Phase } from '@/lib/types';
 interface Brick { alive: boolean; row: number; }
 
 function makeBricks(): Brick[] {

@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback } from 'react';
 import { ENGLISH_WORDS, QUESTIONS_PER_GAME, CATEGORIES, type EnglishWord, type EnglishCategory } from './data/words';
 
-type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];

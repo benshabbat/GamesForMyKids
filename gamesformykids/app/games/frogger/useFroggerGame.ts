@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -9,7 +9,7 @@ export const W = COLS * CELL;
 export const H = ROWS * CELL;
 const CAR_W = CELL * 1.7;
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 
 const LANE_CFG = [
   { row: 1, speed: -1.3, emoji: '🚑', color: '#ef4444' },

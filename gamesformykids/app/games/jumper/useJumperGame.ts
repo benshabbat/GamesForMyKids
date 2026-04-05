@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -12,7 +12,7 @@ const PLAYER_R = 15;
 const PLAT_GAP = 95;
 const INIT_PLATS = 14;
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 interface Platform { x: number; y: number; w: number; }
 
 let platId = 0;

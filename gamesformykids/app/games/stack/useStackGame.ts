@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -10,7 +10,7 @@ const INIT_W = 170;
 const COLORS = ['#ef4444', '#f97316', '#eab308', '#22c55e', '#06b6d4', '#3b82f6', '#8b5cf6', '#ec4899'];
 const TARGET_TOP = 90;
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 interface Block { x: number; y: number; w: number; color: string; }
 
 function makeBricks() { return [] as Block[]; } // placeholder, actual init in startGame

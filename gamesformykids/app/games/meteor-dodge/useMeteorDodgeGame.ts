@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -9,7 +9,7 @@ const PLAYER_Y = H - 70;
 const METEOR_EMOJIS = ['☄️', '🪨', '💫', '⚡'];
 const STAR_EMOJIS = ['⭐', '🌟', '💎'];
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 interface Meteor { id: number; x: number; y: number; r: number; speed: number; emoji: string; spin: number; angle: number; }
 interface StarPick { id: number; x: number; y: number; vy: number; emoji: string; }
 

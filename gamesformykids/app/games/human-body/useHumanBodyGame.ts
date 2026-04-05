@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback } from 'react';
 import {
@@ -9,7 +9,7 @@ import {
   type BodyQuestion,
 } from './data/body';
 
-type Phase = 'menu' | 'playing' | 'answered' | 'finished';
+import type { PhaseQuiz as Phase } from '@/lib/types';
 
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);

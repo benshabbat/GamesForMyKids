@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -12,7 +12,7 @@ const GRAVITY = 0.7;
 const JUMP_V = -14;
 const BASE_SPEED = 4;
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 interface Obstacle { x: number; w: number; h: number; emoji: string; }
 interface Cloud { x: number; y: number; }
 

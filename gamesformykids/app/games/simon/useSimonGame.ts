@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback, useRef } from 'react';
 
@@ -10,7 +10,7 @@ export const BUTTONS = [
 ] as const;
 
 export type ButtonId = typeof BUTTONS[number]['id'];
-export type Phase = 'menu' | 'showing' | 'input' | 'dead';
+import type { PhaseSimon as Phase } from '@/lib/types';
 
 export function useSimonGame() {
   const [phase, setPhase]             = useState<Phase>('menu');

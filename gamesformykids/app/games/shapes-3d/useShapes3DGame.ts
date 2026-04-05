@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import { useState, useCallback } from 'react';
 import { QUIZ_QUESTIONS, SHAPES_3D, QUESTIONS_PER_GAME, type QuizQuestion } from './data/shapes';
 
-type Phase = 'menu' | 'playing' | 'result';
+import type { PhaseResult as Phase } from '@/lib/types';
 
 function shuffle<T>(arr: T[]): T[] {
   const a = [...arr];

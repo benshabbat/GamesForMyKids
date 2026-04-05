@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
 
@@ -14,7 +14,7 @@ const PIPE_SPEED = 2.5;
 const PIPE_INTERVAL = 95;
 const GROUND_H = 55;
 
-type Phase = 'menu' | 'playing' | 'dead';
+import type { PhaseDead as Phase } from '@/lib/types';
 
 interface Pipe { x: number; gapY: number; scored: boolean; }
 
