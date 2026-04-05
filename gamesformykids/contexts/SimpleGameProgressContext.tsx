@@ -1,98 +1,83 @@
-'use client';
+﻿'use client';
 
-import { createContext, useContext, useState, useCallback } from 'react';
-import { 
-  SimpleGameProgress, 
-  SimpleGameProgressContextValue, 
-  SimpleGameProgressProviderProps 
+/**
+ * Simple Game Progress Context
+ *
+ * State lives in useGameProgressStore (Zustand)  the same store as GameProgressContext.
+ * This is a simplified façade without timer management.
+ */
+
+import { createContext, useContext, useCallback, ReactNode } from 'react';
+import {
+  SimpleGameProgress,
+  SimpleGameProgressContextValue,
+  SimpleGameProgressProviderProps,
 } from '@/lib/types/contexts/simple-game-progress';
+import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 
-const SimpleGameProgressContext = createContext<SimpleGameProgressContextValue | undefined>(undefined);
+const SimpleGameProgressContext = createContext<SimpleGameProgressContextValue | undefined>(
+  undefined,
+);
 
-export function SimpleGameProgressProvider({ 
-  children, 
+export function SimpleGameProgressProvider({
+  children,
   maxLevel = 10,
-  pointsPerCorrect = 10 
+  pointsPerCorrect = 10,
 }: SimpleGameProgressProviderProps) {
-  
-  const [progress, setProgress] = useState<SimpleGameProgress>({
-    score: 0,
-    level: 1,
-    attempts: 0,
-    correctAnswers: 0,
-    totalQuestions: 0,
-    timeSpent: 0,
-    startTime: Date.now(),
-    streakCount: 0,
-    bestStreak: 0,
-  });
+  const store = useGameProgressStore();
 
-  const incrementScore = useCallback((points: number = pointsPerCorrect) => {
-    setProgress(prev => ({
-      ...prev,
-      score: prev.score + points
-    }));
-  }, [pointsPerCorrect]);
+  const incrementScore = useCallback(
+    (points: number = pointsPerCorrect) => store.incrementScore(points),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pointsPerCorrect],
+  );
 
-  const incrementLevel = useCallback(() => {
-    setProgress(prev => ({
-      ...prev,
-      level: Math.min(prev.level + 1, maxLevel)
-    }));
-  }, [maxLevel]);
+  const incrementLevel = useCallback(
+    () => store.incrementLevel(maxLevel),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [maxLevel],
+  );
 
-  const recordAttempt = useCallback((isCorrect: boolean) => {
-    setProgress(prev => {
-      const newCorrectAnswers = isCorrect ? prev.correctAnswers + 1 : prev.correctAnswers;
-      const newAttempts = prev.attempts + 1;
-      const newStreakCount = isCorrect ? prev.streakCount + 1 : 0;
-      const newBestStreak = Math.max(prev.bestStreak, newStreakCount);
+  const recordAttempt = useCallback(
+    (isCorrect: boolean) => store.recordAttempt(isCorrect, pointsPerCorrect),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [pointsPerCorrect],
+  );
 
-      return {
-        ...prev,
-        attempts: newAttempts,
-        correctAnswers: newCorrectAnswers,
-        totalQuestions: newAttempts,
-        streakCount: newStreakCount,
-        bestStreak: newBestStreak,
-      };
-    });
-  }, []);
-
-  const resetProgress = useCallback(() => {
-    setProgress({
-      score: 0,
-      level: 1,
-      attempts: 0,
-      correctAnswers: 0,
-      totalQuestions: 0,
-      timeSpent: 0,
-      startTime: Date.now(),
-      streakCount: 0,
-      bestStreak: 0,
-    });
-  }, []);
-
-  const updateProgress = useCallback((updates: Partial<SimpleGameProgress>) => {
-    setProgress(prev => ({ ...prev, ...updates }));
-  }, []);
+  const updateProgress = useCallback(
+    (updates: Partial<SimpleGameProgress>) => store.updateProgress(updates),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [],
+  );
 
   const getAccuracy = useCallback(() => {
-    if (progress.totalQuestions === 0) return 0;
-    return (progress.correctAnswers / progress.totalQuestions) * 100;
-  }, [progress.correctAnswers, progress.totalQuestions]);
+    const { correctAnswers, totalQuestions } = useGameProgressStore.getState();
+    return totalQuestions === 0 ? 0 : (correctAnswers / totalQuestions) * 100;
+  }, []);
 
   const getAverageTimePerQuestion = useCallback(() => {
-    if (progress.totalQuestions === 0) return 0;
-    return progress.timeSpent / progress.totalQuestions;
-  }, [progress.timeSpent, progress.totalQuestions]);
+    const { timeSpent, totalQuestions } = useGameProgressStore.getState();
+    return totalQuestions === 0 ? 0 : timeSpent / totalQuestions;
+  }, []);
+
+  const progress: SimpleGameProgress = {
+    score: store.score,
+    level: store.level,
+    attempts: store.attempts,
+    correctAnswers: store.correctAnswers,
+    totalQuestions: store.totalQuestions,
+    timeSpent: store.timeSpent,
+    startTime: store.startTime,
+    streakCount: store.streakCount,
+    bestStreak: store.bestStreak,
+  };
 
   const value: SimpleGameProgressContextValue = {
     progress,
     incrementScore,
     incrementLevel,
     recordAttempt,
-    resetProgress,
+    resetProgress: store.resetProgress,
     updateProgress,
     getAccuracy,
     getAverageTimePerQuestion,
@@ -107,10 +92,8 @@ export function SimpleGameProgressProvider({
 
 export function useSimpleGameProgress(): SimpleGameProgressContextValue {
   const context = useContext(SimpleGameProgressContext);
-  
   if (context === undefined) {
     throw new Error('useSimpleGameProgress must be used within a SimpleGameProgressProvider');
   }
-  
   return context;
 }

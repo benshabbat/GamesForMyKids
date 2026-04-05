@@ -1,7 +1,19 @@
-'use client'
+﻿'use client'
 
-import { createContext, useContext, useEffect, useState, useCallback } from 'react'
-import { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
+/**
+ * Auth Context
+ *
+ * State (user, session, loading, isGuest) lives in useAuthStore (Zustand).
+ * This provider is responsible for:
+ *   - Supabase auth subscription (onAuthStateChange)
+ *   - Providing auth action methods via context
+ *
+ * Components should prefer reading auth state directly from useAuthStore
+ * rather than via useAuth() to avoid unnecessary re-renders.
+ */
+
+import { createContext, useContext, useEffect, useCallback } from 'react'
+import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
 import { useAuthStore } from '@/lib/stores'
 
@@ -22,18 +34,16 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<User | null>(null)
-  const [session, setSession] = useState<Session | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [isGuest, setIsGuest] = useState(false)
+  // Read state from Zustand store (single source of truth)
+  const user = useAuthStore((s) => s.user)
+  const session = useAuthStore((s) => s.session)
+  const loading = useAuthStore((s) => s.loading)
+  const isGuest = useAuthStore((s) => s.isGuest)
+  const { setAuthState } = useAuthStore.getState()
 
   useEffect(() => {
-    const { setAuthState } = useAuthStore.getState()
-
     // If Supabase is not configured, fall back to guest mode immediately
     if (!isSupabaseConfigured) {
-      setIsGuest(true)
-      setLoading(false)
       setAuthState({ user: null, session: null, isGuest: true, loading: false })
       return
     }
@@ -41,29 +51,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Check if user chose guest mode
     const guestMode = localStorage.getItem('guestMode')
     if (guestMode === 'true') {
-      setIsGuest(true)
-      setLoading(false)
       setAuthState({ user: null, session: null, isGuest: true, loading: false })
       return
     }
 
-    // Get initial session with timeout to avoid hanging if Supabase is down
+    // Timeout safety net
     const sessionTimeout = setTimeout(() => {
-      setIsGuest(true)
-      setLoading(false)
       setAuthState({ user: null, session: null, isGuest: true, loading: false })
     }, 5000)
 
     supabase.auth.getSession().then(({ data: { session } }) => {
       clearTimeout(sessionTimeout)
-      setSession(session)
-      setUser(session?.user ?? null)
-      setLoading(false)
-      setAuthState({ user: session?.user ?? null, session, isGuest: false, loading: false })
+      setAuthState({
+        user: session?.user ?? null,
+        session,
+        isGuest: false,
+        loading: false,
+      })
     }).catch(() => {
       clearTimeout(sessionTimeout)
-      setIsGuest(true)
-      setLoading(false)
       setAuthState({ user: null, session: null, isGuest: true, loading: false })
     })
 
@@ -72,59 +78,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(
       async (event: AuthChangeEvent, session: Session | null) => {
-        setSession(session)
-        setUser(session?.user ?? null)
-        setLoading(false)
-        
-        // Clear guest mode if user signs in
         if (session) {
-          setIsGuest(false)
           localStorage.removeItem('guestMode')
         }
-
-        // Sync with Zustand store
         setAuthState({
           user: session?.user ?? null,
           session,
           isGuest: !session,
           loading: false,
         })
-      }
+      },
     )
 
     return () => subscription.unsubscribe()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   const signOut = useCallback(async () => {
     if (isSupabaseConfigured) {
       await supabase.auth.signOut().catch(() => {})
     }
-    setUser(null)
-    setSession(null)
-    setIsGuest(false)
     localStorage.removeItem('guestMode')
     useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: false, loading: false })
   }, [])
 
   const continueAsGuest = useCallback(() => {
-    setIsGuest(true)
-    setLoading(false)
     localStorage.setItem('guestMode', 'true')
     useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: true, loading: false })
   }, [])
 
-  const requireAuth = useCallback(() => {
-    // Return false — all features available to guests
-    return false
-  }, [])
+  const requireAuth = useCallback(() => false, [])
 
   const signInWithGoogle = useCallback(async () => {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     }).catch(() => {})
   }, [])
 
@@ -132,23 +121,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'github',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback`,
-      },
+      options: { redirectTo: `${window.location.origin}/auth/callback` },
     }).catch(() => {})
   }, [])
 
   const signInWithEmail = useCallback(async (email: string, password: string) => {
     if (!isSupabaseConfigured) return { error: 'שירות ההתחברות אינו זמין כרגע' }
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email,
-        password,
-      })
-      if (error) {
-        return { error: error.message }
-      }
-      return {}
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      return error ? { error: error.message } : {}
     } catch {
       return { error: 'שגיאה בהתחברות' }
     }
@@ -160,16 +141,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: {
-          data: {
-            name: name || '',
-          },
-        },
+        options: { data: { name: name || '' } },
       })
-      if (error) {
-        return { error: error.message }
-      }
-      return {}
+      return error ? { error: error.message } : {}
     } catch {
       return { error: 'שגיאה ברישום' }
     }

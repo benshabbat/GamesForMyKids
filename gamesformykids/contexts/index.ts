@@ -38,7 +38,8 @@ export { MemoryProvider, useMemoryContext } from '@/app/games/memory/contexts/Me
 export { HebrewLettersProvider, useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
 export { BuildingProvider, useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
 export { GameTypeProvider, useGameType, useCurrentGameType, useCurrentGameConfig } from './GameTypeContext';
-export { GameProgressProvider, useGameProgress, useGameScore, useGameStats, type GameProgress, type GameProgressContextValue } from './GameProgressContext';
+export { GameProgressProvider, useGameProgress, type GameProgressContextValue } from './GameProgressContext';
+export type { GameProgressState as GameProgress } from '@/lib/stores/gameProgressStore';
 export { 
   GameConfigProvider, 
   useGameConfig, 
