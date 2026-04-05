@@ -1,40 +1,47 @@
-"use client";
+﻿"use client";
 
-import { createContext, useContext } from 'react';
-import { 
-  UniversalGameContextValue, 
-  UniversalGameProviderProps 
+/**
+ * ===============================================
+ * Universal Game Context  no React context
+ * ===============================================
+ * useUniversalGame() reads directly from GameLogicContext sub-hooks.
+ * UniversalGameProvider is a no-op passthrough kept for backward
+ * compatibility with existing provider trees.
+ */
+
+import {
+  UniversalGameContextValue,
+  UniversalGameProviderProps,
 } from '@/lib/types/contexts/universal-game';
-import { useGameLogic, useGameState, useGameActions, useGameConfig as useGameConfigFromLogic, useGameHints, useGameUI } from './GameLogicContext';
+import {
+  useGameLogic,
+  useGameState,
+  useGameActions,
+  useGameConfig as useGameConfigFromLogic,
+  useGameHints,
+  useGameUI,
+} from './GameLogicContext';
 
-/**
- * ===============================================
- * Universal Game Context - כל הלוגיקה במקום אחד! 🎯
- * ===============================================
- * 
- * Context מאוחד שמכיל את כל מה שצריך למשחק:
- * - אפס props drilling
- * - כל הלוגיקה במקום אחד
- * - פשוט לשימוש
- */
-
-const UniversalGameContext = createContext<UniversalGameContextValue | undefined>(undefined);
-
-/**
- * 🎮 Universal Game Provider - כל הלוגיקה במקום אחד!
- * מקבל את כל הנתונים מהקונטקסטים הקיימים ומרכז אותם
- */
+// ---------------------------------------------------------------------------
+// Provider  no-op passthrough
+// ---------------------------------------------------------------------------
 export function UniversalGameProvider({ children }: UniversalGameProviderProps) {
-  // 🎮 איסוף כל הנתונים מהקונטקסטים הקיימים
+  return <>{children}</>;
+}
+
+// ---------------------------------------------------------------------------
+// Main hook  aggregates from GameLogicContext sub-hooks directly
+// ---------------------------------------------------------------------------
+export function useUniversalGame(): UniversalGameContextValue {
   const { isReady, error } = useGameLogic();
-  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level } = useGameState();
+  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level } =
+    useGameState();
   const { startGame, resetGame, handleItemClick, speakItemName } = useGameActions();
   const { config, items, CardComponent, gameType } = useGameConfigFromLogic();
   const { hints, hasMoreHints, showNextHint, currentAccuracy } = useGameHints();
   const { showProgressModal, setShowProgressModal } = useGameUI();
 
-  const value: UniversalGameContextValue = {
-    // Game State
+  return {
     gameState,
     isPlaying,
     showCelebration,
@@ -44,20 +51,14 @@ export function UniversalGameProvider({ children }: UniversalGameProviderProps) 
     level,
     isReady,
     error,
-    
-    // Game Actions
     startGame,
     resetGame,
     handleItemClick,
     speakItemName,
-    
-    // Game Config
     config,
     items: items || [],
     CardComponent,
     gameType,
-    
-    // Hints & UI
     hints: hints || [],
     hasMoreHints: hasMoreHints || false,
     showNextHint: showNextHint || (() => {}),
@@ -65,31 +66,14 @@ export function UniversalGameProvider({ children }: UniversalGameProviderProps) 
     showProgressModal,
     setShowProgressModal,
   };
-
-  return (
-    <UniversalGameContext.Provider value={value}>
-      {children}
-    </UniversalGameContext.Provider>
-  );
 }
 
-/**
- * 🎯 Hook יחיד לכל מה שצריך למשחק!
- * אפס props drilling - הכל במקום אחד
- */
-export function useUniversalGame(): UniversalGameContextValue {
-  const context = useContext(UniversalGameContext);
-  if (context === undefined) {
-    throw new Error('useUniversalGame must be used within a UniversalGameProvider');
-  }
-  return context;
-}
-
-/**
- * 🎮 Hooks ייעודיים לחלקים ספציפיים (אופציונלי)
- */
+// ---------------------------------------------------------------------------
+// Specialised sub-hooks (unchanged API)
+// ---------------------------------------------------------------------------
 export function useGameData() {
-  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level, isReady, error } = useUniversalGame();
+  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level, isReady, error } =
+    useUniversalGame();
   return { gameState, isPlaying, showCelebration, currentChallenge, options, score, level, isReady, error };
 }
 
@@ -104,6 +88,7 @@ export function useGameConfiguration() {
 }
 
 export function useGameEnhancements() {
-  const { hints, hasMoreHints, showNextHint, currentAccuracy, showProgressModal, setShowProgressModal } = useUniversalGame();
+  const { hints, hasMoreHints, showNextHint, currentAccuracy, showProgressModal, setShowProgressModal } =
+    useUniversalGame();
   return { hints, hasMoreHints, showNextHint, currentAccuracy, showProgressModal, setShowProgressModal };
 }
