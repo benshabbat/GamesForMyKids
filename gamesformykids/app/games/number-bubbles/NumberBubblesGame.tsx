@@ -1,11 +1,8 @@
 'use client';
-import { useEffect } from 'react';
 import { useNumberBubblesGame } from './useNumberBubblesGame';
 
 export default function NumberBubblesGame() {
-  const { phase, level, bubbles, next, elapsed, best, wrong, startGame, nextLevel, tap, stopTimer } = useNumberBubblesGame();
-
-  useEffect(() => () => stopTimer(), [stopTimer]);
+  const { phase, level, bubbles, next, elapsed, best, wrong, startGame, nextLevel, tap } = useNumberBubblesGame();
 
   if (phase === 'menu') return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 to-blue-200 flex items-center justify-center p-4" dir="rtl">

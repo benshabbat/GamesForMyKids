@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 
 export const BUBBLE_COLORS = [
   'bg-red-400','bg-blue-400','bg-green-400','bg-yellow-400',
@@ -94,6 +94,6 @@ export function useNumberBubblesGame() {
     });
     setNext(currentNext + 1);
   }, [stopTimer]);
-
-  return { phase, level, bubbles, next, elapsed, best, wrong, startGame, startRound, nextLevel, tap, stopTimer };
+  useEffect(() => stopTimer, [stopTimer]);
+  return { phase, level, bubbles, next, elapsed, best, wrong, startGame, startRound, nextLevel, tap };
 }

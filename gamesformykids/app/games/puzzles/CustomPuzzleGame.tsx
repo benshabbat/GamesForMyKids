@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useCustomPuzzleGame } from './useCustomPuzzleGame';
 import { usePuzzleContext } from '@/contexts';
 import { 
   FeedbackMessage,
@@ -16,7 +16,7 @@ import {
 } from './components';
 
 export default function CustomPuzzleGame() {
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { fileInputRef } = useCustomPuzzleGame();
 
   const { 
     state,
