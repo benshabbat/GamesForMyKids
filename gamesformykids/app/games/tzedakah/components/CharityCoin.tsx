@@ -1,11 +1,4 @@
-
-interface Coin {
-  id: number;
-  x: number;
-  y: number;
-  speed: number;
-  rotation: number;
-}
+import type { Coin } from '../useCharityCoinGame';
 
 interface CharityCoinProps {
   coin: Coin;
