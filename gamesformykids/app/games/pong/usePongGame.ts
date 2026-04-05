@@ -164,5 +164,8 @@ export function usePongGame() {
 
   const playerWon = ui.playerScore >= WIN_SCORE;
 
-  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, playerWon };
+  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, playerWon,
+    nudgeLeft: () => { const s = st.current; s.playerX = Math.max(0, s.playerX - 45); },
+    nudgeRight: () => { const s = st.current; s.playerX = Math.min(W - PAD_W, s.playerX + 45); },
+  };
 }

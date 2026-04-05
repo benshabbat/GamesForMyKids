@@ -1,36 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
-
-const W = 360;
-const H = 560;
-const PAD_W = 80;
-const PAD_H = 12;
-const PAD_Y = H - 50;
-const BALL_R = 8;
-const ROWS = 6;
-const COLS = 8;
-const BRICK_W = Math.floor((W - 20) / COLS);
-const BRICK_H = 20;
-const BRICK_PAD = 3;
-const BRICK_TOP = 50;
-
-const ROW_COLORS = [
-  ['#EF4444', '#DC2626'],
-  ['#F97316', '#EA580C'],
-  ['#EAB308', '#CA8A04'],
-  ['#22C55E', '#16A34A'],
-  ['#3B82F6', '#2563EB'],
-  ['#8B5CF6', '#7C3AED'],
-];
-
-type Phase = 'menu' | 'playing' | 'won' | 'dead';
-
-interface Brick { alive: boolean; row: number; }
-
-function makeBricks(): Brick[] {
-  return Array.from({ length: ROWS * COLS }, (_, i) => ({ alive: true, row: Math.floor(i / COLS) }));
-}
+import { useBrickBreakerGame } from './useBrickBreakerGame';
 
 export default function BrickBreakerGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -323,7 +293,7 @@ export default function BrickBreakerGame() {
           onMouseMove={handleMouseMove}
           onClick={handleClick}
           onTouchMove={handleTouchMove}
-          onTouchStart={(e) => { e.preventDefault(); handleClick(); movePaddle(e.touches[0].clientX, e.currentTarget.getBoundingClientRect()); }}
+          onTouchStart={handleTouchStart}
           className="rounded-3xl shadow-2xl border-4 border-purple-700 cursor-none"
           style={{ touchAction: 'none', maxHeight: '85vh', width: 'auto' }}
         />
@@ -367,9 +337,9 @@ export default function BrickBreakerGame() {
 
       {ui.phase === 'playing' && (
         <div className="mt-3 flex gap-4">
-          <button onPointerDown={() => { const s = st.current; s.padX = Math.max(0, s.padX - 40); }} className="bg-purple-700/80 text-white rounded-xl px-7 py-3 text-xl font-bold active:bg-purple-500 touch-none">◀</button>
-          <button onPointerDown={handleClick} className="bg-white/20 text-white rounded-xl px-6 py-3 text-sm font-bold active:bg-white/40 touch-none">🏏 השק</button>
-          <button onPointerDown={() => { const s = st.current; s.padX = Math.min(W - PAD_W, s.padX + 40); }} className="bg-purple-700/80 text-white rounded-xl px-7 py-3 text-xl font-bold active:bg-purple-500 touch-none">▶</button>
+          <button onPointerDown={nudgeLeft} className="bg-purple-700/80 text-white rounded-xl px-7 py-3 text-xl font-bold active:bg-purple-500 touch-none">◄</button>
+          <button onPointerDown={handleClick} className="bg-white/20 text-white rounded-xl px-6 py-3 text-sm font-bold active:bg-white/40 touch-none">🏸 השק</button>
+          <button onPointerDown={nudgeRight} className="bg-purple-700/80 text-white rounded-xl px-7 py-3 text-xl font-bold active:bg-purple-500 touch-none">►</button>
         </div>
       )}
     </div>

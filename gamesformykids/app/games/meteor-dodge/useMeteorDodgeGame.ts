@@ -165,5 +165,15 @@ export function useMeteorDodgeGame() {
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, []);
 
-  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart };
+  const nudgeLeft = useCallback(() => {
+    const s = st.current;
+    s.playerX = Math.max(PLAYER_R, s.playerX - 45);
+  }, []);
+
+  const nudgeRight = useCallback(() => {
+    const s = st.current;
+    s.playerX = Math.min(W - PLAYER_R, s.playerX + 45);
+  }, []);
+
+  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight };
 }
