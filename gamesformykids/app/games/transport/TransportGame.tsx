@@ -1,16 +1,10 @@
 'use client';
 
-import React from 'react';
 import { useTransportGame } from './useTransportGame';
 import type { TransportType } from './data/transport';
-
-const TYPE_STYLES: Record<string, { icon: string; color: string }> = {
-  'הכל':    { icon: '🌐', color: 'from-slate-400 to-slate-600' },
-  'יבשה':   { icon: '🚗', color: 'from-green-400 to-green-600' },
-  'ים':     { icon: '🚢', color: 'from-blue-400 to-blue-600' },
-  'אוויר':  { icon: '✈️', color: 'from-sky-400 to-sky-600' },
-  'מסילה':  { icon: '🚂', color: 'from-amber-400 to-amber-600' },
-};
+import TransportMenuScreen from './components/TransportMenuScreen';
+import TransportQuestion from './components/TransportQuestion';
+import TransportResultScreen from './components/TransportResultScreen';
 
 export default function TransportGame() {
   const {
@@ -19,11 +13,38 @@ export default function TransportGame() {
     score, startGame, selectAnswer, nextQuestion, goToMenu,
   } = useTransportGame();
 
-  if (phase === 'menu') {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col items-center justify-center p-6" dir="rtl">
-        <div className="text-8xl mb-4">🚗</div>
-        <h1 className="text-4xl font-bold text-blue-700 mb-2">כלי תחבורה</h1>
+  if (phase === 'menu') return (
+    <TransportMenuScreen types={types as readonly TransportType[]} onStart={startGame} />
+  );
+
+  if (phase === 'finished') return (
+    <TransportResultScreen
+      score={score}
+      total={total}
+      transportType={transportType}
+      onRestart={startGame}
+      onMenu={goToMenu}
+    />
+  );
+
+  if (!currentQuestion) return null;
+
+  return (
+    <TransportQuestion
+      currentIndex={currentIndex}
+      total={total}
+      score={score}
+      currentQuestion={currentQuestion}
+      phase={phase}
+      selected={selected}
+      isCorrect={isCorrect}
+      onSelect={selectAnswer}
+      onNext={nextQuestion}
+      onMenu={goToMenu}
+    />
+  );
+}
+
         <p className="text-gray-600 mb-8 text-center">גלה כלי רכב מהיבשה, הים והאוויר!</p>
 
         <div className="grid grid-cols-2 gap-3 w-full max-w-sm">
