@@ -32,15 +32,8 @@ export const FACTS = [
 export const TIME_PER_Q = 6;
 
 import type { PhaseDead as GamePhase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 export function useTrueFalseGame() {
   const [phase, setPhase]       = useState<GamePhase>('menu');

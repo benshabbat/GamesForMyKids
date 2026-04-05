@@ -10,10 +10,8 @@ import {
 } from './data/body';
 
 import type { PhaseQuiz as Phase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
 
 export function useHumanBodyGame() {
   const [phase, setPhase]             = useState<Phase>('menu');

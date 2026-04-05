@@ -2,12 +2,12 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 
 import type { ArithOp as Op, PhaseDead as GamePhase } from '@/lib/types';
+import { randInt as rnd } from '@/lib/utils';
 
 export interface Question { text: string; answer: number; choices: number[]; }
 
 export const GAME_TIME = 30;
 
-function rnd(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 
 export function makeQ(score: number): Question {
   const level = Math.floor(score / 30);

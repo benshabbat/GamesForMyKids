@@ -9,6 +9,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Resolved workspace root — all file traversal must stay within this directory
+const WORKSPACE_ROOT = path.resolve(__dirname, '..');
+
 const TYPES_DIR = path.join(__dirname, '../lib/types');
 const COMPONENTS_DIR = path.join(__dirname, '../components');
 const APP_DIR = path.join(__dirname, '../app');
@@ -18,23 +21,48 @@ const APP_DIR = path.join(__dirname, '../app');
  */
 function findFiles(dir, extension) {
   const files = [];
-  
+  const baseReal = fs.existsSync(dir) ? fs.realpathSync(dir) : null;
+  if (!baseReal) return files;
+
   function traverse(currentDir) {
-    if (!fs.existsSync(currentDir)) return;
-    
-    const items = fs.readdirSync(currentDir);
+    let items;
+    try {
+      items = fs.readdirSync(currentDir);
+    } catch {
+      return; // unreadable directory — skip
+    }
+
     for (const item of items) {
       const fullPath = path.join(currentDir, item);
-      const stat = fs.statSync(fullPath);
-      
+
+      // Use lstat so we inspect the link itself, not its target
+      let stat;
+      try {
+        stat = fs.lstatSync(fullPath);
+      } catch {
+        continue;
+      }
+
+      // Skip symlinks — they could point outside the workspace
+      if (stat.isSymbolicLink()) continue;
+
       if (stat.isDirectory()) {
+        if (item === 'node_modules' || item === '.next') continue;
+        // Guard: resolved path must stay inside the workspace root
+        let resolved;
+        try { resolved = fs.realpathSync(fullPath); } catch { continue; }
+        if (!resolved.startsWith(WORKSPACE_ROOT + path.sep) && resolved !== WORKSPACE_ROOT) continue;
         traverse(fullPath);
       } else if (item.endsWith(extension)) {
+        // Guard: resolved path must stay inside the base directory
+        let resolved;
+        try { resolved = fs.realpathSync(fullPath); } catch { continue; }
+        if (!resolved.startsWith(baseReal + path.sep) && resolved !== baseReal) continue;
         files.push(fullPath);
       }
     }
   }
-  
+
   traverse(dir);
   return files;
 }

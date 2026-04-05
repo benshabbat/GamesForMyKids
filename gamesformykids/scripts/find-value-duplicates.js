@@ -8,6 +8,9 @@
 const fs = require('fs');
 const path = require('path');
 
+// Resolved workspace root — all file traversal must stay within this directory
+const WORKSPACE_ROOT = path.resolve(__dirname, '..');
+
 class TypeDuplicateFinder {
   constructor() {
     this.typeDefinitions = new Map(); // מפה של תוכן -> מערך של מקומות
@@ -40,22 +43,47 @@ class TypeDuplicateFinder {
    */
   getAllTypeScriptFiles(dirPath) {
     const files = [];
-    
+    const baseReal = fs.realpathSync(dirPath);
+
     function scanDir(currentPath) {
-      const items = fs.readdirSync(currentPath);
-      
+      let items;
+      try {
+        items = fs.readdirSync(currentPath);
+      } catch {
+        return; // unreadable directory — skip
+      }
+
       for (const item of items) {
         const fullPath = path.join(currentPath, item);
-        const stat = fs.statSync(fullPath);
-        
-        if (stat.isDirectory() && !item.includes('node_modules') && !item.includes('.next')) {
+
+        // Use lstat so we inspect the link itself, not its target
+        let stat;
+        try {
+          stat = fs.lstatSync(fullPath);
+        } catch {
+          continue;
+        }
+
+        // Skip symlinks — they could point outside the workspace
+        if (stat.isSymbolicLink()) continue;
+
+        if (stat.isDirectory()) {
+          if (item === 'node_modules' || item === '.next') continue;
+          // Guard: resolved path must stay inside the workspace root
+          let resolved;
+          try { resolved = fs.realpathSync(fullPath); } catch { continue; }
+          if (!resolved.startsWith(WORKSPACE_ROOT + path.sep) && resolved !== WORKSPACE_ROOT) continue;
           scanDir(fullPath);
         } else if (item.endsWith('.ts') && !item.endsWith('.d.ts')) {
+          // Guard: resolved path must stay inside the base directory
+          let resolved;
+          try { resolved = fs.realpathSync(fullPath); } catch { continue; }
+          if (!resolved.startsWith(baseReal + path.sep) && resolved !== baseReal) continue;
           files.push(fullPath);
         }
       }
     }
-    
+
     scanDir(dirPath);
     return files;
   }

@@ -4,6 +4,7 @@ import { useState, useCallback, useMemo } from 'react';
 import { ANIMALS, CATEGORY_NAMES, Animal, AnimalCategory } from './data/animals';
 
 import type { PhaseResult as AnimalsPhase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 export type QuestionMode = 'emoji-to-name' | 'name-to-emoji';
 
 interface Question {
@@ -12,9 +13,6 @@ interface Question {
   mode: QuestionMode;
 }
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
 
 function makeQuestion(pool: Animal[]): Question {
   const animal = pool[Math.floor(Math.random() * pool.length)];

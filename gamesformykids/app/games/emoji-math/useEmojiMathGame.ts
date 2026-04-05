@@ -5,13 +5,13 @@ const EMOJIS = ['🍎','🌟','🐶','🎈','🍕','🚗','🌸','🦋','🍦','
 
 export type Op = '+' | '-';
 import type { PhaseDead as GamePhase } from '@/lib/types';
+import { randInt as rnd } from '@/lib/utils';
 
 export interface Question {
   a: number; b: number; op: Op; answer: number;
   choices: number[]; emojiA: string; emojiB: string;
 }
 
-function rnd(min: number, max: number) { return Math.floor(Math.random() * (max - min + 1)) + min; }
 function pickEmoji() { return EMOJIS[Math.floor(Math.random() * EMOJIS.length)]; }
 
 export function makeQuestion(level: number): Question {

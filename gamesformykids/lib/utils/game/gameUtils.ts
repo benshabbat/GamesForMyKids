@@ -16,12 +16,27 @@ export function delay(ms: number): Promise<void> {
 }
 
 /**
- * פונקציית עזר - מערבבת מערך בצורה אקראית
+ * פונקציית עזר - מערבבת מערך בצורה אקראית (Fisher-Yates)
  * @param array המערך לערבוב
  * @returns מערך חדש מעורבב
  */
 export function shuffleArray<T>(array: T[]): T[] {
-  return [...array].sort(() => Math.random() - 0.5);
+  const a = [...array];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+/** קיצור לייבוא נוח בקבצי משחק */
+export const shuffle: <T>(arr: T[]) => T[] = shuffleArray;
+
+/**
+ * מספר שלם אקראי בטווח [min, max] (כולל קצוות)
+ */
+export function randInt(min: number, max: number): number {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 /**

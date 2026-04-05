@@ -9,10 +9,8 @@ import {
 } from './data/continents';
 
 import type { PhaseQuiz as Phase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
 
 export function useContinentsGame() {
   const [phase, setPhase]               = useState<Phase>('menu');

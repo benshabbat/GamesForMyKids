@@ -3,15 +3,8 @@ import { useState, useCallback } from 'react';
 import { CLOCK_QUESTIONS, ClockQuestion, QUESTIONS_PER_GAME } from './data/times';
 
 import type { PhaseResult as Phase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 function makeChoices(correct: ClockQuestion, all: ClockQuestion[]): ClockQuestion[] {
   const others = shuffle(all.filter(q => q.id !== correct.id)).slice(0, 3);

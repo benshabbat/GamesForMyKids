@@ -4,15 +4,8 @@ import { useState, useCallback } from 'react';
 import { QUIZ_QUESTIONS, SHAPES_3D, QUESTIONS_PER_GAME, type QuizQuestion } from './data/shapes';
 
 import type { PhaseResult as Phase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 function makeChoices(q: QuizQuestion): string[] {
   const shape = SHAPES_3D.find(s => s.id === q.shapeId);

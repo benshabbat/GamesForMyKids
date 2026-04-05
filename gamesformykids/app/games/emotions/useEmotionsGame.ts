@@ -4,15 +4,8 @@ import { useState, useCallback } from 'react';
 import { EMOTION_QUESTIONS, QUESTIONS_PER_GAME, type EmotionQuestion } from './data/emotions';
 
 import type { PhaseResult as Phase } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]];
-  }
-  return a;
-}
 
 function makeChoices(q: EmotionQuestion): string[] {
   return shuffle([q.emotion, ...q.wrongOptions]);

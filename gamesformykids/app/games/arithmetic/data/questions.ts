@@ -1,4 +1,5 @@
 import type { ArithOp as Operation } from '@/lib/types';
+import { randInt as rand } from '@/lib/utils';
 export type { Operation };
 
 export interface ArithmeticLevel {
@@ -25,9 +26,6 @@ export interface ArithmeticQuestion {
   choices: number[];
 }
 
-function rand(min: number, max: number) {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 function unique(correct: number, count: number, near: number): number[] {
   const set = new Set<number>([correct]);
