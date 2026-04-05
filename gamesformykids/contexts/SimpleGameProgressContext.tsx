@@ -1,29 +1,40 @@
 ﻿'use client';
 
 /**
- * Simple Game Progress Context
+ * SimpleGameProgressContext  fully migrated to Zustand
  *
- * State lives in useGameProgressStore (Zustand)  the same store as GameProgressContext.
- * This is a simplified façade without timer management.
+ * No React context. useSimpleGameProgress() reads directly from
+ * useGameProgressStore  the same store as useGameProgress().
+ * SimpleGameProgressProvider is a no-op passthrough.
  */
 
-import { createContext, useContext, useCallback, ReactNode } from 'react';
+import { useCallback, ReactNode } from 'react';
 import {
   SimpleGameProgress,
   SimpleGameProgressContextValue,
-  SimpleGameProgressProviderProps,
 } from '@/lib/types/contexts/simple-game-progress';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 
-const SimpleGameProgressContext = createContext<SimpleGameProgressContextValue | undefined>(
-  undefined,
-);
+// ---------------------------------------------------------------------------
+// Provider  no-op passthrough
+// ---------------------------------------------------------------------------
+interface SimpleGameProgressProviderProps {
+  children: ReactNode;
+  maxLevel?: number;
+  pointsPerCorrect?: number;
+}
 
-export function SimpleGameProgressProvider({
-  children,
+export function SimpleGameProgressProvider({ children }: SimpleGameProgressProviderProps) {
+  return <>{children}</>;
+}
+
+// ---------------------------------------------------------------------------
+// useSimpleGameProgress  reads Zustand store directly
+// ---------------------------------------------------------------------------
+export function useSimpleGameProgress(
   maxLevel = 10,
   pointsPerCorrect = 10,
-}: SimpleGameProgressProviderProps) {
+): SimpleGameProgressContextValue {
   const store = useGameProgressStore();
 
   const incrementScore = useCallback(
@@ -51,13 +62,13 @@ export function SimpleGameProgressProvider({
   );
 
   const getAccuracy = useCallback(() => {
-    const { correctAnswers, totalQuestions } = useGameProgressStore.getState();
-    return totalQuestions === 0 ? 0 : (correctAnswers / totalQuestions) * 100;
+    const s = useGameProgressStore.getState();
+    return s.totalQuestions === 0 ? 0 : (s.correctAnswers / s.totalQuestions) * 100;
   }, []);
 
   const getAverageTimePerQuestion = useCallback(() => {
-    const { timeSpent, totalQuestions } = useGameProgressStore.getState();
-    return totalQuestions === 0 ? 0 : timeSpent / totalQuestions;
+    const s = useGameProgressStore.getState();
+    return s.totalQuestions === 0 ? 0 : s.timeSpent / s.totalQuestions;
   }, []);
 
   const progress: SimpleGameProgress = {
@@ -72,7 +83,7 @@ export function SimpleGameProgressProvider({
     bestStreak: store.bestStreak,
   };
 
-  const value: SimpleGameProgressContextValue = {
+  return {
     progress,
     incrementScore,
     incrementLevel,
@@ -82,18 +93,4 @@ export function SimpleGameProgressProvider({
     getAccuracy,
     getAverageTimePerQuestion,
   };
-
-  return (
-    <SimpleGameProgressContext.Provider value={value}>
-      {children}
-    </SimpleGameProgressContext.Provider>
-  );
-}
-
-export function useSimpleGameProgress(): SimpleGameProgressContextValue {
-  const context = useContext(SimpleGameProgressContext);
-  if (context === undefined) {
-    throw new Error('useSimpleGameProgress must be used within a SimpleGameProgressProvider');
-  }
-  return context;
 }

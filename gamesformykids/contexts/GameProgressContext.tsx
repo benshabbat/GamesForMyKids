@@ -1,19 +1,20 @@
-﻿/**
- * Game Progress Context
+﻿'use client';
+
+/**
+ * GameProgressContext  fully migrated to Zustand
  *
- * State lives in useGameProgressStore (Zustand).
- * This provider is responsible for two side effects only:
- *  1. Timer tick  (setInterval when isGameActive && !timerPaused)
- *  2. Progress reset when the current game type changes
+ * No React context. useGameProgress() reads directly from useGameProgressStore.
+ *
+ * GameProgressProvider is kept as an effects-only component:
+ *  1. Timer tick (setInterval while isGameActive && !timerPaused)
+ *  2. Reset on game-type change
  */
 
-'use client';
-
-import { createContext, useContext, useEffect, useCallback, ReactNode } from 'react';
-import { useGameType } from './GameTypeContext';
+import { useEffect, useCallback, ReactNode } from 'react';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
+import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 
-// Re-export the type so existing imports from this module still compile
+// Re-export type for backward compatibility
 export type { GameProgressState as GameProgress } from '@/lib/stores/gameProgressStore';
 
 export interface GameProgressContextValue {
@@ -41,8 +42,9 @@ export interface GameProgressContextValue {
   setGameActive: (active: boolean) => void;
 }
 
-const GameProgressContext = createContext<GameProgressContextValue | undefined>(undefined);
-
+// ---------------------------------------------------------------------------
+// GameProgressProvider  effects-only, no React context
+// ---------------------------------------------------------------------------
 interface GameProgressProviderProps {
   children: ReactNode;
   maxLevel?: number;
@@ -52,28 +54,35 @@ interface GameProgressProviderProps {
 export function GameProgressProvider({
   children,
   maxLevel = 10,
-  pointsPerCorrect = 10,
 }: GameProgressProviderProps) {
-  const { currentGameType } = useGameType();
-  const store = useGameProgressStore();
+  const currentGameType = useGameTypeStore((s) => s.currentGameType);
+  const isGameActive = useGameProgressStore((s) => s.isGameActive);
+  const timerPaused = useGameProgressStore((s) => s.timerPaused);
 
-  // Reset progress whenever the active game type changes
+  // Reset progress when game type changes
   useEffect(() => {
     if (currentGameType) {
-      store.resetProgress();
+      useGameProgressStore.getState().resetProgress();
     }
-    // store is a stable object from Zustand  safe to omit
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGameType]);
 
   // Timer tick
   useEffect(() => {
-    if (!store.isGameActive || store.timerPaused) return;
+    if (!isGameActive || timerPaused) return;
     const interval = setInterval(() => {
       useGameProgressStore.getState().tickTimer();
     }, 1000);
     return () => clearInterval(interval);
-  }, [store.isGameActive, store.timerPaused]);
+  }, [isGameActive, timerPaused]);
+
+  return <>{children}</>;
+}
+
+// ---------------------------------------------------------------------------
+// useGameProgress  reads Zustand store directly
+// ---------------------------------------------------------------------------
+export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10): GameProgressContextValue {
+  const store = useGameProgressStore();
 
   const incrementScore = useCallback(
     (points = pointsPerCorrect) => store.incrementScore(points),
@@ -88,35 +97,32 @@ export function GameProgressProvider({
   );
 
   const getAccuracy = useCallback(() => {
-    const { correctAnswers, totalQuestions } = useGameProgressStore.getState();
-    return totalQuestions === 0 ? 0 : (correctAnswers / totalQuestions) * 100;
+    const s = useGameProgressStore.getState();
+    return s.totalQuestions === 0 ? 0 : (s.correctAnswers / s.totalQuestions) * 100;
   }, []);
 
   const getAverageTimePerQuestion = useCallback(() => {
-    const { timeSpent, totalQuestions } = useGameProgressStore.getState();
-    return totalQuestions === 0 ? 0 : timeSpent / totalQuestions;
+    const s = useGameProgressStore.getState();
+    return s.totalQuestions === 0 ? 0 : s.timeSpent / s.totalQuestions;
   }, []);
 
   const getProgressPercentage = useCallback(() => {
-    const { level } = useGameProgressStore.getState();
-    return (level / maxLevel) * 100;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    return (useGameProgressStore.getState().level / maxLevel) * 100;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxLevel]);
 
-  const progress = {
-    score: store.score,
-    level: store.level,
-    attempts: store.attempts,
-    correctAnswers: store.correctAnswers,
-    totalQuestions: store.totalQuestions,
-    timeSpent: store.timeSpent,
-    startTime: store.startTime,
-    streakCount: store.streakCount,
-    bestStreak: store.bestStreak,
-  };
-
-  const contextValue: GameProgressContextValue = {
-    progress,
+  return {
+    progress: {
+      score: store.score,
+      level: store.level,
+      attempts: store.attempts,
+      correctAnswers: store.correctAnswers,
+      totalQuestions: store.totalQuestions,
+      timeSpent: store.timeSpent,
+      startTime: store.startTime,
+      streakCount: store.streakCount,
+      bestStreak: store.bestStreak,
+    },
     incrementScore,
     incrementLevel,
     recordAttempt: store.recordAttempt,
@@ -129,18 +135,4 @@ export function GameProgressProvider({
     isGameActive: store.isGameActive,
     setGameActive: store.setGameActive,
   };
-
-  return (
-    <GameProgressContext.Provider value={contextValue}>
-      {children}
-    </GameProgressContext.Provider>
-  );
-}
-
-export function useGameProgress(): GameProgressContextValue {
-  const context = useContext(GameProgressContext);
-  if (context === undefined) {
-    throw new Error('useGameProgress must be used within a GameProgressProvider');
-  }
-  return context;
 }

@@ -1,23 +1,72 @@
 ﻿'use client'
 
 /**
- * Auth Context
+ * AuthContext  fully migrated to Zustand
  *
- * State (user, session, loading, isGuest) lives in useAuthStore (Zustand).
- * This provider is responsible for:
- *   - Supabase auth subscription (onAuthStateChange)
- *   - Providing auth action methods via context
+ * No React context. useAuth() reads state from useAuthStore and returns
+ * stable action callbacks.
  *
- * Components should prefer reading auth state directly from useAuthStore
- * rather than via useAuth() to avoid unnecessary re-renders.
+ * AuthProvider is kept solely as a Supabase subscription runner:
+ * it runs the onAuthStateChange useEffect and renders {children} directly.
  */
 
-import { createContext, useContext, useEffect, useCallback } from 'react'
-import type { User, Session, AuthChangeEvent } from '@supabase/supabase-js'
+import { useEffect, useCallback, ReactNode } from 'react'
+import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
 import { useAuthStore } from '@/lib/stores'
 
-interface AuthContextType {
+// ---------------------------------------------------------------------------
+// AuthProvider  subscription effect only, no React context
+// ---------------------------------------------------------------------------
+export function AuthProvider({ children }: { children: ReactNode }) {
+  useEffect(() => {
+    const { setAuthState } = useAuthStore.getState()
+
+    if (!isSupabaseConfigured) {
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
+      return
+    }
+
+    const guestMode = localStorage.getItem('guestMode')
+    if (guestMode === 'true') {
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
+      return
+    }
+
+    const sessionTimeout = setTimeout(() => {
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
+    }, 5000)
+
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      clearTimeout(sessionTimeout)
+      setAuthState({ user: session?.user ?? null, session, isGuest: false, loading: false })
+    }).catch(() => {
+      clearTimeout(sessionTimeout)
+      setAuthState({ user: null, session: null, isGuest: true, loading: false })
+    })
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (_event: AuthChangeEvent, session: Session | null) => {
+        if (session) localStorage.removeItem('guestMode')
+        useAuthStore.getState().setAuthState({
+          user: session?.user ?? null,
+          session,
+          isGuest: !session,
+          loading: false,
+        })
+      },
+    )
+
+    return () => subscription.unsubscribe()
+  }, [])
+
+  return <>{children}</>
+}
+
+// ---------------------------------------------------------------------------
+// useAuth  reads Zustand store + returns stable action callbacks
+// ---------------------------------------------------------------------------
+interface AuthHookReturn {
   user: User | null
   session: Session | null
   loading: boolean
@@ -31,73 +80,14 @@ interface AuthContextType {
   requireAuth: () => boolean
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined)
-
-export function AuthProvider({ children }: { children: React.ReactNode }) {
-  // Read state from Zustand store (single source of truth)
+export function useAuth(): AuthHookReturn {
   const user = useAuthStore((s) => s.user)
   const session = useAuthStore((s) => s.session)
   const loading = useAuthStore((s) => s.loading)
   const isGuest = useAuthStore((s) => s.isGuest)
-  const { setAuthState } = useAuthStore.getState()
-
-  useEffect(() => {
-    // If Supabase is not configured, fall back to guest mode immediately
-    if (!isSupabaseConfigured) {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-      return
-    }
-
-    // Check if user chose guest mode
-    const guestMode = localStorage.getItem('guestMode')
-    if (guestMode === 'true') {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-      return
-    }
-
-    // Timeout safety net
-    const sessionTimeout = setTimeout(() => {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-    }, 5000)
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      clearTimeout(sessionTimeout)
-      setAuthState({
-        user: session?.user ?? null,
-        session,
-        isGuest: false,
-        loading: false,
-      })
-    }).catch(() => {
-      clearTimeout(sessionTimeout)
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-    })
-
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange(
-      async (event: AuthChangeEvent, session: Session | null) => {
-        if (session) {
-          localStorage.removeItem('guestMode')
-        }
-        setAuthState({
-          user: session?.user ?? null,
-          session,
-          isGuest: !session,
-          loading: false,
-        })
-      },
-    )
-
-    return () => subscription.unsubscribe()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
 
   const signOut = useCallback(async () => {
-    if (isSupabaseConfigured) {
-      await supabase.auth.signOut().catch(() => {})
-    }
+    if (isSupabaseConfigured) await supabase.auth.signOut().catch(() => {})
     localStorage.removeItem('guestMode')
     useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: false, loading: false })
   }, [])
@@ -113,7 +103,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'google',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: window.location.origin + '/auth/callback' },
     }).catch(() => {})
   }, [])
 
@@ -121,7 +111,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!isSupabaseConfigured) return
     await supabase.auth.signInWithOAuth({
       provider: 'github',
-      options: { redirectTo: `${window.location.origin}/auth/callback` },
+      options: { redirectTo: window.location.origin + '/auth/callback' },
     }).catch(() => {})
   }, [])
 
@@ -149,31 +139,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }, [])
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        session,
-        loading,
-        isGuest,
-        signOut,
-        signInWithGoogle,
-        signInWithGitHub,
-        signInWithEmail,
-        signUpWithEmail,
-        continueAsGuest,
-        requireAuth,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  )
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider')
+  return {
+    user,
+    session,
+    loading,
+    isGuest,
+    signOut,
+    signInWithGoogle,
+    signInWithGitHub,
+    signInWithEmail,
+    signUpWithEmail,
+    continueAsGuest,
+    requireAuth,
   }
-  return context
 }
