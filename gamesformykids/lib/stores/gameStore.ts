@@ -14,7 +14,7 @@ import type { GameType } from '@/lib/types/core/base';
 // ── State ──────────────────────────────────────────────────
 export interface ActiveGameState {
   /** סוג המשחק הפעיל כרגע (null = לא במשחק) */
-  gameType: GameType | null;
+  gameType: string | null;
   isPlaying: boolean;
   score: number;
   level: number;
@@ -33,7 +33,7 @@ export interface GameStats {
 
 export interface GameActions {
   /** קרא לזה כשמשחק מתחיל */
-  startGame: (gameType: GameType) => void;
+  startGame: (gameType: string) => void;
   /** עדכן ניקוד ורמה תוך כדי משחק */
   updateProgress: (score: number, level: number) => void;
   /** קרא לזה כשמשחק מסתיים */

@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useRef, useCallback, useState } from 'react';
+import { useGameProgressStore, useGameStore } from '@/lib/stores';
 
 const COLS = 20;
 const ROWS = 20;
@@ -27,13 +28,20 @@ export function useSnakeGame() {
     food: { x: 15, y: 10 } as Pt,
     foodEmoji: '🍎',
     score: 0,
-    best: 0,
     level: 1,
     timer: 0 as ReturnType<typeof setTimeout> | number,
     raf: 0,
     animFrame: 0,
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; best: number; level: number }>({ phase: 'menu', score: 0, best: 0, level: 1 });
+
+  // פאזה בלבד נשמרת ב-local state — ניקוד/רמה/שיא בין דרך Zustand stores
+  const [phase, setPhase] = useState<Phase>('menu');
+  const score = useGameProgressStore((s) => s.score);
+  const level = useGameProgressStore((s) => s.level);
+  const best  = useGameStore((s) => s.highScores['snake'] ?? 0);
+
+  // אובייקט ui באפייניין אחורה-תאימות לקוד שקורא את ה-hook
+  const ui = { phase, score, level, best };
 
   function placeFood(snake: Pt[]): Pt {
     let pt: Pt;
@@ -51,8 +59,10 @@ export function useSnakeGame() {
   function die() {
     const s = st.current;
     s.phase = 'dead';
-    if (s.score > s.best) s.best = s.score;
-    setUi({ phase: 'dead', score: s.score, best: s.best, level: s.level });
+    // endGame() automatically persists score as highScore['snake']
+    useGameStore.getState().endGame();
+    useGameProgressStore.getState().setGameActive(false);
+    setPhase('dead');
   }
 
   function step() {
@@ -82,7 +92,8 @@ export function useSnakeGame() {
       s.level = Math.min(7, 1 + Math.floor(s.score / 50));
       s.food = placeFood(newSnake);
       s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
-      setUi(u => ({ ...u, score: s.score, level: s.level }));
+      // עדכון store — מפעיל רענדור בקומפוננט דרך selector
+      useGameProgressStore.getState().updateProgress({ score: s.score, level: s.level });
     }
 
     scheduleStep();
@@ -99,7 +110,11 @@ export function useSnakeGame() {
     s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
     s.score = 0;
     s.level = 1;
-    setUi({ phase: 'playing', score: 0, best: s.best, level: 1 });
+    // אתחל store session + איפוס progress
+    useGameProgressStore.getState().resetProgress();
+    useGameProgressStore.getState().setGameActive(true);
+    useGameStore.getState().startGame('snake');
+    setPhase('playing');
     scheduleStep();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -16,6 +16,7 @@ import {
   speakStartMessage
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
+import { useGameProgressStore, useGameStore } from "@/lib/stores";
 
 /**
  * Hook בסיסי לכל המשחקים הפשוטים
@@ -23,16 +24,32 @@ import { GAME_CONSTANTS } from "@/lib/constants";
  */
 export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBaseGameConfig) {
   const { gameType, items, pronunciations, gameConstants } = config;
-  
-  // State בסיסי
-  const [gameState, setGameState] = useState<BaseGameState<T>>({
+
+  // ── Zustand store reads (score / level / isPlaying) ─────
+  const score          = useGameProgressStore((s) => s.score);
+  const level          = useGameProgressStore((s) => s.level);
+  const isGameActive   = useGameProgressStore((s) => s.isGameActive);
+
+  // ── Local state — only game-specific UI fields ───────────
+  const [localState, setLocalState] = useState<{
+    currentChallenge: T | null;
+    options: T[];
+    showCelebration: boolean;
+  }>({
     currentChallenge: null,
-    score: 0,
-    level: 1,
-    isPlaying: false,
-    showCelebration: false,
     options: [],
+    showCelebration: false,
   });
+
+  // Reconstruct the familiar gameState shape for callers (backward compat)
+  const gameState: BaseGameState<T> = {
+    currentChallenge: localState.currentChallenge,
+    options:          localState.options,
+    showCelebration:  localState.showCelebration,
+    score,
+    level,
+    isPlaying: isGameActive,
+  };
 
   // מעקב טעויות לצורך רמזים
   const [wrongAttempts, setWrongAttempts] = useState(0);
@@ -43,12 +60,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   // Performance optimizations
   const performanceHooks = useGamePerformance({
     items,
-    currentChallenge: gameState.currentChallenge,
+    currentChallenge: localState.currentChallenge,
   });
 
   // Hints system
   const hintsHooks = useGameHints({
-    currentChallenge: gameState.currentChallenge,
+    currentChallenge: localState.currentChallenge,
     wrongAttempts,
   });
 
@@ -57,7 +74,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,
-    level: gameState.level,
+    level,
     baseCount: gameConstants.BASE_COUNT,
     increment: gameConstants.INCREMENT,
     levelThreshold: gameConstants.LEVEL_THRESHOLD,
@@ -79,15 +96,13 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // התחלת משחק
   const startGame = async () => {
-    setGameState({
-      currentChallenge: null,
-      score: 0,
-      level: 1,
-      isPlaying: true,
-      showCelebration: false,
-      options: [],
-    } as BaseGameState<T>);
+    // Reset Zustand stores
+    const progressStore = useGameProgressStore.getState();
+    progressStore.resetProgress();
+    progressStore.setGameActive(true);
+    useGameStore.getState().startGame(gameType);
 
+    setLocalState({ currentChallenge: null, options: [], showCelebration: false });
     setWrongAttempts(0);
     progressHooks.startSession();
 
@@ -97,11 +112,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     const challenge = getRandomChallenge() as T;
     const options = getOptionsForChallenge(challenge) as T[];
 
-    setGameState((prev) => ({
-      ...prev,
-      currentChallenge: challenge,
-      options,
-    }));
+    setLocalState((prev) => ({ ...prev, currentChallenge: challenge, options }));
 
     await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
     await speakItemNameFunc(challenge.name);
@@ -109,46 +120,47 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // טיפול בלחיצה על פריט
   const handleItemClick = async (selectedItem: T) => {
-    if (!gameState.currentChallenge || gameState.showCelebration) return;
+    if (!localState.currentChallenge || localState.showCelebration) return;
 
-    if (selectedItem.name === gameState.currentChallenge.name) {
+    if (selectedItem.name === localState.currentChallenge.name) {
       // תשובה נכונה
       playSuccessSound();
-      setWrongAttempts(0); // איפוס טעויות
-      
-      const newScore = gameState.score + GAME_CONSTANTS.SCORE_INCREMENT;
-      const newLevel = gameState.level + 1;
-      
-      // רישום הצלחה
-      progressHooks.recordCorrectAnswer(gameState.currentChallenge, newScore, newLevel);
+      setWrongAttempts(0);
+
+      // Read current store values for progress tracking
+      const { score: currentScore, level: currentLevel } = useGameProgressStore.getState();
+      progressHooks.recordCorrectAnswer(
+        localState.currentChallenge,
+        currentScore + GAME_CONSTANTS.SCORE_INCREMENT,
+        currentLevel + 1,
+      );
       
       const challenge = getRandomChallenge() as T;
       const options = getOptionsForChallenge(challenge) as T[];
       
       const onComplete = async () => {
-        setGameState((prev) => ({
-          ...prev,
-          currentChallenge: challenge,
-          options,
-        }));
-        
-        await delay(500); // השהייה מעט יותר ארוכה כדי להימנע מחפיפת דיבור
-        // השמעת שם הפריט החדש בתחילת הסיבוב הבא
+        setLocalState((prev) => ({ ...prev, currentChallenge: challenge, options }));
+        await delay(500);
         await speakItemNameFunc(challenge.name);
       };
-      
-      await handleCorrectGameAnswer(gameState, setGameState, onComplete);
+
+      // handleCorrectGameAnswer now updates score/level via store internally
+      await handleCorrectGameAnswer(
+        (v) => setLocalState((prev) => ({ ...prev, showCelebration: v })),
+        onComplete,
+      );
+
+      // Sync updated store values to global game session
+      const updated = useGameProgressStore.getState();
+      useGameStore.getState().updateProgress(updated.score, updated.level);
     } else {
       // תשובה שגויה
-      const newWrongAttempts = wrongAttempts + 1;
-      setWrongAttempts(newWrongAttempts);
-      
-      // רישום טעות
-      progressHooks.recordMistake(gameState.currentChallenge, 1);
+      setWrongAttempts((prev) => prev + 1);
+      progressHooks.recordMistake(localState.currentChallenge, 1);
       
       await handleWrongGameAnswer(async () => {
-        if (gameState.currentChallenge) {
-          await speakItemNameFunc(gameState.currentChallenge.name);
+        if (localState.currentChallenge) {
+          await speakItemNameFunc(localState.currentChallenge.name);
         }
       });
     }
@@ -157,15 +169,11 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   // איפוס משחק
   const resetGame = () => {
     progressHooks.endSession();
+    useGameStore.getState().endGame();
+    useGameProgressStore.getState().setGameActive(false);
+    useGameProgressStore.getState().resetProgress();
     setWrongAttempts(0);
-    setGameState({
-      currentChallenge: null,
-      score: 0,
-      level: 1,
-      isPlaying: false,
-      showCelebration: false,
-      options: [],
-    } as BaseGameState<T>);
+    setLocalState({ currentChallenge: null, options: [], showCelebration: false });
   };
 
   return {

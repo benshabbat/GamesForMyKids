@@ -5,6 +5,7 @@ import { FEEDBACK_MESSAGES, GAME_CONSTANTS, MEMORY_GAME_CONSTANTS, LETTER_HEBREW
 import { AUDIO_CONSTANTS } from "../../constants/core";
 import { speakHebrew, cancelSpeech, isSpeechEnabled } from '../speech/enhancedSpeechUtils';
 import { logError, logWarning } from '../errorUtils';
+import { useGameProgressStore } from '@/lib/stores';
 
 /**
  * פונקציית עזר להשהייה
@@ -206,41 +207,30 @@ export function generateOptions<T>(
 
 /**
  * פונקציה גנרית לטיפול במצב משחק
- * מעדכנת את הניקוד, מפעילה חגיגה ומעבירה לשלב הבא
- * @param gameState מצב המשחק הנוכחי
- * @param setGameState פונקציה לעדכון מצב המשחק
+ * מעדכנת ניקוד ורמה דרך Zustand store, מפעילה חגיגה ומעבירה לשלב הבא
+ * @param setShowCelebration callback לעדכון מצב חגיגה
  * @param onLevelComplete פונקציה שתופעל לאחר השלמת הרמה
  */
-export async function handleCorrectGameAnswer<T extends { score: number; level: number; showCelebration: boolean }>(
-  gameState: T,
-  setGameState: React.Dispatch<React.SetStateAction<T>>,
+export async function handleCorrectGameAnswer(
+  setShowCelebration: (v: boolean) => void,
   onLevelComplete: () => Promise<void>
 ): Promise<void> {
-  // עדכון הניקוד והפעלת חגיגה
-  setGameState(prev => ({
-    ...prev,
-    score: prev.score + GAME_CONSTANTS.SCORE_INCREMENT,
-    showCelebration: true,
-  }));
+  // עדכון ניקוד דרך store + הפעלת חגיגה
+  useGameProgressStore.getState().incrementScore(GAME_CONSTANTS.SCORE_INCREMENT);
+  setShowCelebration(true);
   
   // משוב קולי חיובי
   await speakPositiveFeedback();
   
   // השהייה אחרי המשוב
   await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-  
-  // מעבר לשלב הבא - משתמשים בחזרת קריאה במקום setTimeout
-  // כדי לאפשר לפעולה האסינכרונית להסתיים כראוי
   await delay(GAME_CONSTANTS.DELAYS.CELEBRATION_DURATION);
   
-  // מעדכנים את ה-state לפני הקריאה לפעולה הבאה
-  setGameState(prev => ({
-    ...prev,
-    level: prev.level + 1,
-    showCelebration: false,
-  }));
+  // עדכון רמה דרך store + סגירת חגיגה
+  useGameProgressStore.getState().incrementLevel(Infinity);
+  setShowCelebration(false);
   
-  // בחירת פריט חדש - כעת אנחנו מחכים לסיום הפעולה
+  // בחירת פריט חדש
   await onLevelComplete();
 }
 
