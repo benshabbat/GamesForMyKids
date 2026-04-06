@@ -2,8 +2,9 @@
 
 'use client';
 
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
+import { useFeaturedGameStore } from "@/lib/stores/featuredGameStore";
 
 export interface AgeGroup {
   title: string;
@@ -19,7 +20,10 @@ export interface UseGameRecommendationsReturn {
 }
 
 export function useGameRecommendations(): UseGameRecommendationsReturn {
-  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
+  const featuredGame = useFeaturedGameStore((s) => s.featuredGame);
+  const isClient = useFeaturedGameStore((s) => s.isClient);
+  const setFeaturedGame = useFeaturedGameStore((s) => s.setFeaturedGame);
+  const setIsClient = useFeaturedGameStore((s) => s.setIsClient);
 
   const allGames = useMemo(
     () => GamesRegistry.getAllGameRegistrations().filter((game) => game.available),
@@ -27,17 +31,19 @@ export function useGameRecommendations(): UseGameRecommendationsReturn {
   );
 
   useEffect(() => {
-    if (allGames.length === 0) return;
-    const today = new Date();
-    const dayOfYear = Math.floor(
-      (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-        1000 /
-        60 /
-        60 /
-        24
-    );
-    setFeaturedGame(allGames[dayOfYear % allGames.length]);
-  }, [allGames]);
+    if (!isClient && allGames.length > 0) {
+      const today = new Date();
+      const dayOfYear = Math.floor(
+        (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
+          1000 /
+          60 /
+          60 /
+          24
+      );
+      setIsClient(true);
+      setFeaturedGame(allGames[dayOfYear % allGames.length]);
+    }
+  }, [isClient, allGames, setIsClient, setFeaturedGame]);
 
   const ageGroups = useMemo<Record<string, AgeGroup>>(
     () => ({

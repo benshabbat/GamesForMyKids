@@ -115,43 +115,49 @@ export function useGameData(): UseGameDataReturn {
   }
 }
 
-// Hook for specific category
+// Hook for specific category — derives from shared gameDataStore (no extra Supabase call)
 export function useGameItemsByCategory(category: string) {
-  const [items, setItems] = useState<GameItem[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const allItems = useGameDataStore((s) => s.gameItems);
+  const loaded = useGameDataStore((s) => s.loaded);
+  const loading = useGameDataStore((s) => s.loading);
+  const error = useGameDataStore((s) => s.error);
+  const setGameData = useGameDataStore((s) => s.setGameData);
+  const gameTypes = useGameDataStore((s) => s.gameTypes);
+  const setLoading = useGameDataStore((s) => s.setLoading);
+  const setError = useGameDataStore((s) => s.setError);
 
+  // Trigger a full load if the store isn't populated yet
   const fetchItems = useCallback(async () => {
     try {
-      setLoading(true)
-      setError(null)
-
+      setLoading(true);
+      setError(null);
       const { data, error } = await supabase
         .from('game_items')
         .select('*')
-        .eq('category', category)
-        .order('name', { ascending: true })
-
-      if (error) throw error
-
-      setItems(data || [])
+        .order('name', { ascending: true });
+      if (error) throw error;
+      setGameData(data || [], gameTypes);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'שגיאה בטעינת הנתונים')
+      setError(err instanceof Error ? err.message : 'שגיאה בטעינת הנתונים');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }, [category])
+  }, [gameTypes, setGameData, setLoading, setError]);
 
   useEffect(() => {
-    if (category) {
-      fetchItems()
+    if (category && !loaded) {
+      fetchItems();
     }
-  }, [category, fetchItems])
+  }, [category, loaded, fetchItems]);
+
+  const items = category
+    ? allItems.filter((item) => item.category === category)
+    : allItems;
 
   return {
     items,
     loading,
     error,
-    refreshItems: fetchItems
-  }
+    refreshItems: fetchItems,
+  };
 }

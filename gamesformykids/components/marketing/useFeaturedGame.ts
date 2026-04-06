@@ -1,9 +1,8 @@
 "use client";
 
-'use client';
-
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
+import { useFeaturedGameStore } from "@/lib/stores/featuredGameStore";
 
 /**
  * בוחר את "משחק היום" על בסיס התאריך.
@@ -44,13 +43,17 @@ export interface UseFeaturedGameReturn {
 }
 
 export function useFeaturedGame(): UseFeaturedGameReturn {
-  const [featuredGame, setFeaturedGame] = useState<GameRegistration | null>(null);
-  const [isClient, setIsClient] = useState(false);
+  const featuredGame = useFeaturedGameStore((s) => s.featuredGame);
+  const isClient = useFeaturedGameStore((s) => s.isClient);
+  const setFeaturedGame = useFeaturedGameStore((s) => s.setFeaturedGame);
+  const setIsClient = useFeaturedGameStore((s) => s.setIsClient);
 
   useEffect(() => {
-    setIsClient(true);
-    setFeaturedGame(getDailyFeaturedGame());
-  }, []);
+    if (!isClient) {
+      setIsClient(true);
+      setFeaturedGame(getDailyFeaturedGame());
+    }
+  }, [isClient, setIsClient, setFeaturedGame]);
 
   return { featuredGame, isClient };
 }
