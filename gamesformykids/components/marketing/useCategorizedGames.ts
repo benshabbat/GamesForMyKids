@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useMemo, useCallback } from "react";
+import { useMemo, useCallback } from "react";
+import { useHomePageStore } from "@/lib/stores";
 import {
   Book,
   Palette,
@@ -153,8 +154,9 @@ export interface UseCategorizedGamesReturn {
 }
 
 export function useCategorizedGames(): UseCategorizedGamesReturn {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [showAllGames, setShowAllGames] = useState(false);
+  const selectedCategory = useHomePageStore((s) => s.selectedCategory);
+  const showAllGames = useHomePageStore((s) => s.showAllGames);
+  const { selectCategory, showAllGamesView, showCategoriesView, backToCategories } = useHomePageStore();
 
   const allGameRegistrations = useMemo(
     () => GamesRegistry.getAllGameRegistrations(),
@@ -162,22 +164,20 @@ export function useCategorizedGames(): UseCategorizedGamesReturn {
   );
 
   const handleShowCategories = useCallback(() => {
-    setSelectedCategory(null);
-    setShowAllGames(false);
-  }, []);
+    showCategoriesView();
+  }, [showCategoriesView]);
 
   const handleShowAllGames = useCallback(() => {
-    setSelectedCategory(null);
-    setShowAllGames(true);
-  }, []);
+    showAllGamesView();
+  }, [showAllGamesView]);
 
   const handleCategorySelect = useCallback((key: string) => {
-    setSelectedCategory(key);
-  }, []);
+    selectCategory(key);
+  }, [selectCategory]);
 
   const handleBackToCategories = useCallback(() => {
-    setSelectedCategory(null);
-  }, []);
+    backToCategories();
+  }, [backToCategories]);
 
   return {
     selectedCategory,

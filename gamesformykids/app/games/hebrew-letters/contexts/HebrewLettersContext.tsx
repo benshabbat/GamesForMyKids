@@ -17,6 +17,7 @@
 
 import { createContext, useContext, useState } from 'react';
 import { HebrewLetter } from '../constants/hebrewLetters';
+import { useHebrewLettersStore } from '@/lib/stores/hebrewLettersStore';
 import {
   DEFAULT_DRAWING_STATE,
   DEFAULT_PRACTICE_STATE,
@@ -67,18 +68,44 @@ export const HebrewLettersProvider = ({ children }: HebrewLettersProviderProps) 
   // STATE MANAGEMENT
   // ========================================================================================
   
-  const [currentLetter, setCurrentLetter] = useState<HebrewLetter | null>(null);
+  // Global state — Zustand store
+  const currentLetter = useHebrewLettersStore((s) => s.currentLetter);
+  const completedLetters = useHebrewLettersStore((s) => s.completedLetters);
+  const isAudioEnabled = useHebrewLettersStore((s) => s.isAudioEnabled);
+  const {
+    setCurrentLetter: storeSetCurrentLetter,
+    addCompletedLetter,
+    setIsAudioEnabled: storeSetIsAudioEnabled,
+  } = useHebrewLettersStore();
+
+  // Adapters: convert React.Dispatch<SetStateAction<T>> to store calls
+  const setCurrentLetter: React.Dispatch<React.SetStateAction<HebrewLetter | null>> = (updater) => {
+    const next = typeof updater === 'function' ? updater(useHebrewLettersStore.getState().currentLetter) : updater;
+    storeSetCurrentLetter(next);
+  };
+
+  const setIsAudioEnabled: React.Dispatch<React.SetStateAction<boolean>> = (updater) => {
+    const next = typeof updater === 'function' ? updater(useHebrewLettersStore.getState().isAudioEnabled) : updater;
+    storeSetIsAudioEnabled(next);
+  };
+
+  // Internal state — kept local (tightly coupled to operations hooks)
   const [drawingState, setDrawingState] = useState<DrawingState>(DEFAULT_DRAWING_STATE);
   const [practiceState, setPracticeState] = useState<PracticeState>(DEFAULT_PRACTICE_STATE);
   const [encouragementState, setEncouragementState] = useState<EncouragementState>(DEFAULT_ENCOURAGEMENT_STATE);
-  const [completedLetters, setCompletedLetters] = useState<Set<string>>(new Set());
-  const [isAudioEnabled, setIsAudioEnabled] = useState<boolean>(DEFAULT_AUDIO_STATE.isAudioEnabled);
   const [learningStats, setLearningStats] = useState<LearningStats>({
     ...DEFAULT_LEARNING_STATS,
     lettersStarted: new Set(),
     lettersCompleted: new Set(),
     practiceHistory: []
   });
+
+  // Adapter: completedLetters setter — matches React.Dispatch<SetStateAction<Set<string>>>
+  const setCompletedLetters: React.Dispatch<React.SetStateAction<Set<string>>> = (updater) => {
+    const current = useHebrewLettersStore.getState().completedLetters;
+    const next = typeof updater === 'function' ? updater(current) : updater;
+    next.forEach((name) => addCompletedLetter(name));
+  };
 
   // ========================================================================================
   // OPERATIONS HOOKS
@@ -156,7 +183,7 @@ export const HebrewLettersProvider = ({ children }: HebrewLettersProviderProps) 
     showStepEncouragement: practiceOperations.showEncouragement,
     hideEncouragement: practiceOperations.hideEncouragement,
     markLetterCompleted: (letterName: string) => {
-      setCompletedLetters(prev => new Set([...prev, letterName]));
+      addCompletedLetter(letterName);
     },
     getLetterProgress: (letterName: string) => {
       if (completedLetters.has(letterName)) return 100;
@@ -175,12 +202,15 @@ export const HebrewLettersProvider = ({ children }: HebrewLettersProviderProps) 
       averageTimePerStep: 0
     }),
     exportLearningData: () => JSON.stringify(learningStats),
-    resetAllStats: () => setLearningStats({
-      ...DEFAULT_LEARNING_STATS,
-      lettersStarted: new Set(),
-      lettersCompleted: new Set(),
-      practiceHistory: []
-    }),
+    resetAllStats: () => {
+      useHebrewLettersStore.getState().resetCompletedLetters();
+      setLearningStats({
+        ...DEFAULT_LEARNING_STATS,
+        lettersStarted: new Set(),
+        lettersCompleted: new Set(),
+        practiceHistory: []
+      });
+    },
 
     // Constants and settings
     strokeColors: ['#000000', '#FF0000', '#0000FF', '#00FF00'] as const,

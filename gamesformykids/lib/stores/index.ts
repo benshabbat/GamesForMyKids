@@ -58,3 +58,19 @@ export type { GameSessionState, GameSessionActions } from './gameSessionStore';
 // Game Actions (startGame / handleItemClick / resetGame / speakItemName / hints)
 export { useGameActionsStore } from './gameActionsStore';
 export type { GameActionsState, GameActionsStoreActions } from './gameActionsStore';
+
+// Audio Settings (speechRate / speechPitch / volume / enabled — persisted)
+export { useAudioSettingsStore } from './audioSettingsStore';
+export type { AudioSettingsState, AudioSettingsActions } from './audioSettingsStore';
+
+// Game Settings (sound / music / darkMode / fontSize / language / … — persisted)
+export { useSettingsStore } from './settingsStore';
+export type { SettingsState, SettingsActions } from './settingsStore';
+
+// Home Page (selectedCategory / showAllGames)
+export { useHomePageStore } from './homePageStore';
+export type { HomePageState, HomePageActions } from './homePageStore';
+
+// Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
+export { useHebrewLettersStore } from './hebrewLettersStore';
+export type { HebrewLettersState, HebrewLettersStoreActions } from './hebrewLettersStore';
