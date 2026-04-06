@@ -1,14 +1,19 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
 import { GameItem, GameTypeDbRecord, UseGameDataReturn } from "@/lib/types/hooks/game-state";
+import { useGameDataStore } from '@/lib/stores/gameDataStore';
 
 export function useGameData(): UseGameDataReturn {
-  const [gameItems, setGameItems] = useState<GameItem[]>([])
-  const [gameTypes, setGameTypes] = useState<GameTypeDbRecord[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const gameItems = useGameDataStore((s) => s.gameItems);
+  const gameTypes = useGameDataStore((s) => s.gameTypes);
+  const loading = useGameDataStore((s) => s.loading);
+  const error = useGameDataStore((s) => s.error);
+  const loaded = useGameDataStore((s) => s.loaded);
+  const setGameData = useGameDataStore((s) => s.setGameData);
+  const setLoading = useGameDataStore((s) => s.setLoading);
+  const setError = useGameDataStore((s) => s.setError);
 
   const fetchGameData = useCallback(async () => {
     try {
@@ -33,8 +38,7 @@ export function useGameData(): UseGameDataReturn {
       if (itemsResult.error) throw itemsResult.error
       if (typesResult.error) throw typesResult.error
 
-      setGameItems(itemsResult.data || [])
-      setGameTypes(typesResult.data || [])
+      setGameData(itemsResult.data || [], typesResult.data || [])
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'שגיאה בטעינת נתוני המשחקים';
       setError(errorMessage);
@@ -48,8 +52,10 @@ export function useGameData(): UseGameDataReturn {
   }, [])
 
   useEffect(() => {
-    fetchGameData()
-  }, [fetchGameData])
+    if (!loaded) {
+      fetchGameData()
+    }
+  }, [loaded, fetchGameData])
 
   // Helper functions to get specific categories
   const getItemsByCategory = useCallback((category: string) => {

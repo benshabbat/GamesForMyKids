@@ -8,7 +8,8 @@
 
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
+import { usePlayerProfileStore } from '@/lib/stores/playerProfileStore';
 
 export interface PlayerProfile {
   id: string;
@@ -119,8 +120,21 @@ const DEFAULT_ACHIEVEMENTS: Achievement[] = [
 ];
 
 export const usePlayerProfile = (playerId?: string) => {
-  const [playerData, setPlayerData] = useState<PlayerProfileData | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const key = playerId || 'default';
+  const playerData = usePlayerProfileStore((s) => s.profiles[key] ?? null);
+  const isLoading = usePlayerProfileStore((s) => s.loadingStates[key] ?? true);
+  const setProfile = usePlayerProfileStore((s) => s.setProfile);
+  const setLoading = usePlayerProfileStore((s) => s.setLoading);
+  const removeProfile = usePlayerProfileStore((s) => s.removeProfile);
+
+  const setPlayerData = useCallback(
+    (data: PlayerProfileData | null) => setProfile(key, data),
+    [key, setProfile]
+  );
+  const setIsLoading = useCallback(
+    (loading: boolean) => setLoading(key, loading),
+    [key, setLoading]
+  );
 
   // טעינת נתוני שחקן
   const createNewPlayer = useCallback((name: string = 'שחקן חדש') => {
@@ -364,8 +378,8 @@ export const usePlayerProfile = (playerId?: string) => {
     if (typeof window !== 'undefined' && playerData) {
       localStorage.removeItem(`player_profile_${playerData.profile.id}`);
     }
-    setPlayerData(null);
-  }, [playerData]);
+    removeProfile(key);
+  }, [playerData, removeProfile, key]);
 
   return {
     // נתונים

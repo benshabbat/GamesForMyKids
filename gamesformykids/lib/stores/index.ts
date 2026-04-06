@@ -102,3 +102,12 @@ export type { AchievementsState, AchievementsStoreActions } from './achievements
 // Game Progress Data (progress[] / loading / error — Supabase)
 export { useGameProgressDataStore } from './gameProgressDataStore';
 export type { GameProgressDataState, GameProgressDataActions } from './gameProgressDataStore';
+
+// Performance Settings (performanceMode / animationsEnabled / preloadingEnabled — persisted)
+export { usePerformanceSettingsStore } from './performanceSettingsStore';
+
+// Game Data (gameItems / gameTypes / loading / error — Supabase, deduplicated)
+export { useGameDataStore } from './gameDataStore';
+
+// Player Profile (profiles keyed by playerId — in-memory cache)
+export { usePlayerProfileStore } from './playerProfileStore';
