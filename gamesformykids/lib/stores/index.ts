@@ -50,3 +50,11 @@ export {
   selectAccuracy,
 } from './gameProgressStore';
 export type { GameProgressState, GameProgressActions } from './gameProgressStore';
+
+// Game Session (currentChallenge / options / showCelebration / wrongAttempts)
+export { useGameSessionStore } from './gameSessionStore';
+export type { GameSessionState, GameSessionActions } from './gameSessionStore';
+
+// Game Actions (startGame / handleItemClick / resetGame / speakItemName / hints)
+export { useGameActionsStore } from './gameActionsStore';
+export type { GameActionsState, GameActionsStoreActions } from './gameActionsStore';

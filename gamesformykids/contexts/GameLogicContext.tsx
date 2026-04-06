@@ -2,21 +2,28 @@
 
 /**
  * ===============================================
- * GameLogic Context - לוגיקת המשחק בקונטקסט 🎮
+ * GameLogic Context  fully migrated to Zustand
  * ===============================================
- * 
- * מכיל את כל הלוגיקה של המשחק בקונטקסט:
- * - הפעלת ה-game hook
- * - ניהול UI state  
- * - אספקת כל הנתונים לקומפוננטים
- * 
- * AutoGamePage פשוט מקבל הכל מהקונטקסט!
+ * No React context. State comes from:
+ *   - useGameSessionStore  (currentChallenge / options / showCelebration / wrongAttempts)
+ *   - useGameProgressStore (score / level / isGameActive)
+ *   - useGameActionsStore  (startGame / handleItemClick / resetGame / speakItemName / hints)
+ *   - useUIStore           (showProgressModal)
+ *   - useGameConfig (GameConfigContext) — config / items / CardComponent / gameType
+ *
+ * GameLogicProvider is an effects-only component:
+ *   it runs useGameHook() and syncs the resulting actions to useGameActionsStore.
  */
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { useEffect, ReactNode } from 'react';
 import { BaseGameItem, GameType } from "@/lib/types/core/base";
 import { GameUIConfig } from "@/lib/constants/ui/gameConfigs";
 import { useAutoGameConfig } from './GameConfigContext';
+import { useGameSessionStore } from '@/lib/stores/gameSessionStore';
+import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
+import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
+import { useUIStore } from '@/lib/stores/uiStore';
+import { useGameConfig as useGameConfigFromGameConfig } from './GameConfigContext';
 
 interface GameCardProps {
   item: BaseGameItem;
@@ -41,147 +48,169 @@ export interface GameLogicContextValue {
   options: BaseGameItem[] | null;
   score: number;
   level: number;
-  
+
   // Game Actions
-  startGame: () => void;
+  startGame: () => void | Promise<void>;
   resetGame: () => void;
-  handleItemClick: (item: BaseGameItem) => void;
-  speakItemName: (itemName: string) => void;
-  
+  handleItemClick: (item: BaseGameItem) => void | Promise<void>;
+  speakItemName: (itemName: string) => void | Promise<void>;
+
   // Enhanced Features
   hints?: string[];
   hasMoreHints?: boolean;
   showNextHint?: () => void;
   currentAccuracy?: number;
-  
+
   // UI State
   showProgressModal: boolean;
   setShowProgressModal: (show: boolean) => void;
-  
-  // Configuration - זמין לכל הקומפוננטים
+
+  // Configuration
   config: GameUIConfig;
   items: readonly BaseGameItem[];
   CardComponent: React.ComponentType<GameCardProps>;
-  gameType: GameType,
-  
+  gameType: GameType;
+
   // Status
   isReady: boolean;
   error: string | null;
 }
 
-// Create context
-const GameLogicContext = createContext<GameLogicContextValue | undefined>(undefined);
-
-// Provider Props
+// ---------------------------------------------------------------------------
+// GameLogicProvider  effects-only, no React context
+// ---------------------------------------------------------------------------
 interface GameLogicProviderProps {
   children: ReactNode;
 }
 
-/**
- * 🎮 GameLogic Provider - מספק את כל לוגיקת המשחק
- */
 export function GameLogicProvider({ children }: GameLogicProviderProps) {
-  // קבלת קונפיגורציה
-  const { config, items, CardComponent, useGameHook, gameType } = useAutoGameConfig();
-  
-  // UI state
-  const [showProgressModal, setShowProgressModal] = useState(false);
-  
-  // הפעלת game hook
+  const { useGameHook } = useAutoGameConfig();
   const gameHookResult = useGameHook();
-  const {
+
+  // Sync actions + computed values to Zustand on every render
+  useEffect(() => {
+    useGameActionsStore.getState().setGameActions({
+      startGame: gameHookResult.startGame,
+      resetGame: gameHookResult.resetGame,
+      handleItemClick: gameHookResult.handleItemClick,
+      speakItemName: gameHookResult.speakItemName,
+      hints: gameHookResult.hints?.map(
+        (h: string | { text?: string }) => (typeof h === 'string' ? h : h.text || ''),
+      ) ?? [],
+      hasMoreHints: gameHookResult.hasMoreHints ?? false,
+      showNextHint: gameHookResult.showNextHint ?? (() => {}),
+      currentAccuracy: gameHookResult.currentAccuracy ?? 0,
+    });
+  });
+
+  return <>{children}</>;
+}
+
+// ---------------------------------------------------------------------------
+// useGameLogic  aggregates from Zustand stores (no React context)
+// ---------------------------------------------------------------------------
+export function useGameLogic(): GameLogicContextValue {
+  // Session state
+  const currentChallenge = useGameSessionStore((s) => s.currentChallenge);
+  const options          = useGameSessionStore((s) => s.options);
+  const showCelebration  = useGameSessionStore((s) => s.showCelebration);
+
+  // Progress state
+  const score        = useGameProgressStore((s) => s.score);
+  const level        = useGameProgressStore((s) => s.level);
+  const isGameActive = useGameProgressStore((s) => s.isGameActive);
+
+  // Actions
+  const startGame       = useGameActionsStore((s) => s.startGame);
+  const resetGame       = useGameActionsStore((s) => s.resetGame);
+  const handleItemClick = useGameActionsStore((s) => s.handleItemClick);
+  const speakItemName   = useGameActionsStore((s) => s.speakItemName);
+  const hints           = useGameActionsStore((s) => s.hints);
+  const hasMoreHints    = useGameActionsStore((s) => s.hasMoreHints);
+  const showNextHint    = useGameActionsStore((s) => s.showNextHint);
+  const currentAccuracy = useGameActionsStore((s) => s.currentAccuracy);
+
+  // UI
+  const showProgressModal    = useUIStore((s) => s.showProgressModal);
+  const setShowProgressModal = useUIStore((s) => s.setShowProgressModal);
+
+  // Config
+  const { config, items, CardComponent, gameType, isReady, error } =
+    useGameConfigFromGameConfig();
+
+  const gameState: GameState | null = isGameActive
+    ? { isPlaying: isGameActive, showCelebration, currentChallenge, options, score, level }
+    : null;
+
+  return {
     gameState,
-    speakItemName,
+    isPlaying: isGameActive,
+    showCelebration,
+    currentChallenge,
+    options,
+    score,
+    level,
     startGame,
-    handleItemClick,
     resetGame,
+    handleItemClick,
+    speakItemName,
     hints,
     hasMoreHints,
     showNextHint,
     currentAccuracy,
-  } = gameHookResult;
-
-  const contextValue: GameLogicContextValue = {
-    // Game State
-    gameState,
-    isPlaying: gameState?.isPlaying || false,
-    showCelebration: gameState?.showCelebration || false,
-    currentChallenge: gameState?.currentChallenge || null,
-    options: gameState?.options || null,
-    score: gameState?.score || 0,
-    level: gameState?.level || 1,
-    
-    // Game Actions
-    startGame,
-    resetGame,
-    handleItemClick,
-    speakItemName,
-    
-    // Enhanced Features
-    hints: hints?.map((hint: string | { text?: string }) => typeof hint === 'string' ? hint : hint.text || ''),
-    hasMoreHints,
-    showNextHint,
-    currentAccuracy,
-    
-    // UI State
     showProgressModal,
     setShowProgressModal,
-    
-    // Configuration
-    config,
-    items,
-    CardComponent,
+    config: config!,
+    items: items ?? [],
+    CardComponent: CardComponent!,
     gameType: gameType as GameType,
-    
-    // Status
-    isReady: true,
-    error: null,
+    isReady: isReady ?? false,
+    error,
   };
-
-  return (
-    <GameLogicContext.Provider value={contextValue}>
-      {children}
-    </GameLogicContext.Provider>
-  );
 }
 
-/**
- * 🎮 Hook לשימוש בלוגיקת המשחק
- */
-export function useGameLogic(): GameLogicContextValue {
-  const context = useContext(GameLogicContext);
-  
-  if (context === undefined) {
-    throw new Error('useGameLogic must be used within a GameLogicProvider');
-  }
-  
-  return context;
-}
-
-/**
- * 🎯 Hooks מותאמים לחלקים ספציפיים
- */
+// ---------------------------------------------------------------------------
+// Specialised sub-hooks (unchanged API)
+// ---------------------------------------------------------------------------
 export function useGameState() {
-  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level } = useGameLogic();
-  return { gameState, isPlaying, showCelebration, currentChallenge, options, score, level };
+  const currentChallenge = useGameSessionStore((s) => s.currentChallenge);
+  const options          = useGameSessionStore((s) => s.options);
+  const showCelebration  = useGameSessionStore((s) => s.showCelebration);
+  const score        = useGameProgressStore((s) => s.score);
+  const level        = useGameProgressStore((s) => s.level);
+  const isGameActive = useGameProgressStore((s) => s.isGameActive);
+
+  const gameState: GameState | null = isGameActive
+    ? { isPlaying: isGameActive, showCelebration, currentChallenge, options, score, level }
+    : null;
+
+  return { gameState, isPlaying: isGameActive, showCelebration, currentChallenge, options, score, level };
 }
 
 export function useGameActions() {
-  const { startGame, resetGame, handleItemClick, speakItemName } = useGameLogic();
+  const startGame       = useGameActionsStore((s) => s.startGame);
+  const resetGame       = useGameActionsStore((s) => s.resetGame);
+  const handleItemClick = useGameActionsStore((s) => s.handleItemClick);
+  const speakItemName   = useGameActionsStore((s) => s.speakItemName);
   return { startGame, resetGame, handleItemClick, speakItemName };
 }
 
 export function useGameUI() {
-  const { showProgressModal, setShowProgressModal } = useGameLogic();
+  const showProgressModal    = useUIStore((s) => s.showProgressModal);
+  const setShowProgressModal = useUIStore((s) => s.setShowProgressModal);
   return { showProgressModal, setShowProgressModal };
 }
 
 export function useGameConfig() {
-  const { config, items, CardComponent, gameType } = useGameLogic();
+  const { config, items, CardComponent, gameType } = useGameConfigFromGameConfig();
   return { config, items, CardComponent, gameType };
 }
 
 export function useGameHints() {
-  const { hints, hasMoreHints, showNextHint, currentAccuracy } = useGameLogic();
+  const hints           = useGameActionsStore((s) => s.hints);
+  const hasMoreHints    = useGameActionsStore((s) => s.hasMoreHints);
+  const showNextHint    = useGameActionsStore((s) => s.showNextHint);
+  const currentAccuracy = useGameActionsStore((s) => s.currentAccuracy);
   return { hints, hasMoreHints, showNextHint, currentAccuracy };
 }
+

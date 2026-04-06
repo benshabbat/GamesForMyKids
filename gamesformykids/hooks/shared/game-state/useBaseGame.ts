@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from "react";
 import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
@@ -17,6 +16,7 @@ import {
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgressStore, useGameStore } from "@/lib/stores";
+import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
 
 /**
  * Hook בסיסי לכל המשחקים הפשוטים
@@ -30,29 +30,21 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   const level          = useGameProgressStore((s) => s.level);
   const isGameActive   = useGameProgressStore((s) => s.isGameActive);
 
-  // ── Local state — only game-specific UI fields ───────────
-  const [localState, setLocalState] = useState<{
-    currentChallenge: T | null;
-    options: T[];
-    showCelebration: boolean;
-  }>({
-    currentChallenge: null,
-    options: [],
-    showCelebration: false,
-  });
+  // ── Zustand game session store (currentChallenge / options / showCelebration) ──
+  const currentChallenge = useGameSessionStore((s) => s.currentChallenge) as T | null;
+  const options          = useGameSessionStore((s) => s.options) as T[];
+  const showCelebration  = useGameSessionStore((s) => s.showCelebration);
+  const wrongAttempts    = useGameSessionStore((s) => s.wrongAttempts);
 
   // Reconstruct the familiar gameState shape for callers (backward compat)
   const gameState: BaseGameState<T> = {
-    currentChallenge: localState.currentChallenge,
-    options:          localState.options,
-    showCelebration:  localState.showCelebration,
+    currentChallenge,
+    options,
+    showCelebration,
     score,
     level,
     isPlaying: isGameActive,
   };
-
-  // מעקב טעויות לצורך רמזים
-  const [wrongAttempts, setWrongAttempts] = useState(0);
 
   // Hooks משותפים
   const { speechEnabled, playSuccessSound } = useGameAudio();
@@ -60,12 +52,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   // Performance optimizations
   const performanceHooks = useGamePerformance({
     items,
-    currentChallenge: localState.currentChallenge,
+    currentChallenge,
   });
 
   // Hints system
   const hintsHooks = useGameHints({
-    currentChallenge: localState.currentChallenge,
+    currentChallenge,
     wrongAttempts,
   });
 
@@ -102,17 +94,16 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     progressStore.setGameActive(true);
     useGameStore.getState().startGame(gameType);
 
-    setLocalState({ currentChallenge: null, options: [], showCelebration: false });
-    setWrongAttempts(0);
+    useGameSessionStore.getState().resetSession();
     progressHooks.startSession();
 
     await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
     await speakStartMessage();
     
     const challenge = getRandomChallenge() as T;
-    const options = getOptionsForChallenge(challenge) as T[];
+    const newOptions = getOptionsForChallenge(challenge) as T[];
 
-    setLocalState((prev) => ({ ...prev, currentChallenge: challenge, options }));
+    useGameSessionStore.getState().setChallengeAndOptions(challenge, newOptions);
 
     await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
     await speakItemNameFunc(challenge.name);
@@ -120,33 +111,33 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // טיפול בלחיצה על פריט
   const handleItemClick = async (selectedItem: T) => {
-    if (!localState.currentChallenge || localState.showCelebration) return;
+    if (!currentChallenge || showCelebration) return;
 
-    if (selectedItem.name === localState.currentChallenge.name) {
+    if (selectedItem.name === currentChallenge.name) {
       // תשובה נכונה
       playSuccessSound();
-      setWrongAttempts(0);
+      useGameSessionStore.getState().resetWrongAttempts();
 
       // Read current store values for progress tracking
       const { score: currentScore, level: currentLevel } = useGameProgressStore.getState();
       progressHooks.recordCorrectAnswer(
-        localState.currentChallenge,
+        currentChallenge,
         currentScore + GAME_CONSTANTS.SCORE_INCREMENT,
         currentLevel + 1,
       );
       
       const challenge = getRandomChallenge() as T;
-      const options = getOptionsForChallenge(challenge) as T[];
+      const newOptions = getOptionsForChallenge(challenge) as T[];
       
       const onComplete = async () => {
-        setLocalState((prev) => ({ ...prev, currentChallenge: challenge, options }));
+        useGameSessionStore.getState().setChallengeAndOptions(challenge, newOptions);
         await delay(500);
         await speakItemNameFunc(challenge.name);
       };
 
       // handleCorrectGameAnswer now updates score/level via store internally
       await handleCorrectGameAnswer(
-        (v) => setLocalState((prev) => ({ ...prev, showCelebration: v })),
+        (v) => useGameSessionStore.getState().setShowCelebration(v),
         onComplete,
       );
 
@@ -155,12 +146,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       useGameStore.getState().updateProgress(updated.score, updated.level);
     } else {
       // תשובה שגויה
-      setWrongAttempts((prev) => prev + 1);
-      progressHooks.recordMistake(localState.currentChallenge, 1);
+      useGameSessionStore.getState().incrementWrongAttempts();
+      progressHooks.recordMistake(currentChallenge, 1);
       
       await handleWrongGameAnswer(async () => {
-        if (localState.currentChallenge) {
-          await speakItemNameFunc(localState.currentChallenge.name);
+        if (currentChallenge) {
+          await speakItemNameFunc(currentChallenge.name);
         }
       });
     }
@@ -172,8 +163,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     useGameStore.getState().endGame();
     useGameProgressStore.getState().setGameActive(false);
     useGameProgressStore.getState().resetProgress();
-    setWrongAttempts(0);
-    setLocalState({ currentChallenge: null, options: [], showCelebration: false });
+    useGameSessionStore.getState().resetSession();
   };
 
   return {

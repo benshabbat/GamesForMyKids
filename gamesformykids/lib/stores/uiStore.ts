@@ -34,6 +34,8 @@ export interface UIState {
   notifications: Notification[];
   /** האם ה-sidebar/drawer פתוח (שמישה עתידית) */
   sidebarOpen: boolean;
+  /** האם מודל ההתקדמות פתוח */
+  showProgressModal: boolean;
 }
 
 export interface UIActions {
@@ -46,6 +48,7 @@ export interface UIActions {
   clearAllNotifications: () => void;
   setSidebarOpen: (open: boolean) => void;
   toggleSidebar: () => void;
+  setShowProgressModal: (show: boolean) => void;
 }
 
 let _counter = 0;
@@ -57,6 +60,7 @@ export const useUIStore = create<UIState & UIActions>()(
     (set, get) => ({
       notifications: [],
       sidebarOpen: false,
+      showProgressModal: false,
 
       addNotification: (message, type = 'info', duration = 4000) => {
         const id = genId();
@@ -94,6 +98,9 @@ export const useUIStore = create<UIState & UIActions>()(
 
       toggleSidebar: () =>
         set((s) => ({ sidebarOpen: !s.sidebarOpen }), false, 'ui/toggleSidebar'),
+
+      setShowProgressModal: (show) =>
+        set({ showProgressModal: show }, false, 'ui/setShowProgressModal'),
     }),
     { name: 'UIStore' }
   )
