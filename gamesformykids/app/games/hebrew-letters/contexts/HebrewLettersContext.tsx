@@ -22,7 +22,6 @@ import {
   DEFAULT_DRAWING_STATE,
   DEFAULT_PRACTICE_STATE,
   DEFAULT_ENCOURAGEMENT_STATE,
-  DEFAULT_AUDIO_STATE,
   DEFAULT_LEARNING_STATS
 } from '../constants/hebrewLettersConstants';
 import {

@@ -1,10 +1,11 @@
 'use client';
+import { AnimalCategory } from '../data/animals';
 
 interface Props {
-  onStart: (cat: string) => void;
+  onStart: (cat: AnimalCategory | 'all') => void;
 }
 
-const CAT_ORDER = ['all', 'farm', 'wild', 'sea', 'birds', 'insects'];
+const CAT_ORDER: (AnimalCategory | 'all')[] = ['all', 'farm', 'wild', 'sea', 'birds', 'insects'];
 const CAT_DISPLAY: Record<string, string> = { all: '🌍 הכל', farm: '🐄 חוות', wild: '🦁 בר', sea: '🐬 ים', birds: '🦅 ציפורים', insects: '🐛 חרקים' };
 
 export default function AnimalsMenuScreen({ onStart }: Props) {

@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useMemoryManagement } from '../../../hooks/shared/analytics/useMemoryManagement';
 import { usePerformanceSettingsStore } from '@/lib/stores/performanceSettingsStore';
 

@@ -6,7 +6,7 @@ import DinoMenuOverlay from './components/DinoMenuOverlay';
 import DinoGameOverOverlay from './components/DinoGameOverOverlay';
 
 export default function DinoRunnerGame() {
-  const { canvasRef, ui, jump, handleTap } = useDinoRunnerGame();
+  const { canvasRef, ui, handleTap } = useDinoRunnerGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">

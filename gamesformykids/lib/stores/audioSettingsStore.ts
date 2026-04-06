@@ -42,7 +42,7 @@ const DEFAULTS: AudioSettingsState = {
 export const useAudioSettingsStore = create<AudioSettingsState & AudioSettingsActions>()(
   devtools(
     persist(
-      (set, get) => ({
+      (set) => ({
         ...DEFAULTS,
 
         saveSettings: (partial) =>

@@ -1,5 +1,5 @@
 'use client';
-import { CATEGORIES, CATEGORY_EMOJIS, TriviaCategory } from '../data/questions';
+import { CATEGORIES, CATEGORY_EMOJIS } from '../data/questions';
 
 interface Props {
   onStart: (category: string) => void;

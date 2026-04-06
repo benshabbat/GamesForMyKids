@@ -21,7 +21,7 @@ interface Props {
 }
 
 export default function SportsQuizQuestion({
-  index, total, score, current, selected, isCorrect, onSelect, onNext, onMenu,
+  index, total, score, current, selected, isCorrect, onSelect, onNext,
 }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-100 flex flex-col items-center justify-center p-4" dir="rtl">

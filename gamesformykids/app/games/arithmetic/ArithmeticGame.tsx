@@ -20,7 +20,7 @@ export default function ArithmeticGame() {
       <ArithmeticQuestion
         level={level} question={question} questionNum={questionNum}
         totalQuestions={totalQuestions} score={score}
-        selected={selected} isCorrect={isCorrect}
+        selected={selected} isCorrect={isCorrect ?? false}
         timeLeft={timeLeft} timePct={timePct}
         onSelect={selectAnswer} onAdvance={advance} onMenu={goMenu}
       />

@@ -1,15 +1,9 @@
 'use client';
-
-interface Level {
-  id: number;
-  label: string;
-  maxNum: number;
-  operations: string[];
-}
+import { ArithmeticLevel } from '../data/questions';
 
 interface Props {
-  levels: Level[];
-  onStart: (level: Level) => void;
+  levels: ArithmeticLevel[];
+  onStart: (level: ArithmeticLevel) => void;
 }
 
 const LEVEL_EMOJIS = ['➕', '➕➖', '➕', '➖', '✖️', '🔣'];
