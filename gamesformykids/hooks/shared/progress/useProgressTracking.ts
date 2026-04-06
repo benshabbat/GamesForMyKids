@@ -8,26 +8,14 @@
 import { useState, useEffect, useCallback } from 'react';
 import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession, ProgressStats } from '@/lib/types/hooks/progress';
+import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
 
 export function useProgressTracking(gameType: GameType) {
-  const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
-  const [allSessions, setAllSessions] = useState<GameSession[]>([]);
-  const [progressStats, setProgressStats] = useState<ProgressStats | null>(null);
+  const allSessions = useProgressTrackingStore((s) => s.allSessions);
+  const { addSession, updateCurrentSession } = useProgressTrackingStore();
 
-  // Load saved progress from localStorage
-  useEffect(() => {
-    const savedSessions = localStorage.getItem('gameProgress');
-    if (savedSessions) {
-      try {
-        const sessions = JSON.parse(savedSessions);
-        setAllSessions(sessions);
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Error loading progress:', error);
-        }
-      }
-    }
-  }, []);
+  const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
+  const [progressStats, setProgressStats] = useState<ProgressStats | null>(null);
 
   // Start a new game session
   const startSession = useCallback(() => {
@@ -86,27 +74,14 @@ export function useProgressTracking(gameType: GameType) {
   // End current session and save progress
   const endSession = useCallback(() => {
     if (currentSession) {
-      const completedSession = {
+      const completedSession: GameSession = {
         ...currentSession,
         endTime: new Date(),
       };
-
-      setAllSessions(prev => {
-        const newSessions = [...prev, completedSession];
-        // Save to localStorage
-        try {
-          localStorage.setItem('gameProgress', JSON.stringify(newSessions));
-        } catch (error) {
-          if (process.env.NODE_ENV === 'development') {
-            console.error('Error saving progress:', error);
-          }
-        }
-        return newSessions;
-      });
-
+      addSession(completedSession);
       setCurrentSession(null);
     }
-  }, [currentSession]);
+  }, [currentSession, addSession]);
 
   // Calculate comprehensive progress statistics
   const calculateProgressStats = useCallback((): ProgressStats => {

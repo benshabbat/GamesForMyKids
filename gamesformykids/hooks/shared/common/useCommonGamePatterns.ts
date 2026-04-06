@@ -8,7 +8,9 @@
 
 'use client';
 
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { useHighScoreStore } from '@/lib/stores/highScoreStore';
+import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 
 export interface GameTimer {
   timeElapsed: number;
@@ -101,13 +103,8 @@ export const useGameTimer = (): GameTimer => {
  */
 export const useGameScore = (gameId: string): GameScore => {
   const [current, setCurrent] = useState(0);
-  const [best, setBest] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`game_best_score_${gameId}`);
-      return saved ? parseInt(saved, 10) : 0;
-    }
-    return 0;
-  });
+  const best = useHighScoreStore((s) => s.scores[gameId] ?? 0);
+  const { submitScore } = useHighScoreStore();
 
   const increment = useCallback((points: number = 10) => {
     setCurrent(prev => prev + points);
@@ -118,20 +115,15 @@ export const useGameScore = (gameId: string): GameScore => {
   }, []);
 
   const saveBest = useCallback(() => {
-    if (current > best) {
-      setBest(current);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem(`game_best_score_${gameId}`, current.toString());
-      }
-    }
-  }, [current, best, gameId]);
+    submitScore(gameId, current);
+  }, [submitScore, gameId, current]);
 
   return {
     current,
     best,
     increment,
     reset,
-    saveBest
+    saveBest,
   };
 };
 
@@ -139,36 +131,20 @@ export const useGameScore = (gameId: string): GameScore => {
  * Hook לניהול אודיו במשחק
  */
 export const useGameAudio = (): GameAudio => {
-  const [isMuted, setIsMuted] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('game_audio_muted');
-      return saved === 'true';
-    }
-    return false;
-  });
+  const enabled = useAudioSettingsStore((s) => s.enabled);
+  const volume = useAudioSettingsStore((s) => s.volume);
+  const { toggleEnabled, updateVolume } = useAudioSettingsStore();
 
-  const [volume, setVolumeState] = useState(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('game_audio_volume');
-      return saved ? parseFloat(saved) : 0.7;
-    }
-    return 0.7;
-  });
+  const isMuted = !enabled;
 
   const setMuted = useCallback((muted: boolean) => {
-    setIsMuted(muted);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('game_audio_muted', muted.toString());
-    }
-  }, []);
+    if (muted === !enabled) return; // no-op if already in desired state
+    toggleEnabled();
+  }, [enabled, toggleEnabled]);
 
   const setVolume = useCallback((newVolume: number) => {
-    const clampedVolume = Math.max(0, Math.min(1, newVolume));
-    setVolumeState(clampedVolume);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('game_audio_volume', clampedVolume.toString());
-    }
-  }, []);
+    updateVolume(Math.max(0, Math.min(1, newVolume)));
+  }, [updateVolume]);
 
   const playSound = useCallback((soundType: 'correct' | 'incorrect' | 'complete' | 'click') => {
     if (isMuted || typeof window === 'undefined') return;

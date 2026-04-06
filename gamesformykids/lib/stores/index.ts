@@ -74,3 +74,15 @@ export type { HomePageState, HomePageActions } from './homePageStore';
 // Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
 export { useHebrewLettersStore } from './hebrewLettersStore';
 export type { HebrewLettersState, HebrewLettersStoreActions } from './hebrewLettersStore';
+
+// Game Difficulty (per-game adaptive difficulty — persisted)
+export { useGameDifficultyStore } from './gameDifficultyStore';
+export type { GameDifficultyState, GameDifficultyActions, DifficultyLevel, PerformanceHistory } from './gameDifficultyStore';
+
+// High Scores (best score per gameId — persisted)
+export { useHighScoreStore } from './highScoreStore';
+export type { HighScoreState, HighScoreActions } from './highScoreStore';
+
+// Progress Tracking (allSessions — persisted)
+export { useProgressTrackingStore } from './progressTrackingStore';
+export type { ProgressTrackingState, ProgressTrackingActions } from './progressTrackingStore';

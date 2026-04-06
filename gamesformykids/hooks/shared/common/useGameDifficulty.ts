@@ -1,16 +1,19 @@
 /**
  * ===============================================
- * Game Difficulty Hook - Hook לניהול רמות קושי
+ * Game Difficulty Hook — wrapper around gameDifficultyStore
  * ===============================================
- * 
- * מנהל רמות קושי אדפטיביות במשחקים
+ * ממשק זהה לגרסה הישנה, state מגיע מ-Zustand persist.
  */
 
 'use client';
 
-import { useState, useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
+import {
+  useGameDifficultyStore,
+  type DifficultyLevel,
+} from '@/lib/stores/gameDifficultyStore';
 
-export type DifficultyLevel = 'easy' | 'medium' | 'hard' | 'expert';
+export type { DifficultyLevel };
 
 export interface DifficultySettings {
   level: DifficultyLevel;
@@ -68,132 +71,91 @@ export const useGameDifficulty = (
   gameId: string,
   initialDifficulty: DifficultyLevel = 'easy'
 ) => {
-  const [currentDifficulty, setCurrentDifficulty] = useState<DifficultyLevel>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`game_difficulty_${gameId}`);
-      return (saved as DifficultyLevel) || initialDifficulty;
-    }
-    return initialDifficulty;
-  });
-
-  const [performanceHistory, setPerformanceHistory] = useState<{
-    successRate: number[];
-    averageTime: number[];
-  }>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem(`game_performance_${gameId}`);
-      return saved ? JSON.parse(saved) : { successRate: [], averageTime: [] };
-    }
-    return { successRate: [], averageTime: [] };
-  });
-
+  const store = useGameDifficultyStore();
+  const currentDifficulty = store.getDifficulty(gameId, initialDifficulty);
+  const performanceHistory = store.getPerformanceHistory(gameId);
   const settings = DEFAULT_SETTINGS[currentDifficulty];
 
-  // שמירת רמת הקושי בזיכרון המקומי
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`game_difficulty_${gameId}`, currentDifficulty);
-    }
-  }, [currentDifficulty, gameId]);
-
-  // שמירת היסטוריית הביצועים
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(`game_performance_${gameId}`, JSON.stringify(performanceHistory));
-    }
-  }, [performanceHistory, gameId]);
-
-  const setDifficulty = useCallback((level: DifficultyLevel) => {
-    setCurrentDifficulty(level);
-  }, []);
+  const setDifficulty = useCallback(
+    (level: DifficultyLevel) => store.setDifficulty(gameId, level),
+    [store, gameId],
+  );
 
   const increaseDifficulty = useCallback(() => {
     const levels: DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
-    const currentIndex = levels.indexOf(currentDifficulty);
-    if (currentIndex < levels.length - 1) {
-      setCurrentDifficulty(levels[currentIndex + 1]);
-    }
-  }, [currentDifficulty]);
+    const idx = levels.indexOf(currentDifficulty);
+    if (idx < levels.length - 1) store.setDifficulty(gameId, levels[idx + 1]);
+  }, [store, gameId, currentDifficulty]);
 
   const decreaseDifficulty = useCallback(() => {
     const levels: DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
-    const currentIndex = levels.indexOf(currentDifficulty);
-    if (currentIndex > 0) {
-      setCurrentDifficulty(levels[currentIndex - 1]);
-    }
-  }, [currentDifficulty]);
+    const idx = levels.indexOf(currentDifficulty);
+    if (idx > 0) store.setDifficulty(gameId, levels[idx - 1]);
+  }, [store, gameId, currentDifficulty]);
 
-  const adjustBasedOnPerformance = useCallback((successRate: number, averageTime: number) => {
-    // עדכון היסטוריית הביצועים
-    setPerformanceHistory(prev => ({
-      successRate: [...prev.successRate.slice(-9), successRate], // שמירת 10 ביצועים אחרונים
-      averageTime: [...prev.averageTime.slice(-9), averageTime]
-    }));
+  const adjustBasedOnPerformance = useCallback(
+    (successRate: number, averageTime: number) => {
+      store.addPerformanceSnapshot(gameId, successRate, averageTime);
 
-    // הכנת המלצה על רמת קושי על בסיס ביצועים
-    if (!settings.autoAdjust) return;
+      if (!settings.autoAdjust) return;
 
-    const recentSuccessRate = performanceHistory.successRate.slice(-5);
-    const recentAverageTime = performanceHistory.averageTime.slice(-5);
+      const recentSuccess = performanceHistory.successRate.slice(-5);
+      const recentTime = performanceHistory.averageTime.slice(-5);
 
-    if (recentSuccessRate.length >= 3) {
-      const avgSuccessRate = recentSuccessRate.reduce((a, b) => a + b, 0) / recentSuccessRate.length;
-      const avgTime = recentAverageTime.reduce((a, b) => a + b, 0) / recentAverageTime.length;
+      if (recentSuccess.length >= 3) {
+        const avgSuccess = recentSuccess.reduce((a, b) => a + b, 0) / recentSuccess.length;
+        const avgTime = recentTime.reduce((a, b) => a + b, 0) / recentTime.length;
 
-      // אם השחקן מצליח מעל 90% ומהר - העלה קושי
-      if (avgSuccessRate > 0.9 && avgTime < (settings.timeLimit || 60) * 0.5) {
-        increaseDifficulty();
+        if (avgSuccess > 0.9 && avgTime < (settings.timeLimit || 60) * 0.5) {
+          const levels: DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
+          const idx = levels.indexOf(currentDifficulty);
+          if (idx < levels.length - 1) store.setDifficulty(gameId, levels[idx + 1]);
+        } else if (avgSuccess < 0.6) {
+          const levels: DifficultyLevel[] = ['easy', 'medium', 'hard', 'expert'];
+          const idx = levels.indexOf(currentDifficulty);
+          if (idx > 0) store.setDifficulty(gameId, levels[idx - 1]);
+        }
       }
-      // אם השחקן מתקשה מתחת ל-60% - הורד קושי  
-      else if (avgSuccessRate < 0.6) {
-        decreaseDifficulty();
-      }
-    }
-  }, [settings.autoAdjust, settings.timeLimit, performanceHistory, increaseDifficulty, decreaseDifficulty]);
+    },
+    [store, gameId, settings, performanceHistory, currentDifficulty],
+  );
 
-  const resetToDefault = useCallback(() => {
-    setCurrentDifficulty(initialDifficulty);
-    setPerformanceHistory({ successRate: [], averageTime: [] });
-  }, [initialDifficulty]);
+  const resetToDefault = useCallback(
+    () => store.resetGame(gameId, initialDifficulty),
+    [store, gameId, initialDifficulty],
+  );
 
   const getDifficultyColor = useCallback((level: DifficultyLevel) => {
-    const colors = {
+    const colors: Record<DifficultyLevel, string> = {
       easy: 'text-green-600 bg-green-100',
-      medium: 'text-yellow-600 bg-yellow-100', 
+      medium: 'text-yellow-600 bg-yellow-100',
       hard: 'text-orange-600 bg-orange-100',
-      expert: 'text-red-600 bg-red-100'
+      expert: 'text-red-600 bg-red-100',
     };
     return colors[level];
   }, []);
 
   const getDifficultyIcon = useCallback((level: DifficultyLevel) => {
-    const icons = {
+    const icons: Record<DifficultyLevel, string> = {
       easy: '🟢',
       medium: '🟡',
-      hard: '🟠', 
-      expert: '🔴'
+      hard: '🟠',
+      expert: '🔴',
     };
     return icons[level];
   }, []);
 
   return {
-    // Current state
     currentDifficulty,
     settings,
     performanceHistory,
-    
-    // Actions
     setDifficulty,
     increaseDifficulty,
     decreaseDifficulty,
     adjustBasedOnPerformance,
     resetToDefault,
-    
-    // Utilities
     getDifficultyColor,
     getDifficultyIcon,
-    
-    // Available difficulties
-    availableDifficulties: Object.keys(DEFAULT_SETTINGS) as DifficultyLevel[]
+    availableDifficulties: Object.keys(DEFAULT_SETTINGS) as DifficultyLevel[],
   };
 };
