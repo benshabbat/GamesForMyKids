@@ -13,6 +13,7 @@ import {
   UniversalGameContextValue,
   UniversalGameProviderProps,
 } from '@/lib/types/contexts/universal-game';
+import { GameType } from '@/lib/types/core/base';
 import {
   useGameLogic,
   useGameState,
@@ -57,8 +58,8 @@ export function useUniversalGame(): UniversalGameContextValue {
     speakItemName,
     config: config!,
     items: items || [],
-    CardComponent,
-    gameType,
+    CardComponent: CardComponent!,
+    gameType: gameType as GameType,
     hints: hints || [],
     hasMoreHints: hasMoreHints || false,
     showNextHint: showNextHint || (() => {}),

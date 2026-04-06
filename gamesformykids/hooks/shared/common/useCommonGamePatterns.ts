@@ -8,7 +8,7 @@
 
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { useHighScoreStore } from '@/lib/stores/highScoreStore';
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 

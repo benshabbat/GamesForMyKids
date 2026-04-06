@@ -144,7 +144,7 @@ export interface Achievement {
   title: string;
   description: string;
   icon: string;
-  condition: (progress: GameProgress) => boolean;
+  condition: (progress: Omit<GameProgress, 'isGameActive' | 'timerPaused'>) => boolean;
   unlocked: boolean;
 }
 
