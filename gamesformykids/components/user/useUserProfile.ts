@@ -2,9 +2,10 @@
 
 'use client';
 
-import { useState, useCallback } from "react";
+import { useCallback } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import type { User } from "@supabase/supabase-js";
+import { useUIStore } from "@/lib/stores/uiStore";
 
 export interface UseUserProfileReturn {
   user: User | null;
@@ -19,16 +20,15 @@ export interface UseUserProfileReturn {
 
 export function useUserProfile(): UseUserProfileReturn {
   const { user, signOut, loading, isGuest } = useAuth();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-  const openMenu = useCallback(() => setIsMenuOpen(true), []);
-  const closeMenu = useCallback(() => setIsMenuOpen(false), []);
-  const toggleMenu = useCallback(() => setIsMenuOpen((v) => !v), []);
+  const isMenuOpen = useUIStore((s) => s.isUserMenuOpen);
+  const openMenu = useUIStore((s) => s.openUserMenu);
+  const closeMenu = useUIStore((s) => s.closeUserMenu);
+  const toggleMenu = useUIStore((s) => s.toggleUserMenu);
 
   const handleSignOut = useCallback(() => {
     signOut();
-    setIsMenuOpen(false);
-  }, [signOut]);
+    closeMenu();
+  }, [signOut, closeMenu]);
 
   return { user, loading, isGuest, isMenuOpen, openMenu, closeMenu, toggleMenu, handleSignOut };
 }

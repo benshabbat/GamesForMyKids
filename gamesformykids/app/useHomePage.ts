@@ -2,7 +2,8 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback } from "react";
+import { useHomePageStore } from "@/lib/stores/homePageStore";
 
 export interface UseHomePageReturn {
   isLoading: boolean;
@@ -15,12 +16,14 @@ export interface UseHomePageReturn {
  * מחליט אם להציג LoadingScreen (רק ביקור ראשון, לא ב-dev).
  */
 export function useHomePage(): UseHomePageReturn {
-  const [isLoading, setIsLoading] = useState(false);
-  const [shouldShowLoader, setShouldShowLoader] = useState(false);
+  const isLoading = useHomePageStore((s) => s.isLoading);
+  const shouldShowLoader = useHomePageStore((s) => s.shouldShowLoader);
+  const setIsLoading = useHomePageStore((s) => s.setIsLoading);
+  const setShouldShowLoader = useHomePageStore((s) => s.setShouldShowLoader);
 
   const handleLoadingComplete = useCallback(() => {
     setIsLoading(false);
-  }, []);
+  }, [setIsLoading]);
 
   useEffect(() => {
     const hasVisited = sessionStorage.getItem("hasVisited");
@@ -29,7 +32,7 @@ export function useHomePage(): UseHomePageReturn {
       setIsLoading(true);
       sessionStorage.setItem("hasVisited", "true");
     }
-  }, []);
+  }, [setIsLoading, setShouldShowLoader]);
 
   return { isLoading, shouldShowLoader, handleLoadingComplete };
 }

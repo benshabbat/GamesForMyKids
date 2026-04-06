@@ -36,6 +36,8 @@ export interface UIState {
   sidebarOpen: boolean;
   /** האם מודל ההתקדמות פתוח */
   showProgressModal: boolean;
+  /** האם תפריט המשתמש פתוח */
+  isUserMenuOpen: boolean;
 }
 
 export interface UIActions {
@@ -49,6 +51,9 @@ export interface UIActions {
   setSidebarOpen: (open: boolean) => void;
   toggleSidebar: () => void;
   setShowProgressModal: (show: boolean) => void;
+  openUserMenu: () => void;
+  closeUserMenu: () => void;
+  toggleUserMenu: () => void;
 }
 
 let _counter = 0;
@@ -61,6 +66,7 @@ export const useUIStore = create<UIState & UIActions>()(
       notifications: [],
       sidebarOpen: false,
       showProgressModal: false,
+      isUserMenuOpen: false,
 
       addNotification: (message, type = 'info', duration = 4000) => {
         const id = genId();
@@ -101,6 +107,11 @@ export const useUIStore = create<UIState & UIActions>()(
 
       setShowProgressModal: (show) =>
         set({ showProgressModal: show }, false, 'ui/setShowProgressModal'),
+
+      openUserMenu: () => set({ isUserMenuOpen: true }, false, 'ui/openUserMenu'),
+      closeUserMenu: () => set({ isUserMenuOpen: false }, false, 'ui/closeUserMenu'),
+      toggleUserMenu: () =>
+        set((s) => ({ isUserMenuOpen: !s.isUserMenuOpen }), false, 'ui/toggleUserMenu'),
     }),
     { name: 'UIStore' }
   )

@@ -12,6 +12,7 @@ import {
   speakStartMessage
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
+import { useGameAudioStore } from "@/lib/stores/gameAudioStore";
 
 // אימוג'ים לספירה עם שמות בעברית
 const COUNTING_ITEMS = [
@@ -39,11 +40,16 @@ export function useCountingGame() {
     options: [],
   });
 
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [speechEnabled, setSpeechEnabled] = useState(false);
+  const audioContext = useGameAudioStore((s) => s.audioContext);
+  const speechEnabled = useGameAudioStore((s) => s.speechEnabled);
+  const setAudioContext = useGameAudioStore((s) => s.setAudioContext);
+  const setSpeechEnabled = useGameAudioStore((s) => s.setSpeechEnabled);
 
   useEffect(() => {
-    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
+    if (!audioContext && !speechEnabled) {
+      initSpeechAndAudio(setSpeechEnabled, setAudioContext);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // --- Utility Functions ---

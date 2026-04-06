@@ -17,6 +17,8 @@ import { devtools } from 'zustand/middleware';
 export interface HomePageState {
   selectedCategory: string | null;
   showAllGames: boolean;
+  isLoading: boolean;
+  shouldShowLoader: boolean;
 }
 
 // ── Actions ────────────────────────────────────────────────
@@ -25,6 +27,8 @@ export interface HomePageActions {
   showAllGamesView: () => void;
   showCategoriesView: () => void;
   backToCategories: () => void;
+  setIsLoading: (loading: boolean) => void;
+  setShouldShowLoader: (show: boolean) => void;
 }
 
 export const useHomePageStore = create<HomePageState & HomePageActions>()(
@@ -32,6 +36,12 @@ export const useHomePageStore = create<HomePageState & HomePageActions>()(
     (set) => ({
       selectedCategory: null,
       showAllGames: false,
+      isLoading: false,
+      shouldShowLoader: false,
+
+      setIsLoading: (loading) => set({ isLoading: loading }, false, 'homePage/setIsLoading'),
+      setShouldShowLoader: (show) =>
+        set({ shouldShowLoader: show }, false, 'homePage/setShouldShowLoader'),
 
       selectCategory: (key) =>
         set({ selectedCategory: key, showAllGames: false }, false, 'homePage/selectCategory'),
