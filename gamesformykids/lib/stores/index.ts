@@ -86,3 +86,19 @@ export type { HighScoreState, HighScoreActions } from './highScoreStore';
 // Progress Tracking (allSessions — persisted)
 export { useProgressTrackingStore } from './progressTrackingStore';
 export type { ProgressTrackingState, ProgressTrackingActions } from './progressTrackingStore';
+
+// Game Hints (hints / revealedHintsCount — session-level)
+export { useGameHintsStore } from './gameHintsStore';
+export type { GameHintsState, GameHintsActions } from './gameHintsStore';
+
+// User Profile (profile / settings / loading / error — Supabase)
+export { useUserProfileStore } from './userProfileStore';
+export type { UserProfileState, UserProfileStoreActions } from './userProfileStore';
+
+// Achievements (achievements / loading / error — Supabase)
+export { useAchievementsStore } from './achievementsStore';
+export type { AchievementsState, AchievementsStoreActions } from './achievementsStore';
+
+// Game Progress Data (progress[] / loading / error — Supabase)
+export { useGameProgressDataStore } from './gameProgressDataStore';
+export type { GameProgressDataState, GameProgressDataActions } from './gameProgressDataStore';

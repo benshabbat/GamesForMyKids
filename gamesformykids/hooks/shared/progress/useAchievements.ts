@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase/client'
+import { useAchievementsStore } from '@/lib/stores/achievementsStore'
 
 export interface Achievement {
   id: string
@@ -18,9 +19,11 @@ export interface Achievement {
 
 export function useAchievements(gameType?: string) {
   const { user } = useAuth()
-  const [achievements, setAchievements] = useState<Achievement[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const achievements = useAchievementsStore((s) => s.achievements)
+  const loading = useAchievementsStore((s) => s.loading)
+  const error = useAchievementsStore((s) => s.error)
+  const loadedForUserId = useAchievementsStore((s) => s.loadedForUserId)
+  const { setAchievements, prependAchievement, setLoading, setError, setLoadedForUserId } = useAchievementsStore()
 
   const fetchAchievements = useCallback(async () => {
     if (!user) return
@@ -42,21 +45,22 @@ export function useAchievements(gameType?: string) {
       if (error) throw error
 
       setAchievements(data || [])
+      setLoadedForUserId(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בטעינת ההישגים')
     } finally {
       setLoading(false)
     }
-  }, [user, gameType])
+  }, [user, gameType, setAchievements, setLoading, setError, setLoadedForUserId])
 
   useEffect(() => {
     if (!user) {
       setLoading(false)
       return
     }
-
+    if (loadedForUserId === user.id) return
     fetchAchievements()
-  }, [user, gameType, fetchAchievements])
+  }, [user, gameType, loadedForUserId, fetchAchievements, setLoading])
 
   async function unlockAchievement(achievement: Omit<Achievement, 'id' | 'user_id' | 'earned_at'>) {
     if (!user) return null
@@ -89,8 +93,8 @@ export function useAchievements(gameType?: string) {
 
       if (error) throw error
 
-      // Update local state
-      setAchievements(prev => [data, ...prev])
+      // Update store
+      prependAchievement(data)
       
       return data
     } catch (err) {

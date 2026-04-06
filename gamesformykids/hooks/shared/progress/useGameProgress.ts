@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase/client'
+import { useGameProgressDataStore } from '@/lib/stores/gameProgressDataStore'
 
 export interface GameProgress {
   id: string
@@ -20,9 +21,11 @@ export interface GameProgress {
 
 export function useGameProgress(gameType?: string) {
   const { user } = useAuth()
-  const [progress, setProgress] = useState<GameProgress[]>([])
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const progress = useGameProgressDataStore((s) => s.progress)
+  const loading = useGameProgressDataStore((s) => s.loading)
+  const error = useGameProgressDataStore((s) => s.error)
+  const loadedForUserId = useGameProgressDataStore((s) => s.loadedForUserId)
+  const { setProgress, upsertProgressItem, setLoading, setError, setLoadedForUserId } = useGameProgressDataStore()
 
   const fetchProgress = useCallback(async () => {
     if (!user) return
@@ -43,21 +46,22 @@ export function useGameProgress(gameType?: string) {
       if (error) throw error
 
       setProgress(data || [])
+      setLoadedForUserId(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בטעינת ההתקדמות')
     } finally {
       setLoading(false)
     }
-  }, [user, gameType])
+  }, [user, gameType, setProgress, setLoading, setError, setLoadedForUserId])
 
   useEffect(() => {
     if (!user) {
       setLoading(false)
       return
     }
-
+    if (loadedForUserId === user.id) return
     fetchProgress()
-  }, [user, gameType, fetchProgress])
+  }, [user, gameType, loadedForUserId, fetchProgress, setLoading])
 
   async function updateProgress(gameType: string, updates: Partial<GameProgress>) {
     if (!user) return null
@@ -76,17 +80,8 @@ export function useGameProgress(gameType?: string) {
 
       if (error) throw error
 
-      // Update local state
-      setProgress(prev => {
-        const index = prev.findIndex(p => p.game_type === gameType)
-        if (index >= 0) {
-          const newProgress = [...prev]
-          newProgress[index] = data
-          return newProgress
-        } else {
-          return [...prev, data]
-        }
-      })
+      // Update store
+      upsertProgressItem(data)
 
       return data
     } catch (err) {

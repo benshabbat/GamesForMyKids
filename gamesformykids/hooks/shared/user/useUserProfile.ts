@@ -1,8 +1,9 @@
 'use client';
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase/client'
+import { useUserProfileStore } from '@/lib/stores/userProfileStore'
 
 export interface UserProfile {
   id: string
@@ -26,10 +27,18 @@ export interface UserSettings {
 
 export function useUserProfile() {
   const { user } = useAuth()
-  const [profile, setProfile] = useState<UserProfile | null>(null)
-  const [settings, setSettings] = useState<UserSettings | null>(null)
-  const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
+  const profile = useUserProfileStore((s) => s.profile)
+  const settings = useUserProfileStore((s) => s.settings)
+  const loading = useUserProfileStore((s) => s.loading)
+  const error = useUserProfileStore((s) => s.error)
+  const loadedForUserId = useUserProfileStore((s) => s.loadedForUserId)
+  const {
+    setProfile,
+    setSettings,
+    setLoading,
+    setError,
+    setLoadedForUserId,
+  } = useUserProfileStore()
 
   const fetchProfile = useCallback(async () => {
     if (!user) return
@@ -61,21 +70,24 @@ export function useUserProfile() {
 
       setProfile(profileData)
       setSettings(settingsData)
+      setLoadedForUserId(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בטעינת הפרופיל')
     } finally {
       setLoading(false)
     }
-  }, [user])
+  }, [user, setProfile, setSettings, setLoading, setError, setLoadedForUserId])
 
   useEffect(() => {
     if (!user) {
       setLoading(false)
       return
     }
+    // Skip if already loaded for this user
+    if (loadedForUserId === user.id) return
 
     fetchProfile()
-  }, [user, fetchProfile])
+  }, [user, loadedForUserId, fetchProfile, setLoading])
 
   async function updateProfile(updates: Partial<UserProfile>) {
     if (!user) return null

@@ -5,15 +5,16 @@
 
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { BaseGameItem } from '@/lib/types/core/base';
 import { GameHint } from '@/lib/types/hooks/ui';
 import { UseGameHintsProps, UseGameHintsReturn } from '@/lib/types/hooks/ui';
+import { useGameHintsStore } from '@/lib/stores/gameHintsStore';
 
 export function useGameHints(props: UseGameHintsProps): UseGameHintsReturn {
-  const [hints, setHints] = useState<GameHint[]>([]);
-  const [currentHintIndex, setCurrentHintIndex] = useState(-1);
-  const [revealedHintsCount, setRevealedHintsCount] = useState(0);
+  const hints = useGameHintsStore((s) => s.hints);
+  const revealedHintsCount = useGameHintsStore((s) => s.revealedHintsCount);
+  const { setHints, revealNextHint: storeRevealNext, resetHints } = useGameHintsStore();
   
   // Extract props with defaults
   const { currentChallenge, wrongAttempts = 0 } = props;
@@ -79,14 +80,9 @@ export function useGameHints(props: UseGameHintsProps): UseGameHintsReturn {
   // Reveal hints based on wrong attempts
   const revealNextHint = useCallback(() => {
     if (revealedHintsCount < hints.length) {
-      setHints(prev => prev.map((hint, index) => 
-        index === revealedHintsCount 
-          ? { ...hint, isRevealed: true }
-          : hint
-      ));
-      setRevealedHintsCount(prev => prev + 1);
+      storeRevealNext();
     }
-  }, [hints.length, revealedHintsCount]);
+  }, [hints.length, revealedHintsCount, storeRevealNext]);
 
   // Auto-reveal hints based on wrong attempts
   useEffect(() => {
@@ -98,11 +94,9 @@ export function useGameHints(props: UseGameHintsProps): UseGameHintsReturn {
   // Reset hints when challenge changes
   useEffect(() => {
     if (currentChallenge) {
-      const newHints = generateHints(currentChallenge);
-      setHints(newHints);
-      setRevealedHintsCount(0);
+      setHints(generateHints(currentChallenge));
     }
-  }, [currentChallenge, generateHints]);
+  }, [currentChallenge, generateHints, setHints]);
 
   // Get currently revealed hints
   const getRevealedHints = useCallback(() => {
@@ -121,11 +115,7 @@ export function useGameHints(props: UseGameHintsProps): UseGameHintsReturn {
     }
   }, [hasMoreHints, revealNextHint]);
 
-  // Reset all hints
-  const resetHints = useCallback(() => {
-    setRevealedHintsCount(0);
-    setHints([]);
-  }, []);
+  // resetHints comes directly from the store (no wrapper needed)
 
   return {
     hints: getRevealedHints(),
