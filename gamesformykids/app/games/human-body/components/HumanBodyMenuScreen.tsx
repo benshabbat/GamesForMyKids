@@ -1,6 +1,6 @@
 'use client';
 
-type BodyCategory = string;
+import type { BodyCategory } from '../data/body';
 
 const CATEGORY_COLORS: Record<string, string> = {
   'ראש':             'from-blue-400 to-blue-600',

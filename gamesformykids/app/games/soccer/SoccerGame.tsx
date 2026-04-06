@@ -31,7 +31,7 @@ export default function SoccerGame() {
       currentQuestion={currentQuestion}
       phase={phase}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       showGoal={showGoal}
       onSelect={selectAnswer}
       onNext={nextQuestion}

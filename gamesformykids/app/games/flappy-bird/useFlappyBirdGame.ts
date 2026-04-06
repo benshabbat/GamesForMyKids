@@ -211,8 +211,8 @@ export function useFlappyBirdGame() {
     return () => cancelAnimationFrame(sRef.raf);
   }, []);
 
-  const handleInput = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
+  const handleInput = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+    e?.preventDefault();
     flap();
   }, [flap]);
 

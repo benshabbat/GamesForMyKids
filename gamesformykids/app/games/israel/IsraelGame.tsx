@@ -26,7 +26,7 @@ export default function IsraelGame() {
       score={score}
       current={current}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
     />

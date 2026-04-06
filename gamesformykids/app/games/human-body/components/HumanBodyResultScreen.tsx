@@ -1,6 +1,6 @@
 'use client';
 
-type BodyCategory = string;
+import type { BodyCategory } from '../data/body';
 
 interface Props {
   score: number;

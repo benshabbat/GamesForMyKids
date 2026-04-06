@@ -1,6 +1,6 @@
 'use client';
 
-type IsraelCategory = string;
+import type { IsraelCategory } from '../data/questions';
 
 const CAT_COLORS: Record<string, string> = {
   'הכל':      'bg-blue-600 text-white',

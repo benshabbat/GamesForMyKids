@@ -16,7 +16,7 @@ export default function AnimalsGame() {
   if (phase === 'playing' && current) return (
     <AnimalsQuestionCard
       index={index} total={total} score={score}
-      current={current} selected={selected} isCorrect={isCorrect}
+      current={current} selected={selected} isCorrect={isCorrect ?? false}
       onSelect={selectAnswer} onNext={next} onMenu={goMenu}
     />
   );

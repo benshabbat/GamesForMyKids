@@ -1,13 +1,9 @@
 'use client';
 
-interface FoodItem {
-  id: string;
-  emoji: string;
-  food: string;
-}
+import type { FoodQuestion } from '../data/food';
 
 interface Props {
-  preview: FoodItem[];
+  preview: FoodQuestion[];
   onStart: () => void;
 }
 

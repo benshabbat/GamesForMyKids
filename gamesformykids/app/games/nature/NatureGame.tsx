@@ -19,5 +19,5 @@ export default function NatureGame() {
 
   if (!current) return null;
 
-  return <NatureQuestion index={index} total={total} score={score} current={current} selected={selected} isCorrect={isCorrect} onSelect={selectAnswer} onNext={next} />;
+  return <NatureQuestion index={index} total={total} score={score} current={current} selected={selected} isCorrect={isCorrect ?? false} onSelect={selectAnswer} onNext={next} />;
 }

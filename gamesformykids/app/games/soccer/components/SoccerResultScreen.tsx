@@ -1,12 +1,13 @@
 'use client';
 
+import type { SoccerCategory } from '../data/soccer';
 import { PitchBackground } from './SoccerShared';
 
 interface Props {
   score: number;
   total: number;
-  category: string;
-  onRestart: (category: string) => void;
+  category: SoccerCategory;
+  onRestart: (category: SoccerCategory) => void;
   onMenu: () => void;
 }
 

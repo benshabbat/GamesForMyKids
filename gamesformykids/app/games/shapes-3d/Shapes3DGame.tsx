@@ -25,7 +25,7 @@ export default function Shapes3DGame() {
       currentShape={currentShape ?? null}
       choices={choices as string[]}
       selected={selected as string | null}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
     />

@@ -1,9 +1,11 @@
 'use client';
 
+import type { ScienceTopic } from '../data/questions';
+
 interface Props {
-  topics: readonly string[];
-  topicEmojis: Record<string, string>;
-  onStart: (topic: string) => void;
+  topics: readonly ScienceTopic[];
+  topicEmojis: Record<ScienceTopic, string>;
+  onStart: (topic: ScienceTopic | 'all') => void;
 }
 
 export default function ScienceMenuScreen({ topics, topicEmojis, onStart }: Props) {

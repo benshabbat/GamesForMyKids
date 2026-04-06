@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useWorldLanguagesGame } from './useWorldLanguagesGame';
 import WorldLanguagesMenuScreen from './components/WorldLanguagesMenuScreen';
 import WorldLanguagesQuestion from './components/WorldLanguagesQuestion';
@@ -17,7 +17,7 @@ export default function WorldLanguagesGame() {
       current={current}
       choices={choices as string[]}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
       onMenu={goMenu}

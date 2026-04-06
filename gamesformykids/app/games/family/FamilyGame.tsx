@@ -24,7 +24,7 @@ export default function FamilyGame() {
   return (
     <FamilyQuestion
       phase={phase} currentIndex={currentIndex} total={total} score={score}
-      question={currentQuestion} selected={selected} isCorrect={isCorrect}
+      question={currentQuestion} selected={selected} isCorrect={isCorrect ?? false}
       onSelect={selectAnswer} onNext={nextQuestion} onMenu={goToMenu}
     />
   );

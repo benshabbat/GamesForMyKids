@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useTransportGame } from './useTransportGame';
 import type { TransportType } from './data/transport';
@@ -37,7 +37,7 @@ export default function TransportGame() {
       currentQuestion={currentQuestion}
       phase={phase}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={nextQuestion}
       onMenu={goToMenu}

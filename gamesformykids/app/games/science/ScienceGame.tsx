@@ -21,7 +21,7 @@ export default function ScienceGame() {
         score={score}
         current={current}
         selected={selected as number | null}
-        isCorrect={isCorrect}
+        isCorrect={isCorrect ?? false}
         onSelect={selectAnswer}
         onNext={next}
         onMenu={goMenu}

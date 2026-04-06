@@ -20,7 +20,7 @@ export default function EmotionsGame() {
     <EmotionsQuestion
       index={index} total={total} score={score}
       current={current} choices={choices} selected={selected}
-      isCorrect={isCorrect} onSelect={selectAnswer} onNext={next}
+      isCorrect={isCorrect ?? false} onSelect={selectAnswer} onNext={next}
     />
   );
 }

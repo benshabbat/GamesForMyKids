@@ -26,7 +26,7 @@ export default function MultiplicationGame() {
         totalQuestions={totalQuestions}
         score={score}
         selected={selected}
-        isCorrect={isCorrect}
+        isCorrect={isCorrect ?? false}
         timeLeft={timeLeft}
         timePerQuestion={TIME_PER_QUESTION}
         onSelect={selectAnswer}

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { useTriviaGame } from './useTriviaGame';
 import TriviaMenuScreen from './components/TriviaMenuScreen';
 import TriviaQuestion from './components/TriviaQuestion';
@@ -16,7 +16,7 @@ export default function TriviaGame() {
       score={score}
       current={current}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
       onMenu={goMenu}

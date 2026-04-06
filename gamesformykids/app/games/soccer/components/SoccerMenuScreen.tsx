@@ -1,10 +1,11 @@
 'use client';
 
+import type { SoccerCategory } from '../data/soccer';
 import { PitchBackground, CATEGORY_COLORS, CATEGORY_ICONS } from './SoccerShared';
 
 interface Props {
-  categories: readonly string[];
-  onStart: (category: string) => void;
+  categories: readonly SoccerCategory[];
+  onStart: (category: SoccerCategory) => void;
 }
 
 export default function SoccerMenuScreen({ categories, onStart }: Props) {

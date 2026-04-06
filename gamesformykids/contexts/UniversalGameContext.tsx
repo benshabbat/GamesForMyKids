@@ -55,7 +55,7 @@ export function useUniversalGame(): UniversalGameContextValue {
     resetGame,
     handleItemClick,
     speakItemName,
-    config,
+    config: config!,
     items: items || [],
     CardComponent,
     gameType,

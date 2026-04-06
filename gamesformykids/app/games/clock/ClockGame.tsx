@@ -1,6 +1,5 @@
 'use client';
 import { useClockGame } from './useClockGame';
-import { ClockQuestion } from './data/times';
 import ClockMenuScreen from './components/ClockMenuScreen';
 import ClockQuestionCard from './components/ClockQuestion';
 import ClockResultScreen from './components/ClockResultScreen';
@@ -13,8 +12,8 @@ export default function ClockGame() {
   if (phase === 'playing' && current) return (
     <ClockQuestionCard
       index={index} total={total} score={score}
-      current={current} choices={choices as ClockQuestion[]}
-      selected={selected} isCorrect={isCorrect}
+      current={current} choices={choices}
+      selected={selected} isCorrect={isCorrect ?? false}
       onSelect={selectAnswer} onNext={next} onMenu={goMenu}
     />
   );

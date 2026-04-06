@@ -1,5 +1,7 @@
 'use client';
 
+import type { EnglishCategory } from '../data/words';
+
 const CAT_COLORS: Record<string, string> = {
   'הכל':      'bg-indigo-600 text-white',
   'חיות':     'bg-green-500 text-white',
@@ -11,8 +13,8 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 interface Props {
-  categories: readonly string[];
-  onStart: (cat: string) => void;
+  categories: readonly EnglishCategory[];
+  onStart: (cat: EnglishCategory) => void;
 }
 
 export default function EnglishWordsMenuScreen({ categories, onStart }: Props) {

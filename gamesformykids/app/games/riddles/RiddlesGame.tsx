@@ -24,7 +24,7 @@ export default function RiddlesGame() {
       current={current}
       choices={choices as string[]}
       selected={selected as string | null}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
     />

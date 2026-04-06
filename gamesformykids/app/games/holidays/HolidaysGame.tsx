@@ -28,7 +28,7 @@ export default function HolidaysGame() {
         totalQuestions={totalQuestions}
         score={score}
         selected={selected}
-        isCorrect={isCorrect}
+        isCorrect={isCorrect ?? false}
         onSelect={selectAnswer}
         onNext={next}
         onMenu={goMenu}

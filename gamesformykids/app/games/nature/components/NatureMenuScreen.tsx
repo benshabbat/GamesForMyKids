@@ -1,6 +1,6 @@
 'use client';
 
-type NatureCategory = string;
+import type { NatureCategory } from '../data/questions';
 
 const CAT_COLORS: Record<string, string> = {
   'הכל':       'bg-green-600 text-white',

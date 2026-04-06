@@ -1,14 +1,14 @@
 'use client';
 
-import { BUTTONS } from '../useSimonGame';
+import { BUTTONS, type ButtonId } from '../useSimonGame';
 
 interface Props {
   phase: 'showing' | 'input';
-  activeColor: string | null;
+  activeColor: ButtonId | null;
   playerIdx: number;
   sequenceLength: number;
   best: number;
-  onTap: (id: string) => void;
+  onTap: (id: ButtonId) => void;
 }
 
 export default function SimonBoard({ phase, activeColor, playerIdx, sequenceLength, best, onTap }: Props) {

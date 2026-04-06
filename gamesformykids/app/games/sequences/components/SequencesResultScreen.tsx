@@ -1,12 +1,9 @@
 'use client';
 
-interface Level {
-  id: number;
-  label: string;
-}
+import type { SequenceLevel } from '../data/sequences';
 
 interface Props {
-  level: Level;
+  level: SequenceLevel;
   score: number;
   total: number;
   onRestart: () => void;

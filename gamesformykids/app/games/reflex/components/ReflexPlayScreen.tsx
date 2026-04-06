@@ -1,18 +1,13 @@
 'use client';
 
-interface ReflexTarget {
-  id: string;
-  emoji: string;
-  x: number;
-  y: number;
-}
+import type { Target } from '../data/targets';
 
 interface Props {
   score: number;
   timeLeft: number;
   timePct: number;
-  targets: ReflexTarget[];
-  onHit: (id: string) => void;
+  targets: Target[];
+  onHit: (id: number) => void;
   onMenu: () => void;
 }
 

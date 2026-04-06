@@ -1,8 +1,9 @@
 'use client';
+import type { TriviaCategory } from '../data/questions';
 import { CATEGORIES, CATEGORY_EMOJIS } from '../data/questions';
 
 interface Props {
-  onStart: (category: string) => void;
+  onStart: (category: TriviaCategory | 'all') => void;
 }
 
 export default function TriviaMenuScreen({ onStart }: Props) {

@@ -1,21 +1,12 @@
 'use client';
 
-interface SequenceQuestion {
-  sequence: number[];
-  next: number;
-  rule: string;
-}
-
-interface Level {
-  id: number;
-  label: string;
-}
+import type { SequenceLevel, SequenceQuestion } from '../data/sequences';
 
 interface Props {
   index: number;
   total: number;
   score: number;
-  level: Level;
+  level: SequenceLevel;
   current: SequenceQuestion;
   choices: number[];
   selected: number | null;

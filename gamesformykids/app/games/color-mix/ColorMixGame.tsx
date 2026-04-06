@@ -16,7 +16,7 @@ export default function ColorMixGame() {
     <ColorMixQuestion
       index={index} total={total} score={score}
       mix={current.mix} choices={current.choices}
-      selected={selected} isCorrect={isCorrect}
+      selected={selected} isCorrect={isCorrect ?? false}
       onSelect={selectAnswer} onNext={next} onMenu={goMenu}
     />
   );

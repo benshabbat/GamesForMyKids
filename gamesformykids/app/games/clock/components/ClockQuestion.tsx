@@ -1,23 +1,16 @@
 'use client';
 import ClockFace from './ClockFace';
-
-interface ClockQuestion {
-  id: string;
-  hour: number;
-  minute: number;
-  digital: string;
-  description: string;
-}
+import { ClockQuestion as ClockQuestionType } from '../data/times';
 
 interface Props {
   index: number;
   total: number;
   score: number;
-  current: ClockQuestion;
-  choices: ClockQuestion[];
-  selected: string | null;
+  current: ClockQuestionType;
+  choices: ClockQuestionType[];
+  selected: number | null;
   isCorrect: boolean;
-  onSelect: (id: string) => void;
+  onSelect: (id: number) => void;
   onNext: () => void;
   onMenu: () => void;
 }

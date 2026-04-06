@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useSportsQuizGame } from './useSportsQuizGame';
 import SportsQuizMenuScreen from './components/SportsQuizMenuScreen';
@@ -29,7 +29,7 @@ export default function SportsQuizGame() {
       score={score}
       current={current}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
       onMenu={goMenu}

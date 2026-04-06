@@ -33,7 +33,7 @@ export default function HumanBodyGame() {
       currentQuestion={currentQuestion}
       choices={choices}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={nextQuestion}
       onMenu={goToMenu}

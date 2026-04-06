@@ -171,8 +171,8 @@ export function useDinoRunnerGame() {
     return () => window.removeEventListener('keydown', handler);
   }, [jump]);
 
-  const handleTap = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    e.preventDefault();
+  const handleTap = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+    e?.preventDefault();
     jump();
   }, [jump]);
 

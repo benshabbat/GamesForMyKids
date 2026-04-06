@@ -177,8 +177,7 @@ export function useCountingGame() {
       };
       
       await handleCorrectGameAnswer(
-        gameState, 
-        setGameState, 
+        (v) => setGameState((prev) => ({ ...prev, showCelebration: v })),
         onComplete
       );
     } else {

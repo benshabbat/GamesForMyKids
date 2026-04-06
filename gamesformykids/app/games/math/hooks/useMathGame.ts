@@ -206,8 +206,7 @@ export function useMathGame() {
       };
       
       await handleCorrectGameAnswer(
-        gameState, 
-        setGameState, 
+        (v) => setGameState((prev: MathGameState) => ({ ...prev, showCelebration: v })),
         onComplete
       );
     } else {

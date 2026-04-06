@@ -26,7 +26,7 @@ export default function InstrumentsGame() {
       current={current}
       choices={choices}
       selected={selected}
-      isCorrect={isCorrect}
+      isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
     />

@@ -1,13 +1,10 @@
 'use client';
 
-interface Level {
-  id: number;
-  label: string;
-}
+import type { SequenceLevel } from '../data/sequences';
 
 interface Props {
-  levels: Level[];
-  onStart: (level: Level) => void;
+  levels: SequenceLevel[];
+  onStart: (level: SequenceLevel) => void;
 }
 
 const LEVEL_EMOJIS = ['🟢', '🟡', '🔴', '🌟'];

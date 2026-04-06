@@ -3,6 +3,7 @@
 interface Color {
   name: string;
   bg: string;
+  hex: string;
   emoji: string;
 }
 
