@@ -1,32 +1,16 @@
 'use client';
+import { useSpellingGame } from '../useSpellingGame';
 
-interface SpellingItem {
-  emoji: string;
-  hint: string;
-  word: string;
-}
+export default function SpellingQuestion() {
+  const { index, total, score, current, choices, selected, isCorrect, selectAnswer, next, goMenu } = useSpellingGame();
 
-interface Props {
-  index: number;
-  total: number;
-  score: number;
-  current: SpellingItem;
-  choices: string[];
-  selected: string | null;
-  isCorrect: boolean;
-  onSelect: (word: string) => void;
-  onNext: () => void;
-  onMenu: () => void;
-}
+  if (!current) return null;
 
-export default function SpellingQuestion({
-  index, total, score, current, choices, selected, isCorrect, onSelect, onNext, onMenu,
-}: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-rose-500 text-sm bg-rose-100 rounded-full px-3 py-1">← חזור</button>
+          <button onClick={goMenu} className="text-rose-500 text-sm bg-rose-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-rose-700">{index + 1} / {total}</span>
           <span className="font-bold text-rose-700">⭐ {score}</span>
         </div>
@@ -39,7 +23,7 @@ export default function SpellingQuestion({
         <div className="bg-white rounded-3xl shadow-xl p-8 mb-5 text-center">
           <div className="text-7xl mb-3">{current.emoji}</div>
           <p className="text-xl font-bold text-gray-700">{current.hint}</p>
-          <p className="text-gray-400 text-sm mt-1">מה האיות הנכון?</p>
+          <p className="text-gray-400 text-sm mt-1">מה האיית הנכון?</p>
         </div>
         <div className="grid grid-cols-2 gap-3">
           {choices.map((word, i) => {
@@ -53,7 +37,7 @@ export default function SpellingQuestion({
             return (
               <button
                 key={i}
-                onClick={() => onSelect(word)}
+                onClick={() => selectAnswer(word)}
                 disabled={selected !== null}
                 className={`py-5 rounded-2xl font-black text-2xl transition-all active:scale-95 ${style}`}
                 style={{ direction: 'rtl' }}
@@ -69,7 +53,7 @@ export default function SpellingQuestion({
               {isCorrect ? `✅ נכון! הכתיב הנכון: "${current.word}"` : `💙 הנכון: "${current.word}"`}
             </div>
             <button
-              onClick={onNext}
+              onClick={next}
               className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-rose-500 to-pink-500 shadow-lg hover:opacity-90 active:scale-95 transition-all"
             >
               {index < total - 1 ? 'הבא ←' : 'תוצאות! 🎉'}
@@ -80,3 +64,4 @@ export default function SpellingQuestion({
     </div>
   );
 }
+

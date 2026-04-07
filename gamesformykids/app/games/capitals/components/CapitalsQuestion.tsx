@@ -1,24 +1,11 @@
 'use client';
+import { useCapitalsGame } from '../useCapitalsGame';
 
-interface Country {
-  flag: string;
-  country: string;
-  capital: string;
-}
+export default function CapitalsQuestion() {
+  const { index, total, score, current, choices, selected, isCorrect, selectAnswer, next } = useCapitalsGame();
 
-interface Props {
-  index: number;
-  total: number;
-  score: number;
-  current: Country;
-  choices: string[];
-  selected: string | null;
-  isCorrect: boolean;
-  onSelect: (choice: string) => void;
-  onNext: () => void;
-}
+  if (!current) return null;
 
-export default function CapitalsQuestion({ index, total, score, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
@@ -42,7 +29,7 @@ export default function CapitalsQuestion({ index, total, score, current, choices
             else if (choice === selected) cls += 'border-red-400 bg-red-100 text-red-700';
             else cls += 'border-gray-200 bg-gray-50 text-gray-400';
             return (
-              <button key={choice} onClick={() => onSelect(choice)} className={cls} disabled={selected !== null}>
+              <button key={choice} onClick={() => selectAnswer(choice)} className={cls} disabled={selected !== null}>
                 {choice}
               </button>
             );
@@ -54,7 +41,7 @@ export default function CapitalsQuestion({ index, total, score, current, choices
           </div>
         )}
         {selected !== null && (
-          <button onClick={onNext} className="w-full py-3 rounded-2xl bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition-all">
+          <button onClick={next} className="w-full py-3 rounded-2xl bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition-all">
             {index + 1 < total ? 'הבא ←' : 'סיום'}
           </button>
         )}

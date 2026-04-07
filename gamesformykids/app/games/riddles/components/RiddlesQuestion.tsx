@@ -1,24 +1,11 @@
 'use client';
+import { useRiddlesGame } from '../useRiddlesGame';
 
-interface RiddleItem {
-  riddle: string;
-  answer: string;
-  emoji: string;
-}
+export default function RiddlesQuestion() {
+  const { index, total, score, current, choices, selected, isCorrect, selectAnswer, next } = useRiddlesGame();
 
-interface Props {
-  index: number;
-  total: number;
-  score: number;
-  current: RiddleItem;
-  choices: string[];
-  selected: string | null;
-  isCorrect: boolean;
-  onSelect: (choice: string) => void;
-  onNext: () => void;
-}
+  if (!current) return null;
 
-export default function RiddlesQuestion({ index, total, score, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
@@ -41,7 +28,7 @@ export default function RiddlesQuestion({ index, total, score, current, choices,
             else if (choice === selected) cls += 'border-red-400 bg-red-100 text-red-700';
             else cls += 'border-gray-200 bg-gray-50 text-gray-400';
             return (
-              <button key={choice} onClick={() => onSelect(choice)} className={cls} disabled={selected !== null}>
+              <button key={choice} onClick={() => selectAnswer(choice)} className={cls} disabled={selected !== null}>
                 {choice}
               </button>
             );
@@ -53,7 +40,7 @@ export default function RiddlesQuestion({ index, total, score, current, choices,
           </div>
         )}
         {selected !== null && (
-          <button onClick={onNext} className="w-full py-3 rounded-2xl bg-purple-600 text-white font-bold text-lg hover:bg-purple-700 transition-all">
+          <button onClick={next} className="w-full py-3 rounded-2xl bg-purple-600 text-white font-bold text-lg hover:bg-purple-700 transition-all">
             {index + 1 < total ? 'חידה הבאה ←' : 'סיום'}
           </button>
         )}
@@ -61,3 +48,4 @@ export default function RiddlesQuestion({ index, total, score, current, choices,
     </div>
   );
 }
+      

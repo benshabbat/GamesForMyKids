@@ -1,31 +1,18 @@
 'use client';
+import { useEffect } from 'react';
 import { useArithmeticGame } from './useArithmeticGame';
-import { TIME_PER_QUESTION } from './data/questions';
+import { stopArithmeticTimer } from './arithmeticGameStore';
 import ArithmeticMenuScreen from './components/ArithmeticMenuScreen';
 import ArithmeticQuestion from './components/ArithmeticQuestion';
 import ArithmeticResultScreen from './components/ArithmeticResultScreen';
 
 export default function ArithmeticGame() {
-  const {
-    phase, level, question, questionNum, score, correct,
-    selected, isCorrect, timeLeft, totalQuestions, levels,
-    startGame, selectAnswer, advance, goMenu,
-  } = useArithmeticGame();
+  const { phase, level, correct, totalQuestions, score, levels, startGame, goMenu } = useArithmeticGame();
+
+  // Stop timer if user navigates away before the game ends
+  useEffect(() => stopArithmeticTimer, []);
 
   if (phase === 'menu') return <ArithmeticMenuScreen levels={levels} onStart={startGame} />;
-
-  if (phase === 'playing' && question) {
-    const timePct = (timeLeft / TIME_PER_QUESTION) * 100;
-    return (
-      <ArithmeticQuestion
-        level={level} question={question} questionNum={questionNum}
-        totalQuestions={totalQuestions} score={score}
-        selected={selected} isCorrect={isCorrect ?? false}
-        timeLeft={timeLeft} timePct={timePct}
-        onSelect={selectAnswer} onAdvance={advance} onMenu={goMenu}
-      />
-    );
-  }
-
+  if (phase === 'playing') return <ArithmeticQuestion />;
   return <ArithmeticResultScreen level={level} correct={correct} totalQuestions={totalQuestions} score={score} onRestart={() => startGame(level)} onMenu={goMenu} />;
 }

@@ -6,29 +6,9 @@ import FractionsQuestion from './components/FractionsQuestion';
 import FractionsResultScreen from './components/FractionsResultScreen';
 
 export default function FractionsGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useFractionsGame();
+  const { phase, correctCount, total, score, startGame, restart, goMenu } = useFractionsGame();
 
-  if (phase === 'menu') {
-    return <FractionsMenuScreen onStart={startGame} />;
-  }
-
-  if (phase === 'result') {
-    return <FractionsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
-  }
-
-  if (!current) return null;
-
-  return (
-    <FractionsQuestion
-      index={index}
-      total={total}
-      score={score}
-      current={current}
-      choices={choices}
-      selected={selected}
-      isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer}
-      onNext={next}
-    />
-  );
+  if (phase === 'menu') return <FractionsMenuScreen onStart={startGame} />;
+  if (phase === 'playing') return <FractionsQuestion />;
+  return <FractionsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
 }
