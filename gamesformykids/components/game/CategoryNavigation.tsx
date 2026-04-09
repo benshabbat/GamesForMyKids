@@ -1,18 +1,19 @@
 "use client";
 
-import { ComponentTypes } from "@/lib/types";
+import { useMemo } from "react";
+import { useHomePageStore } from "@/lib/stores";
+import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-export default function CategoryNavigation({
-  selectedCategory,
-  showAllGames,
-  totalGamesCount,
-  onShowCategories,
-  onShowAllGames
-}: ComponentTypes.CategoryNavigationProps) {
+export default function CategoryNavigation() {
+  const selectedCategory = useHomePageStore((s) => s.selectedCategory);
+  const showAllGames = useHomePageStore((s) => s.showAllGames);
+  const showCategoriesView = useHomePageStore((s) => s.showCategoriesView);
+  const showAllGamesView = useHomePageStore((s) => s.showAllGamesView);
+  const totalGamesCount = useMemo(() => GamesRegistry.getAllGameRegistrations().length, []);
   return (
     <div className="flex justify-center gap-2 md:gap-4 mb-6 md:mb-8 flex-wrap">
       <button
-        onClick={onShowCategories}
+        onClick={showCategoriesView}
         className={`px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 ${
           !selectedCategory && !showAllGames
             ? 'bg-purple-600 text-white shadow-lg'
@@ -22,7 +23,7 @@ export default function CategoryNavigation({
         📚 קטגוריות
       </button>
       <button
-        onClick={onShowAllGames}
+        onClick={showAllGamesView}
         className={`px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 ${
           showAllGames
             ? 'bg-purple-600 text-white shadow-lg'

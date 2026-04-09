@@ -1,7 +1,3 @@
-'use client';
-
-import { useMemo, useCallback } from "react";
-import { useHomePageStore } from "@/lib/stores";
 import {
   Book,
   Palette,
@@ -16,10 +12,8 @@ import {
   Sparkles,
   Joystick,
 } from "lucide-react";
-import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 import { ComponentType } from "react";
 
-// ── קטגוריות — נתון טהור, אינו state ——————————————————————
 export interface GameCategory {
   title: string;
   description: string;
@@ -139,55 +133,3 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble"],
   },
 };
-
-// ── Hook ————————————————————————————————————————————————————
-export interface UseCategorizedGamesReturn {
-  selectedCategory: string | null;
-  showAllGames: boolean;
-  allGameRegistrations: GameRegistration[];
-  totalGamesCount: number;
-  categories: Record<string, GameCategory>;
-  handleShowCategories: () => void;
-  handleShowAllGames: () => void;
-  handleCategorySelect: (key: string) => void;
-  handleBackToCategories: () => void;
-}
-
-export function useCategorizedGames(): UseCategorizedGamesReturn {
-  const selectedCategory = useHomePageStore((s) => s.selectedCategory);
-  const showAllGames = useHomePageStore((s) => s.showAllGames);
-  const { selectCategory, showAllGamesView, showCategoriesView, backToCategories } = useHomePageStore();
-
-  const allGameRegistrations = useMemo(
-    () => GamesRegistry.getAllGameRegistrations(),
-    []
-  );
-
-  const handleShowCategories = useCallback(() => {
-    showCategoriesView();
-  }, [showCategoriesView]);
-
-  const handleShowAllGames = useCallback(() => {
-    showAllGamesView();
-  }, [showAllGamesView]);
-
-  const handleCategorySelect = useCallback((key: string) => {
-    selectCategory(key);
-  }, [selectCategory]);
-
-  const handleBackToCategories = useCallback(() => {
-    backToCategories();
-  }, [backToCategories]);
-
-  return {
-    selectedCategory,
-    showAllGames,
-    allGameRegistrations,
-    totalGamesCount: allGameRegistrations.length,
-    categories: GAME_CATEGORIES,
-    handleShowCategories,
-    handleShowAllGames,
-    handleCategorySelect,
-    handleBackToCategories,
-  };
-}

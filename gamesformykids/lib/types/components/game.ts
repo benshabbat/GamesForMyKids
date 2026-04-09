@@ -74,34 +74,8 @@ export interface GameCardProps {
   game: GameRegistration;
 }
 
-export interface CategoriesViewProps {
-  categories: Record<string, Category>;
-  allGameRegistrations: GameRegistration[];
-  onCategorySelect: (categoryKey: string) => void;
-}
-
-export interface CategoryGamesViewProps {
-  selectedCategory: string;
-  categories: Record<string, Category>;
-  allGameRegistrations: GameRegistration[];
-  onBackToCategories: () => void;
-}
-
-export interface AllGamesViewProps {
-  allGameRegistrations: GameRegistration[];
-  totalGamesCount: number;
-}
-
 export interface AgeGroupCardProps {
   ageGroup: AgeGroup;
-}
-
-export interface CategoryNavigationProps {
-  selectedCategory: string | null;
-  showAllGames: boolean;
-  totalGamesCount: number;
-  onShowCategories: () => void;
-  onShowAllGames: () => void;
 }
 
 export interface RecommendationsHeaderProps {

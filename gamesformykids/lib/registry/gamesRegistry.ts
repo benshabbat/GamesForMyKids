@@ -7,7 +7,6 @@ import {
   Apple,
   Dog,
   Cloud,
-  Car,
   Calculator,
   User,
   Salad,
@@ -24,7 +23,6 @@ import {
   Zap,
   ChefHat,
   Hand,
-  Users,
   Bone,
   // משחקים נוספים חדשים
   Globe,
@@ -183,16 +181,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 6,
   },
 
-  {
-    id: "animals",
-    title: "משחק חיות",
-    description: "למד חיות!",
-    icon: Dog, // או אייקון חיה אחר מ-lucide-react
-    color: "bg-green-400 hover:bg-green-500",
-    href: "/games/animals",
-    available: true,
-    order: 7,
-  },
+
   {
     id: "bubbles",
     title: "בועות מוזיקליות",
@@ -223,16 +212,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 10,
   },
-  {
-    id: "transport",
-    title: "משחק כלי תחבורה",
-    description: "למד על כלי תחבורה!",
-    icon: Car,
-    color: "bg-blue-400 hover:bg-blue-500",
-    href: "/games/transport",
-    available: true,
-    order: 11,
-  },
+
   {
     id: "math",
     title: "משחק חשבון",
@@ -263,16 +243,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 14,
   },
-  {
-    id: "instruments",
-    title: "משחק כלי נגינה",
-    description: "למד כלי נגינה מוזיקליים!",
-    icon: Music,
-    color: "bg-yellow-400 hover:bg-yellow-500",
-    href: "/games/instruments",
-    available: true,
-    order: 15,
-  },
+
   {
     id: "space",
     title: "משחק גופי השמים",
@@ -323,16 +294,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 20,
   },
-  {
-    id: "emotions",
-    title: "משחק רגשות",
-    description: "למד רגשות שונים!",
-    icon: Smile,
-    color: "bg-yellow-400 hover:bg-yellow-500",
-    href: "/games/emotions",
-    available: true,
-    order: 21,
-  },
+
   {
     id: "tzedakah",
     title: "משחק קופת הצדקה",
@@ -414,16 +376,7 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 29,
   },
-  {
-    id: "family",
-    title: "משחק בני המשפחה",
-    description: "למד על בני המשפחה השונים!",
-    icon: Users,
-    color: "bg-blue-500 hover:bg-blue-600",
-    href: "/games/family",
-    available: true,
-    order: 30,
-  },
+
   {
     id: "dinosaurs",
     title: "משחק דינוזאורים",

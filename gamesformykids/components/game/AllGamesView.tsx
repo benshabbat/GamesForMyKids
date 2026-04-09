@@ -1,12 +1,12 @@
 "use client";
 
+import { useMemo } from "react";
 import GameCard from "./GameCard";
-import { ComponentTypes } from "@/lib/types";
+import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-export default function AllGamesView({
-  allGameRegistrations,
-  totalGamesCount
-}: ComponentTypes.AllGamesViewProps) {
+export default function AllGamesView() {
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const totalGamesCount = allGameRegistrations.length;
   return (
     <div>
       <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">

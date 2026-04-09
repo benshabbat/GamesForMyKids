@@ -1,13 +1,15 @@
 "use client";
 
+import { useMemo } from "react";
 import CategoryCard from "./CategoryCard";
-import { ComponentTypes } from "@/lib/types";
+import { useHomePageStore } from "@/lib/stores";
+import { GAME_CATEGORIES } from "@/lib/constants/gameCategories";
+import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-export default function CategoriesView({
-  categories,
-  allGameRegistrations,
-  onCategorySelect
-}: ComponentTypes.CategoriesViewProps) {
+export default function CategoriesView() {
+  const selectCategory = useHomePageStore((s) => s.selectCategory);
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const categories = GAME_CATEGORIES;
   return (
     <div>
       <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
@@ -24,7 +26,7 @@ export default function CategoriesView({
               key={key}
               category={category}
               gamesCount={gamesCount}
-              onClick={() => onCategorySelect(key)}
+              onClick={() => selectCategory(key)}
             />
           );
         })}

@@ -4,54 +4,18 @@ import CategoryNavigation from '../game/CategoryNavigation';
 import CategoriesView from '../game/CategoriesView';
 import CategoryGamesView from '../game/CategoryGamesView';
 import AllGamesView from '../game/AllGamesView';
-import { useCategorizedGames } from './useCategorizedGames';
+import { useHomePageStore } from '@/lib/stores';
 
 const CategorizedGamesGrid = () => {
-  const {
-    selectedCategory,
-    showAllGames,
-    allGameRegistrations,
-    totalGamesCount,
-    categories,
-    handleShowCategories,
-    handleShowAllGames,
-    handleCategorySelect,
-    handleBackToCategories,
-  } = useCategorizedGames();
+  const selectedCategory = useHomePageStore((s) => s.selectedCategory);
+  const showAllGames = useHomePageStore((s) => s.showAllGames);
 
   return (
     <div className="max-w-6xl mx-auto px-4 pb-8">
-      <CategoryNavigation
-        selectedCategory={selectedCategory}
-        showAllGames={showAllGames}
-        totalGamesCount={totalGamesCount}
-        onShowCategories={handleShowCategories}
-        onShowAllGames={handleShowAllGames}
-      />
-
-      {!selectedCategory && !showAllGames && (
-        <CategoriesView
-          categories={categories}
-          allGameRegistrations={allGameRegistrations}
-          onCategorySelect={handleCategorySelect}
-        />
-      )}
-
-      {selectedCategory && (
-        <CategoryGamesView
-          selectedCategory={selectedCategory}
-          categories={categories}
-          allGameRegistrations={allGameRegistrations}
-          onBackToCategories={handleBackToCategories}
-        />
-      )}
-
-      {showAllGames && (
-        <AllGamesView
-          allGameRegistrations={allGameRegistrations}
-          totalGamesCount={totalGamesCount}
-        />
-      )}
+      <CategoryNavigation />
+      {!selectedCategory && !showAllGames && <CategoriesView />}
+      {selectedCategory && <CategoryGamesView />}
+      {showAllGames && <AllGamesView />}
     </div>
   );
 };

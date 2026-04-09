@@ -1,15 +1,18 @@
 "use client";
 
+import { useMemo } from "react";
 import GameCard from "./GameCard";
-import { ComponentTypes } from "@/lib/types";
+import { useHomePageStore } from "@/lib/stores";
+import { GAME_CATEGORIES } from "@/lib/constants/gameCategories";
+import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-export default function CategoryGamesView({
-  selectedCategory,
-  categories,
-  allGameRegistrations,
-  onBackToCategories
-}: ComponentTypes.CategoryGamesViewProps) {
-  const category = categories[selectedCategory];
+export default function CategoryGamesView() {
+  const selectedCategory = useHomePageStore((s) => s.selectedCategory);
+  const backToCategories = useHomePageStore((s) => s.backToCategories);
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+
+  if (!selectedCategory) return null;
+  const category = GAME_CATEGORIES[selectedCategory];
 
   const categoryGames = category
     ? allGameRegistrations.filter(game => category.gameIds.includes(game.id))
@@ -21,7 +24,7 @@ export default function CategoryGamesView({
     <div>
       <div className="text-center mb-4 md:mb-6">
         <button
-          onClick={onBackToCategories}
+          onClick={backToCategories}
           className="mb-3 md:mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-medium transition-colors text-sm md:text-base"
         >
           → חזור לקטגוריות
