@@ -72,7 +72,7 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
   return (
     <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
       <GameProgressProvider>
-        <GameLogicProvider>
+        <GameLogicProvider gameType={actualGameType as SupportedGameType}>
           <UltimateGamePage />
         </GameLogicProvider>
       </GameProgressProvider>

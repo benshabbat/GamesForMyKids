@@ -19,6 +19,7 @@ import { useEffect, ReactNode } from 'react';
 import { BaseGameItem, GameType } from "@/lib/types/core/base";
 import { GameUIConfig } from "@/lib/constants/ui/gameConfigs";
 import { useAutoGameConfig } from './GameConfigContext';
+import { AutoGameType } from '@/lib/constants/gameHooksMap';
 import { useGameSessionStore } from '@/lib/stores/gameSessionStore';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
@@ -81,10 +82,14 @@ export interface GameLogicContextValue {
 // ---------------------------------------------------------------------------
 interface GameLogicProviderProps {
   children: ReactNode;
+  gameType?: AutoGameType | GameType;
 }
 
-export function GameLogicProvider({ children }: GameLogicProviderProps) {
-  const { useGameHook } = useAutoGameConfig();
+export function GameLogicProvider({ children, gameType }: GameLogicProviderProps) {
+  // Pass gameType as an override so that during SSR/SSG the Zustand store (which is
+  // populated only via useEffect) is bypassed. This prevents the "Game type null" throw
+  // when pages are prerendered in parallel Next.js build workers.
+  const { useGameHook } = useAutoGameConfig(gameType);
   const gameHookResult = useGameHook();
 
   // Sync actions + computed values to Zustand on every render
