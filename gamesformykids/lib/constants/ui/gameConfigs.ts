@@ -1853,4 +1853,33 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     tip: "💡 טיפ: זכור את האגדות!",
     tipDescription: "כל דמות מגיעה מאגדה מסוימת עם כוחות ייחודיים",
   },
+  // משחקי גיאוגרפיה
+  "flags": {
+    title: "🌍 משחק דגלי מדינות",
+    subTitle: "זהה את הדגל של כל מדינה!",
+    itemsTitle: "מדינות העולם שלנו:",
+    itemsDescription: "לחץ על המדינה הנכונה!",
+    steps: [
+      { icon: "🌍", title: "1. תראה", description: "איזה דגל מוצג?" },
+      { icon: "🔊", title: "2. תשמע", description: "שמע את שם המדינה" },
+      { icon: "👆", title: "3. תבחר", description: "לחץ על המדינה הנכונה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)",
+      header: "text-white",
+      subHeader: "text-blue-100",
+      itemsDescription: "text-blue-100",
+      button: { from: "blue", to: "indigo" },
+      stepsBg: "bg-blue-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto",
+    },
+    challengeTitle: "של איזו מדינה הדגל הזה?",
+    challengeIcon: "🌍🗺️🌐",
+    challengeDescription: "זהה את הדגל ובחר את התשובה הנכונה!",
+    itemLabel: "מדינה",
+    tip: "💡 טיפ: שים לב לצבעים!",
+    tipDescription: "לכל דגל יש צבעים וסמלים ייחודיים שעוזרים לזהות את המדינה",
+  },
 };

@@ -8,6 +8,7 @@ import { ComponentType } from 'react';
 import { GameType } from '@/lib/types/core/base';
 import { GameItemCardProps } from '@/lib/types/components/cards';
 import UnifiedCard from './cards/UnifiedCard';
+import FlagsGameCard from './cards/FlagsGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -93,6 +94,8 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'art-craft': DefaultGameCard,
   'camping': DefaultGameCard,
   'fairy-tale-chars': DefaultGameCard,
+  // משחקי גיאוגרפיה
+  'flags': FlagsGameCard,
 };
 
 export default GameCardMap;

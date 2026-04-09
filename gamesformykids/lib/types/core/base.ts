@@ -279,4 +279,6 @@ export type GameType =
   | 'superheroes'
   | 'art-craft'
   | 'camping'
-  | 'fairy-tale-chars';
+  | 'fairy-tale-chars'
+  // משחקי גיאוגרפיה
+  | 'flags';

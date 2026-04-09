@@ -45,6 +45,7 @@ import {
   CAMPING_ITEMS,
   FAIRY_TALE_CHARS_ITEMS,
 } from "@/lib/constants/gameData/funGames";
+import { FLAGS_ITEMS } from "@/lib/constants/gameData/flags";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -124,4 +125,6 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "art-craft": ART_CRAFT_ITEMS, // ✅ משחק אמנות ויצירה
   "camping": CAMPING_ITEMS, // ✅ משחק טיול ושטח
   "fairy-tale-chars": FAIRY_TALE_CHARS_ITEMS, // ✅ משחק דמויות מאגדות
+  // משחקי גיאוגרפיה
+  "flags": FLAGS_ITEMS, // ✅ משחק דגלי מדינות
 } as const;

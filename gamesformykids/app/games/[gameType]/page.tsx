@@ -26,6 +26,8 @@ const SUPPORTED_GAMES = [
   'virtual-reality', 'new-professions', 'advanced-weather', 'advanced-colors', 'jewish-holidays', 'logic-games',
   // 6 משחקים חדשניים יוצאי דופן
   'sound-imitation', 'body-movements', 'touch-senses', 'emotional-social', 'time-clock', 'climate-planet',
+  // משחקי גיאוגרפיה
+  'flags',
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

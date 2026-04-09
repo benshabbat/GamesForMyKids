@@ -1232,6 +1232,17 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 115,
   },
+  // משחקי גיאוגרפיה
+  {
+    id: "flags",
+    title: "🌍 דגלי מדינות",
+    description: "זהה דגלים של מדינות מסביב לעולם!",
+    icon: Globe,
+    color: "bg-blue-600 hover:bg-blue-700",
+    href: "/games/flags",
+    available: true,
+    order: 116,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
