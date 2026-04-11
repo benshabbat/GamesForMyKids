@@ -38,7 +38,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars"],
+    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings"],
   },
   nature: {
     title: "טבע ואוכל",
@@ -54,7 +54,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport","vehicles","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks"],
+    gameIds: ["transport","vehicles","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system"],
   },
   home: {
     title: "בית וחיים",

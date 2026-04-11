@@ -1275,6 +1275,26 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 119,
   },
+  {
+    id: "solar-system",
+    title: "🪐 מערכת השמש",
+    description: "זהה כוכבי לכת וגרמי שמים!",
+    icon: Globe,
+    color: "bg-indigo-900 hover:bg-indigo-950",
+    href: "/games/solar-system",
+    available: true,
+    order: 120,
+  },
+  {
+    id: "famous-paintings",
+    title: "🖼️ ציורים מפורסמים",
+    description: "זהה ציורים מפורסמים מהיסטוריית האמנות!",
+    icon: Globe,
+    color: "bg-amber-800 hover:bg-amber-900",
+    href: "/games/famous-paintings",
+    available: true,
+    order: 121,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים

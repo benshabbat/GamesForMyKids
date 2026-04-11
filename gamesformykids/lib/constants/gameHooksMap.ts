@@ -86,6 +86,9 @@ const useSoccerLogosGame = () => useGenericGame(GAME_ITEMS_MAP["soccer-logos"], 
 // משחקי תחבורה וסמלים
 const useCarBrandsGame = () => useGenericGame(GAME_ITEMS_MAP["car-brands"], 'car-brands');
 const useWorldLandmarksGame = () => useGenericGame(GAME_ITEMS_MAP["world-landmarks"], 'world-landmarks');
+// משחקי מדע ותרבות
+const useSolarSystemGame = () => useGenericGame(GAME_ITEMS_MAP["solar-system"], 'solar-system');
+const useFamousPaintingsGame = () => useGenericGame(GAME_ITEMS_MAP["famous-paintings"], 'famous-paintings');
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -119,7 +122,10 @@ export type AutoGameType =
   | 'soccer-logos'
   // משחקי תחבורה וסמלים
   | 'car-brands'
-  | 'world-landmarks';
+  | 'world-landmarks'
+  // משחקי מדע ותרבות
+  | 'solar-system'
+  | 'famous-paintings';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -196,7 +202,10 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   "soccer-logos": useSoccerLogosGame,
   // משחקי תחבורה וסמלים
   "car-brands": useCarBrandsGame,
-  "world-landmarks": useWorldLandmarksGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
+  "world-landmarks": useWorldLandmarksGame,
+  // משחקי מדע ותרבות
+  "solar-system": useSolarSystemGame,
+  "famous-paintings": useFamousPaintingsGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 };

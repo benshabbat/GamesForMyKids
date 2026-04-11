@@ -286,4 +286,7 @@ export type GameType =
   | 'soccer-logos'
   // משחקי תחבורה וסמלים
   | 'car-brands'
-  | 'world-landmarks';
+  | 'world-landmarks'
+  // משחקי מדע ותרבות
+  | 'solar-system'
+  | 'famous-paintings';

@@ -12,6 +12,8 @@ import FlagsGameCard from './cards/FlagsGameCard';
 import SoccerLogosGameCard from './cards/SoccerLogosGameCard';
 import CarBrandsGameCard from './cards/CarBrandsGameCard';
 import WorldLandmarksGameCard from './cards/WorldLandmarksGameCard';
+import SolarSystemGameCard from './cards/SolarSystemGameCard';
+import FamousPaintingsGameCard from './cards/FamousPaintingsGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -104,6 +106,9 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   // משחקי תחבורה וסמלים
   'car-brands': CarBrandsGameCard,
   'world-landmarks': WorldLandmarksGameCard,
+  // משחקי מדע ותרבות
+  'solar-system': SolarSystemGameCard,
+  'famous-paintings': FamousPaintingsGameCard,
 };
 
 export default GameCardMap;

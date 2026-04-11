@@ -49,6 +49,8 @@ import { FLAGS_ITEMS } from "@/lib/constants/gameData/flags";
 import { SOCCER_LOGOS_ITEMS } from "@/lib/constants/gameData/soccerLogos";
 import { CAR_BRANDS_ITEMS } from "@/lib/constants/gameData/carBrands";
 import { WORLD_LANDMARKS_ITEMS } from "@/lib/constants/gameData/worldLandmarks";
+import { SOLAR_SYSTEM_ITEMS } from "@/lib/constants/gameData/solarSystem";
+import { FAMOUS_PAINTINGS_ITEMS } from "@/lib/constants/gameData/famousPaintings";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -135,4 +137,7 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   // משחקי תחבורה וסמלים
   "car-brands": CAR_BRANDS_ITEMS, // ✅ משחק לוגואים של מכוניות
   "world-landmarks": WORLD_LANDMARKS_ITEMS, // ✅ משחק אתרים מפורסמים
+  // משחקי מדע ותרבות
+  "solar-system": SOLAR_SYSTEM_ITEMS, // ✅ משחק מערכת השמש
+  "famous-paintings": FAMOUS_PAINTINGS_ITEMS, // ✅ משחק ציורים מפורסמים
 } as const;
