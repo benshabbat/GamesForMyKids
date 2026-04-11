@@ -52,6 +52,7 @@ export function useWordScrambleGame() {
   const wIdxRef   = useRef(0);
   const livesRef  = useRef(3);
   const pickedRef = useRef<PickedLetter[]>([]);
+  const lettersRef = useRef<LetterSlot[]>([]);
 
   const clearTimer = useCallback(() => {
     if (timerRef.current) clearTimeout(timerRef.current);
@@ -60,7 +61,9 @@ export function useWordScrambleGame() {
   const loadWord = useCallback((ws: WordEntry[], idx: number) => {
     const entry = ws[idx];
     const sc = scramble(entry.word);
-    setLetters(sc.map((ch, i) => ({ ch, picked: false, idx: i })));
+    const newLetters = sc.map((ch, i) => ({ ch, picked: false, idx: i }));
+    lettersRef.current = newLetters;
+    setLetters(newLetters);
     setPicked([]);
     pickedRef.current = [];
     setCorrect(false);
@@ -83,60 +86,64 @@ export function useWordScrambleGame() {
   }, [clearTimer, loadWord]);
 
   const pickLetter = useCallback((srcIdx: number) => {
-    setLetters(prev => {
-      const letter = prev[srcIdx];
-      if (!letter || letter.picked) return prev;
-      const newPicked = [...pickedRef.current, { ch: letter.ch, srcIdx }];
-      const currentWord = wordsRef.current[wIdxRef.current].word;
+    const letter = lettersRef.current[srcIdx];
+    if (!letter || letter.picked) return;
 
-      if (newPicked.length === currentWord.length) {
-        const attempt = newPicked.map(p => p.ch).join('');
-        if (attempt === currentWord) {
-          setCorrect(true);
-          setScore(s => s + 20);
-          setPicked(newPicked);
-          pickedRef.current = newPicked;
-          timerRef.current = setTimeout(() => {
-            const nextIdx = wIdxRef.current + 1;
-            if (nextIdx >= wordsRef.current.length) {
-              setPhase('results');
-            } else {
-              wIdxRef.current = nextIdx;
-              setWIdx(nextIdx);
-              loadWord(wordsRef.current, nextIdx);
-            }
-          }, 900);
-        } else {
-          setShake(true);
-          const nl = livesRef.current - 1;
-          livesRef.current = nl;
-          setLives(nl);
-          if (nl <= 0) {
-            timerRef.current = setTimeout(() => setPhase('results'), 1000);
+    // Mark letter as picked (no side-effects inside updater)
+    const newLetters = lettersRef.current.map((l, i) => i === srcIdx ? { ...l, picked: true } : l);
+    lettersRef.current = newLetters;
+    setLetters(newLetters);
+
+    const newPicked = [...pickedRef.current, { ch: letter.ch, srcIdx }];
+    pickedRef.current = newPicked;
+    setPicked(newPicked);
+
+    const currentWord = wordsRef.current[wIdxRef.current].word;
+
+    if (newPicked.length === currentWord.length) {
+      const attempt = newPicked.map(p => p.ch).join('');
+      if (attempt === currentWord) {
+        setCorrect(true);
+        setScore(s => s + 20);
+        timerRef.current = setTimeout(() => {
+          const nextIdx = wIdxRef.current + 1;
+          if (nextIdx >= wordsRef.current.length) {
+            setPhase('results');
+          } else {
+            wIdxRef.current = nextIdx;
+            setWIdx(nextIdx);
+            loadWord(wordsRef.current, nextIdx);
           }
-          setTimeout(() => {
-            setShake(false);
-            setPicked([]);
-            pickedRef.current = [];
-            setLetters(p => p.map(l => ({ ...l, picked: false })));
-          }, 600);
-        }
-        return prev.map((l, i) => i === srcIdx ? { ...l, picked: true } : l);
+        }, 900);
       } else {
-        setPicked(newPicked);
-        pickedRef.current = newPicked;
-        return prev.map((l, i) => i === srcIdx ? { ...l, picked: true } : l);
+        setShake(true);
+        const nl = livesRef.current - 1;
+        livesRef.current = nl;
+        setLives(nl);
+        if (nl <= 0) {
+          timerRef.current = setTimeout(() => setPhase('results'), 1000);
+        }
+        setTimeout(() => {
+          setShake(false);
+          setPicked([]);
+          pickedRef.current = [];
+          const resetLetters = lettersRef.current.map(l => ({ ...l, picked: false }));
+          lettersRef.current = resetLetters;
+          setLetters(resetLetters);
+        }, 600);
       }
-    });
+    }
   }, [loadWord]);
 
   const unpick = useCallback((pIdx: number) => {
-    setPicked(prev => {
-      const p = prev[pIdx];
-      if (!p) return prev;
-      setLetters(ls => ls.map(l => l.idx === p.srcIdx ? { ...l, picked: false } : l));
-      return prev.filter((_, i) => i !== pIdx);
-    });
+    const p = pickedRef.current[pIdx];
+    if (!p) return;
+    const newLetters = lettersRef.current.map(l => l.idx === p.srcIdx ? { ...l, picked: false } : l);
+    lettersRef.current = newLetters;
+    setLetters(newLetters);
+    const next = pickedRef.current.filter((_, i) => i !== pIdx);
+    pickedRef.current = next;
+    setPicked(next);
   }, []);
 
   return { phase, words, wIdx, letters, picked, score, lives, shake, correct, startGame, pickLetter, unpick, clearTimer };

@@ -42,7 +42,7 @@ export default function WordScramblePlayScreen({
         <div><p className="text-lg font-bold text-gray-500">{wIdx + 1}/{words.length}</p></div>
         <div className="flex gap-1">{Array.from({ length: 3 }).map((_, i) => <span key={i}>{i < lives ? '❤️' : '🖤'}</span>)}</div>
       </div>
-      <div className={`bg-white rounded-3xl p-6 shadow-2xl max-w-sm w-full text-center transition-all duration-200 ${shake ? 'animate-bounce' : ''}`}>
+      <div className={`bg-white rounded-3xl p-6 shadow-2xl max-w-sm w-full text-center transition-all duration-200 ${shake ? 'animate-shake' : ''}`}>
         <div className="text-7xl mb-2">{entry.emoji}</div>
         <p className="text-gray-400 text-sm mb-4">{entry.hint}</p>
         <div className="flex justify-center gap-2 mb-6 flex-wrap">
