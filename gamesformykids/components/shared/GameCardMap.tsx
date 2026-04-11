@@ -10,6 +10,8 @@ import { GameItemCardProps } from '@/lib/types/components/cards';
 import UnifiedCard from './cards/UnifiedCard';
 import FlagsGameCard from './cards/FlagsGameCard';
 import SoccerLogosGameCard from './cards/SoccerLogosGameCard';
+import CarBrandsGameCard from './cards/CarBrandsGameCard';
+import WorldLandmarksGameCard from './cards/WorldLandmarksGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -99,6 +101,9 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'flags': FlagsGameCard,
   // משחקי ספורט
   'soccer-logos': SoccerLogosGameCard,
+  // משחקי תחבורה וסמלים
+  'car-brands': CarBrandsGameCard,
+  'world-landmarks': WorldLandmarksGameCard,
 };
 
 export default GameCardMap;

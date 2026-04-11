@@ -283,4 +283,7 @@ export type GameType =
   // משחקי גיאוגרפיה
   | 'flags'
   // משחקי ספורט
-  | 'soccer-logos';
+  | 'soccer-logos'
+  // משחקי תחבורה וסמלים
+  | 'car-brands'
+  | 'world-landmarks';

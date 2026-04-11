@@ -1254,6 +1254,27 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 117,
   },
+  // משחקי תחבורה וסמלים
+  {
+    id: "car-brands",
+    title: "🚗 לוגואים של מכוניות",
+    description: "זהה לוגואים של מותגי מכוניות מפורסמים!",
+    icon: Globe,
+    color: "bg-blue-700 hover:bg-blue-800",
+    href: "/games/car-brands",
+    available: true,
+    order: 118,
+  },
+  {
+    id: "world-landmarks",
+    title: "🏙️ אתרים מפורסמים",
+    description: "זהה אתרים מפורסמים מסביב לעולם!",
+    icon: Globe,
+    color: "bg-teal-600 hover:bg-teal-700",
+    href: "/games/world-landmarks",
+    available: true,
+    order: 119,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים

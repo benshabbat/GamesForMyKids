@@ -30,6 +30,9 @@ const SUPPORTED_GAMES = [
   'flags',
   // משחקי ספורט
   'soccer-logos',
+  // משחקי תחבורה וסמלים
+  'car-brands',
+  'world-landmarks',
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

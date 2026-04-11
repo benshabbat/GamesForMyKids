@@ -83,6 +83,9 @@ const useFairyTaleCharsGame = () => useGenericGame(GAME_ITEMS_MAP["fairy-tale-ch
 const useFlagsGame = () => useGenericGame(GAME_ITEMS_MAP["flags"], 'flags');
 // משחקי ספורט
 const useSoccerLogosGame = () => useGenericGame(GAME_ITEMS_MAP["soccer-logos"], 'soccer-logos');
+// משחקי תחבורה וסמלים
+const useCarBrandsGame = () => useGenericGame(GAME_ITEMS_MAP["car-brands"], 'car-brands');
+const useWorldLandmarksGame = () => useGenericGame(GAME_ITEMS_MAP["world-landmarks"], 'world-landmarks');
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -113,7 +116,10 @@ export type AutoGameType =
   // משחקי גיאוגרפיה
   | 'flags'
   // משחקי ספורט
-  | 'soccer-logos';
+  | 'soccer-logos'
+  // משחקי תחבורה וסמלים
+  | 'car-brands'
+  | 'world-landmarks';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -187,7 +193,10 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   "fairy-tale-chars": useFairyTaleCharsGame,  // משחקי גיאוגרפיה
   "flags": useFlagsGame,
   // משחקי ספורט
-  "soccer-logos": useSoccerLogosGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
+  "soccer-logos": useSoccerLogosGame,
+  // משחקי תחבורה וסמלים
+  "car-brands": useCarBrandsGame,
+  "world-landmarks": useWorldLandmarksGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 };
