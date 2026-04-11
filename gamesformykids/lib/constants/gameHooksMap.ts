@@ -81,6 +81,8 @@ const useCampingGame = () => useGenericGame(GAME_ITEMS_MAP["camping"], 'camping'
 const useFairyTaleCharsGame = () => useGenericGame(GAME_ITEMS_MAP["fairy-tale-chars"], 'fairy-tale-chars');
 // משחקי גיאוגרפיה
 const useFlagsGame = () => useGenericGame(GAME_ITEMS_MAP["flags"], 'flags');
+// משחקי ספורט
+const useSoccerLogosGame = () => useGenericGame(GAME_ITEMS_MAP["soccer-logos"], 'soccer-logos');
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -109,7 +111,9 @@ export type AutoGameType =
   | 'birds' | 'bugs-insects' | 'superheroes'
   | 'art-craft' | 'camping' | 'fairy-tale-chars'
   // משחקי גיאוגרפיה
-  | 'flags';
+  | 'flags'
+  // משחקי ספורט
+  | 'soccer-logos';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -181,7 +185,9 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   "art-craft": useArtCraftGame,
   "camping": useCampingGame,
   "fairy-tale-chars": useFairyTaleCharsGame,  // משחקי גיאוגרפיה
-  "flags": useFlagsGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
+  "flags": useFlagsGame,
+  // משחקי ספורט
+  "soccer-logos": useSoccerLogosGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 };

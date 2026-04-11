@@ -78,7 +78,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show"],
+    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos"],
   },
   health: {
     title: "בריאות ובטיחות",

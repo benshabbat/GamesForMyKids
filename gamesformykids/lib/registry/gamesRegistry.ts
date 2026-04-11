@@ -1243,6 +1243,17 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 116,
   },
+  // משחקי ספורט
+  {
+    id: "soccer-logos",
+    title: "⚽ סמלי כדורגל",
+    description: "זהה סמלים של קבוצות כדורגל מסביב לעולם!",
+    icon: Globe,
+    color: "bg-green-600 hover:bg-green-700",
+    href: "/games/soccer-logos",
+    available: true,
+    order: 117,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים

@@ -1882,4 +1882,33 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
     tip: "💡 טיפ: שים לב לצבעים!",
     tipDescription: "לכל דגל יש צבעים וסמלים ייחודיים שעוזרים לזהות את המדינה",
   },
+  // משחקי ספורט
+  "soccer-logos": {
+    title: "⚽ משחק סמלי כדורגל",
+    subTitle: "זהה את הסמל של כל קבוצה!",
+    itemsTitle: "קבוצות הכדורגל שלנו:",
+    itemsDescription: "לחץ על הקבוצה הנכונה!",
+    steps: [
+      { icon: "⚽", title: "1. תראה", description: "איזה סמל מוצג?" },
+      { icon: "🔊", title: "2. תשמע", description: "שמע את שם הקבוצה" },
+      { icon: "👆", title: "3. תבחר", description: "לחץ על הקבוצה הנכונה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #1e3a5f 0%, #0d2137 50%, #0a1628 100%)",
+      header: "text-white",
+      subHeader: "text-green-100",
+      itemsDescription: "text-green-100",
+      button: { from: "green", to: "emerald" },
+      stepsBg: "bg-green-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto",
+    },
+    challengeTitle: "של איזו קבוצה הסמל הזה?",
+    challengeIcon: "⚽🏆🥅",
+    challengeDescription: "זהה את סמל הקבוצה ובחר את התשובה הנכונה!",
+    itemLabel: "קבוצה",
+    tip: "💡 טיפ: שים לב לצבעים ולסמל!",
+    tipDescription: "לכל קבוצה יש סמל וצבעים ייחודיים",
+  },
 };

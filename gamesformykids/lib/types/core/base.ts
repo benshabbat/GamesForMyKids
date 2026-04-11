@@ -281,4 +281,6 @@ export type GameType =
   | 'camping'
   | 'fairy-tale-chars'
   // משחקי גיאוגרפיה
-  | 'flags';
+  | 'flags'
+  // משחקי ספורט
+  | 'soccer-logos';

@@ -28,6 +28,8 @@ const SUPPORTED_GAMES = [
   'sound-imitation', 'body-movements', 'touch-senses', 'emotional-social', 'time-clock', 'climate-planet',
   // משחקי גיאוגרפיה
   'flags',
+  // משחקי ספורט
+  'soccer-logos',
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];

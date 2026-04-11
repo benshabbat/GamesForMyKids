@@ -46,6 +46,7 @@ import {
   FAIRY_TALE_CHARS_ITEMS,
 } from "@/lib/constants/gameData/funGames";
 import { FLAGS_ITEMS } from "@/lib/constants/gameData/flags";
+import { SOCCER_LOGOS_ITEMS } from "@/lib/constants/gameData/soccerLogos";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -127,4 +128,6 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   "fairy-tale-chars": FAIRY_TALE_CHARS_ITEMS, // ✅ משחק דמויות מאגדות
   // משחקי גיאוגרפיה
   "flags": FLAGS_ITEMS, // ✅ משחק דגלי מדינות
+  // משחקי ספורט
+  "soccer-logos": SOCCER_LOGOS_ITEMS, // ✅ משחק סמלי כדורגל
 } as const;
