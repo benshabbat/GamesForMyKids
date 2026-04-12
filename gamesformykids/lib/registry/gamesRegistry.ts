@@ -1365,6 +1365,36 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 128,
   },
+  {
+    id: "checkers",
+    title: "♟️ דמקה",
+    description: "משחק הדמקה הקלאסי — קפוץ מעל האסימונים ונצח!",
+    icon: Gamepad2,
+    color: "bg-amber-700 hover:bg-amber-800",
+    href: "/games/checkers",
+    available: true,
+    order: 129,
+  },
+  {
+    id: "chess",
+    title: "♚ שחמט",
+    description: "שחמט קלאסי נגד המחשב — הביס את המלך!",
+    icon: Crown,
+    color: "bg-slate-700 hover:bg-slate-800",
+    href: "/games/chess",
+    available: true,
+    order: 130,
+  },
+  {
+    id: "shesh-besh",
+    title: "🎲 שש-בש",
+    description: "משחק השש-בש הקלאסי — הטל קוביות ורוקן את הלוח!",
+    icon: Gamepad2,
+    color: "bg-stone-600 hover:bg-stone-700",
+    href: "/games/shesh-besh",
+    available: true,
+    order: 131,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
