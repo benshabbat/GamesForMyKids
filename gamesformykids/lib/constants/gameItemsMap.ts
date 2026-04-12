@@ -51,6 +51,8 @@ import { CAR_BRANDS_ITEMS } from "@/lib/constants/gameData/carBrands";
 import { WORLD_LANDMARKS_ITEMS } from "@/lib/constants/gameData/worldLandmarks";
 import { SOLAR_SYSTEM_ITEMS } from "@/lib/constants/gameData/solarSystem";
 import { FAMOUS_PAINTINGS_ITEMS } from "@/lib/constants/gameData/famousPaintings";
+import { TECH_LOGOS_ITEMS } from "@/lib/constants/gameData/techLogos";
+import { DOG_BREEDS_ITEMS } from "@/lib/constants/gameData/dogBreeds";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -140,4 +142,7 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   // משחקי מדע ותרבות
   "solar-system": SOLAR_SYSTEM_ITEMS, // ✅ משחק מערכת השמש
   "famous-paintings": FAMOUS_PAINTINGS_ITEMS, // ✅ משחק ציורים מפורסמים
+  // משחקי לוגואים וחיות
+  "tech-logos": TECH_LOGOS_ITEMS, // ✅ משחק לוגואים טכנולוגיה
+  "dog-breeds": DOG_BREEDS_ITEMS, // ✅ משחק גזעי כלבים
 } as const;

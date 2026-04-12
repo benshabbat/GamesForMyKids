@@ -38,7 +38,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings"],
+    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos"],
   },
   nature: {
     title: "טבע ואוכל",
@@ -46,7 +46,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects"],
+    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds"],
   },
   world: {
     title: "עולם ותחבורה",

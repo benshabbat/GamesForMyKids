@@ -14,6 +14,8 @@ import CarBrandsGameCard from './cards/CarBrandsGameCard';
 import WorldLandmarksGameCard from './cards/WorldLandmarksGameCard';
 import SolarSystemGameCard from './cards/SolarSystemGameCard';
 import FamousPaintingsGameCard from './cards/FamousPaintingsGameCard';
+import TechLogosGameCard from './cards/TechLogosGameCard';
+import DogBreedsGameCard from './cards/DogBreedsGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -109,6 +111,9 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   // משחקי מדע ותרבות
   'solar-system': SolarSystemGameCard,
   'famous-paintings': FamousPaintingsGameCard,
+  // משחקי לוגואים וחיות
+  'tech-logos': TechLogosGameCard,
+  'dog-breeds': DogBreedsGameCard,
 };
 
 export default GameCardMap;

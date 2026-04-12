@@ -289,4 +289,7 @@ export type GameType =
   | 'world-landmarks'
   // משחקי מדע ותרבות
   | 'solar-system'
-  | 'famous-paintings';
+  | 'famous-paintings'
+  // משחקי לוגואים וחיות
+  | 'tech-logos'
+  | 'dog-breeds';

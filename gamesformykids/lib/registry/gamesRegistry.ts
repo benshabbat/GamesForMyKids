@@ -1295,6 +1295,26 @@ const GAMES_REGISTRY: GameRegistration[] = [
     available: true,
     order: 121,
   },
+  {
+    id: "tech-logos",
+    title: "📱 לוגואים טכנולוגיה",
+    description: "זהה לוגואים של חברות הטכנולוגיה הגדולות!",
+    icon: Globe,
+    color: "bg-sky-700 hover:bg-sky-800",
+    href: "/games/tech-logos",
+    available: true,
+    order: 122,
+  },
+  {
+    id: "dog-breeds",
+    title: "🐕 גזעי כלבים",
+    description: "זהה גזעי כלבים מסביב העולם!",
+    icon: Globe,
+    color: "bg-amber-600 hover:bg-amber-700",
+    href: "/games/dog-breeds",
+    available: true,
+    order: 123,
+  },
 ];
 
 // פונקציות עזר לעבודה עם המשחקים
