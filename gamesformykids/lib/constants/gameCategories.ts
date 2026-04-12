@@ -46,7 +46,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds"],
+    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds","cat-breeds","exotic-birds","butterflies"],
   },
   world: {
     title: "עולם ותחבורה",
@@ -78,7 +78,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos"],
+    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos","nba-teams"],
   },
   health: {
     title: "בריאות ובטיחות",

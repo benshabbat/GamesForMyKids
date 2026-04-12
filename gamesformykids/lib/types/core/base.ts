@@ -292,4 +292,9 @@ export type GameType =
   | 'famous-paintings'
   // משחקי לוגואים וחיות
   | 'tech-logos'
-  | 'dog-breeds';
+  | 'dog-breeds'
+  | 'cat-breeds'
+  | 'nba-teams'
+  // משחקי טבע וחרקים
+  | 'exotic-birds'
+  | 'butterflies';

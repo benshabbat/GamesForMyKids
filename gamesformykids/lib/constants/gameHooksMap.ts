@@ -90,11 +90,14 @@ const useWorldLandmarksGame = () => useGenericGame(GAME_ITEMS_MAP["world-landmar
 const useSolarSystemGame = () => useGenericGame(GAME_ITEMS_MAP["solar-system"], 'solar-system');
 const useFamousPaintingsGame = () => useGenericGame(GAME_ITEMS_MAP["famous-paintings"], 'famous-paintings');
 
-
-
-\// משחקי לוגואים וחיות
+// משחקי לוגואים וחיות
 const useTechLogosGame = () => useGenericGame(GAME_ITEMS_MAP["tech-logos"], 'tech-logos');
 const useDogBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["dog-breeds"], 'dog-breeds');
+const useCatBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["cat-breeds"], 'cat-breeds');
+const useNbaTeamsGame = () => useGenericGame(GAME_ITEMS_MAP["nba-teams"], 'nba-teams');
+// משחקי טבע וחרקים
+const useExoticBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["exotic-birds"], 'exotic-birds');
+const useButterfliesGame = () => useGenericGame(GAME_ITEMS_MAP["butterflies"], 'butterflies');
 // - counting: לוגיקת ספירה מיוחדת
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -134,7 +137,12 @@ export type AutoGameType =
   | 'famous-paintings'
   // משחקי לוגואים וחיות
   | 'tech-logos'
-  | 'dog-breeds';
+  | 'dog-breeds'
+  | 'cat-breeds'
+  | 'nba-teams'
+  // משחקי טבע וחרקים
+  | 'exotic-birds'
+  | 'butterflies';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -217,7 +225,12 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   "famous-paintings": useFamousPaintingsGame,
   // משחקי לוגואים וחיות
   "tech-logos": useTechLogosGame,
-  "dog-breeds": useDogBreedsGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
+  "dog-breeds": useDogBreedsGame,
+  "cat-breeds": useCatBreedsGame,
+  "nba-teams": useNbaTeamsGame,
+  // משחקי טבע וחרקים
+  "exotic-birds": useExoticBirdsGame,
+  "butterflies": useButterfliesGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
   math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 };

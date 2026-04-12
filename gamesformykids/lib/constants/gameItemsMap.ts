@@ -53,6 +53,10 @@ import { SOLAR_SYSTEM_ITEMS } from "@/lib/constants/gameData/solarSystem";
 import { FAMOUS_PAINTINGS_ITEMS } from "@/lib/constants/gameData/famousPaintings";
 import { TECH_LOGOS_ITEMS } from "@/lib/constants/gameData/techLogos";
 import { DOG_BREEDS_ITEMS } from "@/lib/constants/gameData/dogBreeds";
+import { CAT_BREEDS_ITEMS } from "@/lib/constants/gameData/catBreeds";
+import { NBA_TEAMS_ITEMS } from "@/lib/constants/gameData/nbaTeams";
+import { EXOTIC_BIRDS_ITEMS } from "@/lib/constants/gameData/exoticBirds";
+import { BUTTERFLIES_ITEMS } from "@/lib/constants/gameData/butterflies";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -145,4 +149,9 @@ export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
   // משחקי לוגואים וחיות
   "tech-logos": TECH_LOGOS_ITEMS, // ✅ משחק לוגואים טכנולוגיה
   "dog-breeds": DOG_BREEDS_ITEMS, // ✅ משחק גזעי כלבים
+  "cat-breeds": CAT_BREEDS_ITEMS, // ✅ משחק גזעי חתולים
+  "nba-teams": NBA_TEAMS_ITEMS, // ✅ משחק קבוצות NBA
+  // משחקי טבע וחרקים
+  "exotic-birds": EXOTIC_BIRDS_ITEMS, // ✅ משחק ציפורים אקזוטיות
+  "butterflies": BUTTERFLIES_ITEMS, // ✅ משחק פרפרים
 } as const;

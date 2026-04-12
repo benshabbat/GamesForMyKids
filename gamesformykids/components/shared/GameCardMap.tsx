@@ -16,6 +16,10 @@ import SolarSystemGameCard from './cards/SolarSystemGameCard';
 import FamousPaintingsGameCard from './cards/FamousPaintingsGameCard';
 import TechLogosGameCard from './cards/TechLogosGameCard';
 import DogBreedsGameCard from './cards/DogBreedsGameCard';
+import CatBreedsGameCard from './cards/CatBreedsGameCard';
+import NbaTeamsGameCard from './cards/NbaTeamsGameCard';
+import ExoticBirdsGameCard from './cards/ExoticBirdsGameCard';
+import ButterfliesGameCard from './cards/ButterfliesGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -114,6 +118,11 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   // משחקי לוגואים וחיות
   'tech-logos': TechLogosGameCard,
   'dog-breeds': DogBreedsGameCard,
+  'cat-breeds': CatBreedsGameCard,
+  'nba-teams': NbaTeamsGameCard,
+  // משחקי טבע וחרקים
+  'exotic-birds': ExoticBirdsGameCard,
+  'butterflies': ButterfliesGameCard,
 };
 
 export default GameCardMap;

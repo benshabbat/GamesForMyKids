@@ -39,6 +39,11 @@ const SUPPORTED_GAMES = [
   // משחקי לוגואים וחיות
   'tech-logos',
   'dog-breeds',
+  'cat-breeds',
+  'nba-teams',
+  // משחקי טבע וחרקים
+  'exotic-birds',
+  'butterflies',
 ] as const;
 
 type SupportedGameType = typeof SUPPORTED_GAMES[number];
