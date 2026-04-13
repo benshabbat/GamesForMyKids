@@ -19,7 +19,9 @@ export { default as SimpleControls } from './SimpleControls';
 export { default as CustomControls } from './CustomControls';
 export { default as DifficultySelector } from './DifficultySelector';
 
-// Help modal sub-components
+// Help modal components
+export { default as PuzzleHelpModal } from './PuzzleHelpModal';
+export { default as HelpSection } from './HelpSection';
 export { default as SimpleHelpModal } from './SimpleHelpModal';
 export { default as CustomHelpModal } from './CustomHelpModal';
 export { default as HelpStepsSection } from './HelpStepsSection';

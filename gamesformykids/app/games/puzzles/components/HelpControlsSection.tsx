@@ -1,10 +1,10 @@
 import { RotateCcw, Eye, Settings, Upload, Shuffle } from 'lucide-react';
+import HelpSection from './HelpSection';
 
 export default function HelpControlsSection() {
   return (
-    <div className="bg-purple-50 p-4 rounded-lg">
-      <h3 className="font-bold text-purple-800 mb-2">🎮 פקדים:</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-purple-700">
+    <HelpSection color="purple" title="🎮 פקדים:">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <div className="flex items-center gap-2">
           <Upload className="w-4 h-4" />
           <span><strong>תמונה חדשה:</strong> החלף תמונה</span>
@@ -26,6 +26,6 @@ export default function HelpControlsSection() {
           <span><strong>ניפוי באגים:</strong> מידע טכני</span>
         </div>
       </div>
-    </div>
+    </HelpSection>
   );
 }
