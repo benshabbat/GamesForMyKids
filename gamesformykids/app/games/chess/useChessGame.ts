@@ -172,7 +172,7 @@ function getRawMoves(b: Board, pos: Pos, castling: CastleRights, enPassant: Pos 
 
 type MoveResult = { board: Board; castling: CastleRights; enPassant: Pos | null };
 
-function applyMove(b: Board, move: ChessMove, castling: CastleRights, enPassant: Pos | null): MoveResult {
+function applyMove(b: Board, move: ChessMove, castling: CastleRights, _enPassant: Pos | null): MoveResult {
   const nb = cloneBoard(b);
   const piece = nb[move.from.row][move.from.col]!;
   const color = pieceColor(piece)!;

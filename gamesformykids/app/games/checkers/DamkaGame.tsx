@@ -1,6 +1,6 @@
 'use client';
 
-import { useDamkaGame, type Pos } from './useDamkaGame';
+import { useDamkaGame } from './useDamkaGame';
 
 // helper re-export so we can call it here
 const isDark = (r: number, c: number) => (r + c) % 2 === 1;

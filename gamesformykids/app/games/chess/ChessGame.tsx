@@ -1,6 +1,6 @@
 'use client';
 
-import { useChessGame, PIECE_SYMBOLS, type Pos } from './useChessGame';
+import { useChessGame, PIECE_SYMBOLS } from './useChessGame';
 
 const FILES = ['א','ב','ג','ד','ה','ו','ז','ח'];
 const RANKS = ['8','7','6','5','4','3','2','1'];
