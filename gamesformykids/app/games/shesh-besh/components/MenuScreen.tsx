@@ -1,9 +1,9 @@
-import { useSheshBeshStore } from '../sheshBeshGameStore';
+import { useGameScores }  from '../hooks';
+import { useGameActions } from '../hooks';
 
 export function MenuScreen() {
-  const playerScore = useSheshBeshStore(s => s.playerScore);
-  const computerScore = useSheshBeshStore(s => s.computerScore);
-  const startGame = useSheshBeshStore(s => s.startGame);
+  const { playerScore, computerScore } = useGameScores();
+  const { startGame }                  = useGameActions();
   return (
     <div className="flex flex-col items-center gap-6 text-center max-w-sm w-full mt-6">
       {/* Title */}

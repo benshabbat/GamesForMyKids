@@ -1,12 +1,9 @@
-import { useSheshBeshStore } from '../sheshBeshGameStore';
+import { useGameStatus }  from '../hooks';
+import { useGameActions } from '../hooks';
 
 export function ActionButtons() {
-  const phase = useSheshBeshStore(s => s.phase);
-  const currentTurn = useSheshBeshStore(s => s.currentTurn);
-  const message = useSheshBeshStore(s => s.message);
-  const canUndo = useSheshBeshStore(s => s.turnHistory.length > 0);
-  const rollDice = useSheshBeshStore(s => s.rollDice);
-  const undoMove = useSheshBeshStore(s => s.undoMove);
+  const { phase, currentTurn, message } = useGameStatus();
+  const { rollDice, undoMove, canUndo }  = useGameActions();
   return (
     <>
       {/* Status message */}

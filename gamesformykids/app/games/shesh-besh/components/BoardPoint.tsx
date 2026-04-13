@@ -1,4 +1,4 @@
-import { type PointState } from '../sheshBeshGameStore';
+import { type PointState } from '../types';
 import { PieceStack } from './PieceStack';
 
 interface BoardPointProps {

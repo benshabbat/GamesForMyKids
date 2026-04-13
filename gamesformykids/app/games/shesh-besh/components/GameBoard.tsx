@@ -1,4 +1,4 @@
-import { useSheshBeshStore } from '../sheshBeshGameStore';
+import { useGameBoard } from '../hooks';
 import { BoardPoint } from './BoardPoint';
 import { Bar } from './Bar';
 import { BorneOff } from './BorneOff';
@@ -7,12 +7,7 @@ const TOP_POINTS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 const BOT_POINTS = [12, 11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1];
 
 export function GameBoard() {
-  const points = useSheshBeshStore(s => s.points);
-  const barPlayer = useSheshBeshStore(s => s.barPlayer);
-  const barComputer = useSheshBeshStore(s => s.barComputer);
-  const selected = useSheshBeshStore(s => s.selected);
-  const validMoves = useSheshBeshStore(s => s.validMoves);
-  const selectPoint = useSheshBeshStore(s => s.selectPoint);
+  const { points, barPlayer, barComputer, selected, validMoves, selectPoint } = useGameBoard();
   const validTargets = new Set(validMoves.map(m => m.to));
   return (
     /* Walnut outer frame */

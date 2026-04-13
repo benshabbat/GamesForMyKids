@@ -1,12 +1,10 @@
-import { useSheshBeshStore } from '../sheshBeshGameStore';
+import { useGameStatus } from '../hooks';
+import { useGameScores } from '../hooks';
 import { DieChip } from './DieChip';
 
 export function Scoreboard() {
-  const currentTurn = useSheshBeshStore(s => s.currentTurn);
-  const playerScore = useSheshBeshStore(s => s.playerScore);
-  const computerScore = useSheshBeshStore(s => s.computerScore);
-  const rolledDice = useSheshBeshStore(s => s.rolledDice);
-  const dice = useSheshBeshStore(s => s.dice);
+  const { currentTurn }                          = useGameStatus();
+  const { playerScore, computerScore, rolledDice, dice } = useGameScores();
   const usedSet = [...dice];
   const remaining = rolledDice.map(d => {
     const idx = usedSet.indexOf(d);

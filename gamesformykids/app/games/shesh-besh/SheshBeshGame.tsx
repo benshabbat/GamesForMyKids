@@ -1,6 +1,6 @@
 'use client';
 
-import { useSheshBeshStore } from './sheshBeshGameStore';
+import { useGameStatus } from './hooks';
 import { MenuScreen }     from './components/MenuScreen';
 import { GameOverScreen } from './components/GameOverScreen';
 import { Scoreboard }     from './components/Scoreboard';
@@ -8,7 +8,7 @@ import { GameBoard }      from './components/GameBoard';
 import { ActionButtons }  from './components/ActionButtons';
 
 export default function SheshBeshGame() {
-  const phase = useSheshBeshStore(s => s.phase);
+  const { phase } = useGameStatus();
   const isPlaying = phase === 'rolling' || phase === 'moving' || phase === 'computer';
 
   return (

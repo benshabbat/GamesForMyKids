@@ -1,12 +1,13 @@
-import { useSheshBeshStore } from '../sheshBeshGameStore';
+import { useGameStatus }  from '../hooks';
+import { useGameScores }  from '../hooks';
+import { useGameActions } from '../hooks';
 
 export function GameOverScreen() {
-  const phase = useSheshBeshStore(s => s.phase) as 'won' | 'lost';
-  const message = useSheshBeshStore(s => s.message);
-  const playerScore = useSheshBeshStore(s => s.playerScore);
-  const computerScore = useSheshBeshStore(s => s.computerScore);
-  const startGame = useSheshBeshStore(s => s.startGame);
-  const won = phase === 'won';
+  const { phase, message }             = useGameStatus();
+  const won                            = (phase as string) === 'won';
+  const { playerScore, computerScore } = useGameScores();
+  const { startGame }                  = useGameActions();
+
   return (
     <div className="flex flex-col items-center gap-6 text-center mt-12">
       <div className="text-8xl drop-shadow-2xl">{won ? '🎉' : '😢'}</div>
