@@ -11,11 +11,8 @@ interface BoardPointProps {
 }
 
 export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick }: BoardPointProps) {
-  const isPlayerHome = idx >= 1 && idx <= 6;
-  const isCompHome   = idx >= 19 && idx <= 24;
-  const triColor = idx % 2 === 0
-    ? 'border-t-red-700 border-b-red-700'
-    : 'border-t-yellow-100/90 border-b-yellow-100/90';
+  // Alternating deep crimson / warm parchment — classic backgammon palette
+  const fillColor = idx % 2 === 0 ? '#7f1d1d' : '#e8d0a0';
 
   return (
     <button
@@ -24,31 +21,33 @@ export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick }: Bo
       aria-label={`point ${idx}`}
       className={[
         'relative flex flex-col items-center w-10 cursor-pointer select-none outline-none',
-        'transition-all duration-150',
-        isTop ? 'justify-start pt-1' : 'justify-end pb-1',
-        isTarget   ? 'bg-emerald-400/25 ring-1 ring-inset ring-emerald-400/50' : '',
-        isSelected ? 'bg-yellow-400/25 ring-1 ring-inset ring-yellow-400/60' : '',
-        isPlayerHome ? 'bg-blue-950/25'  : isCompHome ? 'bg-red-950/25' : '',
+        'transition-all duration-150 overflow-hidden',
+        isTop ? 'justify-start pt-0.5' : 'justify-end pb-0.5',
       ].join(' ')}
-      style={{ height: '7rem' }}
+      style={{ height: '7.5rem' }}
     >
-      {/* Triangle */}
-      <div className={[
-        'absolute inset-x-[3px]',
-        isTop
-          ? 'top-0 border-t-[5.5rem] border-l-[17px] border-r-[17px] border-b-0 border-l-transparent border-r-transparent'
-          : 'bottom-0 border-b-[5.5rem] border-l-[17px] border-r-[17px] border-t-0 border-l-transparent border-r-transparent',
-        triColor,
-      ].join(' ')} />
+      {/* SVG triangle — crisp, no aliasing artifacts */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        preserveAspectRatio="none"
+        viewBox="0 0 40 120"
+      >
+        {isTop
+          ? <polygon points="1,0 39,0 20,113" fill={fillColor} opacity="0.9" />
+          : <polygon points="1,120 39,120 20,7" fill={fillColor} opacity="0.9" />}
+      </svg>
 
-      {/* Target pulse overlay */}
+      {/* Highlight overlays */}
       {isTarget && (
-        <div className="absolute inset-0 bg-emerald-400/10 animate-pulse pointer-events-none" />
+        <div className="absolute inset-0 bg-emerald-400/20 ring-[2px] ring-inset ring-emerald-400/70 animate-pulse pointer-events-none" />
+      )}
+      {isSelected && (
+        <div className="absolute inset-0 bg-amber-400/20 ring-[2px] ring-inset ring-amber-400/75 pointer-events-none" />
       )}
 
       {/* Point number */}
       <span className={[
-        'absolute text-[9px] text-white/40 font-mono z-10 leading-none',
+        'absolute text-[8px] text-white/25 font-mono z-10 leading-none select-none',
         isTop ? 'bottom-[2px]' : 'top-[2px]',
       ].join(' ')}>{idx}</span>
 
