@@ -5,11 +5,11 @@ import { usePuzzleSetup } from './usePuzzleSetup';
 import {
   FeedbackMessage,
   PuzzleSelector,
-  SimpleControls,
+  GameControls,
   PuzzleHeader,
-  SimpleHelpModal,
+  GameHelpModal,
   FloatingDragPiece,
-  SimpleGameArea,
+  GameArea,
 } from './components';
 
 export default function SimplePuzzleGame() {
@@ -28,16 +28,16 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Help Modal */}
-        <SimpleHelpModal />
+        <GameHelpModal variant="simple" />
 
         {/* Game Controls */}
-        {selectedPuzzle && <SimpleControls />}
+        {selectedPuzzle && <GameControls variant="simple" />}
 
         {/* Feedback Message */}
         <FeedbackMessage />
 
         {/* Game Area */}
-        {gameStarted && selectedPuzzle && imageLoaded && <SimpleGameArea />}
+        {gameStarted && selectedPuzzle && imageLoaded && <GameArea variant="simple" />}
 
         {/* Loading State */}
         {selectedPuzzle && !imageLoaded && (

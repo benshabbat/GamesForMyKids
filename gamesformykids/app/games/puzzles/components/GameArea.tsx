@@ -1,15 +1,31 @@
 'use client';
 
-import { usePuzzleContext } from '@/contexts';
-import {
-  PuzzleGrid,
-  PiecesPool,
-  PuzzleStats,
-  ReferenceImage,
-} from './index';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { PuzzleGrid } from './PuzzleGrid';
+import { PiecesPool } from './PiecesPool';
+import { PuzzleStats } from './PuzzleStats';
+import ReferenceImage from './ReferenceImage';
 
-export default function CustomGameArea() {
-  const { image } = usePuzzleContext();
+interface GameAreaProps {
+  variant: 'simple' | 'custom';
+}
+
+export default function GameArea({ variant }: GameAreaProps) {
+  const { image } = usePuzzleStore();
+
+  if (variant === 'simple') {
+    return (
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1">
+          <PuzzleStats className="mb-6" />
+          <PiecesPool />
+        </div>
+        <div className="lg:col-span-2">
+          <PuzzleGrid />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>

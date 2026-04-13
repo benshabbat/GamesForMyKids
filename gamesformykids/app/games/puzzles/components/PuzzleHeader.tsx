@@ -1,7 +1,7 @@
 'use client';
 
 import { Home, HelpCircle } from 'lucide-react';
-import { usePuzzleContext } from '@/contexts';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 interface PuzzleHeaderProps {
   title: string;
@@ -9,7 +9,7 @@ interface PuzzleHeaderProps {
 }
 
 export default function PuzzleHeader({ title, subtitle }: PuzzleHeaderProps) {
-  const { toggleHelp, goHome } = usePuzzleContext();
+  const { toggleHelp, goHome } = usePuzzleStore();
 
   return (
     <div className="text-center mb-6 sm:mb-8">

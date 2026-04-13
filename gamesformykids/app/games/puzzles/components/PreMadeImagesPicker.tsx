@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleContext } from '@/contexts';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 const previewImages = [
   { src: '/images/Fox with Yo-Yo.png', name: 'שועל עם יו-יו' },
@@ -17,7 +17,7 @@ const previewImages = [
 ];
 
 export default function PreMadeImagesPicker() {
-  const { difficulty, handlePreMadeImageSelect } = usePuzzleContext();
+  const { difficulty, handlePreMadeImageSelect } = usePuzzleStore();
 
   return (
     <div className="mb-8">

@@ -1,17 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleContext } from '@/contexts';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
-interface ReferenceImageProps {
-  image?: HTMLImageElement; // Optional - defaults to context image
-}
-
-export default function ReferenceImage({ image }: ReferenceImageProps) {
-  const { image: storeImage } = usePuzzleContext();
-  
-  // Use prop if provided, otherwise use context
-  const displayImage = image || storeImage;
+export default function ReferenceImage() {
+  const displayImage = usePuzzleStore(s => s.image);
   
   if (!displayImage) {
     return null;

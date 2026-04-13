@@ -1,26 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { PuzzlePiece } from '@/app/games/puzzles/utils/puzzleUtils';
-import { usePuzzleContext } from '@/contexts';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
-interface FloatingDragPieceProps {
-  isDragging?: boolean; // Optional - defaults to context
-  draggedPiece?: PuzzlePiece | null; // Optional - defaults to context
-  dragPosition?: { x: number; y: number }; // Optional - defaults to context
-}
-
-export default function FloatingDragPiece({ 
-  isDragging: propIsDragging,
-  draggedPiece: propDraggedPiece,
-  dragPosition: propDragPosition
-}: FloatingDragPieceProps = {}) {
-  const { touchState } = usePuzzleContext();
-  
-  // Use props if provided, otherwise use context
-  const isDragging = propIsDragging ?? touchState.isDragging;
-  const draggedPiece = propDraggedPiece ?? touchState.draggedPiece;
-  const dragPosition = propDragPosition ?? touchState.dragPosition;
+export default function FloatingDragPiece() {
+  const { touchState } = usePuzzleStore();
+  const { isDragging, draggedPiece, dragPosition } = touchState;
 
   if (!isDragging || !draggedPiece) return null;
 

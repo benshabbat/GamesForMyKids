@@ -1,25 +1,9 @@
 
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
-interface FeedbackMessageProps {
-  // Allow optional override for special cases
-  message?: string;
-  type?: 'success' | 'error' | '';
-}
-
-/**
- * Shared feedback message component - now uses hook for data
- */
-export const FeedbackMessage: React.FC<FeedbackMessageProps> = ({ 
-  message: overrideMessage, 
-  type: overrideType 
-}) => {
-  const feedbackMessage = usePuzzleStore(s => s.feedbackMessage);
-  const feedbackType = usePuzzleStore(s => s.feedbackType);
-  
-  // Use hook values unless overridden
-  const message = overrideMessage ?? feedbackMessage;
-  const type = overrideType ?? feedbackType;
+export const FeedbackMessage: React.FC = () => {
+  const message = usePuzzleStore(s => s.feedbackMessage);
+  const type = usePuzzleStore(s => s.feedbackType);
   if (!message) return null;
 
   return (

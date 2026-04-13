@@ -6,10 +6,10 @@ import {
   FeedbackMessage,
   PuzzleHeader,
   ImageUploadSection,
-  CustomControls,
-  CustomHelpModal,
+  GameControls,
+  GameHelpModal,
   FloatingDragPiece,
-  CustomGameArea,
+  GameArea,
 } from './components';
 
 export default function CustomPuzzleGame() {
@@ -31,7 +31,7 @@ export default function CustomPuzzleGame() {
 
         {image && (
           <div className="mb-4 sm:mb-6">
-            <CustomControls />
+            <GameControls variant="custom" />
           </div>
         )}
 
@@ -39,9 +39,9 @@ export default function CustomPuzzleGame() {
           <FeedbackMessage />
         </div>
 
-        <CustomHelpModal />
+        <GameHelpModal variant="custom" />
 
-        {gameStarted && <CustomGameArea />}
+        {gameStarted && <GameArea variant="custom" />}
 
         <FloatingDragPiece />
       </div>

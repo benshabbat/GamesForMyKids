@@ -1,6 +1,6 @@
 'use client';
 
-import { usePuzzleContext } from '@/contexts';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 interface PuzzleHelpModalProps {
   size?: 'sm' | 'lg';
@@ -8,7 +8,7 @@ interface PuzzleHelpModalProps {
 }
 
 export default function PuzzleHelpModal({ size = 'sm', children }: PuzzleHelpModalProps) {
-  const { showHelp, toggleHelp } = usePuzzleContext();
+  const { showHelp, toggleHelp } = usePuzzleStore();
   if (!showHelp) return null;
   return (
     <div
