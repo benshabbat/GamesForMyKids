@@ -8,7 +8,7 @@
 **Developed with love by David-Chen Benshabbat**
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-David--Chen%20Benshabbat-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/davidchen-benshabbat)
 
-An interactive educational gaming platform for children aged 2-5. Features **63 games** across 10 categories  covering Hebrew letters, math, nature, creativity, holidays and more, with full Hebrew audio and a fully responsive mobile-first design.
+An interactive educational gaming platform for children aged 2-5. Features **128 games** across 15 categories — covering Hebrew letters, math, nature, creativity, holidays, arcade games, board games and more, with full Hebrew audio and a fully responsive mobile-first design.
 
 ---
 
@@ -23,37 +23,52 @@ An interactive educational gaming platform for children aged 2-5. Features **63 
 
 ---
 
-## Game Categories (63 Games)
+## Game Categories (128 Games)
 
 ### Basic Learning
-Hebrew Letters, Numbers, Colors, Shapes, Colored Shapes, Advanced Colors
+Hebrew Letters, Letters, Numbers, Colors, Shapes, Colored Shapes, Advanced Colors
 
-### Nature & Food
-Animals, Fruits, Vegetables, Ocean Life, Garden Plants, Dinosaurs, **Birds** (new), **Bugs & Insects** (new)
+### Math & Numbers
+Counting, Math, Arithmetic, Multiplication, Fractions, Emoji Math, Math Race, Number Bubbles, Sequences
 
-### World & Transportation
-Transport, Vehicles, Weather, Space, Space Adventure, World Food, Road Safety, **Camping** (new)
+### Language & Words
+Spelling, Word Builder, Word Scramble, Opposites, English Words, World Languages, Riddles
+
+### Nature & Animals
+Animals, Birds, Bugs & Insects, Dinosaurs, Ocean Life, Garden Plants, Nature, Nature Sounds, Exotic Birds, Butterflies, Dog Breeds, Cat Breeds
+
+### Food & Health
+Fruits, Vegetables, Healthy Food, World Food, Cooking Kitchen, Medicine
+
+### World & Geography
+Geography, Capitals, Continents, Israel, Flags, World Landmarks, Transport, World Languages, Solar System
 
 ### Home & Life
-House Items, Clothing, Professions, Tools, Tzedakah, Family, Kitchen, Body Parts
+House Items, Clothing, Professions, Modern Professions, Tools, Family, Kitchen, Body Parts, Human Body, Tzedakah
 
 ### Creativity & Arts
-Instruments, Puzzles, Drawing, Building, Tetris, Circus Show, Magic Fairy Tales, **Art & Craft** (new), **Superheroes** (new), **Fairy Tale Characters** (new)
+Instruments, Puzzles, Drawing, Building, Art & Craft, Famous Paintings, Musical Bubbles
 
-### Math & Thinking
-Counting, Math, Shopping & Money
+### Science & Thinking
+Science, Recycling, Climate & Planet, Space, Space Adventure, Virtual Reality, Logic Games, True/False
 
-### Special Games
-Memory, Bubbles, Emotions, Sports, Smell & Taste, Sound Imitation, Emotional Social, Logic Games
+### Health & Emotions
+Emotions, Emotional Social, Body Movements, Touch Senses, Road Safety, Feelings
 
-### Science & Innovation
-Recycling, Dinosaurs, Climate & Planet, Advanced Weather, Logic Games, Virtual Reality
+### Holidays & Religion
+Jewish Holidays, Holidays, Tzadikim, Seasons & Holidays, Time & Clock
 
-### Health & Safety
-Medicine, Road Safety, Body Parts, Body Movements, Touch Senses
+### Trivia & Quizzes
+Trivia, Sports Quiz, Soccer, Soccer Logos, NBA Teams, Car Brands, Tech Logos, Superheroes, Circus Show, Magic Fairy Tales, Fairy Tale Characters, Camping
 
-### Holidays & Seasons
-Seasons & Holidays, Jewish Holidays, Time & Clock
+### Arcade Games
+Flappy Bird, Snake, Dino Runner, Catch Fruit, Space Defender, Whack-a-Mole, Brick Breaker, Balloon Pop, Pong, Meteor Dodge, Frogger, Stack, Color Tap, Jumper, Reflex, Tetris
+
+### Board & Card Games
+Memory, Simon Says, Taki, Checkers, Chess, Shesh-Besh
+
+### Advanced Themes
+Advanced Colors, Advanced Weather, Color Mix, Shapes 3D, Color Tap, Sequences
 
 ---
 
@@ -110,9 +125,11 @@ npm start
 ## Technology Stack
 
 - **Next.js 15**  App Router with Server Components and Turbopack
+- **React 19**  Latest stable React with concurrent features
 - **TypeScript**  Strict type safety across the entire codebase
 - **Tailwind CSS 4**  Responsive styling with mobile-first approach
 - **Framer Motion**  Smooth animations and transitions
+- **Zustand**  Lightweight global state management
 - **Web Speech API**  Hebrew text-to-speech narration
 - **Lucide React**  Consistent icon system
 - **Supabase**  Optional auth (app works fully in guest mode without it)
@@ -186,7 +203,7 @@ See `GAME_CREATION_GUIDE.md` for a detailed step-by-step guide.
 ## Architecture Highlights
 
 - **Registry pattern**  `GamesRegistry` is the single source of truth
-- **Universal game page**  one `[gameType]/page.tsx` handles all 63 game routes
+- **Universal game page**  one `[gameType]/page.tsx` handles all 128 game routes
 - **Typed game items**  `GAME_ITEMS_MAP` maps every `GameType` to its data
 - **Guest-mode auth**  app runs fully without Supabase credentials; auth is opt-in
 - **Mobile-first**  all components use Tailwind responsive classes (`md:`, `lg:`)
@@ -231,7 +248,7 @@ MIT License  see [LICENSE](LICENSE)
 
 ## Project Stats
 
-- **63 Interactive Games**
+- **128 Interactive Games**
 - **Hebrew Audio Support**
 - **Mobile-First Responsive**
 - **TypeScript Strict Mode**

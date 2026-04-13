@@ -7,11 +7,11 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 ## Overview
 
-63 educational games across 10 categories  Hebrew letters, math, nature, creativity, holidays and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
+128 educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
 
 ## Features
 
-- **63 Games**  covering all key early-childhood learning areas
+- **128 Games**  covering all key early-childhood learning areas
 - **Daily Featured Game**  smart algorithm recommends a game each day
 - **Age Recommendations**  grouped for ages 2-3, 3-4, and 4-5
 - **Hebrew TTS**  full audio pronunciation via Web Speech API
@@ -23,16 +23,21 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 | Category | Examples |
 |----------|---------|
-| Basic Learning | Hebrew Letters, Numbers, Colors, Shapes |
-| Nature & Food | Animals, Fruits, Birds, Bugs & Insects |
-| World & Transport | Transport, Space, Weather, Camping |
-| Home & Life | House, Clothing, Professions, Family |
-| Creativity & Arts | Instruments, Drawing, Art & Craft, Superheroes, Fairy Tale Characters |
-| Math & Thinking | Counting, Math, Shopping |
-| Special Games | Memory, Bubbles, Emotions, Sound Imitation |
-| Science | Recycling, Climate, Logic Games |
-| Health & Safety | Body Parts, Road Safety, Body Movements |
-| Holidays & Seasons | Jewish Holidays, Seasons, Time & Clock |
+| Basic Learning | Hebrew Letters, Numbers, Colors, Shapes, Advanced Colors |
+| Math & Numbers | Counting, Math, Arithmetic, Multiplication, Fractions, Sequences |
+| Language & Words | Spelling, Word Builder, Word Scramble, Opposites, English Words |
+| Nature & Animals | Animals, Birds, Bugs & Insects, Dinosaurs, Ocean Life, Dog Breeds, Cat Breeds |
+| Food & Health | Fruits, Vegetables, Healthy Food, World Food, Medicine |
+| World & Geography | Geography, Capitals, Continents, Israel, Flags, Transport, Solar System |
+| Home & Life | House, Clothing, Professions, Family, Tzedakah |
+| Creativity & Arts | Instruments, Drawing, Building, Art & Craft, Puzzles, Famous Paintings |
+| Science & Thinking | Science, Recycling, Climate, Space, Logic Games, True/False, Trivia |
+| Health & Emotions | Emotions, Emotional Social, Body Movements, Road Safety |
+| Holidays & Religion | Jewish Holidays, Holidays, Tzadikim, Seasons & Holidays |
+| Trivia & Quizzes | Sports Quiz, Soccer, NBA Teams, Car Brands, Superheroes, Magic Fairy Tales |
+| Arcade Games | Flappy Bird, Snake, Dino Runner, Space Defender, Pong, Frogger, Tetris, Reflex |
+| Board & Card Games | Memory, Simon Says, Taki, Checkers, Chess, Shesh-Besh |
+| Advanced Themes | Advanced Colors, Advanced Weather, Color Mix, Shapes 3D, Camping |
 
 ## Installation
 
@@ -50,9 +55,11 @@ Open [http://localhost:3000](http://localhost:3000)
 | Technology | Purpose |
 |------------|---------|
 | **Next.js 15** | App Router, Server Components, Turbopack |
+| **React 19** | Latest stable React with concurrent features |
 | **TypeScript** | Strict type safety |
 | **Tailwind CSS 4** | Responsive styling |
 | **Framer Motion** | Animations |
+| **Zustand** | Global state management |
 | **Web Speech API** | Hebrew TTS |
 | **Lucide React** | Icon system |
 | **Supabase** | Optional auth (guest mode works without it) |
@@ -63,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ```
 gamesformykids/
  app/
-    games/[gameType]/     # Universal route for all 63 games
+    games/[gameType]/     # Universal route for all 128 games
     page.tsx
  components/
     game/                 # Game UI: cards, grid, navigation
