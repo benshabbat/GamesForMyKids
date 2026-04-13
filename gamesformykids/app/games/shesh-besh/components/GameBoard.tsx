@@ -26,8 +26,8 @@ export function GameBoard() {
               onClick={() => selectPoint(i)} />
           ))}
         </div>
-        <div className="flex-1 flex items-center justify-center bg-green-950 min-h-[1.5rem]">
-          <span className="text-[9px] text-amber-700/40 font-mono rotate-90 whitespace-nowrap">← מחשב</span>
+        <div className="flex-1 flex items-center justify-center bg-green-950/80 min-h-[1.5rem]">
+          <span className="text-[9px] text-amber-600/50 font-bold rotate-90 whitespace-nowrap tracking-widest">מחשב←</span>
         </div>
         <div className="flex border-t-2 border-amber-700/70">
           {BOT_POINTS.slice(0, 6).map(i => (
@@ -54,8 +54,8 @@ export function GameBoard() {
               onClick={() => selectPoint(i)} />
           ))}
         </div>
-        <div className="flex-1 flex items-center justify-center bg-green-950 min-h-[1.5rem]">
-          <span className="text-[9px] text-amber-700/40 font-mono rotate-90 whitespace-nowrap">אתה →</span>
+        <div className="flex-1 flex items-center justify-center bg-green-950/80 min-h-[1.5rem]">
+          <span className="text-[9px] text-amber-600/50 font-bold rotate-90 whitespace-nowrap tracking-widest">→אתה</span>
         </div>
         <div className="flex border-t-2 border-amber-700/70">
           {BOT_POINTS.slice(6).map(i => (
