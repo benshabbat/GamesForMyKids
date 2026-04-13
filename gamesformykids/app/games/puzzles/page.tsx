@@ -1,15 +1,18 @@
 "use client";
 
-import CustomPuzzleGame from './CustomPuzzleGame';
-import SimplePuzzleGame from './SimplePuzzleGame';
+import { useState, useCallback } from 'react';
+import PuzzleGame from './PuzzleGame';
 import ModeSelection from './ModeSelection';
-import { usePuzzlePage } from './usePuzzlePage';
+
+type GameMode = 'menu' | 'simple' | 'custom';
 
 export default function PuzzleGamePage() {
-  const { gameMode, setSimpleMode, setCustomMode } = usePuzzlePage();
+  const [gameMode, setGameMode] = useState<GameMode>('menu');
+  const setSimpleMode = useCallback(() => setGameMode('simple'), []);
+  const setCustomMode = useCallback(() => setGameMode('custom'), []);
 
-  if (gameMode === 'simple') return <SimplePuzzleGame />;
-  if (gameMode === 'custom') return <CustomPuzzleGame />;
+  if (gameMode === 'simple') return <PuzzleGame variant="simple" />;
+  if (gameMode === 'custom') return <PuzzleGame variant="custom" />;
 
   return <ModeSelection onSimple={setSimpleMode} onCustom={setCustomMode} />;
 }
