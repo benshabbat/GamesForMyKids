@@ -30,7 +30,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors"],
+    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d"],
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -38,7 +38,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos"],
+    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos","color-mix"],
   },
   nature: {
     title: "טבע ואוכל",
@@ -46,7 +46,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds","cat-breeds","exotic-birds","butterflies"],
+    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smelltaste","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds","cat-breeds","exotic-birds","butterflies","nature","healthy-food"],
   },
   world: {
     title: "עולם ותחבורה",
@@ -54,7 +54,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport","vehicles","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system"],
+    gameIds: ["transport","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel"],
   },
   home: {
     title: "בית וחיים",
@@ -70,7 +70,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calculator,
     color: "bg-indigo-500",
     gradient: "from-indigo-400 to-indigo-600",
-    gameIds: ["counting","math","shopping-money"],
+    gameIds: ["counting","math","shopping-money","multiplication","fractions","sequences","arithmetic"],
   },
   games: {
     title: "משחקים מיוחדים",
@@ -78,7 +78,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos","nba-teams"],
+    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos","nba-teams","sports-quiz","soccer"],
   },
   health: {
     title: "בריאות ובטיחות",
@@ -86,7 +86,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Heart,
     color: "bg-red-500",
     gradient: "from-red-400 to-red-600",
-    gameIds: ["medicine","road-safety","body-parts","body-movements","touch-senses"],
+    gameIds: ["medicine","road-safety","body-parts","body-movements","touch-senses","human-body"],
   },
   science: {
     title: "מדע וטכנולוגיה",
@@ -94,7 +94,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Microscope,
     color: "bg-cyan-500",
     gradient: "from-cyan-400 to-cyan-600",
-    gameIds: ["recycling","dinosaurs","space-adventure","virtual-reality","new-professions","climate-planet"],
+    gameIds: ["recycling","dinosaurs","space-adventure","virtual-reality","new-professions","climate-planet","science"],
   },
   holidays: {
     title: "חגים ועונות",
@@ -102,7 +102,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calendar,
     color: "bg-yellow-500",
     gradient: "from-yellow-400 to-yellow-600",
-    gameIds: ["seasons-holidays","jewish-holidays","time-clock"],
+    gameIds: ["seasons-holidays","jewish-holidays","time-clock","tzadikim","holidays"],
   },
   innovative: {
     title: "משחקים חדשניים",
@@ -122,6 +122,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
       "flappy-bird","snake","dino-runner","catch-fruit","space-defender",
       "whack-a-mole","brick-breaker","balloon-pop","pong","meteor-dodge",
       "frogger","stack","color-tap","jumper","simon",
+      "reflex","taki","checkers","chess","shesh-besh",
     ],
   },
   educational: {
@@ -130,6 +131,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","geography","trivia","clock","spelling","opposites","world-languages","riddles","english-words"],
   },
 };
