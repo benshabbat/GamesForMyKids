@@ -1,8 +1,7 @@
 'use client';
 
 import type { ReactNode } from 'react';
-
-type StatColor = 'blue' | 'purple' | 'green' | 'orange';
+import type { StatColor } from '../types/ui';
 
 const colorMap: Record<StatColor, { bg: string; icon: string; label: string; value: string }> = {
   blue:   { bg: 'bg-blue-50',   icon: 'text-blue-600',   label: 'text-blue-600',   value: 'text-blue-800' },
@@ -10,8 +9,6 @@ const colorMap: Record<StatColor, { bg: string; icon: string; label: string; val
   green:  { bg: 'bg-green-50',  icon: 'text-green-600',  label: 'text-green-600',  value: 'text-green-800' },
   orange: { bg: 'bg-orange-50', icon: 'text-orange-600', label: 'text-orange-600', value: 'text-orange-800' },
 };
-
-export type { StatColor };
 
 export default function StatCard({ icon, label, value, color }: { icon: ReactNode; label: string; value: string; color: StatColor }) {
   const c = colorMap[color];

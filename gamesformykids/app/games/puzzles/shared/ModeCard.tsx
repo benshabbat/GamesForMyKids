@@ -1,15 +1,4 @@
-import type { ReactNode } from 'react';
-
-interface ModeCardProps {
-  onClick: () => void;
-  icon: ReactNode;
-  iconBgClass: string;
-  title: string;
-  description: string;
-  emojis: string[];
-  badgeText: string;
-  badgeClass: string;
-}
+import type { ModeCardProps } from '../types/ui';
 
 export default function ModeCard({ onClick, icon, iconBgClass, title, description, emojis, badgeText, badgeClass }: ModeCardProps) {
   return (

@@ -2,7 +2,7 @@
 
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 import { usePuzzleSetup } from '../usePuzzleSetup';
-import PuzzleHeader from '../shared/PuzzleHeader';
+import SimpleHeader from './SimpleHeader';
 import FeedbackMessage from '../shared/FeedbackMessage';
 import FloatingDragPiece from '../shared/FloatingDragPiece';
 import PuzzleSelector from './PuzzleSelector';
@@ -19,7 +19,7 @@ export default function SimplePuzzleGame() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
       <div className="max-w-7xl mx-auto">
-        <PuzzleHeader title="🧩 פאזלים פשוטים" subtitle="בחר פאזל ותתחיל לשחק!" />
+        <SimpleHeader />
 
         {!selectedPuzzle && <PuzzleSelector />}
         {selectedPuzzle && <SimpleControls />}

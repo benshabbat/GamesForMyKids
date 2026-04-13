@@ -3,9 +3,7 @@
 import Image from 'next/image';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 import type { SimplePuzzle } from '../constants/simplePuzzlesData';
-
-const DIFFICULTY_TEXT: Record<string, string> = { easy: 'קל', medium: 'בינוני', hard: 'קשה' };
-const DIFFICULTY_COLOR: Record<string, string> = { easy: 'bg-green-500', medium: 'bg-yellow-500', hard: 'bg-red-500' };
+import { DIFFICULTY_TEXT, DIFFICULTY_COLOR } from '../constants/difficultyConfig';
 
 export default function PuzzleCard({ puzzle }: { puzzle: SimplePuzzle }) {
   const { handlePuzzleSelect } = usePuzzleStore();

@@ -2,7 +2,7 @@
 
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 import { usePuzzleSetup } from '../usePuzzleSetup';
-import PuzzleHeader from '../shared/PuzzleHeader';
+import CustomHeader from './CustomHeader';
 import FeedbackMessage from '../shared/FeedbackMessage';
 import FloatingDragPiece from '../shared/FloatingDragPiece';
 import ImageUploadSection from './ImageUploadSection';
@@ -19,7 +19,7 @@ export default function CustomPuzzleGame() {
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
       <div className="container mx-auto px-3 sm:px-4 lg:px-6 py-4 sm:py-6">
         <div className="mb-4 sm:mb-6">
-          <PuzzleHeader title="🧩 פאזל מותאם אישית" subtitle="העלה תמונה וצור פאזל משלך!" />
+          <CustomHeader />
         </div>
 
         {!image && <ImageUploadSection />}
