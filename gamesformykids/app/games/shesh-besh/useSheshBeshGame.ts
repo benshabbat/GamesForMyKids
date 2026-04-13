@@ -229,6 +229,51 @@ function computerBestMove(
   return best;
 }
 
+// ─────────────────────── Move execution helper (pure) ───────────────────────
+function doPlayerMove(prev: SheshState, move: SimpleMove): SheshState {
+  const { pts: np, barP: nbP, barC: nbC } = applyMoveState(
+    prev.points, prev.barPlayer, prev.barComputer, move, 'player'
+  );
+  const diceIdx = prev.dice.indexOf(move.die);
+  const newDice = prev.dice.filter((_, i) => i !== diceIdx);
+
+  if (np[0].player === 15) {
+    return {
+      ...prev, points: np, barPlayer: nbP, barComputer: nbC,
+      dice: [], selected: null, validMoves: [],
+      phase: 'won', playerScore: prev.playerScore + 1,
+      message: '🎉 ניצחת! ריקנת את כל האסימונים!',
+    };
+  }
+
+  if (newDice.length === 0) {
+    return {
+      ...prev, points: np, barPlayer: nbP, barComputer: nbC,
+      dice: [], rolledDice: [], selected: null, validMoves: [],
+      currentTurn: 'computer', phase: 'rolling',
+      message: 'תור המחשב...', turnId: prev.turnId + 1,
+    };
+  }
+
+  const nextMoves = computeValidMoves(np, nbP, nbC, newDice, 'player');
+  if (nextMoves.length === 0) {
+    return {
+      ...prev, points: np, barPlayer: nbP, barComputer: nbC,
+      dice: newDice, rolledDice: prev.rolledDice,
+      selected: null, validMoves: [],
+      currentTurn: 'computer', phase: 'rolling',
+      message: 'אין יותר מהלכים. תור המחשב...', turnId: prev.turnId + 1,
+    };
+  }
+
+  return {
+    ...prev, points: np, barPlayer: nbP, barComputer: nbC,
+    dice: newDice, selected: null, validMoves: [],
+    phase: 'moving',
+    message: `נותרו ${newDice.length} קוביות. בחר אסימון להמשך`,
+  };
+}
+
 // ─────────────────────── Hook ────────────────────────────────
 const INIT_STATE: SheshState = {
   phase: 'menu',
@@ -281,70 +326,50 @@ export function useSheshBeshGame() {
     setState(prev => {
       if (prev.phase !== 'moving' || prev.currentTurn !== 'player') return prev;
 
-      // If we have a selected piece & this is a valid destination
-      if (prev.selected !== null) {
-        const move = prev.validMoves.find(m => m.to === pointIdx);
-        if (move) {
-          const { pts: np, barP: nbP, barC: nbC } = applyMoveState(prev.points, prev.barPlayer, prev.barComputer, move, 'player');
-
-          // Remove used die
-          const diceIdx = prev.dice.indexOf(move.die);
-          const newDice = prev.dice.filter((_, i) => i !== diceIdx);
-
-          // Check win
-          if (np[0].player === 15) {
-            return { ...prev, points: np, barPlayer: nbP, barComputer: nbC, dice: [], selected: null, validMoves: [], phase: 'won', playerScore: prev.playerScore + 1, message: '🎉 ניצחת! ריקנת את כל האסימונים!' };
-          }
-
-          if (newDice.length === 0) {
-            // Turn ends
-            return {
-              ...prev, points: np, barPlayer: nbP, barComputer: nbC, dice: [], rolledDice: [],
-              selected: null, validMoves: [], currentTurn: 'computer', phase: 'rolling',
-              message: 'תור המחשב...', turnId: prev.turnId + 1,
-            };
-          }
-
-          // More moves remaining
-          const nextMoves = computeValidMoves(np, nbP, nbC, newDice, 'player');
-          if (nextMoves.length === 0) {
-            return {
-              ...prev, points: np, barPlayer: nbP, barComputer: nbC, dice: newDice, rolledDice: prev.rolledDice,
-              selected: null, validMoves: [], currentTurn: 'computer', phase: 'rolling',
-              message: 'אין יותר מהלכים. תור המחשב...', turnId: prev.turnId + 1,
-            };
-          }
-          return {
-            ...prev, points: np, barPlayer: nbP, barComputer: nbC, dice: newDice,
-            selected: null, validMoves: [],
-            message: `נותרו ${newDice.length} קוביות. בחר אסימון להמשך`,
-            phase: 'moving',
-          };
+      // ── Clicking the bear-off zone (point 0): destination-only, never selectable ──
+      if (pointIdx === 0) {
+        if (prev.selected !== null) {
+          const move = prev.validMoves.find(m => m.to === 0);
+          if (move) return doPlayerMove(prev, move);
         }
+        return prev;
       }
 
-      // Select a new piece
+      // ── Does the clicked point have the player's own pieces? ────────────────
       const isBar = pointIdx === -1;
-      const hasPiece = isBar
+      const hasOwnPiece = isBar
         ? prev.barPlayer > 0
-        : prev.points[pointIdx]?.player > 0;
+        : (pointIdx >= 1 && pointIdx <= 24 && (prev.points[pointIdx]?.player ?? 0) > 0);
 
-      if (!hasPiece) return { ...prev, selected: null, validMoves: [], message: 'בחר אסימון שלך!' };
-
-      const myMoves = prev.validMoves.filter(m => m.from === pointIdx);
-      const allMoves = computeValidMoves(prev.points, prev.barPlayer, prev.barComputer, prev.dice, 'player');
-      const fromHere = allMoves.filter(m => m.from === pointIdx);
-
-      if (fromHere.length === 0) {
-        // Check if we must use bar first
-        if (prev.barPlayer > 0 && pointIdx !== -1) {
+      if (hasOwnPiece) {
+        // Clicking the currently selected piece → deselect
+        if (pointIdx === prev.selected) {
+          return { ...prev, selected: null, validMoves: [], message: 'בחר אסימון' };
+        }
+        // If this point is a highlighted valid destination → execute stacking move
+        if (prev.selected !== null) {
+          const move = prev.validMoves.find(m => m.to === pointIdx);
+          if (move) return doPlayerMove(prev, move);
+        }
+        // Otherwise → reselect this piece
+        if (prev.barPlayer > 0 && !isBar) {
           return { ...prev, selected: null, validMoves: [], message: 'יש לך אסימון על הבר — חובה להכניסו קודם!' };
         }
-        return { ...prev, selected: pointIdx, validMoves: [], message: 'אין מהלכים מנקודה זו עם הקוביות הנוכחיות' };
+        const allMoves = computeValidMoves(prev.points, prev.barPlayer, prev.barComputer, prev.dice, 'player');
+        const fromHere = allMoves.filter(m => m.from === pointIdx);
+        if (fromHere.length === 0) {
+          return { ...prev, selected: pointIdx, validMoves: [], message: 'אין מהלכים אפשריים מנקודה זו' };
+        }
+        return { ...prev, selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' };
       }
 
-      void myMoves;
-      return { ...prev, selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' };
+      // ── Empty / opponent-only point: execute move if possible ──────────────
+      if (prev.selected !== null) {
+        const move = prev.validMoves.find(m => m.to === pointIdx);
+        if (move) return doPlayerMove(prev, move);
+      }
+
+      return { ...prev, selected: null, validMoves: [], message: 'בחר אסימון שלך!' };
     });
   }, []);
 

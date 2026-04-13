@@ -98,17 +98,31 @@ function Bar({ playerBar, compBar, isSelected, onClick }: {
 }
 
 // ── Borne-off area ────────────────────────────────────────────
-function BorneOff({ playerCount, compCount }: { playerCount: number; compCount: number }) {
+function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }: {
+  playerCount: number; compCount: number;
+  onBearOff: () => void; isBearOffTarget: boolean;
+}) {
   return (
     <div className="flex flex-col items-center justify-between bg-black/20 rounded-lg p-2 w-12 h-full">
       <div className="text-center">
         <p className="text-white/60 text-[8px]">♟</p>
         <p className="text-slate-300 font-bold text-sm">{compCount}</p>
       </div>
-      <div className="text-center">
+      {/* Player bear-off zone — clickable when it's a valid destination */}
+      <button
+        onClick={onBearOff}
+        className={[
+          'text-center rounded-lg p-1 transition-colors',
+          isBearOffTarget
+            ? 'bg-green-500/50 ring-2 ring-green-400 cursor-pointer animate-pulse'
+            : 'cursor-default',
+        ].join(' ')}
+        aria-label="bear off"
+      >
         <p className="text-white/60 text-[8px]">🔴</p>
         <p className="text-red-300 font-bold text-sm">{playerCount}</p>
-      </div>
+        {isBearOffTarget && <p className="text-green-300 text-[8px] font-bold">↩</p>}
+      </button>
     </div>
   );
 }
@@ -258,7 +272,7 @@ export default function SheshBeshGame() {
             </div>
 
             {/* Borne-off */}
-            <BorneOff playerCount={points[0].player} compCount={points[25].computer} />
+            <BorneOff playerCount={points[0].player} compCount={points[25].computer} onBearOff={() => selectPoint(0)} isBearOffTarget={validTargets.has(0) && selected !== null} />
           </div>
 
           {/* Message */}
