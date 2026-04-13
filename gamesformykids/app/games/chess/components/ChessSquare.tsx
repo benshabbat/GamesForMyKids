@@ -22,23 +22,28 @@ export default function ChessSquare({ row, col }: Props) {
   const isLight = (row + col) % 2 === 0;
   const isWhite = piece ? piece[0] === 'w' : false;
 
-  let bg = isLight ? 'bg-amber-100' : 'bg-amber-700';
-  if (isKingInCheck) bg = 'bg-red-400';
+  let bg = isLight ? 'bg-amber-100' : 'bg-amber-800';
+  if (isKingInCheck) bg = 'bg-red-500';
   else if (isSelected) bg = 'bg-yellow-300';
-  else if (isLastMove) bg = isLight ? 'bg-yellow-200' : 'bg-yellow-600';
+  else if (isLastMove) bg = isLight ? 'bg-yellow-100' : 'bg-yellow-700';
 
   return (
     <div
       onClick={() => selectSquare({ row, col })}
-      className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center cursor-pointer relative ${bg} transition-colors`}
+      className={[
+        'w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center cursor-pointer relative',
+        'transition-all duration-150',
+        bg,
+        isKingInCheck ? 'animate-pulse' : '',
+      ].join(' ')}
     >
       {piece && (
         <span className={[
-          'text-2xl sm:text-3xl leading-none',
+          'text-3xl sm:text-4xl leading-none select-none',
           isWhite
-            ? 'text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]'
-            : 'text-gray-900 drop-shadow-[0_1px_1px_rgba(255,255,255,0.3)]',
-          isSelected ? 'scale-110 inline-block' : '',
+            ? 'text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.95)]'
+            : 'text-slate-900 drop-shadow-[0_1px_2px_rgba(255,255,255,0.4)]',
+          isSelected ? 'scale-110 inline-block drop-shadow-lg' : '',
         ].join(' ')}>
           {PIECE_SYMBOLS[piece]}
         </span>
@@ -46,8 +51,8 @@ export default function ChessSquare({ row, col }: Props) {
       {isValidDest && (
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           {piece
-            ? <div className="absolute inset-0 border-4 border-green-500 rounded-sm opacity-80" />
-            : <div className="w-3 h-3 rounded-full bg-green-500 opacity-70" />
+            ? <div className="absolute inset-0 border-[3px] border-emerald-400 opacity-90" />
+            : <div className="w-3.5 h-3.5 rounded-full bg-emerald-400/80" />
           }
         </div>
       )}

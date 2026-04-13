@@ -10,32 +10,39 @@ export default function ChessBoard() {
   const { board } = useChessStore();
 
   return (
-    <div className="relative border-2 border-slate-600 rounded-xl overflow-hidden shadow-2xl">
-      {/* Rank labels */}
-      <div className="absolute right-0 top-0 h-full flex flex-col pointer-events-none z-10">
+    <div className="flex items-start">
+      {/* Rank labels — outside the board */}
+      <div className="flex flex-col ml-1 mt-0">
         {RANKS.map(rank => (
-          <div key={rank} className="flex-1 flex items-center justify-end pr-0.5">
-            <span className="text-slate-400 text-[9px] leading-none">{rank}</span>
+          <div key={rank} className="w-4 h-10 sm:h-12 flex items-center justify-center">
+            <span className="text-slate-500 text-[10px] font-medium">{rank}</span>
           </div>
         ))}
       </div>
 
-      {/* Squares */}
-      {board.map((row, r) => (
-        <div key={r} className="flex">
-          {row.map((_piece, c) => (
-            <ChessSquare key={c} row={r} col={c} />
+      {/* Board + file labels */}
+      <div className="flex flex-col">
+        {/* Wooden frame */}
+        <div className="bg-amber-950 p-1.5 rounded-xl shadow-2xl shadow-black/70 border border-amber-900/60">
+          <div className="rounded-lg overflow-hidden">
+            {board.map((_row, r) => (
+              <div key={r} className="flex">
+                {_row.map((_piece, c) => (
+                  <ChessSquare key={c} row={r} col={c} />
+                ))}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* File labels */}
+        <div className="flex mt-1">
+          {FILES.map(f => (
+            <div key={f} className="w-10 sm:w-12 flex items-center justify-center">
+              <span className="text-slate-500 text-[10px] font-medium">{f}</span>
+            </div>
           ))}
         </div>
-      ))}
-
-      {/* File labels */}
-      <div className="flex bg-slate-800">
-        {FILES.map(f => (
-          <div key={f} className="w-9 sm:w-10 flex items-center justify-center">
-            <span className="text-slate-400 text-[9px]">{f}</span>
-          </div>
-        ))}
       </div>
     </div>
   );

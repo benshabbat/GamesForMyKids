@@ -20,14 +20,18 @@ export default function ChessGame() {
       {phase === 'checkmate' && <ChessGameOver />}
 
       {isPlaying && (
-        <div className="flex flex-col items-center gap-3 w-full max-w-sm">
+        <div className="flex flex-col items-center gap-4 w-full max-w-md">
           <ChessStatusBar />
 
           <ChessBoard />
 
-          <p className={`text-sm font-medium rounded-xl py-2 px-4 text-center max-w-xs ${phase === 'check' ? 'bg-red-500/70 text-white animate-pulse' : 'bg-black/30 text-slate-200'}`}>
+          <div className={`text-sm font-semibold rounded-2xl py-2 px-5 text-center transition-all duration-300 ${
+            phase === 'check'
+              ? 'bg-red-500/80 text-white animate-pulse shadow-lg shadow-red-900/40'
+              : 'bg-white/10 text-slate-300 border border-white/10'
+          }`}>
             {message}
-          </p>
+          </div>
         </div>
       )}
     </div>
