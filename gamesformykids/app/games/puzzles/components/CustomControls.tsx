@@ -1,31 +1,27 @@
 'use client';
 
-import { RefObject } from 'react';
+import { useRef } from 'react';
 import { RotateCcw, Eye, Settings, Shuffle, Upload } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 import DifficultySelector from './DifficultySelector';
 
-interface CustomControlsProps {
-  fileInputRef?: RefObject<HTMLInputElement | null>;
-}
-
-export default function CustomControls({ fileInputRef }: CustomControlsProps) {
-  const { gameStarted, showHints: hintsEnabled, showDebug: debugMode, resetGame, shufflePieces, toggleHints, toggleDebug } = usePuzzleContext();
+export default function CustomControls() {
+  const uploadRef = useRef<HTMLInputElement>(null);
+  const { gameStarted, showHints: hintsEnabled, showDebug: debugMode, resetGame, shufflePieces, toggleHints, toggleDebug, handleImageUpload } = usePuzzleContext();
   return (
     <div className="mb-8">
       <div className="bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl border border-gray-200 p-4 sm:p-6">
         <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">🎮 פקדי משחק</h3>
         <div className="flex flex-wrap justify-center gap-3 sm:gap-4">
-          {fileInputRef && (
-            <button
-              onClick={() => fileInputRef.current?.click()}
-              className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium"
+          <input type="file" accept="image/*" onChange={handleImageUpload} ref={uploadRef} className="hidden" />
+          <button
+            onClick={() => uploadRef.current?.click()}
+            className="inline-flex items-center gap-2 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 transform hover:scale-105 font-medium"
             >
               <Upload className="w-5 h-5" />
               <span className="hidden sm:inline">תמונה חדשה</span>
               <span className="sm:hidden">חדש</span>
             </button>
-          )}
 
           <button
             onClick={shufflePieces}

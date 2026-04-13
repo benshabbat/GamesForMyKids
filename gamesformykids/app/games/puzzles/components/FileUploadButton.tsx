@@ -1,14 +1,11 @@
 'use client';
 
-import { RefObject } from 'react';
+import { useRef } from 'react';
 import { Upload } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 
-interface FileUploadButtonProps {
-  fileInputRef?: RefObject<HTMLInputElement | null>;
-}
-
-export default function FileUploadButton({ fileInputRef }: FileUploadButtonProps) {
+export default function FileUploadButton() {
+  const inputRef = useRef<HTMLInputElement>(null);
   const { handleImageUpload } = usePuzzleContext();
 
   return (
@@ -18,11 +15,11 @@ export default function FileUploadButton({ fileInputRef }: FileUploadButtonProps
         type="file"
         accept="image/*"
         onChange={handleImageUpload}
-        ref={fileInputRef}
+        ref={inputRef}
         className="hidden"
       />
       <button
-        onClick={() => fileInputRef?.current?.click()}
+        onClick={() => inputRef.current?.click()}
         className="inline-flex items-center justify-center rounded-xl font-bold transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
       >
         <Upload className="w-6 h-6 mr-3" />

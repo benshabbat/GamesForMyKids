@@ -1,6 +1,5 @@
 'use client';
 
-import { useCustomPuzzleGame } from './useCustomPuzzleGame';
 import { usePuzzleContext } from '@/contexts';
 import { usePuzzleSetup } from './usePuzzleSetup';
 import {
@@ -15,8 +14,7 @@ import {
 
 export default function CustomPuzzleGame() {
   usePuzzleSetup();
-  const { fileInputRef } = useCustomPuzzleGame();
-  const { image, gameStarted, handleImageUpload } = usePuzzleContext();
+  const { image, gameStarted } = usePuzzleContext();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-pink-50">
@@ -27,13 +25,13 @@ export default function CustomPuzzleGame() {
 
         {!image && (
           <div className="mb-6 sm:mb-8">
-            <ImageUploadSection fileInputRef={fileInputRef} />
+            <ImageUploadSection />
           </div>
         )}
 
         {image && (
           <div className="mb-4 sm:mb-6">
-            <UnifiedControls type="custom" fileInputRef={fileInputRef} />
+            <UnifiedControls type="custom" />
           </div>
         )}
 
@@ -44,14 +42,6 @@ export default function CustomPuzzleGame() {
         <UnifiedHelpModal type="custom" />
 
         {gameStarted && <CustomGameArea />}
-
-        <input
-          type="file"
-          accept="image/*"
-          onChange={handleImageUpload}
-          ref={fileInputRef}
-          className="hidden"
-        />
 
         <FloatingDragPiece />
       </div>
