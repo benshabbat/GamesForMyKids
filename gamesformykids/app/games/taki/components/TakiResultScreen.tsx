@@ -1,16 +1,13 @@
 'use client';
 
-import type { GamePhase } from '../useTakiGame';
+import { useTakiStore } from '../takiGameStore';
 
-interface TakiResultScreenProps {
-  phase: Extract<GamePhase, 'won' | 'lost'>;
-  message: string;
-  playerScore: number;
-  computerScore: number;
-  onRestart: () => void;
-}
-
-export default function TakiResultScreen({ phase, message, playerScore, computerScore, onRestart }: TakiResultScreenProps) {
+export default function TakiResultScreen() {
+  const phase = useTakiStore(s => s.phase);
+  const message = useTakiStore(s => s.message);
+  const playerScore = useTakiStore(s => s.playerScore);
+  const computerScore = useTakiStore(s => s.computerScore);
+  const startGame = useTakiStore(s => s.startGame);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-4 text-center">
       <div className="text-8xl">{phase === 'won' ? '🎉' : '😢'}</div>
@@ -23,7 +20,7 @@ export default function TakiResultScreen({ phase, message, playerScore, computer
         <span>🤖 מחשב: {computerScore}</span>
       </div>
       <button
-        onClick={onRestart}
+        onClick={startGame}
         className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-extrabold text-xl px-10 py-4 rounded-2xl shadow-xl transition-transform hover:scale-105 active:scale-95 mt-2"
       >
         🔄 שחק שוב

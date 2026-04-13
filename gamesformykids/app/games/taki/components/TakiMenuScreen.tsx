@@ -1,12 +1,11 @@
 'use client';
 
-interface TakiMenuScreenProps {
-  playerScore: number;
-  computerScore: number;
-  onStart: () => void;
-}
+import { useTakiStore } from '../takiGameStore';
 
-export default function TakiMenuScreen({ playerScore, computerScore, onStart }: TakiMenuScreenProps) {
+export default function TakiMenuScreen() {
+  const playerScore = useTakiStore(s => s.playerScore);
+  const computerScore = useTakiStore(s => s.computerScore);
+  const startGame = useTakiStore(s => s.startGame);
   return (
     <div className="flex flex-col items-center justify-center min-h-screen gap-8 px-4 text-center">
       <div className="text-8xl">🃏</div>
@@ -23,7 +22,7 @@ export default function TakiMenuScreen({ playerScore, computerScore, onStart }: 
         </div>
       )}
       <button
-        onClick={onStart}
+        onClick={startGame}
         className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-extrabold text-xl px-10 py-4 rounded-2xl shadow-xl transition-transform hover:scale-105 active:scale-95"
       >
         🎮 התחל משחק

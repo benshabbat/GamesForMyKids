@@ -1,7 +1,7 @@
 'use client';
 
-import type { CardColor } from '../useTakiGame';
-import { COLOR_BG, COLOR_BORDER, COLOR_TEXT, getColorName } from '../useTakiGame';
+import type { CardColor } from '../takiGameStore';
+import { COLOR_BG, COLOR_BORDER, COLOR_TEXT, getColorName } from '../takiGameStore';
 
 const COLORS: { color: CardColor; label: string; cls: string }[] = [
   { color: 'red',    label: '🔴 אדום',  cls: 'bg-red-500 hover:bg-red-400' },
@@ -10,11 +10,10 @@ const COLORS: { color: CardColor; label: string; cls: string }[] = [
   { color: 'yellow', label: '🟡 צהוב',  cls: 'bg-yellow-400 hover:bg-yellow-300 text-gray-900' },
 ];
 
-interface TakiColorPickerProps {
-  onPick: (color: CardColor) => void;
-}
+import { useTakiStore } from '../takiGameStore';
 
-export default function TakiColorPicker({ onPick }: TakiColorPickerProps) {
+export default function TakiColorPicker() {
+  const onPick = useTakiStore(s => s.chooseColor);
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" dir="rtl">
       <div className="bg-gray-900 rounded-2xl p-6 shadow-2xl text-center max-w-xs w-full mx-4">

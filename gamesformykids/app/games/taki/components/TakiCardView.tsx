@@ -1,7 +1,7 @@
 'use client';
 
-import { COLOR_BG, COLOR_BORDER, COLOR_TEXT, getColorName, getValueLabel, getValueEmoji } from '../useTakiGame';
-import type { TakiCard } from '../useTakiGame';
+import { COLOR_BG, COLOR_BORDER, COLOR_TEXT, getColorName, getValueLabel, getValueEmoji } from '../takiGameStore';
+import type { TakiCard } from '../takiGameStore';
 
 interface TakiCardViewProps {
   card: TakiCard;
