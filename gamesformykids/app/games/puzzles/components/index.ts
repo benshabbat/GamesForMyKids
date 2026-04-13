@@ -1,5 +1,6 @@
 // Shared puzzle components exports
 export { PuzzleGrid } from './PuzzleGrid';
+export { default as PuzzleGridCell } from './PuzzleGridCell';
 export { PiecesPool } from './PiecesPool';
 export { PuzzleStats } from './PuzzleStats';
 export { FeedbackMessage } from './FeedbackMessage';

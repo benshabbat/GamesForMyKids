@@ -11,3 +11,6 @@ export { default as LetterIntroStep } from './LetterIntroStep';
 export { default as LetterTracingStep } from './LetterTracingStep';
 export { default as LetterWritingStep } from './LetterWritingStep';
 export { default as LetterFunFacts } from './LetterFunFacts';
+export { default as StatsGrid } from './StatsGrid';
+export { default as StatsProgressBar } from './StatsProgressBar';
+export { default as StatsAchievement } from './StatsAchievement';

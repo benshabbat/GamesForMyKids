@@ -1,5 +1,5 @@
 
-import { usePuzzleFeedback } from '@/app/games/puzzles/hooks/usePuzzleFeedback';
+import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 interface FeedbackMessageProps {
   // Allow optional override for special cases
@@ -14,7 +14,8 @@ export const FeedbackMessage: React.FC<FeedbackMessageProps> = ({
   message: overrideMessage, 
   type: overrideType 
 }) => {
-  const { feedbackMessage, feedbackType } = usePuzzleFeedback();
+  const feedbackMessage = usePuzzleStore(s => s.feedbackMessage);
+  const feedbackType = usePuzzleStore(s => s.feedbackType);
   
   // Use hook values unless overridden
   const message = overrideMessage ?? feedbackMessage;

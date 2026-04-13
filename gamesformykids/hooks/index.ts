@@ -28,7 +28,6 @@ export * from './shared/ui';
 // Games Hooks
 export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
-export { usePuzzleFeedback } from "@/app/games/puzzles/hooks/usePuzzleFeedback";
 
 /**
  * ===============================================
