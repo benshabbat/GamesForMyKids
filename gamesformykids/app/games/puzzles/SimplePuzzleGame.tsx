@@ -4,14 +4,13 @@ import { usePuzzleContext } from '@/contexts';
 import { usePuzzleSetup } from './usePuzzleSetup';
 import { 
   FeedbackMessage,
-  PuzzleGrid,
-  PiecesPool,
-  PuzzleStats,
   PuzzleSelector,
   UnifiedControls,
   UnifiedHeader,
   UnifiedHelpModal,
-  FloatingDragPiece
+  FloatingDragPiece,
+  SimpleGameArea,
+  PuzzleLoadingSpinner,
 } from './components';
 
 export default function SimplePuzzleGame() {
@@ -45,30 +44,10 @@ export default function SimplePuzzleGame() {
         <FeedbackMessage />
 
         {/* Game Area */}
-        {gameStarted && selectedPuzzle && imageLoaded && (
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Stats Panel */}
-            <div className="lg:col-span-1">
-              <PuzzleStats className="mb-6" />
-              
-              {/* Pieces Pool */}
-              <PiecesPool />
-            </div>
-
-            {/* Game Grid */}
-            <div className="lg:col-span-2">
-              <PuzzleGrid />
-            </div>
-          </div>
-        )}
+        {gameStarted && selectedPuzzle && imageLoaded && <SimpleGameArea />}
 
         {/* Loading State */}
-        {selectedPuzzle && !imageLoaded && (
-          <div className="text-center py-12">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p className="text-lg text-gray-600">טוען את הפאזל...</p>
-          </div>
-        )}
+        {selectedPuzzle && !imageLoaded && <PuzzleLoadingSpinner />}
 
         {/* Floating Dragged Piece */}
         <FloatingDragPiece />

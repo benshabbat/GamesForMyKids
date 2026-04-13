@@ -9,14 +9,10 @@ export { default as ImageUploadSection } from './ImageUploadSection';
 export { default as ReferenceImage } from './ReferenceImage';
 export { default as FloatingDragPiece } from './FloatingDragPiece';
 
-// Unified components (modern approach)
+// Unified components
 export { default as UnifiedControls } from './UnifiedControls';
 export { default as UnifiedHeader } from './UnifiedHeader';
 export { default as UnifiedHelpModal } from './UnifiedHelpModal';
-
-// Header sub-components
-export { default as SimpleHeader } from './SimpleHeader';
-export { default as CustomHeader } from './CustomHeader';
 
 // Controls sub-components
 export { default as SimpleControls } from './SimpleControls';
@@ -49,4 +45,11 @@ export { default as LearningBenefits } from './LearningBenefits';
 
 // Game layout
 export { default as CustomGameArea } from './CustomGameArea';
+export { default as SimpleGameArea } from './SimpleGameArea';
+export { default as PuzzleLoadingSpinner } from './PuzzleLoadingSpinner';
+
+// Shared primitives
+export { default as PuzzleHeader } from './PuzzleHeader';
+export { default as PlacedPieceContent } from './PlacedPieceContent';
+export { default as PiecesPoolFooter } from './PiecesPoolFooter';
 

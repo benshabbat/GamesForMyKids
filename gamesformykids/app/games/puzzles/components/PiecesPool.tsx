@@ -1,6 +1,7 @@
 import { PuzzlePiece } from '@/app/games/puzzles/utils/puzzleUtils';
 import { usePuzzleContext } from '@/contexts';
 import PieceItem from './PieceItem';
+import PiecesPoolFooter from './PiecesPoolFooter';
 
 interface PiecesPoolProps {
   title?: string;
@@ -61,18 +62,11 @@ export const PiecesPool: React.FC<PiecesPoolProps> = ({
         )}
       </div>
       {availablePieces.length > 0 && (
-        <div className="mt-4 text-center text-sm text-gray-600">
-          <p>נותרו {availablePieces.length} חלקים להנחה</p>
-          <p className="text-xs text-gray-400 mt-1">
-            ({placedOnGrid} על הלוח, {availablePieces.length} כאן, מתוך {totalPieces} סה&quot;כ)
-          </p>
-          <p className="text-xs text-gray-500 mt-1">
-            💡 חלקים שלא במקום הנכון נשארים על הלוח וניתנים לגרירה
-          </p>
-          <p className="text-xs text-blue-500 mt-1">
-            📱 על מכשירים ניידים: לחץ והחזק לגרירה
-          </p>
-        </div>
+        <PiecesPoolFooter
+          availableCount={availablePieces.length}
+          placedOnGrid={placedOnGrid}
+          total={totalPieces}
+        />
       )}
     </div>
   );

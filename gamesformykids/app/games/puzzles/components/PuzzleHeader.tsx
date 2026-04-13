@@ -3,7 +3,12 @@
 import { Home, HelpCircle } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 
-export default function CustomHeader() {
+interface PuzzleHeaderProps {
+  title: string;
+  subtitle: string;
+}
+
+export default function PuzzleHeader({ title, subtitle }: PuzzleHeaderProps) {
   const { toggleHelp, goHome } = usePuzzleContext();
 
   return (
@@ -20,9 +25,9 @@ export default function CustomHeader() {
 
         <div className="order-first sm:order-none">
           <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">
-            🧩 פאזל מותאם אישית
+            {title}
           </h1>
-          <p className="text-lg sm:text-xl text-gray-600 font-medium">העלה תמונה וצור פאזל משלך!</p>
+          <p className="text-lg sm:text-xl text-gray-600 font-medium">{subtitle}</p>
         </div>
 
         <button
