@@ -1,6 +1,7 @@
 'use client';
 
 import { usePuzzleContext } from '@/contexts';
+import { usePuzzleSetup } from './usePuzzleSetup';
 import { 
   FeedbackMessage,
   PuzzleGrid,
@@ -14,9 +15,8 @@ import {
 } from './components';
 
 export default function SimplePuzzleGame() {
-  const { 
-    state
-  } = usePuzzleContext();
+  usePuzzleSetup();
+  const { selectedPuzzle, gameStarted, imageLoaded } = usePuzzleContext();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">
@@ -27,7 +27,7 @@ export default function SimplePuzzleGame() {
         />
 
         {/* Puzzle Selection */}
-        {!state.selectedPuzzle && (
+        {!selectedPuzzle && (
           <PuzzleSelector />
         )}
 
@@ -35,7 +35,7 @@ export default function SimplePuzzleGame() {
         <UnifiedHelpModal type="simple" />
 
         {/* Game Controls */}
-        {state.selectedPuzzle && (
+        {selectedPuzzle && (
           <UnifiedControls
             type="simple"
           />
@@ -45,7 +45,7 @@ export default function SimplePuzzleGame() {
         <FeedbackMessage />
 
         {/* Game Area */}
-        {state.gameStarted && state.selectedPuzzle && state.imageLoaded && (
+        {gameStarted && selectedPuzzle && imageLoaded && (
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* Stats Panel */}
             <div className="lg:col-span-1">
@@ -63,7 +63,7 @@ export default function SimplePuzzleGame() {
         )}
 
         {/* Loading State */}
-        {state.selectedPuzzle && !state.imageLoaded && (
+        {selectedPuzzle && !imageLoaded && (
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-lg text-gray-600">טוען את הפאזל...</p>

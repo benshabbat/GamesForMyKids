@@ -8,10 +8,10 @@ interface ReferenceImageProps {
 }
 
 export default function ReferenceImage({ image }: ReferenceImageProps) {
-  const { state } = usePuzzleContext();
+  const { image: storeImage } = usePuzzleContext();
   
   // Use prop if provided, otherwise use context
-  const displayImage = image || state.image;
+  const displayImage = image || storeImage;
   
   if (!displayImage) {
     return null;

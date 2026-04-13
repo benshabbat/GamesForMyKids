@@ -35,7 +35,11 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
   onTouchEnd: customOnTouchEnd
 }) => {
   const { 
-    state, 
+    selectedPuzzle,
+    difficulty,
+    placedPieces,
+    showHints,
+    showDebug,
     handleDragOver,
     handleDrop,
     handleDragStart,
@@ -45,14 +49,14 @@ export const PuzzleGrid: React.FC<PuzzleGridProps> = ({
   } = usePuzzleContext();
   
   // Use context values unless overridden
-  const gridSize = overrideGridSize ?? (state.selectedPuzzle?.gridSize || state.difficulty);
-  const pieces = overridePieces ?? state.placedPieces;
-  const showPositionNumbers = overrideShowPositionNumbers ?? state.showHints;
-  const showDebugInfo = overrideShowDebugInfo ?? state.showDebug;
+  const gridSize = overrideGridSize ?? (selectedPuzzle?.gridSize || difficulty);
+  const pieces = overridePieces ?? placedPieces;
+  const showPositionNumbers = overrideShowPositionNumbers ?? showHints;
+  const showDebugInfo = overrideShowDebugInfo ?? showDebug;
   
   // Generate title from context if not provided
   const puzzleTitle = title || 
-    (state.selectedPuzzle ? `🎯 ${state.selectedPuzzle.name}` : "🎯 לוח הפאזל");
+    (selectedPuzzle ? `🎯 ${selectedPuzzle.name}` : "🎯 לוח הפאזל");
   
   // Use custom handlers if provided, otherwise use context handlers
   const finalOnDragOver = customOnDragOver || handleDragOver;

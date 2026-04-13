@@ -4,16 +4,11 @@ import { Home, RotateCcw, Eye, Settings } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 
 export default function SimpleControls() {
-  const { state, resetGame, toggleHints, toggleDebug, goToMenu } = usePuzzleContext();
-  const { gameStarted, showHints: hintsEnabled, showDebug: debugMode } = state;
-  const onGoHome = goToMenu;
-  const onResetGame = resetGame;
-  const onToggleHints = toggleHints;
-  const onToggleDebug = toggleDebug;
+  const { gameStarted, showHints: hintsEnabled, showDebug: debugMode, resetGame, toggleHints, toggleDebug, goToMenu } = usePuzzleContext();
   return (
     <div className="flex justify-center gap-4 mb-6 flex-wrap">
       <button
-        onClick={onGoHome}
+        onClick={goToMenu}
         className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105"
       >
         <Home className="w-4 h-4" />
@@ -22,7 +17,7 @@ export default function SimpleControls() {
       </button>
 
       <button
-        onClick={onResetGame}
+        onClick={resetGame}
         className="inline-flex items-center gap-2 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
         disabled={!gameStarted}
       >
@@ -32,7 +27,7 @@ export default function SimpleControls() {
       </button>
 
       <button
-        onClick={onToggleHints}
+        onClick={toggleHints}
         className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
           hintsEnabled
             ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white'
@@ -45,7 +40,7 @@ export default function SimpleControls() {
       </button>
 
       <button
-        onClick={onToggleDebug}
+        onClick={toggleDebug}
         className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
           debugMode
             ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'

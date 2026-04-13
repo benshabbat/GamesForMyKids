@@ -15,12 +15,12 @@ export default function FloatingDragPiece({
   draggedPiece: propDraggedPiece,
   dragPosition: propDragPosition
 }: FloatingDragPieceProps = {}) {
-  const { state } = usePuzzleContext();
+  const { touchState } = usePuzzleContext();
   
   // Use props if provided, otherwise use context
-  const isDragging = propIsDragging ?? state.touchState.isDragging;
-  const draggedPiece = propDraggedPiece ?? state.touchState.draggedPiece;
-  const dragPosition = propDragPosition ?? state.touchState.dragPosition;
+  const isDragging = propIsDragging ?? touchState.isDragging;
+  const draggedPiece = propDraggedPiece ?? touchState.draggedPiece;
+  const dragPosition = propDragPosition ?? touchState.dragPosition;
 
   if (!isDragging || !draggedPiece) return null;
 

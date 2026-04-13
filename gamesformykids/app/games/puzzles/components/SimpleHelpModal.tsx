@@ -4,8 +4,8 @@ import { X, Mouse, RotateCcw, HelpCircle, Eye, Settings } from 'lucide-react';
 import { usePuzzleContext } from '@/contexts';
 
 export default function SimpleHelpModal() {
-  const { state, toggleHelp: onToggleHelp } = usePuzzleContext();
-  if (!state.showHelp) return null;
+  const { showHelp, toggleHelp: onToggleHelp } = usePuzzleContext();
+  if (!showHelp) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50" onClick={onToggleHelp}>
       <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4" onClick={(e) => e.stopPropagation()}>

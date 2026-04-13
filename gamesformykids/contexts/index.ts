@@ -1,4 +1,4 @@
-export { PuzzleProvider, usePuzzleContext } from '@/app/games/puzzles/contexts/PuzzleContext';
+export { usePuzzleStore as usePuzzleContext } from '@/app/games/puzzles/store/puzzleStore';
 
 // Export types from contexts
 export type { 
