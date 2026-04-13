@@ -7,3 +7,7 @@ export { default as HebrewLettersStatsPanel } from './HebrewLettersStatsPanel';
 export { default as LetterEncouragement } from './LetterEncouragement';
 export { default as LetterGuideOverlay } from './LetterGuideOverlay';
 export { default as WritingCanvas } from './WritingCanvas';
+export { default as LetterIntroStep } from './LetterIntroStep';
+export { default as LetterTracingStep } from './LetterTracingStep';
+export { default as LetterWritingStep } from './LetterWritingStep';
+export { default as LetterFunFacts } from './LetterFunFacts';
