@@ -3,7 +3,6 @@
 import { X, Mouse, RotateCcw, HelpCircle, Eye, Settings, Upload, Shuffle } from 'lucide-react';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 import PuzzleHelpModal from './PuzzleHelpModal';
-import HelpSection from './HelpSection';
 
 interface GameHelpModalProps {
   variant: 'simple' | 'custom';
@@ -63,23 +62,31 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
         <button onClick={toggleHelp} className="text-gray-500 hover:text-gray-700 text-2xl">×</button>
       </div>
       <div className="space-y-4 text-right">
-        <HelpSection color="blue" title="📋 שלבי המשחק:">
+        <div className="bg-blue-50 p-4 rounded-lg">
+          <h3 className="font-bold text-blue-800 mb-2">📋 שלבי המשחק:</h3>
+          <div className="text-blue-700">
           <ol className="list-decimal list-inside space-y-2">
             <li>העלה תמונה מהמחשב שלך</li>
             <li>בחר רמת קושי (2x2 עד 5x5)</li>
             <li>גרור את החלקים למקום הנכון בלוח</li>
             <li>השלם את הפאזל במהירות הגבוהה ביותר!</li>
           </ol>
-        </HelpSection>
-        <HelpSection color="green" title="💡 טיפים:">
+          </div>
+        </div>
+        <div className="bg-green-50 p-4 rounded-lg">
+          <h3 className="font-bold text-green-800 mb-2">💡 טיפים:</h3>
+          <div className="text-green-700">
           <ul className="list-disc list-inside space-y-2">
             <li>חלקים נכונים יוצגו עם מסגרת ירוקה וכוכב</li>
             <li>חלקים שגויים יוצגו עם מסגרת אדומה וX</li>
             <li>ניתן לגרור חלקים מהלוח אם הם לא במקום הנכון</li>
             <li>השתמש בכפתור &ldquo;רמזים&rdquo; לעזרה נוספת</li>
           </ul>
-        </HelpSection>
-        <HelpSection color="purple" title="🎮 פקדים:">
+          </div>
+        </div>
+        <div className="bg-purple-50 p-4 rounded-lg">
+          <h3 className="font-bold text-purple-800 mb-2">🎮 פקדים:</h3>
+          <div className="text-purple-700">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div className="flex items-center gap-2">
               <Upload className="w-4 h-4" />
@@ -102,8 +109,11 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
               <span><strong>ניפוי באגים:</strong> מידע טכני</span>
             </div>
           </div>
-        </HelpSection>
-        <HelpSection color="orange" title="⌨️ קיצורי מקלדת:">
+          </div>
+        </div>
+        <div className="bg-orange-50 p-4 rounded-lg">
+          <h3 className="font-bold text-orange-800 mb-2">⌨️ קיצורי מקלדת:</h3>
+          <div className="text-orange-700">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div><strong>H:</strong> הפעל/כבה רמזים</div>
             <div><strong>D:</strong> הפעל/כבה מצב ניפוי באגים</div>
@@ -112,7 +122,8 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
             <div><strong>?:</strong> פתח/סגור עזרה</div>
             <div><strong>Escape:</strong> סגור עזרה</div>
           </div>
-        </HelpSection>
+          </div>
+        </div>
       </div>
       <div className="mt-6 text-center">
         <button
