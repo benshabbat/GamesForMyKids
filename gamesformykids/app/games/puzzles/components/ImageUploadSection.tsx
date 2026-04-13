@@ -33,15 +33,13 @@ export default function ImageUploadSection({
   onPreMadeImageSelect: propOnPreMadeImageSelect,
   onDifficultyChange: propOnDifficultyChange
 }: ImageUploadSectionProps = {}) {
-  const { state, dispatch, handleImageUpload, handlePreMadeImageSelect } = usePuzzleContext();
+  const { state, handleImageUpload, handlePreMadeImageSelect, changeDifficulty } = usePuzzleContext();
   
   // Use props if provided, otherwise use context
   const difficulty = propDifficulty ?? state.difficulty;
   const onImageUpload = propOnImageUpload ?? handleImageUpload;
   const onPreMadeImageSelect = propOnPreMadeImageSelect ?? handlePreMadeImageSelect;
-  const onDifficultyChange = propOnDifficultyChange ?? ((newDifficulty: number) => {
-    dispatch({ type: 'SET_DIFFICULTY', payload: newDifficulty });
-  });
+  const onDifficultyChange = propOnDifficultyChange ?? changeDifficulty;
 
   return (
     <div className="text-center mb-8">

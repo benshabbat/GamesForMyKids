@@ -63,7 +63,3 @@ export type PuzzleAction =
   | { type: 'SET_SELECTED_PUZZLE'; payload: SimplePuzzle | null }
   | { type: 'RESET_GAME' }
   | { type: 'RESET_TO_MENU' };
-
-export interface PuzzleProviderProps {
-  children: React.ReactNode;
-}

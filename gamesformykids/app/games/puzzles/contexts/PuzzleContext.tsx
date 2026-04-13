@@ -85,7 +85,6 @@ export function usePuzzleContext() {
 
   return {
     state,
-    dispatch:                store.dispatch,
     initializeGame:          store.initializeGame,
     initializeSimpleGame:    store.initializeSimpleGame,
     handleDropLogic:         store.handleDropLogic,

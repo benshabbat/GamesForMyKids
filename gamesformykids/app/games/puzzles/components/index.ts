@@ -13,5 +13,19 @@ export { default as UnifiedControls } from './UnifiedControls';
 export { default as UnifiedHeader } from './UnifiedHeader';
 export { default as UnifiedHelpModal } from './UnifiedHelpModal';
 
+// Controls sub-components
+export { default as SimpleControls } from './SimpleControls';
+export { default as CustomControls } from './CustomControls';
+export { default as DifficultySelector } from './DifficultySelector';
+
+// Help modal sub-components
+export { default as SimpleHelpModal } from './SimpleHelpModal';
+export { default as CustomHelpModal } from './CustomHelpModal';
+
+// Stats sub-components
+export { default as ProgressBar } from './ProgressBar';
+export { default as StatCard } from './StatCard';
+export { default as CompletionBanner } from './CompletionBanner';
+
 // Specific components
 export { default as PuzzleSelector } from './PuzzleSelector';

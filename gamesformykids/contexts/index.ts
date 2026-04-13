@@ -3,7 +3,6 @@ export { PuzzleProvider, usePuzzleContext } from '@/app/games/puzzles/contexts/P
 // Export types from contexts
 export type { 
   PuzzleState, 
-  PuzzleAction, 
   TouchState
 } from '@/app/games/puzzles/types/puzzle';
 

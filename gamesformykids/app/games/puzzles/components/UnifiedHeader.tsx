@@ -18,7 +18,7 @@ export default function UnifiedHeader({
   onToggleHelp: customOnToggleHelp,
   type = 'simple'
 }: UnifiedHeaderProps) {
-  const { dispatch, goHome } = usePuzzleContext();
+  const { toggleHelp, goHome } = usePuzzleContext();
   
   // Use context values with defaults unless overridden
   const title = overrideTitle ?? (
@@ -30,7 +30,7 @@ export default function UnifiedHeader({
   
   // Use custom handlers if provided, otherwise use context handlers
   const finalOnGoHome = customOnGoHome || goHome;
-  const finalOnToggleHelp = customOnToggleHelp || (() => dispatch({ type: 'TOGGLE_HELP' }));
+  const finalOnToggleHelp = customOnToggleHelp || toggleHelp;
   if (type === 'custom') {
     // More elaborate header for custom puzzles
     return (
