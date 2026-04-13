@@ -2,11 +2,7 @@
 
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
-interface DifficultySelectorProps {
-  variant?: 'buttons' | 'select';
-}
-
-export default function DifficultySelector({ variant = 'buttons' }: DifficultySelectorProps) {
+export default function DifficultySelector({ variant = 'buttons' }: { variant?: 'buttons' | 'select' }) {
   const { difficulty, changeDifficulty } = usePuzzleStore();
 
   if (variant === 'select') {
