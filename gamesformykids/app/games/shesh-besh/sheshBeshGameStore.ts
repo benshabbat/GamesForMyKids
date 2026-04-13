@@ -294,6 +294,15 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
         scheduleComputerTurn();
         return;
       }
+      const uniqueFroms = new Set(moves.map(m => m.from));
+      const uniqueTos   = new Set(moves.map(m => m.to));
+      // Only one possible move — execute automatically after a brief visual pause
+      if (uniqueFroms.size === 1 && uniqueTos.size === 1) {
+        set({ dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
+          message: `הטלת ${d1}-${d2}. מהלך יחיד — מבצע אוטומטית...` });
+        _after(() => execPlayerMove(moves[0]), 700);
+        return;
+      }
       set({ dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
         message: `הטלת ${d1}-${d2}. בחר אסימון` });
     },
@@ -339,6 +348,12 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
         const allMoves = computeValidMoves(s.points, s.barPlayer, s.barComputer, s.dice, 'player');
         const fromHere = allMoves.filter(m => m.from === pointIdx);
         if (fromHere.length > 0) {
+          // Only one destination — execute automatically
+          const uniqueDests = new Set(fromHere.map(m => m.to));
+          if (uniqueDests.size === 1) {
+            execPlayerMove(fromHere[0]);
+            return;
+          }
           set({ selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' });
           return;
         }
