@@ -21,7 +21,7 @@ interface Props {
   onMenu: () => void;
 }
 
-export default function ContinentsQuestion({ phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function ContinentsQuestion({ phase: _phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">

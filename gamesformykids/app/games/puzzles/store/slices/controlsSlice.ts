@@ -1,5 +1,5 @@
 import type { StateCreator } from 'zustand';
-import { MENU_RESET } from '../puzzleStoreConstants';
+
 import type { PuzzleStore } from '../puzzleStore';
 
 export interface ControlsSlice {

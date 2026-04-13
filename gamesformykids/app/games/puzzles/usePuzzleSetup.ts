@@ -36,7 +36,7 @@ function useKeyboardShortcuts() {
         usePuzzleStore.getState();
       switch (event.key.toLowerCase()) {
         case 'r':      if (gameStarted) resetGame(); break;
-        case 'h':      event.shiftKey ? toggleHints() : toggleHelp(); break;
+        case 'h':      if (event.shiftKey) { toggleHints(); } else { toggleHelp(); } break;
         case 'd':      toggleDebug(); break;
         case 's':      if (gameStarted) shufflePieces(); break;
         case 'escape': if (showHelp) toggleHelp(); break;

@@ -1,7 +1,7 @@
 'use client';
 
 import type { CardColor } from '../takiGameStore';
-import { COLOR_BG, COLOR_BORDER, COLOR_TEXT, getColorName } from '../takiGameStore';
+
 
 const COLORS: { color: CardColor; label: string; cls: string }[] = [
   { color: 'red',    label: '🔴 אדום',  cls: 'bg-red-500 hover:bg-red-400' },

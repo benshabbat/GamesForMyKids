@@ -21,7 +21,7 @@ interface Props {
   onMenu: () => void;
 }
 
-export default function HealthyFoodQuestion({ phase, currentIndex, total, score, currentQuestion, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function HealthyFoodQuestion({ phase: _phase, currentIndex, total, score, currentQuestion, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-lime-50 to-green-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">

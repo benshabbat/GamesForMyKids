@@ -80,7 +80,7 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
       },
 
       nextQuestion: () => {
-        const { index, total, gameId } = get();
+        const { index, total } = get();
         if (index < total - 1) {
           set({ index: index + 1, selected: null, isCorrect: null }, false, 'quiz/nextQuestion');
         } else {

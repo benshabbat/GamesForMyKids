@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef } from 'react';
-import { Home, RotateCcw, Eye, Settings, Shuffle, Upload } from 'lucide-react';
+import { RotateCcw, Eye, Settings, Shuffle, Upload } from 'lucide-react';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 import DifficultySelector from '../shared/DifficultySelector';
 

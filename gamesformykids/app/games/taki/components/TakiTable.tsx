@@ -1,6 +1,6 @@
 'use client';
 
-import { canPlay, COLOR_BG, useTakiStore } from '../takiGameStore';
+import { COLOR_BG, useTakiStore } from '../takiGameStore';
 import TakiCardView, { FaceDownCard } from './TakiCardView';
 
 export default function TakiTable() {

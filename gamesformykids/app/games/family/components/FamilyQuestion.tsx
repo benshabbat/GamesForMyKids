@@ -20,7 +20,7 @@ interface Props {
   onMenu: () => void;
 }
 
-export default function FamilyQuestion({ phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function FamilyQuestion({ phase: _phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">

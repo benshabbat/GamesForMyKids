@@ -1,6 +1,6 @@
 'use client';
 
-import { X, Mouse, RotateCcw, Eye, Settings, Upload, Shuffle } from 'lucide-react';
+import { RotateCcw, Eye, Settings, Upload, Shuffle } from 'lucide-react';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 export default function CustomHelpModal() {

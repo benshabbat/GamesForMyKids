@@ -119,7 +119,7 @@ export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get)
     const deck = [...prev.deck];
     let playerHand = [...prev.playerHand];
     let topCard = prev.topCard;
-    let effectiveColor = prev.effectiveColor;
+    const effectiveColor = prev.effectiveColor;
 
     const card = pickBestCard(hand, topCard, effectiveColor, prev.inTakiSequence, prev.takiColor);
 
