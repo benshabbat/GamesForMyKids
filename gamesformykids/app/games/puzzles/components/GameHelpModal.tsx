@@ -1,8 +1,30 @@
 'use client';
 
 import { X, Mouse, RotateCcw, HelpCircle, Eye, Settings, Upload, Shuffle } from 'lucide-react';
+import type { ReactNode } from 'react';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
-import PuzzleHelpModal from './PuzzleHelpModal';
+
+function HelpModal({ size = 'sm', children }: { size?: 'sm' | 'lg'; children: ReactNode }) {
+  const { showHelp, toggleHelp } = usePuzzleStore();
+  if (!showHelp) return null;
+  return (
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+      onClick={toggleHelp}
+    >
+      <div
+        className={
+          size === 'lg'
+            ? 'bg-white rounded-2xl p-8 max-w-2xl mx-4 max-h-[80vh] overflow-y-auto'
+            : 'bg-white rounded-lg p-6 max-w-md w-full mx-4'
+        }
+        onClick={(e) => e.stopPropagation()}
+      >
+        {children}
+      </div>
+    </div>
+  );
+}
 
 interface GameHelpModalProps {
   variant: 'simple' | 'custom';
@@ -13,7 +35,7 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
 
   if (variant === 'simple') {
     return (
-      <PuzzleHelpModal size="sm">
+      <HelpModal size="sm">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-xl font-bold">איך לשחק?</h3>
           <button onClick={toggleHelp} className="text-gray-500 hover:text-gray-700 transition-colors">
@@ -51,12 +73,12 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
             חלקים נכונים יהיו ירוקים וחלקים שגויים יהיו אדומים.
           </p>
         </div>
-      </PuzzleHelpModal>
+      </HelpModal>
     );
   }
 
   return (
-    <PuzzleHelpModal size="lg">
+    <HelpModal size="lg">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-gray-800">🧩 איך לשחק?</h2>
         <button onClick={toggleHelp} className="text-gray-500 hover:text-gray-700 text-2xl">×</button>
@@ -133,6 +155,6 @@ export default function GameHelpModal({ variant }: GameHelpModalProps) {
           סגירה
         </button>
       </div>
-    </PuzzleHelpModal>
+    </HelpModal>
   );
 }
