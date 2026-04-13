@@ -15,7 +15,7 @@ export default function ContinentsGame() {
 
   if (phase === 'menu') return <ContinentsMenuScreen continents={continents} onStart={startGame} />;
 
-  if (phase === 'finished') return (
+  if (phase === 'result') return (
     <ContinentsResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />
   );
 

@@ -55,6 +55,16 @@ export type { GameProgressState, GameProgressActions } from './gameProgressStore
 export { useGameSessionStore } from './gameSessionStore';
 export type { GameSessionState, GameSessionActions } from './gameSessionStore';
 
+// Quiz Game Session (phase / index / score / selected / isCorrect — quiz games)
+export {
+  useQuizGameStore,
+  selectQuizPhase,
+  selectQuizScore,
+  selectQuizIndex,
+  selectIsAnswered,
+} from './quizGameStore';
+export type { QuizGameState, QuizGameActions, QuizPhase } from './quizGameStore';
+
 // Game Actions (startGame / handleItemClick / resetGame / speakItemName / hints)
 export { useGameActionsStore } from './gameActionsStore';
 export type { GameActionsState, GameActionsStoreActions } from './gameActionsStore';

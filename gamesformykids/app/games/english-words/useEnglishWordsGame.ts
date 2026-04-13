@@ -1,9 +1,8 @@
 ﻿'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { ENGLISH_WORDS, QUESTIONS_PER_GAME, CATEGORIES, type EnglishWord, type EnglishCategory } from './data/words';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
@@ -12,51 +11,48 @@ function makeChoices(correct: EnglishWord): string[] {
 }
 
 export function useEnglishWordsGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+
+  // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<EnglishWord[]>([]);
-  const [category, setCategory] = useState<EnglishCategory>('הכל');
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
+  const [category, setCategory]   = useState<EnglishCategory>('הכל');
 
   const current = questions[index] ?? null;
-  const choices = current ? makeChoices(current) : [];
+  const choices = useMemo(() => (current ? makeChoices(current) : []), [current]);
   const total = questions.length;
-  const correctCount = Math.round(score / 10);
 
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback((cat: EnglishCategory = 'הכל') => {
     const pool = cat === 'הכל' ? ENGLISH_WORDS : ENGLISH_WORDS.filter(w => w.category === cat);
     const q = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
     setCategory(cat);
     setQuestions(q);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(null);
-    setPhase('playing');
-  }, []);
+    startQuiz('english-words', q.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((word: string) => {
     if (selected !== null || !current) return;
-    const correct = word === current.english;
-    setSelected(word);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [selected, current]);
+    storeSelectAnswer(word, word === current.english);
+  }, [selected, current, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index + 1 >= total) {
-      setPhase('result');
-    } else {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(null);
-    }
-  }, [index, total]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const pool = category === 'הכל' ? ENGLISH_WORDS : ENGLISH_WORDS.filter(w => w.category === category);
+    const q = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(q);
+    restartQuiz();
+  }, [category, restartQuiz]);
 
-  const goMenu = useCallback(() => setPhase('menu'), []);
-  const restart = useCallback(() => startGame(category), [category, startGame]);
-
-  return { phase, category, categories: CATEGORIES, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart };
+  return {
+    phase, category, categories: CATEGORIES, index, score: score * 10, selected, isCorrect, current, choices, total,
+    correctCount: score,
+    startGame, selectAnswer, next, goMenu, restart,
+  };
 }

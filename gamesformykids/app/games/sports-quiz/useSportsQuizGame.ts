@@ -2,53 +2,49 @@
 
 import { useState, useCallback } from 'react';
 import { SPORTS_QUESTIONS, QUESTIONS_PER_GAME, type SportsQuestion } from './data/questions';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
 export function useSportsQuizGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+
+  // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<SportsQuestion[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const current = questions[index] ?? null;
   const total = questions.length;
-  const correctCount = Math.round(score / 10);
 
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
     const q = shuffle(SPORTS_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(q);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(null);
-    setPhase('playing');
-  }, []);
+    startQuiz('sports-quiz', q.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((idx: number) => {
     if (selected !== null || !current) return;
-    const correct = idx === current.correctIndex;
-    setSelected(idx);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [selected, current]);
+    storeSelectAnswer(String(idx), idx === current.correctIndex);
+  }, [selected, current, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index + 1 >= total) {
-      setPhase('result');
-    } else {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(null);
-    }
-  }, [index, total]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const q = shuffle(SPORTS_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(q);
+    restartQuiz();
+  }, [restartQuiz]);
 
-  const goMenu = useCallback(() => setPhase('menu'), []);
-  const restart = useCallback(() => { goMenu(); startGame(); }, [goMenu, startGame]);
-
-  return { phase, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, goMenu, restart };
+  return {
+    phase, index, score: score * 10,
+    selected: selected !== null ? Number(selected) : null,
+    isCorrect, current, total, correctCount: score,
+    startGame, selectAnswer, next, goMenu, restart,
+  };
 }

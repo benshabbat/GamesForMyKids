@@ -1,6 +1,6 @@
 ﻿'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   BODY_QUESTIONS,
   BODY_CATEGORIES,
@@ -8,80 +8,60 @@ import {
   type BodyCategory,
   type BodyQuestion,
 } from './data/body';
-
-import type { PhaseQuiz as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
 export function useHumanBodyGame() {
-  const [phase, setPhase]             = useState<Phase>('menu');
-  const [category, setCategory]       = useState<BodyCategory>('הכל');
-  const [questions, setQuestions]     = useState<BodyQuestion[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [choices, setChoices]         = useState<string[]>([]);
-  const [selected, setSelected]       = useState<string | null>(null);
-  const [isCorrect, setIsCorrect]     = useState(false);
-  const [score, setScore]             = useState(0);
+  // ── Zustand ── shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion: advanceQuestion, goToMenu: storeGoToMenu } = useQuizGameStore();
+
+  // ── Local state ── game-specific data ──────────────────────
+  const [category, setCategory]   = useState<BodyCategory>('הכל');
+  const [questions, setQuestions] = useState<BodyQuestion[]>([]);
 
   const categories = BODY_CATEGORIES;
+
+  const currentQuestion = questions[index] ?? null;
+  const choices = useMemo<string[]>(
+    () => (currentQuestion ? shuffle([currentQuestion.function, ...currentQuestion.wrongOptions]) : []),
+    [currentQuestion],
+  );
 
   const startGame = useCallback((cat: BodyCategory = 'הכל') => {
     const pool = cat === 'הכל'
       ? BODY_QUESTIONS
       : BODY_QUESTIONS.filter(q => q.category === cat);
     const picked = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
-    const first = picked[0];
     setCategory(cat);
     setQuestions(picked);
-    setCurrentIndex(0);
-    setChoices(shuffle([first.function, ...first.wrongOptions]));
-    setSelected(null);
-    setIsCorrect(false);
-    setScore(0);
-    setPhase('playing');
-  }, []);
+    startQuiz('human-body', picked.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((answer: string) => {
-    if (phase !== 'playing') return;
-    const correct = questions[currentIndex].function === answer;
-    setSelected(answer);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 1);
-    setPhase('answered');
-  }, [phase, questions, currentIndex]);
+    if (selected !== null) return;
+    const correct = questions[index]?.function === answer;
+    storeSelectAnswer(answer, correct);
+  }, [selected, questions, index, storeSelectAnswer]);
 
-  const nextQuestion = useCallback(() => {
-    const next = currentIndex + 1;
-    if (next >= questions.length) {
-      setPhase('finished');
-      return;
-    }
-    const q = questions[next];
-    setCurrentIndex(next);
-    setChoices(shuffle([q.function, ...q.wrongOptions]));
-    setSelected(null);
-    setIsCorrect(false);
-    setPhase('playing');
-  }, [currentIndex, questions]);
-
-  const goToMenu = useCallback(() => {
-    setPhase('menu');
-    setScore(0);
-    setCurrentIndex(0);
-  }, []);
-
-  const currentQuestion = questions[currentIndex] ?? null;
+  const nextQuestion = useCallback(() => advanceQuestion(), [advanceQuestion]);
+  const goToMenu     = useCallback(() => storeGoToMenu(), [storeGoToMenu]);
 
   return {
     phase,
     category,
     categories,
     currentQuestion,
-    currentIndex,
+    currentIndex: index,
     total: questions.length,
     choices,
     selected,
-    isCorrect,
+    isCorrect: isCorrect ?? false,
     score,
     startGame,
     selectAnswer,

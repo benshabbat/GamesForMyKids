@@ -33,7 +33,7 @@ export default function HumanBodyQuestion({ phase, currentIndex, total, score, c
           <div className="text-7xl mb-3">{currentQuestion.emoji}</div>
           <div className="inline-block px-3 py-1 rounded-full text-sm font-bold text-white bg-red-400 mb-3">{currentQuestion.category}</div>
           <p className="text-lg font-bold text-gray-800">מה התפקיד של: <span className="text-red-600">{currentQuestion.part}</span>?</p>
-          {phase === 'answered' && (
+          {selected !== null && (
             <div className={`mt-4 p-3 rounded-xl text-sm font-bold ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
               {isCorrect ? '✅ נכון!' : `❌ התשובה: ${currentQuestion.function}`}
             </div>
@@ -42,7 +42,7 @@ export default function HumanBodyQuestion({ phase, currentIndex, total, score, c
         <div className="grid grid-cols-1 gap-3 w-full max-w-md">
           {choices.map(choice => {
             let cls = 'py-3 px-4 rounded-xl font-bold text-right shadow active:scale-95 transition-all ';
-            if (phase === 'answered') {
+            if (selected !== null) {
               if (choice === currentQuestion.function) cls += 'bg-green-500 text-white';
               else if (choice === selected) cls += 'bg-red-400 text-white';
               else cls += 'bg-gray-100 text-gray-500';
@@ -50,13 +50,13 @@ export default function HumanBodyQuestion({ phase, currentIndex, total, score, c
               cls += 'bg-white text-gray-800 border-2 border-red-200 hover:border-red-400';
             }
             return (
-              <button key={choice} onClick={() => onSelect(choice)} disabled={phase === 'answered'} className={cls}>
+              <button key={choice} onClick={() => onSelect(choice)} disabled={selected !== null} className={cls}>
                 {choice}
               </button>
             );
           })}
         </div>
-        {phase === 'answered' && (
+        {selected !== null && (
           <button onClick={onNext} className="mt-6 px-8 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
             {currentIndex + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>

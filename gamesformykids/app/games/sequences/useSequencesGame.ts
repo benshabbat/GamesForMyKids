@@ -1,60 +1,56 @@
 ﻿'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { SEQUENCE_QUESTIONS, SequenceQuestion, LEVELS, SequenceLevel, QUESTIONS_PER_GAME } from './data/sequences';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
 export function useSequencesGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
-  const [level, setLevel] = useState<SequenceLevel>(LEVELS[0]);
-  const [questions, setQuestions] = useState<SequenceQuestion[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [isCorrect, setIsCorrect] = useState(false);
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
 
+  // ── Local state — game-specific data ──────────────────────
+  const [level, setLevel]         = useState<SequenceLevel>(LEVELS[0]);
+  const [questions, setQuestions] = useState<SequenceQuestion[]>([]);
+
+  const current = questions[index] ?? null;
+  const choices = useMemo<number[]>(
+    () => (current ? shuffle([current.next, ...current.wrong]) : []),
+    [current],
+  );
+
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback((lv: SequenceLevel) => {
     const pool = SEQUENCE_QUESTIONS.filter(q => lv.ids.includes(q.id));
     const qs = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
     setLevel(lv);
     setQuestions(qs);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(false);
-    setPhase('playing');
-  }, []);
-
-  const current = questions[index] ?? null;
-  const choices: number[] = current
-    ? shuffle([current.next, ...current.wrong])
-    : [];
+    startQuiz('sequences', qs.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((n: number) => {
     if (!current || selected !== null) return;
-    const correct = n === current.next;
-    setSelected(n);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [current, selected]);
+    storeSelectAnswer(String(n), n === current.next);
+  }, [current, selected, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index < questions.length - 1) {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(false);
-    } else {
-      setPhase('result');
-    }
-  }, [index, questions.length]);
-
-  const goMenu = useCallback(() => { setPhase('menu'); setSelected(null); }, []);
-  const restart = useCallback(() => startGame(level), [startGame, level]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const pool = SEQUENCE_QUESTIONS.filter(q => level.ids.includes(q.id));
+    const qs = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(qs);
+    restartQuiz();
+  }, [level, restartQuiz]);
 
   return {
-    phase, level, index, score, selected, isCorrect, current, choices,
+    phase, level, index, score: score * 10,
+    selected: selected !== null ? Number(selected) : null,
+    isCorrect: isCorrect ?? false, current, choices,
     total: questions.length, levels: LEVELS,
     startGame, selectAnswer, next, goMenu, restart,
   };

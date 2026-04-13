@@ -18,7 +18,7 @@ export default function HumanBodyGame() {
     return <HumanBodyMenuScreen onStart={(cat: BodyCategory) => startGame(cat)} />;
   }
 
-  if (phase === 'finished') {
+  if (phase === 'result') {
     return <HumanBodyResultScreen score={score} total={total} category={category} onRestart={startGame} onMenu={goToMenu} />;
   }
 

@@ -32,7 +32,7 @@ export default function ContinentsQuestion({ phase, currentIndex, total, score, 
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md mb-6 text-center">
           <div className="text-7xl mb-3">{question.emoji}</div>
           <p className="text-lg font-bold text-gray-800">{question.question}</p>
-          {phase === 'answered' && (
+          {selected !== null && (
             <div className={`mt-4 p-3 rounded-xl text-sm ${isCorrect ? 'bg-green-100 text-green-700 font-bold' : 'bg-orange-100 text-orange-700'}`}>
               {isCorrect ? '✅ נכון מאוד!' : `❌ התשובה: ${question.answers[question.correctIndex]}`}
               <br /><span className="text-xs font-normal">💡 {question.funFact}</span>
@@ -42,7 +42,7 @@ export default function ContinentsQuestion({ phase, currentIndex, total, score, 
         <div className="grid grid-cols-2 gap-3 w-full max-w-md">
           {question.answers.map((ans, idx) => {
             let cls = 'py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition-all ';
-            if (phase === 'answered') {
+            if (selected !== null) {
               if (idx === question.correctIndex) cls += 'bg-green-500 text-white';
               else if (idx === selected) cls += 'bg-red-400 text-white';
               else cls += 'bg-gray-100 text-gray-500';
@@ -50,13 +50,13 @@ export default function ContinentsQuestion({ phase, currentIndex, total, score, 
               cls += 'bg-white text-gray-800 border-2 border-teal-200 hover:border-teal-400';
             }
             return (
-              <button key={idx} onClick={() => onSelect(idx)} disabled={phase === 'answered'} className={cls}>
+              <button key={idx} onClick={() => onSelect(idx)} disabled={selected !== null} className={cls}>
                 {ans}
               </button>
             );
           })}
         </div>
-        {phase === 'answered' && (
+        {selected !== null && (
           <button onClick={onNext} className="mt-6 px-8 py-3 bg-teal-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
             {currentIndex + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>

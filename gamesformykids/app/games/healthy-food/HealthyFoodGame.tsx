@@ -18,7 +18,7 @@ export default function HealthyFoodGame() {
     return <HealthyFoodMenuScreen preview={FOOD_ITEMS.slice(0, 8)} onStart={startGame} />;
   }
 
-  if (phase === 'finished') {
+  if (phase === 'result') {
     return <HealthyFoodResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />;
   }
 

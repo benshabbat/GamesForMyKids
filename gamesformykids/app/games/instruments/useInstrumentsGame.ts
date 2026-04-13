@@ -1,9 +1,8 @@
 ﻿'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { INSTRUMENTS, QUESTIONS_PER_GAME, type InstrumentQuestion } from './data/instruments';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
@@ -12,48 +11,44 @@ function makeChoices(correct: InstrumentQuestion): string[] {
 }
 
 export function useInstrumentsGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+
+  // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<InstrumentQuestion[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const current = questions[index] ?? null;
-  const choices = current ? makeChoices(current) : [];
+  const choices = useMemo(() => (current ? makeChoices(current) : []), [current]);
   const total = questions.length;
-  const correctCount = Math.round(score / 10);
 
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
     const q = shuffle(INSTRUMENTS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(q);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(null);
-    setPhase('playing');
-  }, []);
+    startQuiz('instruments', q.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((name: string) => {
     if (selected !== null || !current) return;
-    const correct = name === current.instrument;
-    setSelected(name);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [selected, current]);
+    storeSelectAnswer(name, name === current.instrument);
+  }, [selected, current, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index + 1 >= total) {
-      setPhase('result');
-    } else {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(null);
-    }
-  }, [index, total]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const q = shuffle(INSTRUMENTS).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(q);
+    restartQuiz();
+  }, [restartQuiz]);
 
-  const goMenu = useCallback(() => setPhase('menu'), []);
-  const restart = useCallback(() => { goMenu(); startGame(); }, [goMenu, startGame]);
-
-  return { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart };
+  return {
+    phase, index, score: score * 10, selected, isCorrect, current, choices, total,
+    correctCount: score,
+    startGame, selectAnswer, next, goMenu, restart,
+  };
 }

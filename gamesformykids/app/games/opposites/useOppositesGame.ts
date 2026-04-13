@@ -1,58 +1,51 @@
 ﻿'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { OPPOSITE_WORDS, OppositeWord, QUESTIONS_PER_GAME } from './data/words';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
 export function useOppositesGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
-  const [questions, setQuestions] = useState<OppositeWord[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState(false);
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
 
+  // ── Local state ───────────────────────────────────────────
+  const [questions, setQuestions] = useState<OppositeWord[]>([]);
+
+  const current = questions[index] ?? null;
+  const choices = useMemo<string[]>(
+    () => (current ? shuffle([current.opposite, ...current.wrongOptions]) : []),
+    [current],
+  );
+
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
     const qs = shuffle(OPPOSITE_WORDS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(qs);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(false);
-    setPhase('playing');
-  }, []);
-
-  const current = questions[index] ?? null;
-  const choices: string[] = current
-    ? shuffle([current.opposite, ...current.wrongOptions])
-    : [];
+    startQuiz('opposites', qs.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((word: string) => {
     if (!current || selected !== null) return;
-    const correct = word === current.opposite;
-    setSelected(word);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [current, selected]);
+    storeSelectAnswer(word, word === current.opposite);
+  }, [current, selected, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index < questions.length - 1) {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(false);
-    } else {
-      setPhase('result');
-    }
-  }, [index, questions.length]);
-
-  const goMenu = useCallback(() => { setPhase('menu'); setSelected(null); }, []);
-  const restart = useCallback(() => startGame(), [startGame]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const qs = shuffle(OPPOSITE_WORDS).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(qs);
+    restartQuiz();
+  }, [restartQuiz]);
 
   return {
-    phase, index, score, selected, isCorrect, current, choices,
-    total: questions.length, correctCount: Math.round(score / 10),
+    phase, index, score: score * 10, selected, isCorrect: isCorrect ?? false, current, choices,
+    total: questions.length, correctCount: score,
     startGame, selectAnswer, next, goMenu, restart,
   };
 }

@@ -15,7 +15,7 @@ export default function FamilyGame() {
 
   if (phase === 'menu') return <FamilyMenuScreen onStart={startGame} />;
 
-  if (phase === 'finished') return (
+  if (phase === 'result') return (
     <FamilyResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />
   );
 

@@ -2,9 +2,9 @@
 
 import { useState, useCallback, useMemo } from 'react';
 import { ANIMALS, CATEGORY_NAMES, Animal, AnimalCategory } from './data/animals';
-
-import type { PhaseResult as AnimalsPhase } from '@/lib/types';
 import { shuffle } from '@/lib/utils';
+import { useQuizGameStore } from '@/lib/stores';
+
 export type QuestionMode = 'emoji-to-name' | 'name-to-emoji';
 
 interface Question {
@@ -12,7 +12,6 @@ interface Question {
   choices: Animal[];
   mode: QuestionMode;
 }
-
 
 function makeQuestion(pool: Animal[]): Question {
   const animal = pool[Math.floor(Math.random() * pool.length)];
@@ -25,53 +24,47 @@ function makeQuestion(pool: Animal[]): Question {
 const QUESTIONS_PER_GAME = 10;
 
 export function useAnimalsGame() {
-  const [phase, setPhase] = useState<AnimalsPhase>('menu');
-  const [category, setCategory] = useState<AnimalCategory | 'all'>('all');
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+
+  // ── Local state — game-specific data ──────────────────────
+  const [category, setCategory]   = useState<AnimalCategory | 'all'>('all');
   const [questions, setQuestions] = useState<Question[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<string | null>(null);
-  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
   const pool = useMemo(() =>
     category === 'all' ? ANIMALS : ANIMALS.filter(a => a.category === category),
-    [category]
+    [category],
   );
 
-  const current = questions[index] || null;
+  const current = questions[index] ?? null;
 
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback((cat: AnimalCategory | 'all') => {
-    const p = cat === 'all' ? ANIMALS : ANIMALS.filter(a => a.category === cat);
+    const p  = cat === 'all' ? ANIMALS : ANIMALS.filter(a => a.category === cat);
     const qs = Array.from({ length: QUESTIONS_PER_GAME }, () => makeQuestion(p));
     setCategory(cat);
     setQuestions(qs);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(null);
-    setPhase('playing');
-  }, []);
+    startQuiz('animals', QUESTIONS_PER_GAME);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((id: string) => {
     if (selected || !current) return;
-    setSelected(id);
-    const ok = id === current.animal.id;
-    setIsCorrect(ok);
-    if (ok) setScore(s => s + 1);
-  }, [selected, current]);
+    storeSelectAnswer(id, id === current.animal.id);
+  }, [selected, current, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index < questions.length - 1) {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(null);
-    } else {
-      setPhase('result');
-    }
-  }, [index, questions.length]);
-
-  const goMenu = useCallback(() => setPhase('menu'), []);
-  const restart = useCallback(() => startGame(category), [startGame, category]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const p  = category === 'all' ? ANIMALS : ANIMALS.filter(a => a.category === category);
+    const qs = Array.from({ length: QUESTIONS_PER_GAME }, () => makeQuestion(p));
+    setQuestions(qs);
+    restartQuiz();
+  }, [category, restartQuiz]);
 
   return {
     phase, category, index, score, selected, isCorrect, current,
@@ -81,3 +74,4 @@ export function useAnimalsGame() {
     startGame, selectAnswer, next, goMenu, restart,
   };
 }
+

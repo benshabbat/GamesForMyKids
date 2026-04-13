@@ -1,8 +1,7 @@
 ﻿'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { CLOCK_QUESTIONS, ClockQuestion, QUESTIONS_PER_GAME } from './data/times';
-
-import type { PhaseResult as Phase } from '@/lib/types';
+import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
 
@@ -12,49 +11,47 @@ function makeChoices(correct: ClockQuestion, all: ClockQuestion[]): ClockQuestio
 }
 
 export function useClockGame() {
-  const [phase, setPhase] = useState<Phase>('menu');
-  const [questions, setQuestions] = useState<ClockQuestion[]>([]);
-  const [index, setIndex] = useState(0);
-  const [score, setScore] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null); // selected question id
-  const [isCorrect, setIsCorrect] = useState(false);
+  // ── Zustand — shared quiz session state ───────────────────
+  const phase      = useQuizGameStore(s => s.phase);
+  const index      = useQuizGameStore(s => s.index);
+  const score      = useQuizGameStore(s => s.score);
+  const selected   = useQuizGameStore(s => s.selected);
+  const isCorrect  = useQuizGameStore(s => s.isCorrect);
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
 
+  // ── Local state — game-specific data ──────────────────────
+  const [questions, setQuestions] = useState<ClockQuestion[]>([]);
+
+  const current = questions[index] ?? null;
+  const choices = useMemo(
+    () => (current ? makeChoices(current, CLOCK_QUESTIONS) : []),
+    [current],
+  );
+
+  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
     const qs = shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(qs);
-    setIndex(0);
-    setScore(0);
-    setSelected(null);
-    setIsCorrect(false);
-    setPhase('playing');
-  }, []);
-
-  const current = questions[index] ?? null;
-  const choices = current ? makeChoices(current, CLOCK_QUESTIONS) : [];
+    startQuiz('clock', qs.length);
+  }, [startQuiz]);
 
   const selectAnswer = useCallback((qId: number) => {
     if (!current || selected !== null) return;
-    const correct = qId === current.id;
-    setSelected(qId);
-    setIsCorrect(correct);
-    if (correct) setScore(s => s + 10);
-  }, [current, selected]);
+    storeSelectAnswer(String(qId), qId === current.id);
+  }, [current, selected, storeSelectAnswer]);
 
-  const next = useCallback(() => {
-    if (index < questions.length - 1) {
-      setIndex(i => i + 1);
-      setSelected(null);
-      setIsCorrect(false);
-    } else {
-      setPhase('result');
-    }
-  }, [index, questions.length]);
-
-  const goMenu = useCallback(() => { setPhase('menu'); setSelected(null); }, []);
-  const restart = useCallback(() => startGame(), [startGame]);
+  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
+  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
+  const restart = useCallback(() => {
+    const qs = shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
+    setQuestions(qs);
+    restartQuiz();
+  }, [restartQuiz]);
 
   return {
-    phase, index, score, selected, isCorrect, current,
+    phase, index, score: score * 10,
+    selected: selected !== null ? Number(selected) : null,
+    isCorrect: isCorrect ?? false, current,
     choices, total: questions.length,
     startGame, selectAnswer, next, goMenu, restart,
   };
