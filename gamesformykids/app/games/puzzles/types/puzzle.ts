@@ -64,26 +64,6 @@ export type PuzzleAction =
   | { type: 'RESET_GAME' }
   | { type: 'RESET_TO_MENU' };
 
-export interface PuzzleContextValue extends PuzzleState {
-  // Actions
-  startGame: (difficulty: number, puzzle?: SimplePuzzle) => void;
-  resetGame: () => void;
-  toggleHints: () => void;
-  toggleDebug: () => void;
-  toggleHelp: () => void;
-  
-  // Piece Management
-  handleDragStart: (piece: PuzzlePiece, event: React.MouseEvent | React.TouchEvent) => void;
-  handleDragMove: (event: React.MouseEvent | React.TouchEvent) => void;
-  handleDragEnd: (event: React.MouseEvent | React.TouchEvent) => void;
-  placePiece: (piece: PuzzlePiece, position: number) => void;
-  
-  // Utils
-  isPieceInCorrectPosition: (piece: PuzzlePiece) => boolean;
-  getCompletedPercentage: () => number;
-  canShowHint: () => boolean;
-}
-
 export interface PuzzleProviderProps {
   children: React.ReactNode;
 }
