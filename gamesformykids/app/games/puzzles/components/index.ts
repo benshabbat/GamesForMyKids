@@ -9,17 +9,12 @@ export { default as ImageUploadSection } from './ImageUploadSection';
 export { default as ReferenceImage } from './ReferenceImage';
 export { default as FloatingDragPiece } from './FloatingDragPiece';
 
-// Unified components
-export { default as UnifiedControls } from './UnifiedControls';
-export { default as UnifiedHeader } from './UnifiedHeader';
-export { default as UnifiedHelpModal } from './UnifiedHelpModal';
-
-// Controls sub-components
+// Controls
 export { default as SimpleControls } from './SimpleControls';
 export { default as CustomControls } from './CustomControls';
 export { default as DifficultySelector } from './DifficultySelector';
 
-// Help modal components
+// Help modals
 export { default as PuzzleHelpModal } from './PuzzleHelpModal';
 export { default as HelpSection } from './HelpSection';
 export { default as SimpleHelpModal } from './SimpleHelpModal';
@@ -32,7 +27,6 @@ export { default as HelpKeyboardSection } from './HelpKeyboardSection';
 // Stats sub-components
 export { default as ProgressBar } from './ProgressBar';
 export { default as StatCard } from './StatCard';
-export { default as CompletionBanner } from './CompletionBanner';
 
 // ImageUploadSection sub-components
 export { default as PreMadeImagesPicker } from './PreMadeImagesPicker';
@@ -48,10 +42,8 @@ export { default as LearningBenefits } from './LearningBenefits';
 // Game layout
 export { default as CustomGameArea } from './CustomGameArea';
 export { default as SimpleGameArea } from './SimpleGameArea';
-export { default as PuzzleLoadingSpinner } from './PuzzleLoadingSpinner';
 
 // Shared primitives
 export { default as PuzzleHeader } from './PuzzleHeader';
 export { default as PlacedPieceContent } from './PlacedPieceContent';
-export { default as PiecesPoolFooter } from './PiecesPoolFooter';
 
