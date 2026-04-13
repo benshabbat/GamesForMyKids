@@ -3,7 +3,7 @@
 import { useChessStore } from '../store/useChessStore';
 
 export default function ChessStatusBar() {
-  const { turn, playerScore, computerScore } = useChessStore();
+  const { turn, playerScore, computerScore, startGame } = useChessStore();
 
   return (
     <div className="flex items-center gap-2 w-full">
@@ -18,6 +18,15 @@ export default function ChessStatusBar() {
         </div>
         {turn === 'w' && <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" style={{marginRight: 'auto'}} />}
       </div>
+
+      {/* New game button */}
+      <button
+        onClick={startGame}
+        className="text-[10px] font-bold text-slate-400 hover:text-white bg-white/5 hover:bg-white/15 border border-white/10 rounded-xl px-2.5 py-1.5 transition-all whitespace-nowrap"
+        title="משחק חדש"
+      >
+        🔄 חדש
+      </button>
 
       {/* Turn indicator */}
       <div className={`text-xs font-bold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all duration-300 ${

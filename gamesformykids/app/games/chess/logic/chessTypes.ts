@@ -17,6 +17,19 @@ export interface ChessMove {
 
 export type GamePhase = 'menu' | 'playing' | 'check' | 'checkmate' | 'stalemate';
 
+export type MoveRating = 'excellent' | 'great' | 'good' | 'castle' | 'normal';
+
+export interface MoveRecord {
+  by: Color;
+  piece: string;
+  captured: Piece;
+  gaveCheck: boolean;
+  castle: 'K' | 'Q' | null;
+  rating: MoveRating;
+  notation: string;
+  moveNumber: number;
+}
+
 export interface ChessState {
   phase: GamePhase;
   board: Board;
@@ -29,6 +42,9 @@ export interface ChessState {
   playerScore: number;
   computerScore: number;
   message: string;
+  capturedByPlayer: Piece[];
+  capturedByComputer: Piece[];
+  moveHistory: MoveRecord[];
 }
 
 export const PIECE_SYMBOLS: Record<string, string> = {

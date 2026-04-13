@@ -5,6 +5,8 @@ import ChessMenu from './ChessMenu';
 import ChessGameOver from './ChessGameOver';
 import ChessBoard from './ChessBoard';
 import ChessStatusBar from './ChessStatusBar';
+import ChessCaptured from './ChessCaptured';
+import ChessMoveHistory from './ChessMoveHistory';
 
 export default function ChessGame() {
   const { phase, message } = useChessStore();
@@ -20,8 +22,10 @@ export default function ChessGame() {
       {phase === 'checkmate' && <ChessGameOver />}
 
       {isPlaying && (
-        <div className="flex flex-col items-center gap-4 w-full max-w-md">
+        <div className="flex flex-col items-center gap-3 w-full max-w-md">
           <ChessStatusBar />
+
+          <ChessCaptured />
 
           <ChessBoard />
 
@@ -32,6 +36,8 @@ export default function ChessGame() {
           }`}>
             {message}
           </div>
+
+          <ChessMoveHistory />
         </div>
       )}
     </div>

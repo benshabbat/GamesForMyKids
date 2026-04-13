@@ -71,7 +71,7 @@ export function isInCheck(b: Board, color: Color): boolean {
 }
 
 // ─────────────────────── Apply move ──────────────────────────
-export type MoveResult = { board: Board; castling: CastleRights; enPassant: Pos | null };
+export type MoveResult = { board: Board; castling: CastleRights; enPassant: Pos | null; captured: Piece };
 
 export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _enPassant: Pos | null): MoveResult {
   const nb = cloneBoard(b);
@@ -79,6 +79,7 @@ export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _en
   const color = pieceColor(piece)!;
   const nc: CastleRights = { ...castling };
   let nep: Pos | null = null;
+  let captured: Piece = null;
 
   if (move.castle) {
     const row = move.from.row;
@@ -90,8 +91,10 @@ export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _en
     nb[move.to.row][move.to.col] = piece;
     nb[move.from.row][move.from.col] = null;
     const capturedRow = color === 'w' ? move.to.row + 1 : move.to.row - 1;
+    captured = nb[capturedRow][move.to.col];
     nb[capturedRow][move.to.col] = null;
   } else {
+    captured = nb[move.to.row][move.to.col];
     nb[move.to.row][move.to.col] = move.promotion ?? piece;
     nb[move.from.row][move.from.col] = null;
     if ((piece === 'wP' || piece === 'bP') && Math.abs(move.to.row - move.from.row) === 2)
@@ -109,7 +112,7 @@ export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _en
   if (move.to.row === 0 && move.to.col === 0) nc.bQ = false;
   if (move.to.row === 0 && move.to.col === 7) nc.bK = false;
 
-  return { board: nb, castling: nc, enPassant: nep };
+  return { board: nb, castling: nc, enPassant: nep, captured };
 }
 
 // ─────────────────────── State constants ─────────────────────
@@ -127,4 +130,7 @@ export const INIT: ChessState = {
   playerScore: 0,
   computerScore: 0,
   message: '',
+  capturedByPlayer: [],
+  capturedByComputer: [],
+  moveHistory: [],
 };
