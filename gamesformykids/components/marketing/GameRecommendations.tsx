@@ -17,7 +17,7 @@ const GameRecommendations = () => {
         description="משחקים מותאמים לרמת הפיתוח של הילד" 
       />
 
-      <div className="grid grid-cols-3 gap-3 md:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
         {Object.entries(ageGroups).map(([ageKey, ageGroup]) => (
           <AgeGroupCard key={ageKey} ageGroup={ageGroup} />
         ))}
