@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
 
 interface UseLetterEncouragementParams {
   isCompleted: boolean;

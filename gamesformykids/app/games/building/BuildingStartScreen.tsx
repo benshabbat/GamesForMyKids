@@ -1,6 +1,6 @@
 "use client";
 
-import { useBuildingContext } from '@/contexts';
+import { useBuildingContext } from './contexts/BuildingContext';
 
 export default function BuildingStartScreen() {
   const { startGame } = useBuildingContext();

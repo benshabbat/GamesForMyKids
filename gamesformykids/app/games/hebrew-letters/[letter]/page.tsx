@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { HebrewLettersProvider } from '@/contexts';
+import { HebrewLettersProvider } from '../contexts/HebrewLettersContext';
 import HebrewLetterPractice from '../components/HebrewLetterPractice';
 import { hebrewLetters } from '../constants/hebrewLetters';
 

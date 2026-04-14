@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLetters } from '../contexts/HebrewLettersContext';
 
 /**
  * Hook מותאם אישית לניהול סטטיסטיקות של אותיות עבריות

@@ -5,7 +5,7 @@
  * 🎯 אפס props - הכל מהקונטקסט!
  */
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 
 /**
  * 🎯 GameStartButton עם קונטקסט - ללא props!

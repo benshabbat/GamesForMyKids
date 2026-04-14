@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemoryContext } from "@/contexts";
+import { useMemoryContext } from "../contexts/MemoryContext";
 
 export default function MemoryStartScreen() {
   const { initializeGame } = useMemoryContext();

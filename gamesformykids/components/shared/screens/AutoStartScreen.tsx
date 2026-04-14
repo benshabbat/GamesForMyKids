@@ -6,7 +6,7 @@
  * 🎯 אפס props - הכל מהקונטקסט!
  */
 
-import { useUniversalGame } from '@/contexts';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { BaseGameItem } from '@/lib/types';
 import GenericStartScreen from "./GenericStartScreen";
 import UnifiedCard from "../cards/UnifiedCard";

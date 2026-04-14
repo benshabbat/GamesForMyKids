@@ -3,7 +3,7 @@
 'use client';
 
 import { useCallback } from "react";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/shared/auth/useAuth";
 import type { User } from "@supabase/supabase-js";
 import { useUIStore } from "@/lib/stores/uiStore";
 

@@ -1,4 +1,4 @@
-import { useMemoryContext } from "@/contexts";
+import { useMemoryContext } from "../contexts/MemoryContext";
 import MemoryCard from "./MemoryCard";
 
 export default function MemoryGameBoard() {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 
 export default function GameStatsButton() {
   const { currentAccuracy, setShowProgressModal } = useUniversalGame();

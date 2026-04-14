@@ -5,7 +5,7 @@
  * כל הלוגיקה ב-useMemoryGameContent.
  */
 
-import { MemoryProvider } from "@/contexts";
+import { MemoryProvider } from "./contexts/MemoryContext";
 import MemoryGameHeader from "./components/MemoryGameHeader";
 import GameWinMessage from "./components/GameWinMessage";
 import MemoryGameBoard from "./components/MemoryGameBoard";

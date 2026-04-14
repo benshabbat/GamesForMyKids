@@ -1,71 +1,14 @@
-﻿'use client'
+'use client'
 
 /**
- * AuthContext  fully migrated to Zustand
- *
- * No React context. useAuth() reads state from useAuthStore and returns
- * stable action callbacks.
- *
- * AuthProvider is kept solely as a Supabase subscription runner:
- * it runs the onAuthStateChange useEffect and renders {children} directly.
+ * useAuth — reads from useAuthStore and returns stable Supabase action callbacks.
  */
 
-import { useEffect, useCallback, ReactNode } from 'react'
-import type { AuthChangeEvent, Session, User } from '@supabase/supabase-js'
-import { supabase, isSupabaseConfigured } from '../lib/supabase/client'
-import { useAuthStore } from '@/lib/stores'
+import { useCallback } from 'react'
+import type { User, Session } from '@supabase/supabase-js'
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
+import { useAuthStore } from '@/lib/stores/authStore'
 
-// ---------------------------------------------------------------------------
-// AuthProvider  subscription effect only, no React context
-// ---------------------------------------------------------------------------
-export function AuthProvider({ children }: { children: ReactNode }) {
-  useEffect(() => {
-    const { setAuthState } = useAuthStore.getState()
-
-    if (!isSupabaseConfigured) {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-      return
-    }
-
-    const guestMode = localStorage.getItem('guestMode')
-    if (guestMode === 'true') {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-      return
-    }
-
-    const sessionTimeout = setTimeout(() => {
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-    }, 5000)
-
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      clearTimeout(sessionTimeout)
-      setAuthState({ user: session?.user ?? null, session, isGuest: false, loading: false })
-    }).catch(() => {
-      clearTimeout(sessionTimeout)
-      setAuthState({ user: null, session: null, isGuest: true, loading: false })
-    })
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event: AuthChangeEvent, session: Session | null) => {
-        if (session) localStorage.removeItem('guestMode')
-        useAuthStore.getState().setAuthState({
-          user: session?.user ?? null,
-          session,
-          isGuest: !session,
-          loading: false,
-        })
-      },
-    )
-
-    return () => subscription.unsubscribe()
-  }, [])
-
-  return <>{children}</>
-}
-
-// ---------------------------------------------------------------------------
-// useAuth  reads Zustand store + returns stable action callbacks
-// ---------------------------------------------------------------------------
 interface AuthHookReturn {
   user: User | null
   session: Session | null

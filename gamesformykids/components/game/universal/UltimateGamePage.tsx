@@ -12,7 +12,7 @@
 
 "use client";
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 
 // רכיבים מפורקים
 import { GameLoadingScreen } from "../../shared";

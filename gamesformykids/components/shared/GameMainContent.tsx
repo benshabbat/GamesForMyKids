@@ -1,6 +1,6 @@
 "use client";
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { BaseGameItem } from "@/lib/types/core/base";
 import { GameCardGrid } from "./cards/GameCardGrid";
 import GameHints from "./feedback/GameHints";

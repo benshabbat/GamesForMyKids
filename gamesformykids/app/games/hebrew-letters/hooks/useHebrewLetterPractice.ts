@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback, useEffect } from 'react';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLetters } from '../contexts/HebrewLettersContext';
 import { HebrewLetter } from '../constants/hebrewLetters';
 
 export const useHebrewLetterPractice = (letterData: HebrewLetter) => {

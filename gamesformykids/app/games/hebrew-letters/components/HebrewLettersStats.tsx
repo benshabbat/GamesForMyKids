@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
 import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import StatsGrid from './StatsGrid';
 import StatsProgressBar from './StatsProgressBar';

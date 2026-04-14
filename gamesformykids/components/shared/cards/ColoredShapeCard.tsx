@@ -6,7 +6,7 @@
  */
 import { Volume2 } from 'lucide-react';
 import { SHAPE_ICON_MAP } from '@/lib/constants/ui/shapes';
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { ComponentTypes } from '@/lib/types';
 
 type ColoredShapeCardProps = ComponentTypes.ColoredShapeCardProps;

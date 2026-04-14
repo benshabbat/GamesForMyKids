@@ -2,9 +2,7 @@ import { GameType } from '@/lib/types/core/base';
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
-import { GameTypeProvider } from '@/contexts/GameTypeContext';
-import { GameLogicProvider } from '@/contexts/GameLogicContext';
-import { GameProgressProvider } from '@/contexts/GameProgressContext';
+import { GameTypeProvider, GameLogicProvider, GameProgressProvider } from '@/lib/providers';
 import { UltimateGamePage } from '@/components/game/universal/UltimateGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)

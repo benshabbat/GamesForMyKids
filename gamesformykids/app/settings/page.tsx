@@ -1,7 +1,7 @@
 'use client'
 
 import { useUserProfile } from '@/hooks'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '@/hooks/shared/auth/useAuth'
 import { useState } from 'react'
 import Link from 'next/link'
 

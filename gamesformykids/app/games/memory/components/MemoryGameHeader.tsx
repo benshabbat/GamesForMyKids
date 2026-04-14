@@ -5,7 +5,7 @@
  */
 
 import { Home, RotateCcw, Play, Pause, Clock, Target, Zap } from "lucide-react";
-import { useMemoryContext } from "@/contexts";
+import { useMemoryContext } from "../contexts/MemoryContext";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 
 export default function MemoryGameHeader() {

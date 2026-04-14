@@ -15,7 +15,7 @@
 
 import { GameLogicState } from "@/lib/types/hooks/game-state";
 import { GameType } from "@/lib/types/core/base";
-import { useAutoGameConfig } from '@/contexts/GameConfigContext';
+import { useAutoGameConfig } from './useGameConfig';
 import { useGameSessionStore } from '@/lib/stores/gameSessionStore';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 import { useUIStore } from '@/lib/stores/uiStore';

@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useCallback } from 'react'
-import { useAuth } from '@/contexts/AuthContext'
+import { useAuth } from '@/hooks/shared/auth/useAuth'
 import { supabase } from '@/lib/supabase/client'
 import { useAchievementsStore } from '@/lib/stores/achievementsStore'
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useCallback } from 'react';
-import { useHebrewLetters } from '@/contexts';
+import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
 
 interface UseWritingCanvasParams {
   width: number;

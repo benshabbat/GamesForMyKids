@@ -8,8 +8,8 @@
 'use client';
 
 import { useCallback, useEffect, useMemo } from 'react';
-import { useGameProgress, GameProgress } from '@/contexts/GameProgressContext';
-import { useGameType } from '@/contexts/GameTypeContext';
+import { useGameProgress, GameProgress } from '@/hooks/shared/game-state/useGameProgress';
+import { useGameType } from '@/hooks/shared/game-state/useGameType';
 import { UseGameEventsReturn } from '@/lib/types/hooks/ui';
 import { GameEvent, GameEventData } from '@/lib/types/events/game-events';
 

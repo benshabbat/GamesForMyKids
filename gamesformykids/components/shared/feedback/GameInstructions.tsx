@@ -1,4 +1,4 @@
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import type { ComponentTypes } from "@/lib/types";
 
 /**

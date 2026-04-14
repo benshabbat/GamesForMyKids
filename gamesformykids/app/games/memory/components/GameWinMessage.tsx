@@ -5,7 +5,7 @@
  */
 
 import { Clock, Target, Zap, Star } from "lucide-react";
-import { useMemoryContext } from "@/contexts";
+import { useMemoryContext } from "../contexts/MemoryContext";
 
 export default function GameWinMessage() {
   const {

@@ -1,6 +1,6 @@
 "use client";
 
-import { useUniversalGame } from '@/contexts/UniversalGameContext';
+import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import ChallengeBox from "./feedback/ChallengeBox";
 import CelebrationBox from "./feedback/CelebrationBox";
 

@@ -3,9 +3,9 @@
 'use client';
 
 import { useEffect } from "react";
-import { useMemoryContext } from "@/contexts";
+import { useMemoryContext } from "./contexts/MemoryContext";
 import { useGameProgress, useAchievements } from "@/hooks";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "@/hooks/shared/auth/useAuth";
 
 export interface UseMemoryGameContentReturn {
   gameStarted: boolean;

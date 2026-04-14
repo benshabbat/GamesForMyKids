@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { HebrewLettersProvider } from '@/contexts';
+import { HebrewLettersProvider } from './contexts/HebrewLettersContext';
 import HebrewLettersHub from './components/HebrewLettersHub';
 
 export const metadata: Metadata = {

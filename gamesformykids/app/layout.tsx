@@ -3,7 +3,7 @@ import { Inter } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
-import { AuthProvider } from '@/contexts/AuthContext';
+import { AuthProvider } from '@/lib/providers';
 import { BUILD_INFO } from '@/lib/build-info';
 import NotificationToast from '@/components/ui/NotificationToast';
 
