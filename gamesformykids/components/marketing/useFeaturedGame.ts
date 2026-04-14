@@ -44,16 +44,14 @@ export interface UseFeaturedGameReturn {
 
 export function useFeaturedGame(): UseFeaturedGameReturn {
   const featuredGame = useFeaturedGameStore((s) => s.featuredGame);
-  const isClient = useFeaturedGameStore((s) => s.isClient);
-  const setFeaturedGame = useFeaturedGameStore((s) => s.setFeaturedGame);
-  const setIsClient = useFeaturedGameStore((s) => s.setIsClient);
+  const isInitialized = useFeaturedGameStore((s) => s.isInitialized);
+  const initialize = useFeaturedGameStore((s) => s.initialize);
 
   useEffect(() => {
-    if (!isClient) {
-      setIsClient(true);
-      setFeaturedGame(getDailyFeaturedGame());
+    if (!isInitialized) {
+      initialize();
     }
-  }, [isClient, setIsClient, setFeaturedGame]);
+  }, [isInitialized, initialize]);
 
-  return { featuredGame, isClient };
+  return { featuredGame, isClient: isInitialized };
 }
