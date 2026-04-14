@@ -19,7 +19,7 @@ export default function AgeGroupCard({ ageGroup }: ComponentTypes.AgeGroupCardPr
       <div className="space-y-2 md:space-y-3">
         {ageGroup.recommendedGames.length > 0 ? (
           ageGroup.recommendedGames.map((game) => (
-            <Link key={game.id} href={game.href}>
+            <Link key={game.id} href={game.href} prefetch={false}>
               <div className="flex items-center p-2.5 md:p-3 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl hover:from-purple-50 hover:to-blue-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md border border-gray-100">
                 <div className="flex-shrink-0 ml-3">
                   <div className="bg-gradient-to-br from-purple-100 to-blue-100 p-1.5 rounded-lg">
