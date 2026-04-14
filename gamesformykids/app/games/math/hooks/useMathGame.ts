@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { MathChallenge } from "@/lib/types";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { 
   delay, 
@@ -35,6 +36,30 @@ const MATH_ITEMS = [
   { emoji: "🍭", name: "סוכריה", plural: "סוכריות" },
   { emoji: "🦋", name: "פרפר", plural: "פרפרים" },
 ];
+
+// --- Helpers for universal Zustand system ---
+
+function toChallengeItem(challenge: MathChallenge): BaseGameItem {
+  const op = challenge.operation === 'addition' ? '+' : '-';
+  const equation = `${challenge.firstNumber} ${op} ${challenge.secondNumber} = ?`;
+  return {
+    name: String(challenge.correctAnswer),
+    hebrew: equation,
+    english: equation,
+    emoji: challenge.emoji,
+    color: '#FF7043',
+  };
+}
+
+function toOptionItem(n: number): BaseGameItem {
+  return {
+    name: String(n),
+    hebrew: String(n),
+    english: String(n),
+    emoji: '🔢',
+    color: '#FF7043',
+  };
+}
 
 export function useMathGame() {
   const [gameState, setGameState] = useState<MathGameState>({
@@ -155,7 +180,6 @@ export function useMathGame() {
 
   const startGame = async () => {
     try {
-      // Update local state
       setGameState({
         currentChallenge: null,
         score: 0,
@@ -166,7 +190,7 @@ export function useMathGame() {
         isCorrect: null,
       });
 
-      // Update Zustand stores so UltimateGamePage/isPlaying works correctly
+      // Sync to Zustand so UltimateGamePage transitions correctly
       const progressStore = useGameProgressStore.getState();
       progressStore.resetProgress();
       progressStore.setGameActive(true);
@@ -184,6 +208,12 @@ export function useMathGame() {
         options,
       }));
 
+      // Write challenge/options to Zustand so GameMainContent can render them
+      useGameSessionStore.getState().setChallengeAndOptions(
+        toChallengeItem(challenge),
+        options.map(toOptionItem),
+      );
+
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakQuestion(challenge);
     } catch (error) {
@@ -200,22 +230,26 @@ export function useMathGame() {
       const challenge = generateMathChallenge();
       const options = generateOptions(challenge.correctAnswer);
       
-      console.log("Next math challenge:", challenge);
-      console.log("Next options:", options);
-      
       const onComplete = async () => {
         setGameState((prev: MathGameState) => ({
           ...prev,
           currentChallenge: challenge,
           options,
         }));
+        useGameSessionStore.getState().setChallengeAndOptions(
+          toChallengeItem(challenge),
+          options.map(toOptionItem),
+        );
         
         await delay(300);
         await speakQuestion(challenge);
       };
       
       await handleCorrectGameAnswer(
-        (v) => setGameState((prev: MathGameState) => ({ ...prev, showCelebration: v })),
+        (v) => {
+          setGameState((prev: MathGameState) => ({ ...prev, showCelebration: v }));
+          useGameSessionStore.getState().setShowCelebration(v);
+        },
         onComplete
       );
     } else {
@@ -224,6 +258,20 @@ export function useMathGame() {
           await speakQuestion(gameState.currentChallenge);
         }
       });
+    }
+  };
+
+  // handleItemClick bridges the universal card-click system to handleNumberClick
+  const handleItemClick = async (item: BaseGameItem) => {
+    await handleNumberClick(Number(item.name));
+  };
+
+  const speakItemName = async (itemName: string): Promise<void> => {
+    if (!speechEnabled) return;
+    try {
+      await speakHebrew(itemName);
+    } catch {
+      // ignore speech errors
     }
   };
 
@@ -240,10 +288,18 @@ export function useMathGame() {
   };
 
   return {
+    // For the dedicated app/games/math/page.tsx
     gameState,
     speakQuestion: () => gameState.currentChallenge ? speakQuestion(gameState.currentChallenge) : Promise.resolve(),
     startGame,
     handleNumberClick,
     resetGame,
+    // For the universal UltimateGamePage / GameLogicSync
+    handleItemClick,
+    speakItemName,
+    hints: [] as string[],
+    hasMoreHints: false,
+    showNextHint: () => {},
+    currentAccuracy: 0,
   };
 }

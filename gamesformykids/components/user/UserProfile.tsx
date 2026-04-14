@@ -16,10 +16,10 @@ export function UserProfile() {
   // Guest user
   if (isGuest) {
     return (
-      <div className="flex items-center space-x-2 space-x-reverse">
-        <div className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm flex items-center">
+      <div className="flex flex-col items-end gap-1">
+        <div className="bg-green-500 text-white px-2 py-0.5 rounded-md text-xs flex items-center">
           <span className="mr-1">🎮</span>
-          משתמש אורח
+          אורח
         </div>
         <Link
           href="/login"
