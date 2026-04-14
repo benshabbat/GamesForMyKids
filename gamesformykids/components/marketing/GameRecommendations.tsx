@@ -1,14 +1,19 @@
 "use client";
 
+import { useEffect } from 'react';
 import RecommendationsHeader from '../game/RecommendationsHeader';
 import AgeGroupCard from '../game/AgeGroupCard';
 import FeaturedGameCallToAction from '../game/FeaturedGameCallToAction';
-import { useGameRecommendations } from './useGameRecommendations';
+import { useFeaturedGameStore } from '@/lib/stores/featuredGameStore';
 
 const GameRecommendations = () => {
-  const { featuredGame, allGames, ageGroups } = useGameRecommendations();
+  const initialize = useFeaturedGameStore((s) => s.initialize);
+  const ageGroupKeys = useFeaturedGameStore((s) => s.ageGroupKeys);
+  const hasFeaturedGame = useFeaturedGameStore((s) => s.featuredGame !== null);
 
-  if (allGames.length === 0) return null;
+  useEffect(() => { initialize(); }, [initialize]);
+
+  if (ageGroupKeys.length === 0) return null;
 
   return (
     <div className="max-w-6xl mx-auto px-4 mb-8 md:mb-12">
@@ -18,12 +23,12 @@ const GameRecommendations = () => {
       />
 
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-6">
-        {Object.entries(ageGroups).map(([ageKey, ageGroup]) => (
-          <AgeGroupCard key={ageKey} ageGroup={ageGroup} />
+        {ageGroupKeys.map((ageKey) => (
+          <AgeGroupCard key={ageKey} ageKey={ageKey} />
         ))}
       </div>
 
-      {featuredGame && <FeaturedGameCallToAction featuredGame={featuredGame} />}
+      {hasFeaturedGame && <FeaturedGameCallToAction />}
     </div>
   );
 };

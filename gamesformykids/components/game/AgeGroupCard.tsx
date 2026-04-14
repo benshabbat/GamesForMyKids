@@ -2,9 +2,12 @@
 
 import Link from 'next/link';
 import { Users, Award } from 'lucide-react';
-import { ComponentTypes } from "@/lib/types";
+import { useFeaturedGameStore } from '@/lib/stores/featuredGameStore';
 
-export default function AgeGroupCard({ ageGroup }: ComponentTypes.AgeGroupCardProps) {
+export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
+  const ageGroup = useFeaturedGameStore((s) => s.ageGroups[ageKey]);
+
+  if (!ageGroup) return null;
   return (
     <div className="bg-white rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-all duration-300">
       {/* Header — horizontal on mobile, centered on desktop */}

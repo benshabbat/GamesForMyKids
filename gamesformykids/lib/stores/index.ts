@@ -122,8 +122,9 @@ export { useGameDataStore } from './gameDataStore';
 // Player Profile (profiles keyed by playerId — in-memory cache)
 export { usePlayerProfileStore } from './playerProfileStore';
 
-// Featured Game (daily featured game / isClient — shared across marketing components)
+// Featured Game (daily featured game / ageGroups — shared across marketing components)
 export { useFeaturedGameStore } from './featuredGameStore';
+export type { AgeGroupData } from './featuredGameStore';
 
 // Game Audio (audioContext / speechEnabled — initialized once, shared)
 export { useGameAudioStore } from './gameAudioStore';
