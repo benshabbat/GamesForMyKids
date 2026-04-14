@@ -12,6 +12,8 @@ import {
   speakStartMessage
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants";
+import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
+import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
 
 // Math game specific state interface
 interface MathGameState {
@@ -153,6 +155,7 @@ export function useMathGame() {
 
   const startGame = async () => {
     try {
+      // Update local state
       setGameState({
         currentChallenge: null,
         score: 0,
@@ -162,6 +165,12 @@ export function useMathGame() {
         options: [],
         isCorrect: null,
       });
+
+      // Update Zustand stores so UltimateGamePage/isPlaying works correctly
+      const progressStore = useGameProgressStore.getState();
+      progressStore.resetProgress();
+      progressStore.setGameActive(true);
+      useGameSessionStore.getState().resetSession();
       
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
