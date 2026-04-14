@@ -56,6 +56,30 @@ export interface MemoryStoreState {
   showDebug: boolean;
 }
 
+// ─── Display types ───────────────────────────────────────────────────────────
+
+export interface DifficultyOption {
+  key: DifficultyLevel;
+  emoji: string;
+  name: string;
+  pairs: number;
+  isActive: boolean;
+}
+
+export interface PerformanceLevel {
+  level: string;
+  emoji: string;
+  color: string;
+  timeComment: string;
+}
+
+export interface WinAchievement {
+  id: string;
+  bgColor: string;
+  textColor: string;
+  label: string;
+}
+
 // ─── Actions shape ────────────────────────────────────────────────────────────
 
 export interface MemoryStoreActions {
@@ -75,6 +99,7 @@ export interface MemoryStoreActions {
 
   // Computed helpers
   getDifficultyConfig: () => { pairs: number; name: string; emoji: string; timeLimit: number };
+  getDifficultyOptions: () => DifficultyOption[];
   getGridCols: () => string;
   getCardDisplayData: (index: number) => {
     id: number;
@@ -91,6 +116,11 @@ export interface MemoryStoreActions {
   };
   canClickCard: (cardIndex: number) => boolean;
   getGameStateDescription: () => string;
+  formatTime: (seconds: number) => string;
+  getFormattedTimeLeft: () => string;
+  getTimeColor: () => string;
+  getPerformanceLevel: () => PerformanceLevel;
+  getWinAchievements: () => WinAchievement[];
 }
 
 const initialState: MemoryStoreState = {
@@ -122,6 +152,19 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
 
       getDifficultyConfig: () =>
         MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty],
+
+      getDifficultyOptions: () => {
+        const activeName = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty].name;
+        return (Object.entries(MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS) as [DifficultyLevel, typeof MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[DifficultyLevel]][]).map(
+          ([key, config]) => ({
+            key,
+            emoji: config.emoji,
+            name: config.name,
+            pairs: config.pairs,
+            isActive: config.name === activeName,
+          }),
+        );
+      },
 
       getGridCols: () => {
         const count = get().cards.length;
@@ -173,6 +216,51 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
         if (isGameWon) return 'ניצחת!';
         if (isCompleted || timeLeft <= 0) return 'נגמר הזמן';
         return 'פעיל';
+      },
+
+      formatTime: (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}:${secs.toString().padStart(2, '0')}`;
+      },
+
+      getFormattedTimeLeft: () => {
+        const { timeLeft, formatTime } = get();
+        return formatTime(timeLeft);
+      },
+
+      getTimeColor: () => {
+        const { timeLeft } = get();
+        if (timeLeft <= 10) return 'text-red-500';
+        if (timeLeft <= 30) return 'text-orange-500';
+        return 'text-green-600';
+      },
+
+      getPerformanceLevel: () => {
+        const { gameStats, timeLeft, formatTime } = get();
+        const efficiency = gameStats.score / Math.max(gameStats.moves, 1);
+        const timeBonus = timeLeft > 60 ? 'מהיר כברק!' : timeLeft > 30 ? 'בזמן טוב!' : 'ממש בזמן!';
+        const remaining = formatTime(timeLeft);
+        const timeComment = `${timeBonus} נשאר לך ${remaining}`;
+        if (efficiency > 50) return { level: 'מושלם!', emoji: '🏆', color: 'text-yellow-600', timeComment };
+        if (efficiency > 30) return { level: 'מעולה!', emoji: '🥇', color: 'text-green-600', timeComment };
+        if (efficiency > 20) return { level: 'טוב מאוד!', emoji: '🥈', color: 'text-blue-600', timeComment };
+        return { level: 'יפה!', emoji: '🥉', color: 'text-purple-600', timeComment };
+      },
+
+      getWinAchievements: () => {
+        const { gameStats, timeLeft, getGameProgress } = get();
+        const { totalPairs } = getGameProgress();
+        const achievements: WinAchievement[] = [];
+        if (gameStats.perfectMatches === totalPairs)
+          achievements.push({ id: 'perfect', bgColor: 'bg-yellow-100', textColor: 'text-yellow-800', label: '🏆 מושלם בכל הזוגות!' });
+        if (gameStats.streak >= 5)
+          achievements.push({ id: 'streak', bgColor: 'bg-orange-100', textColor: 'text-orange-800', label: `🔥 רצף אש של ${gameStats.streak}!` });
+        if (gameStats.moves <= totalPairs * 1.5)
+          achievements.push({ id: 'efficient', bgColor: 'bg-green-100', textColor: 'text-green-800', label: '⚡ יעילות מקסימלית!' });
+        if (timeLeft > 120)
+          achievements.push({ id: 'fast', bgColor: 'bg-blue-100', textColor: 'text-blue-800', label: '⏰ מהיר כאלף!' });
+        return achievements;
       },
 
       // ─── Timer actions (driven by useEffect in useMemoryGameContent) ───────

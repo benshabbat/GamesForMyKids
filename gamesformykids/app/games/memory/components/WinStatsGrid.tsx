@@ -1,14 +1,8 @@
 import { Clock, Target, Zap, Star } from "lucide-react";
 import { useMemoryStore } from "../stores/useMemoryStore";
 
-function formatTime(seconds: number) {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
-
 export default function WinStatsGrid() {
-  const { gameStats, timeLeft } = useMemoryStore();
+  const { gameStats, formatTime, getFormattedTimeLeft } = useMemoryStore();
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
@@ -20,7 +14,7 @@ export default function WinStatsGrid() {
 
       <div className="bg-white/80 rounded-lg p-3 shadow-md">
         <Clock className="w-6 h-6 mx-auto mb-1 text-blue-600" />
-        <div className="text-lg font-bold text-blue-600">{formatTime(timeLeft)}</div>
+        <div className="text-lg font-bold text-blue-600">{getFormattedTimeLeft()}</div>
         <div className="text-sm text-gray-600">זמן שנותר</div>
       </div>
 
