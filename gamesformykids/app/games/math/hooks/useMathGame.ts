@@ -15,6 +15,7 @@ import {
 import { GAME_CONSTANTS, MATH_GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
 import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+import { useMathChallengeStore } from "@/lib/stores/mathChallengeStore";
 
 // Math game specific state interface
 interface MathGameState {
@@ -213,6 +214,8 @@ export function useMathGame() {
         toChallengeItem(challenge),
         options.map(toOptionItem),
       );
+      // Store raw MathChallenge for visual emoji rendering
+      useMathChallengeStore.getState().setChallenge(challenge);
 
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakQuestion(challenge);
@@ -240,6 +243,7 @@ export function useMathGame() {
           toChallengeItem(challenge),
           options.map(toOptionItem),
         );
+        useMathChallengeStore.getState().setChallenge(challenge);
         
         await delay(300);
         await speakQuestion(challenge);
