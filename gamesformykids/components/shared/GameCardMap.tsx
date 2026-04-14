@@ -8,6 +8,7 @@ import { ComponentType } from 'react';
 import { GameType } from '@/lib/types/core/base';
 import { GameItemCardProps } from '@/lib/types/components/cards';
 import UnifiedCard from './cards/UnifiedCard';
+import MathGameCard from './cards/MathGameCard';
 import FlagsGameCard from './cards/FlagsGameCard';
 import SoccerLogosGameCard from './cards/SoccerLogosGameCard';
 import CarBrandsGameCard from './cards/CarBrandsGameCard';
@@ -55,7 +56,7 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   transport: DefaultGameCard,
   'smells-tastes': DefaultGameCard,
   counting: DefaultGameCard,
-  math: DefaultGameCard,
+  math: MathGameCard,
   memory: DefaultGameCard,
   emotions: DefaultGameCard,
   bubbles: DefaultGameCard,
