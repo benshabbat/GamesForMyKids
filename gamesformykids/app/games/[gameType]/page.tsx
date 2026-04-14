@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
-import { UltimateGamePage } from '@/components/game/universal/UltimateGamePage';
+import { UltimateGamePage, GameLogicSync } from '@/components/game/universal/UltimateGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
 const SUPPORTED_GAMES = [
@@ -87,6 +87,10 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
 
   return (
     <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
+      {/* GameLogicSync is a SIBLING of UltimateGamePage — not a child — so that
+          UltimateGamePage re-renders (from gameActionsStore) don't cascade
+          into GameLogicSync and cause an infinite effect loop. */}
+      <GameLogicSync gameType={actualGameType as SupportedGameType} />
       <UltimateGamePage gameType={actualGameType as SupportedGameType} />
     </GameTypeProvider>
   );
