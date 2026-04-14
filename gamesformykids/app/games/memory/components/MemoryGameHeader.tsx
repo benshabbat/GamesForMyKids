@@ -5,19 +5,23 @@
  */
 
 import { Home, RotateCcw, Play, Pause, Clock, Target, Zap } from "lucide-react";
-import { useMemoryContext } from "../contexts/MemoryContext";
+import { useMemoryStore } from "../stores/useMemoryStore";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 
 export default function MemoryGameHeader() {
   const {
-    state: { gameStats, timeLeft, isGamePaused },
+    gameStats,
+    timeLeft,
+    isGamePaused,
     resetGame,
     pauseGame,
     resumeGame,
     setDifficulty,
-    difficultyConfig,
-    getGameProgress
-  } = useMemoryContext();
+    getDifficultyConfig,
+    getGameProgress,
+  } = useMemoryStore();
+
+  const difficultyConfig = getDifficultyConfig();
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

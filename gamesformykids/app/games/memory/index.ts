@@ -1,5 +1,5 @@
 // Memory Game Exports
-export * from './contexts/MemoryContext';
+export * from './stores/useMemoryStore';
 export * from './types/memory';
 // Components - import individually to avoid conflicts
 export { default as MemoryGameBoard } from './components/MemoryGameBoard';

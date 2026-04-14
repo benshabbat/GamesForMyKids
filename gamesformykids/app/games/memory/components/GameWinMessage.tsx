@@ -5,14 +5,11 @@
  */
 
 import { Clock, Target, Zap, Star } from "lucide-react";
-import { useMemoryContext } from "../contexts/MemoryContext";
+import { useMemoryStore } from "../stores/useMemoryStore";
 
 export default function GameWinMessage() {
-  const {
-    state: { gameStats, timeLeft },
-    difficultyConfig,
-    getGameProgress
-  } = useMemoryContext();
+  const { gameStats, timeLeft, getDifficultyConfig, getGameProgress } = useMemoryStore();
+  const difficultyConfig = getDifficultyConfig();
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);

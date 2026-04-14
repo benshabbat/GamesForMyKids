@@ -1,9 +1,7 @@
-"use client";
-
 'use client';
 
 import { useEffect } from "react";
-import { useMemoryContext } from "./contexts/MemoryContext";
+import { useMemoryStore } from "./stores/useMemoryStore";
 import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/hooks/shared/auth/useAuth";
 
@@ -14,12 +12,42 @@ export interface UseMemoryGameContentReturn {
 
 /**
  * לוגיקת עדכון ניקוד, רמה וזמן משחק בסיום.
+ * מכיל גם את ה-side-effects של הטיימר.
  * מחזיר רק את הערכים שה-UI צריך לצרוך.
  */
 export function useMemoryGameContent(): UseMemoryGameContentReturn {
   const {
-    state: { gameStarted, isGameWon, gameStats, timer, difficulty },
-  } = useMemoryContext();
+    gameStarted,
+    isGameWon,
+    gameStats,
+    timer,
+    difficulty,
+    isGamePaused,
+    isCompleted,
+    timeLeft,
+    incrementTimer,
+    decrementTimeLeft,
+    setCompleted,
+    setGameWon,
+  } = useMemoryStore();
+
+  // ── Timer ────────────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (!gameStarted || isGamePaused || isCompleted) return;
+    const id = setInterval(() => {
+      incrementTimer();
+      decrementTimeLeft();
+    }, 1000);
+    return () => clearInterval(id);
+  }, [gameStarted, isGamePaused, isCompleted, incrementTimer, decrementTimeLeft]);
+
+  // ── Time-up check ────────────────────────────────────────────────────────
+  useEffect(() => {
+    if (timeLeft <= 0 && gameStarted && !isCompleted) {
+      setCompleted(true);
+      setGameWon(false);
+    }
+  }, [timeLeft, gameStarted, isCompleted, setCompleted, setGameWon]);
 
   const { user } = useAuth();
   const { updateScore, updateLevel, addPlayTime } = useGameProgress("memory");

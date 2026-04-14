@@ -1,9 +1,9 @@
 "use client";
 
-import { useMemoryContext } from "../contexts/MemoryContext";
+import { useMemoryStore } from "../stores/useMemoryStore";
 
 export default function MemoryStartScreen() {
-  const { initializeGame } = useMemoryContext();
+  const { initializeGame } = useMemoryStore();
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200">

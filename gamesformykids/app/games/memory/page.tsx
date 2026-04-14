@@ -2,17 +2,16 @@
 
 /**
  * Memory Game Page — תצוגה בלבד.
- * כל הלוגיקה ב-useMemoryGameContent.
+ * כל הלוגיקה ב-useMemoryGameContent ובסטור.
  */
 
-import { MemoryProvider } from "./contexts/MemoryContext";
 import MemoryGameHeader from "./components/MemoryGameHeader";
 import GameWinMessage from "./components/GameWinMessage";
 import MemoryGameBoard from "./components/MemoryGameBoard";
 import MemoryStartScreen from "./components/MemoryStartScreen";
 import { useMemoryGameContent } from "./useMemoryGameContent";
 
-function MemoryGameContent() {
+export default function MemoryGamePage() {
   const { gameStarted, isGameWon } = useMemoryGameContent();
 
   if (!gameStarted) {
@@ -25,19 +24,9 @@ function MemoryGameContent() {
         <MemoryGameHeader />
 
         {isGameWon && <GameWinMessage />}
-        
-        {gameStarted && <MemoryGameBoard />}
+
+        <MemoryGameBoard />
       </div>
-
-      {/* Tips can be added here later without context dependency */}
     </div>
-  );
-}
-
-export default function MemoryGamePage() {
-  return (
-    <MemoryProvider>
-      <MemoryGameContent />
-    </MemoryProvider>
   );
 }

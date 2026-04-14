@@ -1,14 +1,17 @@
-import { useMemoryContext } from "../contexts/MemoryContext";
+import { useMemoryStore } from "../stores/useMemoryStore";
 import MemoryCard from "./MemoryCard";
 
 export default function MemoryGameBoard() {
   const {
-    state: { cards, isGamePaused },
+    cards,
+    isGamePaused,
     handleCardClick,
-    gridCols,
+    getGridCols,
     getCardDisplayData,
-    getAnimationDelay
-  } = useMemoryContext();
+    getAnimationDelay,
+  } = useMemoryStore();
+
+  const gridCols = getGridCols();
 
   return (
     <div className="relative">
