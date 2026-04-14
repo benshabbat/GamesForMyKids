@@ -2,7 +2,7 @@ import { GameType } from '@/lib/types/core/base';
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
-import { GameTypeProvider, GameLogicProvider, GameProgressProvider } from '@/lib/providers';
+import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage } from '@/components/game/universal/UltimateGamePage';
 
 // רשימת משחקים שתומכים ב-AutoGamePage (ללא import של hooks ב-server component)
@@ -87,11 +87,7 @@ export default async function UniversalGamePage({ params }: GamePageProps) {
 
   return (
     <GameTypeProvider initialGameType={actualGameType as SupportedGameType}>
-      <GameProgressProvider>
-        <GameLogicProvider gameType={actualGameType as SupportedGameType}>
-          <UltimateGamePage />
-        </GameLogicProvider>
-      </GameProgressProvider>
+      <UltimateGamePage gameType={actualGameType as SupportedGameType} />
     </GameTypeProvider>
   );
 }

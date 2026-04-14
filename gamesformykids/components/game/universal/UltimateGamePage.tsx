@@ -13,6 +13,9 @@
 "use client";
 
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
+import { useGameEffects } from '@/hooks/shared/game-state/useGameEffects';
+import { GameType } from '@/lib/types/core/base';
+import { AutoGameType } from '@/lib/constants/gameHooksMap';
 
 // רכיבים מפורקים
 import { GameLoadingScreen } from "../../shared";
@@ -22,10 +25,17 @@ import { GameHeaderSection } from "../../shared";
 import GameMainContent from "../../shared/GameMainContent";
 import { SimpleProgressDisplay } from "../../shared";
 
+interface UltimateGamePageProps {
+  gameType?: AutoGameType | GameType;
+}
+
 /**
- * 🎯 הקומפוננט הסופי - אפס props, הכל מהקונטקסט!
+ * 🎯 הקומפוננט הסופי - אפס props drilling, הכל מ-Zustand!
  */
-export function UltimateGamePage() {
+export function UltimateGamePage({ gameType }: UltimateGamePageProps = {}) {
+  // ⚙️ Side effects: timer, progress reset, game hook sync
+  useGameEffects(gameType);
+
   // 🎮 כל מה שצריך בשורה אחת!
   const game = useUniversalGame();
 
