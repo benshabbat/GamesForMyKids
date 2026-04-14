@@ -10,6 +10,7 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { User, Session } from '@supabase/supabase-js';
+import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 
 export interface AuthState {
   user: User | null;
@@ -25,6 +26,8 @@ export interface AuthActions {
   setIsGuest: (isGuest: boolean) => void;
   /** עדכון מלא בפעולה אחת (לשימוש מ-AuthContext) */
   setAuthState: (state: Partial<AuthState>) => void;
+  /** התנתקות — מנקה Supabase, localStorage ו-store */
+  signOut: () => Promise<void>;
   reset: () => void;
 }
 
@@ -46,6 +49,12 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       setIsGuest: (isGuest) => set({ isGuest }, false, 'auth/setIsGuest'),
 
       setAuthState: (state) => set(state, false, 'auth/setAuthState'),
+
+      signOut: async () => {
+        if (isSupabaseConfigured) await supabase.auth.signOut().catch(() => {});
+        if (typeof localStorage !== 'undefined') localStorage.removeItem('guestMode');
+        set({ user: null, session: null, isGuest: false, loading: false }, false, 'auth/signOut');
+      },
 
       reset: () => set(INITIAL_STATE, false, 'auth/reset'),
     }),
