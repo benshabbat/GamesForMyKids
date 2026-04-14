@@ -1,10 +1,7 @@
-import type { Achievement } from '@/hooks/shared/progress/useAchievements';
+import { useAchievements } from '@/hooks';
 
-interface AchievementsListProps {
-  achievements: Achievement[];
-}
-
-export function AchievementsList({ achievements }: AchievementsListProps) {
+export function AchievementsList() {
+  const { achievements } = useAchievements();
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6">
       <h3 className="text-xl font-bold text-gray-800 mb-4">הישגים אחרונים</h3>

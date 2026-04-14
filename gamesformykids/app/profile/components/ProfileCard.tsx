@@ -1,40 +1,22 @@
 import Image from 'next/image';
-import type { User } from '@supabase/supabase-js';
-import type { UserProfile } from '@/hooks/shared/user/useUserProfile';
+import { useAuth } from '@/hooks/shared/auth/useAuth';
+import { useUserProfile } from '@/hooks';
+import { useProfileStore, getDisplayName, getAvatarSrc } from '../stores/useProfileStore';
 import { EditProfileForm } from './EditProfileForm';
 
-interface ProfileCardProps {
-  profile: UserProfile | null;
-  user: User;
-  isEditing: boolean;
-  uploadingAvatar: boolean;
-  onAvatarUpload: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  onEdit: () => void;
-  onSave: (updates: { full_name: string }) => void;
-  onCancel: () => void;
-}
+export function ProfileCard() {
+  const { user } = useAuth();
+  const { profile, uploadAvatar } = useUserProfile();
+  const { isEditing, uploadingAvatar, startEdit, handleAvatarUpload } = useProfileStore();
 
-export function ProfileCard({
-  profile,
-  user,
-  isEditing,
-  uploadingAvatar,
-  onAvatarUpload,
-  onEdit,
-  onSave,
-  onCancel,
-}: ProfileCardProps) {
-  const displayName = profile?.full_name || user.user_metadata?.full_name || 'משתמש';
-  const avatarSrc =
-    profile?.avatar_url ||
-    `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email || 'User')}&background=8b5cf6&color=fff`;
+  if (!user) return null;
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
       <div className="flex items-center space-x-6 space-x-reverse">
         <div className="relative">
           <Image
-            src={avatarSrc}
+            src={getAvatarSrc(profile, user)}
             alt="תמונת פרופיל"
             width={100}
             height={100}
@@ -44,7 +26,10 @@ export function ProfileCard({
             <input
               type="file"
               accept="image/*"
-              onChange={onAvatarUpload}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) handleAvatarUpload(file, uploadAvatar);
+              }}
               disabled={uploadingAvatar}
               className="hidden"
             />
@@ -54,19 +39,12 @@ export function ProfileCard({
 
         <div className="flex-1">
           {isEditing ? (
-            <EditProfileForm
-              initialName={displayName}
-              onSave={onSave}
-              onCancel={onCancel}
-            />
+            <EditProfileForm />
           ) : (
             <div>
-              <h2 className="text-2xl font-bold text-gray-800">{displayName}</h2>
+              <h2 className="text-2xl font-bold text-gray-800">{getDisplayName(profile, user)}</h2>
               <p className="text-gray-600">{user.email}</p>
-              <button
-                onClick={onEdit}
-                className="mt-2 text-purple-600 hover:text-purple-800"
-              >
+              <button onClick={startEdit} className="mt-2 text-purple-600 hover:text-purple-800">
                 ערוך פרופיל
               </button>
             </div>

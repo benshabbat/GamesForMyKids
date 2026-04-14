@@ -1,10 +1,8 @@
-interface ProfileStatCardsProps {
-  totalScore: number;
-  totalPlayTime: number;
-  achievementsCount: number;
-}
+import { useProfileComputedStats } from '../stores/useProfileStore';
 
-export function ProfileStatCards({ totalScore, totalPlayTime, achievementsCount }: ProfileStatCardsProps) {
+export function ProfileStatCards() {
+  const { totalScore, totalPlayTime, achievementsCount } = useProfileComputedStats();
+
   const stats = [
     { emoji: '🏆', label: 'סך הניקוד', value: String(totalScore) },
     { emoji: '⏰', label: 'זמן משחק', value: `${totalPlayTime} דקות` },
