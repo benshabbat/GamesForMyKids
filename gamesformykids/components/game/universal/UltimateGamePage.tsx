@@ -65,7 +65,7 @@ export function GameLogicSync({ gameType }: { gameType?: AutoGameType | GameType
 /**
  * 🎯 הקומפוננט הסופי - אפס props drilling, הכל מ-Zustand!
  */
-export function UltimateGamePage({ gameType }: UltimateGamePageProps = {}) {
+export function UltimateGamePage(_props: UltimateGamePageProps = {}) {
   // ⚙️ Side effects: timer + progress reset
   useGameEffects();
 
