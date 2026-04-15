@@ -25,7 +25,6 @@ import {
   Hand,
   Bone,
   // משחקים נוספים חדשים
-  Globe,
   Recycle,
   Pill,
   Volume2,
