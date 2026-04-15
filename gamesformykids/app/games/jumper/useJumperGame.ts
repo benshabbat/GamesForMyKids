@@ -89,7 +89,7 @@ export function useJumperGame() {
 
         if (s.pvy > 0) {
           for (const p of s.platforms) {
-            const screenY = p.y - s.camY;
+            const screenY = p.y + s.camY;
             if (
               s.py + PLAYER_R >= screenY &&
               s.py + PLAYER_R <= screenY + PLAT_H + Math.abs(s.pvy) + 2 &&
@@ -116,10 +116,10 @@ export function useJumperGame() {
         }
 
         while (s.nextPlatY > -(s.camY) - H) {
-          s.platforms.push(makePlatform(s.nextPlatY - s.camY + (H * 2)));
+          s.platforms.push(makePlatform(s.nextPlatY));
           s.nextPlatY -= PLAT_GAP * (0.6 + Math.random() * 0.5);
         }
-        s.platforms = s.platforms.filter(p => p.y - s.camY < H + 50);
+        s.platforms = s.platforms.filter(p => p.y + s.camY < H + 50);
 
         if (s.py > H + 60) {
           s.phase = 'dead';
@@ -145,7 +145,7 @@ export function useJumperGame() {
 
       const s2 = st.current;
       for (const p of s2.platforms) {
-        const drawY = p.y - s2.camY;
+        const drawY = p.y + s2.camY;
         if (drawY > H + 10 || drawY < -PLAT_H - 5) continue;
         ctx.fillStyle = '#4ade80';
         ctx.fillRect(p.x, drawY, p.w, PLAT_H);
