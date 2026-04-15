@@ -7,11 +7,11 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 ## Overview
 
-128 educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
+131 educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
 
 ## Features
 
-- **128 Games**  covering all key early-childhood learning areas
+- **131 Games**  covering all key early-childhood learning areas
 - **Daily Featured Game**  smart algorithm recommends a game each day
 - **Age Recommendations**  grouped for ages 2-3, 3-4, and 4-5
 - **Hebrew TTS**  full audio pronunciation via Web Speech API
@@ -70,7 +70,7 @@ Open [http://localhost:3000](http://localhost:3000)
 ```
 gamesformykids/
  app/
-    games/[gameType]/     # Universal route for all 128 games
+    games/[gameType]/     # Universal route for all 131 games
     page.tsx
  components/
     game/                 # Game UI: cards, grid, navigation
