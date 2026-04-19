@@ -1,5 +1,5 @@
-import type { ComponentType } from 'react';
 import type { ImageId } from '../store/coloringStore';
+import type { ImageComponentType, ImageMeta } from '../types';
 import {
   CatImage, catRegions, catRegionNames,
   HouseImage, houseRegions, houseRegionNames,
@@ -8,17 +8,7 @@ import {
   FlowerImage, flowerRegions, flowerRegionNames,
 } from './coloringImages';
 
-export type ImageComponentType = ComponentType<{
-  fills: Record<string, string>;
-  onFill: (id: string) => void;
-  selectedRegion?: string;
-}>;
-
-export interface ImageMeta {
-  Component: ImageComponentType;
-  regions: string[];
-  names: Record<string, string>;
-}
+export type { ImageComponentType, ImageMeta };
 
 export const IMAGE_COMPONENTS: Record<ImageId, ImageMeta> = {
   cat: { Component: CatImage, regions: catRegions, names: catRegionNames },
