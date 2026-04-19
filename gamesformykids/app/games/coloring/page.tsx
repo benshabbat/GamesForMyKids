@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import dynamic from 'next/dynamic';
+import ColoringGameClient from './ColoringGameClient';
 
 export const metadata: Metadata = {
   title: 'משחק צביעת תמונות - משחקים לילדים',
@@ -14,8 +14,6 @@ export const metadata: Metadata = {
     canonical: '/games/coloring',
   },
 };
-
-const ColoringGameClient = dynamic(() => import('./ColoringGameClient'), { ssr: false });
 
 export default function ColoringPage() {
   return <ColoringGameClient />;
