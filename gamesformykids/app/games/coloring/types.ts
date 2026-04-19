@@ -4,7 +4,6 @@ import type { ComponentType } from 'react';
 export interface ImageProps {
   fills: Record<string, string>;
   onFill: (id: string) => void;
-  selectedRegion?: string;
 }
 
 /** React component type matching ImageProps */

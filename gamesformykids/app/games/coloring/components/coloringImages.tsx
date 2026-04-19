@@ -1,34 +1,33 @@
 'use client';
 
 import type { ImageProps } from '../types';
-import { REGION_CLASS, SEL_STROKE, SEL_WIDTH } from '../constants';
+import { REGION_CLASS } from '../constants';
 
 // ── CAT ──────────────────────────────────────────────────────────────────────
 
-export function CatImage({ fills, onFill, selectedRegion }: ImageProps) {
+export function CatImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const sc = (id: string, def = '#222') => selectedRegion === id ? SEL_STROKE : def;
-  const sw = (id: string, def = 2.5) => selectedRegion === id ? SEL_WIDTH : def;
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* Ears (behind head) */}
+      {/* Left ear */}
       <polygon points="58,58 46,16 82,50"
-        fill={f('cat-ears')} stroke={sc('cat-ears')} strokeWidth={sw('cat-ears')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('cat-ears')} />
+        fill={f('cat-ear-left')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('cat-ear-left')} />
+      {/* Right ear */}
       <polygon points="142,58 154,16 118,50"
-        fill={f('cat-ears')} stroke={sc('cat-ears')} strokeWidth={sw('cat-ears')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('cat-ears')} />
+        fill={f('cat-ear-right')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('cat-ear-right')} />
       {/* Body */}
       <ellipse cx="100" cy="158" rx="46" ry="40"
-        fill={f('cat-body')} stroke={sc('cat-body')} strokeWidth={sw('cat-body')}
+        fill={f('cat-body')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('cat-body')} />
       {/* Head */}
       <circle cx="100" cy="82" r="44"
-        fill={f('cat-head')} stroke={sc('cat-head')} strokeWidth={sw('cat-head')}
+        fill={f('cat-head')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('cat-head')} />
       {/* Nose */}
       <ellipse cx="100" cy="90" rx="6" ry="4"
-        fill={f('cat-nose', '#ffb3ba')} stroke={sc('cat-nose', '#dd5566')} strokeWidth={sw('cat-nose', 1.5)}
+        fill={f('cat-nose', '#ffb3ba')} stroke="#dd5566" strokeWidth={1.5}
         className={REGION_CLASS} onClick={() => onFill('cat-nose')} />
       {/* Eyes – fixed */}
       <circle cx="82" cy="72" r="8" fill="#222" style={{ pointerEvents: 'none' }} />
@@ -50,76 +49,74 @@ export function CatImage({ fills, onFill, selectedRegion }: ImageProps) {
     </svg>
   );
 }
-export const catRegions = ['cat-ears', 'cat-body', 'cat-head', 'cat-nose'];
+export const catRegions = ['cat-ear-left', 'cat-ear-right', 'cat-body', 'cat-head', 'cat-nose'];
 export const catRegionNames: Record<string, string> = {
-  'cat-ears': 'אוזניים', 'cat-body': 'גוף', 'cat-head': 'ראש', 'cat-nose': 'אף',
+  'cat-ear-left': 'אוזן שמאל', 'cat-ear-right': 'אוזן ימין',
+  'cat-body': 'גוף', 'cat-head': 'ראש', 'cat-nose': 'אף',
 };
 
 // ── HOUSE ────────────────────────────────────────────────────────────────────
 
-export function HouseImage({ fills, onFill, selectedRegion }: ImageProps) {
+export function HouseImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const sc = (id: string) => selectedRegion === id ? SEL_STROKE : '#222';
-  const sw = (id: string, def = 2.5) => selectedRegion === id ? SEL_WIDTH : def;
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
       {/* Chimney */}
       <rect x="128" y="34" width="18" height="38"
-        fill={f('house-chimney')} stroke={sc('house-chimney')} strokeWidth={sw('house-chimney')}
+        fill={f('house-chimney')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('house-chimney')} />
       {/* Roof */}
       <polygon points="100,20 178,82 22,82"
-        fill={f('house-roof')} stroke={sc('house-roof')} strokeWidth={sw('house-roof')} strokeLinejoin="round"
+        fill={f('house-roof')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
         className={REGION_CLASS} onClick={() => onFill('house-roof')} />
       {/* Walls */}
       <rect x="35" y="82" width="130" height="95"
-        fill={f('house-walls')} stroke={sc('house-walls')} strokeWidth={sw('house-walls')}
+        fill={f('house-walls')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('house-walls')} />
       {/* Left window */}
       <rect x="48" y="97" width="35" height="28"
-        fill={f('house-windows')} stroke={sc('house-windows')} strokeWidth={sw('house-windows')}
-        className={REGION_CLASS} onClick={() => onFill('house-windows')} />
+        fill={f('house-window-left')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('house-window-left')} />
       <line x1="65" y1="97" x2="65" y2="125" stroke="#222" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
       <line x1="48" y1="111" x2="83" y2="111" stroke="#222" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
       {/* Right window */}
       <rect x="117" y="97" width="35" height="28"
-        fill={f('house-windows')} stroke={sc('house-windows')} strokeWidth={sw('house-windows')}
-        className={REGION_CLASS} onClick={() => onFill('house-windows')} />
+        fill={f('house-window-right')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('house-window-right')} />
       <line x1="134" y1="97" x2="134" y2="125" stroke="#222" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
       <line x1="117" y1="111" x2="152" y2="111" stroke="#222" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
       {/* Door */}
       <rect x="78" y="130" width="44" height="47"
-        fill={f('house-door')} stroke={sc('house-door')} strokeWidth={sw('house-door')}
+        fill={f('house-door')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('house-door')} />
       {/* Door knob – fixed */}
       <circle cx="115" cy="155" r="3.5" fill="#888" style={{ pointerEvents: 'none' }} />
     </svg>
   );
 }
-export const houseRegions = ['house-chimney', 'house-roof', 'house-walls', 'house-windows', 'house-door'];
+export const houseRegions = ['house-chimney', 'house-roof', 'house-walls', 'house-window-left', 'house-window-right', 'house-door'];
 export const houseRegionNames: Record<string, string> = {
-  'house-chimney': 'ארובה', 'house-roof': 'גג', 'house-walls': 'קירות', 'house-windows': 'חלונות', 'house-door': 'דלת',
+  'house-chimney': 'ארובה', 'house-roof': 'גג', 'house-walls': 'קירות',
+  'house-window-left': 'חלון שמאל', 'house-window-right': 'חלון ימין', 'house-door': 'דלת',
 };
 
 // ── SUN ──────────────────────────────────────────────────────────────────────
 
-export function SunImage({ fills, onFill, selectedRegion }: ImageProps) {
+export function SunImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const sc = (id: string) => selectedRegion === id ? SEL_STROKE : '#222';
-  const sw = (id: string, def = 2.5) => selectedRegion === id ? SEL_WIDTH : def;
   const rays = [0, 45, 90, 135, 180, 225, 270, 315];
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
       {/* Rays */}
       {rays.map((angle) => (
         <rect key={angle} x="93" y="16" width="14" height="40"
-          fill={f('sun-rays')} stroke={sc('sun-rays')} strokeWidth={sw('sun-rays', 1.5)} rx="4"
+          fill={f('sun-rays')} stroke="#222" strokeWidth={1.5} rx="4"
           transform={`rotate(${angle}, 100, 100)`}
           className={REGION_CLASS} onClick={() => onFill('sun-rays')} />
       ))}
       {/* Sun body */}
       <circle cx="100" cy="100" r="38"
-        fill={f('sun-body')} stroke={sc('sun-body')} strokeWidth={sw('sun-body')}
+        fill={f('sun-body')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('sun-body')} />
       {/* Face – fixed */}
       <circle cx="88" cy="94" r="5" fill="#222" style={{ pointerEvents: 'none' }} />
@@ -136,29 +133,27 @@ export const sunRegionNames: Record<string, string> = {
 
 // ── BUTTERFLY ────────────────────────────────────────────────────────────────
 
-export function ButterflyImage({ fills, onFill, selectedRegion }: ImageProps) {
+export function ButterflyImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const sc = (id: string) => selectedRegion === id ? SEL_STROKE : '#222';
-  const sw = (id: string, def = 2.5) => selectedRegion === id ? SEL_WIDTH : def;
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
       {/* Upper wings */}
       <path d="M100,88 Q62,42 22,52 Q10,82 26,102 Q52,118 100,96 Z"
-        fill={f('butterfly-top')} stroke={sc('butterfly-top')} strokeWidth={sw('butterfly-top')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('butterfly-top')} />
+        fill={f('butterfly-wing-top-left')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('butterfly-wing-top-left')} />
       <path d="M100,88 Q138,42 178,52 Q190,82 174,102 Q148,118 100,96 Z"
-        fill={f('butterfly-top')} stroke={sc('butterfly-top')} strokeWidth={sw('butterfly-top')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('butterfly-top')} />
+        fill={f('butterfly-wing-top-right')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('butterfly-wing-top-right')} />
       {/* Lower wings */}
       <path d="M100,112 Q66,120 42,147 Q36,168 56,173 Q82,175 100,152 Z"
-        fill={f('butterfly-bottom')} stroke={sc('butterfly-bottom')} strokeWidth={sw('butterfly-bottom')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('butterfly-bottom')} />
+        fill={f('butterfly-wing-bottom-left')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('butterfly-wing-bottom-left')} />
       <path d="M100,112 Q134,120 158,147 Q164,168 144,173 Q118,175 100,152 Z"
-        fill={f('butterfly-bottom')} stroke={sc('butterfly-bottom')} strokeWidth={sw('butterfly-bottom')} strokeLinejoin="round"
-        className={REGION_CLASS} onClick={() => onFill('butterfly-bottom')} />
+        fill={f('butterfly-wing-bottom-right')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('butterfly-wing-bottom-right')} />
       {/* Body */}
       <ellipse cx="100" cy="100" rx="8" ry="38"
-        fill={f('butterfly-body')} stroke={sc('butterfly-body')} strokeWidth={sw('butterfly-body', 2)}
+        fill={f('butterfly-body')} stroke="#222" strokeWidth={2}
         className={REGION_CLASS} onClick={() => onFill('butterfly-body')} />
       {/* Antennae – fixed */}
       <line x1="100" y1="62" x2="78" y2="30" stroke="#222" strokeWidth="2"
@@ -170,28 +165,28 @@ export function ButterflyImage({ fills, onFill, selectedRegion }: ImageProps) {
     </svg>
   );
 }
-export const butterflyRegions = ['butterfly-top', 'butterfly-bottom', 'butterfly-body'];
+export const butterflyRegions = ['butterfly-wing-top-left', 'butterfly-wing-top-right', 'butterfly-wing-bottom-left', 'butterfly-wing-bottom-right', 'butterfly-body'];
 export const butterflyRegionNames: Record<string, string> = {
-  'butterfly-top': 'כנפיים עליונות', 'butterfly-bottom': 'כנפיים תחתונות', 'butterfly-body': 'גוף',
+  'butterfly-wing-top-left': 'כנף עליונה שמאל', 'butterfly-wing-top-right': 'כנף עליונה ימין',
+  'butterfly-wing-bottom-left': 'כנף תחתונה שמאל', 'butterfly-wing-bottom-right': 'כנף תחתונה ימין',
+  'butterfly-body': 'גוף',
 };
 
 // ── FLOWER ───────────────────────────────────────────────────────────────────
 
-export function FlowerImage({ fills, onFill, selectedRegion }: ImageProps) {
+export function FlowerImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const sc = (id: string) => selectedRegion === id ? SEL_STROKE : '#222';
-  const sw = (id: string, def = 2) => selectedRegion === id ? SEL_WIDTH : def;
   const petalAngles = [0, 60, 120, 180, 240, 300];
   const dotAngles = [0, 1, 2, 3, 4, 5];
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
       {/* Stem */}
       <rect x="96" y="120" width="8" height="62"
-        fill={f('flower-stem')} stroke={sc('flower-stem')} strokeWidth={sw('flower-stem')}
+        fill={f('flower-stem')} stroke="#222" strokeWidth={2}
         className={REGION_CLASS} onClick={() => onFill('flower-stem')} />
       {/* Leaf */}
       <ellipse cx="78" cy="155" rx="22" ry="10"
-        fill={f('flower-stem')} stroke={sc('flower-stem')} strokeWidth={sw('flower-stem')}
+        fill={f('flower-stem')} stroke="#222" strokeWidth={2}
         transform="rotate(-35, 78, 155)"
         className={REGION_CLASS} onClick={() => onFill('flower-stem')} />
       {/* Petals */}
@@ -199,16 +194,17 @@ export function FlowerImage({ fills, onFill, selectedRegion }: ImageProps) {
         const rad = (angle * Math.PI) / 180;
         const cx = 100 + 30 * Math.sin(rad);
         const cy = 90 - 30 * Math.cos(rad);
+        const id = `flower-petal-${angle}`;
         return (
           <ellipse key={angle} cx={cx} cy={cy} rx="14" ry="20"
-            fill={f('flower-petals')} stroke={sc('flower-petals')} strokeWidth={sw('flower-petals')}
+            fill={f(id)} stroke="#222" strokeWidth={2}
             transform={`rotate(${angle}, ${cx}, ${cy})`}
-            className={REGION_CLASS} onClick={() => onFill('flower-petals')} />
+            className={REGION_CLASS} onClick={() => onFill(id)} />
         );
       })}
       {/* Center */}
       <circle cx="100" cy="90" r="22"
-        fill={f('flower-center')} stroke={sc('flower-center')} strokeWidth={sw('flower-center', 2.5)}
+        fill={f('flower-center')} stroke="#222" strokeWidth={2.5}
         className={REGION_CLASS} onClick={() => onFill('flower-center')} />
       {/* Center dots – fixed */}
       {dotAngles.map((i) => {
@@ -221,7 +217,15 @@ export function FlowerImage({ fills, onFill, selectedRegion }: ImageProps) {
     </svg>
   );
 }
-export const flowerRegions = ['flower-stem', 'flower-petals', 'flower-center'];
+export const flowerRegions = [
+  'flower-stem',
+  'flower-petal-0', 'flower-petal-60', 'flower-petal-120',
+  'flower-petal-180', 'flower-petal-240', 'flower-petal-300',
+  'flower-center',
+];
 export const flowerRegionNames: Record<string, string> = {
-  'flower-stem': 'גבעול', 'flower-petals': 'עלי כותרת', 'flower-center': 'מרכז',
+  'flower-stem': 'גבעול',
+  'flower-petal-0': 'עלה 1', 'flower-petal-60': 'עלה 2', 'flower-petal-120': 'עלה 3',
+  'flower-petal-180': 'עלה 4', 'flower-petal-240': 'עלה 5', 'flower-petal-300': 'עלה 6',
+  'flower-center': 'מרכז',
 };

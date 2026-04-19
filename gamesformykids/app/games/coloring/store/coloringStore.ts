@@ -1,6 +1,7 @@
 /**
  * Coloring Game Store — Zustand
- * מנהל את כל מצב משחק הצביעה: תמונה נוכחית, צבע נבחר, מילויים, אזור נבחר.
+ * מנהל את כל מצב משחק הצביעה: תמונה נוכחית, צבע נבחר, מילויים.
+ * לחיצה על אזור → מצבע מיד בצבע הנבחר.
  */
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
@@ -33,13 +34,12 @@ interface ColoringState {
   selectedColor: string;
   allFills: AllFills;
   doneImages: Record<ImageId, boolean>;
-  selectedRegion: string | null;
-  selectedRegionColorableIds: string[];
 }
 
 interface ColoringActions {
   selectImage: (id: ImageId) => void;
   selectColor: (hex: string, hebrew: string) => void;
+  /** מצבע אזור מיד בצבע הנבחר */
   selectRegion: (id: string, colorableIds: string[]) => void;
   clearImage: () => void;
 }
@@ -51,42 +51,26 @@ export const useColoringStore = create<ColoringState & ColoringActions>()(
       selectedColor: PALETTE_COLORS[0].hex,
       allFills: EMPTY_FILLS,
       doneImages: { cat: false, house: false, sun: false, butterfly: false, flower: false },
-      selectedRegion: null,
-      selectedRegionColorableIds: [],
 
       selectImage: (id) =>
-        set({ currentImage: id, selectedRegion: null }, false, 'selectImage'),
+        set({ currentImage: id }, false, 'selectImage'),
 
       selectColor: (hex, hebrew) => {
-        const { selectedRegion, selectedRegionColorableIds, currentImage, allFills } = get();
         speakHebrew(hebrew);
-        if (selectedRegion) {
-          const updated = { ...allFills[currentImage], [selectedRegion]: hex };
-          const isDone = selectedRegionColorableIds.every((rid) => updated[rid]);
-          set(
-            (state) => ({
-              selectedColor: hex,
-              selectedRegion: null,
-              allFills: { ...state.allFills, [currentImage]: updated },
-              doneImages: isDone
-                ? { ...state.doneImages, [currentImage]: true }
-                : state.doneImages,
-            }),
-            false,
-            'selectColor',
-          );
-        } else {
-          set({ selectedColor: hex }, false, 'selectColor');
-        }
+        set({ selectedColor: hex }, false, 'selectColor');
       },
 
       selectRegion: (id, colorableIds) => {
-        const { selectedRegion } = get();
+        const { selectedColor, currentImage, allFills } = get();
+        const updated = { ...allFills[currentImage], [id]: selectedColor };
+        const isDone = colorableIds.every((rid) => updated[rid]);
         set(
-          {
-            selectedRegion: selectedRegion === id ? null : id,
-            selectedRegionColorableIds: colorableIds,
-          },
+          (state) => ({
+            allFills: { ...state.allFills, [currentImage]: updated },
+            doneImages: isDone
+              ? { ...state.doneImages, [currentImage]: true }
+              : state.doneImages,
+          }),
           false,
           'selectRegion',
         );
@@ -98,7 +82,6 @@ export const useColoringStore = create<ColoringState & ColoringActions>()(
           (state) => ({
             allFills: { ...state.allFills, [currentImage]: {} },
             doneImages: { ...state.doneImages, [currentImage]: false },
-            selectedRegion: null,
           }),
           false,
           'clearImage',

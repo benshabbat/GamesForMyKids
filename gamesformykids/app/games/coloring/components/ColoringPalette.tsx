@@ -1,15 +1,11 @@
 'use client';
 
 import { useColoringStore, PALETTE_COLORS } from '../store/coloringStore';
-import { IMAGE_COMPONENTS } from './imageComponents';
 
 export function ColoringPalette() {
   const selectedColor = useColoringStore((s) => s.selectedColor);
-  const selectedRegion = useColoringStore((s) => s.selectedRegion);
-  const currentImage = useColoringStore((s) => s.currentImage);
   const selectColor = useColoringStore((s) => s.selectColor);
 
-  const { names } = IMAGE_COMPONENTS[currentImage];
   const selectedColorName = PALETTE_COLORS.find((c) => c.hex === selectedColor)?.hebrew ?? '';
 
   return (
@@ -31,13 +27,14 @@ export function ColoringPalette() {
         ))}
       </div>
       <p className="text-center text-sm mt-2">
-        {selectedRegion ? (
-          <span className="font-bold text-amber-600">✏️ בחר צבע ל{names[selectedRegion]}</span>
-        ) : (
-          <span className="text-gray-500">
-            צבע נבחר: <span className="font-bold text-gray-700">{selectedColorName}</span>
-          </span>
-        )}
+        <span className="text-gray-500">
+          צבע נבחר:{' '}
+          <span
+            className="inline-block w-3.5 h-3.5 rounded-full border border-gray-400 align-middle mx-1"
+            style={{ backgroundColor: selectedColor }}
+          />
+          <span className="font-bold text-gray-700">{selectedColorName}</span>
+        </span>
       </p>
     </div>
   );

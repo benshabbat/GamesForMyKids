@@ -6,7 +6,6 @@ import { IMAGE_COMPONENTS } from './imageComponents';
 export function ColoringCanvas() {
   const currentImage = useColoringStore((s) => s.currentImage);
   const fills = useColoringStore((s) => s.allFills[s.currentImage]);
-  const selectedRegion = useColoringStore((s) => s.selectedRegion);
   const showDone = useColoringStore((s) => s.doneImages[s.currentImage]);
   const selectRegion = useColoringStore((s) => s.selectRegion);
   const clearImage = useColoringStore((s) => s.clearImage);
@@ -31,7 +30,6 @@ export function ColoringCanvas() {
       <div className="w-full aspect-square max-w-xs mx-auto">
         <Component
           fills={fills}
-          selectedRegion={selectedRegion ?? undefined}
           onFill={(id) => selectRegion(id, regions)}
         />
       </div>
@@ -41,16 +39,8 @@ export function ColoringCanvas() {
           <button
             key={id}
             onClick={() => selectRegion(id, regions)}
-            className={`px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all ${
-              selectedRegion === id
-                ? 'border-amber-500 bg-amber-100 text-amber-800 scale-105 ring-2 ring-amber-300'
-                : 'border-gray-300 bg-white text-gray-700 hover:border-purple-400 hover:bg-purple-50'
-            }`}
-            style={
-              fills[id] && selectedRegion !== id
-                ? { borderColor: fills[id], color: fills[id] }
-                : undefined
-            }
+            className="px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all border-gray-300 bg-white text-gray-700 hover:border-purple-400 hover:bg-purple-50 active:scale-95"
+            style={fills[id] ? { borderColor: fills[id], color: fills[id] } : undefined}
           >
             {names[id]}
           </button>
