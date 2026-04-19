@@ -331,6 +331,16 @@ const GAMES_REGISTRY: GameRegistration[] = [
     order: 24,
   },
   {
+    id: "coloring",
+    title: "🎨 צביעת תמונות",
+    description: "בחר צבע וצבע ציורים מהנים!",
+    icon: Palette,
+    color: "bg-gradient-to-r from-pink-400 to-purple-400 hover:from-pink-500 hover:to-purple-500",
+    href: "/games/coloring",
+    available: true,
+    order: 24.5,
+  },
+  {
     id: "building",
     title: "סטודיו הבנייה הקסום",
     description: "בנה יצירות עם צורות צבעוניות!",
