@@ -8,6 +8,9 @@
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
     "lint": "next lint",
+    "test": "vitest",
+    "test:run": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "seo:sitemap": "next build && node -e \"console.log('Sitemap generated at /sitemap.xml')\"",
     "seo:check": "next build && echo 'SEO check complete - review sitemap.xml and robots.txt'",
     "supabase:create-tables": "node scripts/create-tables.js",
@@ -38,9 +41,12 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@vitejs/plugin-react": "^6.0.1",
+    "@vitest/coverage-v8": "^4.1.4",
     "eslint": "^9",
     "eslint-config-next": "15.3.5",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^4.1.4"
   }
 }
