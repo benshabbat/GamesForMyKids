@@ -14,4 +14,6 @@ export interface ImageMeta {
   Component: ImageComponentType;
   regions: string[];
   names: Record<string, string>;
+  /** Optional region groups — one click fills all members */
+  groups?: { id: string; name: string; members: string[] }[];
 }

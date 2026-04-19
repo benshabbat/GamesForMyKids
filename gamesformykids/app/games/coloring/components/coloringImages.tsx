@@ -102,18 +102,23 @@ export const houseRegionNames: Record<string, string> = {
 
 // ── SUN ──────────────────────────────────────────────────────────────────────
 
+export const SUN_RAY_ANGLES = [0, 45, 90, 135, 180, 225, 270, 315] as const;
+export const SUN_RAY_IDS = SUN_RAY_ANGLES.map((a) => `sun-ray-${a}`);
+
 export function SunImage({ fills, onFill }: ImageProps) {
   const f = (id: string, def = '#ffffff') => fills[id] || def;
-  const rays = [0, 45, 90, 135, 180, 225, 270, 315];
   return (
     <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-      {/* Rays */}
-      {rays.map((angle) => (
-        <rect key={angle} x="93" y="16" width="14" height="40"
-          fill={f('sun-rays')} stroke="#222" strokeWidth={1.5} rx="4"
-          transform={`rotate(${angle}, 100, 100)`}
-          className={REGION_CLASS} onClick={() => onFill('sun-rays')} />
-      ))}
+      {/* Individual rays */}
+      {SUN_RAY_ANGLES.map((angle) => {
+        const id = `sun-ray-${angle}`;
+        return (
+          <rect key={angle} x="93" y="16" width="14" height="40"
+            fill={f(id)} stroke="#222" strokeWidth={1.5} rx="4"
+            transform={`rotate(${angle}, 100, 100)`}
+            className={REGION_CLASS} onClick={() => onFill(id)} />
+        );
+      })}
       {/* Sun body */}
       <circle cx="100" cy="100" r="38"
         fill={f('sun-body')} stroke="#222" strokeWidth={2.5}
@@ -126,9 +131,11 @@ export function SunImage({ fills, onFill }: ImageProps) {
     </svg>
   );
 }
-export const sunRegions = ['sun-rays', 'sun-body'];
+export const sunRegions = [...SUN_RAY_IDS, 'sun-body'];
 export const sunRegionNames: Record<string, string> = {
-  'sun-rays': 'קרניים', 'sun-body': 'שמש',
+  'sun-ray-0': 'קרן 1', 'sun-ray-45': 'קרן 2', 'sun-ray-90': 'קרן 3', 'sun-ray-135': 'קרן 4',
+  'sun-ray-180': 'קרן 5', 'sun-ray-225': 'קרן 6', 'sun-ray-270': 'קרן 7', 'sun-ray-315': 'קרן 8',
+  'sun-body': 'שמש',
 };
 
 // ── BUTTERFLY ────────────────────────────────────────────────────────────────
@@ -228,4 +235,120 @@ export const flowerRegionNames: Record<string, string> = {
   'flower-petal-0': 'עלה 1', 'flower-petal-60': 'עלה 2', 'flower-petal-120': 'עלה 3',
   'flower-petal-180': 'עלה 4', 'flower-petal-240': 'עלה 5', 'flower-petal-300': 'עלה 6',
   'flower-center': 'מרכז',
+};
+
+// ── FISH ─────────────────────────────────────────────────────────────────────
+
+export function FishImage({ fills, onFill }: ImageProps) {
+  const f = (id: string, def = '#ffffff') => fills[id] || def;
+  return (
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* Tail (behind body) */}
+      <path d="M48,100 L14,68 L14,132 Z"
+        fill={f('fish-tail')} stroke="#222" strokeWidth={2.5} strokeLinejoin="round"
+        className={REGION_CLASS} onClick={() => onFill('fish-tail')} />
+      {/* Body */}
+      <ellipse cx="115" cy="100" rx="68" ry="44"
+        fill={f('fish-body')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('fish-body')} />
+      {/* Dorsal fin (on top of body) */}
+      <path d="M88,62 Q108,20 132,60 Q108,56 88,62 Z"
+        fill={f('fish-fin')} stroke="#222" strokeWidth={2}
+        className={REGION_CLASS} onClick={() => onFill('fish-fin')} />
+      {/* Eye – fixed */}
+      <circle cx="160" cy="88" r="12" fill="white" stroke="#222" strokeWidth={2} style={{ pointerEvents: 'none' }} />
+      <circle cx="162" cy="87" r="6" fill="#222" style={{ pointerEvents: 'none' }} />
+      <circle cx="164" cy="85" r="2" fill="white" style={{ pointerEvents: 'none' }} />
+      {/* Mouth – fixed */}
+      <path d="M181,96 Q187,101 181,107" fill="none" stroke="#222" strokeWidth="2"
+        strokeLinecap="round" style={{ pointerEvents: 'none' }} />
+      {/* Scale lines – fixed */}
+      <path d="M90,72 Q102,88 90,104" fill="none" stroke="#88888855" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
+      <path d="M112,67 Q124,84 112,101" fill="none" stroke="#88888855" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
+      <path d="M132,68 Q144,84 132,100" fill="none" stroke="#88888855" strokeWidth="1.5" style={{ pointerEvents: 'none' }} />
+    </svg>
+  );
+}
+export const fishRegions = ['fish-body', 'fish-tail', 'fish-fin'];
+export const fishRegionNames: Record<string, string> = {
+  'fish-body': 'גוף', 'fish-tail': 'זנב', 'fish-fin': 'סנפיר',
+};
+
+// ── TREE ─────────────────────────────────────────────────────────────────────
+
+export function TreeImage({ fills, onFill }: ImageProps) {
+  const f = (id: string, def = '#ffffff') => fills[id] || def;
+  return (
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* Trunk */}
+      <rect x="84" y="132" width="32" height="58" rx="4"
+        fill={f('tree-trunk')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('tree-trunk')} />
+      {/* Crown left */}
+      <ellipse cx="70" cy="106" rx="38" ry="34"
+        fill={f('tree-crown-left')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('tree-crown-left')} />
+      {/* Crown right */}
+      <ellipse cx="130" cy="106" rx="38" ry="34"
+        fill={f('tree-crown-right')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('tree-crown-right')} />
+      {/* Crown top */}
+      <ellipse cx="100" cy="70" rx="42" ry="36"
+        fill={f('tree-crown-top')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('tree-crown-top')} />
+      {/* Apples – fixed */}
+      <circle cx="76" cy="98" r="9" fill="#FF4136" stroke="#aa0000" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
+      <circle cx="122" cy="110" r="9" fill="#FF4136" stroke="#aa0000" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
+      <circle cx="100" cy="64" r="8" fill="#FF4136" stroke="#aa0000" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
+    </svg>
+  );
+}
+export const treeRegions = ['tree-trunk', 'tree-crown-left', 'tree-crown-right', 'tree-crown-top'];
+export const treeRegionNames: Record<string, string> = {
+  'tree-trunk': 'גזע', 'tree-crown-left': 'כתר שמאל', 'tree-crown-right': 'כתר ימין', 'tree-crown-top': 'כתר עליון',
+};
+
+// ── CAR ──────────────────────────────────────────────────────────────────────
+
+export function CarImage({ fills, onFill }: ImageProps) {
+  const f = (id: string, def = '#ffffff') => fills[id] || def;
+  return (
+    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
+      {/* Wheels (behind body) */}
+      <circle cx="52" cy="150" r="24"
+        fill={f('car-wheel-left')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('car-wheel-left')} />
+      <circle cx="148" cy="150" r="24"
+        fill={f('car-wheel-right')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('car-wheel-right')} />
+      {/* Main body */}
+      <rect x="10" y="98" width="180" height="58" rx="10"
+        fill={f('car-body')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('car-body')} />
+      {/* Cabin */}
+      <rect x="40" y="62" width="120" height="44" rx="8"
+        fill={f('car-cabin')} stroke="#222" strokeWidth={2.5}
+        className={REGION_CLASS} onClick={() => onFill('car-cabin')} />
+      {/* Window left */}
+      <rect x="49" y="69" width="46" height="30" rx="4"
+        fill={f('car-window-left')} stroke="#222" strokeWidth={1.5}
+        className={REGION_CLASS} onClick={() => onFill('car-window-left')} />
+      {/* Window right */}
+      <rect x="105" y="69" width="46" height="30" rx="4"
+        fill={f('car-window-right')} stroke="#222" strokeWidth={1.5}
+        className={REGION_CLASS} onClick={() => onFill('car-window-right')} />
+      {/* Wheel hubs – fixed */}
+      <circle cx="52" cy="150" r="10" fill="#ccc" stroke="#888" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
+      <circle cx="148" cy="150" r="10" fill="#ccc" stroke="#888" strokeWidth={1.5} style={{ pointerEvents: 'none' }} />
+      {/* Headlight – fixed */}
+      <rect x="174" y="112" width="14" height="20" rx="3" fill="#FFDC00" stroke="#aaa" strokeWidth={1} style={{ pointerEvents: 'none' }} />
+      {/* Taillight – fixed */}
+      <rect x="12" y="112" width="14" height="20" rx="3" fill="#FF4136" stroke="#aaa" strokeWidth={1} style={{ pointerEvents: 'none' }} />
+    </svg>
+  );
+}
+export const carRegions = ['car-body', 'car-cabin', 'car-window-left', 'car-window-right', 'car-wheel-left', 'car-wheel-right'];
+export const carRegionNames: Record<string, string> = {
+  'car-body': 'מרכב', 'car-cabin': 'תא נהג', 'car-window-left': 'חלון שמאל', 'car-window-right': 'חלון ימין',
+  'car-wheel-left': 'גלגל שמאל', 'car-wheel-right': 'גלגל ימין',
 };

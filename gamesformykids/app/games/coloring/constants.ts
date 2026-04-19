@@ -25,7 +25,7 @@ export const PALETTE_COLORS = [
   { hex: '#01FF70', hebrew: 'ירוק בהיר' },
 ] as const;
 
-export type ImageId = 'cat' | 'house' | 'sun' | 'butterfly' | 'flower';
+export type ImageId = 'cat' | 'house' | 'sun' | 'butterfly' | 'flower' | 'fish' | 'tree' | 'car';
 
 export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'cat', title: 'חתול', emoji: '🐱' },
@@ -33,4 +33,7 @@ export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'sun', title: 'שמש', emoji: '☀️' },
   { id: 'butterfly', title: 'פרפר', emoji: '🦋' },
   { id: 'flower', title: 'פרח', emoji: '🌸' },
+  { id: 'fish', title: 'דג', emoji: '🐟' },
+  { id: 'tree', title: 'עץ', emoji: '🌳' },
+  { id: 'car', title: 'מכונית', emoji: '🚗' },
 ];

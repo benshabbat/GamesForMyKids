@@ -15,7 +15,7 @@ export { PALETTE_COLORS, IMAGES };
 type AllFills = Record<ImageId, Record<string, string>>;
 
 const EMPTY_FILLS: AllFills = {
-  cat: {}, house: {}, sun: {}, butterfly: {}, flower: {},
+  cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
 };
 
 function speakHebrew(text: string) {
@@ -40,8 +40,8 @@ interface ColoringActions {
   selectImage: (id: ImageId) => void;
   selectColor: (hex: string, hebrew: string) => void;
   /** מצבע אזור מיד בצבע הנבחר */
-  selectRegion: (id: string, colorableIds: string[]) => void;
-  clearImage: () => void;
+  selectRegion: (id: string, colorableIds: string[]) => void;  /** מצבע קבוצת אזורים בצבע הנבחר */
+  fillGroup: (memberIds: string[], colorableIds: string[]) => void;  clearImage: () => void;
 }
 
 export const useColoringStore = create<ColoringState & ColoringActions>()(
@@ -50,7 +50,7 @@ export const useColoringStore = create<ColoringState & ColoringActions>()(
       currentImage: 'cat',
       selectedColor: PALETTE_COLORS[0].hex,
       allFills: EMPTY_FILLS,
-      doneImages: { cat: false, house: false, sun: false, butterfly: false, flower: false },
+      doneImages: { cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false },
 
       selectImage: (id) =>
         set({ currentImage: id }, false, 'selectImage'),
@@ -73,6 +73,23 @@ export const useColoringStore = create<ColoringState & ColoringActions>()(
           }),
           false,
           'selectRegion',
+        );
+      },
+
+      fillGroup: (memberIds, colorableIds) => {
+        const { selectedColor, currentImage, allFills } = get();
+        const updates = Object.fromEntries(memberIds.map((id) => [id, selectedColor]));
+        const updated = { ...allFills[currentImage], ...updates };
+        const isDone = colorableIds.every((rid) => updated[rid]);
+        set(
+          (state) => ({
+            allFills: { ...state.allFills, [currentImage]: updated },
+            doneImages: isDone
+              ? { ...state.doneImages, [currentImage]: true }
+              : state.doneImages,
+          }),
+          false,
+          'fillGroup',
         );
       },
 
