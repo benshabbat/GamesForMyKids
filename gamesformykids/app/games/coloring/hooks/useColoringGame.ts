@@ -58,34 +58,42 @@ export function useColoringGame() {
     flower: false,
   });
 
+  const [selectedRegion, setSelectedRegion] = useState<string | null>(null);
+  const [selectedRegionColorableIds, setSelectedRegionColorableIds] = useState<string[]>([]);
+
   const fills = allFills[currentImage];
 
-  const fillRegion = useCallback(
-    (regionId: string, colorableIds: string[]) => {
-      setAllFills((prev) => {
-        const updated = { ...prev[currentImage], [regionId]: selectedColor };
-        const isDone = colorableIds.every((id) => updated[id]);
-        if (isDone) {
-          setDoneImages((s) => ({ ...s, [currentImage]: true }));
-        }
-        return { ...prev, [currentImage]: updated };
-      });
-    },
-    [currentImage, selectedColor]
-  );
+  const selectRegion = useCallback((id: string, colorableIds: string[]) => {
+    setSelectedRegion((prev) => (prev === id ? null : id));
+    setSelectedRegionColorableIds(colorableIds);
+  }, []);
 
   const clearImage = useCallback(() => {
     setAllFills((prev) => ({ ...prev, [currentImage]: {} }));
     setDoneImages((prev) => ({ ...prev, [currentImage]: false }));
+    setSelectedRegion(null);
   }, [currentImage]);
 
-  const selectColor = useCallback((hex: string, hebrew: string) => {
-    setSelectedColor(hex);
-    speakHebrew(hebrew);
-  }, []);
+  const selectColor = useCallback(
+    (hex: string, hebrew: string) => {
+      setSelectedColor(hex);
+      speakHebrew(hebrew);
+      if (selectedRegion) {
+        setAllFills((prev) => {
+          const updated = { ...prev[currentImage], [selectedRegion]: hex };
+          const isDone = selectedRegionColorableIds.every((rid) => updated[rid]);
+          if (isDone) setDoneImages((s) => ({ ...s, [currentImage]: true }));
+          return { ...prev, [currentImage]: updated };
+        });
+        setSelectedRegion(null);
+      }
+    },
+    [selectedRegion, selectedRegionColorableIds, currentImage]
+  );
 
   const selectImage = useCallback((id: ImageId) => {
     setCurrentImage(id);
+    setSelectedRegion(null);
   }, []);
 
   return {
@@ -93,7 +101,8 @@ export function useColoringGame() {
     selectedColor,
     fills,
     showDone: doneImages[currentImage],
-    fillRegion,
+    selectedRegion,
+    selectRegion,
     clearImage,
     selectColor,
     selectImage,

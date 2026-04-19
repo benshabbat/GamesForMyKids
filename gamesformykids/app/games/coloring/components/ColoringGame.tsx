@@ -3,34 +3,35 @@
 import Link from 'next/link';
 import { useColoringGame, PALETTE_COLORS, IMAGES } from '../hooks/useColoringGame';
 import {
-  CatImage, catRegions,
-  HouseImage, houseRegions,
-  SunImage, sunRegions,
-  ButterflyImage, butterflyRegions,
-  FlowerImage, flowerRegions,
+  CatImage, catRegions, catRegionNames,
+  HouseImage, houseRegions, houseRegionNames,
+  SunImage, sunRegions, sunRegionNames,
+  ButterflyImage, butterflyRegions, butterflyRegionNames,
+  FlowerImage, flowerRegions, flowerRegionNames,
 } from './coloringImages';
 import type { ImageId } from '../hooks/useColoringGame';
 
 type ImageComponentType = React.ComponentType<{
   fills: Record<string, string>;
   onFill: (id: string) => void;
+  selectedRegion?: string;
 }>;
 
-const IMAGE_COMPONENTS: Record<ImageId, { Component: ImageComponentType; regions: string[] }> = {
-  cat: { Component: CatImage, regions: catRegions },
-  house: { Component: HouseImage, regions: houseRegions },
-  sun: { Component: SunImage, regions: sunRegions },
-  butterfly: { Component: ButterflyImage, regions: butterflyRegions },
-  flower: { Component: FlowerImage, regions: flowerRegions },
+const IMAGE_COMPONENTS: Record<ImageId, { Component: ImageComponentType; regions: string[]; names: Record<string, string> }> = {
+  cat: { Component: CatImage, regions: catRegions, names: catRegionNames },
+  house: { Component: HouseImage, regions: houseRegions, names: houseRegionNames },
+  sun: { Component: SunImage, regions: sunRegions, names: sunRegionNames },
+  butterfly: { Component: ButterflyImage, regions: butterflyRegions, names: butterflyRegionNames },
+  flower: { Component: FlowerImage, regions: flowerRegions, names: flowerRegionNames },
 };
 
 export default function ColoringGame() {
   const {
     currentImage, selectedColor, fills, showDone,
-    fillRegion, clearImage, selectColor, selectImage,
+    selectedRegion, selectRegion, clearImage, selectColor, selectImage,
   } = useColoringGame();
 
-  const { Component, regions } = IMAGE_COMPONENTS[currentImage];
+  const { Component, regions, names } = IMAGE_COMPONENTS[currentImage];
   const selectedColorName = PALETTE_COLORS.find((c) => c.hex === selectedColor)?.hebrew ?? '';
 
   return (
@@ -45,7 +46,11 @@ export default function ColoringGame() {
           <h1 className="text-3xl md:text-4xl font-bold text-purple-800 mb-1">
             🎨 צביעת תמונות
           </h1>
-          <p className="text-purple-600 text-sm">בחר צבע ולחץ על הציור לצביעה!</p>
+          <p className="text-purple-600 text-sm">
+            {selectedRegion
+              ? `נבחר: ${names[selectedRegion]} — בחר צבע! 🎨`
+              : 'לחץ על חלק בציור או על כפתור למטה לבחירה'}
+          </p>
         </div>
 
         {/* Image Selector */}
@@ -83,8 +88,28 @@ export default function ColoringGame() {
           <div className="w-full aspect-square max-w-xs mx-auto">
             <Component
               fills={fills}
-              onFill={(id) => fillRegion(id, regions)}
+              selectedRegion={selectedRegion ?? undefined}
+              onFill={(id) => selectRegion(id, regions)}
             />
+          </div>
+          {/* Region Name Buttons */}
+          <div className="flex flex-wrap gap-2 justify-center mt-3">
+            {regions.map((id) => (
+              <button
+                key={id}
+                onClick={() => selectRegion(id, regions)}
+                className={`px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all ${
+                  selectedRegion === id
+                    ? 'border-amber-500 bg-amber-100 text-amber-800 scale-105 ring-2 ring-amber-300'
+                    : 'border-gray-300 bg-white text-gray-700 hover:border-purple-400 hover:bg-purple-50'
+                }`}
+                style={fills[id] && selectedRegion !== id
+                  ? { borderColor: fills[id], color: fills[id] }
+                  : undefined}
+              >
+                {names[id]}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -106,9 +131,11 @@ export default function ColoringGame() {
               />
             ))}
           </div>
-          <p className="text-center text-sm text-gray-500 mt-2">
-            צבע נבחר:{' '}
-            <span className="font-bold text-gray-700">{selectedColorName}</span>
+          <p className="text-center text-sm mt-2">
+            {selectedRegion
+              ? <span className="font-bold text-amber-600">✏️ בחר צבע ל{names[selectedRegion]}</span>
+              : <span className="text-gray-500">צבע נבחר: <span className="font-bold text-gray-700">{selectedColorName}</span></span>
+            }
           </p>
         </div>
 
