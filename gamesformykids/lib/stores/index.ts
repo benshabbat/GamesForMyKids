@@ -85,6 +85,15 @@ export type { HomePageState, HomePageActions } from './homePageStore';
 export { useHebrewLettersStore } from './hebrewLettersStore';
 export type { HebrewLettersState, HebrewLettersStoreActions } from './hebrewLettersStore';
 
+// Animals (category / questions / game actions)
+export {
+  useAnimalsStore,
+  selectAnimalsCategory,
+  selectAnimalsQuestions,
+  QUESTIONS_PER_GAME as ANIMALS_QUESTIONS_PER_GAME,
+} from './animalsStore';
+export type { AnimalsState, AnimalsActions, AnimalQuestion, QuestionMode } from './animalsStore';
+
 // Game Difficulty (per-game adaptive difficulty — persisted)
 export { useGameDifficultyStore } from './gameDifficultyStore';
 export type { GameDifficultyState, GameDifficultyActions, DifficultyLevel, PerformanceHistory } from './gameDifficultyStore';

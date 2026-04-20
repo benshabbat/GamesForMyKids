@@ -1,31 +1,21 @@
 'use client';
+import { useQuizGameStore } from '@/lib/stores';
+import { useAnimalsStore } from '@/lib/stores/animalsStore';
 
-interface Animal {
-  id: string;
-  emoji: string;
-  hebrew: string;
-  fact: string;
-}
+export default function AnimalsQuestionCard() {
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const score     = useQuizGameStore(s => s.score);
+  const selected  = useQuizGameStore(s => s.selected);
+  const isCorrect = useQuizGameStore(s => s.isCorrect);
+  const nextQuestion = useQuizGameStore(s => s.nextQuestion);
+  const goToMenu     = useQuizGameStore(s => s.goToMenu);
 
-interface Question {
-  animal: Animal;
-  mode: 'emoji-to-name' | 'name-to-emoji';
-  choices: Animal[];
-}
+  const questions    = useAnimalsStore(s => s.questions);
+  const selectAnswer = useAnimalsStore(s => s.selectAnswer);
 
-interface Props {
-  index: number;
-  total: number;
-  score: number;
-  current: Question;
-  selected: string | null;
-  isCorrect: boolean | null;
-  onSelect: (id: string) => void;
-  onNext: () => void;
-  onMenu: () => void;
-}
-
-export default function AnimalsQuestionCard({ index, total, score, current, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+  const current = questions[index] ?? null;
+  if (!current) return null;
   const prompt = current.mode === 'emoji-to-name' ? current.animal.emoji : current.animal.hebrew;
   const promptLabel = current.mode === 'emoji-to-name' ? 'מה שם החיה?' : 'מה הסמל של החיה?';
 
@@ -33,7 +23,7 @@ export default function AnimalsQuestionCard({ index, total, score, current, sele
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-green-500 text-sm bg-green-100 rounded-full px-3 py-1">← חזור</button>
+          <button onClick={goToMenu} className="text-green-500 text-sm bg-green-100 rounded-full px-3 py-1">← חזור</button>
           <span className="text-green-700 font-bold">שאלה {index + 1} / {total}</span>
           <span className="text-green-700 font-bold">⭐ {score}</span>
         </div>
@@ -54,7 +44,7 @@ export default function AnimalsQuestionCard({ index, total, score, current, sele
               else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
             }
             return (
-              <button key={animal.id} onClick={() => onSelect(animal.id)} disabled={!!selected}
+              <button key={animal.id} onClick={() => selectAnswer(animal.id)} disabled={!!selected}
                 className={`py-4 rounded-2xl text-2xl font-bold transition-all active:scale-95 ${style}`}>
                 {displayVal}
               </button>
@@ -67,7 +57,7 @@ export default function AnimalsQuestionCard({ index, total, score, current, sele
               {isCorrect ? `✅ נכון! ${current.animal.hebrew} ${current.animal.emoji}` : `💙 זה: ${current.animal.hebrew} ${current.animal.emoji}`}
               <p className="text-sm font-normal opacity-80 mt-1">{current.animal.fact}</p>
             </div>
-            <button onClick={onNext} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-green-500 to-teal-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button onClick={nextQuestion} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-green-500 to-teal-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
               {index < total - 1 ? 'הבא ←' : 'תוצאות! 🎉'}
             </button>
           </div>
