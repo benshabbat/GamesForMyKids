@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import HebrewLetterPractice from '../components/HebrewLetterPractice';
+import HebrewLetterPractice from '../components/practice/HebrewLetterPractice';
 import { hebrewLetters } from '../constants/hebrewLetters';
 
 interface Props {

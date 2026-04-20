@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import HebrewLettersHub from './components/HebrewLettersHub';
+import HebrewLettersHub from './components/hub/HebrewLettersHub';
 
 export const metadata: Metadata = {
   title: 'תרגול כתיבה בעברית - אותיות',
