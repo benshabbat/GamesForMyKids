@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { GameItemCardProps } from "@/lib/types/components/cards";
 
 // Wikimedia Commons thumbnail URLs for famous landmarks
@@ -27,6 +28,7 @@ const PHOTO_URLS: Record<string, string> = {
 
 export default function WorldLandmarksGameCard({ item, onClick, isSelected }: GameItemCardProps) {
   const photoUrl = PHOTO_URLS[item.name];
+  const [imageError, setImageError] = useState(false);
 
   return (
     <button
@@ -40,14 +42,14 @@ export default function WorldLandmarksGameCard({ item, onClick, isSelected }: Ga
     >
       {/* Photo */}
       <div className="flex-1 w-full overflow-hidden">
-        {photoUrl ? (
+        {photoUrl && !imageError ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={photoUrl}
             alt={item.english || item.name}
             className="w-full h-full object-cover"
             loading="lazy"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-6xl">

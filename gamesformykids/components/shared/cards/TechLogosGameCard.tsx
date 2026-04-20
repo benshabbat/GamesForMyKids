@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { GameItemCardProps } from "@/lib/types/components/cards";
 
 // Wikimedia Commons thumbnail URLs for tech company logos (public domain / freely licensed)
@@ -42,6 +43,7 @@ const BG_COLORS: Record<string, string> = {
 export default function TechLogosGameCard({ item, onClick, isSelected }: GameItemCardProps) {
   const logoUrl = LOGO_URLS[item.name];
   const bgColor = BG_COLORS[item.name] ?? "bg-white";
+  const [imageError, setImageError] = useState(false);
 
   return (
     <button
@@ -55,14 +57,14 @@ export default function TechLogosGameCard({ item, onClick, isSelected }: GameIte
     >
       {/* Logo */}
       <div className="flex-1 w-full flex items-center justify-center p-4">
-        {logoUrl ? (
+        {logoUrl && !imageError ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={logoUrl}
             alt={item.english || item.name}
             className="max-w-full max-h-full object-contain"
             loading="lazy"
-            onError={(e) => { (e.target as HTMLImageElement).style.display = "none"; }}
+            onError={() => setImageError(true)}
           />
         ) : (
           <div className="text-6xl">{item.emoji}</div>
