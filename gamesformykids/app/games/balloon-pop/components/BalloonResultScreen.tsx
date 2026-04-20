@@ -1,13 +1,12 @@
 'use client';
+import { useBalloonPopStore } from '../balloonPopStore';
 
-interface Props {
-  score: number;
-  best: number;
-  lives: number;
-  onRestart: () => void;
-}
+export default function BalloonResultScreen() {
+  const score     = useBalloonPopStore(s => s.score);
+  const best      = useBalloonPopStore(s => s.best);
+  const lives     = useBalloonPopStore(s => s.lives);
+  const startGame = useBalloonPopStore(s => s.startGame);
 
-export default function BalloonResultScreen({ score, best, lives, onRestart }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-b from-sky-200 to-blue-400 flex items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center">
@@ -24,7 +23,7 @@ export default function BalloonResultScreen({ score, best, lives, onRestart }: P
           </div>
         </div>
         <button
-          onClick={onRestart}
+          onClick={startGame}
           className="w-full py-4 rounded-2xl bg-gradient-to-l from-pink-500 to-rose-500 text-white font-black text-xl shadow-lg hover:opacity-90 active:scale-95 transition-all"
         >
           🔄 שוב!

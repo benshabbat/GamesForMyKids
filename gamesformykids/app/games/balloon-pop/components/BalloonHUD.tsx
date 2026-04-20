@@ -1,13 +1,12 @@
 'use client';
+import { useBalloonPopStore, GAME_DURATION } from '../balloonPopStore';
 
-interface Props {
-  score: number;
-  lives: number;
-  timeLeft: number;
-  pct: number;
-}
+export default function BalloonHUD() {
+  const score    = useBalloonPopStore(s => s.score);
+  const lives    = useBalloonPopStore(s => s.lives);
+  const timeLeft = useBalloonPopStore(s => s.timeLeft);
+  const pct      = (timeLeft / GAME_DURATION) * 100;
 
-export default function BalloonHUD({ score, lives, timeLeft, pct }: Props) {
   return (
     <div className="flex items-center gap-4 p-4 w-full max-w-sm">
       <div className="text-center">

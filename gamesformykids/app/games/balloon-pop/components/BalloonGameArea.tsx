@@ -1,14 +1,23 @@
 'use client';
+import { useRef, useEffect } from 'react';
+import { useBalloonPopStore } from '../balloonPopStore';
 
-import type { Balloon } from '../useBalloonPopGame';
+export default function BalloonGameArea() {
+  const balloons      = useBalloonPopStore(s => s.balloons);
+  const pop           = useBalloonPopStore(s => s.pop);
+  const setDimensions = useBalloonPopStore(s => s.setDimensions);
 
-interface Props {
-  containerRef: React.RefObject<HTMLDivElement | null>;
-  balloons: Balloon[];
-  onPop: (id: number) => void;
-}
+  const containerRef = useRef<HTMLDivElement>(null);
 
-export default function BalloonGameArea({ containerRef, balloons, onPop }: Props) {
+  useEffect(() => {
+    if (containerRef.current) {
+      setDimensions(
+        containerRef.current.offsetWidth  || 350,
+        containerRef.current.offsetHeight || 560,
+      );
+    }
+  }, [setDimensions]);
+
   return (
     <div
       ref={containerRef}
@@ -37,7 +46,7 @@ export default function BalloonGameArea({ containerRef, balloons, onPop }: Props
         return (
           <button
             key={b.id}
-            onClick={() => onPop(b.id)}
+              onClick={() => pop(b.id)}
             className="absolute rounded-full flex items-center justify-center font-black text-white cursor-pointer active:scale-90 transition-transform shadow-lg"
             style={{
               left: b.x - b.r,
