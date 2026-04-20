@@ -30,7 +30,7 @@ export * from './games/shared';
 export * from './ui';
 
 // ===== ייצוא מאורגן לפי קטגוריות =====
-export * as Components from './components';
+export * as ComponentTypes from './components';
 export * as Contexts from './contexts';
 export * as Hooks from './hooks';
 export * as Utils from './utils';
