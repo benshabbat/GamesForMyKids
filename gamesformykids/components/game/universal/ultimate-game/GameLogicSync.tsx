@@ -43,7 +43,11 @@ function GameLogicSyncInner() {
  * cascade into GameLogicSync and trigger an infinite effect loop.
  */
 export function GameLogicSync() {
-  const isReady = useGameTypeStore((s) => !!s.currentGameType);
-  if (!isReady) return null;
-  return <GameLogicSyncInner />;
+  const gameType = useGameTypeStore((s) => s.currentGameType);
+  if (!gameType) return null;
+  // key=gameType forces a full unmount/remount when the game type changes so
+  // that the dynamic useGameHook() call inside GameLogicSyncInner always
+  // starts with a fresh hook call-stack and never violates the Rules of Hooks
+  // (React error #311: hooks called conditionally / call count mismatch).
+  return <GameLogicSyncInner key={gameType} />;
 }
