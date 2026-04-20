@@ -129,34 +129,3 @@ export interface GameChallenge extends
   ChallengeInfo,
   ChallengeProperties,
   ChallengeState {}
-
-/**
- * סטטיסטיקות בסיסיות - עקרון Single Responsibility
- */
-export interface BasicGameStats {
-  readonly totalPlayed: number;
-  readonly totalWins: number;
-}
-
-/**
- * סטטיסטיקות ניקוד - עקרון Single Responsibility
- */
-export interface ScoreStats {
-  readonly bestScore: number;
-  readonly averageScore: number;
-}
-
-/**
- * סטטיסטיקות זמן - עקרון Single Responsibility
- */
-export interface TimeStats {
-  readonly totalTime: number;
-}
-
-/**
- * סטטיסטיקות משחק מלאות - עקרון Interface Segregation
- */
-export interface GameStats extends 
-  BasicGameStats,
-  ScoreStats,
-  TimeStats {}

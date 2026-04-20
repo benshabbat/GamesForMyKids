@@ -13,7 +13,6 @@ export type {
   Category,
   AgeGroup,
   GameChallenge,
-  GameStats,
   DifficultyLevel
 } from './games/base';
 
@@ -29,9 +28,6 @@ export * from './games/shared';
 
 // ===== טיפוסים לממשק משתמש =====
 export * from './ui';
-
-// ===== טיפוסים לקומפוננטים =====
-export * as ComponentTypes from './components';
 
 // ===== ייצוא מאורגן לפי קטגוריות =====
 export * as Components from './components';
