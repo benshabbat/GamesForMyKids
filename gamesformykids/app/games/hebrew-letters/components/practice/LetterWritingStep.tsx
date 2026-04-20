@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
-import WritingCanvas from './WritingCanvas';
+import WritingCanvas from '../canvas/WritingCanvas';
 
 interface Props {
   letterData: HebrewLetter;
