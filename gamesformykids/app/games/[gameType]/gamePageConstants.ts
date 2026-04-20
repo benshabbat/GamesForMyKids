@@ -6,7 +6,7 @@ export const SUPPORTED_GAMES = [
   'animals', 'colors', 'fruits', 'vegetables', 'clothing',
   'letters', 'shapes', 'numbers', 'smells-tastes', 'weather',
   'transport', 'vehicles', 'tools', 'space', 'house',
-  'instruments', 'professions', 'emotions', 'colored-shapes',
+  'instruments', 'professions', 'emotions', 'math', 'colored-shapes',
   'sports', 'kitchen', 'body-parts', 'family', 'dinosaurs',
   'world-food', 'recycling', 'medicine', 'nature-sounds',
   'seasons-holidays', 'feelings', 'shopping-money', 'road-safety',
