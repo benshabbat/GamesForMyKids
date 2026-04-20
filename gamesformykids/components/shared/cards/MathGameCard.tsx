@@ -42,9 +42,9 @@ export default function MathGameCard({ item, onClick }: GameItemCardProps) {
       </span>
 
       {/* Emoji grid */}
-      <div className="flex flex-wrap justify-center gap-0.5 max-w-full">
+      <div className="flex flex-wrap justify-center gap-1 max-w-full">
         {Array.from({ length: clampedCount }).map((_, i) => (
-          <span key={i} className="text-xl leading-none">
+          <span key={i} className="text-2xl leading-none">
             {emoji}
           </span>
         ))}
