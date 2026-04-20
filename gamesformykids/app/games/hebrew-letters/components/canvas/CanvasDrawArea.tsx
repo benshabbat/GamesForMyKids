@@ -1,35 +1,49 @@
 'use client';
 
-import React from 'react';
 import LetterGuideOverlay from './LetterGuideOverlay';
+import { useWritingCanvasContext } from './WritingCanvasContext';
 
 interface CanvasDrawAreaProps {
-  canvasRef: React.RefObject<HTMLCanvasElement | null>;
   width: number;
   height: number;
   guideLetter?: string;
-  showLetterGuide: boolean;
-  onMouseDown: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  onMouseMove: (e: React.MouseEvent<HTMLCanvasElement>) => void;
-  onMouseUp: () => void;
-  onTouchStart: (e: React.TouchEvent<HTMLCanvasElement>) => void;
-  onTouchMove: (e: React.TouchEvent<HTMLCanvasElement>) => void;
-  onTouchEnd: (e: React.TouchEvent<HTMLCanvasElement>) => void;
 }
 
-export default function CanvasDrawArea({
-  canvasRef,
-  width,
-  height,
-  guideLetter,
-  showLetterGuide,
-  onMouseDown,
-  onMouseMove,
-  onMouseUp,
-  onTouchStart,
-  onTouchMove,
-  onTouchEnd,
-}: CanvasDrawAreaProps) {
+export default function CanvasDrawArea({ width, height, guideLetter }: CanvasDrawAreaProps) {
+  const {
+    canvasRef,
+    drawingState,
+    getMousePos,
+    getTouchPos,
+    startDrawing,
+    draw,
+    stopDrawing,
+  } = useWritingCanvasContext();
+
+  const showLetterGuide = drawingState.showLetterGuide;
+
+  const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getMousePos(e);
+    startDrawing(x, y);
+  };
+  const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getMousePos(e);
+    draw(x, y);
+  };
+  const onTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const { x, y } = getTouchPos(e);
+    startDrawing(x, y);
+  };
+  const onTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const { x, y } = getTouchPos(e);
+    draw(x, y);
+  };
+  const onTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    stopDrawing();
+  };
   return (
     <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-2">
       <canvas
@@ -40,8 +54,8 @@ export default function CanvasDrawArea({
         style={{ maxWidth: '100%', height: 'auto', touchAction: 'none', userSelect: 'none' }}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
-        onMouseUp={onMouseUp}
-        onMouseLeave={onMouseUp}
+        onMouseUp={stopDrawing}
+        onMouseLeave={stopDrawing}
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}

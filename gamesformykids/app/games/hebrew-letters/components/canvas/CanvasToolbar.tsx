@@ -2,32 +2,30 @@
 
 import { Button } from '@/components/ui/button';
 import { Eraser, RotateCcw, Download, Eye, EyeOff } from 'lucide-react';
+import { useWritingCanvasContext } from './WritingCanvasContext';
 
 interface CanvasToolbarProps {
-  pathsLength: number;
-  showLetterGuide: boolean;
   guideLetter?: string;
-  onUndo: () => void;
-  onClear: () => void;
-  onReset: () => void;
-  onDownload: () => void;
-  onToggleGuide: () => void;
 }
 
-export default function CanvasToolbar({
-  pathsLength,
-  showLetterGuide,
-  guideLetter,
-  onUndo,
-  onClear,
-  onReset,
-  onDownload,
-  onToggleGuide,
-}: CanvasToolbarProps) {
+export default function CanvasToolbar({ guideLetter }: CanvasToolbarProps) {
+  const {
+    drawingState,
+    undoLastStroke,
+    clearCanvas,
+    resetCanvas,
+    downloadCanvas,
+    toggleGuide,
+  } = useWritingCanvasContext();
+
+  const { pathsLength, showLetterGuide } = {
+    pathsLength: drawingState.paths.length,
+    showLetterGuide: drawingState.showLetterGuide,
+  };
   return (
     <div className="flex flex-wrap gap-2 justify-center">
       <Button
-        onClick={onUndo}
+        onClick={undoLastStroke}
         disabled={pathsLength === 0}
         variant="outline"
         size="sm"
@@ -38,7 +36,7 @@ export default function CanvasToolbar({
       </Button>
 
       <Button
-        onClick={onClear}
+        onClick={clearCanvas}
         variant="outline"
         size="sm"
         className="flex items-center gap-2 hover:bg-red-50 transition-colors"
@@ -48,7 +46,7 @@ export default function CanvasToolbar({
       </Button>
 
       <Button
-        onClick={onReset}
+        onClick={() => { resetCanvas(); clearCanvas(); }}
         variant="outline"
         size="sm"
         className="flex items-center gap-2 hover:bg-red-100 transition-colors"
@@ -58,7 +56,7 @@ export default function CanvasToolbar({
       </Button>
 
       <Button
-        onClick={onDownload}
+        onClick={downloadCanvas}
         variant="outline"
         size="sm"
         className="flex items-center gap-2 hover:bg-green-50 transition-colors"
@@ -69,7 +67,7 @@ export default function CanvasToolbar({
 
       {guideLetter && (
         <Button
-          onClick={onToggleGuide}
+          onClick={toggleGuide}
           variant="outline"
           size="sm"
           className={`flex items-center gap-2 transition-all ${

@@ -1,19 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
 import { useLetterEncouragement } from './useLetterEncouragement';
 
-interface LetterEncouragementProps {
-  letterName: string;
-  stepIndex: number;
-  isCompleted: boolean;
-}
+export default function LetterEncouragement() {
+  const currentLetter = useHebrewLettersStore((s) => s.currentLetter);
+  const practiceState = useHebrewLettersStore((s) => s.practiceState);
+  const stepIndex = practiceState.currentStep;
+  const isCompleted = practiceState.completedSteps.has(stepIndex);
+  const letterName = currentLetter?.name ?? '';
 
-export default function LetterEncouragement({ 
-  letterName, 
-  stepIndex, 
-  isCompleted 
-}: LetterEncouragementProps) {
   const { showCompletion, encouragementState, getStepMessage } = useLetterEncouragement({ isCompleted });
 
   return (

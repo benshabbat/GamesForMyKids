@@ -1,18 +1,12 @@
 'use client';
 
 import { Palette } from 'lucide-react';
+import { useWritingCanvasContext } from './WritingCanvasContext';
 
-interface CanvasColorPickerProps {
-  colors: readonly string[];
-  currentColor: string;
-  onChange: (color: string) => void;
-}
-
-export default function CanvasColorPicker({
-  colors,
-  currentColor,
-  onChange,
-}: CanvasColorPickerProps) {
+export default function CanvasColorPicker() {
+  const { strokeColors, drawingState, changeStrokeColor } = useWritingCanvasContext();
+  const colors = strokeColors;
+  const currentColor = drawingState.currentStrokeColor;
   return (
     <div className="flex flex-wrap gap-2 justify-center items-center bg-gray-50 p-3 rounded-lg">
       <div className="flex items-center gap-2">
@@ -22,7 +16,7 @@ export default function CanvasColorPicker({
       {colors.map((color) => (
         <button
           key={color}
-          onClick={() => onChange(color)}
+          onClick={() => changeStrokeColor(color)}
           className={`w-10 h-10 rounded-full border-3 transition-all duration-200 relative ${
             currentColor === color
               ? 'border-gray-800 scale-110 shadow-lg'

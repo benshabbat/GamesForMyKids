@@ -125,11 +125,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
         )}
 
         {/* רכיב עידוד */}
-        <LetterEncouragement 
-          letterName={letterData.name}
-          stepIndex={currentStepInfo.stepIndex}
-          isCompleted={currentStepInfo.isCompleted}
-        />
+        <LetterEncouragement />
 
         {/* Fun Facts */}
         <LetterFunFacts letterData={letterData} />
