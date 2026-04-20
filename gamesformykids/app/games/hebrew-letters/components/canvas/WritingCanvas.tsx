@@ -193,7 +193,7 @@ export default function WritingCanvas({
           width={width}
           height={height}
           className="border-2 border-dashed border-green-300 rounded-lg cursor-crosshair bg-white shadow-inner"
-          style={{ maxWidth: '100%', height: 'auto' }}
+          style={{ maxWidth: '100%', height: 'auto', touchAction: 'none', userSelect: 'none' }}
           onMouseDown={handleMouseDown}
           onMouseMove={handleMouseMove}
           onMouseUp={handleMouseUp}
