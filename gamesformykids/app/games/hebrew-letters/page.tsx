@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { HebrewLettersProvider } from './contexts/HebrewLettersContext';
 import HebrewLettersHub from './components/HebrewLettersHub';
 
 export const metadata: Metadata = {
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function HebrewLettersPage() {
-  return (
-    <HebrewLettersProvider>
-      <HebrewLettersHub />
-    </HebrewLettersProvider>
-  );
+  return <HebrewLettersHub />;
 }
