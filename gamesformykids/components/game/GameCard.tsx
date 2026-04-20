@@ -21,7 +21,11 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
             <div className="relative text-center text-white">
               <div className="mb-2 md:mb-4 flex justify-center">
                 <div className="bg-white/20 p-1.5 md:p-2 rounded-full backdrop-blur-sm">
-                  <game.icon className="w-7 h-7 md:w-10 md:h-10" />
+                  {game.emoji ? (
+                    <span className="text-3xl md:text-4xl leading-none">{game.emoji}</span>
+                  ) : (
+                    <game.icon className="w-7 h-7 md:w-10 md:h-10" />
+                  )}
                 </div>
               </div>
               <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2 drop-shadow-sm leading-tight">
@@ -48,7 +52,11 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
         </div>
         <div className="text-center text-white">
           <div className="mb-2 md:mb-4 flex justify-center">
-            <game.icon className="w-7 h-7 md:w-10 md:h-10" />
+            {game.emoji ? (
+              <span className="text-3xl md:text-4xl leading-none opacity-60">{game.emoji}</span>
+            ) : (
+              <game.icon className="w-7 h-7 md:w-10 md:h-10" />
+            )}
           </div>
           <h3 className="text-sm md:text-xl font-bold mb-1 md:mb-2">
             {game.title}

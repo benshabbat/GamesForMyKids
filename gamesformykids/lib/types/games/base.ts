@@ -22,6 +22,7 @@ export interface GameRegistrationBase {
 export interface GameVisuals {
   readonly color: string;
   readonly icon: ComponentType<{ className?: string }>;
+  readonly emoji?: string;
 }
 
 /**
