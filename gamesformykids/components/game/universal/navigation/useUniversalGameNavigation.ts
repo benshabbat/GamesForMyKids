@@ -31,7 +31,11 @@ export function useUniversalGameNavigation({
 }: UseUniversalGameNavigationOptions = {}): UseUniversalGameNavigationReturn {
   const pathname = usePathname();
 
-  const gameId = pathname.split("/").pop() || "";
+  // Extract the game ID as the segment immediately after "/games/",
+  // not the last segment (which may be a sub-route like "/alef").
+  const pathSegments = pathname.split("/");
+  const gamesIndex = pathSegments.indexOf("games");
+  const gameId = gamesIndex >= 0 ? pathSegments[gamesIndex + 1] || "" : "";
   const currentGame = GamesRegistry.getGameById(gameId);
   const navigation = getGameNavigation(gameId);
 
