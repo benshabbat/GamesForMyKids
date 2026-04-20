@@ -2,14 +2,12 @@
 
 import { motion } from 'framer-motion';
 import { Volume2 } from 'lucide-react';
-import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 
-interface Props {
-  letterData: HebrewLetter;
-  onPlaySound: (letter: string) => void;
-}
-
-export default function LetterIntroStep({ letterData, onPlaySound }: Props) {
+export default function LetterIntroStep() {
+  const letterData = useHebrewLettersStore((s) => s.currentLetter);
+  const playLetterSound = useHebrewLettersStore((s) => s.playLetterSound);
+  if (!letterData) return null;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -26,7 +24,7 @@ export default function LetterIntroStep({ letterData, onPlaySound }: Props) {
           className="text-8xl md:text-9xl font-bold text-green-700 mb-4 drop-shadow-lg relative z-10 cursor-pointer"
           whileHover={{ scale: 1.05, rotate: 2 }}
           transition={{ type: "spring", stiffness: 300 }}
-          onClick={() => onPlaySound(letterData.letter)}
+          onClick={() => playLetterSound(letterData.letter)}
           title="לחץ לשמיעת ההגייה"
         >
           {letterData.letter}

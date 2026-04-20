@@ -1,14 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 import WritingCanvas from '../canvas/WritingCanvas';
 
-interface Props {
-  letterData: HebrewLetter;
-}
-
-export default function LetterWritingStep({ letterData }: Props) {
+export default function LetterWritingStep() {
+  const letterData = useHebrewLettersStore((s) => s.currentLetter);
+  if (!letterData) return null;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}

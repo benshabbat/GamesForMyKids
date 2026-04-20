@@ -1,23 +1,13 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useHebrewLettersStore, getLetterProgress } from '../../store/hebrewLettersStore';
-import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
 import StatsGrid from './StatsGrid';
 import StatsProgressBar from './StatsProgressBar';
 import StatsAchievement from './StatsAchievement';
 
 export default function HebrewLettersStats() {
-  const completedLetters = useHebrewLettersStore((s) => s.completedLetters);
-
-  const totalLetters = hebrewLetters.length;
-  const completedCount = completedLetters.size;
-  const inProgressCount = hebrewLetters.filter(letter => {
-    const progress = getLetterProgress(letter.name);
-    return progress > 0 && progress < 100;
-  }).length;
-
-  const overallProgress = Math.round((completedCount / totalLetters) * 100);
+  const completedCount = useHebrewLettersStore((s) => s.completedLetters.size);
 
   return (
     <motion.div
@@ -42,16 +32,11 @@ export default function HebrewLettersStats() {
           )}
         </h3>
 
-        <StatsGrid
-          completedCount={completedCount}
-          inProgressCount={inProgressCount}
-          totalLetters={totalLetters}
-          overallProgress={overallProgress}
-        />
+        <StatsGrid />
 
-        <StatsProgressBar overallProgress={overallProgress} />
+        <StatsProgressBar />
 
-        <StatsAchievement completedCount={completedCount} />
+        <StatsAchievement />
       </div>
     </motion.div>
   );

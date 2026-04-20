@@ -1,14 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
+import { TOTAL_HEBREW_LETTERS } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
-interface StatsAchievementProps {
-  completedCount: number;
-}
-
-export default function StatsAchievement({ completedCount }: StatsAchievementProps) {
-  const totalLetters = hebrewLetters.length;
+export default function StatsAchievement() {
+  const completedCount = useHebrewLettersStore((s) => s.completedLetters.size);
+  const totalLetters = TOTAL_HEBREW_LETTERS;
   return (
     <motion.div
       className="text-center text-purple-800 bg-white/30 rounded-xl p-4"

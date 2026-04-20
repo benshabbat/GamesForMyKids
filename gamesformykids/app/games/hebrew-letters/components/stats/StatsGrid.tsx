@@ -1,16 +1,19 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useHebrewLettersStore, getLetterProgress } from '../../store/hebrewLettersStore';
+import { hebrewLetters, TOTAL_HEBREW_LETTERS } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
-interface StatsGridProps {
-  completedCount: number;
-  inProgressCount: number;
-  totalLetters: number;
-  overallProgress: number;
-}
+export default function StatsGrid() {
+  const completedLetters = useHebrewLettersStore((s) => s.completedLetters);
 
-export default function StatsGrid({ completedCount, inProgressCount, totalLetters, overallProgress }: StatsGridProps) {
-  const remaining = totalLetters - completedCount - inProgressCount;
+  const completedCount = completedLetters.size;
+  const inProgressCount = hebrewLetters.filter((letter) => {
+    const progress = getLetterProgress(letter.name);
+    return progress > 0 && progress < 100;
+  }).length;
+  const overallProgress = Math.round((completedCount / TOTAL_HEBREW_LETTERS) * 100);
+  const remaining = TOTAL_HEBREW_LETTERS - completedCount - inProgressCount;
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">

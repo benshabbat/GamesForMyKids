@@ -24,7 +24,6 @@ export default function HebrewLetterPractice({ letterData }: Props) {
     getStepTabStyle,
     getStepTabIcon,
     practiceSteps,
-    playLetterSound,
     toggleAudio,
     isAudioEnabled,
   } = useHebrewLetterPractice(letterData);
@@ -111,24 +110,24 @@ export default function HebrewLetterPractice({ letterData }: Props) {
 
         {/* Step 0: הכרות עם האות */}
         {currentStepInfo.stepIndex === 0 && (
-          <LetterIntroStep letterData={letterData} onPlaySound={playLetterSound} />
+          <LetterIntroStep />
         )}
 
         {/* Step 1: תרגול עקיבה וכתיבה מודרכת */}
         {currentStepInfo.stepIndex === 1 && (
-          <LetterTracingStep letterData={letterData} />
+          <LetterTracingStep />
         )}
 
         {/* Step 2: כתיבה חופשית ויצירתית */}
         {currentStepInfo.stepIndex === 2 && (
-          <LetterWritingStep letterData={letterData} />
+          <LetterWritingStep />
         )}
 
         {/* רכיב עידוד */}
         <LetterEncouragement />
 
         {/* Fun Facts */}
-        <LetterFunFacts letterData={letterData} />
+        <LetterFunFacts />
       </div>
     </div>
   );

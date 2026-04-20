@@ -191,3 +191,5 @@ export const hebrewLetters: HebrewLetter[] = [
     order: 22
   }
 ];
+
+export const TOTAL_HEBREW_LETTERS = hebrewLetters.length;

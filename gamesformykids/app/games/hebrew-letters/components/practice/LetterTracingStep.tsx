@@ -1,16 +1,16 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 import WritingCanvas from '../canvas/WritingCanvas';
 
 const TRACING_LETTER_STYLE = { WebkitTextStroke: '3px #4CAF50' } as const;
+const TRACING_LINE_NUMS = [1, 2] as const;
+const TRACING_POSITIONS = [1, 2, 3, 4] as const;
 
-interface Props {
-  letterData: HebrewLetter;
-}
-
-export default function LetterTracingStep({ letterData }: Props) {
+export default function LetterTracingStep() {
+  const letterData = useHebrewLettersStore((s) => s.currentLetter);
+  if (!letterData) return null;
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -27,7 +27,7 @@ export default function LetterTracingStep({ letterData }: Props) {
 
       {/* Tracing Lines */}
       <div className="space-y-6 mb-8">
-        {[1, 2].map((lineNum) => (
+        {TRACING_LINE_NUMS.map((lineNum) => (
           <motion.div
             key={lineNum}
             className="flex items-center justify-around bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-green-500 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
@@ -42,7 +42,7 @@ export default function LetterTracingStep({ letterData }: Props) {
             >
               {letterData.letter}
             </motion.div>
-            {[1, 2, 3, 4].map((pos) => (
+            {TRACING_POSITIONS.map((pos) => (
               <motion.div
                 key={pos}
                 className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition-all duration-300 hover:scale-110 relative group"

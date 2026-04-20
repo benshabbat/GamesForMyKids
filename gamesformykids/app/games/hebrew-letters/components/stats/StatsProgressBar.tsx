@@ -1,12 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
+import { TOTAL_HEBREW_LETTERS } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
-interface StatsProgressBarProps {
-  overallProgress: number;
-}
-
-export default function StatsProgressBar({ overallProgress }: StatsProgressBarProps) {
+export default function StatsProgressBar() {
+  const completedCount = useHebrewLettersStore((s) => s.completedLetters.size);
+  const overallProgress = Math.round((completedCount / TOTAL_HEBREW_LETTERS) * 100);
   return (
     <div className="w-full bg-gray-200 rounded-full h-6 mb-4 overflow-hidden">
       <motion.div
