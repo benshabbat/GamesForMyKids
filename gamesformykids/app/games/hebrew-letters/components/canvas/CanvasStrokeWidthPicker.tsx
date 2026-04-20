@@ -4,12 +4,11 @@ import { useWritingCanvasContext } from './WritingCanvasContext';
 
 export default function CanvasStrokeWidthPicker() {
   const { strokeWidths, drawingState, changeStrokeWidth } = useWritingCanvasContext();
-  const widths = strokeWidths;
   const currentWidth = drawingState.currentStrokeWidth;
   return (
     <div className="flex flex-wrap gap-2 justify-center items-center bg-gray-50 p-3 rounded-lg">
       <span className="text-sm font-medium text-gray-700">עובי המכחול:</span>
-      {widths.map((strokeWidth) => (
+      {strokeWidths.map((strokeWidth) => (
         <button
           key={strokeWidth}
           onClick={() => changeStrokeWidth(strokeWidth)}

@@ -10,6 +10,7 @@ const TRACING_POSITIONS = [1, 2, 3, 4] as const;
 
 export default function LetterTracingStep() {
   const letterData = useHebrewLettersStore((s) => s.currentLetter);
+  const speakText = useHebrewLettersStore((s) => s.speakText);
   if (!letterData) return null;
   return (
     <motion.div
@@ -52,12 +53,7 @@ export default function LetterTracingStep() {
                   transition: { duration: 0.3 }
                 }}
                 onHoverStart={() => {
-                  if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(letterData.pronunciation);
-                    utterance.lang = 'he-IL';
-                    utterance.rate = 0.8;
-                    speechSynthesis.speak(utterance);
-                  }
+                  speakText(letterData.pronunciation, { lang: 'he-IL', rate: 0.8 });
                 }}
               >
                 {letterData.letter}

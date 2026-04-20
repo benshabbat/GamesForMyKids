@@ -5,7 +5,6 @@ import { useWritingCanvasContext } from './WritingCanvasContext';
 
 export default function CanvasColorPicker() {
   const { strokeColors, drawingState, changeStrokeColor } = useWritingCanvasContext();
-  const colors = strokeColors;
   const currentColor = drawingState.currentStrokeColor;
   return (
     <div className="flex flex-wrap gap-2 justify-center items-center bg-gray-50 p-3 rounded-lg">
@@ -13,7 +12,7 @@ export default function CanvasColorPicker() {
         <Palette className="w-5 h-5 text-purple-600" />
         <span className="text-sm font-medium text-gray-700">בחר צבע:</span>
       </div>
-      {colors.map((color) => (
+      {strokeColors.map((color) => (
         <button
           key={color}
           onClick={() => changeStrokeColor(color)}

@@ -2,7 +2,7 @@
 
 import { useCallback } from 'react';
 import { useHebrewLettersStore } from '../store/hebrewLettersStore';
-import { hebrewLetters } from '../constants/hebrewLetters';
+import { TOTAL_HEBREW_LETTERS } from '../constants/hebrewLetters';
 
 /**
  * Hook ׳׳•׳×׳׳ ׳׳™׳©׳™׳× ׳׳ ׳™׳”׳•׳ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳•׳× ׳©׳ ׳׳•׳×׳™׳•׳× ׳¢׳‘׳¨׳™׳•׳×
@@ -17,8 +17,7 @@ export const useHebrewLettersStats = () => {
 
   // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳¢׳–׳¨ ׳׳—׳™׳©׳•׳‘׳™ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳”
   const getCompletionRate = useCallback(() => {
-    const totalLetters = hebrewLetters.length;
-    return completedLetters.size > 0 ? (completedLetters.size / totalLetters) * 100 : 0;
+    return completedLetters.size > 0 ? (completedLetters.size / TOTAL_HEBREW_LETTERS) * 100 : 0;
   }, [completedLetters.size]);
 
   const getAverageTimePerLetter = useCallback(() => {
@@ -153,6 +152,17 @@ export const useHebrewLettersStats = () => {
     getProgressInsights
   ]);
 
+  const downloadDetailedReport = useCallback(() => {
+    const data = exportDetailedReport();
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `hebrew-letters-detailed-report-${new Date().toISOString().split('T')[0]}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+  }, [exportDetailedReport]);
+
   return {
     // ׳ ׳×׳•׳ ׳™׳ ׳‘׳¡׳™׳¡׳™׳™׳
     learningStats,
@@ -179,6 +189,7 @@ export const useHebrewLettersStats = () => {
     // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳™׳™׳¦׳•׳
     exportLearningData,
     exportDetailedReport,
+    downloadDetailedReport,
     resetAllStats
   };
 };

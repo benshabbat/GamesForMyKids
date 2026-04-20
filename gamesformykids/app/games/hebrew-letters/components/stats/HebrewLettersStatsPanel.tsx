@@ -15,24 +15,13 @@ export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersSta
     completedLetters,
     getTotalPracticeTime,
     getLetterStats,
-    exportDetailedReport,
+    downloadDetailedReport,
     resetAllStats,
     formatTime
   } = useHebrewLettersStats();
 
   const totalTime = getTotalPracticeTime();
   const letterStats = letterName ? getLetterStats(letterName) : null;
-
-  const handleExport = () => {
-    const data = exportDetailedReport();
-    const blob = new Blob([data], { type: 'application/json' });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement('a');
-    link.href = url;
-    link.download = `hebrew-letters-detailed-report-${new Date().toISOString().split('T')[0]}.json`;
-    link.click();
-    URL.revokeObjectURL(url);
-  };
 
   return (
     <motion.div
@@ -104,7 +93,7 @@ export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersSta
       {/* כפתורי פעולה */}
       <div className="flex gap-2 justify-center">
         <Button
-          onClick={handleExport}
+          onClick={downloadDetailedReport}
           variant="outline"
           size="sm"
           className="flex items-center gap-2 hover:bg-blue-50"

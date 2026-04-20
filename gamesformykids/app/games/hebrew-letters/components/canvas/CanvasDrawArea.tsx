@@ -15,37 +15,16 @@ export default function CanvasDrawArea() {
     canvasRef,
     guideLetter,
     drawingState,
-    getMousePos,
-    getTouchPos,
-    startDrawing,
-    draw,
     stopDrawing,
+    onMouseDown,
+    onMouseMove,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
   } = useWritingCanvasContext();
 
   const { showLetterGuide, canvasWidth: width, canvasHeight: height } = drawingState;
 
-  const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const { x, y } = getMousePos(e);
-    startDrawing(x, y);
-  };
-  const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    const { x, y } = getMousePos(e);
-    draw(x, y);
-  };
-  const onTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    const { x, y } = getTouchPos(e);
-    startDrawing(x, y);
-  };
-  const onTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    const { x, y } = getTouchPos(e);
-    draw(x, y);
-  };
-  const onTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    stopDrawing();
-  };
   return (
     <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-2">
       <canvas

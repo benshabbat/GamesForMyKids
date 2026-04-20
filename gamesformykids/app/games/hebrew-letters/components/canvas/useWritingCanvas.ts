@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useEffect, useCallback } from 'react';
+import type React from 'react';
 import {
   useHebrewLettersStore,
   getCanvasPosition,
@@ -141,6 +142,33 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
   const changeStrokeWidth = (strokeWidth: number) => updateDrawingState({ currentStrokeWidth: strokeWidth });
   const toggleGuide = () => updateDrawingState({ showLetterGuide: !drawingState.showLetterGuide });
 
+  const onMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getMousePos(e);
+    startDrawing(x, y);
+  }, [getMousePos, startDrawing]);
+
+  const onMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    const { x, y } = getMousePos(e);
+    draw(x, y);
+  }, [getMousePos, draw]);
+
+  const onTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const { x, y } = getTouchPos(e);
+    startDrawing(x, y);
+  }, [getTouchPos, startDrawing]);
+
+  const onTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    const { x, y } = getTouchPos(e);
+    draw(x, y);
+  }, [getTouchPos, draw]);
+
+  const onTouchEnd = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    stopDrawing();
+  }, [stopDrawing]);
+
   return {
     canvasRef,
     drawingState,
@@ -158,5 +186,10 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     changeStrokeColor,
     changeStrokeWidth,
     toggleGuide,
+    onMouseDown,
+    onMouseMove,
+    onTouchStart,
+    onTouchMove,
+    onTouchEnd,
   };
 }
