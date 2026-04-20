@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
-import { UltimateGamePage, GameLogicSync } from '@/components/game/universal/UltimateGamePage';
+import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
 import { type GamePageParams } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 
