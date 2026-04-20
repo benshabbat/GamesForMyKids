@@ -2,9 +2,9 @@
 
 import { BaseGameItem } from "@/lib/types/core/base";
 import { useAutoGame } from "@/hooks";
-import { GameCardGrid } from "../../shared";
-import { GameHints } from "../../shared";
-import { TipsBox } from "../../shared";
+import { GameCardGrid } from "../../../shared";
+import { GameHints } from "../../../shared";
+import { TipsBox } from "../../../shared";
 
 interface AutoGameBodyProps {
   renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode;

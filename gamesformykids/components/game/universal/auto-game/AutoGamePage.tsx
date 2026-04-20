@@ -13,8 +13,8 @@
 
 import { BaseGameItem } from "@/lib/types/core/base";
 import { useAutoGame } from "@/hooks";
-import { AutoStartScreen } from "../../shared";
-import { ProgressDisplay } from "../../shared";
+import { AutoStartScreen } from "../../../shared";
+import { ProgressDisplay } from "../../../shared";
 import { AutoGameHeader } from "./AutoGameHeader";
 import { AutoGameBody } from "./AutoGameBody";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
-import { AutoStartScreen } from '../../shared';
+import { AutoStartScreen } from '../../../shared';
 
 const DEFAULT_BG = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
 

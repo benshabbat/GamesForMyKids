@@ -4,8 +4,8 @@
 // מייצא את כל הקומפוננטים המשותפים
 
 // Universal Game Components moved to game/universal
-export { default as UniversalGameNavigation } from '../game/universal/UniversalGameNavigation';
-export { UltimateGamePage } from '../game/universal/UltimateGamePage';
+export { default as UniversalGameNavigation } from '../game/universal/navigation/UniversalGameNavigation';
+export { UltimateGamePage } from '../game/universal/ultimate-game/UltimateGamePage';
 
 // Cards
 export * from './cards';

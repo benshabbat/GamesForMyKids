@@ -17,11 +17,11 @@ import { useGameEffects } from '@/hooks/shared/game-state/useGameEffects';
 import { GameType } from '@/lib/types/core/base';
 import { AutoGameType } from '@/lib/constants/gameHooksMap';
 
-import { GameLoadingScreen } from "../../shared";
-import { GameErrorScreen } from "../../shared";
-import { GameHeaderSection } from "../../shared";
-import GameMainContent from "../../shared/GameMainContent";
-import { SimpleProgressDisplay } from "../../shared";
+import { GameLoadingScreen } from "../../../shared";
+import { GameErrorScreen } from "../../../shared";
+import { GameHeaderSection } from "../../../shared";
+import GameMainContent from "../../../shared/GameMainContent";
+import { SimpleProgressDisplay } from "../../../shared";
 import { UltimateStartScreen } from "./UltimateStartScreen";
 
 // Re-export co-located components for convenience

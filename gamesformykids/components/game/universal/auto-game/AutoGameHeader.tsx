@@ -1,9 +1,9 @@
 "use client";
 
 import { useAutoGame } from "@/hooks";
-import { GameHeader } from "../../shared";
-import { ChallengeBox } from "../../shared";
-import { CelebrationBox } from "../../shared";
+import { GameHeader } from "../../../shared";
+import { ChallengeBox } from "../../../shared";
+import { CelebrationBox } from "../../../shared";
 
 /**
  * AutoGameHeader - header section of AutoGamePage
