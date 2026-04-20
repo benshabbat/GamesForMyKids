@@ -1,9 +1,9 @@
 "use client";
 
-import { useBuildingContext } from './contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 export default function BuildingStartScreen() {
-  const { startGame } = useBuildingContext();
+  const startGame = useBuildingStore((s) => s.startGame);
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-600 via-pink-500 to-blue-600">

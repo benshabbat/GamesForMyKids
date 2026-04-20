@@ -1,24 +1,22 @@
 'use client';
 
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 import BlockRenderer from './BlockRenderer';
 import EmptyCanvasWelcome from './EmptyCanvasWelcome';
 
 export default function BuildingCanvas() {
-  const { 
-    blocks, 
-    showGrid, 
-    canvasRef,
-    handleMouseMove,
-    handleMouseUp,
-    handleTouchMove,
-    handleTouchEnd,
-    deselectBlock
-  } = useBuildingContext();
+  const blocks = useBuildingStore((s) => s.blocks);
+  const showGrid = useBuildingStore((s) => s.showGrid);
+  const handleMouseMove = useBuildingStore((s) => s.handleMouseMove);
+  const handleMouseUp = useBuildingStore((s) => s.handleMouseUp);
+  const handleTouchMove = useBuildingStore((s) => s.handleTouchMove);
+  const handleTouchEnd = useBuildingStore((s) => s.handleTouchEnd);
+  const deselectBlock = useBuildingStore((s) => s.deselectBlock);
+  const setCanvasElement = useBuildingStore((s) => s.setCanvasElement);
 
   return (
     <div
-      ref={canvasRef}
+      ref={setCanvasElement}
       className="relative bg-white/10 backdrop-blur-sm rounded-3xl border-4 border-white/30 overflow-hidden shadow-2xl touch-manipulation h-96 md:h-[600px]"
       style={{ 
         width: '100%',

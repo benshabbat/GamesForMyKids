@@ -1,9 +1,10 @@
 'use client';
 
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 export default function BuildingGameHeader() {
-  const { score, achievements } = useBuildingContext();
+  const score = useBuildingStore((s) => s.score);
+  const achievements = useBuildingStore((s) => s.achievements);
 
   return (
     <div className="text-center mb-4 md:mb-6">

@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, RotateCw } from 'lucide-react';
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 import { Block } from '@/app/games/building/types';
 import BlockShape from './BlockShape';
 
@@ -10,14 +10,12 @@ interface BlockRendererProps {
 }
 
 export default function BlockRenderer({ block }: BlockRendererProps) {
-  const { 
-    selectedBlock,
-    handleMouseDown,
-    handleTouchStart,
-    handleDoubleClick,
-    handleRotate,
-    handleBlockClick
-  } = useBuildingContext();
+  const selectedBlock = useBuildingStore((s) => s.selectedBlock);
+  const handleMouseDown = useBuildingStore((s) => s.handleMouseDown);
+  const handleTouchStart = useBuildingStore((s) => s.handleTouchStart);
+  const handleDoubleClick = useBuildingStore((s) => s.handleDoubleClick);
+  const handleRotate = useBuildingStore((s) => s.handleRotate);
+  const handleBlockClick = useBuildingStore((s) => s.handleBlockClick);
 
   const isDragged = selectedBlock?.id === block.id;
   const isSelected = selectedBlock?.id === block.id;

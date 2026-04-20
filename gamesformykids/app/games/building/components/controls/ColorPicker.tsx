@@ -1,10 +1,12 @@
 'use client';
 
 import { Palette } from 'lucide-react';
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore, BUILDING_COLORS } from '@/lib/stores/buildingStore';
 
 export default function ColorPicker() {
-  const { COLORS, selectedColor, handleColorSelect } = useBuildingContext();
+  const COLORS = BUILDING_COLORS;
+  const selectedColor = useBuildingStore((s) => s.selectedColor);
+  const handleColorSelect = useBuildingStore((s) => s.handleColorSelect);
 
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">

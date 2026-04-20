@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { 
   ColorPicker, 
   ShapeCreator, 
@@ -10,11 +11,34 @@ import {
   BuildingCanvas,
   BuildingGameInstructions
 } from './components';
-import { BuildingProvider, useBuildingContext } from './contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 import BuildingStartScreen from './BuildingStartScreen';
 
-function BuildingGameContent() {
-  const { isPlaying } = useBuildingContext();
+export default function BuildingGame() {
+  const isPlaying = useBuildingStore((s) => s.isPlaying);
+
+  // Particle animation — no subscription needed, read state inside interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const { particles, tickParticles } = useBuildingStore.getState();
+      if (particles.length > 0) tickParticles();
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Block rotation animation — no subscription needed, check inside interval
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!useBuildingStore.getState().animationMode) return;
+      useBuildingStore.setState((s) => ({
+        blocks: s.blocks.map((block) => ({
+          ...block,
+          rotation: (block.rotation + 2) % 360,
+        })),
+      }));
+    }, 100);
+    return () => clearInterval(interval);
+  }, []);
 
   if (!isPlaying) {
     return <BuildingStartScreen />;
@@ -51,13 +75,5 @@ function BuildingGameContent() {
         <BuildingGameInstructions />
       </div>
     </div>
-  );
-}
-
-export default function BuildingGame() {
-  return (
-    <BuildingProvider>
-      <BuildingGameContent />
-    </BuildingProvider>
   );
 }

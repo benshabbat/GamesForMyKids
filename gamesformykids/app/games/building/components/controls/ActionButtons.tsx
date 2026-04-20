@@ -1,17 +1,15 @@
 'use client';
 
 import { Sparkles, Trash2, Undo2, Redo2 } from 'lucide-react';
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 export default function ActionButtons() {
-  const { 
-    historyIndex, 
-    history, 
-    magicShuffle, 
-    clearAll, 
-    undo, 
-    redo 
-  } = useBuildingContext();
+  const historyIndex = useBuildingStore((s) => s.historyIndex);
+  const history = useBuildingStore((s) => s.history);
+  const magicShuffle = useBuildingStore((s) => s.magicShuffle);
+  const clearAll = useBuildingStore((s) => s.clearAll);
+  const undo = useBuildingStore((s) => s.undo);
+  const redo = useBuildingStore((s) => s.redo);
 
   const canUndo = historyIndex > 0;
   const canRedo = historyIndex < history.length - 1;

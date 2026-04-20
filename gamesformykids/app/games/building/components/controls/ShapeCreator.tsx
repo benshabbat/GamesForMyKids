@@ -1,16 +1,14 @@
 'use client';
 
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore, BUILDING_SHAPES } from '@/lib/stores/buildingStore';
 import { SHAPE_ICONS } from '@/app/games/building/constants';
 
 export default function ShapeCreator() {
-  const { 
-    SHAPES, 
-    selectedColor, 
-    selectedTool,
-    createBlock, 
-    handleToolSelect 
-  } = useBuildingContext();
+  const SHAPES = BUILDING_SHAPES;
+  const selectedColor = useBuildingStore((s) => s.selectedColor);
+  const selectedTool = useBuildingStore((s) => s.selectedTool);
+  const createBlock = useBuildingStore((s) => s.createBlock);
+  const handleToolSelect = useBuildingStore((s) => s.handleToolSelect);
 
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">

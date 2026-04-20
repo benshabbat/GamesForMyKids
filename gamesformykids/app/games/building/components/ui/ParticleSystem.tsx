@@ -1,9 +1,9 @@
 'use client';
 
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 export default function ParticleSystem() {
-  const { particles } = useBuildingContext();
+  const particles = useBuildingStore((s) => s.particles);
 
   return (
     <>

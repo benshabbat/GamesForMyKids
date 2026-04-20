@@ -1,22 +1,20 @@
 'use client';
 
 import { Volume2, VolumeX, Save } from 'lucide-react';
-import { useBuildingContext } from '@/app/games/building/contexts/BuildingContext';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 export default function SettingsPanel() {
-  const {
-    soundEnabled,
-    showGrid,
-    animationMode,
-    selectedSize,
-    selectedBlock,
-    setSoundEnabled,
-    setShowGrid,
-    setAnimationMode,
-    handleSizeChange,
-    updateSelectedBlockSize,
-    saveCreation
-  } = useBuildingContext();
+  const soundEnabled = useBuildingStore((s) => s.soundEnabled);
+  const showGrid = useBuildingStore((s) => s.showGrid);
+  const animationMode = useBuildingStore((s) => s.animationMode);
+  const selectedSize = useBuildingStore((s) => s.selectedSize);
+  const selectedBlock = useBuildingStore((s) => s.selectedBlock);
+  const setSoundEnabled = useBuildingStore((s) => s.setSoundEnabled);
+  const setShowGrid = useBuildingStore((s) => s.setShowGrid);
+  const setAnimationMode = useBuildingStore((s) => s.setAnimationMode);
+  const handleSizeChange = useBuildingStore((s) => s.handleSizeChange);
+  const updateSelectedBlockSize = useBuildingStore((s) => s.updateSelectedBlockSize);
+  const saveCreation = useBuildingStore((s) => s.saveCreation);
 
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
