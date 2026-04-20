@@ -4,7 +4,6 @@ import { Palette } from 'lucide-react';
 import { useBuildingStore, BUILDING_COLORS } from '@/lib/stores/buildingStore';
 
 export default function ColorPicker() {
-  const COLORS = BUILDING_COLORS;
   const selectedColor = useBuildingStore((s) => s.selectedColor);
   const handleColorSelect = useBuildingStore((s) => s.handleColorSelect);
 
@@ -15,7 +14,7 @@ export default function ColorPicker() {
         בחירת צבע
       </h3>
       <div className="grid grid-cols-4 md:grid-cols-5 gap-1 md:gap-2 mb-2 md:mb-3">
-        {COLORS.map((color, index) => (
+        {BUILDING_COLORS.map((color, index) => (
           <button
             key={color}
             onClick={() => handleColorSelect(color)}

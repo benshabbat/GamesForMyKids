@@ -1,12 +1,15 @@
 'use client';
 
-import { Block } from '@/app/games/building/types';
+import { useBuildingStore } from '@/lib/stores/buildingStore';
 
 interface BlockShapeProps {
-  block: Block;
+  blockId: string;
 }
 
-export default function BlockShape({ block }: BlockShapeProps) {
+export default function BlockShape({ blockId }: BlockShapeProps) {
+  const block = useBuildingStore((s) => s.blocks.find((b) => b.id === blockId));
+  if (!block) return null;
+
   const size = 60 * block.scale * block.size;
   const baseStyle = {
     backgroundColor: block.color,

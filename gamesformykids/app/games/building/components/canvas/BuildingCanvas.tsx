@@ -35,7 +35,7 @@ export default function BuildingCanvas() {
       {blocks.map(block => (
         <BlockRenderer 
           key={block.id}
-          block={block}
+          blockId={block.id}
         />
       ))}
     </div>

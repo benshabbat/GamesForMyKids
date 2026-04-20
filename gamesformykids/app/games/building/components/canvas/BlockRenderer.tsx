@@ -2,20 +2,22 @@
 
 import { Sparkles, RotateCw } from 'lucide-react';
 import { useBuildingStore } from '@/lib/stores/buildingStore';
-import { Block } from '@/app/games/building/types';
 import BlockShape from './BlockShape';
 
 interface BlockRendererProps {
-  block: Block;
+  blockId: string;
 }
 
-export default function BlockRenderer({ block }: BlockRendererProps) {
+export default function BlockRenderer({ blockId }: BlockRendererProps) {
+  const block = useBuildingStore((s) => s.blocks.find((b) => b.id === blockId));
   const selectedBlock = useBuildingStore((s) => s.selectedBlock);
   const handleMouseDown = useBuildingStore((s) => s.handleMouseDown);
   const handleTouchStart = useBuildingStore((s) => s.handleTouchStart);
   const handleDoubleClick = useBuildingStore((s) => s.handleDoubleClick);
   const handleRotate = useBuildingStore((s) => s.handleRotate);
   const handleBlockClick = useBuildingStore((s) => s.handleBlockClick);
+
+  if (!block) return null;
 
   const isDragged = selectedBlock?.id === block.id;
   const isSelected = selectedBlock?.id === block.id;
@@ -36,7 +38,7 @@ export default function BlockRenderer({ block }: BlockRendererProps) {
       }}
       className={`${block.sparkles ? 'animate-pulse' : ''} hover:scale-110 transition-transform group`}
     >
-      <BlockShape block={block} />
+      <BlockShape blockId={blockId} />
       
       {/* Rotation button - appears on hover or touch */}
       <button

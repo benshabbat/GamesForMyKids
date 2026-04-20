@@ -4,7 +4,6 @@ import { useBuildingStore, BUILDING_SHAPES } from '@/lib/stores/buildingStore';
 import { SHAPE_ICONS } from '@/app/games/building/constants';
 
 export default function ShapeCreator() {
-  const SHAPES = BUILDING_SHAPES;
   const selectedColor = useBuildingStore((s) => s.selectedColor);
   const selectedTool = useBuildingStore((s) => s.selectedTool);
   const createBlock = useBuildingStore((s) => s.createBlock);
@@ -14,7 +13,7 @@ export default function ShapeCreator() {
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
       <h3 className="text-white font-bold text-base md:text-lg mb-2 md:mb-3 text-center">צורות</h3>
       <div className="grid grid-cols-4 gap-1 md:gap-2 mb-2 md:mb-3">
-        {SHAPES.map(shape => (
+        {BUILDING_SHAPES.map(shape => (
           <button
             key={shape}
             onClick={() => createBlock(shape)}

@@ -358,24 +358,9 @@ export const useBuildingStore = create<BuildingStore>((set, get) => ({
     if (!dragState.isDragging || !dragState.draggedBlock) return;
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
-
-    const newX = e.clientX - rect.left - dragState.dragOffset.x;
-    const newY = e.clientY - rect.top - dragState.dragOffset.y;
-
+    const pos = calcDragPosition(e.clientX, e.clientY, rect, dragState.dragOffset, showGrid);
     set((s) => ({
-      blocks: s.blocks.map((b) =>
-        b.id === dragState.draggedBlock!.id
-          ? {
-              ...b,
-              x: showGrid
-                ? Math.round(Math.max(0, Math.min(newX, rect.width - CANVAS_CONFIG.BLOCK_SIZE)) / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE
-                : Math.max(0, Math.min(newX, rect.width - CANVAS_CONFIG.BLOCK_SIZE)),
-              y: showGrid
-                ? Math.round(Math.max(0, Math.min(newY, rect.height - CANVAS_CONFIG.BLOCK_SIZE)) / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE
-                : Math.max(0, Math.min(newY, rect.height - CANVAS_CONFIG.BLOCK_SIZE)),
-            }
-          : b
-      ),
+      blocks: s.blocks.map((b) => b.id === dragState.draggedBlock!.id ? { ...b, ...pos } : b),
     }));
   },
 
@@ -385,24 +370,9 @@ export const useBuildingStore = create<BuildingStore>((set, get) => ({
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
     const touch = e.touches[0];
-
-    const newX = touch.clientX - rect.left - dragState.dragOffset.x;
-    const newY = touch.clientY - rect.top - dragState.dragOffset.y;
-
+    const pos = calcDragPosition(touch.clientX, touch.clientY, rect, dragState.dragOffset, showGrid);
     set((s) => ({
-      blocks: s.blocks.map((b) =>
-        b.id === dragState.draggedBlock!.id
-          ? {
-              ...b,
-              x: showGrid
-                ? Math.round(Math.max(0, Math.min(newX, rect.width - CANVAS_CONFIG.BLOCK_SIZE)) / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE
-                : Math.max(0, Math.min(newX, rect.width - CANVAS_CONFIG.BLOCK_SIZE)),
-              y: showGrid
-                ? Math.round(Math.max(0, Math.min(newY, rect.height - CANVAS_CONFIG.BLOCK_SIZE)) / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE
-                : Math.max(0, Math.min(newY, rect.height - CANVAS_CONFIG.BLOCK_SIZE)),
-            }
-          : b
-      ),
+      blocks: s.blocks.map((b) => b.id === dragState.draggedBlock!.id ? { ...b, ...pos } : b),
     }));
   },
 
@@ -418,6 +388,24 @@ export const useBuildingStore = create<BuildingStore>((set, get) => ({
 
   handleTouchEnd: () => get().handleMouseUp(),
 }));
+
+// ─── Private helpers ──────────────────────────────────────────────────────────
+function calcDragPosition(
+  clientX: number,
+  clientY: number,
+  rect: DOMRect,
+  dragOffset: { x: number; y: number },
+  showGrid: boolean
+) {
+  const rawX = clientX - rect.left - dragOffset.x;
+  const rawY = clientY - rect.top - dragOffset.y;
+  const clampX = Math.max(0, Math.min(rawX, rect.width - CANVAS_CONFIG.BLOCK_SIZE));
+  const clampY = Math.max(0, Math.min(rawY, rect.height - CANVAS_CONFIG.BLOCK_SIZE));
+  return {
+    x: showGrid ? Math.round(clampX / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE : clampX,
+    y: showGrid ? Math.round(clampY / CANVAS_CONFIG.GRID_SIZE) * CANVAS_CONFIG.GRID_SIZE : clampY,
+  };
+}
 
 // ─── Selectors ────────────────────────────────────────────────────────────────
 export const BUILDING_COLORS = COLORS;
