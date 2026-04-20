@@ -23,15 +23,15 @@ export default function WritingCanvas({
   const canvasValue = useWritingCanvas({ width, height, backgroundColor });
 
   return (
-    <WritingCanvasProvider value={canvasValue}>
+    <WritingCanvasProvider value={canvasValue} guideLetter={guideLetter}>
       <div className="bg-white rounded-xl border-2 border-green-500 p-4 shadow-lg">
         <div className="mb-4 space-y-4">
-          <CanvasToolbar guideLetter={guideLetter} />
+          <CanvasToolbar />
           <CanvasColorPicker />
           <CanvasStrokeWidthPicker />
         </div>
 
-        <CanvasDrawArea width={width} height={height} guideLetter={guideLetter} />
+        <CanvasDrawArea />
 
         <div className="mt-4 text-center space-y-2">
           <div className="bg-gradient-to-r from-yellow-100 to-orange-100 border-l-4 border-yellow-500 p-3 rounded-lg">

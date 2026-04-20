@@ -4,12 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Eraser, RotateCcw, Download, Eye, EyeOff } from 'lucide-react';
 import { useWritingCanvasContext } from './WritingCanvasContext';
 
-interface CanvasToolbarProps {
-  guideLetter?: string;
-}
-
-export default function CanvasToolbar({ guideLetter }: CanvasToolbarProps) {
+export default function CanvasToolbar() {
   const {
+    guideLetter,
     drawingState,
     undoLastStroke,
     clearCanvas,

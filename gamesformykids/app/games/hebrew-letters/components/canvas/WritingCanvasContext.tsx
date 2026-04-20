@@ -3,7 +3,9 @@
 import React, { createContext, useContext } from 'react';
 import { useWritingCanvas } from './useWritingCanvas';
 
-type WritingCanvasContextValue = ReturnType<typeof useWritingCanvas>;
+type WritingCanvasContextValue = ReturnType<typeof useWritingCanvas> & {
+  guideLetter?: string;
+};
 
 const WritingCanvasContext = createContext<WritingCanvasContextValue | null>(null);
 
@@ -14,13 +16,15 @@ export function useWritingCanvasContext(): WritingCanvasContextValue {
 }
 
 interface WritingCanvasProviderProps {
-  value: WritingCanvasContextValue;
+  value: ReturnType<typeof useWritingCanvas>;
+  guideLetter?: string;
   children: React.ReactNode;
 }
 
-export function WritingCanvasProvider({ value, children }: WritingCanvasProviderProps) {
+export function WritingCanvasProvider({ value, guideLetter, children }: WritingCanvasProviderProps) {
+  const contextValue: WritingCanvasContextValue = { ...value, guideLetter };
   return (
-    <WritingCanvasContext.Provider value={value}>
+    <WritingCanvasContext.Provider value={contextValue}>
       {children}
     </WritingCanvasContext.Provider>
   );

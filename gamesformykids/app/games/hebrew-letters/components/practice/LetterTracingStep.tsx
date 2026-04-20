@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import WritingCanvas from '../canvas/WritingCanvas';
 
+const TRACING_LETTER_STYLE = { WebkitTextStroke: '3px #4CAF50' } as const;
+
 interface Props {
   letterData: HebrewLetter;
 }
@@ -44,9 +46,7 @@ export default function LetterTracingStep({ letterData }: Props) {
               <motion.div
                 key={pos}
                 className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition-all duration-300 hover:scale-110 relative group"
-                style={{
-                  WebkitTextStroke: '3px #4CAF50'
-                }}
+                style={TRACING_LETTER_STYLE}
                 whileHover={{
                   rotate: [0, -5, 5, 0],
                   transition: { duration: 0.3 }

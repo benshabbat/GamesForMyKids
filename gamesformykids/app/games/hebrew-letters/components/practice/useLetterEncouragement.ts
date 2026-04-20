@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useHebrewLettersStore, getStepMessage } from '../../store/hebrewLettersStore';
+import { ENCOURAGEMENT_DURATION } from '../../constants/hebrewLettersConstants';
 
 interface UseLetterEncouragementParams {
   isCompleted: boolean;
@@ -19,7 +20,7 @@ export function useLetterEncouragement({ isCompleted }: UseLetterEncouragementPa
       showEncouragement();
       playEncouragementSound();
 
-      const timer = setTimeout(() => setShowCompletion(false), 3000);
+      const timer = setTimeout(() => setShowCompletion(false), ENCOURAGEMENT_DURATION);
       return () => clearTimeout(timer);
     }
   }, [isCompleted, showEncouragement, playEncouragementSound]);

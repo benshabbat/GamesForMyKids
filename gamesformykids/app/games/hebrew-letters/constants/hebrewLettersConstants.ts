@@ -1,4 +1,3 @@
-import { AUDIO_CONSTANTS } from '../../../../lib/constants/core';
 import type { LearningStats } from '../types/hebrew-letters';
 
 // Hebrew Letters Game Constants
@@ -65,9 +64,9 @@ export const DEFAULT_ENCOURAGEMENT_STATE = {
 
 export const DEFAULT_AUDIO_STATE = {
   isAudioEnabled: true,
-  volume: AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME * 0.7, // מעט יותר שקט
-  speechRate: AUDIO_CONSTANTS.SPEECH.HEBREW_RATE * 1.3, // קצת יותר מהיר למשחק האותיות
-  speechPitch: AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
+  volume: 0.7,
+  speechRate: 1.1,
+  speechPitch: 1.2,
 } as const;
 
 export const DEFAULT_LEARNING_STATS: LearningStats = {

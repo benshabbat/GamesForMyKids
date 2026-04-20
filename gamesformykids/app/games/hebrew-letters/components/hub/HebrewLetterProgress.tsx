@@ -10,6 +10,27 @@ interface HebrewLetterProgressProps {
   size?: 'sm' | 'md' | 'lg';
 }
 
+const SIZE_CLASSES = {
+  sm: {
+    container: 'w-12 h-12 text-lg',
+    text: 'text-lg',
+    progress: 'h-1',
+    indicator: 'w-4 h-4 text-xs'
+  },
+  md: {
+    container: 'w-16 h-16 text-2xl',
+    text: 'text-2xl',
+    progress: 'h-2',
+    indicator: 'w-5 h-5 text-xs'
+  },
+  lg: {
+    container: 'w-20 h-20 text-3xl',
+    text: 'text-3xl',
+    progress: 'h-3',
+    indicator: 'w-6 h-6 text-sm'
+  }
+} as const;
+
 export default function HebrewLetterProgress({ 
   letter, 
   showName = false, 
@@ -20,28 +41,7 @@ export default function HebrewLetterProgress({
   const progress = getLetterProgress(letter.name);
   const isCompleted = completedLetters.has(letter.name);
 
-  const sizeClasses = {
-    sm: {
-      container: 'w-12 h-12 text-lg',
-      text: 'text-lg',
-      progress: 'h-1',
-      indicator: 'w-4 h-4 text-xs'
-    },
-    md: {
-      container: 'w-16 h-16 text-2xl',
-      text: 'text-2xl',
-      progress: 'h-2',
-      indicator: 'w-5 h-5 text-xs'
-    },
-    lg: {
-      container: 'w-20 h-20 text-3xl',
-      text: 'text-3xl',
-      progress: 'h-3',
-      indicator: 'w-6 h-6 text-sm'
-    }
-  };
-
-  const currentSize = sizeClasses[size];
+  const currentSize = SIZE_CLASSES[size];
 
   return (
     <motion.div

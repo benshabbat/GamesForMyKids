@@ -1,25 +1,26 @@
 'use client';
 
 import { useLetterGuideOverlay } from './useLetterGuideOverlay';
+import { useWritingCanvasContext } from './WritingCanvasContext';
 
-interface LetterGuideOverlayProps {
-  letter: string;
-  width: number;
-  height: number;
-  opacity?: number;
-  show?: boolean;
-}
+const OVERLAY_BASE_STYLE = {
+  width: '100%',
+  height: '100%',
+  borderRadius: '0.5rem',
+} as const;
 
-export default function LetterGuideOverlay({ 
-  letter, 
-  width, 
-  height, 
-  opacity = 0.3,
-  show = true 
-}: LetterGuideOverlayProps) {
-  const { canvasRef, isAnimating } = useLetterGuideOverlay({ letter, width, height, opacity, show });
+const GUIDE_OPACITY = 0.3;
 
-  if (!show) return null;
+export default function LetterGuideOverlay() {
+  const { guideLetter, drawingState } = useWritingCanvasContext();
+  const { canvasWidth: width, canvasHeight: height } = drawingState;
+
+  const { canvasRef, isAnimating } = useLetterGuideOverlay({
+    letter: guideLetter ?? '',
+    width,
+    height,
+    opacity: GUIDE_OPACITY,
+  });
 
   return (
     <canvas
@@ -29,12 +30,7 @@ export default function LetterGuideOverlay({
       className={`absolute top-0 left-0 pointer-events-none transition-all duration-1000 ${
         isAnimating ? 'scale-105 opacity-90' : 'scale-100'
       }`}
-      style={{ 
-        width: '100%', 
-        height: '100%',
-        borderRadius: '0.5rem',
-        filter: isAnimating ? 'brightness(1.1)' : 'brightness(1)'
-      }}
+      style={{ ...OVERLAY_BASE_STYLE, filter: isAnimating ? 'brightness(1.1)' : 'brightness(1)' }}
     />
   );
 }

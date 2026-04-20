@@ -7,7 +7,6 @@ interface UseLetterGuideOverlayParams {
   width: number;
   height: number;
   opacity: number;
-  show: boolean;
 }
 
 export function useLetterGuideOverlay({
@@ -15,14 +14,12 @@ export function useLetterGuideOverlay({
   width,
   height,
   opacity,
-  show,
 }: UseLetterGuideOverlayParams) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isAnimating, setIsAnimating] = useState(false);
 
   // ציור האות על הקנבס
   useEffect(() => {
-    if (!show) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
@@ -58,14 +55,13 @@ export function useLetterGuideOverlay({
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
-  }, [letter, width, height, opacity, show]);
+  }, [letter, width, height, opacity]);
 
   // אנימציית פעימות
   useEffect(() => {
-    if (!show) return;
     const interval = setInterval(() => setIsAnimating(prev => !prev), 2000);
     return () => clearInterval(interval);
-  }, [show]);
+  }, []);
 
   return { canvasRef, isAnimating };
 }

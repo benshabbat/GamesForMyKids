@@ -3,15 +3,17 @@
 import LetterGuideOverlay from './LetterGuideOverlay';
 import { useWritingCanvasContext } from './WritingCanvasContext';
 
-interface CanvasDrawAreaProps {
-  width: number;
-  height: number;
-  guideLetter?: string;
-}
+const CANVAS_STYLE = {
+  maxWidth: '100%',
+  height: 'auto',
+  touchAction: 'none',
+  userSelect: 'none',
+} as const;
 
-export default function CanvasDrawArea({ width, height, guideLetter }: CanvasDrawAreaProps) {
+export default function CanvasDrawArea() {
   const {
     canvasRef,
+    guideLetter,
     drawingState,
     getMousePos,
     getTouchPos,
@@ -20,7 +22,7 @@ export default function CanvasDrawArea({ width, height, guideLetter }: CanvasDra
     stopDrawing,
   } = useWritingCanvasContext();
 
-  const showLetterGuide = drawingState.showLetterGuide;
+  const { showLetterGuide, canvasWidth: width, canvasHeight: height } = drawingState;
 
   const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getMousePos(e);
@@ -51,7 +53,7 @@ export default function CanvasDrawArea({ width, height, guideLetter }: CanvasDra
         width={width}
         height={height}
         className="border-2 border-dashed border-green-300 rounded-lg cursor-crosshair bg-white shadow-inner"
-        style={{ maxWidth: '100%', height: 'auto', touchAction: 'none', userSelect: 'none' }}
+        style={CANVAS_STYLE}
         onMouseDown={onMouseDown}
         onMouseMove={onMouseMove}
         onMouseUp={stopDrawing}
@@ -62,11 +64,7 @@ export default function CanvasDrawArea({ width, height, guideLetter }: CanvasDra
       />
 
       {guideLetter && showLetterGuide && (
-        <LetterGuideOverlay
-          letter={guideLetter}
-          width={width}
-          height={height}
-        />
+        <LetterGuideOverlay />
       )}
     </div>
   );
