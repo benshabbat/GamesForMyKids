@@ -1,9 +1,18 @@
 'use client';
-import { useArithmeticGame } from '../useArithmeticGame';
-import { TIME_PER_QUESTION } from '../data/questions';
+import { useArithmeticGameStore } from '../arithmeticGameStore';
+import { TIME_PER_QUESTION, QUESTIONS_PER_GAME } from '../data/questions';
 
 export default function ArithmeticQuestion() {
-  const { level, question, questionNum, totalQuestions, score, selected, isCorrect, timeLeft, selectAnswer, advance, goMenu } = useArithmeticGame();
+  const level       = useArithmeticGameStore(s => s.level);
+  const question    = useArithmeticGameStore(s => s.question);
+  const questionNum = useArithmeticGameStore(s => s.questionNum);
+  const score       = useArithmeticGameStore(s => s.score);
+  const selected    = useArithmeticGameStore(s => s.selected);
+  const isCorrect   = useArithmeticGameStore(s => s.isCorrect);
+  const timeLeft    = useArithmeticGameStore(s => s.timeLeft);
+  const selectAnswer = useArithmeticGameStore(s => s.selectAnswer);
+  const advance      = useArithmeticGameStore(s => s.advance);
+  const goMenu       = useArithmeticGameStore(s => s.goMenu);
 
   if (!question) return null;
 
@@ -15,7 +24,7 @@ export default function ArithmeticQuestion() {
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-3">
           <button onClick={goMenu} className="text-indigo-500 text-sm bg-indigo-100 rounded-full px-3 py-1">← חזור</button>
-          <span className="font-bold text-indigo-700">{level.label} | שאלה {questionNum + 1}/{totalQuestions}</span>
+          <span className="font-bold text-indigo-700">{level.label} | שאלה {questionNum + 1}/{QUESTIONS_PER_GAME}</span>
           <span className="font-bold text-indigo-700">⭐ {score}</span>
         </div>
         <div className="h-3 bg-gray-200 rounded-full mb-5 overflow-hidden">
@@ -47,7 +56,7 @@ export default function ArithmeticQuestion() {
               {isCorrect ? `✅ נכון! ${question.a} ${question.op} ${question.b} = ${question.answer}` : `❌ ${question.a} ${question.op} ${question.b} = ${question.answer}`}
             </div>
             <button onClick={advance} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-indigo-500 to-blue-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
-              {questionNum < totalQuestions - 1 ? 'שאלה הבאה ←' : 'תוצאות! 🎉'}
+              {questionNum < QUESTIONS_PER_GAME - 1 ? 'שאלה הבאה ←' : 'תוצאות! 🎉'}
             </button>
           </div>
         )}

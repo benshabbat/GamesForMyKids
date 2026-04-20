@@ -18,6 +18,15 @@ export const LEVELS: ArithmeticLevel[] = [
   { id: 6, label: 'הכל ביחד',     operations: ['+', '-', '×'], maxNum: 12 },
 ];
 
+export const LEVEL_EMOJIS: Record<number, string> = {
+  1: '➕',
+  2: '➕➖',
+  3: '➕',
+  4: '➖',
+  5: '✖️',
+  6: '🔣',
+};
+
 export interface ArithmeticQuestion {
   a: number;
   b: number;
