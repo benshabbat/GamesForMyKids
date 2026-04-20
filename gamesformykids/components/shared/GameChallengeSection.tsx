@@ -4,6 +4,7 @@ import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import ChallengeBox from "./feedback/ChallengeBox";
 import CelebrationBox from "./feedback/CelebrationBox";
 import MathChallengeBox from "./feedback/MathChallengeBox";
+import CountingChallengeBox from "./feedback/CountingChallengeBox";
 
 export default function GameChallengeSection() {
   const { currentChallenge, showCelebration, gameType } = useUniversalGame();
@@ -16,6 +17,8 @@ export default function GameChallengeSection() {
         <CelebrationBox />
       ) : gameType === 'math' ? (
         <MathChallengeBox />
+      ) : gameType === 'counting' ? (
+        <CountingChallengeBox />
       ) : (
         <ChallengeBox />
       )}

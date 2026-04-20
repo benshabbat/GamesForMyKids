@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
+import { BaseGameItem } from "@/lib/types/core/base";
 import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { 
   delay, 
@@ -13,6 +14,9 @@ import {
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 import { useGameAudioStore } from "@/lib/stores/gameAudioStore";
+import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
+import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+import { useCountingChallengeStore } from "@/lib/stores/countingChallengeStore";
 
 // אימוג'ים לספירה עם שמות בעברית
 const COUNTING_ITEMS = [
@@ -94,6 +98,24 @@ export function useCountingGame() {
     return options;
   };
 
+  // --- Zustand bridge helpers ---
+
+  const toChallengeItem = (challenge: CountingChallenge): BaseGameItem => ({
+    name: String(challenge.correctAnswer),
+    hebrew: `כמה ${challenge.itemPlural} יש?`,
+    english: `How many ${challenge.itemPlural}?`,
+    emoji: challenge.emoji,
+    color: '#06b6d4',
+  });
+
+  const toOptionItem = (n: number): BaseGameItem => ({
+    name: String(n),
+    hebrew: String(n),
+    english: String(n),
+    emoji: '',
+    color: '#06b6d4',
+  });
+
   // --- Audio & Speech ---
 
   const playSuccessSound = () => {
@@ -126,6 +148,12 @@ export function useCountingGame() {
         options: [],
       }));
 
+      // Sync to Zustand so UltimateGamePage transitions correctly
+      const progressStore = useGameProgressStore.getState();
+      progressStore.resetProgress();
+      progressStore.setGameActive(true);
+      useGameSessionStore.getState().resetSession();
+
       console.log("Game state updated to playing mode");
       
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
@@ -143,6 +171,13 @@ export function useCountingGame() {
         currentChallenge: challenge,
         options,
       }));
+
+      // Write challenge/options to Zustand so GameMainContent can render them
+      useGameSessionStore.getState().setChallengeAndOptions(
+        toChallengeItem(challenge),
+        options.map(toOptionItem),
+      );
+      useCountingChallengeStore.getState().setChallenge(challenge);
 
       console.log("Challenge set in game state");
 
@@ -171,13 +206,21 @@ export function useCountingGame() {
           currentChallenge: challenge,
           options,
         }));
+        useGameSessionStore.getState().setChallengeAndOptions(
+          toChallengeItem(challenge),
+          options.map(toOptionItem),
+        );
+        useCountingChallengeStore.getState().setChallenge(challenge);
         
         await delay(300);
         await speakQuestion(challenge);
       };
       
       await handleCorrectGameAnswer(
-        (v) => setGameState((prev) => ({ ...prev, showCelebration: v })),
+        (v) => {
+          setGameState((prev) => ({ ...prev, showCelebration: v }));
+          useGameSessionStore.getState().setShowCelebration(v);
+        },
         onComplete
       );
     } else {
@@ -200,11 +243,33 @@ export function useCountingGame() {
     });
   };
 
+  // handleItemClick bridges the universal card-click system to handleNumberClick
+  const handleItemClick = async (item: BaseGameItem) => {
+    await handleNumberClick(Number(item.name));
+  };
+
+  const speakItemName = async (itemName: string): Promise<void> => {
+    if (!speechEnabled) return;
+    try {
+      await speakHebrew(itemName);
+    } catch {
+      // ignore speech errors
+    }
+  };
+
   return {
+    // For the dedicated app/games/counting/page.tsx
     gameState,
     speakQuestion: () => gameState.currentChallenge ? speakQuestion(gameState.currentChallenge) : Promise.resolve(),
     startGame,
     handleNumberClick,
     resetGame,
+    // For the universal UltimateGamePage / GameLogicSync
+    handleItemClick,
+    speakItemName,
+    hints: [] as string[],
+    hasMoreHints: false,
+    showNextHint: () => {},
+    currentAccuracy: 0,
   };
 }

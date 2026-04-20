@@ -9,6 +9,7 @@ import { GAME_ITEMS_MAP } from "./gameItemsMap";
 
 // Hooks מיוחדים עבור משחקים עם לוגיקה מורכבת
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
+import { useCountingGame } from "@/app/games/counting/useCountingGame";
 // Memory game כעת משתמש בקונטקסט ולא בhook נפרד
 
 // טיפוס בסיסי לפונקציית Hook
@@ -98,7 +99,7 @@ const useNbaTeamsGame = () => useGenericGame(GAME_ITEMS_MAP["nba-teams"], 'nba-t
 // משחקי טבע וחרקים
 const useExoticBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["exotic-birds"], 'exotic-birds');
 const useButterfliesGame = () => useGenericGame(GAME_ITEMS_MAP["butterflies"], 'butterflies');
-// - counting: לוגיקת ספירה מיוחדת
+const useCountingGameHook = () => useCountingGame();
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
 
@@ -142,7 +143,9 @@ export type AutoGameType =
   | 'nba-teams'
   // משחקי טבע וחרקים
   | 'exotic-birds'
-  | 'butterflies';
+  | 'butterflies'
+  // משחקי ספירה
+  | 'counting';
 // הערה: 'memory' הוסר כי הוא משתמש בקונטקסט ולא בhook
 
 /**
@@ -230,8 +233,11 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   "nba-teams": useNbaTeamsGame,
   // משחקי טבע וחרקים
   "exotic-birds": useExoticBirdsGame,
-  "butterflies": useButterfliesGame,  // משחקים מיוחדים עם לוגיקה מורכבת - לא דרך AutoGamePage
-  math: useMathGame, // טיפוס שונה, לא יתיישם דרך AutoGamePage
+  "butterflies": useButterfliesGame,
+  // משחקי ספירה
+  counting: useCountingGameHook,
+  // משחקים מיוחדים עם לוגיקה מורכבת
+  math: useMathGame,
   // memory: משתמש בקונטקסט ולא בhook, לא נכלל במפה
 };
 

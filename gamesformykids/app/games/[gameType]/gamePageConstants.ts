@@ -26,6 +26,7 @@ export const SUPPORTED_GAMES = [
   'nba-teams',
   'exotic-birds',
   'butterflies',
+  'counting',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
