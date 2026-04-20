@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
+import { FADE_UP_ANIMATION, STEP_HEADING_CLASS } from '@/app/games/hebrew-letters/constants/hebrewLettersConstants';
 import WritingCanvas from '../canvas/WritingCanvas';
 
 export default function LetterWritingStep() {
@@ -9,13 +10,12 @@ export default function LetterWritingStep() {
   if (!letterData) return null;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      {...FADE_UP_ANIMATION}
       transition={{ delay: 0.4 }}
       className="mb-8"
     >
       <div className="text-center mb-6">
-        <h2 className="text-2xl font-bold text-green-700 bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-500 rounded-xl p-4">
+        <h2 className={STEP_HEADING_CLASS}>
           ✏️ כתיבה חופשית ויצירתית
         </h2>
         <p className="text-gray-600 mt-2">
@@ -34,7 +34,6 @@ export default function LetterWritingStep() {
       </div>
 
       <WritingCanvas
-        width={800}
         height={300}
         guideLetter={undefined}
       />

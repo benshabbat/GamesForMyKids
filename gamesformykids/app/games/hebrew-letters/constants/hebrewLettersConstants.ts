@@ -80,3 +80,12 @@ export const DEFAULT_LEARNING_STATS: LearningStats = {
 
 // Animation durations
 export const ENCOURAGEMENT_DURATION = 3000; // 3 seconds
+
+// Shared animation presets
+export const FADE_UP_ANIMATION = {
+  initial: { opacity: 0, y: 20 },
+  animate: { opacity: 1, y: 0 },
+} as const;
+
+export const STEP_HEADING_CLASS =
+  'text-2xl font-bold text-green-700 bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-500 rounded-xl p-4';

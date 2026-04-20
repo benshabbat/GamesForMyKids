@@ -1,8 +1,7 @@
 ﻿'use client';
 
 import { useCallback } from 'react';
-import { useHebrewLettersStore } from '../store/hebrewLettersStore';
-import { TOTAL_HEBREW_LETTERS } from '../constants/hebrewLetters';
+import { useHebrewLettersStore, selectLettersCompletionPercent } from '../store/hebrewLettersStore';
 
 /**
  * Hook ׳׳•׳×׳׳ ׳׳™׳©׳™׳× ׳׳ ׳™׳”׳•׳ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳•׳× ׳©׳ ׳׳•׳×׳™׳•׳× ׳¢׳‘׳¨׳™׳•׳×
@@ -11,14 +10,12 @@ import { TOTAL_HEBREW_LETTERS } from '../constants/hebrewLetters';
 export const useHebrewLettersStats = () => {
   const learningStats = useHebrewLettersStore((s) => s.learningStats);
   const completedLetters = useHebrewLettersStore((s) => s.completedLetters);
+  const completionPercent = useHebrewLettersStore(selectLettersCompletionPercent);
   const { resetAllStats, startPracticeSession, endPracticeSession } = useHebrewLettersStore();
 
   const getTotalPracticeTime = useCallback(() => learningStats.totalPracticeTime, [learningStats.totalPracticeTime]);
 
-  // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳¢׳–׳¨ ׳׳—׳™׳©׳•׳‘׳™ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳”
-  const getCompletionRate = useCallback(() => {
-    return completedLetters.size > 0 ? (completedLetters.size / TOTAL_HEBREW_LETTERS) * 100 : 0;
-  }, [completedLetters.size]);
+  const getCompletionRate = useCallback(() => completionPercent, [completionPercent]);
 
   const getAverageTimePerLetter = useCallback(() => {
     const totalTime = learningStats.totalPracticeTime;

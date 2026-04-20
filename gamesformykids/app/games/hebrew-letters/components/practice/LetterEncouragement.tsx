@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
+import { FADE_UP_ANIMATION } from '../../constants/hebrewLettersConstants';
 import { useLetterEncouragement } from './useLetterEncouragement';
 
 export default function LetterEncouragement() {
@@ -17,8 +18,7 @@ export default function LetterEncouragement() {
     <>
       {/* הודעת עידוד לשלב */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
+        {...FADE_UP_ANIMATION}
         className="bg-gradient-to-r from-yellow-100 to-orange-100 border-l-4 border-yellow-500 p-4 rounded-lg mb-6 text-center"
       >
         <p className="text-yellow-800 font-medium text-lg">

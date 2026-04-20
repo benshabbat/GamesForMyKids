@@ -2,14 +2,14 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
+import { FADE_UP_ANIMATION } from '@/app/games/hebrew-letters/constants/hebrewLettersConstants';
 
 export default function LetterFunFacts() {
   const letterData = useHebrewLettersStore((s) => s.currentLetter);
   if (!letterData) return null;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      {...FADE_UP_ANIMATION}
       transition={{ delay: 0.5 }}
       className="bg-gradient-to-r from-purple-100 to-pink-100 border-2 border-purple-400 rounded-2xl p-6 mb-8"
     >

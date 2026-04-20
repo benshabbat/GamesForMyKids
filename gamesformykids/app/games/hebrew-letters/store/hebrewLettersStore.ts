@@ -13,7 +13,7 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { HebrewLetter } from '../constants/hebrewLetters';
+import { TOTAL_HEBREW_LETTERS, type HebrewLetter } from '../constants/hebrewLetters';
 import {
   DrawingState,
   PracticeState,
@@ -253,16 +253,11 @@ export const useHebrewLettersStore = create<HebrewLettersState & HebrewLettersSt
       // ── Practice ───────────────────────────────────────
       selectLetter: (letter) =>
         set(
-          (s) => ({
+          {
             currentLetter: letter,
             practiceState: { ...DEFAULT_PRACTICE_STATE, completedSteps: new Set<number>() },
             encouragementState: { ...DEFAULT_ENCOURAGEMENT_STATE },
-            learningStats: {
-              ...s.learningStats,
-              lettersStarted: new Set([...s.learningStats.lettersStarted, letter.letter]),
-              sessionStartTime: Date.now(),
-            },
-          }),
+          },
           false,
           'hebrewLetters/selectLetter',
         ),
@@ -478,6 +473,9 @@ export function getStepTabStyle(practiceState: PracticeState, stepIndex: number)
 export function getStepTabIcon(practiceState: PracticeState, stepIndex: number): string {
   return practiceState.completedSteps.has(stepIndex) ? '✓' : '';
 }
+
+export const selectLettersCompletionPercent = (s: HebrewLettersState): number =>
+  Math.round((s.completedLetters.size / TOTAL_HEBREW_LETTERS) * 100);
 
 export function getLetterProgress(letterName: string): number {
   const { completedLetters, currentLetter, practiceState } = useHebrewLettersStore.getState();

@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
+import { FADE_UP_ANIMATION } from '../../constants/hebrewLettersConstants';
 import StatsGrid from './StatsGrid';
 import StatsProgressBar from './StatsProgressBar';
 import StatsAchievement from './StatsAchievement';
@@ -11,8 +12,7 @@ export default function HebrewLettersStats() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      {...FADE_UP_ANIMATION}
       className="bg-gradient-to-r from-blue-100 via-purple-100 to-pink-100 rounded-2xl p-6 border-2 border-purple-300 mb-8 relative overflow-hidden"
     >
       {/* רקע דקורטיבי */}

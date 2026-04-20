@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Volume2 } from 'lucide-react';
 import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
+import { FADE_UP_ANIMATION } from '@/app/games/hebrew-letters/constants/hebrewLettersConstants';
 
 export default function LetterIntroStep() {
   const letterData = useHebrewLettersStore((s) => s.currentLetter);
@@ -10,8 +11,7 @@ export default function LetterIntroStep() {
   if (!letterData) return null;
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      {...FADE_UP_ANIMATION}
       transition={{ delay: 0.1 }}
       className="text-center mb-8"
     >

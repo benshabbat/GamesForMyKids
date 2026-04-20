@@ -2,11 +2,34 @@
 
 import { motion } from 'framer-motion';
 import { useHebrewLettersStats } from '@/app/games/hebrew-letters/hooks/useHebrewLettersStats';
+import { FADE_UP_ANIMATION } from '@/app/games/hebrew-letters/constants/hebrewLettersConstants';
 import { Button } from '@/components/ui/button';
-import { Download, RotateCcw, BarChart3, Timer, Trophy } from 'lucide-react';
+import { Download, RotateCcw, BarChart3, Timer, Trophy, type LucideIcon } from 'lucide-react';
 
 interface HebrewLettersStatsProps {
   letterName?: string;
+}
+
+interface StatPanelCardProps {
+  icon: LucideIcon;
+  label: string;
+  value: React.ReactNode;
+  gradientClass: string;
+  iconClass: string;
+  labelClass: string;
+  valueClass: string;
+}
+
+function StatPanelCard({ icon: Icon, label, value, gradientClass, iconClass, labelClass, valueClass }: StatPanelCardProps) {
+  return (
+    <div className={`${gradientClass} p-4 rounded-lg`}>
+      <div className="flex items-center gap-2 mb-2">
+        <Icon className={`w-4 h-4 ${iconClass}`} />
+        <span className={`text-sm font-medium ${labelClass}`}>{label}</span>
+      </div>
+      <p className={`text-2xl font-bold ${valueClass}`}>{value}</p>
+    </div>
+  );
 }
 
 export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersStatsProps) {
@@ -25,8 +48,7 @@ export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersSta
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+      {...FADE_UP_ANIMATION}
       className="bg-white rounded-xl border-2 border-blue-300 p-6 shadow-lg"
     >
       <div className="flex items-center gap-2 mb-4">
@@ -37,32 +59,33 @@ export default function HebrewLettersStatsPanel({ letterName }: HebrewLettersSta
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-        {/* זמן תרגול כולל */}
-        <div className="bg-gradient-to-r from-blue-50 to-blue-100 p-4 rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <Timer className="w-4 h-4 text-blue-600" />
-            <span className="text-sm font-medium text-blue-700">זמן תרגול</span>
-          </div>
-          <p className="text-2xl font-bold text-blue-900">{formatTime(totalTime)}</p>
-        </div>
-
-        {/* אותיות שהושלמו */}
-        <div className="bg-gradient-to-r from-green-50 to-green-100 p-4 rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <Trophy className="w-4 h-4 text-green-600" />
-            <span className="text-sm font-medium text-green-700">אותיות הושלמו</span>
-          </div>
-          <p className="text-2xl font-bold text-green-900">{completedLetters.size}</p>
-        </div>
-
-        {/* אותיות שהתחילו */}
-        <div className="bg-gradient-to-r from-yellow-50 to-yellow-100 p-4 rounded-lg">
-          <div className="flex items-center gap-2 mb-2">
-            <BarChart3 className="w-4 h-4 text-yellow-600" />
-            <span className="text-sm font-medium text-yellow-700">אותיות התחלתי</span>
-          </div>
-          <p className="text-2xl font-bold text-yellow-900">{learningStats.lettersStarted.size}</p>
-        </div>
+        <StatPanelCard
+          icon={Timer}
+          label="זמן תרגול"
+          value={formatTime(totalTime)}
+          gradientClass="bg-gradient-to-r from-blue-50 to-blue-100"
+          iconClass="text-blue-600"
+          labelClass="text-blue-700"
+          valueClass="text-blue-900"
+        />
+        <StatPanelCard
+          icon={Trophy}
+          label="אותיות הושלמו"
+          value={completedLetters.size}
+          gradientClass="bg-gradient-to-r from-green-50 to-green-100"
+          iconClass="text-green-600"
+          labelClass="text-green-700"
+          valueClass="text-green-900"
+        />
+        <StatPanelCard
+          icon={BarChart3}
+          label="אותיות התחלתי"
+          value={learningStats.lettersStarted.size}
+          gradientClass="bg-gradient-to-r from-yellow-50 to-yellow-100"
+          iconClass="text-yellow-600"
+          labelClass="text-yellow-700"
+          valueClass="text-yellow-900"
+        />
       </div>
 
       {/* סטטיסטיקות ספציפיות לאות */}
