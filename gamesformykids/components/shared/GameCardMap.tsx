@@ -60,7 +60,7 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   kitchen: DefaultGameCard,
   'body-parts': DefaultGameCard,
   family: DefaultGameCard,
-  dinosaurs: DefaultGameCard,
+  dinosaurs: createPhotoCard('dinosaurs'),
   // משחקים נוספים חדשים
   'world-food': DefaultGameCard,
   recycling: DefaultGameCard,
