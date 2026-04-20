@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useHebrewLettersStore, getLetterProgress } from '@/lib/stores/hebrewLettersStore';
+import { useHebrewLettersStore, getLetterProgress } from '../../store/hebrewLettersStore';
 import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 interface HebrewLetterProgressProps {

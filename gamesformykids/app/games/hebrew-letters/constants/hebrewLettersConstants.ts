@@ -1,4 +1,5 @@
 import { AUDIO_CONSTANTS } from '../../../../lib/constants/core';
+import type { LearningStats } from '../types/hebrew-letters';
 
 // Hebrew Letters Game Constants
 export const STROKE_COLORS = [
@@ -69,14 +70,14 @@ export const DEFAULT_AUDIO_STATE = {
   speechPitch: AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
 } as const;
 
-export const DEFAULT_LEARNING_STATS = {
+export const DEFAULT_LEARNING_STATS: LearningStats = {
   totalPracticeTime: 0,
   lettersStarted: new Set<string>(),
   lettersCompleted: new Set<string>(),
   totalStrokes: 0,
   sessionStartTime: 0,
   practiceHistory: [],
-} as const;
+};
 
 // Animation durations
 export const ENCOURAGEMENT_DURATION = 3000; // 3 seconds

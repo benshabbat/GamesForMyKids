@@ -1,9 +1,9 @@
 {
-  "timestamp": "2025-09-03T08:50:11.065Z",
+  "timestamp": "2026-04-20T11:31:33.275Z",
   "stats": {
-    "filesScanned": 35,
-    "typesFound": 227,
-    "duplicatesFound": 3
+    "filesScanned": 37,
+    "typesFound": 226,
+    "duplicatesFound": 2
   },
   "duplicates": [
     {
@@ -39,33 +39,6 @@
       "recommendations": {
         "baseName": "BaseProps",
         "baseInterface": "   ContextBasedComponentProps;"
-      }
-    },
-    {
-      "signature": "5e01e92532ca5cdbe2f7936e4a3eb7e3",
-      "normalizedContent": "ProgressModalState",
-      "occurrences": [
-        {
-          "kind": "type",
-          "name": "GameUI",
-          "normalizedBody": "ProgressModalState",
-          "filePath": "lib\\types\\contexts\\universal-game.ts",
-          "position": 2309,
-          "originalBody": "ProgressModalState"
-        },
-        {
-          "kind": "type",
-          "name": "GameUIState",
-          "normalizedBody": "ProgressModalState",
-          "filePath": "lib\\types\\hooks\\game-state.ts",
-          "position": 3175,
-          "originalBody": "ProgressModalState"
-        }
-      ],
-      "severity": 72,
-      "recommendations": {
-        "baseName": "BaseGame",
-        "baseInterface": "   ProgressModalState;"
       }
     },
     {

@@ -1,7 +1,8 @@
 ﻿'use client';
 
 import { useCallback } from 'react';
-import { useHebrewLettersStore } from '@/lib/stores/hebrewLettersStore';
+import { useHebrewLettersStore } from '../store/hebrewLettersStore';
+import { hebrewLetters } from '../constants/hebrewLetters';
 
 /**
  * Hook ׳׳•׳×׳׳ ׳׳™׳©׳™׳× ׳׳ ׳™׳”׳•׳ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳•׳× ׳©׳ ׳׳•׳×׳™׳•׳× ׳¢׳‘׳¨׳™׳•׳×
@@ -16,7 +17,7 @@ export const useHebrewLettersStats = () => {
 
   // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳¢׳–׳¨ ׳׳—׳™׳©׳•׳‘׳™ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳”
   const getCompletionRate = useCallback(() => {
-    const totalLetters = 22; // ׳׳¡׳₪׳¨ ׳”׳׳•׳×׳™׳•׳× ׳‘׳¢׳‘׳¨׳™׳×
+    const totalLetters = hebrewLetters.length;
     return completedLetters.size > 0 ? (completedLetters.size / totalLetters) * 100 : 0;
   }, [completedLetters.size]);
 

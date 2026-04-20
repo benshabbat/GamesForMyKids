@@ -6,7 +6,7 @@
 
 import { BaseGameItem, GameType, BaseGameState, ProgressModalState, GameTyped, BaseDifficultyConfig } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
-import { BaseGameConfiguration } from '../contexts/universal-game';
+import { BaseGameConfiguration, UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
@@ -110,13 +110,13 @@ export interface GameResponseActions {
 /**
  * מצב UI של משחק - עקרון DRY, type alias
  */
-export type GameUIState = ProgressModalState;
+export type GameUIState = GameUI;
 
 /**
  * הגדרות משחק - עקרון Single Responsibility  
  * מרחיב את BaseGameConfiguration מ-universal-game
  */
-export type GameConfiguration = BaseGameConfiguration;
+export type GameConfiguration = UniversalGameConfiguration;
 
 /**
  * מצב משחק לוגי מלא - עקרון Interface Segregation

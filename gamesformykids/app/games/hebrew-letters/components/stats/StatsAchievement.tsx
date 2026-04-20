@@ -1,12 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 interface StatsAchievementProps {
   completedCount: number;
 }
 
 export default function StatsAchievement({ completedCount }: StatsAchievementProps) {
+  const totalLetters = hebrewLetters.length;
   return (
     <motion.div
       className="text-center text-purple-800 bg-white/30 rounded-xl p-4"
@@ -50,7 +52,7 @@ export default function StatsAchievement({ completedCount }: StatsAchievementPro
           🏆 מדהים! אתם כמעט שם!
         </motion.p>
       )}
-      {completedCount === 22 && (
+      {completedCount === totalLetters && (
         <motion.div
           className="text-center"
           animate={{

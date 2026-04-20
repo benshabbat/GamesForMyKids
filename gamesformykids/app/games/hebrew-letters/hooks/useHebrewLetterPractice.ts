@@ -8,7 +8,7 @@ import {
   getOverallProgress,
   getStepTabStyle,
   getStepTabIcon,
-} from '@/lib/stores/hebrewLettersStore';
+} from '../store/hebrewLettersStore';
 import { PRACTICE_STEPS } from '../constants/hebrewLettersConstants';
 
 export const useHebrewLetterPractice = (letterData: HebrewLetter) => {

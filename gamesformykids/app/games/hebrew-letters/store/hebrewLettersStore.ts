@@ -13,22 +13,23 @@
 
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import type { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
+import type { HebrewLetter } from '../constants/hebrewLetters';
 import {
   DrawingState,
   PracticeState,
   EncouragementState,
   LearningStats,
-} from '@/app/games/hebrew-letters/types/hebrew-letters';
+} from '../types/hebrew-letters';
 import {
   PRACTICE_STEPS,
   DEFAULT_DRAWING_STATE,
   DEFAULT_PRACTICE_STATE,
   DEFAULT_ENCOURAGEMENT_STATE,
   DEFAULT_AUDIO_STATE,
+  DEFAULT_LEARNING_STATS,
   ENCOURAGEMENT_MESSAGES,
   STEP_MESSAGES,
-} from '@/app/games/hebrew-letters/constants/hebrewLettersConstants';
+} from '../constants/hebrewLettersConstants';
 
 // ── Module-level refs ──────────────────────────────────────
 let encouragementTimerRef: ReturnType<typeof setTimeout> | null = null;
@@ -91,15 +92,6 @@ export interface HebrewLettersStoreActions {
   resetAllStats: () => void;
 }
 
-const INITIAL_LEARNING_STATS: LearningStats = {
-  totalPracticeTime: 0,
-  lettersStarted: new Set<string>(),
-  lettersCompleted: new Set<string>(),
-  totalStrokes: 0,
-  sessionStartTime: 0,
-  practiceHistory: [],
-};
-
 // ── Store ──────────────────────────────────────────────────
 export const useHebrewLettersStore = create<HebrewLettersState & HebrewLettersStoreActions>()(
   devtools(
@@ -111,7 +103,7 @@ export const useHebrewLettersStore = create<HebrewLettersState & HebrewLettersSt
       drawingState: { ...DEFAULT_DRAWING_STATE },
       practiceState: { ...DEFAULT_PRACTICE_STATE, completedSteps: new Set<number>() },
       encouragementState: { ...DEFAULT_ENCOURAGEMENT_STATE },
-      learningStats: { ...INITIAL_LEARNING_STATS },
+      learningStats: { ...DEFAULT_LEARNING_STATS },
 
       // ── Letter management ──────────────────────────────
       setCurrentLetter: (letter) =>
@@ -421,7 +413,7 @@ export const useHebrewLettersStore = create<HebrewLettersState & HebrewLettersSt
         set(
           {
             completedLetters: new Set<string>(),
-            learningStats: { ...INITIAL_LEARNING_STATS },
+            learningStats: { ...DEFAULT_LEARNING_STATS },
           },
           false,
           'hebrewLetters/resetAllStats',

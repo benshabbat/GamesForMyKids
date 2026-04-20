@@ -4,10 +4,8 @@ import { useRef, useEffect, useCallback } from 'react';
 import {
   useHebrewLettersStore,
   getCanvasPosition,
-} from '@/lib/stores/hebrewLettersStore';
-
-const STROKE_COLORS = ['#000000', '#FF0000', '#0000FF', '#00FF00'] as const;
-const STROKE_WIDTHS = [2, 4, 6, 8] as const;
+} from '../../store/hebrewLettersStore';
+import { STROKE_COLORS, STROKE_WIDTHS } from '../../constants/hebrewLettersConstants';
 
 interface UseWritingCanvasParams {
   width: number;

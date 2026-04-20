@@ -82,8 +82,8 @@ export { useHomePageStore } from './homePageStore';
 export type { HomePageState, HomePageActions } from './homePageStore';
 
 // Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
-export { useHebrewLettersStore } from './hebrewLettersStore';
-export type { HebrewLettersState, HebrewLettersStoreActions } from './hebrewLettersStore';
+export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
+export type { HebrewLettersState, HebrewLettersStoreActions } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 
 // Animals (category / questions / game actions)
 export {

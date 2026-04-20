@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useHebrewLettersStore, getStepMessage } from '@/lib/stores/hebrewLettersStore';
+import { useHebrewLettersStore, getStepMessage } from '../../store/hebrewLettersStore';
 
 interface UseLetterEncouragementParams {
   isCompleted: boolean;
