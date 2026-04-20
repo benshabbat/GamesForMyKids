@@ -33,31 +33,6 @@ export default function AutoStartScreen() {
     );
   }
 
-  // עבור משחק מתמטיקה - הצג דוגמאות תרגילים במקום items
-  const getMathExamplesRenderer = () => {
-    const mathExamples = [
-      { equation: "3 + 2 = ?", emoji: "🍎", description: "חיבור תפוחים" },
-      { equation: "5 - 1 = ?", emoji: "🎈", description: "חיסור בלונים" },
-      { equation: "2 + 3 = ?", emoji: "🌟", description: "חיבור כוכבים" },
-      { equation: "4 - 2 = ?", emoji: "🐶", description: "חיסור כלבים" },
-    ];
-
-    return (
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-        {mathExamples.map((example, index) => (
-          <div 
-            key={index} 
-            className="bg-white bg-opacity-90 rounded-xl p-4 border-2 border-white shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
-          >
-            <div className="text-4xl mb-3 text-center">{example.emoji}</div>
-            <div className="text-gray-800 font-bold text-xl mb-2 text-center">{example.equation}</div>
-            <div className="text-gray-600 text-sm text-center">{example.description}</div>
-          </div>
-        ))}
-      </div>
-    );
-  };
-
   return (
     <>
       {/* הניווט מוסר מכאן - הוא עכשיו ב-layout */}
@@ -69,7 +44,7 @@ export default function AutoStartScreen() {
       textColorSubHeader={config.colors?.subHeader}
       gameSteps={config.steps ? [...config.steps] : undefined}
       gameStepsBgClass={config.colors?.stepsBg}
-      items={gameType === 'math' ? [] : items as BaseGameItem[]}
+      items={items as BaseGameItem[]}
       customOnStart={startGame}
       buttonFromColor={config.colors?.button?.from}
       buttonToColor={config.colors?.button?.to}
@@ -78,8 +53,7 @@ export default function AutoStartScreen() {
       itemsDescription={config.itemsDescription}
       itemsDescriptionColor={config.colors?.itemsDescription}
       itemsGridClass={config.grid?.className}
-      customItemsRenderer={gameType === 'math' ? getMathExamplesRenderer : undefined}
-      renderItem={gameType !== 'math' ? (item) => {
+      renderItem={(item) => {
         // Safe check for item properties
         if (!item || typeof item !== 'object') return null;
         
@@ -97,7 +71,7 @@ export default function AutoStartScreen() {
             hideSoundIcon={!config.grid?.showSpeaker}
           />
         );
-      } : undefined}
+      }}
     />
     </>
   );
