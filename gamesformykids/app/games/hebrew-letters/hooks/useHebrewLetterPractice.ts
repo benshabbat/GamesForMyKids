@@ -53,7 +53,6 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
     nextStep,
     previousStep,
     goToStep: jumpToStep,
-    markStepCompleted: completeCurrentStep,
 
     // Helpers
     isStepCompleted: (i: number) => practiceState.completedSteps.has(i),
