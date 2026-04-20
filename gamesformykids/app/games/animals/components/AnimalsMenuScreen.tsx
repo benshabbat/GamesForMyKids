@@ -1,9 +1,6 @@
 'use client';
 import { useAnimalsStore } from '@/lib/stores/animalsStore';
-import type { AnimalCategory } from '../data/animals';
-
-const CAT_ORDER: (AnimalCategory | 'all')[] = ['all', 'farm', 'wild', 'sea', 'birds', 'insects'];
-const CAT_DISPLAY: Record<string, string> = { all: '🌍 הכל', farm: '🐄 חוות', wild: '🦁 בר', sea: '🐬 ים', birds: '🦅 ציפורים', insects: '🐛 חרקים' };
+import { CATEGORY_ORDER, CATEGORY_DISPLAY } from '../data/animals';
 
 export default function AnimalsMenuScreen() {
   const startGame = useAnimalsStore(s => s.startGame);
@@ -17,10 +14,10 @@ export default function AnimalsMenuScreen() {
           <p className="text-green-600">בחר קטגוריה ותתחיל!</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {CAT_ORDER.map(cat => (
+          {CATEGORY_ORDER.map(cat => (
             <button key={cat} onClick={() => startGame(cat)}
               className="py-5 rounded-2xl font-bold text-lg text-white shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-br from-green-500 to-teal-600">
-              {CAT_DISPLAY[cat] ?? cat}
+              {CATEGORY_DISPLAY[cat]}
             </button>
           ))}
         </div>

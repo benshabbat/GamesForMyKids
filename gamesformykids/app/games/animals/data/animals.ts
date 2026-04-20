@@ -50,3 +50,14 @@ export const CATEGORY_NAMES: Record<AnimalCategory, string> = {
   birds: '🦅 ציפורים',
   insects: '🌸 חרקים',
 };
+
+export const CATEGORY_ORDER: (AnimalCategory | 'all')[] = ['all', 'farm', 'wild', 'sea', 'birds', 'insects'];
+
+export const CATEGORY_DISPLAY: Record<AnimalCategory | 'all', string> = {
+  all: '🌍 הכל',
+  farm: '🐄 חוות',
+  wild: '🦁 בר',
+  sea: '🐬 ים',
+  birds: '🦅 ציפורים',
+  insects: '🐛 חרקים',
+};
