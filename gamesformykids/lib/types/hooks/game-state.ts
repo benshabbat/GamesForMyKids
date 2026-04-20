@@ -4,9 +4,9 @@
  * ===============================================
  */
 
-import { BaseGameItem, GameType, BaseGameState, ProgressModalState, GameTyped, BaseDifficultyConfig } from '../core/base';
+import { BaseGameItem, GameType, BaseGameState, GameTyped, BaseDifficultyConfig } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
-import { BaseGameConfiguration, UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
+import { UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
