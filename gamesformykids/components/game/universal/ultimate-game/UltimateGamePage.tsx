@@ -14,8 +14,6 @@
 
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { useGameEffects } from '@/hooks/shared/game-state/useGameEffects';
-import { GameType } from '@/lib/types/core/base';
-import { AutoGameType } from '@/lib/constants/gameHooksMap';
 
 import { GameLoadingScreen } from "../../../shared";
 import { GameErrorScreen } from "../../../shared";
@@ -28,16 +26,13 @@ import { UltimateStartScreen } from "./UltimateStartScreen";
 export { GameLogicSync } from './GameLogicSync';
 export { MinimalGamePage } from './MinimalGamePage';
 
-interface UltimateGamePageProps {
-  gameType?: AutoGameType | GameType;
-}
-
 const DEFAULT_BG = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
 
 /**
  * 🎯 הקומפוננט הסופי - אפס props drilling, הכל מ-Zustand!
+ * קורא game type ישירות מ-useGameTypeStore (seed על ידי GameTypeProvider).
  */
-export function UltimateGamePage(_props: UltimateGamePageProps = {}) {
+export function UltimateGamePage() {
   // ⚙️ Side effects: timer + progress reset
   useGameEffects();
 

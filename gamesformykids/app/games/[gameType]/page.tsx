@@ -24,8 +24,8 @@ export default async function UniversalGamePage({ params }: PageProps) {
 
   return (
     <GameTypeProvider initialGameType={actualGameType}>
-      <GameLogicSync gameType={actualGameType} />
-      <UltimateGamePage gameType={actualGameType} />
+      <GameLogicSync />
+      <UltimateGamePage />
     </GameTypeProvider>
   );
 }

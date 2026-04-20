@@ -14,13 +14,10 @@ interface GameTypeProviderProps {
 }
 
 export function GameTypeProvider({ children, initialGameType }: GameTypeProviderProps) {
-  const setCurrentGameType = useGameTypeStore((s) => s.setCurrentGameType)
-
   useEffect(() => {
     if (initialGameType) {
-      setCurrentGameType(initialGameType as GameType)
+      useGameTypeStore.getState().setCurrentGameType(initialGameType as GameType)
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [initialGameType])
 
   return <>{children}</>

@@ -3,17 +3,14 @@
 import { useEffect } from 'react';
 import { useAutoGameConfig } from '@/hooks/shared/game-state/useGameConfig';
 import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
-import { GameType } from '@/lib/types/core/base';
-import { AutoGameType } from '@/lib/constants/gameHooksMap';
+import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 
 /**
- * Separate component: runs the game-specific hook and syncs actions to the store.
- * MUST be rendered as a SIBLING of UltimateGamePage (not a child) so that
- * UltimateGamePage re-renders (from gameActionsStore subscription) don't
- * cascade into GameLogicSync and trigger an infinite effect loop.
+ * Inner component — only rendered once the game type is in the store.
+ * Keeps hook calls unconditional (React rules of hooks).
  */
-export function GameLogicSync({ gameType }: { gameType?: AutoGameType | GameType }) {
-  const { useGameHook } = useAutoGameConfig(gameType);
+function GameLogicSyncInner() {
+  const { useGameHook } = useAutoGameConfig();
   const gameHookResult = useGameHook();
 
   // No dependency array — syncs on every render of THIS component only.
@@ -34,4 +31,19 @@ export function GameLogicSync({ gameType }: { gameType?: AutoGameType | GameType
   });
 
   return null;
+}
+
+/**
+ * Outer shell — waits for the store to be seeded by GameTypeProvider before
+ * rendering the inner component. Handles the first-render race between
+ * GameTypeProvider's useMemo/useEffect and useSyncExternalStore's snapshot.
+ *
+ * MUST be rendered as a SIBLING of UltimateGamePage (not a child) so that
+ * UltimateGamePage re-renders (from gameActionsStore subscription) don't
+ * cascade into GameLogicSync and trigger an infinite effect loop.
+ */
+export function GameLogicSync() {
+  const isReady = useGameTypeStore((s) => !!s.currentGameType);
+  if (!isReady) return null;
+  return <GameLogicSyncInner />;
 }
