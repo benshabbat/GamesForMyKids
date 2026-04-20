@@ -1,75 +1,76 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
-import { useHebrewLetters } from '../contexts/HebrewLettersContext';
+import { useEffect } from 'react';
 import { HebrewLetter } from '../constants/hebrewLetters';
+import {
+  useHebrewLettersStore,
+  getCurrentInstructions,
+  getOverallProgress,
+  getStepTabStyle,
+  getStepTabIcon,
+} from '@/lib/stores/hebrewLettersStore';
+import { PRACTICE_STEPS } from '../constants/hebrewLettersConstants';
 
 export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
+  const practiceState = useHebrewLettersStore((s) => s.practiceState);
+  const isAudioEnabled = useHebrewLettersStore((s) => s.isAudioEnabled);
   const {
-    practiceState,
-    initializeLetter,
-    completeCurrentStep,
-    isStepCompleted,
-    getCurrentStepInfo,
-    getCurrentInstructions,
-    getOverallProgress,
-    getStepTabStyle,
-    getStepTabIcon,
-    nextStep,
-    previousStep,
-    goToStep,
-    markStepCompleted,
-    practiceSteps,
     startPracticeSession,
     endPracticeSession,
+    selectLetter,
+    completeCurrentStep,
+    nextStep,
+    previousStep,
+    jumpToStep,
     playLetterSound,
     toggleAudio,
-    isAudioEnabled,
-  } = useHebrewLetters();
-
-  // Initialize letter with current data
-  const initialize = useCallback(() => {
-    initializeLetter(letterData);
-  }, [initializeLetter, letterData]);
+  } = useHebrewLettersStore();
 
   // הפעלת session בעת mount, ניקוי ב-unmount
   useEffect(() => {
-    initialize();
+    selectLetter(letterData);
     startPracticeSession(letterData.name);
     return () => {
       endPracticeSession();
     };
-  }, [initialize, startPracticeSession, endPracticeSession, letterData.name]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [letterData.name]);
 
   return {
     // State
     practiceState,
-    currentStepInfo: getCurrentStepInfo(),
-    overallProgress: getOverallProgress(),
-    
+    currentStepInfo: {
+      stepIndex: practiceState.currentStep,
+      stepName: practiceState.currentStep.toString(),
+      isCompleted: practiceState.completedSteps.has(practiceState.currentStep),
+      isFirst: practiceState.currentStep === 0,
+      isLast: practiceState.currentStep === PRACTICE_STEPS.length - 1,
+    },
+    overallProgress: getOverallProgress(practiceState),
+
     // Actions
-    initializeLetter: initialize,
     completeCurrentStep,
     nextStep,
     previousStep,
-    goToStep,
-    markStepCompleted,
-    
+    goToStep: jumpToStep,
+    markStepCompleted: completeCurrentStep,
+
     // Helpers
-    isStepCompleted,
-    getCurrentInstructions,
-    getStepTabStyle,
-    getStepTabIcon,
-    
+    isStepCompleted: (i: number) => practiceState.completedSteps.has(i),
+    getCurrentInstructions: () => getCurrentInstructions(letterData, practiceState),
+    getStepTabStyle: (i: number) => getStepTabStyle(practiceState, i),
+    getStepTabIcon: (i: number) => getStepTabIcon(practiceState, i),
+
     // Audio
     playLetterSound,
     toggleAudio,
     isAudioEnabled,
-    
+
     // Data
-    practiceSteps,
+    practiceSteps: PRACTICE_STEPS,
     letterData,
   };
 };
 
 export default useHebrewLetterPractice;
+

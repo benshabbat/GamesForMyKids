@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { HebrewLettersProvider } from '../contexts/HebrewLettersContext';
 import HebrewLetterPractice from '../components/HebrewLetterPractice';
 import { hebrewLetters } from '../constants/hebrewLetters';
 
@@ -63,8 +62,6 @@ export default async function LetterPracticePage({ params }: Props) {
   }
 
   return (
-    <HebrewLettersProvider>
-      <HebrewLetterPractice letterData={letterData} />
-    </HebrewLettersProvider>
+    <HebrewLetterPractice letterData={letterData} />
   );
 }

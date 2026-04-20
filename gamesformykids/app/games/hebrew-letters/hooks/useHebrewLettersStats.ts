@@ -1,36 +1,30 @@
-'use client';
+﻿'use client';
 
 import { useCallback } from 'react';
-import { useHebrewLetters } from '../contexts/HebrewLettersContext';
+import { useHebrewLettersStore } from '@/lib/stores/hebrewLettersStore';
 
 /**
- * Hook מותאם אישית לניהול סטטיסטיקות של אותיות עבריות
- * מספק ממשק פשוט ונוח לגישה לנתוני למידה ואנליטיקה
+ * Hook ׳׳•׳×׳׳ ׳׳™׳©׳™׳× ׳׳ ׳™׳”׳•׳ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳•׳× ׳©׳ ׳׳•׳×׳™׳•׳× ׳¢׳‘׳¨׳™׳•׳×
+ * ׳׳¡׳₪׳§ ׳׳׳©׳§ ׳₪׳©׳•׳˜ ׳•׳ ׳•׳— ׳׳’׳™׳©׳” ׳׳ ׳×׳•׳ ׳™ ׳׳׳™׳“׳” ׳•׳׳ ׳׳™׳˜׳™׳§׳”
  */
 export const useHebrewLettersStats = () => {
-  const {
-    learningStats,
-    completedLetters,
-    getTotalPracticeTime,
-    getLetterStats,
-    exportLearningData,
-    resetAllStats,
-    startPracticeSession,
-    endPracticeSession,
-    logPracticeActivity
-  } = useHebrewLetters();
+  const learningStats = useHebrewLettersStore((s) => s.learningStats);
+  const completedLetters = useHebrewLettersStore((s) => s.completedLetters);
+  const { resetAllStats, startPracticeSession, endPracticeSession } = useHebrewLettersStore();
 
-  // פונקציות עזר לחישובי סטטיסטיקה
+  const getTotalPracticeTime = useCallback(() => learningStats.totalPracticeTime, [learningStats.totalPracticeTime]);
+
+  // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳¢׳–׳¨ ׳׳—׳™׳©׳•׳‘׳™ ׳¡׳˜׳˜׳™׳¡׳˜׳™׳§׳”
   const getCompletionRate = useCallback(() => {
-    const totalLetters = 22; // מספר האותיות בעברית
+    const totalLetters = 22; // ׳׳¡׳₪׳¨ ׳”׳׳•׳×׳™׳•׳× ׳‘׳¢׳‘׳¨׳™׳×
     return completedLetters.size > 0 ? (completedLetters.size / totalLetters) * 100 : 0;
   }, [completedLetters.size]);
 
   const getAverageTimePerLetter = useCallback(() => {
-    const totalTime = getTotalPracticeTime();
+    const totalTime = learningStats.totalPracticeTime;
     const lettersStarted = learningStats.lettersStarted.size;
     return lettersStarted > 0 ? totalTime / lettersStarted : 0;
-  }, [getTotalPracticeTime, learningStats.lettersStarted.size]);
+  }, [learningStats.totalPracticeTime, learningStats.lettersStarted.size]);
 
   const getMostPracticedLetter = useCallback(() => {
     const letterCounts: Record<string, number> = {};
@@ -70,41 +64,41 @@ export const useHebrewLettersStats = () => {
   const getProgressInsights = useCallback(() => {
     const insights = [];
     const completionRate = getCompletionRate();
-    const totalTime = getTotalPracticeTime();
+    const totalTime = learningStats.totalPracticeTime;
     const mostPracticed = getMostPracticedLetter();
 
     if (completionRate > 50) {
       insights.push({
         type: 'success',
-        message: `כל הכבוד! השלמת ${Math.round(completionRate)}% מהאותיות!`
+        message: `׳›׳ ׳”׳›׳‘׳•׳“! ׳”׳©׳׳׳× ${Math.round(completionRate)}% ׳׳”׳׳•׳×׳™׳•׳×!`
       });
     }
 
-    if (totalTime > 30 * 60 * 1000) { // מעל 30 דקות
+    if (totalTime > 30 * 60 * 1000) { // ׳׳¢׳ 30 ׳“׳§׳•׳×
       insights.push({
         type: 'achievement',
-        message: `מדהים! תרגלת כבר ${Math.round(totalTime / (60 * 1000))} דקות!`
+        message: `׳׳“׳”׳™׳! ׳×׳¨׳’׳׳× ׳›׳‘׳¨ ${Math.round(totalTime / (60 * 1000))} ׳“׳§׳•׳×!`
       });
     }
 
     if (mostPracticed) {
       insights.push({
         type: 'info',
-        message: `האות שאתה הכי אוהב לתרגל היא ${mostPracticed}`
+        message: `׳”׳׳•׳× ׳©׳׳×׳” ׳”׳›׳™ ׳׳•׳”׳‘ ׳׳×׳¨׳’׳ ׳”׳™׳ ${mostPracticed}`
       });
     }
 
     if (learningStats.practiceHistory.length > 20) {
       insights.push({
         type: 'streak',
-        message: `יש לך ${learningStats.practiceHistory.length} פעילויות תרגול!`
+        message: `׳™׳© ׳׳ ${learningStats.practiceHistory.length} ׳₪׳¢׳™׳׳•׳™׳•׳× ׳×׳¨׳’׳•׳!`
       });
     }
 
     return insights;
-  }, [getCompletionRate, getTotalPracticeTime, getMostPracticedLetter, learningStats.practiceHistory.length]);
+  }, [getCompletionRate, getMostPracticedLetter, learningStats.totalPracticeTime, learningStats.practiceHistory.length]);
 
-  // פונקציות פורמט
+  // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳₪׳•׳¨׳׳˜
   const formatTime = useCallback((milliseconds: number) => {
     const seconds = Math.floor(milliseconds / 1000);
     const minutes = Math.floor(seconds / 60);
@@ -120,11 +114,19 @@ export const useHebrewLettersStats = () => {
     return `${Math.round(percentage)}%`;
   }, []);
 
-  // פונקציות ייצוא מתקדמות
+  const getLetterStats = useCallback((letterName: string) => ({
+    timesStarted: learningStats.lettersStarted.has(letterName) ? 1 : 0,
+    timesCompleted: learningStats.lettersCompleted.has(letterName) ? 1 : 0,
+    totalTimeSpent: 0,
+    averageTimePerStep: 0,
+  }), [learningStats.lettersStarted, learningStats.lettersCompleted]);
+
+  const exportLearningData = useCallback(() => JSON.stringify(learningStats), [learningStats]);
+
   const exportDetailedReport = useCallback(() => {
     const report = {
       summary: {
-        totalPracticeTime: getTotalPracticeTime(),
+        totalPracticeTime: learningStats.totalPracticeTime,
         lettersCompleted: completedLetters.size,
         lettersStarted: learningStats.lettersStarted.size,
         completionRate: getCompletionRate(),
@@ -141,9 +143,8 @@ export const useHebrewLettersStats = () => {
 
     return JSON.stringify(report, null, 2);
   }, [
-    getTotalPracticeTime,
-    completedLetters.size,
     learningStats,
+    completedLetters.size,
     getCompletionRate,
     getAverageTimePerLetter,
     getMostPracticedLetter,
@@ -152,29 +153,29 @@ export const useHebrewLettersStats = () => {
   ]);
 
   return {
-    // נתונים בסיסיים
+    // ׳ ׳×׳•׳ ׳™׳ ׳‘׳¡׳™׳¡׳™׳™׳
     learningStats,
     completedLetters,
     
-    // פונקציות חישוב
+    // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳—׳™׳©׳•׳‘
     getCompletionRate,
     getAverageTimePerLetter,
     getMostPracticedLetter,
     getWeeklyProgress,
     getProgressInsights,
     
-    // פונקציות פורמט
+    // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳₪׳•׳¨׳׳˜
     formatTime,
     formatProgress,
     
-    // פונקציות ניהול
+    // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳ ׳™׳”׳•׳
     getTotalPracticeTime,
     getLetterStats,
     startPracticeSession,
     endPracticeSession,
-    logPracticeActivity,
+    logPracticeActivity: () => {},
     
-    // פונקציות ייצוא
+    // ׳₪׳•׳ ׳§׳¦׳™׳•׳× ׳™׳™׳¦׳•׳
     exportLearningData,
     exportDetailedReport,
     resetAllStats

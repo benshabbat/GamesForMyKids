@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
+import { useHebrewLettersStore, getStepMessage } from '@/lib/stores/hebrewLettersStore';
 
 interface UseLetterEncouragementParams {
   isCompleted: boolean;
@@ -9,19 +9,24 @@ interface UseLetterEncouragementParams {
 
 export function useLetterEncouragement({ isCompleted }: UseLetterEncouragementParams) {
   const [showCompletion, setShowCompletion] = useState(false);
-  const { encouragementState, getStepMessage, showStepEncouragement, playEncouragementSound } =
-    useHebrewLetters();
+  const encouragementState = useHebrewLettersStore((s) => s.encouragementState);
+  const practiceState = useHebrewLettersStore((s) => s.practiceState);
+  const { showEncouragement, playEncouragementSound } = useHebrewLettersStore();
 
   useEffect(() => {
     if (isCompleted) {
       setShowCompletion(true);
-      showStepEncouragement();
+      showEncouragement();
       playEncouragementSound();
 
       const timer = setTimeout(() => setShowCompletion(false), 3000);
       return () => clearTimeout(timer);
     }
-  }, [isCompleted, showStepEncouragement, playEncouragementSound]);
+  }, [isCompleted, showEncouragement, playEncouragementSound]);
 
-  return { showCompletion, encouragementState, getStepMessage };
+  return {
+    showCompletion,
+    encouragementState,
+    getStepMessage: (stepIndex: number) => getStepMessage(practiceState, stepIndex),
+  };
 }

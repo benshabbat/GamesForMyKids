@@ -1,7 +1,13 @@
 'use client';
 
 import { useRef, useEffect, useCallback } from 'react';
-import { useHebrewLetters } from '@/app/games/hebrew-letters/contexts/HebrewLettersContext';
+import {
+  useHebrewLettersStore,
+  getCanvasPosition,
+} from '@/lib/stores/hebrewLettersStore';
+
+const STROKE_COLORS = ['#000000', '#FF0000', '#0000FF', '#00FF00'] as const;
+const STROKE_WIDTHS = [2, 4, 6, 8] as const;
 
 interface UseWritingCanvasParams {
   width: number;
@@ -13,21 +19,18 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
 
+  const drawingState = useHebrewLettersStore((s) => s.drawingState);
   const {
-    drawingState,
     updateDrawingState,
     clearCanvas: clearCanvasState,
     saveCanvasState,
     undoLastAction,
-    strokeColors,
-    strokeWidths,
     initializeCanvas,
-    startDrawing: startDrawingContext,
+    startDrawing: startDrawingStore,
     continueDrawing,
-    stopDrawing: stopDrawingContext,
-    getCanvasPosition,
+    stopDrawing: stopDrawingStore,
     resetCanvas,
-  } = useHebrewLetters();
+  } = useHebrewLettersStore();
 
   // אתחול לוגי כשה-hook נוצר
   useEffect(() => {
@@ -66,7 +69,7 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
       if (!canvas) return { x: 0, y: 0 };
       return getCanvasPosition(e.nativeEvent, canvas);
     },
-    [getCanvasPosition]
+    []
   );
 
   const getTouchPos = useCallback(
@@ -75,7 +78,7 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
       if (!canvas || e.touches.length === 0) return { x: 0, y: 0 };
       return getCanvasPosition(e.nativeEvent, canvas);
     },
-    [getCanvasPosition]
+    []
   );
 
   const startDrawing = useCallback(
@@ -84,11 +87,11 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
       if (!ctx) return;
       const imageData = ctx.getImageData(0, 0, width, height);
       saveCanvasState(imageData);
-      startDrawingContext(x, y);
+      startDrawingStore(x, y);
       ctx.beginPath();
       ctx.moveTo(x, y);
     },
-    [width, height, saveCanvasState, startDrawingContext]
+    [width, height, saveCanvasState, startDrawingStore]
   );
 
   const draw = useCallback(
@@ -107,9 +110,9 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     if (!drawingState.isDrawing) return;
     const ctx = contextRef.current;
     if (!ctx) return;
-    stopDrawingContext();
+    stopDrawingStore();
     ctx.closePath();
-  }, [drawingState.isDrawing, stopDrawingContext]);
+  }, [drawingState.isDrawing, stopDrawingStore]);
 
   const clearCanvas = () => {
     const ctx = contextRef.current;
@@ -143,8 +146,8 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
   return {
     canvasRef,
     drawingState,
-    strokeColors,
-    strokeWidths,
+    strokeColors: STROKE_COLORS,
+    strokeWidths: STROKE_WIDTHS,
     resetCanvas,
     getMousePos,
     getTouchPos,
