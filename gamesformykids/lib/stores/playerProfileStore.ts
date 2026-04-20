@@ -25,9 +25,7 @@ export const usePlayerProfileStore = create<PlayerProfileState>()(
         })),
       removeProfile: (playerId) =>
         set((state) => {
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { [playerId]: _p, ...restProfiles } = state.profiles;
-          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { [playerId]: _l, ...restLoading } = state.loadingStates;
           return { profiles: restProfiles, loadingStates: restLoading };
         }),

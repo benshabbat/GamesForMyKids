@@ -4,8 +4,6 @@
  * ===============================================
  */
 
-import { HebrewLetter } from '../constants/hebrewLetters';
-
 /**
  * Drawing state interface for canvas operations
  */
