@@ -56,6 +56,7 @@ export default function FlagsGameCard({ item, onClick, isSelected }: GameItemCar
           alt={item.english || item.name}
           className="w-full h-full object-cover rounded-xl"
           loading="lazy"
+          referrerPolicy="no-referrer"
         />
       </div>
       {/* Country name in Hebrew */}

@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * ===============================================
  * GameCardMap - מיפוי קומפוננטי Cards לכל סוג משחק
@@ -10,17 +12,7 @@ import { GameItemCardProps } from '@/lib/types/components/cards';
 import UnifiedCard from './cards/UnifiedCard';
 import MathGameCard from './cards/MathGameCard';
 import FlagsGameCard from './cards/FlagsGameCard';
-import SoccerLogosGameCard from './cards/SoccerLogosGameCard';
-import CarBrandsGameCard from './cards/CarBrandsGameCard';
-import WorldLandmarksGameCard from './cards/WorldLandmarksGameCard';
-import SolarSystemGameCard from './cards/SolarSystemGameCard';
-import FamousPaintingsGameCard from './cards/FamousPaintingsGameCard';
-import TechLogosGameCard from './cards/TechLogosGameCard';
-import DogBreedsGameCard from './cards/DogBreedsGameCard';
-import CatBreedsGameCard from './cards/CatBreedsGameCard';
-import NbaTeamsGameCard from './cards/NbaTeamsGameCard';
-import ExoticBirdsGameCard from './cards/ExoticBirdsGameCard';
-import ButterfliesGameCard from './cards/ButterfliesGameCard';
+import { createPhotoCard } from './cards/PhotoGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
@@ -108,22 +100,18 @@ export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
   'fairy-tale-chars': DefaultGameCard,
   // משחקי גיאוגרפיה
   'flags': FlagsGameCard,
-  // משחקי ספורט
-  'soccer-logos': SoccerLogosGameCard,
-  // משחקי תחבורה וסמלים
-  'car-brands': CarBrandsGameCard,
-  'world-landmarks': WorldLandmarksGameCard,
-  // משחקי מדע ותרבות
-  'solar-system': SolarSystemGameCard,
-  'famous-paintings': FamousPaintingsGameCard,
-  // משחקי לוגואים וחיות
-  'tech-logos': TechLogosGameCard,
-  'dog-breeds': DogBreedsGameCard,
-  'cat-breeds': CatBreedsGameCard,
-  'nba-teams': NbaTeamsGameCard,
-  // משחקי טבע וחרקים
-  'exotic-birds': ExoticBirdsGameCard,
-  'butterflies': ButterfliesGameCard,
+  // משחקי תמונות / לוגואים — נוצרים דינמית מ-createPhotoCard
+  'soccer-logos': createPhotoCard('soccer-logos'),
+  'car-brands': createPhotoCard('car-brands'),
+  'world-landmarks': createPhotoCard('world-landmarks'),
+  'solar-system': createPhotoCard('solar-system'),
+  'famous-paintings': createPhotoCard('famous-paintings'),
+  'tech-logos': createPhotoCard('tech-logos'),
+  'dog-breeds': createPhotoCard('dog-breeds'),
+  'cat-breeds': createPhotoCard('cat-breeds'),
+  'nba-teams': createPhotoCard('nba-teams'),
+  'exotic-birds': createPhotoCard('exotic-birds'),
+  'butterflies': createPhotoCard('butterflies'),
 };
 
 export default GameCardMap;
