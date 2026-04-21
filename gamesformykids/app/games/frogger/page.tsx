@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import FroggerClient from './FroggerClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: '🐸 צפרדע חוצה | משחקים לילדים',
-  description: 'עזור לצפרדע לחצות את הכביש בשלום — הימנע מהמכוניות!',
-};
+export const metadata = generateGameMetadata('frogger');
 
 export default function Page() {
   return <FroggerClient />;

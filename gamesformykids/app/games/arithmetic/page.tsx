@@ -1,10 +1,7 @@
-import ArithmeticGameClient from './ArithmeticGameClient';
-import type { Metadata } from 'next';
+﻿import ArithmeticGameClient from './ArithmeticGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'חשבון מהיר | GamesForMyKids',
-  description: 'חבר, חסר וכפל במהירות! משחק חשבון לילדים ברמות שונות.',
-};
+export const metadata = generateGameMetadata('arithmetic');
 
 export default function ArithmeticPage() {
   return <ArithmeticGameClient />;

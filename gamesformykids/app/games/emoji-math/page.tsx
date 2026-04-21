@@ -1,4 +1,7 @@
-import { Metadata } from 'next';
+﻿
 import EmojiMathClient from './EmojiMathClient';
-export const metadata: Metadata = { title: '🧮 מתמטיקה עם אמוג\'י | משחקים לילדים', description: 'ספור את האמוג\'י ופתור את התרגיל!' };
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('emoji-math');
+
 export default function Page() { return <EmojiMathClient />; }

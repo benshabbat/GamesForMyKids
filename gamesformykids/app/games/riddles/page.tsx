@@ -1,6 +1,7 @@
-import RiddlesGameClient from './RiddlesGameClient';
+﻿import RiddlesGameClient from './RiddlesGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = { title: 'חידות לילדים', description: 'פתור חידות מסקרנות ומהנות!' };
+export const metadata = generateGameMetadata('riddles');
 
 export default function RiddlesPage() {
   return <RiddlesGameClient />;

@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import DamkaClient from './DamkaClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'דמקה | GamesForMyKids',
-  description: 'שחק דמקה קלאסית נגד המחשב!',
-};
+export const metadata = generateGameMetadata('checkers');
 
 export default function DamkaPage() {
   return <DamkaClient />;

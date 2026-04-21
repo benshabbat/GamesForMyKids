@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import MeteorDodgeClient from './MeteorDodgeClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'התחמק ממטאורים | GamesForMyKids',
-  description: 'הזז את הכוכב והתחמק ממטאורים נופלים!',
-};
+export const metadata = generateGameMetadata('meteor-dodge');
 
 export default function MeteorDodgePage() {
   return <MeteorDodgeClient />;

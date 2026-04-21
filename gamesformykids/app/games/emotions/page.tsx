@@ -1,3 +1,6 @@
-import EmotionsGameClient from './EmotionsGameClient';
-export const metadata = { title: 'עולם הרגשות', description: 'זהה רגשות לפי תרחיש!' };
+﻿import EmotionsGameClient from './EmotionsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('emotions');
+
 export default function EmotionsPage() { return <EmotionsGameClient />; }

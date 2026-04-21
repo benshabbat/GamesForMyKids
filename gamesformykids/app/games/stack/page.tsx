@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import StackClient from './StackClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: '🏗️ ערם לבנים | משחקים לילדים',
-  description: 'הפל לבנים בזמן הנכון ובנה מגדל גבוה ככל האפשר!',
-};
+export const metadata = generateGameMetadata('stack');
 
 export default function Page() {
   return <StackClient />;

@@ -1,10 +1,7 @@
-import TriviaGameClient from './TriviaGameClient';
-import type { Metadata } from 'next';
+﻿import TriviaGameClient from './TriviaGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'ידע כללי | GamesForMyKids',
-  description: 'שאלות ידע כללי על טבע, מדע, חלל, היסטוריה ועוד!',
-};
+export const metadata = generateGameMetadata('trivia');
 
 export default function TriviaPage() {
   return <TriviaGameClient />;

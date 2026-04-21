@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import FamilyGameClient from './FamilyGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'המשפחה | GamesForMyKids',
-  description: 'לימוד על קשרים משפחתיים — סבא, סבתא, דוד, דודה ועוד!',
-};
+export const metadata = generateGameMetadata('family');
 
 export default function FamilyPage() {
   return <FamilyGameClient />;

@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import JumperClient from './JumperClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: '🦘 קפצן | משחקים לילדים',
-  description: 'קפץ על הפלטפורמות וטפס גבוה ככל האפשר!',
-};
+export const metadata = generateGameMetadata('jumper');
 
 export default function Page() {
   return <JumperClient />;

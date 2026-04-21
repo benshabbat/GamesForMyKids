@@ -1,4 +1,7 @@
-import { Metadata } from 'next';
+﻿
 import MathRaceClient from './MathRaceClient';
-export const metadata: Metadata = { title: '🏎️ מרוץ מתמטיקה | משחקים לילדים', description: 'פתור כמה שיותר תרגילים לפני שהזמן נגמר!' };
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('math-race');
+
 export default function Page() { return <MathRaceClient />; }

@@ -1,9 +1,10 @@
-import HolidaysGameClient from './HolidaysGameClient';
+﻿import HolidaysGameClient from './HolidaysGameClient';
+import { Metadata } from 'next';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = {
-  title: 'חגי ישראל | GamesForMyKids',
-  description: 'למד על חגי ישראל ומשמעותם עם חידונים כיפיים!',
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateGameMetadata('holidays');
+}
 
 export default function HolidaysPage() {
   return <HolidaysGameClient />;

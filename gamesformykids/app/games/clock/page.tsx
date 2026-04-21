@@ -1,7 +1,6 @@
-import ClockGameClient from './ClockGameClient';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'הכרת השעון | GamesForMyKids',
-  description: 'למד לקרוא שעון עם משחק כיפי לילדים!',
-};
+﻿import ClockGameClient from './ClockGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('clock');
+
 export default function ClockPage() { return <ClockGameClient />; }

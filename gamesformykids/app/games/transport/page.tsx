@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import TransportGameClient from './TransportGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'כלי תחבורה | GamesForMyKids',
-  description: 'גלה כלי תחבורה מהיבשה, הים והאוויר!',
-};
+export const metadata = generateGameMetadata('transport');
 
 export default function TransportPage() {
   return <TransportGameClient />;

@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import WhackAMoleClient from './WhackAMoleClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'חבט על החפרפרת | GamesForMyKids',
-  description: 'חבט על החפרפרות לפני שהן נעלמות!',
-};
+export const metadata = generateGameMetadata('whack-a-mole');
 
 export default function WhackAMolePage() {
   return <WhackAMoleClient />;

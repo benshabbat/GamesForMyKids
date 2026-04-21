@@ -1,7 +1,6 @@
-import SpellingGameClient from './SpellingGameClient';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'כתיב עברי | GamesForMyKids',
-  description: 'תרגל כתיב נכון בעברית עם משחק מהנה!',
-};
+﻿import SpellingGameClient from './SpellingGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('spelling');
+
 export default function SpellingPage() { return <SpellingGameClient />; }

@@ -1,3 +1,6 @@
-import CapitalsGameClient from './CapitalsGameClient';
-export const metadata = { title: 'בירות העולם', description: 'מה הבירה של כל מדינה בעולם?' };
+﻿import CapitalsGameClient from './CapitalsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('capitals');
+
 export default function CapitalsPage() { return <CapitalsGameClient />; }

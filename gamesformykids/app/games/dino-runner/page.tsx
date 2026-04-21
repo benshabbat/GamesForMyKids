@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import DinoRunnerClient from './DinoRunnerClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'דינוזאור קופץ | GamesForMyKids',
-  description: 'עזור לדינוזאור לקפוץ מעל המכשולים ולהגיע רחוק ככל האפשר!',
-};
+export const metadata = generateGameMetadata('dino-runner');
 
 export default function DinoRunnerPage() {
   return <DinoRunnerClient />;

@@ -1,4 +1,7 @@
-import { Metadata } from 'next';
+﻿
 import WordScrambleClient from './WordScrambleClient';
-export const metadata: Metadata = { title: '🔡 מילים מבולבלות | משחקים לילדים', description: 'סדר את האותיות וגלה את המילה הסודית!' };
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('word-scramble');
+
 export default function Page() { return <WordScrambleClient />; }

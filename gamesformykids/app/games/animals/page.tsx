@@ -1,9 +1,7 @@
-import AnimalsGameClient from './AnimalsGameClient';
+﻿import AnimalsGameClient from './AnimalsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = {
-  title: 'בעלי חיים | GamesForMyKids',
-  description: 'זהה בעלי חיים ולמד עליהם בשם עברי ואמוג\'י!',
-};
+export const metadata = generateGameMetadata('animals');
 
 export default function AnimalsPage() {
   return <AnimalsGameClient />;

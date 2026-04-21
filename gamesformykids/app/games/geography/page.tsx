@@ -1,10 +1,7 @@
-import GeographyGameClient from './GeographyGameClient';
-import type { Metadata } from 'next';
+﻿import GeographyGameClient from './GeographyGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'גאוגרפיה | GamesForMyKids',
-  description: 'בירות, דגלים ויבשות של העולם! משחק גאוגרפיה לילדים.',
-};
+export const metadata = generateGameMetadata('geography');
 
 export default function GeographyPage() {
   return <GeographyGameClient />;

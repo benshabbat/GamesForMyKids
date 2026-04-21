@@ -1,6 +1,7 @@
-import IsraelGameClient from './IsraelGameClient';
+﻿import IsraelGameClient from './IsraelGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = { title: 'ישראל שלי', description: 'בחן את הידע שלך על מדינת ישראל!' };
+export const metadata = generateGameMetadata('israel');
 
 export default function IsraelPage() {
   return <IsraelGameClient />;

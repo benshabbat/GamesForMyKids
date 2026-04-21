@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import TakiClient from './TakiClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'טאקי | GamesForMyKids',
-  description: 'שחק טאקי — משחק הקלפים הישראלי הקלאסי נגד המחשב!',
-};
+export const metadata = generateGameMetadata('taki');
 
 export default function TakiPage() {
   return <TakiClient />;

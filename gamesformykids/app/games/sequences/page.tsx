@@ -1,7 +1,6 @@
-import SequencesGameClient from './SequencesGameClient';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'סדרות מספרים | GamesForMyKids',
-  description: 'מצא את המספר הבא בסדרה! משחק חשיבה מתמטית לילדים.',
-};
+﻿import SequencesGameClient from './SequencesGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('sequences');
+
 export default function SequencesPage() { return <SequencesGameClient />; }

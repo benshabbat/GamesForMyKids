@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import CatchFruitClient from './CatchFruitClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'תפוס פירות | GamesForMyKids',
-  description: 'הזז את הסל ותפוס את הפירות הנופלים!',
-};
+export const metadata = generateGameMetadata('catch-fruit');
 
 export default function CatchFruitPage() {
   return <CatchFruitClient />;

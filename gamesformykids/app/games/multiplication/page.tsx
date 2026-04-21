@@ -1,9 +1,7 @@
-import MultiplicationGameClient from './MultiplicationGameClient';
+﻿import MultiplicationGameClient from './MultiplicationGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = {
-  title: 'לוח הכפל | GamesForMyKids',
-  description: 'תרגל לוח כפל במהירות עם שאלות וטיימר!',
-};
+export const metadata = generateGameMetadata('multiplication');
 
 export default function MultiplicationPage() {
   return <MultiplicationGameClient />;

@@ -1,6 +1,7 @@
-import EnglishWordsGameClient from './EnglishWordsGameClient';
+﻿import EnglishWordsGameClient from './EnglishWordsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = { title: 'אנגלית לילדים', description: 'למד מילים בסיסיות באנגלית!' };
+export const metadata = generateGameMetadata('english-words');
 
 export default function EnglishWordsPage() {
   return <EnglishWordsGameClient />;

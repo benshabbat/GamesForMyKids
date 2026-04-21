@@ -1,5 +1,4 @@
 import { Metadata } from 'next';
-import { GameType } from "@/lib/types/core/base";
 import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 
 /**
@@ -7,11 +6,11 @@ import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
  * זוהי עותק server-side של הפונקציה מ-GameConfigContext
  */
 export function generateGameMetadata(
-  gameType: GameType, 
+  gameType: string,
   gameUrlType?: string,
   baseUrl: string = 'https://gamesformykids.vercel.app'
 ): Metadata {
-  const config = GAME_UI_CONFIGS[gameType];
+  const config = GAME_UI_CONFIGS[gameType as keyof typeof GAME_UI_CONFIGS];
   const urlGameType = gameUrlType || gameType;
   
   if (!config) {

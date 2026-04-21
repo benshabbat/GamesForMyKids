@@ -1,3 +1,6 @@
-import FractionsGameClient from './FractionsGameClient';
-export const metadata = { title: 'שברים פשוטים', description: 'זהה שברים לפי ייצוג ויזואלי!' };
+﻿import FractionsGameClient from './FractionsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('fractions');
+
 export default function FractionsPage() { return <FractionsGameClient />; }

@@ -1,4 +1,7 @@
-import { Metadata } from 'next';
+﻿
 import NumberBubblesClient from './NumberBubblesClient';
-export const metadata: Metadata = { title: '🔢 בועות מספרים | משחקים לילדים', description: 'פוצץ את הבועות לפי סדר המספרים!' };
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('number-bubbles');
+
 export default function Page() { return <NumberBubblesClient />; }

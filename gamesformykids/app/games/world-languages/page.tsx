@@ -1,7 +1,6 @@
-import WorldLanguagesGameClient from './WorldLanguagesGameClient';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'שפות העולם | GamesForMyKids',
-  description: 'למד אילו שפות מדברים בכל מדינה בעולם!',
-};
+﻿import WorldLanguagesGameClient from './WorldLanguagesGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('world-languages');
+
 export default function WorldLanguagesPage() { return <WorldLanguagesGameClient />; }

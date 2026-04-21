@@ -1,9 +1,6 @@
-import { Metadata } from 'next';
+﻿import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'משחקים חינוכיים - למידה בכיף',
-  description: 'משחקים חינוכיים מגוונים לילדים',
-};
+export const metadata = generateGameMetadata('educational');
 
 export default function EducationalPage() {
   return (

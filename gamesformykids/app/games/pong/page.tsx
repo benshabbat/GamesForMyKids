@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import PongClient from './PongClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'פונג | GamesForMyKids',
-  description: 'שחק פונג נגד המחשב!',
-};
+export const metadata = generateGameMetadata('pong');
 
 export default function PongPage() {
   return <PongClient />;

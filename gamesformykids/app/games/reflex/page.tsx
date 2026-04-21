@@ -1,9 +1,11 @@
-import ReflexGameClient from './ReflexGameClient';
+﻿import ReflexGameClient from './ReflexGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = {
-  title: 'מהירות תגובה | GamesForMyKids',
-  description: 'לחץ על הסמלים מהר ככל האפשר לפני שהם נעלמים!',
-};
+
+
+
+
+export const metadata = generateGameMetadata('reflex');
 
 export default function ReflexPage() {
   return <ReflexGameClient />;

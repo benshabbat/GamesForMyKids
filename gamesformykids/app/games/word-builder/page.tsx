@@ -1,9 +1,7 @@
-import WordBuilderGameClient from './WordBuilderGameClient';
+﻿import WordBuilderGameClient from './WordBuilderGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = {
-  title: 'בניית מילים | GamesForMyKids',
-  description: 'סדר את האותיות ובנה מילים בעברית!',
-};
+export const metadata = generateGameMetadata('word-builder');
 
 export default function WordBuilderPage() {
   return <WordBuilderGameClient />;

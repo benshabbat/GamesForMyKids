@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import FlappyBirdClient from './FlappyBirdClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'ציפור מעופפת | GamesForMyKids',
-  description: 'הקש כדי להרים את הציפור ועזור לה לעבור בין הצינורות!',
-};
+export const metadata = generateGameMetadata('flappy-bird');
 
 export default function FlappyBirdPage() {
   return <FlappyBirdClient />;

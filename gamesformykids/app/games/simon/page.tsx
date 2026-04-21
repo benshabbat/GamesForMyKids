@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import SimonClient from './SimonClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: '🔴 שיימון אומר | משחקים לילדים',
-  description: 'זכור את סדר הצבעים וחזור עליהם — משחק זיכרון קלאסי!',
-};
+export const metadata = generateGameMetadata('simon');
 
 export default function Page() {
   return <SimonClient />;

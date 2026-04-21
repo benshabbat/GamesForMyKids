@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import BalloonPopClient from './BalloonPopClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'פוצץ בלונים | GamesForMyKids',
-  description: 'פוצץ בלונים לפני שהם עפים למעלה!',
-};
+export const metadata = generateGameMetadata('balloon-pop');
 
 export default function BalloonPopPage() {
   return <BalloonPopClient />;

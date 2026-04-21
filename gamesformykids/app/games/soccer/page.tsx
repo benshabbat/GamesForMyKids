@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import SoccerGameClient from './SoccerGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'כדורגל | GamesForMyKids',
-  description: 'שאלות טריוויה על ספורט המלכים — כללי, שחקנים, קבוצות, חוקים וטכניקה!',
-};
+export const metadata = generateGameMetadata('soccer');
 
 export default function SoccerPage() {
   return <SoccerGameClient />;

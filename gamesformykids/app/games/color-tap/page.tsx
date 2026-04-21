@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import ColorTapClient from './ColorTapClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: '🎨 צבע נכון | משחקים לילדים',
-  description: 'לחץ על הצבע הנכון לפני שהזמן נגמר!',
-};
+export const metadata = generateGameMetadata('color-tap');
 
 export default function Page() {
   return <ColorTapClient />;

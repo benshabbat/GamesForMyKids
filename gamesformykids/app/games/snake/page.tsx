@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import SnakeClient from './SnakeClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'נחש | GamesForMyKids',
-  description: 'שחק בנחש הקלאסי — אסוף תפוחים וגדל!',
-};
+export const metadata = generateGameMetadata('snake');
 
 export default function SnakePage() {
   return <SnakeClient />;

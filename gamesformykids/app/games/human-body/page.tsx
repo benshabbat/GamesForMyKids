@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import HumanBodyGameClient from './HumanBodyGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'גוף האדם | GamesForMyKids',
-  description: 'גלה את פלאות גוף האדם — איברים, שרירים, עצמות ועוד!',
-};
+export const metadata = generateGameMetadata('human-body');
 
 export default function HumanBodyPage() {
   return <HumanBodyGameClient />;

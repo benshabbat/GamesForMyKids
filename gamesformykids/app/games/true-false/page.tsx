@@ -1,4 +1,7 @@
-import { Metadata } from 'next';
+﻿
 import TrueFalseClient from './TrueFalseClient';
-export const metadata: Metadata = { title: '✅ נכון או לא נכון | משחקים לילדים', description: 'האם המשפט נכון? לחץ מהר לפני שהזמן נגמר!' };
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('true-false');
+
 export default function Page() { return <TrueFalseClient />; }

@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import SpaceDefenderClient from './SpaceDefenderClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'מגן החלל | GamesForMyKids',
-  description: 'ירה באסטרואידים והגן על כדור הארץ!',
-};
+export const metadata = generateGameMetadata('space-defender');
 
 export default function SpaceDefenderPage() {
   return <SpaceDefenderClient />;

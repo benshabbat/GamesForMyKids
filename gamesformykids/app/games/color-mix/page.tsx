@@ -1,10 +1,7 @@
-import ColorMixGameClient from './ColorMixGameClient';
-import type { Metadata } from 'next';
+﻿import ColorMixGameClient from './ColorMixGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'ערבוב צבעים | GamesForMyKids',
-  description: 'מה מקבלים כשמערבבים שני צבעים? משחק צבעים לילדים!',
-};
+export const metadata = generateGameMetadata('color-mix');
 
 export default function ColorMixPage() {
   return <ColorMixGameClient />;

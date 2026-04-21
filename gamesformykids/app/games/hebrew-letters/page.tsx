@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
-import HebrewLettersHub from './components/hub/HebrewLettersHub';
+﻿import HebrewLettersHub from './components/hub/HebrewLettersHub';
 
-export const metadata: Metadata = {
-  title: 'תרגול כתיבה בעברית - אותיות',
-  description: 'תרגלו כתיבה של כל האותיות בעברית עם דפי תרגול אינטראקטיביים',
-};
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('hebrew-letters');
 
 export default function HebrewLettersPage() {
   return <HebrewLettersHub />;

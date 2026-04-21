@@ -1,6 +1,7 @@
-import InstrumentsGameClient from './InstrumentsGameClient';
+﻿import InstrumentsGameClient from './InstrumentsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata = { title: 'כלי נגינה', description: 'זהה כלי נגינה לפי התיאור שלהם!' };
+export const metadata = generateGameMetadata('instruments');
 
 export default function InstrumentsPage() {
   return <InstrumentsGameClient />;

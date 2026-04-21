@@ -1,3 +1,6 @@
-import NatureGameClient from './NatureGameClient';
-export const metadata = { title: 'עולם הטבע', description: 'למד על בעלי חיים, צמחים, חלל ועוד!' };
+﻿import NatureGameClient from './NatureGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('nature');
+
 export default function NaturePage() { return <NatureGameClient />; }

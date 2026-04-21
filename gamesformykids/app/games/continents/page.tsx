@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import ContinentsGameClient from './ContinentsGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'יבשות העולם | GamesForMyKids',
-  description: 'גלה את 7 היבשות של כדור הארץ — עובדות, מדינות ועוד!',
-};
+export const metadata = generateGameMetadata('continents');
 
 export default function ContinentsPage() {
   return <ContinentsGameClient />;

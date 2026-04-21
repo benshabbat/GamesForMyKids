@@ -1,10 +1,8 @@
-import { Metadata } from 'next';
+﻿
 import ChessClient from './ChessClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 
-export const metadata: Metadata = {
-  title: 'שחמט | GamesForMyKids',
-  description: 'שחק שחמט נגד המחשב!',
-};
+export const metadata = generateGameMetadata('chess');
 
 export default function ChessPage() {
   return <ChessClient />;

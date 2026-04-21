@@ -1,7 +1,6 @@
-import OppositesGameClient from './OppositesGameClient';
-import type { Metadata } from 'next';
-export const metadata: Metadata = {
-  title: 'ניגודים | GamesForMyKids',
-  description: 'למד הפכים בעברית! גדול-קטן, חם-קר ועוד.',
-};
+﻿import OppositesGameClient from './OppositesGameClient';
+import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+
+export const metadata = generateGameMetadata('opposites');
+
 export default function OppositesPage() { return <OppositesGameClient />; }
