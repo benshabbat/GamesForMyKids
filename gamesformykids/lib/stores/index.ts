@@ -137,3 +137,7 @@ export type { AgeGroupData } from './featuredGameStore';
 
 // Game Audio (audioContext / speechEnabled — initialized once, shared)
 export { useGameAudioStore } from './gameAudioStore';
+
+// Favorites (favoriteIds — persisted in localStorage)
+export { useFavoritesStore } from './favoritesStore';
+export type { FavoritesState, FavoritesActions } from './favoritesStore';

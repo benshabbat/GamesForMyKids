@@ -3,8 +3,12 @@
 import Link from "next/link";
 import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
+import { useFavoritesStore } from "@/lib/stores";
 
 export default function GameCard({ game }: ComponentTypes.GameCardProps) {
+  const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
+  const isFav = useFavoritesStore((s) => s.favoriteIds.includes(game.id));
+
   if (game.available) {
     return (
       <div className="relative">
@@ -35,9 +39,18 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
                 {game.description}
               </p>
             </div>
-            <div className="absolute top-2 right-2 md:top-4 md:right-4">
-              <Star className="w-3.5 h-3.5 md:w-5 md:h-5 text-yellow-300 fill-current drop-shadow-sm" />
-            </div>
+            {/* כפתור מועדפים — כוכב */}
+            <button
+              onClick={(e) => { e.preventDefault(); toggleFavorite(game.id); }}
+              aria-label={isFav ? 'הסר ממועדפים' : 'הוסף למועדפים'}
+              className={`absolute top-2 right-2 md:top-4 md:right-4 p-0.5 rounded-full transition-all duration-200 z-10 ${
+                isFav ? 'scale-125' : 'opacity-60 hover:opacity-100 hover:scale-110'
+              }`}
+            >
+              <Star className={`w-3.5 h-3.5 md:w-5 md:h-5 drop-shadow-sm transition-colors duration-200 ${
+                isFav ? 'text-yellow-300 fill-current' : 'text-white'
+              }`} />
+            </button>
           </div>
         </Link>
       </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 
 export default function CategoryCard({
@@ -30,9 +29,6 @@ export default function CategoryCard({
             {gamesCount} משחקים
           </span>
         </div>
-      </div>
-      <div className="absolute top-2 right-2 md:top-4 md:right-4">
-        <Star className="w-4 h-4 md:w-6 md:h-6 text-yellow-300 fill-current" />
       </div>
     </div>
   );
