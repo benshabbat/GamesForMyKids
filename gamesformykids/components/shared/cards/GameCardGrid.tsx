@@ -1,5 +1,5 @@
 import { ComponentTypes } from "@/lib/types";
-import { useGameActions } from "@/hooks";
+import { useGameActions, useGridFillers } from "@/hooks";
 
 // Use the new organized type from ComponentTypes
 type GameItemType = ComponentTypes.GameItemType;
@@ -21,6 +21,11 @@ export function GameCardGrid<T extends GameItemType>({
   
   // 🎮 שימוש בקונטקסט אם מבוקש
   const gameActions = useGameActions();
+  // 🔢 fillers להשלמת שורה אחרונה
+  const fillerCount = useGridFillers(
+    items.length,
+    typeof gridCols === 'string' ? gridCols : { mobile: gridCols, tablet: gridCols, desktop: gridCols }
+  );
   
   // החלטה על הפונקציה הסופית לטיפול בקליק
   const handleItemClick = propOnItemClick || (useContext ? ((item: T) => {
@@ -121,6 +126,9 @@ export function GameCardGrid<T extends GameItemType>({
           </div>
         );
       })}
+      {Array.from({ length: fillerCount }).map((_, i) => (
+        <div key={`filler-${i}`} aria-hidden="true" className="invisible" />
+      ))}
     </div>
   );
 }

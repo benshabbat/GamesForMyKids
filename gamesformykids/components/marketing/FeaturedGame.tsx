@@ -45,7 +45,7 @@ const FeaturedGame = () => {
       
       <div className="relative max-w-2xl mx-auto">
         <Link href={featuredGame.href}>
-          <div className="relative bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-4 md:p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden">
+          <div className="relative bg-gradient-to-br from-yellow-400 via-orange-400 to-red-400 rounded-3xl p-4 md:p-6 lg:p-8 shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer overflow-hidden">
             {/* Decorative elements */}
             <div className="absolute top-4 right-4">
               <div className="flex space-x-1">
@@ -62,15 +62,15 @@ const FeaturedGame = () => {
             <div className="relative z-10 text-center text-white">
               <div className="mb-3 md:mb-6 flex justify-center">
                 <div className="bg-white bg-opacity-20 p-3 md:p-4 rounded-full">
-                  <featuredGame.icon className="w-10 h-10 md:w-16 md:h-16" />
+                  <featuredGame.icon className="w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16" />
                 </div>
               </div>
               
-              <h3 className="text-xl md:text-3xl font-bold mb-2 md:mb-4 drop-shadow-lg">
+              <h3 className="text-xl md:text-2xl lg:text-3xl font-bold mb-2 md:mb-4 drop-shadow-lg">
                 {featuredGame.title}
               </h3>
               
-              <p className="text-sm md:text-xl opacity-95 mb-4 md:mb-6 leading-relaxed hidden sm:block">
+              <p className="text-sm md:text-base lg:text-xl opacity-95 mb-4 md:mb-6 leading-relaxed hidden sm:block">
                 {featuredGame.description}
               </p>
                 <div className="inline-flex items-center bg-gradient-to-r from-white/30 to-white/20 backdrop-blur-sm px-4 md:px-6 py-2 md:py-3 rounded-full font-bold text-base md:text-lg hover:from-white/40 hover:to-white/30 transition-all duration-300 border border-white/30 shadow-lg">

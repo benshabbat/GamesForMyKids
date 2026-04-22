@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import GameCard from "./GameCard";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import { useFavoritesStore } from "@/lib/stores";
+import { useGridFillers } from "@/hooks";
 
 export default function FavoritesView() {
   const favoriteIds = useFavoritesStore((s) => s.favoriteIds);
@@ -12,6 +13,7 @@ export default function FavoritesView() {
     () => allGames.filter((g) => favoriteIds.includes(g.id)),
     [allGames, favoriteIds],
   );
+  const fillerCount = useGridFillers(favoriteGames.length);
 
   return (
     <div>
@@ -27,9 +29,12 @@ export default function FavoritesView() {
           </p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
           {favoriteGames.map((game) => (
             <GameCard key={game.id} game={game} />
+          ))}
+          {Array.from({ length: fillerCount }).map((_, i) => (
+            <div key={`filler-${i}`} aria-hidden="true" className="invisible" />
           ))}
         </div>
       )}

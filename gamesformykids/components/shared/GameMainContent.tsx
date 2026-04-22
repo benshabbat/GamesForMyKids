@@ -17,7 +17,7 @@ export default function GameMainContent() {
           items={game.options as BaseGameItem[]}
           onItemClick={game.handleItemClick}
           currentChallenge={game.currentChallenge}
-          gridCols="grid-cols-2 md:grid-cols-3 lg:grid-cols-4"
+          gridCols="grid-cols-2 md:grid-cols-4"
           maxWidth="max-w-4xl"
           renderCustomCard={(item: BaseGameItem) => (
             <game.CardComponent item={item} onClick={game.handleItemClick} />

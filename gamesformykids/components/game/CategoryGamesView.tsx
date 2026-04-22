@@ -5,20 +5,21 @@ import GameCard from "./GameCard";
 import { useHomePageStore } from "@/lib/stores";
 import { GAME_CATEGORIES } from "@/lib/constants/gameCategories";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
+import { useGridFillers } from "@/hooks";
 
 export default function CategoryGamesView() {
   const selectedCategory = useHomePageStore((s) => s.selectedCategory);
   const backToCategories = useHomePageStore((s) => s.backToCategories);
   const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
 
-  if (!selectedCategory) return null;
-  const category = GAME_CATEGORIES[selectedCategory];
+  const category = selectedCategory ? GAME_CATEGORIES[selectedCategory] : null;
+  const categoryGames = useMemo(
+    () => (category ? allGameRegistrations.filter(game => category.gameIds.includes(game.id)) : []),
+    [category, allGameRegistrations]
+  );
+  const fillerCount = useGridFillers(categoryGames.length);
 
-  const categoryGames = category
-    ? allGameRegistrations.filter(game => category.gameIds.includes(game.id))
-    : [];
-
-  if (!category) return null;
+  if (!selectedCategory || !category) return null;
 
   return (
     <div>
@@ -43,11 +44,16 @@ export default function CategoryGamesView() {
         </div>
       </div>
       
-      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
         {categoryGames.length > 0 ? (
-          categoryGames.map((game) => (
-            <GameCard key={game.id} game={game} />
-          ))
+          <>
+            {categoryGames.map((game) => (
+              <GameCard key={game.id} game={game} />
+            ))}
+            {Array.from({ length: fillerCount }).map((_, i) => (
+              <div key={`filler-${i}`} aria-hidden="true" className="invisible" />
+            ))}
+          </>
         ) : (
           <div className="col-span-full text-center py-8 md:py-12">
             <div className="text-5xl md:text-6xl mb-3 md:mb-4">🎮</div>
