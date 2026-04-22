@@ -1,93 +1,27 @@
 ﻿'use client';
 
-import { useState, useCallback } from 'react';
-import {
-  SOCCER_QUESTIONS,
-  SOCCER_CATEGORIES,
-  QUESTIONS_PER_GAME,
-  type SoccerCategory,
-  type SoccerQuestion,
-} from './data/soccer';
-
-import type { PhaseQuiz as Phase } from '@/lib/types';
-import { shuffle } from '@/lib/utils';
-
+import { useSoccerStore } from './store/soccerStore';
 
 export function useSoccerGame() {
-  const [phase, setPhase]               = useState<Phase>('menu');
-  const [category, setCategory]         = useState<SoccerCategory>('הכל');
-  const [questions, setQuestions]       = useState<SoccerQuestion[]>([]);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [selected, setSelected]         = useState<number | null>(null);
-  const [isCorrect, setIsCorrect]       = useState(false);
-  const [score, setScore]               = useState(0);
-  const [showGoal, setShowGoal]         = useState(false);
-
-  const categories = SOCCER_CATEGORIES;
-
-  const startGame = useCallback((cat: SoccerCategory = 'הכל') => {
-    const pool = cat === 'הכל'
-      ? SOCCER_QUESTIONS
-      : SOCCER_QUESTIONS.filter(q => q.category === cat);
-    const picked = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
-    setCategory(cat);
-    setQuestions(picked);
-    setCurrentIndex(0);
-    setSelected(null);
-    setIsCorrect(false);
-    setScore(0);
-    setShowGoal(false);
-    setPhase('playing');
-  }, []);
-
-  const selectAnswer = useCallback((idx: number) => {
-    if (phase !== 'playing') return;
-    const correct = questions[currentIndex].correctIndex === idx;
-    setSelected(idx);
-    setIsCorrect(correct);
-    if (correct) {
-      setScore(s => s + 1);
-      setShowGoal(true);
-      setTimeout(() => setShowGoal(false), 1500);
-    }
-    setPhase('answered');
-  }, [phase, questions, currentIndex]);
-
-  const nextQuestion = useCallback(() => {
-    const next = currentIndex + 1;
-    if (next >= questions.length) {
-      setPhase('finished');
-      return;
-    }
-    setCurrentIndex(next);
-    setSelected(null);
-    setIsCorrect(false);
-    setPhase('playing');
-  }, [currentIndex, questions]);
-
-  const goToMenu = useCallback(() => {
-    setPhase('menu');
-    setScore(0);
-    setCurrentIndex(0);
-    setShowGoal(false);
-  }, []);
-
-  const currentQuestion = questions[currentIndex] ?? null;
+  const store = useSoccerStore();
+  const currentQuestion = store.questions[store.currentIndex] ?? null;
+  const total = store.questions.length;
 
   return {
-    phase,
-    category,
-    categories,
+    phase: store.phase,
+    category: store.category,
+    categories: store.categories,
     currentQuestion,
-    currentIndex,
-    total: questions.length,
-    selected,
-    isCorrect,
-    score,
-    showGoal,
-    startGame,
-    selectAnswer,
-    nextQuestion,
-    goToMenu,
+    currentIndex: store.currentIndex,
+    total,
+    selected: store.selected,
+    isCorrect: store.isCorrect,
+    score: store.score,
+    showGoal: store.showGoal,
+    startGame: store.startGame,
+    selectAnswer: store.selectAnswer,
+    nextQuestion: store.nextQuestion,
+    goToMenu: store.goToMenu,
   };
 }
+
