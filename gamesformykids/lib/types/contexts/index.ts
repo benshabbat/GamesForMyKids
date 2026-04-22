@@ -10,8 +10,7 @@ export * from './general';
 // ייצוא ממשקים מתוקנים
 export type { 
   GameConfigContextValue,
-  GameConfigProviderProps,
-  GameCardProps
+  GameConfigProviderProps
 } from './game-config';
 
 export type {

@@ -23,19 +23,8 @@ export interface DefaultGameTypeConfig {
 
 // הוסר SpecificGameTypeConfig - השתמש ישירות ב-GameTyped עקרון DRY
 
-/**
- * Props ל-Universal Game Provider - עקרון Interface Segregation
- */
-export interface UniversalGameProviderProps extends 
-  BaseProviderProps,
-  DefaultGameTypeConfig {}
-
-/**
- * Props ל-Simple Game Progress Provider - עקרון Interface Segregation
- */
-export interface SimpleGameProgressProviderProps extends 
-  BaseProviderProps,
-  GameTyped {}
+// הערה: UniversalGameProviderProps מוגדר ב-contexts/universal-game.ts
+// הערה: SimpleGameProgressProviderProps מוגדר ב-contexts/simple-game-progress.ts
 
 /**
  * הגדרת סוג משחק אופציונלי - עקרון Single Responsibility
@@ -43,13 +32,6 @@ export interface SimpleGameProgressProviderProps extends
 export interface OptionalGameTypeConfig {
   readonly gameType?: string;
 }
-
-/**
- * Props ל-GameType Provider - עקרון Interface Segregation
- */
-export interface GameTypeProviderProps extends 
-  BaseProviderProps,
-  DefaultGameTypeConfig {}
 
 /**
  * Props ל-GameProgress Provider - עקרון Interface Segregation
@@ -65,9 +47,5 @@ export interface GameLogicProviderProps extends
   BaseProviderProps,
   GameTyped {}
 
-/**
- * Props ל-GameConfig Provider - עקרון Interface Segregation
- */
-export interface GameConfigProviderProps extends 
-  BaseProviderProps,
-  GameTyped {}
+// הערה: GameTypeProviderProps מוגדר ב-contexts/game-type.ts
+// הערה: GameConfigProviderProps מוגדר ב-contexts/game-config.ts
