@@ -39,11 +39,6 @@ export interface GameUIConfiguration extends TitledEntity {
 }
 
 /**
- * Type alias for UI configurations map - עקרון Open/Closed
- */
-export type GameUIConfigurationsMap = Readonly<Record<string, GameUIConfiguration>>;
-
-/**
  * מצב סוג משחק - עקרון Single Responsibility
  */
 export interface GameTypeState {

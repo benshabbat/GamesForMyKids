@@ -40,14 +40,6 @@ export interface UseGameHintsReturn {
 }
 
 /**
- * Props עבור אירועי משחק - עקרון Single Responsibility
- */
-export interface UseGameEventsProps {
-  readonly gameType?: string;
-  readonly onGameStateChange?: (state: object) => void;
-}
-
-/**
  * סוגי אירועי משחק מורחבים - עקרון DRY, uses existing types
  */
 export type ExtendedGameEvent = 
@@ -87,24 +79,4 @@ export interface UseGamePerformanceReturn {
   readonly isImagePreloaded: (itemName: string) => boolean;
 }
 
-/**
- * נתוני אירוע למעקב - עקרון Single Responsibility
- */
-export interface EventData {
-  readonly gameType: string;
-  readonly score?: number;
-  readonly level?: number;
-  readonly duration?: number;
-  readonly context?: object;
-}
 
-/**
- * החזרת Hook לאירועי משחק עם אנליטיקה - עקרון Interface Segregation
- */
-export interface GameEventsHookReturn {
-  readonly trackEvent: (eventName: string, eventData?: Record<string, unknown>) => void;
-  readonly trackGameStart: (gameType: string) => void;
-  readonly trackGameEnd: (gameType: string, score: number, duration: number) => void;
-  readonly trackLevelComplete: (gameType: string, level: number, score: number) => void;
-  readonly trackError: (error: string, context?: Record<string, unknown>) => void;
-}

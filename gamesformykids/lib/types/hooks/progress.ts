@@ -43,8 +43,4 @@ export interface UserProgressStats {
 // Alias for backward compatibility
 export type ProgressStats = UserProgressStats;
 
-export interface UseProgressTrackingProps {
-  gameType: string;
-  userId?: string;
-  autoSave?: boolean;
-}
+

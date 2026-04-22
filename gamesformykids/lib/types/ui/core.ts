@@ -64,11 +64,6 @@ export interface ButtonStyling {
 }
 
 /**
- * Props לכפתור משחק מורחב - עקרון Interface Segregation
- */
-export interface GameButtonProps extends BaseButtonProps, ButtonStyling {}
-
-/**
  * מאפיינים לטקסט כפתור משחק - עקרון Single Responsibility
  */
 export interface GameButtonText {
@@ -107,22 +102,12 @@ export interface GameStartButtonProps extends
 export type TitledComponent = TitledEntity;
 
 /**
- * Props לכותרת - עקרון Interface Segregation
- */
-export interface HeaderProps extends BaseComponentProps, TitledComponent {}
-
-/**
  * מאפיינים לטעינה עם הודעה - עקרון Single Responsibility
  */
 export interface LoadingWithMessage {
   readonly message?: string;
   readonly onLoadingComplete?: () => void;
 }
-
-/**
- * Props למסך טעינה פשוט - Type alias עם משמעות ברורה
- */
-export type SimpleLoadingScreenProps = LoadingWithMessage;
 
 /**
  * מאפיינים לשגיאה - עקרון Single Responsibility
@@ -137,15 +122,6 @@ export interface ErrorInfo {
  */
 export interface ErrorRecoverable {
   readonly onRetry?: () => void;
-}
-
-/**
- * Props למסך שגיאה - עקרון Interface Segregation
- */
-export interface ErrorScreenProps extends ErrorInfo, ErrorRecoverable {
-  readonly message?: string;
-  readonly onGoHome?: () => void;
-  readonly errorDetails?: string;
 }
 
 /**
@@ -175,18 +151,6 @@ export interface NavigationItem extends NavigationItemBase, NavigationItemWithIc
 export interface NavigationBehavior {
   readonly activeItem?: string;
   readonly onItemClick?: (itemId: string) => void;
-}
-
-/**
- * Props לניווט - עקרון Interface Segregation
- */
-export interface NavigationProps extends NavigationBehavior {
-  readonly items: ReadonlyArray<NavigationItem>;
-  readonly selectedCategory?: Category;
-  readonly showAllGames?: boolean;
-  readonly totalGamesCount?: number;
-  readonly onShowCategories?: () => void;
-  readonly onShowAllGames?: () => void;
 }
 
 /**
@@ -229,11 +193,6 @@ export interface ToastTiming {
   readonly duration?: number;
   readonly onClose?: () => void;
 }
-
-/**
- * Props להודעת Toast - עקרון Interface Segregation
- */
-export interface ToastProps extends ToastContent, ToastTiming {}
 
 /**
  * Props ל-Google Analytics - עקרון Single Responsibility

@@ -64,16 +64,6 @@ export type Mapper<T, U> = (value: T) => U;
 export type Reducer<T, U> = (accumulator: U, current: T) => U;
 
 /**
- * Async Function - עקרון Functional Programming
- */
-export type AsyncFunction<T, U> = (value: T) => Promise<U>;
-
-/**
- * Event Handler - עקרון Functional Programming
- */
-export type EventHandler<T> = (event: T) => void;
-
-/**
  * Validation Result - עקרון Functional Programming
  */
 export type ValidationResult<T> = Result<T, ValidationError>;

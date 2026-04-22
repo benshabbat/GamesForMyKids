@@ -12,15 +12,6 @@ import { UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
 export type { GameItemCardProps };
 
 /**
- * תצורת UI בסיסית למשחק - עקרון Single Responsibility
- */
-export interface BasicGameUIConfig {
-  readonly title: string;
-  readonly description: string;
-  readonly instructions: readonly string[];
-}
-
-/**
  * Props לאפשרויות משחק - עקרון Single Responsibility
  */
 export interface UseGameOptionsProps {

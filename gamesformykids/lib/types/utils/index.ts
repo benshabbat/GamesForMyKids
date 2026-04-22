@@ -40,15 +40,6 @@ export interface GameFeatures {
 }
 
 /**
- * Props לStructured Data של משחק - עקרון Interface Segregation
- */
-export interface GameStructuredDataProps extends 
-  StructuredDataBasicInfo,
-  BaseDifficultyConfig,
-  TargetAudience,
-  GameFeatures {}
-
-/**
  * צבעי עיצוב - עקרון Single Responsibility
  */
 export interface ThemeColors {
@@ -71,11 +62,6 @@ export interface ThemeTypography {
 export interface ThemeGeometry {
   readonly borderRadius: string;
 }
-
-/**
- * ערכת נושא למשחק - עקרון Interface Segregation + DRY
- */
-export interface GameTheme extends ThemeColors, ThemeTypography, ThemeGeometry, Nameable {}
 
 /**
  * מיקום בועה - עקרון Single Responsibility
@@ -178,15 +164,4 @@ export interface OptionalTiming {
   readonly timeLeft?: number;
 }
 
-/**
- * מצב משחק בועות מתמטי - עקרון Interface Segregation
- */
-export interface BubbleGameMathState extends 
-  AnswerOptions,
-  GameLives,
-  OptionalTiming {
-  readonly currentProblem: MathProblem | null;
-  readonly score: number;
-  readonly level: number;
-  readonly gameStatus: Exclude<GameStatus, 'paused'>;
-}
+
