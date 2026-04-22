@@ -11,9 +11,6 @@ import { UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
 
-// Alias for backward compatibility - עקרון Liskov Substitution
-export type GameCardProps = GameItemCardProps;
-
 /**
  * תצורת UI בסיסית למשחק - עקרון Single Responsibility
  */

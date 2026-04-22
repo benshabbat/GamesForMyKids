@@ -17,7 +17,7 @@ export type { GameUIConfig } from '../../constants/ui/gameConfigs';
  */
 export type AutoGameType = TypedConfiguration;
 
-// הערה: GameCardProps מוגדר ב-components/game.ts לפי עקרון DRY
+
 
 /**
  * מידע משחק נוכחי - עקרון Single Responsibility
@@ -52,14 +52,6 @@ export interface GameConfigContextValue extends
 export interface GameConfigProviderProps {
   readonly children: React.ReactNode;
   readonly gameType?: GameType;
-}
-
-/**
- * Props לכרטיס משחק מתוך context
- */
-export interface GameCardProps {
-  readonly gameType: GameType;
-  readonly items?: readonly BaseGameItem[];
 }
 
 // הערה: GameConfigProviderProps מוגדר כאן לפי עקרון DRY
