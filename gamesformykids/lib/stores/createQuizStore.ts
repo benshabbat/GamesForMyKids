@@ -55,12 +55,7 @@ export function quizInitialState<TQuestion>(): QuizBaseState<TQuestion> {
 }
 
 // ── Base slice creator ───────────────────────────────────────
-export function createQuizBaseSlice<TQuestion>(
-  questionsPerGame: number,
-  allQuestions: TQuestion[],
-  filterFn: (q: TQuestion, filter: string) => boolean,
-  noFilterValue: string,
-): StateCreator<
+export function createQuizBaseSlice<TQuestion>(): StateCreator<
   QuizBaseState<TQuestion> & QuizBaseActions<TQuestion>,
   [],
   [],
@@ -115,7 +110,7 @@ export function createQuizStore<TQuestion>(
   type Store = QuizBaseState<TQuestion> & QuizBaseActions<TQuestion>;
 
   const store = create<Store>(
-    createQuizBaseSlice(questionsPerGame, allQuestions, filterFn, noFilterValue),
+    createQuizBaseSlice(),
   );
 
   /** Helper: pick shuffled questions and call _setQuestions */
