@@ -8,6 +8,7 @@
  */
 
 import { useState, useEffect, useCallback } from 'react';
+import { useDrawingStore } from '../store/drawingStore';
 
 export interface GameSettings {
   difficulty: 'easy' | 'medium' | 'hard';
@@ -16,15 +17,14 @@ export interface GameSettings {
 }
 
 export const useDrawingGame = () => {
-  const [isGameStarted, setIsGameStarted] = useState(false);
   const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [gameSettings, setGameSettings] = useState<GameSettings>({
     difficulty: 'easy',
-    timeLimit: 300, // 5 minutes
+    timeLimit: 300,
     theme: 'free-draw'
   });
-  const [timeRemaining, setTimeRemaining] = useState(300);
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
+
+  const { isGameStarted, timeRemaining, isTimerRunning, setTimeRemaining, setIsTimerRunning, startGame: storeStartGame, stopGame: storeStopGame } = useDrawingStore();
 
   // זיהוי מכשיר נייד
   useEffect(() => {
@@ -42,7 +42,7 @@ export const useDrawingGame = () => {
   const handleGameEnd = useCallback(() => {
     setIsTimerRunning(false);
     // כאן אפשר להוסיף לוגיקה נוספת לסיום המשחק
-  }, []);
+  }, [setIsTimerRunning]);
 
   // טיימר המשחק
   useEffect(() => {
@@ -50,51 +50,45 @@ export const useDrawingGame = () => {
     
     if (isTimerRunning && timeRemaining > 0) {
       interval = setInterval(() => {
-        setTimeRemaining(prev => {
-          if (prev <= 1) {
-            setIsTimerRunning(false);
-            handleGameEnd();
-            return 0;
-          }
-          return prev - 1;
-        });
+        const current = useDrawingStore.getState().timeRemaining;
+        if (current <= 1) {
+          setIsTimerRunning(false);
+          setTimeRemaining(0);
+          handleGameEnd();
+        } else {
+          setTimeRemaining(current - 1);
+        }
       }, 1000);
     }
     
     return () => {
       if (interval) clearInterval(interval);
     };
-  }, [isTimerRunning, timeRemaining, handleGameEnd]);
+  }, [isTimerRunning, timeRemaining, handleGameEnd, setIsTimerRunning, setTimeRemaining]);
 
   // התחלת משחק
   const startGame = useCallback((settings?: Partial<GameSettings>) => {
-    if (settings) {
-      setGameSettings(prev => ({ ...prev, ...settings }));
-      setTimeRemaining(settings.timeLimit || gameSettings.timeLimit);
-    }
-    
-    setIsGameStarted(true);
-    setIsTimerRunning(true);
-  }, [gameSettings.timeLimit]);
+    const mergedSettings = settings ? { ...gameSettings, ...settings } : gameSettings;
+    if (settings) setGameSettings(mergedSettings);
+    storeStartGame(mergedSettings.timeLimit);
+  }, [gameSettings, storeStartGame]);
 
   // עצירת משחק
   const stopGame = useCallback(() => {
-    setIsGameStarted(false);
-    setIsTimerRunning(false);
-    setTimeRemaining(gameSettings.timeLimit);
-  }, [gameSettings.timeLimit]);
+    storeStopGame(gameSettings.timeLimit);
+  }, [gameSettings.timeLimit, storeStopGame]);
 
   // השהיית משחק
   const pauseGame = useCallback(() => {
     setIsTimerRunning(false);
-  }, []);
+  }, [setIsTimerRunning]);
 
   // חזרה למשחק
   const resumeGame = useCallback(() => {
     if (isGameStarted && timeRemaining > 0) {
       setIsTimerRunning(true);
     }
-  }, [isGameStarted, timeRemaining]);
+  }, [isGameStarted, timeRemaining, setIsTimerRunning]);
 
   // פורמט זמן למציג
   const formatTime = useCallback((seconds: number) => {
@@ -119,6 +113,10 @@ export const useDrawingGame = () => {
     hard: { timeLimit: 180, name: 'קשה', color: 'red' }
   };
 
+  const goBack = useCallback(() => {
+    window.history.back();
+  }, []);
+
   return {
     // Game state
     isGameStarted,
@@ -132,6 +130,7 @@ export const useDrawingGame = () => {
     stopGame,
     pauseGame,
     resumeGame,
+    goBack,
     
     // Settings
     setGameSettings,

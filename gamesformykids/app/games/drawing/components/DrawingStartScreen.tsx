@@ -1,8 +1,10 @@
 "use client";
 
 import styles from '../drawing.module.css';
+import { useDrawingGame } from '../hooks/useDrawingGame';
 
-export default function DrawingStartScreen({ onStart }: { onStart: () => void }) {
+export default function DrawingStartScreen() {
+  const { startGame } = useDrawingGame();
   return (
     <div className={`min-h-screen bg-gradient-to-br from-purple-400 via-pink-400 to-orange-400 flex items-center justify-center ${styles.drawingContainer}`}>
         <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full mx-4 text-center">
@@ -37,7 +39,7 @@ export default function DrawingStartScreen({ onStart }: { onStart: () => void })
         </div>
         
         <button
-          onClick={onStart}
+          onClick={() => startGame()}
           className="bg-gradient-to-r from-blue-500 to-purple-600 text-white text-xl font-bold py-4 px-8 rounded-2xl hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg shadow-blue-200 w-full"
         >
           🎨 בואו נתחיל לצייר!

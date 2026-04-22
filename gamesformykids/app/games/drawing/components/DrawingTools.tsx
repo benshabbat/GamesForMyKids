@@ -1,28 +1,12 @@
 "use client";
 
 import styles from '../drawing.module.css';
+import { useDrawingStore } from '../store/drawingStore';
+import { useDrawingGame } from '../hooks/useDrawingGame';
 
-export default function DrawingTools({
-  brushSize,
-  eraserSize,
-  isErasing,
-  onBrushSizeChange,
-  onEraserSizeChange,
-  onToggleEraser,
-  onSelectDrawMode,
-  onClear,
-  isMobileDevice
-}: {
-  brushSize: number;
-  eraserSize: number;
-  isErasing: boolean;
-  onBrushSizeChange: (size: number) => void;
-  onEraserSizeChange: (size: number) => void;
-  onToggleEraser: () => void;
-  onSelectDrawMode: () => void;
-  onClear: () => void;
-  isMobileDevice: boolean;
-}) {
+export default function DrawingTools() {
+  const { brushSize, eraserSize, isErasing, setBrushSize, setEraserSize, toggleEraser, selectDrawMode, clearCanvas } = useDrawingStore();
+  const { isMobileDevice } = useDrawingGame();
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6">
       <div className="text-lg font-bold text-gray-700 mb-4 text-center">🛠️ כלים</div>
@@ -32,7 +16,7 @@ export default function DrawingTools({
         <div className="text-sm font-medium text-gray-600 text-center">מצב:</div>
         <div className="grid grid-cols-2 gap-2">
           <button
-            onClick={onSelectDrawMode}
+            onClick={selectDrawMode}
             className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 shadow-md ${styles.toolButton} ${
               !isErasing 
                 ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200' 
@@ -42,7 +26,7 @@ export default function DrawingTools({
             🖌️ ציור
           </button>
           <button
-            onClick={onToggleEraser}
+            onClick={toggleEraser}
             className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 shadow-md ${styles.toolButton} ${
               isErasing 
                 ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-orange-200' 
@@ -66,7 +50,7 @@ export default function DrawingTools({
               min="1"
               max={isMobileDevice ? "15" : "20"}
               value={brushSize}
-              onChange={(e) => onBrushSizeChange(Number(e.target.value))}
+              onChange={(e) => setBrushSize(Number(e.target.value))}
               className={`w-full h-2 bg-blue-100 rounded-lg appearance-none cursor-pointer ${styles.sliderThumb}`}
             />
           </div>
@@ -85,7 +69,7 @@ export default function DrawingTools({
               min="5"
               max={isMobileDevice ? "30" : "40"}
               value={eraserSize}
-              onChange={(e) => onEraserSizeChange(Number(e.target.value))}
+              onChange={(e) => setEraserSize(Number(e.target.value))}
               className={`w-full h-2 bg-orange-100 rounded-lg appearance-none cursor-pointer ${styles.sliderThumb}`}
             />
           </div>
@@ -93,7 +77,7 @@ export default function DrawingTools({
       )}
       
       <button
-        onClick={onClear}
+        onClick={clearCanvas}
         className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-200 font-medium shadow-lg shadow-red-200"
       >
         🗑️ נקה הכל

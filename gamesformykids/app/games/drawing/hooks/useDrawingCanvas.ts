@@ -7,7 +7,8 @@
  * פיצול מהקובץ הגדול DrawingGameClient.tsx
  */
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
+import { useDrawingStore } from '../store/drawingStore';
 
 export interface DrawingState {
   isDrawing: boolean;
@@ -21,10 +22,6 @@ export interface DrawingState {
 export const useDrawingCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState(false);
-  const [currentColor, setCurrentColor] = useState('#000000');
-  const [brushSize, setBrushSize] = useState(5);
-  const [isErasing, setIsErasing] = useState(false);
-  const [eraserSize, setEraserSize] = useState(10);
 
   const colors = [
     '#000000', '#FF0000', '#00FF00', '#0000FF', 
@@ -66,7 +63,7 @@ export const useDrawingCanvas = () => {
     return { x, y };
   }, []);
 
-  // התחלת ציור
+  // התחלת ציור — קורא state עדכני מהסטור ישירות למניעת stale closure
   const startDrawing = useCallback((
     e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
   ) => {
@@ -79,7 +76,17 @@ export const useDrawingCanvas = () => {
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
+
+    const { isErasing, eraserSize, brushSize, currentColor } = useDrawingStore.getState();
+    if (isErasing) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = eraserSize;
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = brushSize;
+    }
+    ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(x, y);
   }, [getEventPosition]);
@@ -97,7 +104,8 @@ export const useDrawingCanvas = () => {
     
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
-    
+
+    const { isErasing, eraserSize, currentColor, brushSize } = useDrawingStore.getState();
     if (isErasing) {
       ctx.globalCompositeOperation = 'destination-out';
       ctx.lineWidth = eraserSize;
@@ -113,7 +121,7 @@ export const useDrawingCanvas = () => {
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(x, y);
-  }, [isDrawing, getEventPosition, isErasing, eraserSize, currentColor, brushSize]);
+  }, [isDrawing, getEventPosition]);
 
   // סיום ציור
   const stopDrawing = useCallback(() => {
@@ -138,38 +146,37 @@ export const useDrawingCanvas = () => {
     }
   }, []);
 
-  // שמירת התמונה
-  const saveImage = useCallback(() => {
+  // רישום clearCanvas לסטור כדי שרכיבים אחרים יוכלו לגשת אליו
+  const registerClearCanvas = useDrawingStore((s) => s.registerClearCanvas);
+  useEffect(() => {
+    registerClearCanvas(clearCanvas);
+  }, [clearCanvas, registerClearCanvas]);
+
+  // שמירת התמונה כקובץ PNG
+  const saveDrawing = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return null;
-    
-    return canvas.toDataURL('image/png');
+    if (!canvas) return;
+    const link = document.createElement('a');
+    link.download = `ציור-${Date.now()}.png`;
+    link.href = canvas.toDataURL('image/png');
+    link.click();
   }, []);
 
+  // רישום saveDrawing לסטור
+  const registerSaveDrawing = useDrawingStore((s) => s.registerSaveDrawing);
+  useEffect(() => {
+    registerSaveDrawing(saveDrawing);
+  }, [saveDrawing, registerSaveDrawing]);
+
   return {
-    // Refs
     canvasRef,
-    
-    // State
     isDrawing,
-    currentColor,
-    brushSize,
-    isErasing,
-    eraserSize,
     colors,
-    
-    // Actions
-    setCurrentColor,
-    setBrushSize,
-    setIsErasing,
-    setEraserSize,
-    
-    // Canvas operations
     startDrawing,
     draw,
     stopDrawing,
     clearCanvas,
-    saveImage,
-    getEventPosition
+    saveDrawing,
+    getEventPosition,
   };
 };
