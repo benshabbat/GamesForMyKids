@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import type { TitledEntity, Nameable, BaseDifficultyConfig } from '../core/base';
+import type { TitledEntity } from '../core/base';
 import type { Identifiable } from '../core/abstracts';
 
 /**

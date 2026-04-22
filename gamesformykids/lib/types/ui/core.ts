@@ -5,7 +5,6 @@
  */
 
 import { ReactNode } from 'react';
-import type { Category } from '../games/base';
 import type { TitledEntity } from '../core/base';
 import type { Identifiable } from '../core/abstracts';
 
