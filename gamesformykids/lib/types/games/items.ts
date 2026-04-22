@@ -66,18 +66,6 @@ export interface MathChallenge {
  * מצבי משחק מיוחדים
  */
 
-// מצב משחק צבעים
-export type ColorGameState = BaseGameState<ColorItem>;
-
-// מצב משחק צורות
-export type ShapeGameState = BaseGameState<ShapeItem>;
-
-// מצב משחק מספרים
-export type NumberGameState = BaseGameState<NumberItem>;
-
-// מצב משחק מקצועות
-export type ProfessionGameState = BaseGameState<ProfessionItem>;
-
 // מצב משחק מנייה
 export interface CountingGameState extends Omit<BaseGameState<never>, 'currentChallenge' | 'options'> {
   currentChallenge: CountingChallenge | null;
@@ -89,12 +77,6 @@ export interface MathGameState extends Omit<BaseGameState<never>, 'currentChalle
   currentChallenge: MathChallenge | null;
   options: number[];
 }
-
-/**
- * מצבי משחק רגילים - עקרון DRY
- * כל המשחקים הבסיסיים משתמשים באותו type
- */
-export type StandardGameState = BaseGameState<BaseGameItem>;
 
 /**
  * Type aliases לתאימות לאחור - כולם מצביעים לאותו type
