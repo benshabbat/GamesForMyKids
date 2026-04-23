@@ -3,6 +3,8 @@ import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
+import { QuizGameRouter } from '@/components/game/quiz';
+import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameRegistry';
 import { type GamePageParams } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 
@@ -22,10 +24,18 @@ export default async function UniversalGamePage({ params }: PageProps) {
 
   if (!isSupportedGame(actualGameType)) notFound();
 
+  const isQuizGame = QUIZ_GAME_TYPES.has(actualGameType);
+
   return (
     <GameTypeProvider initialGameType={actualGameType}>
-      <GameLogicSync />
-      <UltimateGamePage />
+      {isQuizGame ? (
+        <QuizGameRouter />
+      ) : (
+        <>
+          <GameLogicSync />
+          <UltimateGamePage />
+        </>
+      )}
     </GameTypeProvider>
   );
 }

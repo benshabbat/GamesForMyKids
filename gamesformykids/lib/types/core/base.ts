@@ -297,4 +297,27 @@ export type GameType =
   | 'nba-teams'
   // משחקי טבע וחרקים
   | 'exotic-birds'
-  | 'butterflies';
+  | 'butterflies'
+  // משחקי חידון (quiz)
+  | 'riddles'
+  | 'capitals'
+  | 'fractions'
+  | 'spelling'
+  | 'world-languages'
+  | 'opposites'
+  | 'sports-quiz'
+  | 'geography'
+  | 'trivia'
+  | 'science'
+  | 'continents'
+  | 'israel'
+  | 'nature'
+  | 'healthy-food'
+  | 'human-body'
+  | 'sequences'
+  | 'color-mix'
+  | 'clock'
+  | 'english-words'
+  | 'shapes-3d'
+  | 'holidays'
+  | 'tzadikim';
