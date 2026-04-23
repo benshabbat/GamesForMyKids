@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { useColoringStore } from '../store/coloringStore';
 
 export function ColoringActions() {
@@ -14,12 +13,6 @@ export function ColoringActions() {
       >
         🗑️ נקה
       </button>
-      <Link
-        href="/"
-        className="bg-gray-400 hover:bg-gray-500 text-white px-6 py-2 rounded-full font-bold transition-colors shadow-md"
-      >
-        🏠 בית
-      </Link>
     </div>
   );
 }

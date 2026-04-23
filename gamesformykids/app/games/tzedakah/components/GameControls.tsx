@@ -5,11 +5,8 @@ interface GameControlsProps {
   gameTime: number;
   score: number;
   collectedCoins: number;
-  nextGame: { title: string; href: string };
   isMobile: boolean;
   onStartGame: () => void;
-  onNavigateToNext: () => void;
-  onNavigateHome: () => void;
 }
 
 export default function GameControls({
@@ -17,11 +14,8 @@ export default function GameControls({
   gameTime,
   score,
   collectedCoins,
-  nextGame,
   isMobile,
   onStartGame,
-  onNavigateToNext,
-  onNavigateHome
 }: GameControlsProps) {
   return (
     <div className="flex justify-center mb-6">
@@ -59,26 +53,6 @@ export default function GameControls({
               }`}
             >
               🔄 שחק שוב
-            </button>
-            
-            <button
-              onClick={onNavigateToNext}
-              className={`bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center justify-center gap-2 ${
-                isMobile ? 'py-2 px-4 text-sm' : 'py-3 px-6'
-              }`}
-            >
-              <span>🎮</span>
-              <span>עבור ל{nextGame.title}</span>
-              <span>→</span>
-            </button>
-            
-            <button
-              onClick={onNavigateHome}
-              className={`bg-gradient-to-r from-gray-400 to-gray-600 hover:from-gray-500 hover:to-gray-700 text-white font-bold rounded-lg transition-all duration-300 ${
-                isMobile ? 'py-1 px-3 text-xs' : 'py-2 px-4 text-sm'
-              }`}
-            >
-              🏠 חזרה לעמוד הראשי
             </button>
           </div>
         </div>

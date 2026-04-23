@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { HebrewLetter } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 import { Button } from '@/components/ui/button';
-import { ArrowLeft, Home, Volume2, VolumeX } from 'lucide-react';
+import { ArrowLeft, Volume2, VolumeX } from 'lucide-react';
 import { useHebrewLetterPractice } from '@/app/games/hebrew-letters/hooks/useHebrewLetterPractice';
 import LetterEncouragement from './LetterEncouragement';
 import LetterIntroStep from './LetterIntroStep';
@@ -60,12 +60,6 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               </button>
             ))}
           </div>
-          
-          <Link href="/games">
-            <Button variant="outline" size="sm">
-              <Home className="w-4 h-4" />
-            </Button>
-          </Link>
           
           <Button
             onClick={toggleAudio}

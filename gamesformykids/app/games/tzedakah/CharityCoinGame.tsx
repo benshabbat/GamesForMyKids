@@ -8,7 +8,6 @@ import GameAreaBackground from './components/GameAreaBackground';
 import TzedakahGameInstructions from './components/TzedakahGameInstructions';
 import styles from './charity.module.css';
 import { useCharityCoinGame } from './useCharityCoinGame';
-import { ROUTES } from '@/lib/constants/routes';
 
 const CharityCoinGame = () => {
   const {
@@ -23,11 +22,9 @@ const CharityCoinGame = () => {
     gameHeight,
     basketWidth,
     basketHeight,
-    nextGame,
     startGame,
     handleMouseMove,
     handleTouchMove,
-    router,
   } = useCharityCoinGame();
 
   return (
@@ -48,11 +45,8 @@ const CharityCoinGame = () => {
           gameTime={gameTime}
           score={score}
           collectedCoins={collectedCoins}
-          nextGame={nextGame}
           isMobile={isMobile}
           onStartGame={startGame}
-          onNavigateToNext={() => router.push(nextGame.href)}
-          onNavigateHome={() => router.push(ROUTES.HOME)}
         />
 
         {/* איזור המשחק מעוצב */}
