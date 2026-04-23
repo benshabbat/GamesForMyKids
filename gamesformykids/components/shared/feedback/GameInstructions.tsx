@@ -6,7 +6,7 @@ import type { ComponentTypes } from "@/lib/types";
  */
 export default function GameInstructions({ 
   className = "" 
-}: ComponentTypes.GameInstructionsProps) {
+}: ComponentTypes.ContextBasedComponentProps) {
   const { config } = useUniversalGame();
   
   if (!config || !config.steps) {
