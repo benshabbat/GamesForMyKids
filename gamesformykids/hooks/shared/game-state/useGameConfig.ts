@@ -39,7 +39,7 @@ function buildGameConfigValue(gameType: GameType | null): GameConfigContextValue
     const config = GAME_UI_CONFIGS[gameType]
     const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType]
     const items = GAME_ITEMS_MAP[gameType] as BaseGameItem[]
-    const CardComponent = GameCardMap[gameType]
+    const CardComponent = GameCardMap[gameType] ?? null
 
     const isSupported = !!(config && (gameType in GAME_HOOKS_MAP) && items?.length && CardComponent)
 

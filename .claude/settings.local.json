@@ -1,7 +1,8 @@
 {
   "permissions": {
     "allow": [
-      "Bash(grep -E \"^[A-Z].*Game\\\\.tsx$\")"
+      "Bash(grep -E \"^[A-Z].*Game\\\\.tsx$\")",
+      "Bash(npx tsc *)"
     ]
   }
 }

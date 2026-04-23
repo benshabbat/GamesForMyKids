@@ -64,7 +64,7 @@ import { GameType, BaseGameItem } from "@/lib/types/core/base";
  * 🎯 מפה מרכזית של כל פרטי המשחקים
  * כל רשימת פרטים מוכנה לשימוש
  */
-export const GAME_ITEMS_MAP: Record<GameType, BaseGameItem[]> = {
+export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   animals: ALL_ANIMALS,
   colors: ALL_COLORS,
   fruits: ALL_FRUITS,

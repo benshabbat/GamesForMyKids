@@ -37,7 +37,7 @@ describe('GamesRegistry — structural integrity', () => {
       if (mapKeys.includes(game.id)) {
         const items = GAME_ITEMS_MAP[game.id as keyof typeof GAME_ITEMS_MAP];
         expect(
-          items.length,
+          items?.length ?? 0,
           `"${game.id}" has no items in gameItemsMap`
         ).toBeGreaterThan(0);
       }

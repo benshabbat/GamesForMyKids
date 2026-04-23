@@ -28,7 +28,7 @@ const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
  * מיפוי של כל סוגי המשחקים לקומפוננט Card המתאים
  * DRY Principle: כל המשחקים משתמשים באותו קומפוננט בסיס
  */
-export const GameCardMap: Record<GameType, ComponentType<GameItemCardProps>> = {
+export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardProps>>> = {
   animals: DefaultGameCard,
   fruits: DefaultGameCard,
   vegetables: DefaultGameCard,

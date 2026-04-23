@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ===============================================
  * מפת Hooks למשחקים - אוטומציה מלאה
  * ===============================================
@@ -18,87 +18,87 @@ type AnyGameHookFn = () => any;
 
 // יצירת hooks כלליים לכל המשחקים - כולם משתמשים ב-useGenericGame!
 // הערה: משחקי Math ו-Memory לא כלולים כי יש להם לוגיקה מיוחדת משלהם
-const useAnimalsGame = () => useGenericGame(GAME_ITEMS_MAP.animals, 'animals');
-const useColorsGame = () => useGenericGame(GAME_ITEMS_MAP.colors, 'colors');
-const useFruitsGame = () => useGenericGame(GAME_ITEMS_MAP.fruits, 'fruits');
-const useVegetablesGame = () => useGenericGame(GAME_ITEMS_MAP.vegetables, 'vegetables');
-const useClothingGame = () => useGenericGame(GAME_ITEMS_MAP.clothing, 'clothing');
-const useLettersGame = () => useGenericGame(GAME_ITEMS_MAP.letters, 'letters');
-const useShapesGame = () => useGenericGame(GAME_ITEMS_MAP.shapes, 'shapes');
-const useColoredShapesGame = () => useGenericGame(GAME_ITEMS_MAP["colored-shapes"], 'colored-shapes');
-const useNumbersGame = () => useGenericGame(GAME_ITEMS_MAP.numbers, 'numbers');
-const useSmellsTastesGame = () => useGenericGame(GAME_ITEMS_MAP["smells-tastes"], 'smells-tastes');
-const useWeatherGame = () => useGenericGame(GAME_ITEMS_MAP.weather, 'weather');
-const useTransportGame = () => useGenericGame(GAME_ITEMS_MAP.transport, 'transport');
-const useVehiclesGame = () => useGenericGame(GAME_ITEMS_MAP.vehicles, 'vehicles');
-const useToolsGame = () => useGenericGame(GAME_ITEMS_MAP.tools, 'tools');
-const useSpaceGame = () => useGenericGame(GAME_ITEMS_MAP.space, 'space');
-const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house, 'house');
-const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments, 'instruments');
-const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions, 'professions');
-const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions, 'emotions');
+const useAnimalsGame = () => useGenericGame(GAME_ITEMS_MAP.animals!, 'animals');
+const useColorsGame = () => useGenericGame(GAME_ITEMS_MAP.colors!, 'colors');
+const useFruitsGame = () => useGenericGame(GAME_ITEMS_MAP.fruits!, 'fruits');
+const useVegetablesGame = () => useGenericGame(GAME_ITEMS_MAP.vegetables!, 'vegetables');
+const useClothingGame = () => useGenericGame(GAME_ITEMS_MAP.clothing!, 'clothing');
+const useLettersGame = () => useGenericGame(GAME_ITEMS_MAP.letters!, 'letters');
+const useShapesGame = () => useGenericGame(GAME_ITEMS_MAP.shapes!, 'shapes');
+const useColoredShapesGame = () => useGenericGame(GAME_ITEMS_MAP["colored-shapes"]!, 'colored-shapes');
+const useNumbersGame = () => useGenericGame(GAME_ITEMS_MAP.numbers!, 'numbers');
+const useSmellsTastesGame = () => useGenericGame(GAME_ITEMS_MAP["smells-tastes"]!, 'smells-tastes');
+const useWeatherGame = () => useGenericGame(GAME_ITEMS_MAP.weather!, 'weather');
+const useTransportGame = () => useGenericGame(GAME_ITEMS_MAP.transport!, 'transport');
+const useVehiclesGame = () => useGenericGame(GAME_ITEMS_MAP.vehicles!, 'vehicles');
+const useToolsGame = () => useGenericGame(GAME_ITEMS_MAP.tools!, 'tools');
+const useSpaceGame = () => useGenericGame(GAME_ITEMS_MAP.space!, 'space');
+const useHouseGame = () => useGenericGame(GAME_ITEMS_MAP.house!, 'house');
+const useInstrumentsGame = () => useGenericGame(GAME_ITEMS_MAP.instruments!, 'instruments');
+const useProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP.professions!, 'professions');
+const useEmotionsGame = () => useGenericGame(GAME_ITEMS_MAP.emotions!, 'emotions');
 // משחקים חדשים
-const useSportsGame = () => useGenericGame(GAME_ITEMS_MAP.sports, 'sports');
-const useKitchenGame = () => useGenericGame(GAME_ITEMS_MAP.kitchen, 'kitchen');
-const useBodyPartsGame = () => useGenericGame(GAME_ITEMS_MAP["body-parts"], 'body-parts');
-const useFamilyGame = () => useGenericGame(GAME_ITEMS_MAP.family, 'family');
-const useDinosaursGame = () => useGenericGame(GAME_ITEMS_MAP.dinosaurs, 'dinosaurs');
+const useSportsGame = () => useGenericGame(GAME_ITEMS_MAP.sports!, 'sports');
+const useKitchenGame = () => useGenericGame(GAME_ITEMS_MAP.kitchen!, 'kitchen');
+const useBodyPartsGame = () => useGenericGame(GAME_ITEMS_MAP["body-parts"]!, 'body-parts');
+const useFamilyGame = () => useGenericGame(GAME_ITEMS_MAP.family!, 'family');
+const useDinosaursGame = () => useGenericGame(GAME_ITEMS_MAP.dinosaurs!, 'dinosaurs');
 // משחקים נוספים חדשים
-const useWorldFoodGame = () => useGenericGame(GAME_ITEMS_MAP["world-food"], 'world-food');
-const useRecyclingGame = () => useGenericGame(GAME_ITEMS_MAP.recycling, 'recycling');
-const useMedicineGame = () => useGenericGame(GAME_ITEMS_MAP.medicine, 'medicine');
-const useNatureSoundsGame = () => useGenericGame(GAME_ITEMS_MAP["nature-sounds"], 'nature-sounds');
-const useSeasonsHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["seasons-holidays"], 'seasons-holidays');
-const useFeelingsGame = () => useGenericGame(GAME_ITEMS_MAP.feelings, 'feelings');
-const useShoppingMoneyGame = () => useGenericGame(GAME_ITEMS_MAP["shopping-money"], 'shopping-money');
-const useRoadSafetyGame = () => useGenericGame(GAME_ITEMS_MAP["road-safety"], 'road-safety');
+const useWorldFoodGame = () => useGenericGame(GAME_ITEMS_MAP["world-food"]!, 'world-food');
+const useRecyclingGame = () => useGenericGame(GAME_ITEMS_MAP.recycling!, 'recycling');
+const useMedicineGame = () => useGenericGame(GAME_ITEMS_MAP.medicine!, 'medicine');
+const useNatureSoundsGame = () => useGenericGame(GAME_ITEMS_MAP["nature-sounds"]!, 'nature-sounds');
+const useSeasonsHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["seasons-holidays"]!, 'seasons-holidays');
+const useFeelingsGame = () => useGenericGame(GAME_ITEMS_MAP.feelings!, 'feelings');
+const useShoppingMoneyGame = () => useGenericGame(GAME_ITEMS_MAP["shopping-money"]!, 'shopping-money');
+const useRoadSafetyGame = () => useGenericGame(GAME_ITEMS_MAP["road-safety"]!, 'road-safety');
 // 6 משחקים חדשים נוספים
-const useOceanLifeGame = () => useGenericGame(GAME_ITEMS_MAP["ocean-life"], 'ocean-life');
-const useGardenPlantsGame = () => useGenericGame(GAME_ITEMS_MAP["garden-plants"], 'garden-plants');
-const useMagicFairyTalesGame = () => useGenericGame(GAME_ITEMS_MAP["magic-fairy-tales"], 'magic-fairy-tales');
-const useSpaceAdventureGame = () => useGenericGame(GAME_ITEMS_MAP["space-adventure"], 'space-adventure');
-const useCookingKitchenGame = () => useGenericGame(GAME_ITEMS_MAP["cooking-kitchen"], 'cooking-kitchen');
-const useCircusShowGame = () => useGenericGame(GAME_ITEMS_MAP["circus-show"], 'circus-show');
+const useOceanLifeGame = () => useGenericGame(GAME_ITEMS_MAP["ocean-life"]!, 'ocean-life');
+const useGardenPlantsGame = () => useGenericGame(GAME_ITEMS_MAP["garden-plants"]!, 'garden-plants');
+const useMagicFairyTalesGame = () => useGenericGame(GAME_ITEMS_MAP["magic-fairy-tales"]!, 'magic-fairy-tales');
+const useSpaceAdventureGame = () => useGenericGame(GAME_ITEMS_MAP["space-adventure"]!, 'space-adventure');
+const useCookingKitchenGame = () => useGenericGame(GAME_ITEMS_MAP["cooking-kitchen"]!, 'cooking-kitchen');
+const useCircusShowGame = () => useGenericGame(GAME_ITEMS_MAP["circus-show"]!, 'circus-show');
 // 6 משחקים טכנולוגיים חדשים
-const useVirtualRealityGame = () => useGenericGame(GAME_ITEMS_MAP["virtual-reality"], 'virtual-reality');
-const useNewProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP["new-professions"], 'new-professions');
-const useAdvancedWeatherGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-weather"], 'advanced-weather');
-const useAdvancedColorsGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-colors"], 'advanced-colors');
-const useJewishHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["jewish-holidays"], 'jewish-holidays');
-const useLogicGamesGame = () => useGenericGame(GAME_ITEMS_MAP["logic-games"], 'logic-games');
+const useVirtualRealityGame = () => useGenericGame(GAME_ITEMS_MAP["virtual-reality"]!, 'virtual-reality');
+const useNewProfessionsGame = () => useGenericGame(GAME_ITEMS_MAP["new-professions"]!, 'new-professions');
+const useAdvancedWeatherGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-weather"]!, 'advanced-weather');
+const useAdvancedColorsGame = () => useGenericGame(GAME_ITEMS_MAP["advanced-colors"]!, 'advanced-colors');
+const useJewishHolidaysGame = () => useGenericGame(GAME_ITEMS_MAP["jewish-holidays"]!, 'jewish-holidays');
+const useLogicGamesGame = () => useGenericGame(GAME_ITEMS_MAP["logic-games"]!, 'logic-games');
 // 6 משחקים חדשניים יוצאי דופן
-const useSoundImitationGame = () => useGenericGame(GAME_ITEMS_MAP["sound-imitation"], 'sound-imitation');
-const useBodyMovementsGame = () => useGenericGame(GAME_ITEMS_MAP["body-movements"], 'body-movements');
-const useTouchSensesGame = () => useGenericGame(GAME_ITEMS_MAP["touch-senses"], 'touch-senses');
-const useEmotionalSocialGame = () => useGenericGame(GAME_ITEMS_MAP["emotional-social"], 'emotional-social');
-const useTimeClockGame = () => useGenericGame(GAME_ITEMS_MAP["time-clock"], 'time-clock');
-const useClimatePlanetGame = () => useGenericGame(GAME_ITEMS_MAP["climate-planet"], 'climate-planet');
+const useSoundImitationGame = () => useGenericGame(GAME_ITEMS_MAP["sound-imitation"]!, 'sound-imitation');
+const useBodyMovementsGame = () => useGenericGame(GAME_ITEMS_MAP["body-movements"]!, 'body-movements');
+const useTouchSensesGame = () => useGenericGame(GAME_ITEMS_MAP["touch-senses"]!, 'touch-senses');
+const useEmotionalSocialGame = () => useGenericGame(GAME_ITEMS_MAP["emotional-social"]!, 'emotional-social');
+const useTimeClockGame = () => useGenericGame(GAME_ITEMS_MAP["time-clock"]!, 'time-clock');
+const useClimatePlanetGame = () => useGenericGame(GAME_ITEMS_MAP["climate-planet"]!, 'climate-planet');
 // 6 משחקים כיפיים חדשים
-const useBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["birds"], 'birds');
-const useBugsInsectsGame = () => useGenericGame(GAME_ITEMS_MAP["bugs-insects"], 'bugs-insects');
-const useSuperheroesGame = () => useGenericGame(GAME_ITEMS_MAP["superheroes"], 'superheroes');
-const useArtCraftGame = () => useGenericGame(GAME_ITEMS_MAP["art-craft"], 'art-craft');
-const useCampingGame = () => useGenericGame(GAME_ITEMS_MAP["camping"], 'camping');
-const useFairyTaleCharsGame = () => useGenericGame(GAME_ITEMS_MAP["fairy-tale-chars"], 'fairy-tale-chars');
+const useBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["birds"]!, 'birds');
+const useBugsInsectsGame = () => useGenericGame(GAME_ITEMS_MAP["bugs-insects"]!, 'bugs-insects');
+const useSuperheroesGame = () => useGenericGame(GAME_ITEMS_MAP["superheroes"]!, 'superheroes');
+const useArtCraftGame = () => useGenericGame(GAME_ITEMS_MAP["art-craft"]!, 'art-craft');
+const useCampingGame = () => useGenericGame(GAME_ITEMS_MAP["camping"]!, 'camping');
+const useFairyTaleCharsGame = () => useGenericGame(GAME_ITEMS_MAP["fairy-tale-chars"]!, 'fairy-tale-chars');
 // משחקי גיאוגרפיה
-const useFlagsGame = () => useGenericGame(GAME_ITEMS_MAP["flags"], 'flags');
+const useFlagsGame = () => useGenericGame(GAME_ITEMS_MAP["flags"]!, 'flags');
 // משחקי ספורט
-const useSoccerLogosGame = () => useGenericGame(GAME_ITEMS_MAP["soccer-logos"], 'soccer-logos');
+const useSoccerLogosGame = () => useGenericGame(GAME_ITEMS_MAP["soccer-logos"]!, 'soccer-logos');
 // משחקי תחבורה וסמלים
-const useCarBrandsGame = () => useGenericGame(GAME_ITEMS_MAP["car-brands"], 'car-brands');
-const useWorldLandmarksGame = () => useGenericGame(GAME_ITEMS_MAP["world-landmarks"], 'world-landmarks');
+const useCarBrandsGame = () => useGenericGame(GAME_ITEMS_MAP["car-brands"]!, 'car-brands');
+const useWorldLandmarksGame = () => useGenericGame(GAME_ITEMS_MAP["world-landmarks"]!, 'world-landmarks');
 // משחקי מדע ותרבות
-const useSolarSystemGame = () => useGenericGame(GAME_ITEMS_MAP["solar-system"], 'solar-system');
-const useFamousPaintingsGame = () => useGenericGame(GAME_ITEMS_MAP["famous-paintings"], 'famous-paintings');
+const useSolarSystemGame = () => useGenericGame(GAME_ITEMS_MAP["solar-system"]!, 'solar-system');
+const useFamousPaintingsGame = () => useGenericGame(GAME_ITEMS_MAP["famous-paintings"]!, 'famous-paintings');
 
 // משחקי לוגואים וחיות
-const useTechLogosGame = () => useGenericGame(GAME_ITEMS_MAP["tech-logos"], 'tech-logos');
-const useDogBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["dog-breeds"], 'dog-breeds');
-const useCatBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["cat-breeds"], 'cat-breeds');
-const useNbaTeamsGame = () => useGenericGame(GAME_ITEMS_MAP["nba-teams"], 'nba-teams');
+const useTechLogosGame = () => useGenericGame(GAME_ITEMS_MAP["tech-logos"]!, 'tech-logos');
+const useDogBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["dog-breeds"]!, 'dog-breeds');
+const useCatBreedsGame = () => useGenericGame(GAME_ITEMS_MAP["cat-breeds"]!, 'cat-breeds');
+const useNbaTeamsGame = () => useGenericGame(GAME_ITEMS_MAP["nba-teams"]!, 'nba-teams');
 // משחקי טבע וחרקים
-const useExoticBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["exotic-birds"], 'exotic-birds');
-const useButterfliesGame = () => useGenericGame(GAME_ITEMS_MAP["butterflies"], 'butterflies');
+const useExoticBirdsGame = () => useGenericGame(GAME_ITEMS_MAP["exotic-birds"]!, 'exotic-birds');
+const useButterfliesGame = () => useGenericGame(GAME_ITEMS_MAP["butterflies"]!, 'butterflies');
 const useCountingGameHook = () => useCountingGame();
 // - bubbles: אנימציות ואפקטים ויזואליים
 // - puzzles: מערכת פאזלים מורכבת
@@ -242,3 +242,4 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
 };
 
 export type GameHookType = AnyGameHookFn;
+
