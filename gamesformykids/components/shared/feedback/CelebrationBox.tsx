@@ -7,7 +7,7 @@ import type { ComponentTypes } from "@/lib/types";
  */
 export default function CelebrationBox({ 
   className = "" 
-}: ComponentTypes.CelebrationBoxProps) {
+}: ComponentTypes.ContextBasedComponentProps) {
   const { 
     config, 
     currentChallenge, 

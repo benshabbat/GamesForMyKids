@@ -36,14 +36,9 @@ export interface SimpleGameInstructionsProps {
 
 /**
  * Base props for context-based components - עקרון DRY
+ * Used by: GameInstructions, CelebrationBox, ChallengeBox
  */
 export interface ContextBasedComponentProps {
   // Context-based component - no props needed
   className?: string;
 }
-
-export type GameInstructionsProps = ContextBasedComponentProps;
-
-export type CelebrationBoxProps = ContextBasedComponentProps;
-
-export type ChallengeBoxProps = ContextBasedComponentProps;

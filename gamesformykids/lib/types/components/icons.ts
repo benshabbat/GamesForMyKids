@@ -12,12 +12,4 @@ export interface BaseIconProps {
   className?: string;
 }
 
-/**
- * Props עבור אייקון צורה - type alias for clarity
- */
-export type ShapeIconProps = BaseIconProps;
 
-/**
- * Props עבור אייקון עברי - type alias for clarity
- */
-export type HebrewIconProps = BaseIconProps;

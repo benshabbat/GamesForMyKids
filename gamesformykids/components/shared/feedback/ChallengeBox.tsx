@@ -7,7 +7,7 @@ import type { ComponentTypes } from "@/lib/types";
  */
 export default function ChallengeBox({ 
   className = "" 
-}: ComponentTypes.ChallengeBoxProps) {
+}: ComponentTypes.ContextBasedComponentProps) {
   const { 
     config, 
     currentChallenge, 
