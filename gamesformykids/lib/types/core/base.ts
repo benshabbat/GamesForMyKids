@@ -94,7 +94,7 @@ export interface GameDataItem {
   readonly sound?: number[];
 }
 
-// טייפ אליאס זמני לתאימות לאחור  
+// טייפ בסיס לנתוני פריטי משחק
 export type BaseGameItem = GameDataItem & { 
   id?: string;
   svg?: string; // לצורות

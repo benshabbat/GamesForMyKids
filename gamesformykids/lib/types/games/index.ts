@@ -11,12 +11,11 @@ export * from './ui';
 export * from './phase';
 export * from './shared';
 
-// ייצוא לתאימות לאחור - משתמש בגרסה הישנה שלא דורשת id
+// ייצוא טיפוסי הבסיס מ-core
 export type {
-  BaseGameItemLegacy as BaseGameItem,
-  BaseGameItem as BaseGameItemWithId,
+  BaseGameItem,
+  BaseGameItemLegacy,
   GameType
 } from '../core/base';
 
-// הערה: טיפוסים נוספים מוגדרים בקבצים נפרדים לפי עקרון Single Responsibility
 // הערה: טיפוסים נוספים מוגדרים בקבצים נפרדים לפי עקרון Single Responsibility
