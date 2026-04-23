@@ -335,4 +335,5 @@ export const educationalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "רגש",
     tip: "💡 טיפ: תראה את הרגש!",
     tipDescription: "לחץ על הסמל למעלה כדי לראות שוב, או על הרגשות למטה לשמוע את השמות",
+  },
 };
