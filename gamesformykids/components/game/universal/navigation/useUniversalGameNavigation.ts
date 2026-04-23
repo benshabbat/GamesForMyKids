@@ -1,5 +1,3 @@
-"use client";
-
 'use client';
 
 import { useEffect } from "react";
@@ -54,7 +52,7 @@ export function useUniversalGameNavigation({
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [showHomeButton, currentGame]);
+  }, [showHomeButton, currentGame, router]);
 
   return { gameId, currentGame, navigation, shouldRender };
 }
