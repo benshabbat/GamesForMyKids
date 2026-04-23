@@ -1,50 +1,38 @@
 'use client';
 import { useCapitalsGame } from '../useCapitalsGame';
+import { QuizProgress, QuizAnswerGrid, QuizFeedback } from '@/components/game/quiz';
 
 export default function CapitalsQuestion() {
-  const { index, total, score, current, choices, selected, isCorrect, selectAnswer, next } = useCapitalsGame();
+  const { index, total, score, current, choices, selected, isCorrect, correctLabel, selectAnswer, next } = useCapitalsGame();
 
   if (!current) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-orange-100 flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm">שאלה {index + 1} / {total}</span>
-          <span className="bg-red-100 text-red-700 font-bold px-3 py-1 rounded-full">{score} נקודות</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-5">
-          <div className="bg-red-500 h-2 rounded-full transition-all" style={{ width: `${((index + 1) / total) * 100}%` }} />
-        </div>
+        <QuizProgress index={index} total={total} score={score} theme="red" />
         <div className="bg-red-50 rounded-2xl p-5 mb-5 text-center">
           <div className="text-7xl mb-3">{current.flag}</div>
           <p className="text-gray-500 text-sm mb-1">מה הבירה של</p>
           <p className="text-2xl font-bold text-red-800">{current.country}?</p>
         </div>
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          {choices.map(choice => {
-            let cls = 'p-4 rounded-2xl border-2 font-bold text-base transition-all text-center ';
-            if (selected === null) cls += 'border-red-200 bg-red-50 hover:bg-red-100 text-red-800 cursor-pointer';
-            else if (choice === current.capital) cls += 'border-green-500 bg-green-100 text-green-800';
-            else if (choice === selected) cls += 'border-red-400 bg-red-100 text-red-700';
-            else cls += 'border-gray-200 bg-gray-50 text-gray-400';
-            return (
-              <button key={choice} onClick={() => selectAnswer(choice)} className={cls} disabled={selected !== null}>
-                {choice}
-              </button>
-            );
-          })}
-        </div>
-        {selected !== null && (
-          <div className={`rounded-2xl p-3 mb-4 text-center ${isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-            <p className="font-bold text-lg">{isCorrect ? '🎉 נכון מאוד!' : `❌ הבירה הנכונה: ${current.capital}`}</p>
-          </div>
-        )}
-        {selected !== null && (
-          <button onClick={next} className="w-full py-3 rounded-2xl bg-red-600 text-white font-bold text-lg hover:bg-red-700 transition-all">
-            {index + 1 < total ? 'הבא ←' : 'סיום'}
-          </button>
-        )}
+        <QuizAnswerGrid
+          choices={choices}
+          selected={selected}
+          isCorrect={isCorrect}
+          correctValue={correctLabel}
+          onSelect={selectAnswer}
+          theme="red"
+        />
+        <QuizFeedback
+          isCorrect={isCorrect}
+          correctLabel={correctLabel}
+          onNext={next}
+          index={index}
+          total={total}
+          theme="red"
+          correctMsg="🎉 נכון מאוד!"
+        />
       </div>
     </div>
   );

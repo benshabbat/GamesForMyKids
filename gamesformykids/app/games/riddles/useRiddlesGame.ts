@@ -1,13 +1,13 @@
 ﻿'use client';
-import { useRiddlesGameStore } from './riddlesGameStore';
+import { createQuizHook } from '@/lib/utils/createQuizHook';
+import { type Riddle, RIDDLES, QUESTIONS_PER_GAME } from './data/riddles';
+import { shuffle } from '@/lib/utils';
 
-export function useRiddlesGame() {
-  const store = useRiddlesGameStore();
-  const current = store.questions[store.index] ?? null;
-  return {
-    ...store,
-    current,
-    total: store.questions.length,
-    correctCount: Math.round(store.score / 10),
-  };
-}
+export const useRiddlesGame = createQuizHook<Riddle>({
+  gameId: 'riddles',
+  allQuestions: RIDDLES,
+  questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (choice, q) => choice === q.answer,
+  getCorrectLabel: (q) => q.answer,
+});

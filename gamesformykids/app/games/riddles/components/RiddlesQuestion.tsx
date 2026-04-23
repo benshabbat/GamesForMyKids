@@ -1,51 +1,38 @@
 'use client';
 import { useRiddlesGame } from '../useRiddlesGame';
+import { QuizProgress, QuizAnswerGrid, QuizFeedback } from '@/components/game/quiz';
 
 export default function RiddlesQuestion() {
-  const { index, total, score, current, choices, selected, isCorrect, selectAnswer, next } = useRiddlesGame();
+  const { index, total, score, current, choices, selected, isCorrect, correctLabel, selectAnswer, next } = useRiddlesGame();
 
   if (!current) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
-        <div className="flex justify-between items-center mb-4">
-          <span className="text-gray-500 text-sm">שאלה {index + 1} / {total}</span>
-          <span className="bg-purple-100 text-purple-700 font-bold px-3 py-1 rounded-full">{score} נקודות</span>
-        </div>
-        <div className="w-full bg-gray-200 rounded-full h-2 mb-5">
-          <div className="bg-purple-500 h-2 rounded-full transition-all" style={{ width: `${((index + 1) / total) * 100}%` }} />
-        </div>
+        <QuizProgress index={index} total={total} score={score} theme="purple" />
         <div className="bg-purple-50 rounded-2xl p-5 mb-5 text-center">
           <div className="text-5xl mb-3">{current.emoji}</div>
           <p className="text-gray-700 text-lg font-medium leading-relaxed">{current.riddle}</p>
         </div>
-        <div className="grid grid-cols-2 gap-3 mb-4">
-          {choices.map(choice => {
-            let cls = 'p-4 rounded-2xl border-2 font-bold text-lg transition-all text-center ';
-            if (selected === null) cls += 'border-purple-200 bg-purple-50 hover:bg-purple-100 text-purple-800 cursor-pointer';
-            else if (choice === current.answer) cls += 'border-green-500 bg-green-100 text-green-800';
-            else if (choice === selected) cls += 'border-red-400 bg-red-100 text-red-700';
-            else cls += 'border-gray-200 bg-gray-50 text-gray-400';
-            return (
-              <button key={choice} onClick={() => selectAnswer(choice)} className={cls} disabled={selected !== null}>
-                {choice}
-              </button>
-            );
-          })}
-        </div>
-        {selected !== null && (
-          <div className={`rounded-2xl p-4 mb-4 text-center ${isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'}`}>
-            <p className="font-bold text-xl">{isCorrect ? '🎉 נכון מאוד!' : `❌ לא נכון — התשובה: ${current.answer}`}</p>
-          </div>
-        )}
-        {selected !== null && (
-          <button onClick={next} className="w-full py-3 rounded-2xl bg-purple-600 text-white font-bold text-lg hover:bg-purple-700 transition-all">
-            {index + 1 < total ? 'חידה הבאה ←' : 'סיום'}
-          </button>
-        )}
+        <QuizAnswerGrid
+          choices={choices}
+          selected={selected}
+          isCorrect={isCorrect}
+          correctValue={correctLabel}
+          onSelect={selectAnswer}
+          theme="purple"
+        />
+        <QuizFeedback
+          isCorrect={isCorrect}
+          correctLabel={correctLabel}
+          onNext={next}
+          index={index}
+          total={total}
+          theme="purple"
+          correctMsg="🎉 נכון מאוד!"
+        />
       </div>
     </div>
   );
 }
-      

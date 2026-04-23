@@ -1,4 +1,5 @@
 'use client';
+import { QuizResultScreen } from '@/components/game/quiz';
 
 interface Props {
   correctCount: number;
@@ -8,19 +9,5 @@ interface Props {
 }
 
 export default function InstrumentsResultScreen({ correctCount, total, score, onRestart }: Props) {
-  const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
-  const emoji = pct >= 90 ? '🎼' : pct >= 70 ? '🎵' : pct >= 50 ? '🎶' : '💪';
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 flex flex-col items-center justify-center p-4" dir="rtl">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
-        <div className="text-8xl mb-4">{emoji}</div>
-        <h2 className="text-2xl font-bold text-amber-700 mb-2">מלחין מוכשר!</h2>
-        <p className="text-gray-600 mb-4">זיהית {correctCount} מתוך {total} כלים</p>
-        <div className="text-5xl font-bold text-amber-600 mb-6">{score} נקודות</div>
-        <div className="flex gap-3">
-          <button onClick={onRestart} className="flex-1 py-3 rounded-2xl bg-amber-500 text-white font-bold hover:bg-amber-600 transition-all">שחק שוב</button>
-        </div>
-      </div>
-    </div>
-  );
+  return <QuizResultScreen correctCount={correctCount} total={total} score={score} onRestart={onRestart} theme="amber" />;
 }

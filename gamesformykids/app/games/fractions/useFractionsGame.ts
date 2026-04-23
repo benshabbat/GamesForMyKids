@@ -1,13 +1,13 @@
 ﻿'use client';
-import { useFractionsGameStore } from './fractionsGameStore';
+import { createQuizHook } from '@/lib/utils/createQuizHook';
+import { type FractionQuestion, FRACTION_QUESTIONS, QUESTIONS_PER_GAME } from './data/fractions';
+import { shuffle } from '@/lib/utils';
 
-export function useFractionsGame() {
-  const store = useFractionsGameStore();
-  const current = store.questions[store.index] ?? null;
-  return {
-    ...store,
-    current,
-    total: store.questions.length,
-    correctCount: Math.round(store.score / 10),
-  };
-}
+export const useFractionsGame = createQuizHook<FractionQuestion>({
+  gameId: 'fractions',
+  allQuestions: FRACTION_QUESTIONS,
+  questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.description, ...q.wrongOptions]),
+  isCorrect: (choice, q) => choice === q.description,
+  getCorrectLabel: (q) => q.description,
+});

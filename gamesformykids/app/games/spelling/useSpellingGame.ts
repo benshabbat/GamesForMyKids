@@ -1,13 +1,13 @@
 ﻿'use client';
-import { useSpellingGameStore } from './spellingGameStore';
+import { createQuizHook } from '@/lib/utils/createQuizHook';
+import { type SpellingWord, SPELLING_WORDS, QUESTIONS_PER_GAME } from './data/words';
+import { shuffle } from '@/lib/utils';
 
-export function useSpellingGame() {
-  const store = useSpellingGameStore();
-  const current = store.questions[store.index] ?? null;
-  return {
-    ...store,
-    current,
-    total: store.questions.length,
-    correctCount: Math.round(store.score / 10),
-  };
-}
+export const useSpellingGame = createQuizHook<SpellingWord>({
+  gameId: 'spelling',
+  allQuestions: SPELLING_WORDS,
+  questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.word, ...q.wrong]),
+  isCorrect: (choice, q) => choice === q.word,
+  getCorrectLabel: (q) => q.word,
+});

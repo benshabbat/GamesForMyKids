@@ -2,7 +2,7 @@
 import { useGeographyGame } from '../useGeographyGame';
 
 export default function GeographyQuestion() {
-  const { index, total, score, current, selected, isCorrect, selectAnswer, next, goMenu } = useGeographyGame();
+  const { index, total, score, current, selected, isCorrect, selectAnswer, next } = useGeographyGame();
 
   if (!current) return null;
 
@@ -17,7 +17,6 @@ export default function GeographyQuestion() {
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={goMenu} className="text-teal-500 text-sm bg-teal-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-teal-700">שאלה {index + 1} / {total}</span>
           <span className="font-bold text-teal-700">⭐ {score}</span>
         </div>
