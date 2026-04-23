@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/lib/constants/routes';
 
 export interface Coin {
   id: number;

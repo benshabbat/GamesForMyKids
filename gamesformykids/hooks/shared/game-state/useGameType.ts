@@ -10,6 +10,7 @@ import { GameType } from '@/lib/types/core/base'
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs'
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap'
 import { useRouter } from 'next/navigation'
+import { ROUTES } from '@/lib/constants/routes'
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore'
 import { GameTypeContextValue } from '@/lib/types/contexts/game-type'
 
@@ -24,7 +25,7 @@ export function useGameType(): GameTypeContextValue {
   const navigateToGame = useCallback(
     (gameType: GameType) => {
       setCurrentGameType(gameType)
-      router.push('/games/' + gameType)
+      router.push(ROUTES.game(gameType))
     },
     [setCurrentGameType, router],
   )

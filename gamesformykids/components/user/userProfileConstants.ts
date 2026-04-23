@@ -13,10 +13,12 @@ export const USER_PROFILE_LABELS = {
   defaultName: 'משתמש',
 } as const;
 
+import { ROUTES } from '@/lib/constants/routes';
+
 export const USER_PROFILE_ROUTES = {
-  login: '/login',
-  profile: '/profile',
-  settings: '/settings',
+  login: ROUTES.AUTH.LOGIN,
+  profile: ROUTES.AUTH.PROFILE,
+  settings: ROUTES.AUTH.SETTINGS,
 } as const;
 
 export function buildAvatarUrl(email?: string | null): string {

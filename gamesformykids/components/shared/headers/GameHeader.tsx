@@ -1,5 +1,9 @@
-import UnifiedHeader from "./UnifiedHeader";
-import { ComponentTypes } from "@/lib/types";
+'use client';
+
+import { useRouter } from 'next/navigation';
+import UnifiedHeader from './UnifiedHeader';
+import { ComponentTypes } from '@/lib/types';
+import { ROUTES } from '@/lib/constants/routes';
 
 type GameHeaderProps = ComponentTypes.GameHeaderProps;
 
@@ -9,8 +13,9 @@ type GameHeaderProps = ComponentTypes.GameHeaderProps;
 export default function GameHeader({
   score = 0,
   level = 1,
-  onHome = () => (window.location.href = "/")
+  onHome,
 }: GameHeaderProps = {}) {
+  const router = useRouter();
 
   return (
     <UnifiedHeader
@@ -19,7 +24,7 @@ export default function GameHeader({
       score={score}
       level={level}
       showBackButton={true}
-      onBack={onHome}
+      onBack={onHome ?? (() => router.push(ROUTES.HOME))}
     />
   );
 }

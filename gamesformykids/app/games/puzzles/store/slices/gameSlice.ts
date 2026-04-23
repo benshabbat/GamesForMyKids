@@ -4,6 +4,7 @@ import { createPuzzlePieces } from '../../utils/puzzleUtils';
 import type { SimplePuzzle } from '../../constants/simplePuzzlesData';
 import { MENU_RESET } from '../puzzleStoreConstants';
 import type { PuzzleStore } from '../puzzleStore';
+import { ROUTES } from '@/lib/constants/routes';
 
 export interface GameSlice {
   initializeGame: (img: HTMLImageElement, difficulty?: number) => void;
@@ -91,7 +92,7 @@ export const createGameSlice: StateCreator<PuzzleStore, [], [], GameSlice> = (se
   },
 
   goHome: () => {
-    if (typeof window !== 'undefined') window.location.href = '/';
+    if (typeof window !== 'undefined') window.location.href = ROUTES.HOME;
   },
 
   goToMenu: () => set(MENU_RESET),

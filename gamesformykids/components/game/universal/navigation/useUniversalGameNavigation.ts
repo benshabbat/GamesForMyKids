@@ -3,9 +3,10 @@
 'use client';
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { getGameNavigation } from "@/lib/utils/game/gameNavigation";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
+import { ROUTES } from "@/lib/constants/routes";
 
 interface UseUniversalGameNavigationOptions {
   showHomeButton?: boolean;
@@ -30,6 +31,7 @@ export function useUniversalGameNavigation({
   showHomeButton = true,
 }: UseUniversalGameNavigationOptions = {}): UseUniversalGameNavigationReturn {
   const pathname = usePathname();
+  const router = useRouter();
 
   // Extract the game ID as the segment immediately after "/games/",
   // not the last segment (which may be a sub-route like "/alef").
@@ -46,7 +48,7 @@ export function useUniversalGameNavigation({
 
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        window.location.href = "/";
+        router.push(ROUTES.HOME);
       }
     };
 

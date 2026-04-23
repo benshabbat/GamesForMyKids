@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/shared/auth/useAuth';
+import { ROUTES } from '@/lib/constants/routes';
 import { LOGIN_LABELS, type LoginPageViewModel } from './loginConstants';
 
 export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; isAuthenticated: boolean } {
@@ -15,7 +16,7 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
   const [isSubmitting,  setIsSubmitting]  = useState(false);
 
   useEffect(() => {
-    if (user && !loading) router.push('/');
+    if (user && !loading) router.push(ROUTES.HOME);
   }, [user, loading, router]);
 
   const handleEmailAuth = async (e: React.FormEvent) => {
