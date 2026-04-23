@@ -1,6 +1,5 @@
 ﻿'use client';
 
-import { motion } from 'framer-motion';
 import HubHeader from './HubHeader';
 import HebrewLettersStats from '../stats/HebrewLettersStats';
 import LettersGrid from './LettersGrid';

@@ -24,7 +24,7 @@ export function useGeographyGame() {
   const score     = useQuizGameStore(s => s.score); // raw correct count
   const selected  = useQuizGameStore(s => s.selected);
   const isCorrect = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion } = useQuizGameStore();
 
   // ── Local state ───────────────────────────────────────────
   const [questions, setQuestions] = useState<GeoQuestion[]>([]);

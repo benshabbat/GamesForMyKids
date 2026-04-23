@@ -23,7 +23,6 @@ interface Props {
 export function QuizAnswerGrid({
   choices,
   selected,
-  isCorrect,
   correctValue,
   onSelect,
   theme,
