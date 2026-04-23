@@ -4,7 +4,7 @@ import { type FractionQuestion, FRACTION_QUESTIONS, QUESTIONS_PER_GAME } from '.
 import { shuffle } from '@/lib/utils';
 
 export const useFractionsGame = createQuizHook<FractionQuestion>({
-  gameId: 'fractions',
+  gameType: 'fractions',
   allQuestions: FRACTION_QUESTIONS,
   questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.description, ...q.wrongOptions]),

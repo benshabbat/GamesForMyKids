@@ -22,8 +22,8 @@ export type QuizPhase = 'menu' | 'playing' | 'result';
 // ── State ──────────────────────────────────────────────────
 export interface QuizGameState {
   phase: QuizPhase;
-  /** ID המשחק הפעיל כרגע (לזיהוי store מול משחקים שונים) */
-  gameId: string | null;
+  /** סוג המשחק הפעיל כרגע (לזיהוי store מול משחקים שונים) */
+  gameType: string | null;
   index: number;
   total: number;
   score: number;
@@ -35,7 +35,7 @@ export interface QuizGameState {
 // ── Actions ────────────────────────────────────────────────
 export interface QuizGameActions {
   /** קרא לזה עם שם המשחק ומספר שאלות לפני תחילת סבב */
-  startQuiz: (gameId: string, total: number) => void;
+  startQuiz: (gameType: string, total: number) => void;
   /** בחירת תשובה — מעדכן selected, isCorrect וניקוד */
   selectAnswer: (id: string, isCorrect: boolean) => void;
   /** מעבר לשאלה הבאה (או מעבר ל-result בסוף) */
@@ -48,7 +48,7 @@ export interface QuizGameActions {
 
 const INITIAL_STATE: QuizGameState = {
   phase: 'menu',
-  gameId: null,
+  gameType: null,
   index: 0,
   total: 0,
   score: 0,
@@ -61,12 +61,12 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
     (set, get) => ({
       ...INITIAL_STATE,
 
-      startQuiz: (gameId, total) => {
-        useGameStore.getState().startGame(gameId);
+      startQuiz: (gameType, total) => {
+        useGameStore.getState().startGame(gameType);
         useGameProgressStore.getState().resetProgress();
         useGameProgressStore.getState().setGameActive(true);
         set(
-          { phase: 'playing', gameId, index: 0, total, score: 0, selected: null, isCorrect: null },
+          { phase: 'playing', gameType, index: 0, total, score: 0, selected: null, isCorrect: null },
           false,
           'quiz/startQuiz',
         );
@@ -97,8 +97,8 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
       },
 
       restartQuiz: () => {
-        const { gameId, total } = get();
-        if (gameId) get().startQuiz(gameId, total);
+        const { gameType, total } = get();
+        if (gameType) get().startQuiz(gameType, total);
       },
     }),
     { name: 'QuizGameStore' },

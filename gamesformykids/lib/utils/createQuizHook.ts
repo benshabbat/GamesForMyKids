@@ -3,8 +3,8 @@ import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { shuffle } from '@/lib/utils';
 
 export interface QuizHookConfig<Q> {
-  /** Unique game identifier passed to the shared quiz store. */
-  gameId: string;
+  /** Game type identifier passed to the shared quiz store. */
+  gameType: string;
   /** Full question bank to shuffle and slice from. */
   allQuestions: Q[];
   /** How many questions to pick per game session. */
@@ -27,7 +27,7 @@ export interface QuizHookConfig<Q> {
  * @example
  * ```ts
  * export const useRiddlesGame = createQuizHook<Riddle>({
- *   gameId: 'riddles',
+ *   gameType: 'riddles',
  *   allQuestions: RIDDLES,
  *   questionsPerGame: QUESTIONS_PER_GAME,
  *   getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
@@ -66,7 +66,7 @@ export function createQuizHook<Q>(config: QuizHookConfig<Q>) {
     const startGame = useCallback(() => {
       const q = shuffle([...config.allQuestions]).slice(0, config.questionsPerGame);
       setQuestions(q);
-      startQuiz(config.gameId, q.length);
+      startQuiz(config.gameType, q.length);
     }, [startQuiz]);
 
     const selectAnswer = useCallback(

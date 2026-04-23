@@ -4,7 +4,7 @@ import { type CapitalQuestion, CAPITAL_QUESTIONS, QUESTIONS_PER_GAME } from './d
 import { shuffle } from '@/lib/utils';
 
 export const useCapitalsGame = createQuizHook<CapitalQuestion>({
-  gameId: 'capitals',
+  gameType: 'capitals',
   allQuestions: CAPITAL_QUESTIONS,
   questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.capital, ...q.wrongOptions]),

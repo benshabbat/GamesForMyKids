@@ -1,22 +1,20 @@
 'use client';
 
 import { useSportsQuizGame } from './useSportsQuizGame';
+import { QuizResultScreen } from '@/components/game/quiz';
 import SportsQuizMenuScreen from './components/SportsQuizMenuScreen';
 import SportsQuizQuestion from './components/SportsQuizQuestion';
-import SportsQuizResultScreen from './components/SportsQuizResultScreen';
 
 export default function SportsQuizGame() {
-  const { phase, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, restart } = useSportsQuizGame();
+  const {
+    phase, index, score, selected, isCorrect, current, choices, total, correctCount,
+    startGame, selectAnswer, next, restart,
+  } = useSportsQuizGame();
 
   if (phase === 'menu') return <SportsQuizMenuScreen onStart={startGame} />;
 
   if (phase === 'result') return (
-    <SportsQuizResultScreen
-      correctCount={correctCount}
-      total={total}
-      score={score}
-      onRestart={restart}
-    />
+    <QuizResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} theme="green" />
   );
 
   if (!current) return null;
@@ -27,8 +25,9 @@ export default function SportsQuizGame() {
       total={total}
       score={score}
       current={current}
+      choices={choices}
       selected={selected}
-      isCorrect={isCorrect ?? false}
+      isCorrect={isCorrect}
       onSelect={selectAnswer}
       onNext={next}
     />

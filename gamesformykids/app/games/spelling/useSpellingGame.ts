@@ -4,7 +4,7 @@ import { type SpellingWord, SPELLING_WORDS, QUESTIONS_PER_GAME } from './data/wo
 import { shuffle } from '@/lib/utils';
 
 export const useSpellingGame = createQuizHook<SpellingWord>({
-  gameId: 'spelling',
+  gameType: 'spelling',
   allQuestions: SPELLING_WORDS,
   questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.word, ...q.wrong]),
