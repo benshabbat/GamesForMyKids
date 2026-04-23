@@ -8,7 +8,7 @@
 **Developed with love by David-Chen Benshabbat**
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-David--Chen%20Benshabbat-blue?style=flat&logo=linkedin)](https://www.linkedin.com/in/davidchen-benshabbat)
 
-An interactive educational gaming platform for children aged 2-5. Features **128 games** across 15 categories — covering Hebrew letters, math, nature, creativity, holidays, arcade games, board games and more, with full Hebrew audio and a fully responsive mobile-first design.
+An interactive educational gaming platform for children aged 2-5. Features **131 games** across 15 categories — covering Hebrew letters, math, nature, creativity, holidays, arcade games, board games and more, with full Hebrew audio and a fully responsive mobile-first design.
 
 ---
 
@@ -23,7 +23,7 @@ An interactive educational gaming platform for children aged 2-5. Features **128
 
 ---
 
-## Game Categories (128 Games)
+## Game Categories (131 Games)
 
 ### Basic Learning
 Hebrew Letters, Letters, Numbers, Colors, Shapes, Colored Shapes, Advanced Colors
@@ -142,7 +142,7 @@ npm start
 ```
 gamesformykids/
  app/
-    games/[gameType]/     # Universal game page (all 63 games route here)
+    games/[gameType]/     # Universal game page (all 131 games route here)
     layout.tsx
     page.tsx
  components/
@@ -203,7 +203,7 @@ See `GAME_CREATION_GUIDE.md` for a detailed step-by-step guide.
 ## Architecture Highlights
 
 - **Registry pattern**  `GamesRegistry` is the single source of truth
-- **Universal game page**  one `[gameType]/page.tsx` handles all 128 game routes
+- **Universal game page**  one `[gameType]/page.tsx` handles all 131 game routes
 - **Typed game items**  `GAME_ITEMS_MAP` maps every `GameType` to its data
 - **Guest-mode auth**  app runs fully without Supabase credentials; auth is opt-in
 - **Mobile-first**  all components use Tailwind responsive classes (`md:`, `lg:`)
@@ -248,7 +248,7 @@ MIT License  see [LICENSE](LICENSE)
 
 ## Project Stats
 
-- **128 Interactive Games**
+- **131 Interactive Games**
 - **Hebrew Audio Support**
 - **Mobile-First Responsive**
 - **TypeScript Strict Mode**
