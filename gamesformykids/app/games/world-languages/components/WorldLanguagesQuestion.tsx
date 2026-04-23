@@ -16,17 +16,15 @@ interface Props {
   isCorrect: boolean;
   onSelect: (lang: string) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
 export default function WorldLanguagesQuestion({
-  index, total, score, current, choices, selected, isCorrect, onSelect, onNext, onMenu,
+  index, total, score, current, choices, selected, isCorrect, onSelect, onNext,
 }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-emerald-500 text-sm bg-emerald-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-emerald-700">{index + 1} / {total}</span>
           <span className="font-bold text-emerald-700">⭐ {score}</span>
         </div>

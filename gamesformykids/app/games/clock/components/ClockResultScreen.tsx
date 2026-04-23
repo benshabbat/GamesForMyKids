@@ -5,10 +5,9 @@ interface Props {
   correct: number;
   total: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function ClockResultScreen({ correct, total, onRestart, onMenu }: Props) {
+export default function ClockResultScreen({ correct, total, onRestart }: Props) {
   const pct = Math.round((correct / total) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100 p-4 flex items-center" dir="rtl">
@@ -24,7 +23,6 @@ export default function ClockResultScreen({ correct, total, onRestart, onMenu }:
         </div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-violet-500 to-indigo-600 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">🏠 תפריט</button>
         </div>
       </div>
     </div>

@@ -7,14 +7,14 @@ import EnglishWordsQuestion from './components/EnglishWordsQuestion';
 import EnglishWordsResultScreen from './components/EnglishWordsResultScreen';
 
 export default function EnglishWordsGame() {
-  const { phase, categories, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useEnglishWordsGame();
+  const { phase, categories, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, restart } = useEnglishWordsGame();
 
   if (phase === 'menu') return (
     <EnglishWordsMenuScreen categories={categories as readonly EnglishCategory[]} onStart={startGame} />
   );
 
   if (phase === 'result') return (
-    <EnglishWordsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />
+    <EnglishWordsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />
   );
 
   if (!current) return null;

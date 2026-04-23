@@ -17,7 +17,6 @@ interface Props {
   isCorrect: boolean;
   onSelect: (idx: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
 export default function SportsQuizQuestion({

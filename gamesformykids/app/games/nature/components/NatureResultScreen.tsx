@@ -5,10 +5,9 @@ interface Props {
   total: number;
   score: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function NatureResultScreen({ correctCount, total, score, onRestart, onMenu }: Props) {
+export default function NatureResultScreen({ correctCount, total, score, onRestart }: Props) {
   const pct = (correctCount / total) * 100;
   const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🌿' : pct >= 50 ? '🌱' : '💪';
 
@@ -26,9 +25,6 @@ export default function NatureResultScreen({ correctCount, total, score, onResta
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-3 rounded-2xl bg-green-600 text-white font-bold hover:bg-green-700 transition-all">
             שחק שוב
-          </button>
-          <button onClick={onMenu} className="flex-1 py-3 rounded-2xl border-2 border-green-300 text-green-700 font-bold hover:bg-green-50 transition-all">
-            תפריט
           </button>
         </div>
       </div>

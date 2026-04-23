@@ -6,7 +6,7 @@ import SportsQuizQuestion from './components/SportsQuizQuestion';
 import SportsQuizResultScreen from './components/SportsQuizResultScreen';
 
 export default function SportsQuizGame() {
-  const { phase, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useSportsQuizGame();
+  const { phase, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, restart } = useSportsQuizGame();
 
   if (phase === 'menu') return <SportsQuizMenuScreen onStart={startGame} />;
 
@@ -16,7 +16,6 @@ export default function SportsQuizGame() {
       total={total}
       score={score}
       onRestart={restart}
-      onMenu={goMenu}
     />
   );
 
@@ -32,7 +31,6 @@ export default function SportsQuizGame() {
       isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
-      onMenu={goMenu}
     />
   );
 }

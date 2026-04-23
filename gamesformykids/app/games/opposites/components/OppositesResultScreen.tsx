@@ -4,10 +4,9 @@ interface Props {
   correctCount: number;
   total: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function OppositesResultScreen({ correctCount, total, onRestart, onMenu }: Props) {
+export default function OppositesResultScreen({ correctCount, total, onRestart }: Props) {
   const pct = Math.round((correctCount / total) * 100);
   const emoji = pct >= 80 ? '🏆' : pct >= 50 ? '🙃' : '💪';
 
@@ -25,7 +24,6 @@ export default function OppositesResultScreen({ correctCount, total, onRestart, 
         </div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-orange-500 to-red-500 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">🏠 תפריט</button>
         </div>
       </div>
     </div>

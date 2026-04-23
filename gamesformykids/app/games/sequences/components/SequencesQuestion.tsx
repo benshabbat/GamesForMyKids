@@ -13,15 +13,13 @@ interface Props {
   isCorrect: boolean;
   onSelect: (n: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function SequencesQuestion({ index, total, score, level, current, choices, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function SequencesQuestion({ index, total, score, level, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-cyan-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-cyan-500 text-sm bg-cyan-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-cyan-700">{level.label} | {index + 1} / {total}</span>
           <span className="font-bold text-cyan-700">⭐ {score}</span>
         </div>

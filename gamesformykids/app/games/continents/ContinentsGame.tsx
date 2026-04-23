@@ -10,13 +10,13 @@ export default function ContinentsGame() {
   const {
     phase, continents, currentQuestion, currentIndex, total,
     selected, isCorrect, score,
-    startGame, selectAnswer, nextQuestion, goToMenu,
+    startGame, selectAnswer, nextQuestion,
   } = useContinentsGame();
 
   if (phase === 'menu') return <ContinentsMenuScreen continents={continents} onStart={startGame} />;
 
   if (phase === 'result') return (
-    <ContinentsResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />
+    <ContinentsResultScreen score={score} total={total} onRestart={startGame} />
   );
 
   if (!currentQuestion) return null;
@@ -25,7 +25,7 @@ export default function ContinentsGame() {
     <ContinentsQuestion
       phase={phase} currentIndex={currentIndex} total={total} score={score}
       question={currentQuestion} selected={selected} isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer} onNext={nextQuestion} onMenu={goToMenu}
+      onSelect={selectAnswer} onNext={nextQuestion}
     />
   );
 }

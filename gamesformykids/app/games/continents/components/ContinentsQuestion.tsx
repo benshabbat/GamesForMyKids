@@ -18,14 +18,12 @@ interface Props {
   isCorrect: boolean;
   onSelect: (idx: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function ContinentsQuestion({ phase: _phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function ContinentsQuestion({ phase: _phase, currentIndex, total, score, question, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">
-        <button onClick={onMenu} className="text-gray-500 text-sm">← חזור</button>
         <span className="font-bold text-teal-600">🌍 {score} | שאלה {currentIndex + 1}/{total}</span>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center">

@@ -6,10 +6,9 @@ interface Props {
   totalQuestions: number;
   score: number;
   onRestart: (level: number) => void;
-  onMenu: () => void;
 }
 
-export default function MultiplicationResultScreen({ level, correct, totalQuestions, score, onRestart, onMenu }: Props) {
+export default function MultiplicationResultScreen({ level, correct, totalQuestions, score, onRestart }: Props) {
   const pct = Math.round((correct / totalQuestions) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-purple-100 p-4 flex items-center" dir="rtl">
@@ -26,7 +25,6 @@ export default function MultiplicationResultScreen({ level, correct, totalQuesti
         </div>
         <div className="flex gap-3">
           <button onClick={() => onRestart(level)} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-purple-500 to-violet-600 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">📋 לוחות</button>
         </div>
       </div>
     </div>

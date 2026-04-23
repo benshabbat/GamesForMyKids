@@ -20,7 +20,6 @@ export function useTransportGame() {
     startGame: store.startGame,
     selectAnswer: store.selectAnswer,
     nextQuestion: store.nextQuestion,
-    goToMenu: store.goToMenu,
   };
 }
 

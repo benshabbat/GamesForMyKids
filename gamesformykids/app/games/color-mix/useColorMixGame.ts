@@ -21,7 +21,7 @@ export function useColorMixGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<ColorMixQuestion[]>([]);
@@ -42,7 +42,6 @@ export function useColorMixGame() {
   }, [selected, current, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const shuffled = [...COLOR_MIXES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME);
     const q = shuffled.map(buildQuestion);
@@ -53,6 +52,6 @@ export function useColorMixGame() {
   return {
     phase, index, score, selected, isCorrect, current,
     total: QUESTIONS_PER_GAME,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

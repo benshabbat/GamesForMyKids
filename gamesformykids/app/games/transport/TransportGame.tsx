@@ -10,7 +10,7 @@ export default function TransportGame() {
   const {
     phase, transportType, types, currentQuestion,
     currentIndex, total, selected, isCorrect,
-    score, startGame, selectAnswer, nextQuestion, goToMenu,
+    score, startGame, selectAnswer, nextQuestion,
   } = useTransportGame();
 
   if (phase === 'menu') return (
@@ -23,7 +23,6 @@ export default function TransportGame() {
       total={total}
       transportType={transportType}
       onRestart={startGame}
-      onMenu={goToMenu}
     />
   );
 
@@ -40,7 +39,6 @@ export default function TransportGame() {
       isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={nextQuestion}
-      onMenu={goToMenu}
     />
   );
 }

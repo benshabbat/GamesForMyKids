@@ -133,15 +133,10 @@ export function useWhackAMoleGame() {
     }
   }, []);
 
-  const goMenu = useCallback(() => {
-    phaseRef.current = 'menu';
-    setPhase('menu');
-  }, []);
-
   useEffect(() => () => clearAllTimers(), [clearAllTimers]);
 
   const pct = (timeLeft / GAME_DURATION) * 100;
   const bgColor = timeLeft <= 10 ? 'from-red-100 to-rose-200' : 'from-yellow-50 to-amber-100';
 
-  return { phase, holes, holeValues, score, timeLeft, best, combo, bgColor, pct, startGame, whack, goMenu };
+  return { phase, holes, holeValues, score, timeLeft, best, combo, bgColor, pct, startGame, whack };
 }

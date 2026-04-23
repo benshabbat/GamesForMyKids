@@ -26,7 +26,7 @@ export default function TzadikimGame() {
     selectAnswer,
     nextQuestion,
     nextStory,
-    goToMenu,
+    backToMenu,
     restartGame,
   } = useTzadikimGame();
 
@@ -49,7 +49,7 @@ export default function TzadikimGame() {
         storyIndex={storyIndex}
         totalStories={totalStories}
         onStartQuiz={startQuiz}
-        onBack={goToMenu}
+        onBack={backToMenu}
       />
     );
   }
@@ -79,7 +79,6 @@ export default function TzadikimGame() {
         score={score}
         maxScore={maxScore}
         onNextStory={nextStory}
-        onMenu={goToMenu}
       />
     );
   }

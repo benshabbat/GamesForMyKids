@@ -1,18 +1,14 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
-import { Camera, Puzzle, Home } from 'lucide-react';
+import { Camera, Puzzle } from 'lucide-react';
 import ModeCard from './shared/ModeCard';
 import LearningPoints from './shared/LearningPoints';
-import { ROUTES } from '@/lib/constants/routes';
-
 interface ModeSelectionProps {
   onSimple: () => void;
   onCustom: () => void;
 }
 
 export default function ModeSelection({ onSimple, onCustom }: ModeSelectionProps) {
-  const router = useRouter();
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 via-pink-100 to-indigo-200 p-4">
       <div className="max-w-4xl mx-auto">
@@ -46,16 +42,6 @@ export default function ModeSelection({ onSimple, onCustom }: ModeSelectionProps
         </div>
 
         <LearningPoints />
-
-        <div className="text-center">
-          <button
-            onClick={() => router.push(ROUTES.HOME)}
-            className="flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-full shadow-lg hover:shadow-xl transition-all hover:bg-purple-700 mx-auto"
-          >
-            <Home className="w-5 h-5" />
-            חזרה לתפריט הראשי
-          </button>
-        </div>
       </div>
     </div>
   );

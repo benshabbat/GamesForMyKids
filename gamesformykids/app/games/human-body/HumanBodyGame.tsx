@@ -11,7 +11,7 @@ export default function HumanBodyGame() {
   const {
     phase, category, currentQuestion,
     currentIndex, total, choices, selected, isCorrect,
-    score, startGame, selectAnswer, nextQuestion, goToMenu,
+    score, startGame, selectAnswer, nextQuestion,
   } = useHumanBodyGame();
 
   if (phase === 'menu') {
@@ -19,7 +19,7 @@ export default function HumanBodyGame() {
   }
 
   if (phase === 'result') {
-    return <HumanBodyResultScreen score={score} total={total} category={category} onRestart={startGame} onMenu={goToMenu} />;
+    return <HumanBodyResultScreen score={score} total={total} category={category} onRestart={startGame} />;
   }
 
   if (!currentQuestion) return null;
@@ -36,7 +36,6 @@ export default function HumanBodyGame() {
       isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={nextQuestion}
-      onMenu={goToMenu}
     />
   );
 }

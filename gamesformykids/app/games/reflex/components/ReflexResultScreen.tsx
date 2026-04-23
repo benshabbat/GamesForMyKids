@@ -4,10 +4,9 @@ interface Props {
   score: number;
   missed: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function ReflexResultScreen({ score, missed, onRestart, onMenu }: Props) {
+export default function ReflexResultScreen({ score, missed, onRestart }: Props) {
   const accuracy = score + missed > 0 ? Math.round((score / (score + missed)) * 100) : 0;
 
   return (
@@ -31,7 +30,6 @@ export default function ReflexResultScreen({ score, missed, onRestart, onMenu }:
         </div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-rose-500 to-red-600 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">🏠 תפריט</button>
         </div>
       </div>
     </div>

@@ -11,7 +11,7 @@ export default function HealthyFoodGame() {
   const {
     phase, currentQuestion, currentIndex, total,
     selected, isCorrect, score,
-    startGame, selectAnswer, nextQuestion, goToMenu,
+    startGame, selectAnswer, nextQuestion,
   } = useHealthyFoodGame();
 
   if (phase === 'menu') {
@@ -19,7 +19,7 @@ export default function HealthyFoodGame() {
   }
 
   if (phase === 'result') {
-    return <HealthyFoodResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />;
+    return <HealthyFoodResultScreen score={score} total={total} onRestart={startGame} />;
   }
 
   if (!currentQuestion) return null;
@@ -35,7 +35,6 @@ export default function HealthyFoodGame() {
       isCorrect={isCorrect}
       onSelect={selectAnswer}
       onNext={nextQuestion}
-      onMenu={goToMenu}
     />
   );
 }

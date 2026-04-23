@@ -13,7 +13,7 @@ export function useSportsQuizGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<SportsQuestion[]>([]);
@@ -34,7 +34,6 @@ export function useSportsQuizGame() {
   }, [selected, current, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const q = shuffle(SPORTS_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(q);
@@ -45,6 +44,6 @@ export function useSportsQuizGame() {
     phase, index, score: score * 10,
     selected: selected !== null ? Number(selected) : null,
     isCorrect, current, total, correctCount: score,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

@@ -8,14 +8,12 @@ interface Props {
   timePct: number;
   targets: Target[];
   onHit: (id: number) => void;
-  onMenu: () => void;
 }
 
-export default function ReflexPlayScreen({ score, timeLeft, timePct, targets, onHit, onMenu }: Props) {
+export default function ReflexPlayScreen({ score, timeLeft, timePct, targets, onHit }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 select-none" dir="rtl">
       <div className="absolute top-0 left-0 right-0 p-3 flex items-center gap-3 z-10">
-        <button onClick={onMenu} className="text-white/60 hover:text-white text-sm bg-white/10 rounded-full px-3 py-1 shrink-0">✕ יציאה</button>
         <div className="flex-1 h-3 bg-white/20 rounded-full overflow-hidden">
           <div
             className={`h-full rounded-full transition-all duration-1000 ${timePct > 50 ? 'bg-green-400' : timePct > 25 ? 'bg-yellow-400' : 'bg-red-400'}`}

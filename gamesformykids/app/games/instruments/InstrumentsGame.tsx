@@ -6,14 +6,14 @@ import InstrumentsQuestion from './components/InstrumentsQuestion';
 import InstrumentsResultScreen from './components/InstrumentsResultScreen';
 
 export default function InstrumentsGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useInstrumentsGame();
+  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, restart } = useInstrumentsGame();
 
   if (phase === 'menu') {
     return <InstrumentsMenuScreen onStart={startGame} />;
   }
 
   if (phase === 'result') {
-    return <InstrumentsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
+    return <InstrumentsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
   }
 
   if (!current) return null;

@@ -8,7 +8,7 @@ import WordBuilderResultScreen from './components/WordBuilderResultScreen';
 export default function WordBuilderGame() {
   const {
     phase, index, score, typed, available, status, current, total,
-    startGame, pressLetter, clearTyped, next, goMenu, restart,
+    startGame, pressLetter, clearTyped, next, restart,
   } = useWordBuilderGame();
 
   if (phase === 'menu') return <WordBuilderMenuScreen onStart={startGame} />;
@@ -25,7 +25,6 @@ export default function WordBuilderGame() {
       onPressLetter={pressLetter}
       onClear={clearTyped}
       onNext={next}
-      onMenu={goMenu}
     />
   );
 
@@ -34,7 +33,6 @@ export default function WordBuilderGame() {
       score={score}
       total={total}
       onRestart={restart}
-      onMenu={goMenu}
     />
   );
 }

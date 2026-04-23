@@ -12,7 +12,7 @@ export function useOppositesGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state ───────────────────────────────────────────
   const [questions, setQuestions] = useState<OppositeWord[]>([]);
@@ -36,7 +36,6 @@ export function useOppositesGame() {
   }, [current, selected, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const qs = shuffle(OPPOSITE_WORDS).slice(0, QUESTIONS_PER_GAME);
     setQuestions(qs);
@@ -46,6 +45,6 @@ export function useOppositesGame() {
   return {
     phase, index, score: score * 10, selected, isCorrect: isCorrect ?? false, current, choices,
     total: questions.length, correctCount: score,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

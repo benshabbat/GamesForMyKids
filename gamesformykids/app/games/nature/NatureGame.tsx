@@ -7,14 +7,14 @@ import NatureQuestion from './components/NatureQuestion';
 import NatureResultScreen from './components/NatureResultScreen';
 
 export default function NatureGame() {
-  const { phase, categories, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useNatureGame();
+  const { phase, categories, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, restart } = useNatureGame();
 
   if (phase === 'menu') {
     return <NatureMenuScreen categories={categories as readonly NatureCategory[]} onStart={startGame} />;
   }
 
   if (phase === 'result') {
-    return <NatureResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
+    return <NatureResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
   }
 
   if (!current) return null;

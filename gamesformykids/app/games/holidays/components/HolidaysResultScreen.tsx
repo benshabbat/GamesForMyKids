@@ -20,10 +20,9 @@ interface Props {
   totalHolidays: number;
   nextHolidayInfo: NextHoliday | null;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function HolidaysResultScreen({ current, score, maxScore, holidayIndex, totalHolidays, nextHolidayInfo, onNext, onMenu }: Props) {
+export default function HolidaysResultScreen({ current, score, maxScore, holidayIndex, totalHolidays, nextHolidayInfo, onNext }: Props) {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${current.bg} p-4 flex items-center`} dir="rtl">
       <div className="max-w-md mx-auto w-full bg-white rounded-3xl shadow-xl p-8 text-center">
@@ -37,7 +36,6 @@ export default function HolidaysResultScreen({ current, score, maxScore, holiday
               ? `הבא: ${nextHolidayInfo.name} ${nextHolidayInfo.emoji}`
               : '🎉 לסיכום!'}
           </button>
-          <button onClick={onMenu} className="w-full py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">📜 בחר חג אחר</button>
         </div>
       </div>
     </div>

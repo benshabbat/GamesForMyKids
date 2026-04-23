@@ -9,7 +9,6 @@ export default function AnimalsQuestionCard() {
   const selected  = useQuizGameStore(s => s.selected);
   const isCorrect = useQuizGameStore(s => s.isCorrect);
   const nextQuestion = useQuizGameStore(s => s.nextQuestion);
-  const goToMenu     = useQuizGameStore(s => s.goToMenu);
 
   const questions    = useAnimalsStore(s => s.questions);
   const selectAnswer = useAnimalsStore(s => s.selectAnswer);
@@ -23,7 +22,6 @@ export default function AnimalsQuestionCard() {
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={goToMenu} className="text-green-500 text-sm bg-green-100 rounded-full px-3 py-1">← חזור</button>
           <span className="text-green-700 font-bold">שאלה {index + 1} / {total}</span>
           <span className="text-green-700 font-bold">⭐ {score}</span>
         </div>

@@ -19,15 +19,13 @@ interface Props {
   isCorrect: boolean;
   onSelect: (label: string) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function ColorMixQuestion({ index, total, score, mix, choices, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function ColorMixQuestion({ index, total, score, mix, choices, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-purple-500 text-sm bg-purple-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-purple-700">{index + 1} / {total}</span>
           <span className="font-bold text-purple-700">⭐ {score}</span>
         </div>

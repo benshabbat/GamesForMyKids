@@ -6,9 +6,9 @@ import GeographyQuestion from './components/GeographyQuestion';
 import GeographyResultScreen from './components/GeographyResultScreen';
 
 export default function GeographyGame() {
-  const { phase, score, total, startGame, restart, goMenu } = useGeographyGame();
+  const { phase, score, total, startGame, restart } = useGeographyGame();
 
   if (phase === 'menu') return <GeographyMenuScreen onStart={(mode: QuestionMode) => startGame(mode)} />;
   if (phase === 'playing') return <GeographyQuestion />;
-  return <GeographyResultScreen score={score} total={total} onRestart={restart} onMenu={goMenu} />;
+  return <GeographyResultScreen score={score} total={total} onRestart={restart} />;
 }

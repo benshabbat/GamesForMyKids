@@ -23,17 +23,15 @@ interface Props {
   onPressLetter: (i: number) => void;
   onClear: () => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
 export default function WordBuilderQuestion({
-  index, total, score, current, typed, available, status, onPressLetter, onClear, onNext, onMenu,
+  index, total, score, current, typed, available, status, onPressLetter, onClear, onNext,
 }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-orange-500 text-sm bg-orange-100 rounded-full px-3 py-1">← חזור</button>
           <span className="text-orange-700 font-bold">מילה {index + 1} / {total}</span>
           <span className="text-orange-700 font-bold">⭐ {score}</span>
         </div>

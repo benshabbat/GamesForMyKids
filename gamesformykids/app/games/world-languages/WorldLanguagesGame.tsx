@@ -5,7 +5,7 @@ import WorldLanguagesQuestion from './components/WorldLanguagesQuestion';
 import WorldLanguagesResultScreen from './components/WorldLanguagesResultScreen';
 
 export default function WorldLanguagesGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, startGame, selectAnswer, next, goMenu, restart } = useWorldLanguagesGame();
+  const { phase, index, score, selected, isCorrect, current, choices, total, startGame, selectAnswer, next, restart } = useWorldLanguagesGame();
 
   if (phase === 'menu') return <WorldLanguagesMenuScreen onStart={startGame} />;
 
@@ -20,7 +20,6 @@ export default function WorldLanguagesGame() {
       isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
-      onMenu={goMenu}
     />
   );
 
@@ -29,7 +28,6 @@ export default function WorldLanguagesGame() {
       score={score}
       total={total}
       onRestart={restart}
-      onMenu={goMenu}
     />
   );
 }

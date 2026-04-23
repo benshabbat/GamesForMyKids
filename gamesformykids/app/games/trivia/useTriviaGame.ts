@@ -12,7 +12,7 @@ export function useTriviaGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<TriviaQuestion[]>([]);
@@ -37,7 +37,6 @@ export function useTriviaGame() {
   }, [selected, current, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const pool = category === 'all'
       ? TRIVIA_QUESTIONS
@@ -51,6 +50,6 @@ export function useTriviaGame() {
     phase, index, score, selected: selected !== null ? Number(selected) : null,
     isCorrect, current, category,
     total: questions.length || QUESTIONS_PER_GAME,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

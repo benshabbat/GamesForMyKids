@@ -6,9 +6,9 @@ import CapitalsQuestion from './components/CapitalsQuestion';
 import CapitalsResultScreen from './components/CapitalsResultScreen';
 
 export default function CapitalsGame() {
-  const { phase, correctCount, total, score, startGame, restart, goMenu } = useCapitalsGame();
+  const { phase, correctCount, total, score, startGame, restart } = useCapitalsGame();
 
   if (phase === 'menu') return <CapitalsMenuScreen onStart={startGame} />;
   if (phase === 'playing') return <CapitalsQuestion />;
-  return <CapitalsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
+  return <CapitalsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
 }

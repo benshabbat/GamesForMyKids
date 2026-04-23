@@ -18,15 +18,13 @@ interface Props {
   isCorrect: boolean;
   onSelect: (i: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function ScienceQuestion({ index, total, score, current, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function ScienceQuestion({ index, total, score, current, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-indigo-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-indigo-500 text-sm bg-indigo-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-indigo-700">{index + 1} / {total}</span>
           <span className="font-bold text-indigo-700">⭐ {score}</span>
         </div>

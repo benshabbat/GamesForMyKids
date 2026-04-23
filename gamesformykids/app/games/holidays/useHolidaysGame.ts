@@ -57,7 +57,6 @@ export function useHolidaysGame() {
     }
   }, [holidayIndex, totalHolidays]);
 
-  const goMenu = useCallback(() => setPhase('menu'), []);
   const restart = useCallback(() => {
     setPhase('menu');
     setHolidayIndex(0);
@@ -71,6 +70,6 @@ export function useHolidaysGame() {
     phase, holidayIndex, questionIndex, score, maxScore,
     selected, isCorrect, current, currentQuestion,
     totalHolidays, totalQuestions, holidays: HOLIDAYS,
-    startHoliday, selectAnswer, next, nextHoliday, goMenu, restart,
+    startHoliday, selectAnswer, next, nextHoliday, restart,
   };
 }

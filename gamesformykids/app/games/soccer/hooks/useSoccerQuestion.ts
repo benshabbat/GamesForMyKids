@@ -6,7 +6,7 @@ export function useSoccerQuestion() {
   const {
     currentIndex, questions, score, phase,
     selected, isCorrect, showGoal,
-    selectAnswer, nextQuestion, goToMenu,
+    selectAnswer, nextQuestion,
   } = useSoccerStore();
 
   const total = questions.length;
@@ -29,6 +29,6 @@ export function useSoccerQuestion() {
   return {
     currentIndex, total, score, phase, selected, isCorrect, showGoal,
     currentQuestion, progressPct, nextLabel,
-    answerClass, selectAnswer, nextQuestion, goToMenu,
+    answerClass, selectAnswer, nextQuestion,
   };
 }

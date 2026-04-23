@@ -4,10 +4,9 @@ interface Props {
   score: number;
   best: number;
   onRestart: () => void;
-  onGoMenu: () => void;
 }
 
-export default function WhackResultScreen({ score, best, onRestart, onGoMenu }: Props) {
+export default function WhackResultScreen({ score, best, onRestart }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-amber-100 flex items-center justify-center p-4" dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full text-center">
@@ -29,12 +28,6 @@ export default function WhackResultScreen({ score, best, onRestart, onGoMenu }: 
             className="flex-1 py-4 rounded-2xl bg-gradient-to-l from-amber-500 to-orange-500 text-white font-black text-xl shadow-lg hover:opacity-90 active:scale-95 transition-all"
           >
             🔄 שוב
-          </button>
-          <button
-            onClick={onGoMenu}
-            className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all"
-          >
-            🏠 תפריט
           </button>
         </div>
       </div>

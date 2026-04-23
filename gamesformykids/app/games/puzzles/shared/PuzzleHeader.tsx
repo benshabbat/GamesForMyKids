@@ -1,21 +1,13 @@
 'use client';
 
-import { Home, HelpCircle } from 'lucide-react';
+import { HelpCircle } from 'lucide-react';
 import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
 
 export default function PuzzleHeader({ title, subtitle }: { title: string; subtitle: string }) {
-  const { toggleHelp, goHome } = usePuzzleStore();
+  const { toggleHelp } = usePuzzleStore();
   return (
     <div className="text-center mb-6 sm:mb-8">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mb-6">
-        <button
-          onClick={goHome}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base font-medium"
-        >
-          <Home className="w-5 h-5" />
-          <span className="hidden sm:inline">חזרה לבית</span>
-          <span className="sm:hidden">בית</span>
-        </button>
         <div className="order-first sm:order-none">
           <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">{title}</h1>
           <p className="text-lg sm:text-xl text-gray-600 font-medium">{subtitle}</p>

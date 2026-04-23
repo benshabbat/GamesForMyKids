@@ -84,14 +84,8 @@ export function useReflexGame() {
     });
   }, []);
 
-  const goMenu = useCallback(() => {
-    clear();
-    setPhase('menu');
-    setTargets([]);
-  }, []);
-
   return {
     phase, targets, score, missed, timeLeft,
-    startGame, hitTarget, goMenu,
+    startGame, hitTarget,
   };
 }

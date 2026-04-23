@@ -7,14 +7,14 @@ import WhackHUD from './components/WhackHUD';
 import WhackGrid from './components/WhackGrid';
 
 export default function WhackAMoleGame() {
-  const { phase, holes, holeValues, score, timeLeft, best, combo, bgColor, pct, startGame, whack, goMenu } = useWhackAMoleGame();
+  const { phase, holes, holeValues, score, timeLeft, best, combo, bgColor, pct, startGame, whack } = useWhackAMoleGame();
 
   if (phase === 'menu') return (
     <WhackMenuScreen bgColor={bgColor} best={best} onStart={startGame} />
   );
 
   if (phase === 'result') return (
-    <WhackResultScreen score={score} best={best} onRestart={startGame} onGoMenu={goMenu} />
+    <WhackResultScreen score={score} best={best} onRestart={startGame} />
   );
 
   return (

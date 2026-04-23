@@ -71,12 +71,11 @@ export function useWordBuilderGame() {
     }
   }, [index, puzzles, loadPuzzle]);
 
-  const goMenu = useCallback(() => setPhase('menu'), []);
   const restart = useCallback(() => startGame(), [startGame]);
 
   return {
     phase, index, score, typed, available, status, current,
     total: puzzles.length,
-    startGame, pressLetter, clearTyped, next, goMenu, restart,
+    startGame, pressLetter, clearTyped, next, restart,
   };
 }

@@ -113,9 +113,6 @@ export const useDrawingGame = () => {
     hard: { timeLimit: 180, name: 'קשה', color: 'red' }
   };
 
-  const goBack = useCallback(() => {
-    window.history.back();
-  }, []);
 
   return {
     // Game state
@@ -130,7 +127,6 @@ export const useDrawingGame = () => {
     stopGame,
     pauseGame,
     resumeGame,
-    goBack,
     
     // Settings
     setGameSettings,

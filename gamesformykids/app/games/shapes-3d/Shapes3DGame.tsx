@@ -6,12 +6,12 @@ import Shapes3dQuestion from './components/Shapes3dQuestion';
 import Shapes3dResultScreen from './components/Shapes3dResultScreen';
 
 export default function Shapes3DGame() {
-  const { phase, index, score, selected, isCorrect, current, currentShape, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useShapes3DGame();
+  const { phase, index, score, selected, isCorrect, current, currentShape, choices, total, correctCount, startGame, selectAnswer, next, restart } = useShapes3DGame();
 
   if (phase === 'menu') return <Shapes3dMenuScreen onStart={startGame} />;
 
   if (phase === 'result') {
-    return <Shapes3dResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
+    return <Shapes3dResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
   }
 
   if (!current) return null;

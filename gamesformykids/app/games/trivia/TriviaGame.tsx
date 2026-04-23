@@ -5,7 +5,7 @@ import TriviaQuestion from './components/TriviaQuestion';
 import TriviaResultScreen from './components/TriviaResultScreen';
 
 export default function TriviaGame() {
-  const { phase, index, score, selected, isCorrect, current, category, total, startGame, selectAnswer, next, goMenu, restart } = useTriviaGame();
+  const { phase, index, score, selected, isCorrect, current, category, total, startGame, selectAnswer, next, restart } = useTriviaGame();
 
   if (phase === 'menu') return <TriviaMenuScreen onStart={startGame} />;
 
@@ -19,7 +19,6 @@ export default function TriviaGame() {
       isCorrect={isCorrect ?? false}
       onSelect={selectAnswer}
       onNext={next}
-      onMenu={goMenu}
     />
   );
 
@@ -29,7 +28,6 @@ export default function TriviaGame() {
       total={total}
       category={category}
       onRestart={restart}
-      onMenu={goMenu}
     />
   );
 }

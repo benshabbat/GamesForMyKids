@@ -4,10 +4,9 @@ interface Props {
   score: number;
   total: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function WorldLanguagesResultScreen({ score, total, onRestart, onMenu }: Props) {
+export default function WorldLanguagesResultScreen({ score, total, onRestart }: Props) {
   const correct = Math.round(score / 10);
   const pct = Math.round((correct / total) * 100);
   return (
@@ -24,7 +23,6 @@ export default function WorldLanguagesResultScreen({ score, total, onRestart, on
         </div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-emerald-500 to-green-600 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">🌍 תפריט</button>
         </div>
       </div>
     </div>

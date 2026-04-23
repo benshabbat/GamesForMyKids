@@ -12,7 +12,7 @@ export function useSequencesGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [level, setLevel]         = useState<SequenceLevel>(LEVELS[0]);
@@ -39,7 +39,6 @@ export function useSequencesGame() {
   }, [current, selected, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const pool = SEQUENCE_QUESTIONS.filter(q => level.ids.includes(q.id));
     const qs = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
@@ -52,6 +51,6 @@ export function useSequencesGame() {
     selected: selected !== null ? Number(selected) : null,
     isCorrect: isCorrect ?? false, current, choices,
     total: questions.length, levels: LEVELS,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

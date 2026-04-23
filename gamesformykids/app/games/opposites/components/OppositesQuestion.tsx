@@ -16,15 +16,13 @@ interface Props {
   isCorrect: boolean;
   onSelect: (word: string) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function OppositesQuestion({ index, total, score, current, choices, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function OppositesQuestion({ index, total, score, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-red-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-orange-500 text-sm bg-orange-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-orange-700">{index + 1} / {total}</span>
           <span className="font-bold text-orange-700">⭐ {score}</span>
         </div>

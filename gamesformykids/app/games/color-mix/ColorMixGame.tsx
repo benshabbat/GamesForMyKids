@@ -7,7 +7,7 @@ import ColorMixResultScreen from './components/ColorMixResultScreen';
 export default function ColorMixGame() {
   const {
     phase, index, score, selected, isCorrect, current, total,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   } = useColorMixGame();
 
   if (phase === 'menu') return <ColorMixMenuScreen onStart={startGame} />;
@@ -17,9 +17,9 @@ export default function ColorMixGame() {
       index={index} total={total} score={score}
       mix={current.mix} choices={current.choices}
       selected={selected} isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer} onNext={next} onMenu={goMenu}
+      onSelect={selectAnswer} onNext={next}
     />
   );
 
-  return <ColorMixResultScreen score={score} total={total} onRestart={restart} onMenu={goMenu} />;
+  return <ColorMixResultScreen score={score} total={total} onRestart={restart} />;
 }

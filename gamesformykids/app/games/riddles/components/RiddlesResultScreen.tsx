@@ -5,10 +5,9 @@ interface Props {
   total: number;
   score: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function RiddlesResultScreen({ correctCount, total, score, onRestart, onMenu }: Props) {
+export default function RiddlesResultScreen({ correctCount, total, score, onRestart }: Props) {
   const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
   const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';
 
@@ -21,7 +20,6 @@ export default function RiddlesResultScreen({ correctCount, total, score, onRest
         <div className="text-5xl font-bold text-purple-600 mb-6">{score} נקודות</div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-3 rounded-2xl bg-purple-600 text-white font-bold hover:bg-purple-700 transition-all">שחק שוב</button>
-          <button onClick={onMenu} className="flex-1 py-3 rounded-2xl bg-gray-200 text-gray-700 font-bold hover:bg-gray-300 transition-all">תפריט</button>
         </div>
       </div>
     </div>

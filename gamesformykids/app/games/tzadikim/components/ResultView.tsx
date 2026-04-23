@@ -9,7 +9,6 @@ interface ResultViewProps {
   score: number;
   maxScore: number;
   onNextStory: () => void;
-  onMenu: () => void;
 }
 
 export default function ResultView({
@@ -19,7 +18,6 @@ export default function ResultView({
   score,
   maxScore,
   onNextStory,
-  onMenu,
 }: ResultViewProps) {
   const isLastStory = storyIndex >= totalStories - 1;
 
@@ -70,12 +68,7 @@ export default function ResultView({
             >
               {isLastStory ? '🎉 לסיכום הסופי!' : `הסיפור הבא: סיפור ${storyIndex + 2} ←`}
             </button>
-            <button
-              onClick={onMenu}
-              className="w-full py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all"
-            >
-              📜 בחר סיפור אחר
-            </button>
+
           </div>
         </div>
       </div>

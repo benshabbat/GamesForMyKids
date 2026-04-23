@@ -8,7 +8,7 @@ import ScienceResultScreen from './components/ScienceResultScreen';
 export default function ScienceGame() {
   const {
     phase, index, score, selected, isCorrect, current, total,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   } = useScienceGame();
 
   if (phase === 'menu') return <ScienceMenuScreen topics={TOPICS} topicEmojis={TOPIC_EMOJIS} onStart={startGame} />;
@@ -24,10 +24,9 @@ export default function ScienceGame() {
         isCorrect={isCorrect ?? false}
         onSelect={selectAnswer}
         onNext={next}
-        onMenu={goMenu}
       />
     );
   }
 
-  return <ScienceResultScreen score={score} total={total} onRestart={restart} onMenu={goMenu} />;
+  return <ScienceResultScreen score={score} total={total} onRestart={restart} />;
 }

@@ -4,10 +4,9 @@ interface Props {
   score: number;
   total: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function ContinentsResultScreen({ score, total, onRestart, onMenu }: Props) {
+export default function ContinentsResultScreen({ score, total, onRestart }: Props) {
   const pct = Math.round((score / total) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 flex flex-col items-center justify-center p-6" dir="rtl">
@@ -17,7 +16,7 @@ export default function ContinentsResultScreen({ score, total, onRestart, onMenu
       <p className="text-lg text-gray-500 mb-8">{pct}% הצלחה</p>
       <div className="flex gap-4">
         <button onClick={onRestart} className="px-6 py-3 bg-teal-500 text-white rounded-xl font-bold shadow active:scale-95">שחק שוב</button>
-        <button onClick={onMenu} className="px-6 py-3 bg-gray-400 text-white rounded-xl font-bold shadow active:scale-95">תפריט</button>
+
       </div>
     </div>
   );

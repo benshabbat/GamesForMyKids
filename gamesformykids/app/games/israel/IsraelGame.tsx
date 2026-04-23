@@ -7,14 +7,14 @@ import IsraelQuestion from './components/IsraelQuestion';
 import IsraelResultScreen from './components/IsraelResultScreen';
 
 export default function IsraelGame() {
-  const { phase, categories, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useIsraelGame();
+  const { phase, categories, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, restart } = useIsraelGame();
 
   if (phase === 'menu') {
     return <IsraelMenuScreen categories={categories as readonly IsraelCategory[]} onStart={startGame} />;
   }
 
   if (phase === 'result') {
-    return <IsraelResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />;
+    return <IsraelResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
   }
 
   if (!current) return null;

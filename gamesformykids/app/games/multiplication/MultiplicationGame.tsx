@@ -8,12 +8,12 @@ import MultiplicationQuestion from './components/MultiplicationQuestion';
 import MultiplicationResultScreen from './components/MultiplicationResultScreen';
 
 export default function MultiplicationGame() {
-  const { phase, level, correct, totalQuestions, score, startGame, goMenu } = useMultiplicationGame();
+  const { phase, level, correct, totalQuestions, score, startGame } = useMultiplicationGame();
 
   // Stop timer if user navigates away before the game ends
   useEffect(() => stopMultiplicationTimer, []);
 
   if (phase === 'menu') return <MultiplicationMenuScreen levels={LEVELS} questionsPerLevel={QUESTIONS_PER_LEVEL} timePerQuestion={TIME_PER_QUESTION} onStart={startGame} />;
   if (phase === 'playing') return <MultiplicationQuestion />;
-  return <MultiplicationResultScreen level={level} correct={correct} totalQuestions={totalQuestions} score={score} onRestart={startGame} onMenu={goMenu} />;
+  return <MultiplicationResultScreen level={level} correct={correct} totalQuestions={totalQuestions} score={score} onRestart={startGame} />;
 }

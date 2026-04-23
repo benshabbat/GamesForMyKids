@@ -12,7 +12,7 @@ export function useScienceGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<ScienceQuestion[]>([]);
@@ -37,7 +37,6 @@ export function useScienceGame() {
   }, [selected, current, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => startGame(topic), [startGame, topic]);
 
   return {
@@ -45,6 +44,6 @@ export function useScienceGame() {
     selected: selected !== null ? Number(selected) : null,
     isCorrect, current, topic,
     total: questions.length || QUESTIONS_PER_GAME,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

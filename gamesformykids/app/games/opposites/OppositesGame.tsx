@@ -5,7 +5,7 @@ import OppositesQuestion from './components/OppositesQuestion';
 import OppositesResultScreen from './components/OppositesResultScreen';
 
 export default function OppositesGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useOppositesGame();
+  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, restart } = useOppositesGame();
 
   if (phase === 'menu') return <OppositesMenuScreen onStart={startGame} />;
 
@@ -21,11 +21,10 @@ export default function OppositesGame() {
         isCorrect={isCorrect ?? false}
         onSelect={selectAnswer}
         onNext={next}
-        onMenu={goMenu}
       />
     );
   }
 
-  return <OppositesResultScreen correctCount={correctCount} total={total} onRestart={restart} onMenu={goMenu} />;
+  return <OppositesResultScreen correctCount={correctCount} total={total} onRestart={restart} />;
 }
 

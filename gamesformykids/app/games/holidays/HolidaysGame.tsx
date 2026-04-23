@@ -12,7 +12,7 @@ export default function HolidaysGame() {
     phase, holidayIndex, questionIndex, score, maxScore,
     selected, isCorrect, current, currentQuestion,
     totalHolidays, totalQuestions, holidays,
-    startHoliday, selectAnswer, next, nextHoliday, goMenu, restart,
+    startHoliday, selectAnswer, next, nextHoliday, restart,
   } = useHolidaysGame();
 
   if (phase === 'menu') {
@@ -31,7 +31,6 @@ export default function HolidaysGame() {
         isCorrect={isCorrect ?? false}
         onSelect={selectAnswer}
         onNext={next}
-        onMenu={goMenu}
       />
     );
   }
@@ -47,7 +46,6 @@ export default function HolidaysGame() {
         totalHolidays={totalHolidays}
         nextHolidayInfo={nextHolidayInfo}
         onNext={nextHoliday}
-        onMenu={goMenu}
       />
     );
   }

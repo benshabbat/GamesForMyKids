@@ -1,15 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { usePuzzleStore } from './store/puzzleStore';
-import { ROUTES } from '@/lib/constants/routes';
 
 function useRouterBridge() {
-  const router = useRouter();
-  useEffect(() => {
-    usePuzzleStore.setState({ goHome: () => router.push(ROUTES.HOME) });
-  }, [router]);
+  // bridge removed — UniversalGameNavigation handles routing
 }
 
 function useAudioInit() {

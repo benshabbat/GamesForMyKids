@@ -4,10 +4,9 @@ interface Props {
   score: number;
   total: number;
   onRestart: () => void;
-  onMenu: () => void;
 }
 
-export default function WordBuilderResultScreen({ score, total, onRestart, onMenu }: Props) {
+export default function WordBuilderResultScreen({ score, total, onRestart }: Props) {
   const pct = Math.round((score / total) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 p-4 flex items-center" dir="rtl">
@@ -23,7 +22,7 @@ export default function WordBuilderResultScreen({ score, total, onRestart, onMen
         </div>
         <div className="flex gap-3">
           <button onClick={onRestart} className="flex-1 py-4 rounded-2xl text-white font-bold bg-gradient-to-l from-orange-500 to-amber-500 hover:opacity-90 active:scale-95 transition-all">🔄 שוב</button>
-          <button onClick={onMenu} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">🏠 תפריט</button>
+
         </div>
       </div>
     </div>

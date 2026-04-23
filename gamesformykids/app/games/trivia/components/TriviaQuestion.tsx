@@ -18,17 +18,15 @@ interface Props {
   isCorrect: boolean;
   onSelect: (idx: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
 export default function TriviaQuestion({
-  index, total, score, current, selected, isCorrect, onSelect, onNext, onMenu,
+  index, total, score, current, selected, isCorrect, onSelect, onNext,
 }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-amber-50 to-yellow-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
-          <button onClick={onMenu} className="text-amber-500 text-sm bg-amber-100 rounded-full px-3 py-1">← חזור</button>
           <span className="font-bold text-amber-700">{CATEGORY_EMOJIS[current.category]} {current.category} | {index + 1} / {total}</span>
           <span className="font-bold text-amber-700">⭐ {score}</span>
         </div>

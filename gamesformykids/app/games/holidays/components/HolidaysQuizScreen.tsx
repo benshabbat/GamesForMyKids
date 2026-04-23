@@ -24,15 +24,13 @@ interface Props {
   isCorrect: boolean;
   onSelect: (i: number) => void;
   onNext: () => void;
-  onMenu: () => void;
 }
 
-export default function HolidaysQuizScreen({ current, currentQuestion, questionIndex, totalQuestions, score, selected, isCorrect, onSelect, onNext, onMenu }: Props) {
+export default function HolidaysQuizScreen({ current, currentQuestion, questionIndex, totalQuestions, score, selected, isCorrect, onSelect, onNext }: Props) {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${current.bg} p-4`} dir="rtl">
       <div className="max-w-xl mx-auto">
         <div className={`rounded-3xl p-5 mb-5 text-center text-white bg-gradient-to-br ${current.color} shadow-xl relative`}>
-          <button onClick={onMenu} className="absolute top-4 right-4 text-white/70 hover:text-white text-sm bg-white/20 rounded-full px-3 py-1">← חזור</button>
           <div className="text-5xl mb-1">{current.emoji}</div>
           <h2 className="text-2xl font-bold">{current.name}</h2>
           <p className="text-white/80 text-sm mt-1">{current.description}</p>

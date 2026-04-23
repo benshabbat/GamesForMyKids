@@ -6,12 +6,12 @@ import EmotionsQuestion from './components/EmotionsQuestion';
 import EmotionsResultScreen from './components/EmotionsResultScreen';
 
 export default function EmotionsGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, goMenu, restart } = useEmotionsGame();
+  const { phase, index, score, selected, isCorrect, current, choices, total, correctCount, startGame, selectAnswer, next, restart } = useEmotionsGame();
 
   if (phase === 'menu') return <EmotionsMenuScreen onStart={startGame} />;
 
   if (phase === 'result') return (
-    <EmotionsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} onMenu={goMenu} />
+    <EmotionsResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />
   );
 
   if (!current) return null;

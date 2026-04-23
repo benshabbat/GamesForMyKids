@@ -17,7 +17,7 @@ export function useEnglishWordsGame() {
   const score      = useQuizGameStore(s => s.score);
   const selected   = useQuizGameStore(s => s.selected);
   const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, goToMenu, restartQuiz } = useQuizGameStore();
+  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<EnglishWord[]>([]);
@@ -42,7 +42,6 @@ export function useEnglishWordsGame() {
   }, [selected, current, storeSelectAnswer]);
 
   const next    = useCallback(() => nextQuestion(), [nextQuestion]);
-  const goMenu  = useCallback(() => goToMenu(), [goToMenu]);
   const restart = useCallback(() => {
     const pool = category === 'הכל' ? ENGLISH_WORDS : ENGLISH_WORDS.filter(w => w.category === category);
     const q = shuffle(pool).slice(0, QUESTIONS_PER_GAME);
@@ -53,6 +52,6 @@ export function useEnglishWordsGame() {
   return {
     phase, category, categories: CATEGORIES, index, score: score * 10, selected, isCorrect, current, choices, total,
     correctCount: score,
-    startGame, selectAnswer, next, goMenu, restart,
+    startGame, selectAnswer, next, restart,
   };
 }

@@ -10,13 +10,13 @@ export default function FamilyGame() {
   const {
     phase, currentQuestion, currentIndex, total,
     selected, isCorrect, score,
-    startGame, selectAnswer, nextQuestion, goToMenu,
+    startGame, selectAnswer, nextQuestion,
   } = useFamilyGame();
 
   if (phase === 'menu') return <FamilyMenuScreen onStart={startGame} />;
 
   if (phase === 'result') return (
-    <FamilyResultScreen score={score} total={total} onRestart={startGame} onMenu={goToMenu} />
+    <FamilyResultScreen score={score} total={total} onRestart={startGame} />
   );
 
   if (!currentQuestion) return null;
@@ -25,7 +25,7 @@ export default function FamilyGame() {
     <FamilyQuestion
       phase={phase} currentIndex={currentIndex} total={total} score={score}
       question={currentQuestion} selected={selected} isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer} onNext={nextQuestion} onMenu={goToMenu}
+      onSelect={selectAnswer} onNext={nextQuestion}
     />
   );
 }

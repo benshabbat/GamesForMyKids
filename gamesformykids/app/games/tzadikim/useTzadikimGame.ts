@@ -80,9 +80,7 @@ export function useTzadikimGame() {
     }
   }, [storyIndex, totalStories, feedback, storyScores]);
 
-  const goToMenu = useCallback(() => {
-    setPhase('menu');
-  }, []);
+  const backToMenu = useCallback(() => setPhase('menu'), []);
 
   const restartGame = useCallback(() => {
     setPhase('menu');
@@ -112,10 +110,10 @@ export function useTzadikimGame() {
     stories: TZADIKIM_STORIES,
     startStory,
     startQuiz,
+    backToMenu,
     selectAnswer,
     nextQuestion,
     nextStory,
-    goToMenu,
     restartGame,
   };
 }
