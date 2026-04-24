@@ -33,7 +33,6 @@ export * from './ui';
 export * as ComponentTypes from './components';
 export * as Contexts from './contexts';
 export * as Hooks from './hooks';
-export * as Utils from './utils';
 export * as Events from './events';
 
 // ===== ייצוא נוסף עם שמות ברורים =====

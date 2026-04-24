@@ -5,7 +5,8 @@
       "Bash(npx tsc *)",
       "Bash(xargs grep *)",
       "Bash(npx --prefix gamesformykids tsc --noEmit)",
-      "Bash(./gamesformykids/node_modules/.bin/tsc --noEmit --project gamesformykids/tsconfig.json)"
+      "Bash(./gamesformykids/node_modules/.bin/tsc --noEmit --project gamesformykids/tsconfig.json)",
+      "Bash(npm --prefix gamesformykids run build)"
     ]
   }
 }
