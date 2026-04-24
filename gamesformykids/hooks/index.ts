@@ -49,15 +49,4 @@ export { useGenericGame } from "./games/useGenericGame";
  * 
  * const useMyGame = () => useGenericGame(MY_ITEMS, 'my-game');
  * 
- * // למשחק מתקדם:  
- * import { useGenericGame, useGameAnalytics } from "@/hooks";
- * 
- * const useMyAdvancedGame = () => {
- *   const game = useGenericGame(MY_ITEMS, 'my-game');
- *   const analytics = useGameAnalytics(game.gameState);
- *   return { ...game, analytics };
- * };
  */
-
-// Hebrew Letters specific hooks
-export { default as useHebrewLetterPractice } from '@/app/games/hebrew-letters/hooks/useHebrewLetterPractice';
