@@ -101,6 +101,3 @@ export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
   ),
 );
 
-// ── Selectors ──────────────────────────────────────────────
-export const selectAnimalsCategory  = (s: AnimalsState) => s.category;
-export const selectAnimalsQuestions = (s: AnimalsState) => s.questions;

@@ -61,24 +61,3 @@ export * from './ui/shapes';
 // קונפיגורציות UI ועיצוב
 export * from './ui/gameConfigs';
 
-/**
- * ===============================================
- * רשימה מרכזית של כל המשחקים הזמינים
- * ===============================================
- */
-export const AVAILABLE_GAMES = [
-  'colors', 'letters', 'shapes', 'colored-shapes', 'numbers', 
-  'fruits', 'vegetables', 'animals', 'smell-taste',
-  'weather', 'transport', 'vehicles', 'tools', 'space',
-  'house', 'clothing', 'instruments', 'professions', 'emotions',
-  'memory', 'counting', 'math', 'puzzles', 'bubbles', 'drawing',
-  // משחקים חדשים
-  'sports', 'sports-equipment', 'kitchen', 'cooking-actions', 'prepared-food',
-  'body-parts', 'senses', 'body-actions', 'family', 'extended-family', 'family-roles',
-  'dinosaurs', 'dinosaur-types', 'prehistoric-periods', 'fossils',
-  // משחקים נוספים חדשים
-  'world-food', 'recycling', 'medicine', 'nature-sounds', 
-  'seasons-holidays', 'feelings', 'shopping-money', 'road-safety'
-] as const;
-
-export type GameType = typeof AVAILABLE_GAMES[number];

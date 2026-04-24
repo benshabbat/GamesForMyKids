@@ -6,24 +6,16 @@
 
 import { GameType, BaseGameItem } from '../core/base';
 import { GameItemCardProps } from '../hooks/game-state';
-import type { TypedConfiguration } from '../core/abstracts';
 import { GameUIConfig } from '../../constants/ui/gameConfigs';
 
 // Re-export GameUIConfig from constants to avoid duplication
 export type { GameUIConfig } from '../../constants/ui/gameConfigs';
 
 /**
- * סוג משחק אוטומטי - עקרון DRY, type alias
- */
-export type AutoGameType = TypedConfiguration;
-
-
-
-/**
  * מידע משחק נוכחי - עקרון Single Responsibility
  */
 export interface CurrentGameInfo {
-  readonly gameType: AutoGameType | GameType | null;
+  readonly gameType: GameType | null;
   readonly config: GameUIConfig | null;
   readonly items: BaseGameItem[] | null;
   readonly CardComponent: React.ComponentType<GameItemCardProps> | null;

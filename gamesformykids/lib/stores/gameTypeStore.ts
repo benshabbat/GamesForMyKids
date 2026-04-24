@@ -61,10 +61,3 @@ export const useGameTypeStore = create<GameTypeState & GameTypeActions>()(
   ),
 );
 
-// Selectors
-export const selectCurrentGameType = (state: GameTypeState & GameTypeActions) =>
-  state.currentGameType;
-export const selectPreviousGameType = (state: GameTypeState & GameTypeActions) =>
-  state.previousGameType;
-export const selectGameHistory = (state: GameTypeState & GameTypeActions) =>
-  state.gameHistory;

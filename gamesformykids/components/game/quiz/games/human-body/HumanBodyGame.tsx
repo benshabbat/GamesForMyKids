@@ -1,6 +1,5 @@
 'use client';
 
-import React from 'react';
 import { useHumanBodyGame } from './useHumanBodyGame';
 import type { BodyCategory } from './data/body';
 import HumanBodyMenuScreen from './components/HumanBodyMenuScreen';

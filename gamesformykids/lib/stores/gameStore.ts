@@ -9,7 +9,6 @@
 
 import { create } from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
-import type { GameType } from '@/lib/types/core/base';
 
 // ── State ──────────────────────────────────────────────────
 export interface ActiveGameState {
@@ -121,9 +120,3 @@ export const useGameStore = create<ActiveGameState & GameStats & GameActions>()(
   )
 );
 
-// ── Selectors ──────────────────────────────────────────────
-export const selectHighScore = (gameType: string) =>
-  (s: ActiveGameState & GameStats) => s.highScores[gameType] ?? 0;
-
-export const selectIsPlayingGame = (gameType: GameType) =>
-  (s: ActiveGameState) => s.isPlaying && s.gameType === gameType;

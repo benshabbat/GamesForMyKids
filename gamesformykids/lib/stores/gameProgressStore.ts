@@ -120,9 +120,3 @@ export const useGameProgressStore = create<GameProgressState & GameProgressActio
   ),
 );
 
-// Selectors
-export const selectScore = (s: GameProgressState) => s.score;
-export const selectLevel = (s: GameProgressState) => s.level;
-export const selectIsGameActive = (s: GameProgressState) => s.isGameActive;
-export const selectAccuracy = (s: GameProgressState) =>
-  s.totalQuestions === 0 ? 0 : (s.correctAnswers / s.totalQuestions) * 100;

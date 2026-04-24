@@ -105,8 +105,3 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
   ),
 );
 
-// ── Selectors ──────────────────────────────────────────────
-export const selectQuizPhase  = (s: QuizGameState) => s.phase;
-export const selectQuizScore  = (s: QuizGameState) => s.score;
-export const selectQuizIndex  = (s: QuizGameState) => s.index;
-export const selectIsAnswered = (s: QuizGameState) => s.selected !== null;

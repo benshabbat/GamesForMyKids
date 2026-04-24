@@ -11,9 +11,7 @@ export type QuizTheme =
   | 'sky'
   | 'red'
   | 'emerald'
-  | 'cyan'
-  | 'yellow'
-  | 'lime';
+  | 'cyan';
 
 export interface QuizThemeConfig {
   /** outer background gradient, e.g. 'from-green-50 to-emerald-100' */
@@ -149,23 +147,5 @@ export const QUIZ_THEMES: Record<QuizTheme, QuizThemeConfig> = {
     card:        'bg-cyan-50',
     answerIdle:  'border-cyan-200 bg-cyan-50 hover:bg-cyan-100 text-cyan-800',
     button:      'bg-cyan-600 hover:bg-cyan-700',
-  },
-  yellow: {
-    gradient:    'from-yellow-50 to-orange-100',
-    text:        'text-yellow-700',
-    badge:       'bg-yellow-100 text-yellow-700',
-    progress:    'bg-yellow-500',
-    card:        'bg-yellow-50',
-    answerIdle:  'border-yellow-200 bg-yellow-50 hover:bg-yellow-100 text-yellow-800',
-    button:      'bg-yellow-500 hover:bg-yellow-600',
-  },
-  lime: {
-    gradient:    'from-lime-50 to-green-100',
-    text:        'text-lime-700',
-    badge:       'bg-lime-100 text-lime-700',
-    progress:    'bg-lime-500',
-    card:        'bg-lime-50',
-    answerIdle:  'border-lime-200 bg-lime-50 hover:bg-lime-100 text-lime-800',
-    button:      'bg-lime-600 hover:bg-lime-700',
   },
 };

@@ -62,11 +62,3 @@ export const useAuthStore = create<AuthState & AuthActions>()(
   )
 );
 
-// ── Selectors ──────────────────────────────────────────────
-/** האם המשתמש מחובר (לא אורח ולא טוען) */
-export const selectIsLoggedIn = (s: AuthState) =>
-  !s.loading && !!s.user && !s.isGuest;
-
-/** האם המשתמש יכול לשחק (מחובר או אורח) */
-export const selectCanPlay = (s: AuthState) =>
-  !s.loading && (!!s.user || s.isGuest);

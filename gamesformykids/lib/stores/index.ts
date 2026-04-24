@@ -9,15 +9,11 @@
  */
 
 // Auth
-export { useAuthStore, selectIsLoggedIn, selectCanPlay } from './authStore';
+export { useAuthStore } from './authStore';
 export type { AuthState, AuthActions } from './authStore';
 
 // Game
-export {
-  useGameStore,
-  selectHighScore,
-  selectIsPlayingGame,
-} from './gameStore';
+export { useGameStore } from './gameStore';
 export type {
   ActiveGameState,
   GameStats,
@@ -33,22 +29,11 @@ export {
 export type { Notification, NotificationType, UIState, UIActions } from './uiStore';
 
 // Game Type
-export {
-  useGameTypeStore,
-  selectCurrentGameType,
-  selectPreviousGameType,
-  selectGameHistory,
-} from './gameTypeStore';
+export { useGameTypeStore } from './gameTypeStore';
 export type { GameTypeState, GameTypeActions } from './gameTypeStore';
 
 // Game Progress
-export {
-  useGameProgressStore,
-  selectScore,
-  selectLevel,
-  selectIsGameActive,
-  selectAccuracy,
-} from './gameProgressStore';
+export { useGameProgressStore } from './gameProgressStore';
 export type { GameProgressState, GameProgressActions } from './gameProgressStore';
 
 // Game Session (currentChallenge / options / showCelebration / wrongAttempts)
@@ -56,13 +41,7 @@ export { useGameSessionStore } from './gameSessionStore';
 export type { GameSessionState, GameSessionActions } from './gameSessionStore';
 
 // Quiz Game Session (phase / index / score / selected / isCorrect — quiz games)
-export {
-  useQuizGameStore,
-  selectQuizPhase,
-  selectQuizScore,
-  selectQuizIndex,
-  selectIsAnswered,
-} from './quizGameStore';
+export { useQuizGameStore } from './quizGameStore';
 export type { QuizGameState, QuizGameActions, QuizPhase } from './quizGameStore';
 
 // Game Actions (startGame / handleItemClick / resetGame / speakItemName / hints)
@@ -86,12 +65,7 @@ export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLe
 export type { HebrewLettersState, HebrewLettersStoreActions } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 
 // Animals (category / questions / game actions)
-export {
-  useAnimalsStore,
-  selectAnimalsCategory,
-  selectAnimalsQuestions,
-  QUESTIONS_PER_GAME as ANIMALS_QUESTIONS_PER_GAME,
-} from './animalsStore';
+export { useAnimalsStore } from './animalsStore';
 export type { AnimalsState, AnimalsActions, AnimalQuestion, QuestionMode } from './animalsStore';
 
 // Game Difficulty (per-game adaptive difficulty — persisted)
