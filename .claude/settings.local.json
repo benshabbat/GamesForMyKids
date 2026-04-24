@@ -4,7 +4,8 @@
       "Bash(grep -E \"^[A-Z].*Game\\\\.tsx$\")",
       "Bash(npx tsc *)",
       "Bash(xargs grep *)",
-      "Bash(npx --prefix gamesformykids tsc --noEmit)"
+      "Bash(npx --prefix gamesformykids tsc --noEmit)",
+      "Bash(./gamesformykids/node_modules/.bin/tsc --noEmit --project gamesformykids/tsconfig.json)"
     ]
   }
 }

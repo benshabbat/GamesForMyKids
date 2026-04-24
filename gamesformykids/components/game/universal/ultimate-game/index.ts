@@ -1,2 +1,2 @@
-export { UltimateGamePage, GameLogicSync, MinimalGamePage } from './UltimateGamePage';
+export { UltimateGamePage, GameLogicSync } from './UltimateGamePage';
 export { UltimateStartScreen } from './UltimateStartScreen';

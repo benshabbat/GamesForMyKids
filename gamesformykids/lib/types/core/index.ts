@@ -33,5 +33,3 @@ export type {
   Timestamped
 } from './abstracts';
 
-// Functional Programming Types
-export type * from './functional';

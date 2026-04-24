@@ -24,7 +24,6 @@ import { UltimateStartScreen } from "./UltimateStartScreen";
 
 // Re-export co-located components for convenience
 export { GameLogicSync } from './GameLogicSync';
-export { MinimalGamePage } from './MinimalGamePage';
 
 const DEFAULT_BG = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
 
