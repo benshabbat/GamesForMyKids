@@ -7,9 +7,6 @@
  * וקלות תחזוקה וטיפול בבאגים.
  */
 
-// Common Game Patterns - פאתרנים נפוצים במשחקים
-export * from './shared/common';
-
 // Game State Hooks
 export * from './shared/game-state';
 

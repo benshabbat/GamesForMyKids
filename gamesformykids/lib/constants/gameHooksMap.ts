@@ -116,7 +116,7 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'nba-teams':       g('nba-teams', 'nba-teams'),
   'exotic-birds':    g('exotic-birds', 'exotic-birds'),
   butterflies:       g('butterflies', 'butterflies'),
-  counting:          () => useCountingGame(),
+  counting:          useCountingGame,
   math:              useMathGame,
 };
 

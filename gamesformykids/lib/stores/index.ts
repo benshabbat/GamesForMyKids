@@ -99,9 +99,6 @@ export type { GameProgressDataState, GameProgressDataActions } from './gameProgr
 // Game Data (gameItems / gameTypes / loading / error — Supabase, deduplicated)
 export { useGameDataStore } from './gameDataStore';
 
-// Player Profile (profiles keyed by playerId — in-memory cache)
-export { usePlayerProfileStore } from './playerProfileStore';
-
 // Featured Game (daily featured game / ageGroups — shared across marketing components)
 export { useFeaturedGameStore } from './featuredGameStore';
 export type { AgeGroupData } from './featuredGameStore';

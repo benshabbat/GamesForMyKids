@@ -31,14 +31,6 @@ export * from './ui';
 
 // ===== ייצוא מאורגן לפי קטגוריות =====
 export * as ComponentTypes from './components';
-export * as Contexts from './contexts';
-export * as Hooks from './hooks';
-export * as Events from './events';
-
-// ===== ייצוא נוסף עם שמות ברורים =====
-export * as Core from './core';
-export * as UI from './ui';
-export * as Games from './games/base';
 
 // ===== ייצוא תאימות לאחור =====
 export type { 
