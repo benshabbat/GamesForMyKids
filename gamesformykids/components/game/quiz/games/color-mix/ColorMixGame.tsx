@@ -1,8 +1,7 @@
 'use client';
 import { useColorMixGame } from './useColorMixGame';
-import ColorMixMenuScreen from './components/ColorMixMenuScreen';
 import ColorMixQuestion from './components/ColorMixQuestion';
-import ColorMixResultScreen from './components/ColorMixResultScreen';
+import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
 
 export default function ColorMixGame() {
   const {
@@ -10,7 +9,16 @@ export default function ColorMixGame() {
     startGame, selectAnswer, next, restart,
   } = useColorMixGame();
 
-  if (phase === 'menu') return <ColorMixMenuScreen onStart={startGame} />;
+  if (phase === 'menu') return (
+    <QuizMenuScreen
+      emoji="🎨"
+      title="ערבוב צבעים"
+      description="מה מקבלים כשמערבבים שני צבעים?"
+      theme="violet"
+      buttonLabel="🖌️ בואו נערבב!"
+      onStart={startGame}
+    />
+  );
 
   if (phase === 'playing' && current) return (
     <ColorMixQuestion
@@ -21,5 +29,5 @@ export default function ColorMixGame() {
     />
   );
 
-  return <ColorMixResultScreen score={score} total={total} onRestart={restart} />;
+  return <QuizResultScreen correctCount={score} total={total} onRestart={restart} theme="violet" />;
 }

@@ -3,7 +3,7 @@ import { useScienceGame } from './useScienceGame';
 import { TOPICS, TOPIC_EMOJIS } from './data/questions';
 import ScienceMenuScreen from './components/ScienceMenuScreen';
 import ScienceQuestion from './components/ScienceQuestion';
-import ScienceResultScreen from './components/ScienceResultScreen';
+import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function ScienceGame() {
   const {
@@ -28,5 +28,5 @@ export default function ScienceGame() {
     );
   }
 
-  return <ScienceResultScreen score={score} total={total} onRestart={restart} />;
+  return <QuizResultScreen correctCount={score} total={total} onRestart={restart} theme="cyan" />;
 }

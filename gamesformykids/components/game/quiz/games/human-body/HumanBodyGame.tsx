@@ -5,7 +5,7 @@ import { useHumanBodyGame } from './useHumanBodyGame';
 import type { BodyCategory } from './data/body';
 import HumanBodyMenuScreen from './components/HumanBodyMenuScreen';
 import HumanBodyQuestion from './components/HumanBodyQuestion';
-import HumanBodyResultScreen from './components/HumanBodyResultScreen';
+import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function HumanBodyGame() {
   const {
@@ -19,7 +19,7 @@ export default function HumanBodyGame() {
   }
 
   if (phase === 'result') {
-    return <HumanBodyResultScreen score={score} total={total} category={category} onRestart={startGame} />;
+    return <QuizResultScreen correctCount={score} total={total} onRestart={() => startGame(category)} theme="red" />;
   }
 
   if (!currentQuestion) return null;

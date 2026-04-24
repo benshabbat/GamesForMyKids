@@ -4,7 +4,7 @@ import { useIsraelGame } from './useIsraelGame';
 import type { IsraelCategory } from './data/questions';
 import IsraelMenuScreen from './components/IsraelMenuScreen';
 import IsraelQuestion from './components/IsraelQuestion';
-import IsraelResultScreen from './components/IsraelResultScreen';
+import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function IsraelGame() {
   const { phase, categories, index, score, selected, isCorrect, current, total, correctCount, startGame, selectAnswer, next, restart } = useIsraelGame();
@@ -14,7 +14,7 @@ export default function IsraelGame() {
   }
 
   if (phase === 'result') {
-    return <IsraelResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} />;
+    return <QuizResultScreen correctCount={correctCount} total={total} score={score} onRestart={restart} theme="blue" />;
   }
 
   if (!current) return null;
