@@ -60,7 +60,6 @@ export * from './ui/shapes';
 
 // קונפיגורציות UI ועיצוב
 export * from './ui/gameConfigs';
-export * from './ui/designTokens';
 
 /**
  * ===============================================
