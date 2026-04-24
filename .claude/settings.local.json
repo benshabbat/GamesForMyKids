@@ -3,7 +3,8 @@
     "allow": [
       "Bash(grep -E \"^[A-Z].*Game\\\\.tsx$\")",
       "Bash(npx tsc *)",
-      "Bash(xargs grep *)"
+      "Bash(xargs grep *)",
+      "Bash(npx --prefix gamesformykids tsc --noEmit)"
     ]
   }
 }
