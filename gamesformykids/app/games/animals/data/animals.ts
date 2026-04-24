@@ -43,14 +43,6 @@ export const ANIMALS: Animal[] = [
   { id: 'ladybug', hebrew: 'פרת משה רבנו', emoji: '🐞', category: 'insects', fact: 'הנקודות על גבה מספרות את גילה!' },
 ];
 
-export const CATEGORY_NAMES: Record<AnimalCategory, string> = {
-  farm: '🏡 חיות חווה',
-  wild: '🌿 חיות בר',
-  sea: '🌊 חיות ים',
-  birds: '🦅 ציפורים',
-  insects: '🌸 חרקים',
-};
-
 export const CATEGORY_ORDER: (AnimalCategory | 'all')[] = ['all', 'farm', 'wild', 'sea', 'birds', 'insects'];
 
 export const CATEGORY_DISPLAY: Record<AnimalCategory | 'all', string> = {
