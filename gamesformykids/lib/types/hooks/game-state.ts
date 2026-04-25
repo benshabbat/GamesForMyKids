@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-import { BaseGameItem, GameType, BaseGameState, GameTyped, BaseDifficultyConfig } from '../core/base';
+import { BaseGameItem, GameType } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
 import { UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
 
@@ -123,13 +123,6 @@ export interface GameLogicState extends
 }
 
 /**
- * הגדרת מתקדמת למצב משחק - עקרון Single Responsibility
- */
-export interface UseAdvancedGameStateConfig<T extends BaseGameItem> {
-  readonly initialState: BaseGameState<T>;
-}
-
-/**
  * פריט משחק במסד נתונים - עקרון Single Responsibility
  */
 export interface GameItem {
@@ -187,39 +180,6 @@ export interface GameContextHookReturn extends
   GameResponseActions {
   readonly isGameActive: boolean;
 }
-
-/**
- * הגדרות בסיסיות למשחק פשוט - עקרון DRY, type alias
- */
-export type SimpleGameBasicConfig = GameTyped;
-
-/**
- * הגדרות קושי למשחק - עקרון DRY, type alias
- */
-export type GameDifficultyConfig = BaseDifficultyConfig;
-
-/**
- * הגדרות התחלה אוטומטית - עקרון Single Responsibility
- */
-export interface AutoStartConfig {
-  readonly autoStart?: boolean;
-}
-
-/**
- * הגדרות זמן למשחק - עקרון Single Responsibility
- */
-export interface GameTimeConfig {
-  readonly timeLimit?: number;
-}
-
-/**
- * Props למשחק פשוט - עקרון Interface Segregation
- */
-export interface UseSimpleGameProps extends 
-  SimpleGameBasicConfig,
-  GameDifficultyConfig,
-  AutoStartConfig,
-  GameTimeConfig {}
 
 export interface UseGameDataReturn {
   // Data

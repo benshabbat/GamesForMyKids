@@ -5,8 +5,11 @@
  */
 
 import { ReactNode } from 'react';
-import type { Identifiable } from './abstracts';
 import type { GameAvailability, DifficultyLevel } from '../games/base';
+
+export interface Identifiable<TId = string> {
+  readonly id: TId;
+}
 
 /**
  * שם בסיסי - עקרון Single Responsibility  

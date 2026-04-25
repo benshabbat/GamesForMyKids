@@ -8,35 +8,9 @@
 import { useCallback } from 'react'
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore'
 
-// Re-export type for backward compatibility
 export type { GameProgressState as GameProgress } from '@/lib/stores/gameProgressStore'
 
-export interface GameProgressContextValue {
-  progress: {
-    score: number
-    level: number
-    attempts: number
-    correctAnswers: number
-    totalQuestions: number
-    timeSpent: number
-    startTime: number
-    streakCount: number
-    bestStreak: number
-  }
-  incrementScore: (points?: number) => void
-  incrementLevel: () => void
-  recordAttempt: (isCorrect: boolean) => void
-  resetProgress: () => void
-  pauseTimer: () => void
-  resumeTimer: () => void
-  getAccuracy: () => number
-  getAverageTimePerQuestion: () => number
-  getProgressPercentage: () => number
-  isGameActive: boolean
-  setGameActive: (active: boolean) => void
-}
-
-export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10): GameProgressContextValue {
+export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10) {
   const store = useGameProgressStore()
 
   const incrementScore = useCallback(
