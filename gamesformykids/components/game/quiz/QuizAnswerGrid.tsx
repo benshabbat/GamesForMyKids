@@ -1,34 +1,27 @@
 'use client';
 
 import { type ReactNode } from 'react';
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
 interface Props {
   choices: string[];
-  selected: string | null;
-  isCorrect: boolean | null;
-  /** The string value of the correct answer, used to highlight the correct button. */
   correctValue: string;
   onSelect: (choice: string) => void;
   theme: QuizTheme;
-  /** Optional custom renderer for each choice label. Falls back to the choice string. */
   renderChoice?: (choice: string) => ReactNode;
   cols?: 1 | 2;
 }
 
-/**
- * A 2×2 (or 1-column) answer grid with three-state button styling:
- * idle → theme colour  |  correct → green  |  wrong → red  |  neutral → gray
- */
 export function QuizAnswerGrid({
   choices,
-  selected,
   correctValue,
   onSelect,
   theme,
   renderChoice,
   cols = 2,
 }: Props) {
+  const selected = useQuizGameStore(s => s.selected);
   const t = QUIZ_THEMES[theme];
   const gridClass = cols === 1
     ? 'grid grid-cols-1 gap-3 mb-4'

@@ -13,14 +13,10 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 interface Props {
-  index: number; total: number; score: number;
   current: Q;
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (i: number) => void;
-  onNext: () => void;
 }
 
-export default function IsraelQuestion(props: Props) {
-  return <CategoryIndexedQuestion {...props} theme="blue" categoryColors={CAT_COLORS} />;
+export default function IsraelQuestion({ current, onSelect }: Props) {
+  return <CategoryIndexedQuestion current={current} onSelect={onSelect} theme="blue" categoryColors={CAT_COLORS} />;
 }

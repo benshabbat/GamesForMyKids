@@ -9,8 +9,7 @@ import TransportResultScreen from './components/TransportResultScreen';
 export default function TransportGame() {
   const {
     phase, transportType, types, currentQuestion,
-    currentIndex, total, selected, isCorrect,
-    score, startGame, selectAnswer, nextQuestion,
+    selected, isCorrect, startGame, selectAnswer, nextQuestion,
   } = useTransportGame();
 
   if (phase === 'menu') return (
@@ -18,21 +17,13 @@ export default function TransportGame() {
   );
 
   if (phase === 'finished') return (
-    <TransportResultScreen
-      score={score}
-      total={total}
-      transportType={transportType}
-      onRestart={startGame}
-    />
+    <TransportResultScreen transportType={transportType} onRestart={startGame} />
   );
 
   if (!currentQuestion) return null;
 
   return (
     <TransportQuestion
-      currentIndex={currentIndex}
-      total={total}
-      score={score}
       currentQuestion={currentQuestion}
       phase={phase}
       selected={selected}

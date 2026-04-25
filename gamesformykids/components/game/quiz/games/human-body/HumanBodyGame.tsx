@@ -7,34 +7,10 @@ import HumanBodyQuestion from './components/HumanBodyQuestion';
 import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function HumanBodyGame() {
-  const {
-    phase, category, currentQuestion,
-    currentIndex, total, choices, selected, isCorrect,
-    score, startGame, selectAnswer, nextQuestion,
-  } = useHumanBodyGame();
+  const { phase, category, currentQuestion, choices, startGame, selectAnswer } = useHumanBodyGame();
 
-  if (phase === 'menu') {
-    return <HumanBodyMenuScreen onStart={(cat: BodyCategory) => startGame(cat)} />;
-  }
-
-  if (phase === 'result') {
-    return <QuizResultScreen correctCount={score} total={total} onRestart={() => startGame(category)} theme="red" />;
-  }
-
+  if (phase === 'menu') return <HumanBodyMenuScreen onStart={(cat: BodyCategory) => startGame(cat)} />;
+  if (phase === 'result') return <QuizResultScreen onRestart={() => startGame(category)} theme="red" />;
   if (!currentQuestion) return null;
-
-  return (
-    <HumanBodyQuestion
-      phase={phase}
-      currentIndex={currentIndex}
-      total={total}
-      score={score}
-      currentQuestion={currentQuestion}
-      choices={choices}
-      selected={selected}
-      isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer}
-      onNext={nextQuestion}
-    />
-  );
+  return <HumanBodyQuestion currentQuestion={currentQuestion} choices={choices} onSelect={selectAnswer} />;
 }

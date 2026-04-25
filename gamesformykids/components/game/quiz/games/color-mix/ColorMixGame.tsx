@@ -4,10 +4,7 @@ import ColorMixQuestion from './components/ColorMixQuestion';
 import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
 
 export default function ColorMixGame() {
-  const {
-    phase, index, score, selected, isCorrect, current, total,
-    startGame, selectAnswer, next, restart,
-  } = useColorMixGame();
+  const { phase, current, startGame, selectAnswer, restart } = useColorMixGame();
 
   if (phase === 'menu') return (
     <QuizMenuScreen
@@ -21,13 +18,8 @@ export default function ColorMixGame() {
   );
 
   if (phase === 'playing' && current) return (
-    <ColorMixQuestion
-      index={index} total={total} score={score}
-      mix={current.mix} choices={current.choices}
-      selected={selected} isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer} onNext={next}
-    />
+    <ColorMixQuestion mix={current.mix} choices={current.choices} onSelect={selectAnswer} />
   );
 
-  return <QuizResultScreen correctCount={score} total={total} onRestart={restart} theme="violet" />;
+  return <QuizResultScreen onRestart={restart} theme="violet" />;
 }

@@ -13,14 +13,10 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 interface Props {
-  index: number; total: number; score: number;
   current: Q;
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (i: number) => void;
-  onNext: () => void;
 }
 
-export default function NatureQuestion(props: Props) {
-  return <CategoryIndexedQuestion {...props} theme="green" categoryColors={CAT_COLORS} />;
+export default function NatureQuestion({ current, onSelect }: Props) {
+  return <CategoryIndexedQuestion current={current} onSelect={onSelect} theme="green" categoryColors={CAT_COLORS} />;
 }

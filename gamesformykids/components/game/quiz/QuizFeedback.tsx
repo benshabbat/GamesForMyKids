@@ -1,38 +1,28 @@
 'use client';
 
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
 interface Props {
-  isCorrect: boolean | null;
-  /** Label shown after a wrong answer: "❌ הנכון: {correctLabel}" */
   correctLabel: string;
-  /** Optional fun-fact / extra info shown below the feedback message. */
   funFact?: string;
-  onNext: () => void;
-  index: number;
-  total: number;
   theme: QuizTheme;
-  /** Override the default correct message (default: "🎉 נכון!"). */
   correctMsg?: string;
-  /** Override the full wrong message (default: "❌ הנכון: {correctLabel}"). */
   wrongMsg?: string;
 }
 
-/**
- * Feedback panel (green/red) + "Next" / "Finish" button.
- * Renders nothing while `isCorrect === null` (no answer yet).
- */
 export function QuizFeedback({
-  isCorrect,
   correctLabel,
   funFact,
-  onNext,
-  index,
-  total,
   theme,
   correctMsg = '🎉 נכון!',
   wrongMsg,
 }: Props) {
+  const isCorrect = useQuizGameStore(s => s.isCorrect);
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const next      = useQuizGameStore(s => s.nextQuestion);
+
   if (isCorrect === null) return null;
 
   const t = QUIZ_THEMES[theme];
@@ -50,7 +40,7 @@ export function QuizFeedback({
         {funFact && <p className="text-xs mt-1 opacity-80">{funFact}</p>}
       </div>
       <button
-        onClick={onNext}
+        onClick={next}
         className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}
       >
         {isLast ? 'סיום' : 'הבא ←'}

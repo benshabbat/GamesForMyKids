@@ -1,11 +1,9 @@
 'use client';
 
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import type { SequenceLevel, SequenceQuestion } from '../data/sequences';
 
 interface Props {
-  index: number;
-  total: number;
-  score: number;
   level: SequenceLevel;
   current: SequenceQuestion;
   choices: number[];
@@ -15,13 +13,17 @@ interface Props {
   onNext: () => void;
 }
 
-export default function SequencesQuestion({ index, total, score, level, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
+export default function SequencesQuestion({ level, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
+  const index = useQuizGameStore(s => s.index);
+  const total = useQuizGameStore(s => s.total);
+  const score = useQuizGameStore(s => s.score);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-cyan-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
           <span className="font-bold text-cyan-700">{level.label} | {index + 1} / {total}</span>
-          <span className="font-bold text-cyan-700">⭐ {score}</span>
+          <span className="font-bold text-cyan-700">⭐ {score * 10}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full mb-5">
           <div className="h-full bg-cyan-400 rounded-full transition-all" style={{ width: `${(index / total) * 100}%` }} />

@@ -5,22 +5,9 @@ import TriviaQuestion from './components/TriviaQuestion';
 import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function TriviaGame() {
-  const { phase, index, score, selected, isCorrect, current, total, startGame, selectAnswer, next, restart } = useTriviaGame();
+  const { phase, current, startGame, selectAnswer, restart } = useTriviaGame();
 
   if (phase === 'menu') return <TriviaMenuScreen onStart={startGame} />;
-
-  if (phase === 'playing' && current) return (
-    <TriviaQuestion
-      index={index}
-      total={total}
-      score={score}
-      current={current}
-      selected={selected}
-      isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer}
-      onNext={next}
-    />
-  );
-
-  return <QuizResultScreen correctCount={score} total={total} onRestart={restart} theme="amber" />;
+  if (phase === 'playing' && current) return <TriviaQuestion current={current} onSelect={selectAnswer} />;
+  return <QuizResultScreen onRestart={restart} theme="amber" />;
 }

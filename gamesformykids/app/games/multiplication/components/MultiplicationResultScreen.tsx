@@ -10,5 +10,5 @@ interface Props {
 }
 
 export default function MultiplicationResultScreen({ level, correct, totalQuestions, score, onRestart }: Props) {
-  return <QuizResultScreen correctCount={correct} total={totalQuestions} score={score} onRestart={() => onRestart(level)} theme="violet" />;
+  return <QuizResultScreen correctCount={correct} total={totalQuestions} onRestart={() => onRestart(level)} theme="violet" />;
 }

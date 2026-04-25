@@ -1,5 +1,7 @@
 'use client';
 
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 interface TransportQuestion {
   emoji: string;
   type: string;
@@ -10,9 +12,6 @@ interface TransportQuestion {
 }
 
 interface Props {
-  currentIndex: number;
-  total: number;
-  score: number;
   currentQuestion: TransportQuestion;
   phase: string;
   selected: number | null;
@@ -21,13 +20,15 @@ interface Props {
   onNext: () => void;
 }
 
-export default function TransportQuestion({
-  currentIndex, total, score, currentQuestion, phase, selected, isCorrect, onSelect, onNext,
-}: Props) {
+export default function TransportQuestion({ currentQuestion, phase, selected, isCorrect, onSelect, onNext }: Props) {
+  const index = useQuizGameStore(s => s.index);
+  const total = useQuizGameStore(s => s.total);
+  const score = useQuizGameStore(s => s.score);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">
-        <span className="font-bold text-blue-600">✈️ {score} | שאלה {currentIndex + 1}/{total}</span>
+        <span className="font-bold text-blue-600">✈️ {score * 10} | שאלה {index + 1}/{total}</span>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md mb-6 text-center">
@@ -60,7 +61,7 @@ export default function TransportQuestion({
         </div>
         {phase === 'answered' && (
           <button onClick={onNext} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
-            {currentIndex + 1 < total ? 'הבא ←' : 'סיום 🏁'}
+            {index + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>
         )}
       </div>

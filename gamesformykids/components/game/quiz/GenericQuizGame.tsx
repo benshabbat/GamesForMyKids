@@ -16,10 +16,7 @@ export default function GenericQuizGame() {
 }
 
 function GenericQuizGameContent({ config }: { config: QuizGameConfig }) {
-  const {
-    phase, index, total, score, current, choices, selected, isCorrect,
-    correctLabel, correctCount, startGame, selectAnswer, next, restart,
-  } = useGenericQuizGame(config);
+  const { phase, current, choices, correctLabel, startGame, selectAnswer, restart } = useGenericQuizGame(config);
 
   if (phase === 'menu') return (
     <QuizMenuScreen
@@ -29,12 +26,7 @@ function GenericQuizGameContent({ config }: { config: QuizGameConfig }) {
     />
   );
 
-  if (phase === 'result') return (
-    <QuizResultScreen
-      correctCount={correctCount} total={total} score={score}
-      onRestart={restart} theme={config.theme}
-    />
-  );
+  if (phase === 'result') return <QuizResultScreen onRestart={restart} theme={config.theme} />;
 
   if (!current) return null;
 
@@ -43,9 +35,9 @@ function GenericQuizGameContent({ config }: { config: QuizGameConfig }) {
   return (
     <QuizQuestionShell
       theme={config.theme}
-      index={index} total={total} score={score}
-      choices={choices} selected={selected} isCorrect={isCorrect}
-      correctLabel={correctLabel} onSelect={selectAnswer} onNext={next}
+      choices={choices}
+      correctLabel={correctLabel}
+      onSelect={selectAnswer}
       correctMsg={config.correctMsg}
       wrongMsg={wrongMsg}
     >

@@ -1,25 +1,24 @@
 'use client';
 
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
 interface Props {
-  correctCount: number;
-  total: number;
-  score?: number;
   onRestart: () => void;
-  title?: string;
   theme: QuizTheme;
+  title?: string;
+  /** Override store values for games that don't use quizGameStore */
+  correctCount?: number;
+  total?: number;
 }
 
-export function QuizResultScreen({
-  correctCount,
-  total,
-  score,
-  onRestart,
-  title = 'כל הכבוד!',
-  theme,
-}: Props) {
+export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', correctCount: correctCountProp, total: totalProp }: Props) {
+  const storeScore = useQuizGameStore(s => s.score);
+  const storeTotal = useQuizGameStore(s => s.total);
+  const correctCount = correctCountProp ?? storeScore;
+  const total        = totalProp ?? storeTotal;
   const t = QUIZ_THEMES[theme];
+  const score = correctCount * 10;
   const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
   const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';
 
@@ -34,12 +33,8 @@ export function QuizResultScreen({
         <p className="text-gray-600 mb-4">
           ענית נכון על {correctCount} מתוך {total} שאלות
         </p>
-        {score !== undefined && (
-          <>
-            <div className={`text-5xl font-black ${t.text} mb-1`}>{score}</div>
-            <p className="text-gray-400 text-sm mb-6">נקודות</p>
-          </>
-        )}
+        <div className={`text-5xl font-black ${t.text} mb-1`}>{score}</div>
+        <p className="text-gray-400 text-sm mb-6">נקודות</p>
         <button
           onClick={onRestart}
           className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}

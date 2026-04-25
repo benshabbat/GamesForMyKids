@@ -1,5 +1,7 @@
 'use client';
 
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 interface BodyQuestion {
   emoji: string;
   category: string;
@@ -8,23 +10,23 @@ interface BodyQuestion {
 }
 
 interface Props {
-  phase: string;
-  currentIndex: number;
-  total: number;
-  score: number;
   currentQuestion: BodyQuestion;
   choices: string[];
-  selected: string | null;
-  isCorrect: boolean;
   onSelect: (choice: string) => void;
-  onNext: () => void;
 }
 
-export default function HumanBodyQuestion({ phase: _phase, currentIndex, total, score, currentQuestion, choices, selected, isCorrect, onSelect, onNext }: Props) {
+export default function HumanBodyQuestion({ currentQuestion, choices, onSelect }: Props) {
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const score     = useQuizGameStore(s => s.score);
+  const selected  = useQuizGameStore(s => s.selected);
+  const isCorrect = useQuizGameStore(s => s.isCorrect);
+  const next      = useQuizGameStore(s => s.nextQuestion);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex flex-col p-4" dir="rtl">
       <div className="flex justify-between items-center mb-4">
-        <span className="font-bold text-red-600">❤️ {score} | שאלה {currentIndex + 1}/{total}</span>
+        <span className="font-bold text-red-600">❤️ {score * 10} | שאלה {index + 1}/{total}</span>
       </div>
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="bg-white rounded-2xl shadow-lg p-6 w-full max-w-md mb-6 text-center">
@@ -55,8 +57,8 @@ export default function HumanBodyQuestion({ phase: _phase, currentIndex, total, 
           })}
         </div>
         {selected !== null && (
-          <button onClick={onNext} className="mt-6 px-8 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
-            {currentIndex + 1 < total ? 'הבא ←' : 'סיום 🏁'}
+          <button onClick={next} className="mt-6 px-8 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
+            {index + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>
         )}
       </div>

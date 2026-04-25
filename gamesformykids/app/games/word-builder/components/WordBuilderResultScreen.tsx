@@ -9,4 +9,5 @@ interface Props {
 
 export default function WordBuilderResultScreen({ score, total, onRestart }: Props) {
   return <QuizResultScreen correctCount={score} total={total} onRestart={onRestart} theme="amber" />;
+
 }

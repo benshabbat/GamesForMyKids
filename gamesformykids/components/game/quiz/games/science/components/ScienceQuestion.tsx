@@ -12,24 +12,17 @@ interface ScienceQuestion {
 }
 
 interface Props {
-  index: number;
-  total: number;
-  score: number;
   current: ScienceQuestion;
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (i: number) => void;
-  onNext: () => void;
 }
 
-export default function ScienceQuestion({ index, total, score, current, selected, isCorrect, onSelect, onNext }: Props) {
+export default function ScienceQuestion({ current, onSelect }: Props) {
   const choices = current.answers.map((_, i) => String(i));
-  const strSelected = selected !== null ? String(selected) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-50 to-indigo-100 flex flex-col items-center justify-center p-4" dir="rtl">
       <div className="max-w-xl mx-auto bg-white rounded-3xl shadow-2xl p-6 w-full">
-        <QuizProgress index={index} total={total} score={score} theme="cyan" />
+        <QuizProgress theme="cyan" />
         <div className="bg-cyan-50 rounded-2xl p-5 mb-5">
           <div className="flex items-center gap-2 mb-3">
             <span className="text-3xl">{current.emoji}</span>
@@ -39,8 +32,6 @@ export default function ScienceQuestion({ index, total, score, current, selected
         </div>
         <QuizAnswerGrid
           choices={choices}
-          selected={strSelected}
-          isCorrect={isCorrect}
           correctValue={String(current.correctIndex)}
           onSelect={(v) => onSelect(Number(v))}
           theme="cyan"
@@ -48,12 +39,8 @@ export default function ScienceQuestion({ index, total, score, current, selected
           renderChoice={(v) => current.answers[Number(v)]}
         />
         <QuizFeedback
-          isCorrect={selected !== null ? isCorrect : null}
           correctLabel={current.answers[current.correctIndex]}
           funFact={`💡 ${current.explanation}`}
-          onNext={onNext}
-          index={index}
-          total={total}
           theme="cyan"
           correctMsg="✅ נכון!"
         />
