@@ -29,5 +29,4 @@ export const LANGUAGE_QUESTIONS: LanguageQuestion[] = [
   { id: 19, country: 'מקסיקו 🇲🇽',     flag: '🇲🇽', language: 'ספרדית',    wrongOptions: ['פורטוגזית', 'צרפתית', 'אנגלית'] },
   { id: 20, country: 'קוריאה הדרומית 🇰🇷', flag: '🇰🇷', language: 'קוריאנית', wrongOptions: ['יפנית', 'סינית', 'וייטנאמית'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

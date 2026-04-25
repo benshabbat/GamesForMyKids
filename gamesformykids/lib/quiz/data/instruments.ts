@@ -25,5 +25,4 @@ export const INSTRUMENTS: InstrumentQuestion[] = [
 ];
 
 export type QuizMode = 'family' | 'name';
-export const FAMILIES = ['מיתרים', 'נשיפה', 'הקשה', 'מקלדת'] as const;
-export const QUESTIONS_PER_GAME = 10;
+export const FAMILIES = ['מיתרים', 'נשיפה', 'הקשה', 'מקלדת'] as const;

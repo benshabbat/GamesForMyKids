@@ -137,7 +137,6 @@ export const SOCCER_QUESTIONS: SoccerQuestion[] = [
     funFact: 'אם התוצאה לא מוכרעת, משחקים 30 דקות נוספות ואם לא — בעיטות עונשין!'
   },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+
 export const SOCCER_CATEGORIES = ['הכל', 'כללי', 'שחקנים', 'קבוצות', 'חוקים', 'טכניקה'] as const;
 export type SoccerCategory = typeof SOCCER_CATEGORIES[number];

@@ -29,5 +29,4 @@ export const CAPITAL_QUESTIONS: CapitalQuestion[] = [
   { id: 19, country: 'הולנד',      flag: '🇳🇱', capital: 'אמסטרדם',       wrongOptions: ['רוטרדם', 'האג', 'אוטרכט'] },
   { id: 20, country: 'שבדיה',      flag: '🇸🇪', capital: 'שטוקהולם',      wrongOptions: ['גטבורג', 'מלמו', 'אופסאלה'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

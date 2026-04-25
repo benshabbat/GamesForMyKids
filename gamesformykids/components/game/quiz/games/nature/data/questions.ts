@@ -26,7 +26,6 @@ export const NATURE_QUESTIONS: NatureQuestion[] = [
   { id: 14, category: 'בעלי חיים', emoji: '🦎', question: 'איזה זוחל יכול לשנות צבע?',                       answers: ['נחש', 'תנין', 'כמאליאון', 'לטאה'],             correctIndex: 2, funFact: 'הכמאליאון משנה צבע בעיקר בגלל רגשות ולא הסוואה!' },
   { id: 15, category: 'צמחים',    emoji: '🌺', question: 'מה פונקציית העלים של הצמח?',                       answers: ['הגנה', 'פוטוסינתזה', 'נשיאת מזון', 'רבייה'],  correctIndex: 1, funFact: 'פוטוסינתזה היא התהליך שבו צמחים מייצרים אוכל מאור שמש!' },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+
 export const CATEGORIES = ['הכל', 'בעלי חיים', 'צמחים', 'מזג אוויר', 'חלל', 'מים'] as const;
 export type NatureCategory = typeof CATEGORIES[number];

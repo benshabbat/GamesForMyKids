@@ -28,6 +28,5 @@ export const SPORTS_QUESTIONS: SportsQuestion[] = [
   { id: 17, sport: 'כדורגל',   emoji: '⚽', question: 'מה עושים עם כרטיס צהוב שני?',                answers: ['ממשיכים', 'פנדל', 'כרטיס אדום', 'החלפה'], correctIndex: 2 },
   { id: 18, sport: 'שחייה',    emoji: '🏊', question: 'כמה מטר בריכה סטנדרטית בתחרות?',            answers: ['25', '50', '100', '75'],          correctIndex: 1 },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+
 export const SPORTS_TOPICS = ['הכל', 'כדורגל', 'כדורסל', 'שחייה'] as const;

@@ -30,5 +30,4 @@ export const OPPOSITE_WORDS: OppositeWord[] = [
   { id: 20, word: 'נקי',    opposite: 'מלוכלך', emoji: '🧼🗑️', wrongOptions: ['ריחני', 'ישן', 'רטוב'] },
 ];
 
-export const CATEGORIES = ['הכל', 'גדלים', 'מצבורג', 'תחושות', 'מיקום'] as const;
-export const QUESTIONS_PER_GAME = 10;
+export const CATEGORIES = ['הכל', 'גדלים', 'מצבורג', 'תחושות', 'מיקום'] as const;

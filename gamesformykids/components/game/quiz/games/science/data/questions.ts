@@ -37,5 +37,4 @@ export const SCIENCE_QUESTIONS: ScienceQuestion[] = [
 export const TOPICS: ScienceTopic[] = ['גוף', 'חלל', 'טבע', 'פיזיקה', 'כימיה'];
 export const TOPIC_EMOJIS: Record<ScienceTopic, string> = {
   'גוף': '🫀', 'חלל': '🚀', 'טבע': '🌿', 'פיזיקה': '⚡', 'כימיה': '🔬'
-};
-export const QUESTIONS_PER_GAME = 10;
+};

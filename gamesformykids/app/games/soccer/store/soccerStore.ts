@@ -6,10 +6,10 @@ import { shuffle } from '@/lib/utils';
 import {
   SOCCER_QUESTIONS,
   SOCCER_CATEGORIES,
-  QUESTIONS_PER_GAME,
   type SoccerCategory,
   type SoccerQuestion,
 } from '../data/soccer';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 interface SoccerStore {
   // Base quiz state

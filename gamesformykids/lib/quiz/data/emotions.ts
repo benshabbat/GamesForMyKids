@@ -24,5 +24,4 @@ export const EMOTION_QUESTIONS: EmotionQuestion[] = [
   { id: 14, emoji: '😟', emotion: 'מודאג',   scenario: 'החבר שלך לא הגיע לבית הספר ולא ענה לטלפון.',    wrongOptions: ['שמח', 'רגוע', 'נלהב'] },
   { id: 15, emoji: '😏', emotion: 'גאה',     scenario: 'ציירת ציור מדהים שכולם שיבחו אותו.',             wrongOptions: ['עצוב', 'מפוחד', 'נבוך'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

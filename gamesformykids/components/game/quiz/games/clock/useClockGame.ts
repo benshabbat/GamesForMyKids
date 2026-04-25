@@ -1,6 +1,7 @@
 ﻿'use client';
 import { useState, useCallback, useMemo } from 'react';
-import { CLOCK_QUESTIONS, ClockQuestion, QUESTIONS_PER_GAME } from './data/times';
+import { CLOCK_QUESTIONS, ClockQuestion } from './data/times';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 

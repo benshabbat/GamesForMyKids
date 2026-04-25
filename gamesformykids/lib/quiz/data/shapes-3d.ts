@@ -37,5 +37,4 @@ export const QUIZ_QUESTIONS = [
   { qId: 10, shapeId: 6, type: 'name'    as QuestionType, question: 'גוף עם 2 פנים משולשים ו-3 פנים מלבניים:', answer: 'מנסרה משולשת' },
 ];
 
-export type QuizQuestion = typeof QUIZ_QUESTIONS[number];
-export const QUESTIONS_PER_GAME = 10;
+export type QuizQuestion = typeof QUIZ_QUESTIONS[number];

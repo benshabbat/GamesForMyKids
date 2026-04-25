@@ -1,7 +1,8 @@
 ﻿import { create } from 'zustand';
 import type { TakiGameState, TakiCard, CardColor } from './takiTypes';
 import { INITIAL_STATE } from './takiTypes';
-import { buildDeck, shuffle } from './takiDeck';
+import { buildDeck } from './takiDeck';
+import { shuffle } from '@/lib/utils';
 import { canPlay, pickBestCard, computerBestColor } from './takiLogic';
 import { getColorName, getValueLabel } from './takiDisplay';
 

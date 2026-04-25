@@ -1,7 +1,8 @@
 'use client';
 
 import { createCategoryIndexQuizHook } from '@/lib/quiz/createCategoryIndexQuizHook';
-import { SCIENCE_QUESTIONS, QUESTIONS_PER_GAME, TOPICS } from './data/questions';
+import { SCIENCE_QUESTIONS, TOPICS } from './data/questions';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 export const useScienceGame = createCategoryIndexQuizHook({
   questions: SCIENCE_QUESTIONS,

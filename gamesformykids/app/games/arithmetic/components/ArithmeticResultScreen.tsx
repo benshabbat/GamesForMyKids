@@ -1,6 +1,6 @@
 'use client';
 import { useArithmeticGameStore } from '../arithmeticGameStore';
-import { QUESTIONS_PER_GAME } from '../data/questions';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 export default function ArithmeticResultScreen() {
   const level   = useArithmeticGameStore(s => s.level);

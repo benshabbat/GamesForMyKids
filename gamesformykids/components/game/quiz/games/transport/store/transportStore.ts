@@ -6,10 +6,10 @@ import { shuffle } from '@/lib/utils';
 import {
   TRANSPORT_QUESTIONS,
   TRANSPORT_TYPES,
-  QUESTIONS_PER_GAME,
   type TransportType,
   type TransportQuestion,
 } from '../data/transport';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 interface TransportStore {
   // Base quiz state

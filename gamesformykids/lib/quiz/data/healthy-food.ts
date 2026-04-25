@@ -41,5 +41,4 @@ export const NUTRITION_QUESTIONS: NutritionQuestion[] = [
   { id: 9,  emoji: '🥦', question: 'איזה ירק נחשב ל"מלך הירקות" מבחינה תזונתית?',   answers: ['גזר', 'מלפפון', 'ברוקולי', 'פלפל'], correctIndex: 2, funFact: 'ברוקולי מכיל יותר ויטמין C מפרי תפוז!' },
   { id: 10, emoji: '🍫', question: 'אוכל מה נחשב ל"לא בריא" ואסור לאכול הרבה ממנו?', answers: ['גזר', 'תפוח', 'שוקולד לבן', 'בננה'], correctIndex: 2, funFact: 'שוקולד לבן מכיל הרבה סוכר ושומן - עדיף לאכול מעט!' },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

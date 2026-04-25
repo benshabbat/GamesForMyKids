@@ -1,6 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
-import { COLOR_MIXES, QUESTIONS_PER_GAME, ColorMix } from './data/mixes';
+import { COLOR_MIXES, ColorMix } from './data/mixes';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import { useQuizGameStore } from '@/lib/stores';
 
 interface ColorMixQuestion {

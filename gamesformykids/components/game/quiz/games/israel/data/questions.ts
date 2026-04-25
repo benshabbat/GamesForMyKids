@@ -28,5 +28,4 @@ export const ISRAEL_QUESTIONS: IsraelQuestion[] = [
 ];
 
 export const CATEGORIES = ['הכל', 'גאוגרפיה', 'היסטוריה', 'תרבות', 'טבע', 'ערים'] as const;
-export type IsraelCategory = typeof CATEGORIES[number];
-export const QUESTIONS_PER_GAME = 10;
+export type IsraelCategory = typeof CATEGORIES[number];

@@ -29,5 +29,4 @@ export const RIDDLES: Riddle[] = [
   { id: 19, riddle: 'ראשי בסוף, סופי בראש, ובאמצע — הלוקח — מי אני?', answer: 'אדם',      emoji: '👤', wrongOptions: ['ספר', 'שם', 'מילה'] },
   { id: 20, riddle: 'אני מכסה את הבית אבל לא שמיכה, אני מגן מהגשם אבל לא מטריה — מי אני?', answer: 'גג',      emoji: '🏠', wrongOptions: ['דלת', 'חלון', 'קיר'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

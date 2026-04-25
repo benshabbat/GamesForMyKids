@@ -1,8 +1,9 @@
 import { createTimedQuizStore } from '@/lib/stores/createTimedQuizStore';
 import {
-  LEVELS, generateQuestion, QUESTIONS_PER_GAME, TIME_PER_QUESTION,
+  LEVELS, generateQuestion, TIME_PER_QUESTION,
   ArithmeticLevel,
 } from './data/questions';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 const { useStore, stopTimer } = createTimedQuizStore({
   initialLevel: LEVELS[0] as ArithmeticLevel,

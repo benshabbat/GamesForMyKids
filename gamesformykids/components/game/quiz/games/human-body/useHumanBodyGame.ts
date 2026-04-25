@@ -4,10 +4,10 @@ import { useState, useCallback, useMemo } from 'react';
 import {
   BODY_QUESTIONS,
   BODY_CATEGORIES,
-  QUESTIONS_PER_GAME,
   type BodyCategory,
   type BodyQuestion,
 } from './data/body';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 

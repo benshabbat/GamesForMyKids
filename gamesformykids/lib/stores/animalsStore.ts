@@ -16,9 +16,9 @@ import { devtools } from 'zustand/middleware';
 import { ANIMALS, type Animal, type AnimalCategory } from '@/app/games/animals/data/animals';
 import { shuffle } from '@/lib/utils';
 import { useQuizGameStore } from './quizGameStore';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 // ── Constants & helpers ────────────────────────────────────
-export const QUESTIONS_PER_GAME = 10;
 
 export type QuestionMode = 'emoji-to-name' | 'name-to-emoji';
 

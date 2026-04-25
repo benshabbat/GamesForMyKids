@@ -58,6 +58,5 @@ export function generateQuestion(level: ArithmeticLevel): ArithmeticQuestion {
   }
   return { a, b, op, answer, choices: unique(answer, 4, answer) };
 }
-
-export const QUESTIONS_PER_GAME = 10;
+
 export const TIME_PER_QUESTION = 12;

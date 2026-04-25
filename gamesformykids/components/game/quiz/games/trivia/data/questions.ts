@@ -44,5 +44,4 @@ export const TRIVIA_QUESTIONS: TriviaQuestion[] = [
 export const CATEGORIES: TriviaCategory[] = ['טבע', 'מדע', 'היסטוריה', 'חלל', 'בעלי חיים', 'גוף האדם'];
 export const CATEGORY_EMOJIS: Record<TriviaCategory, string> = {
   'טבע': '🌿', 'מדע': '🔬', 'היסטוריה': '📜', 'חלל': '🚀', 'בעלי חיים': '🐘', 'גוף האדם': '🫀'
-};
-export const QUESTIONS_PER_GAME = 10;
+};

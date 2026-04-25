@@ -29,5 +29,4 @@ export const SPELLING_WORDS: SpellingWord[] = [
   { id: 19, word: 'גשר',       emoji: '🌉', hint: 'עוברים מעליו',           wrong: ['גישר', 'גשרר', 'גשור'] },
   { id: 20, word: 'מטוס',      emoji: '✈️', hint: 'טס בשמיים',              wrong: ['מאטוס', 'מטואס', 'מיטוס'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

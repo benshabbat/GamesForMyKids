@@ -28,7 +28,6 @@ export const BODY_QUESTIONS: BodyQuestion[] = [
   { id: 17, part: 'אצבעות',   emoji: '🖐️', category: 'גפיים',          function: 'מאפשרות אחיזה עדינה ומגע',            wrongOptions: ['כפות ידיים', 'פרקים', 'ציפורניים'] },
   { id: 18, part: 'לב',       emoji: '❤️', category: 'איברים פנימיים', function: 'פועם בממוצע 100,000 פעמים ביום',       wrongOptions: ['ריאות', 'מוח', 'קיבה'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+
 export const BODY_CATEGORIES = ['הכל', 'ראש', 'גוף', 'גפיים', 'איברים פנימיים'] as const;
 export type BodyCategory = typeof BODY_CATEGORIES[number];

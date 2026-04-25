@@ -43,5 +43,4 @@ export const CLOCK_QUESTIONS: ClockQuestion[] = TIMES.map(([h, m], i) => ({
   digital: digital(h, m),
   description: makeDescription(h, m),
 }));
-
-export const QUESTIONS_PER_GAME = 10;
+

@@ -1,7 +1,8 @@
 'use client';
 
 import { createCategoryIndexQuizHook } from '@/lib/quiz/createCategoryIndexQuizHook';
-import { TRIVIA_QUESTIONS, QUESTIONS_PER_GAME, CATEGORIES } from './data/questions';
+import { TRIVIA_QUESTIONS, CATEGORIES } from './data/questions';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 export const useTriviaGame = createCategoryIndexQuizHook({
   questions: TRIVIA_QUESTIONS,

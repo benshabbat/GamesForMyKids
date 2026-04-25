@@ -25,5 +25,4 @@ export const FAMILY_QUESTIONS: FamilyQuestion[] = [
   { id: 14, emoji: '👨‍👩‍👧', relation: 'משפחה', question: 'איך קוראים לאנשים הקרובים ביותר אלינו ושרים יחד?', answers: ['חברים', 'שכנים', 'עמיתים', 'משפחה'], correctIndex: 3 },
   { id: 15, emoji: '🧓', relation: 'דור',       question: 'כמה שנים בין דור אחד למשנהו בממוצע?',              answers: ['5', '15', '25-30', '50'],             correctIndex: 2 },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

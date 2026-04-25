@@ -33,5 +33,4 @@ export const CONTINENT_QUESTIONS: ContinentQuestion[] = [
   { id: 11, emoji: '🐊', continent: 'אמריקה', question: 'באיזו יבשת נמצא יער הגשם האמזוני?',                        answers: ['אפריקה', 'אסיה', 'אמריקה הדרומית', 'אמריקה הצפונית'], correctIndex: 2, funFact: 'יער הגשם האמזוני מייצר 20% מחמצן כדור הארץ!' },
   { id: 12, emoji: '🌐', continent: 'הכל', question: 'כמה יבשות יש בכדור הארץ?',                                    answers: ['5', '6', '7', '8'],                               correctIndex: 2, funFact: '7 יבשות: אסיה, אפריקה, אמריקה צפונית ודרומית, אנטרקטיקה, אירופה, אוסטרליה!' },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

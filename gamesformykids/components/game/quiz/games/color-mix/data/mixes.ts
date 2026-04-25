@@ -23,5 +23,4 @@ export const COLOR_MIXES: ColorMix[] = [
   { id: 'yellow-blue2', color1: '#f39c12', color2: '#2980b9', label1: 'צהוב-כתום', label2: 'כחול', result: '#5d6d7e', resultLabel: 'אפור',       wrongOptions: ['ירוק', 'חום', 'סגול'] },
   { id: 'red-green',    color1: '#e74c3c', color2: '#27ae60', label1: 'אדום',    label2: 'ירוק',   result: '#6e4e1e', resultLabel: 'חום',        wrongOptions: ['כתום', 'סגול', 'אפור'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

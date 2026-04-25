@@ -26,5 +26,4 @@ export const FRACTION_QUESTIONS: FractionQuestion[] = [
   { id: 14, numerator: 3, denominator: 8,  display: '3/8',  description: 'שלוש שמיניות',   wrongOptions: ['שליש','חצי','רבע'], wrongDisplays: ['1/3','1/2','1/4'] },
   { id: 15, numerator: 7, denominator: 8,  display: '7/8',  description: 'שבע שמיניות',    wrongOptions: ['שלושה רבעים','חמישה שישיות','שני שלישים'], wrongDisplays: ['3/4','5/6','2/3'] },
 ];
-
-export const QUESTIONS_PER_GAME = 10;
+

@@ -32,5 +32,4 @@ export const ENGLISH_WORDS: EnglishWord[] = [
 ];
 
 export const CATEGORIES = ['הכל', 'חיות', 'אוכל', 'גוף', 'בית', 'צבעים', 'מספרים'] as const;
-export type EnglishCategory = typeof CATEGORIES[number];
-export const QUESTIONS_PER_GAME = 10;
+export type EnglishCategory = typeof CATEGORIES[number];

@@ -1,7 +1,8 @@
 'use client';
 
 import { createCategoryIndexQuizHook } from '@/lib/quiz/createCategoryIndexQuizHook';
-import { NATURE_QUESTIONS, QUESTIONS_PER_GAME, CATEGORIES } from './data/questions';
+import { NATURE_QUESTIONS, CATEGORIES } from './data/questions';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 export const useNatureGame = createCategoryIndexQuizHook({
   questions: NATURE_QUESTIONS,
