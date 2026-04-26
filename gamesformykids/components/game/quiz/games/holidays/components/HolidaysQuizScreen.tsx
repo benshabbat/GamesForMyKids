@@ -1,6 +1,7 @@
 'use client';
 
 import type { Holiday, HolidayQuestion } from '../data/holidays';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   current: Holiday;
@@ -35,20 +36,17 @@ export default function HolidaysQuizScreen({ current, currentQuestion, questionI
           <p className="text-xl font-bold text-gray-800">{currentQuestion.question}</p>
         </div>
         <div className="space-y-3 mb-4">
-          {currentQuestion.answers.map((ans, i) => {
-            let style = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400';
-            if (selected !== null) {
-              if (i === currentQuestion.correctIndex) style = 'bg-green-500 border-2 border-green-600 text-white';
-              else if (i === selected && !isCorrect) style = 'bg-red-400 border-2 border-red-500 text-white';
-              else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-            }
-            return (
-              <button key={i} onClick={() => onSelect(i)} disabled={selected !== null}
-                className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 ${style}`}>
-                {selected !== null && i === currentQuestion.correctIndex ? '✅ ' : selected === i && !isCorrect ? '❌ ' : ''}{ans}
-              </button>
-            );
-          })}
+          {currentQuestion.answers.map((ans, i) => (
+            <button key={i} onClick={() => onSelect(i)} disabled={selected !== null}
+              className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 ${answerButtonClass(
+                i === currentQuestion.correctIndex,
+                i === selected,
+                selected !== null,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400',
+              )}`}>
+              {selected !== null && i === currentQuestion.correctIndex ? '✅ ' : selected === i && !isCorrect ? '❌ ' : ''}{ans}
+            </button>
+          ))}
         </div>
         {selected !== null && (
           <>

@@ -2,6 +2,7 @@
 
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import type { SequenceLevel, SequenceQuestion } from '../data/sequences';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   level: SequenceLevel;
@@ -49,21 +50,17 @@ export default function SequencesQuestion({ level, current, choices, onSelect }:
           )}
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {choices.map((n, i) => {
-            const isRight = n === current.next;
-            let style = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-cyan-400';
-            if (selected !== null) {
-              if (isRight) style = 'bg-green-500 border-2 border-green-600 text-white';
-              else if (n === selected && !isCorrect) style = 'bg-red-400 border-2 border-red-500 text-white';
-              else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-            }
-            return (
-              <button key={i} onClick={() => onSelect(n)} disabled={selected !== null}
-                className={`py-5 rounded-2xl font-black text-3xl transition-all active:scale-95 ${style}`}>
-                {n}
-              </button>
-            );
-          })}
+          {choices.map((n, i) => (
+            <button key={i} onClick={() => onSelect(n)} disabled={selected !== null}
+              className={`py-5 rounded-2xl font-black text-3xl transition-all active:scale-95 ${answerButtonClass(
+                n === current.next,
+                n === selected,
+                selected !== null,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-cyan-400',
+              )}`}>
+              {n}
+            </button>
+          ))}
         </div>
         {selected !== null && (
           <div className="mt-4">

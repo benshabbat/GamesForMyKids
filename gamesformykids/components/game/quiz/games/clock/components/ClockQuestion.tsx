@@ -3,6 +3,7 @@
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import ClockFace from './ClockFace';
 import { ClockQuestion as ClockQuestionType } from '../data/times';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   current: ClockQuestionType;
@@ -35,22 +36,18 @@ export default function ClockQuestion({ current, choices, onSelect }: Props) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {choices.map(c => {
-            const isRight = c.id === current.id;
-            let style = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400 hover:bg-indigo-50';
-            if (selected !== null) {
-              if (isRight) style = 'bg-green-500 border-2 border-green-600 text-white';
-              else if (c.id === selected && !isCorrect) style = 'bg-red-400 border-2 border-red-500 text-white';
-              else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-            }
-            return (
-              <button key={c.id} onClick={() => onSelect(c.id)} disabled={selected !== null}
-                className={`py-4 rounded-2xl font-bold text-lg transition-all active:scale-95 ${style}`}>
+          {choices.map(c => (
+            <button key={c.id} onClick={() => onSelect(c.id)} disabled={selected !== null}
+              className={`py-4 rounded-2xl font-bold text-lg transition-all active:scale-95 ${answerButtonClass(
+                c.id === current.id,
+                c.id === selected,
+                selected !== null,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400 hover:bg-indigo-50',
+              )}`}>
                 <div className="text-2xl font-black">{c.digital}</div>
                 <div className="text-sm opacity-75 mt-0.5">{c.description}</div>
               </button>
-            );
-          })}
+          ))}
         </div>
         {selected !== null && (
           <div className="mt-4">

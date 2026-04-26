@@ -2,6 +2,7 @@
 
 import { useTransportStore } from '../store/transportStore';
 import type { TransportQuestion } from '../data/transport';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   currentQuestion: TransportQuestion;
@@ -35,21 +36,17 @@ export default function TransportQuestion({ currentQuestion, onSelect }: Props) 
           )}
         </div>
         <div className="grid grid-cols-2 gap-3 w-full max-w-md">
-          {currentQuestion.answers.map((ans, idx) => {
-            let cls = 'py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition-all ';
-            if (phase === 'answered') {
-              if (idx === currentQuestion.correctIndex) cls += 'bg-green-500 text-white';
-              else if (idx === selected) cls += 'bg-red-400 text-white';
-              else cls += 'bg-gray-100 text-gray-500';
-            } else {
-              cls += 'bg-white text-gray-800 border-2 border-blue-200 hover:border-blue-400';
-            }
-            return (
-              <button key={idx} onClick={() => onSelect(idx)} disabled={phase === 'answered'} className={cls}>
-                {ans}
-              </button>
-            );
-          })}
+          {currentQuestion.answers.map((ans, idx) => (
+            <button key={idx} onClick={() => onSelect(idx)} disabled={phase === 'answered'}
+              className={`py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition-all ${answerButtonClass(
+                idx === currentQuestion.correctIndex,
+                idx === selected,
+                phase === 'answered',
+                'bg-white text-gray-800 border-2 border-blue-200 hover:border-blue-400',
+              )}`}>
+              {ans}
+            </button>
+          ))}
         </div>
         {phase === 'answered' && (
           <button onClick={next} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">

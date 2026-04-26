@@ -2,6 +2,7 @@
 
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import type { ColorMix } from '../data/mixes';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   mix: ColorMix;
@@ -52,21 +53,17 @@ export default function ColorMixQuestion({ mix, choices, onSelect }: Props) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {choices.map((label, i) => {
-            const isRight = label === mix.resultLabel;
-            let style = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-purple-50';
-            if (selected) {
-              if (isRight) style = 'bg-green-500 border-2 border-green-600 text-white';
-              else if (label === selected && !isCorrect) style = 'bg-red-400 border-2 border-red-500 text-white';
-              else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-            }
-            return (
-              <button key={i} onClick={() => onSelect(label)} disabled={!!selected}
-                className={`py-4 px-3 rounded-2xl font-bold text-lg transition-all active:scale-95 ${style}`}>
-                {label}
-              </button>
-            );
-          })}
+          {choices.map((label, i) => (
+            <button key={i} onClick={() => onSelect(label)} disabled={!!selected}
+              className={`py-4 px-3 rounded-2xl font-bold text-lg transition-all active:scale-95 ${answerButtonClass(
+                label === mix.resultLabel,
+                label === selected,
+                !!selected,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-purple-400 hover:bg-purple-50',
+              )}`}>
+              {label}
+            </button>
+          ))}
         </div>
         {selected && (
           <div className="mt-4">

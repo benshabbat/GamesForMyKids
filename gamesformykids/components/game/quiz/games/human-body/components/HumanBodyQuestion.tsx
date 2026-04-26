@@ -2,6 +2,7 @@
 
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import type { BodyQuestion } from '../data/body';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   currentQuestion: BodyQuestion;
@@ -34,21 +35,17 @@ export default function HumanBodyQuestion({ currentQuestion, choices, onSelect }
           )}
         </div>
         <div className="grid grid-cols-1 gap-3 w-full max-w-md">
-          {choices.map(choice => {
-            let cls = 'py-3 px-4 rounded-xl font-bold text-right shadow active:scale-95 transition-all ';
-            if (selected !== null) {
-              if (choice === currentQuestion.function) cls += 'bg-green-500 text-white';
-              else if (choice === selected) cls += 'bg-red-400 text-white';
-              else cls += 'bg-gray-100 text-gray-500';
-            } else {
-              cls += 'bg-white text-gray-800 border-2 border-red-200 hover:border-red-400';
-            }
-            return (
-              <button key={choice} onClick={() => onSelect(choice)} disabled={selected !== null} className={cls}>
-                {choice}
-              </button>
-            );
-          })}
+          {choices.map(choice => (
+            <button key={choice} onClick={() => onSelect(choice)} disabled={selected !== null}
+              className={`py-3 px-4 rounded-xl font-bold text-right shadow active:scale-95 transition-all ${answerButtonClass(
+                choice === currentQuestion.function,
+                choice === selected,
+                selected !== null,
+                'bg-white text-gray-800 border-2 border-red-200 hover:border-red-400',
+              )}`}>
+              {choice}
+            </button>
+          ))}
         </div>
         {selected !== null && (
           <button onClick={next} className="mt-6 px-8 py-3 bg-red-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
