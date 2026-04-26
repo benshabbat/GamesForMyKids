@@ -1,7 +1,7 @@
 'use client';
 import { useState, useCallback } from 'react';
 import { COUNTRIES, QUESTIONS_PER_GAME, type Country, type QuestionMode } from './data/countries';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+import { useQuizSession } from '@/lib/quiz/useQuizSession';
 
 export interface GeoQuestion {
   country: Country;
@@ -18,18 +18,9 @@ function buildQuestion(pool: Country[], mode: QuestionMode): GeoQuestion {
 }
 
 export function useGeographyGame() {
-  // ── Shared quiz session state (Zustand) ───────────────────
-  const phase    = useQuizGameStore(s => s.phase);
-  const index    = useQuizGameStore(s => s.index);
-  const selected = useQuizGameStore(s => s.selected);
-  const { startQuiz, selectAnswer: storeSelectAnswer } = useQuizGameStore();
-
-  // ── Local state ───────────────────────────────────────────
-  const [questions, setQuestions] = useState<GeoQuestion[]>([]);
+  const { phase, current, begin, answer } = useQuizSession<GeoQuestion>('geography');
   const [mode, setMode] = useState<QuestionMode>('capital');
-  const current = questions[index] ?? null;
 
-  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback((m: QuestionMode = 'capital') => {
     const pool = [...COUNTRIES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME + 4);
     const qs: GeoQuestion[] = [];
@@ -39,14 +30,12 @@ export function useGeographyGame() {
       qs.push(buildQuestion(slice, m));
     }
     setMode(m);
-    setQuestions(qs);
-    startQuiz('geography', qs.length);
-  }, [startQuiz]);
+    begin(qs);
+  }, [begin]);
 
   const selectAnswer = useCallback((id: string) => {
-    if (selected || !current) return;
-    storeSelectAnswer(id, id === current.country.id);
-  }, [selected, current, storeSelectAnswer]);
+    answer(id, id === current?.country.id);
+  }, [answer, current]);
 
   const restart = useCallback(() => startGame(mode), [mode, startGame]);
 

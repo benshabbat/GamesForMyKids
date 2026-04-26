@@ -1,8 +1,8 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { COLOR_MIXES, ColorMix } from './data/mixes';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
-import { useQuizGameStore } from '@/lib/stores';
+import { useQuizSession } from '@/lib/quiz/useQuizSession';
 
 interface ColorMixQuestion {
   mix: ColorMix;
@@ -15,37 +15,27 @@ function buildQuestion(mix: ColorMix): ColorMixQuestion {
   return { mix, choices };
 }
 
+function buildQuestions(): ColorMixQuestion[] {
+  return [...COLOR_MIXES]
+    .sort(() => Math.random() - 0.5)
+    .slice(0, QUESTIONS_PER_GAME)
+    .map(buildQuestion);
+}
+
 export function useColorMixGame() {
-  // ── Zustand — shared quiz session state ───────────────────
-  const phase    = useQuizGameStore(s => s.phase);
-  const index    = useQuizGameStore(s => s.index);
-  const selected = useQuizGameStore(s => s.selected);
-  const { startQuiz, selectAnswer: storeSelectAnswer, restartQuiz } = useQuizGameStore();
+  const { phase, current, begin, answer, reset } = useQuizSession<ColorMixQuestion>('color-mix');
 
-  // ── Local state — game-specific data ──────────────────────
-  const [questions, setQuestions] = useState<ColorMixQuestion[]>([]);
-
-  const current = questions[index] ?? null;
-
-  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
-    const shuffled = [...COLOR_MIXES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME);
-    const q = shuffled.map(buildQuestion);
-    setQuestions(q);
-    startQuiz('color-mix', q.length);
-  }, [startQuiz]);
+    begin(buildQuestions());
+  }, [begin]);
 
   const selectAnswer = useCallback((label: string) => {
-    if (selected || !current) return;
-    storeSelectAnswer(label, label === current.mix.resultLabel);
-  }, [selected, current, storeSelectAnswer]);
+    answer(label, label === current?.mix.resultLabel);
+  }, [answer, current]);
 
   const restart = useCallback(() => {
-    const shuffled = [...COLOR_MIXES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME);
-    const q = shuffled.map(buildQuestion);
-    setQuestions(q);
-    restartQuiz();
-  }, [restartQuiz]);
+    reset(buildQuestions());
+  }, [reset]);
 
   return { phase, current, startGame, selectAnswer, restart };
 }

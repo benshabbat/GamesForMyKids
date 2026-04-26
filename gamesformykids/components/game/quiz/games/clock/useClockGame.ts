@@ -1,8 +1,8 @@
-﻿'use client';
-import { useState, useCallback, useMemo } from 'react';
+'use client';
+import { useCallback, useMemo } from 'react';
 import { CLOCK_QUESTIONS, ClockQuestion } from './data/times';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
-import { useQuizGameStore } from '@/lib/stores';
+import { useQuizSession } from '@/lib/quiz/useQuizSession';
 import { shuffle } from '@/lib/utils';
 
 
@@ -12,38 +12,24 @@ function makeChoices(correct: ClockQuestion, all: ClockQuestion[]): ClockQuestio
 }
 
 export function useClockGame() {
-  // ── Zustand — shared quiz session state ───────────────────
-  const phase    = useQuizGameStore(s => s.phase);
-  const index    = useQuizGameStore(s => s.index);
-  const selected = useQuizGameStore(s => s.selected);
-  const { startQuiz, selectAnswer: storeSelectAnswer, restartQuiz } = useQuizGameStore();
+  const { phase, current, begin, answer, reset } = useQuizSession<ClockQuestion>('clock');
 
-  // ── Local state — game-specific data ──────────────────────
-  const [questions, setQuestions] = useState<ClockQuestion[]>([]);
-
-  const current = questions[index] ?? null;
   const choices = useMemo(
     () => (current ? makeChoices(current, CLOCK_QUESTIONS) : []),
     [current],
   );
 
-  // ── Actions ───────────────────────────────────────────────
   const startGame = useCallback(() => {
-    const qs = shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
-    setQuestions(qs);
-    startQuiz('clock', qs.length);
-  }, [startQuiz]);
+    begin(shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME));
+  }, [begin]);
 
   const selectAnswer = useCallback((qId: number) => {
-    if (!current || selected !== null) return;
-    storeSelectAnswer(String(qId), qId === current.id);
-  }, [current, selected, storeSelectAnswer]);
+    answer(String(qId), qId === current?.id);
+  }, [answer, current]);
 
   const restart = useCallback(() => {
-    const qs = shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME);
-    setQuestions(qs);
-    restartQuiz();
-  }, [restartQuiz]);
+    reset(shuffle(CLOCK_QUESTIONS).slice(0, QUESTIONS_PER_GAME));
+  }, [reset]);
 
   return { phase, current, choices, startGame, selectAnswer, restart };
 }

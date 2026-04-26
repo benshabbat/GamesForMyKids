@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { useQuizGameStore } from '@/lib/stores';
+import { useQuizSession } from '@/lib/quiz/useQuizSession';
 import { shuffle } from '@/lib/utils';
 
 interface Config<Category extends string, Q extends { correctIndex: number; answers: unknown[] }> {
@@ -20,15 +20,9 @@ export function createCategoryIndexQuizHook<
   Q extends { correctIndex: number; answers: unknown[] }
 >(config: Config<Category, Q>) {
   return function useHook() {
-    const phase    = useQuizGameStore(s => s.phase);
-    const index    = useQuizGameStore(s => s.index);
-    const selected = useQuizGameStore(s => s.selected);
-    const { startQuiz, selectAnswer: storeSelectAnswer, restartQuiz } = useQuizGameStore();
+    const { phase, current, begin, answer, reset } = useQuizSession<Q>(config.gameType);
+    const [category, setCategory] = useState<Category>(config.allCategory);
 
-    const [questions, setQuestions] = useState<Q[]>([]);
-    const [category, setCategory]   = useState<Category>(config.allCategory);
-
-    const current      = questions[index] ?? null;
     const choices      = current ? current.answers.map((_, i) => String(i)) : [];
     const correctLabel = current ? String(current.correctIndex) : '';
 
@@ -36,26 +30,21 @@ export function createCategoryIndexQuizHook<
       const pool = cat === config.allCategory
         ? config.questions
         : config.questions.filter(q => config.getCategoryOf(q) === cat);
-      const q = shuffle(pool).slice(0, config.questionsPerGame);
       setCategory(cat);
-      setQuestions(q);
-      startQuiz(config.gameType, q.length);
-    }, [startQuiz]);
+      begin(shuffle(pool).slice(0, config.questionsPerGame));
+    }, [begin]);
 
     const selectAnswer = useCallback((idxStr: string) => {
-      const idx = Number(idxStr);
-      if (selected !== null || !current) return;
-      storeSelectAnswer(idxStr, idx === current.correctIndex);
-    }, [selected, current, storeSelectAnswer]);
+      if (!current) return;
+      answer(idxStr, Number(idxStr) === current.correctIndex);
+    }, [answer, current]);
 
     const restart = useCallback(() => {
       const pool = category === config.allCategory
         ? config.questions
         : config.questions.filter(q => config.getCategoryOf(q) === category);
-      const q = shuffle(pool).slice(0, config.questionsPerGame);
-      setQuestions(q);
-      restartQuiz();
-    }, [category, restartQuiz]);
+      reset(shuffle(pool).slice(0, config.questionsPerGame));
+    }, [category, reset]);
 
     return {
       phase,
