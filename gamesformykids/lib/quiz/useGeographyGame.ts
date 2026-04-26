@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback } from 'react';
-import { COUNTRIES, QUESTIONS_PER_GAME, type Country, type QuestionMode } from '@/lib/quiz/data/geography';
+import { COUNTRIES, GEO_QUESTIONS_PER_GAME, type Country, type QuestionMode } from '@/lib/quiz/data/geography';
 import { useQuizSession } from '@/lib/quiz/useQuizSession';
 
 export interface GeoQuestion {
@@ -21,9 +21,9 @@ export function useGeographyGame() {
   const [mode, setMode] = useState<QuestionMode>('capital');
 
   const startGame = useCallback((m: QuestionMode = 'capital') => {
-    const pool = [...COUNTRIES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME + 4);
+    const pool = [...COUNTRIES].sort(() => Math.random() - 0.5).slice(0, GEO_QUESTIONS_PER_GAME + 4);
     const qs: GeoQuestion[] = [];
-    for (let i = 0; i < QUESTIONS_PER_GAME; i++) {
+    for (let i = 0; i < GEO_QUESTIONS_PER_GAME; i++) {
       const slice = pool.slice(i);
       if (slice.length < 4) break;
       qs.push(buildQuestion(slice, m));

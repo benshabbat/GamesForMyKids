@@ -3,7 +3,7 @@ import { shuffle } from '@/lib/utils';
 import type { QuizTheme } from '@/components/game/quiz/quizTheme';
 import type { GameType } from '@/lib/types/core/base';
 import FractionBar from '@/components/game/quiz/FractionBar';
-import { DEFAULT_QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
+import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 // ── Data imports ──────────────────────────────────────────────────────────────
 import { RIDDLES } from '@/lib/quiz/data/riddles';
@@ -63,7 +63,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         <p className="text-purple-600 font-bold text-sm mt-1">שעון ⏰</p>
       </div>
     ),
-    questions: RIDDLES, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: RIDDLES, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.answer,
     getCorrectLabel: (q) => q.answer,
@@ -83,7 +83,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         ))}
       </div>
     ),
-    questions: CAPITALS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: CAPITALS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.capital, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.capital,
     getCorrectLabel: (q) => q.capital,
@@ -98,7 +98,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
     gameType: 'spelling', emoji: '📝', title: 'כתיב עברי',
     description: 'בחר את האיות הנכון לכל מילה!', theme: 'rose',
     buttonLabel: '✏️ בואו נכתוב!',
-    questions: SPELLING_WORDS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: SPELLING_WORDS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.word, ...q.wrong]),
     isCorrect: (c, q) => c === q.word,
     getCorrectLabel: (q) => q.word,
@@ -121,7 +121,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         <p className="text-purple-800 font-bold mt-1">חצי (1/2) ✓</p>
       </div>
     ),
-    questions: FRACTION_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: FRACTION_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.display, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.display,
     getCorrectLabel: (q) => q.display,
@@ -143,7 +143,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         ))}
       </div>
     ),
-    questions: EMOTION_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: EMOTION_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.emotion, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.emotion,
     getCorrectLabel: (q) => q.emotion,
@@ -164,7 +164,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         ))}
       </div>
     ),
-    questions: INSTRUMENTS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: INSTRUMENTS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.instrument, ...q.wrongInstruments]),
     isCorrect: (c, q) => c === q.instrument,
     getCorrectLabel: (q) => q.instrument,
@@ -190,7 +190,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
       </div>
     ),
     buttonLabel: '🌍 בואו נלמד!',
-    questions: LANGUAGE_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: LANGUAGE_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.language, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.language,
     getCorrectLabel: (q) => q.language,
@@ -211,7 +211,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
       </div>
     ),
     buttonLabel: '🙃 משחק ניגודים!',
-    questions: OPPOSITE_WORDS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: OPPOSITE_WORDS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.opposite, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.opposite,
     getCorrectLabel: (q) => q.opposite,
@@ -232,7 +232,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         ))}
       </div>
     ),
-    questions: SPORTS_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: SPORTS_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => [...q.answers],
     isCorrect: (c, q) => c === q.answers[q.correctIndex],
     getCorrectLabel: (q) => q.answers[q.correctIndex],
@@ -246,7 +246,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
   continents: {
     gameType: 'continents', emoji: '🌍', title: 'יבשות העולם',
     description: 'ענה על שאלות על יבשות כדור הארץ!', theme: 'teal',
-    questions: CONTINENT_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: CONTINENT_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => [...q.answers],
     isCorrect: (c, q) => c === q.answers[q.correctIndex],
     getCorrectLabel: (q) => q.answers[q.correctIndex],
@@ -259,7 +259,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
   'healthy-food': {
     gameType: 'healthy-food', emoji: '🥗', title: 'אוכל בריא',
     description: 'למד על תזונה בריאה!', theme: 'green',
-    questions: NUTRITION_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: NUTRITION_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => [...q.answers],
     isCorrect: (c, q) => c === q.answers[q.correctIndex],
     getCorrectLabel: (q) => q.answers[q.correctIndex],
@@ -272,7 +272,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
   family: {
     gameType: 'family', emoji: '👨‍👩‍👧‍👦', title: 'המשפחה',
     description: 'ענה על שאלות על קשרי משפחה!', theme: 'rose',
-    questions: FAMILY_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: FAMILY_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => [...q.answers],
     isCorrect: (c, q) => c === q.answers[q.correctIndex],
     getCorrectLabel: (q) => q.answers[q.correctIndex],
@@ -292,7 +292,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
         ))}
       </div>
     ),
-    questions: ENGLISH_WORDS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: ENGLISH_WORDS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => shuffle([q.english, ...q.wrongOptions]),
     isCorrect: (c, q) => c === q.english,
     getCorrectLabel: (q) => q.english,
@@ -306,7 +306,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
   'shapes-3d': {
     gameType: 'shapes-3d', emoji: '📦', title: 'גופים גיאומטריים',
     description: 'זהה גופים תלת-ממדיים!', theme: 'violet',
-    questions: QUIZ_QUESTIONS, questionsPerGame: DEFAULT_QUESTIONS_PER_GAME,
+    questions: QUIZ_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
     getChoices: (q) => {
       const shape = SHAPES_3D.find(s => s.id === q.shapeId)!;
       return shuffle([q.answer, ...shape.wrongOptions]);

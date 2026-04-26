@@ -37,7 +37,7 @@ export const COUNTRIES: Country[] = [
 
 export type QuestionMode = 'capital' | 'flag' | 'continent';
 
-export const QUESTIONS_PER_GAME = 12;
+export const GEO_QUESTIONS_PER_GAME = 12;
 export const CONTINENTS: Continent[] = ['אירופה', 'אסיה', 'אמריקה', 'אפריקה', 'אוקיאניה'];
 
 export const MODES: { mode: QuestionMode; label: string; desc: string; emoji: string }[] = [

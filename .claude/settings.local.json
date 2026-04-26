@@ -12,7 +12,9 @@
       "Bash(xargs -I {} basename {} .ts)",
       "Bash(cat)",
       "Read(//tmp/**)",
-      "Bash(npx next *)"
+      "Bash(npx next *)",
+      "Bash(grep -E \"\\\\.ts$\")",
+      "Bash(grep \"\\\\.ts$\")"
     ]
   }
 }
