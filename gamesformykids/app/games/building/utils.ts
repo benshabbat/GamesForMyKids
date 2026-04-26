@@ -71,9 +71,7 @@ export const shuffleBlocks = (blocks: Block[]): Block[] =>
   }));
 
 // Audio feedback system
-export const playSound = (soundEnabled: boolean, soundType: 'create' | 'rotate' | 'magic' = 'create') => {
+export const playSound = (soundEnabled: boolean, _soundType: 'create' | 'rotate' | 'magic' = 'create') => {
   if (!soundEnabled || typeof window === 'undefined') return;
   
-  // Future: implement actual sound effects
-  console.log(`Playing ${soundType} sound effect`);
 };

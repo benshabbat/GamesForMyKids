@@ -287,7 +287,6 @@ export class GamesRegistry {
     }
 
     GAMES_REGISTRY.push(game);
-    console.log(`משחק ${game.title} נרשם בהצלחה`);
   }
 
   // עדכון סטטוס זמינות משחק
@@ -295,7 +294,6 @@ export class GamesRegistry {
     const game = GAMES_REGISTRY.find((g) => g.id === gameId);
     if (game) {
       game.available = available;
-      console.log(`משחק ${game.title} עודכן לזמינות: ${available}`);
     }
   }
 
