@@ -8,7 +8,11 @@
       "Bash(./gamesformykids/node_modules/.bin/tsc --noEmit --project gamesformykids/tsconfig.json)",
       "Bash(npm --prefix gamesformykids run build)",
       "Bash(xargs cat *)",
-      "Bash(python3 -c ' *)"
+      "Bash(python3 -c ' *)",
+      "Bash(xargs -I {} basename {} .ts)",
+      "Bash(cat)",
+      "Read(//tmp/**)",
+      "Bash(npx next *)"
     ]
   }
 }

@@ -120,7 +120,7 @@ const QUIZ_COMPONENTS: Record<string, ComponentType> = {
 
   'nature': makeQuizGame(
     useNatureGame,
-    ({ categories, current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
+    ({ current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
       menu:     <NatureMenuScreen onStart={startGame as (cat: NatureCategory) => void} />,
       question: current ? <NatureQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="green" />,
@@ -129,7 +129,7 @@ const QUIZ_COMPONENTS: Record<string, ComponentType> = {
 
   'israel': makeQuizGame(
     useIsraelGame,
-    ({ categories, current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
+    ({ current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
       menu:     <IsraelMenuScreen onStart={startGame as (cat: IsraelCategory) => void} />,
       question: current ? <IsraelQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="blue" />,
