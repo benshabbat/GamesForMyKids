@@ -135,8 +135,6 @@ export function useCountingGame() {
 
   const startGame = async () => {
     try {
-      console.log("StartGame function called");
-      
       // עדכון ראשוני - מעבר למצב משחק
       setGameState(prev => ({
         ...prev,
@@ -154,16 +152,11 @@ export function useCountingGame() {
       progressStore.setGameActive(true);
       useGameSessionStore.getState().resetSession();
 
-      console.log("Game state updated to playing mode");
-      
       await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
       await speakStartMessage();
       
       const challenge = generateCountingChallenge();
       const options = generateOptions(challenge.correctAnswer);
-
-      console.log("Generated challenge:", challenge);
-      console.log("Generated options:", options);
 
       // עדכון שני - הוספת האתגר
       setGameState((prev) => ({
@@ -178,8 +171,6 @@ export function useCountingGame() {
         options.map(toOptionItem),
       );
       useCountingChallengeStore.getState().setChallenge(challenge);
-
-      console.log("Challenge set in game state");
 
       await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
       await speakQuestion(challenge);
@@ -196,9 +187,6 @@ export function useCountingGame() {
       
       const challenge = generateCountingChallenge();
       const options = generateOptions(challenge.correctAnswer);
-      
-      console.log("Next challenge:", challenge);
-      console.log("Next options:", options);
       
       const onComplete = async () => {
         setGameState((prev) => ({

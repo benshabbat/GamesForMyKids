@@ -7,7 +7,6 @@ interface CountingStartScreenProps {
 
 export default function CountingStartScreen({ startGame, speakQuestion }: CountingStartScreenProps) {
   const handleStartGame = () => {
-    console.log("Start game button clicked");
     startGame();
   };
 

@@ -74,6 +74,4 @@ export const shuffleBlocks = (blocks: Block[]): Block[] =>
 export const playSound = (soundEnabled: boolean, soundType: 'create' | 'rotate' | 'magic' = 'create') => {
   if (!soundEnabled || typeof window === 'undefined') return;
   
-  // Future: implement actual sound effects
-  console.log(`Playing ${soundType} sound effect`);
 };

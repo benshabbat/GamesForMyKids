@@ -215,7 +215,6 @@ export const useBuildingStore = create<BuildingStore>((set, get) => ({
   saveCreation: () => {
     const { blocks, score } = get();
     const data = { blocks, timestamp: new Date().toISOString(), score };
-    console.log('Saving creation:', data);
     alert('יצירה נשמרה! 🎉');
   },
 
