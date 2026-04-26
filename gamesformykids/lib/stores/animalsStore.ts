@@ -1,24 +1,11 @@
-/**
- * ===============================================
- * Animals Store — Zustand
- * ===============================================
- * מנהל את הסטייט הספציפי למשחק בעלי-חיים:
- * - קטגוריה נבחרת (all / farm / wild / sea / …)
- * - רשימת השאלות של הסבב הנוכחי
- * - כל פעולות המשחק (startGame, selectAnswer, restart)
- *
- * הסטייט המשותף לכל משחקי-החידון (phase, index, score …)
- * מנוהל ב-quizGameStore ומתעדכן ישירות מתוך הסטור הזה.
- */
-
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import { ANIMALS, type Animal, type AnimalCategory } from '@/app/games/animals/data/animals';
 import { shuffle } from '@/lib/utils';
 import { useQuizGameStore } from './quizGameStore';
+import { useGameStore } from './gameStore';
+import { useGameProgressStore } from './gameProgressStore';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
-
-// ── Constants & helpers ────────────────────────────────────
 
 export type QuestionMode = 'emoji-to-name' | 'name-to-emoji';
 
@@ -40,19 +27,14 @@ function buildPool(cat: AnimalCategory | 'all'): Animal[] {
   return cat === 'all' ? ANIMALS : ANIMALS.filter(a => a.category === cat);
 }
 
-// ── State ──────────────────────────────────────────────────
 export interface AnimalsState {
   category: AnimalCategory | 'all';
   questions: AnimalQuestion[];
 }
 
-// ── Actions ────────────────────────────────────────────────
 export interface AnimalsActions {
-  /** מתחיל סבב חדש — בונה שאלות ומפעיל את quizGameStore */
   startGame: (cat: AnimalCategory | 'all') => void;
-  /** בחירת תשובה — בודק נכונות ומעביר ל-quizGameStore */
   selectAnswer: (id: string) => void;
-  /** מאתחל סבב חדש באותה קטגוריה */
   restart: () => void;
   reset: () => void;
 }
@@ -62,7 +44,6 @@ const INITIAL_STATE: AnimalsState = {
   questions: [],
 };
 
-// ── Store ──────────────────────────────────────────────────
 export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
   devtools(
     (set, get) => ({
@@ -75,6 +56,9 @@ export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
         );
         set({ category: cat, questions }, false, 'animals/startGame');
         useQuizGameStore.getState().startQuiz('animals', QUESTIONS_PER_GAME);
+        useGameStore.getState().startGame('animals');
+        useGameProgressStore.getState().resetProgress();
+        useGameProgressStore.getState().setGameActive(true);
       },
 
       selectAnswer: (id) => {
@@ -82,7 +66,9 @@ export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
         const { selected, index } = useQuizGameStore.getState();
         const current = questions[index] ?? null;
         if (selected || !current) return;
-        useQuizGameStore.getState().selectAnswer(id, id === current.animal.id);
+        const isCorrect = id === current.animal.id;
+        useQuizGameStore.getState().selectAnswer(id, isCorrect);
+        useGameProgressStore.getState().recordAttempt(isCorrect);
       },
 
       restart: () => {
@@ -93,6 +79,9 @@ export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
         );
         set({ questions }, false, 'animals/restart');
         useQuizGameStore.getState().restartQuiz();
+        useGameStore.getState().startGame('animals');
+        useGameProgressStore.getState().resetProgress();
+        useGameProgressStore.getState().setGameActive(true);
       },
 
       reset: () => set(INITIAL_STATE, false, 'animals/reset'),
@@ -100,4 +89,3 @@ export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
     { name: 'AnimalsStore' },
   ),
 );
-

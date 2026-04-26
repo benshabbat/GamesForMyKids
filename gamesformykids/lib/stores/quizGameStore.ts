@@ -1,48 +1,23 @@
-/**
- * ===============================================
- * Quiz Game Store — Zustand
- * ===============================================
- * מנהל את סטייט סשן משחקי החידון (quiz):
- * - שלב המשחק (menu / playing / result)
- * - אינדקס השאלה הנוכחית
- * - בחירת השחקן והמשוב
- * - ניקוד (מסונכרן גם עם gameProgressStore)
- *
- * כל משחק-חידון קורא ל-startQuiz עם מספר שאלות,
- * ומשתמש ב-selectAnswer / nextQuestion לניהול הזרימה.
- */
-
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
-import { useGameStore } from './gameStore';
-import { useGameProgressStore } from './gameProgressStore';
 
 export type QuizPhase = 'menu' | 'playing' | 'result';
 
-// ── State ──────────────────────────────────────────────────
 export interface QuizGameState {
   phase: QuizPhase;
-  /** סוג המשחק הפעיל כרגע (לזיהוי store מול משחקים שונים) */
   gameType: string | null;
   index: number;
   total: number;
   score: number;
-  /** ID האפשרות שנבחרה */
   selected: string | null;
   isCorrect: boolean | null;
 }
 
-// ── Actions ────────────────────────────────────────────────
 export interface QuizGameActions {
-  /** קרא לזה עם שם המשחק ומספר שאלות לפני תחילת סבב */
   startQuiz: (gameType: string, total: number) => void;
-  /** בחירת תשובה — מעדכן selected, isCorrect וניקוד */
   selectAnswer: (id: string, isCorrect: boolean) => void;
-  /** מעבר לשאלה הבאה (או מעבר ל-result בסוף) */
   nextQuestion: () => void;
-  /** חזרה למסך פתיחה */
   goToMenu: () => void;
-  /** איפוס לסבב חדש באותו משחק */
   restartQuiz: () => void;
 }
 
@@ -61,47 +36,39 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
     (set, get) => ({
       ...INITIAL_STATE,
 
-      startQuiz: (gameType, total) => {
-        useGameStore.getState().startGame(gameType);
-        useGameProgressStore.getState().resetProgress();
-        useGameProgressStore.getState().setGameActive(true);
+      startQuiz: (gameType, total) =>
         set(
           { phase: 'playing', gameType, index: 0, total, score: 0, selected: null, isCorrect: null },
           false,
           'quiz/startQuiz',
-        );
-      },
+        ),
 
-      selectAnswer: (id, isCorrect) => {
-        const newScore = isCorrect ? get().score + 1 : get().score;
-        // עדכן גם את gameProgressStore לסנכרון
-        useGameProgressStore.getState().recordAttempt(isCorrect);
-        set({ selected: id, isCorrect, score: newScore }, false, 'quiz/selectAnswer');
-      },
+      selectAnswer: (id, isCorrect) =>
+        set(
+          (s) => ({ selected: id, isCorrect, score: isCorrect ? s.score + 1 : s.score }),
+          false,
+          'quiz/selectAnswer',
+        ),
 
       nextQuestion: () => {
         const { index, total } = get();
         if (index < total - 1) {
           set({ index: index + 1, selected: null, isCorrect: null }, false, 'quiz/nextQuestion');
         } else {
-          // סוף המשחק — שמור high score
-          useGameStore.getState().endGame();
-          useGameProgressStore.getState().setGameActive(false);
           set({ phase: 'result', selected: null, isCorrect: null }, false, 'quiz/endGame');
         }
       },
 
-      goToMenu: () => {
-        useGameProgressStore.getState().setGameActive(false);
-        set({ phase: 'menu', selected: null, isCorrect: null }, false, 'quiz/goToMenu');
-      },
+      goToMenu: () =>
+        set({ phase: 'menu', selected: null, isCorrect: null }, false, 'quiz/goToMenu'),
 
-      restartQuiz: () => {
-        const { gameType, total } = get();
-        if (gameType) get().startQuiz(gameType, total);
-      },
+      restartQuiz: () =>
+        set(
+          { phase: 'playing', index: 0, score: 0, selected: null, isCorrect: null },
+          false,
+          'quiz/restartQuiz',
+        ),
     }),
     { name: 'QuizGameStore' },
   ),
 );
-

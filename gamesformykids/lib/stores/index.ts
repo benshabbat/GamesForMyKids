@@ -44,9 +44,6 @@ export { useGameActionsStore } from './gameActionsStore';
 export { useAudioSettingsStore } from './audioSettingsStore';
 export type { AudioSettingsState } from './audioSettingsStore';
 
-// Game Settings (sound / music / darkMode / fontSize / language / … — persisted)
-export { useSettingsStore } from './settingsStore';
-
 // Home Page (selectedCategory / showAllGames)
 export { useHomePageStore } from './homePageStore';
 
@@ -56,13 +53,6 @@ export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLe
 // Animals (category / questions / game actions)
 export { useAnimalsStore } from './animalsStore';
 export type { QuestionMode } from './animalsStore';
-
-// Game Difficulty (per-game adaptive difficulty — persisted)
-export { useGameDifficultyStore } from './gameDifficultyStore';
-export type { DifficultyLevel } from './gameDifficultyStore';
-
-// High Scores (best score per gameId — persisted)
-export { useHighScoreStore } from './highScoreStore';
 
 // Progress Tracking (allSessions — persisted)
 export { useProgressTrackingStore } from './progressTrackingStore';
