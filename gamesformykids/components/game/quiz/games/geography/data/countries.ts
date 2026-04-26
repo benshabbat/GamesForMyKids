@@ -39,3 +39,21 @@ export type QuestionMode = 'capital' | 'flag' | 'continent';
 
 export const QUESTIONS_PER_GAME = 12;
 export const CONTINENTS: Continent[] = ['אירופה', 'אסיה', 'אמריקה', 'אפריקה', 'אוקיאניה'];
+
+export const MODES: { mode: QuestionMode; label: string; desc: string; emoji: string }[] = [
+  { mode: 'capital',   label: 'בירות',  desc: 'מה הבירה של...?',          emoji: '🏛️' },
+  { mode: 'flag',      label: 'דגלים',  desc: 'לאיזו מדינה שייך הדגל?',  emoji: '🚩' },
+  { mode: 'continent', label: 'יבשות',  desc: 'באיזו יבשה נמצאת המדינה?', emoji: '🌍' },
+];
+
+export function getGeoPrompt(country: Country, mode: QuestionMode): string {
+  if (mode === 'capital') return `🏙️ מה הבירה של ${country.name} ${country.flag}?`;
+  if (mode === 'flag')    return `🚩 לאיזו מדינה שייך הדגל ${country.flag}?`;
+  return `🌍 באיזו יבשת נמצאת ${country.name} ${country.flag}?`;
+}
+
+export function getChoiceLabel(c: Country, mode: QuestionMode): string {
+  if (mode === 'capital') return c.capital;
+  if (mode === 'flag')    return `${c.flag} ${c.name}`;
+  return c.continent;
+}

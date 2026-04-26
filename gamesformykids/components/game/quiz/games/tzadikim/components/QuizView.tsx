@@ -2,6 +2,7 @@
 
 import { TzaddikStory, QuizQuestion } from '../data/tzadikim';
 import { AnswerFeedback } from '../useTzadikimGame';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface QuizViewProps {
   story: TzaddikStory;
@@ -54,37 +55,21 @@ export default function QuizView({
 
         {/* תשובות */}
         <div className="space-y-3 mb-5">
-          {question.answers.map((answer, index) => {
-            let btnStyle = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-amber-400 hover:bg-amber-50';
-            let icon = '';
-
-            if (feedback) {
-              if (index === question.correctIndex) {
-                btnStyle = 'bg-green-500 border-2 border-green-600 text-white shadow-lg';
-                icon = '✅ ';
-              } else if (index === selectedAnswer && !feedback.isCorrect) {
-                btnStyle = 'bg-red-400 border-2 border-red-500 text-white';
-                icon = '❌ ';
-              } else {
-                btnStyle = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-              }
-            }
-
-            return (
-              <button
-                key={index}
-                onClick={() => onSelectAnswer(index)}
-                disabled={selectedAnswer !== null}
-                className={`
-                  w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg
-                  transition-all duration-200 active:scale-95
-                  ${btnStyle}
-                `}
-              >
-                {icon}{answer}
-              </button>
-            );
-          })}
+          {question.answers.map((answer, index) => (
+            <button
+              key={index}
+              onClick={() => onSelectAnswer(index)}
+              disabled={selectedAnswer !== null}
+              className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all duration-200 active:scale-95 ${answerButtonClass(
+                index === question.correctIndex,
+                index === selectedAnswer,
+                !!feedback,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-amber-400 hover:bg-amber-50',
+              )}`}
+            >
+              {feedback && index === question.correctIndex ? '✅ ' : feedback && index === selectedAnswer && !feedback.isCorrect ? '❌ ' : ''}{answer}
+            </button>
+          ))}
         </div>
 
         {/* פידבק */}

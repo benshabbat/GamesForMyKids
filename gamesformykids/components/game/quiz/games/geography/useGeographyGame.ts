@@ -19,12 +19,10 @@ function buildQuestion(pool: Country[], mode: QuestionMode): GeoQuestion {
 
 export function useGeographyGame() {
   // ── Shared quiz session state (Zustand) ───────────────────
-  const phase     = useQuizGameStore(s => s.phase);
-  const index     = useQuizGameStore(s => s.index);
-  const score     = useQuizGameStore(s => s.score); // raw correct count
-  const selected  = useQuizGameStore(s => s.selected);
-  const isCorrect = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion } = useQuizGameStore();
+  const phase    = useQuizGameStore(s => s.phase);
+  const index    = useQuizGameStore(s => s.index);
+  const selected = useQuizGameStore(s => s.selected);
+  const { startQuiz, selectAnswer: storeSelectAnswer } = useQuizGameStore();
 
   // ── Local state ───────────────────────────────────────────
   const [questions, setQuestions] = useState<GeoQuestion[]>([]);
@@ -50,14 +48,7 @@ export function useGeographyGame() {
     storeSelectAnswer(id, id === current.country.id);
   }, [selected, current, storeSelectAnswer]);
 
-  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
   const restart = useCallback(() => startGame(mode), [mode, startGame]);
 
-  return {
-    phase, index,
-    score,        // raw correct count (for result screen: "X / total")
-    selected, isCorrect,
-    current, total: questions.length,
-    mode, startGame, selectAnswer, next, restart,
-  };
+  return { phase, current, startGame, selectAnswer, restart };
 }

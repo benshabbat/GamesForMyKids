@@ -1,13 +1,7 @@
 'use client';
-import type { TransportType } from '../data/transport';
 
-const TYPE_STYLES: Record<string, { icon: string; color: string }> = {
-  'הכל':    { icon: '🌐', color: 'from-slate-400 to-slate-600' },
-  'יבשה':   { icon: '🚗', color: 'from-green-400 to-green-600' },
-  'ים':     { icon: '🚢', color: 'from-blue-400 to-blue-600' },
-  'אוויר':  { icon: '✈️', color: 'from-sky-400 to-sky-600' },
-  'מסילה':  { icon: '🚂', color: 'from-amber-400 to-amber-600' },
-};
+import type { TransportType } from '../data/transport';
+import { TYPE_STYLES } from '../data/transport';
 
 interface Props {
   types: readonly TransportType[];
@@ -24,11 +18,8 @@ export default function TransportMenuScreen({ types, onStart }: Props) {
         {types.map(type => {
           const s = TYPE_STYLES[type];
           return (
-            <button
-              key={type}
-              onClick={() => onStart(type)}
-              className={`py-3 px-4 rounded-xl font-bold text-white shadow-md active:scale-95 transition-all bg-gradient-to-r ${s.color} ${type === 'הכל' ? 'col-span-2' : ''}`}
-            >
+            <button key={type} onClick={() => onStart(type)}
+              className={`py-3 px-4 rounded-xl font-bold text-white shadow-md active:scale-95 transition-all bg-gradient-to-r ${s.color} ${type === 'הכל' ? 'col-span-2' : ''}`}>
               {s.icon} {type}
             </button>
           );

@@ -34,13 +34,13 @@ export const SEQUENCE_QUESTIONS: SequenceQuestion[] = [
   { id: 20, sequence: [1, 10, 100, 1000], next: 10000, rule: '×10',   wrong: [5000, 9000, 2000] },
 ];
 
-export type SequenceLevel = { id: number; label: string; ids: number[] };
+export type SequenceLevel = { id: number; label: string; emoji: string; desc: string; ids: number[] };
 
 export const LEVELS: SequenceLevel[] = [
-  { id: 1, label: 'קל',   ids: [1,2,3,4,5,6,7,8,9,10] },
-  { id: 2, label: 'בינוני', ids: [7,8,9,10,11,12,13,17,18,19] },
-  { id: 3, label: 'קשה',  ids: [11,12,13,14,15,16,19,20] },
-  { id: 4, label: 'הכל',  ids: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] },
+  { id: 1, label: 'קל',     emoji: '🟢', desc: '+1 / +2 / +5',      ids: [1,2,3,4,5,6,7,8,9,10] },
+  { id: 2, label: 'בינוני', emoji: '🟡', desc: '+3 / +4 / -2',      ids: [7,8,9,10,11,12,13,17,18,19] },
+  { id: 3, label: 'קשה',   emoji: '🔴', desc: '×2 / ×3 / ריבועים', ids: [11,12,13,14,15,16,19,20] },
+  { id: 4, label: 'הכל',   emoji: '🌟', desc: 'כל הסדרות',          ids: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20] },
 ];
 
 export const QUESTIONS_PER_GAME = 8;

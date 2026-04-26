@@ -1,15 +1,7 @@
 'use client';
 
 import type { IsraelCategory } from '../data/questions';
-
-const CAT_COLORS: Record<string, string> = {
-  'הכל':      'bg-blue-600 text-white',
-  'גאוגרפיה': 'bg-teal-500 text-white',
-  'היסטוריה': 'bg-amber-500 text-white',
-  'תרבות':    'bg-purple-500 text-white',
-  'טבע':      'bg-green-500 text-white',
-  'ערים':     'bg-rose-500 text-white',
-};
+import { CATEGORY_COLORS } from '../data/questions';
 
 interface Props {
   categories: readonly IsraelCategory[];
@@ -26,7 +18,7 @@ export default function IsraelMenuScreen({ categories, onStart }: Props) {
         <div className="grid grid-cols-3 gap-2 mb-6">
           {categories.map(cat => (
             <button key={cat} onClick={() => onStart(cat)}
-              className={`py-3 px-2 rounded-xl font-bold text-sm transition-all shadow hover:opacity-90 ${CAT_COLORS[cat] ?? 'bg-gray-400 text-white'}`}>
+              className={`py-3 px-2 rounded-xl font-bold text-sm transition-all shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}>
               {cat}
             </button>
           ))}

@@ -3,7 +3,6 @@
 import { useState, useCallback, useMemo } from 'react';
 import {
   BODY_QUESTIONS,
-  BODY_CATEGORIES,
   type BodyCategory,
   type BodyQuestion,
 } from './data/body';
@@ -14,18 +13,14 @@ import { shuffle } from '@/lib/utils';
 
 export function useHumanBodyGame() {
   // ── Zustand ── shared quiz session state ───────────────────
-  const phase      = useQuizGameStore(s => s.phase);
-  const index      = useQuizGameStore(s => s.index);
-  const score      = useQuizGameStore(s => s.score);
-  const selected   = useQuizGameStore(s => s.selected);
-  const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion: advanceQuestion } = useQuizGameStore();
+  const phase    = useQuizGameStore(s => s.phase);
+  const index    = useQuizGameStore(s => s.index);
+  const selected = useQuizGameStore(s => s.selected);
+  const { startQuiz, selectAnswer: storeSelectAnswer } = useQuizGameStore();
 
   // ── Local state ── game-specific data ──────────────────────
   const [category, setCategory]   = useState<BodyCategory>('הכל');
   const [questions, setQuestions] = useState<BodyQuestion[]>([]);
-
-  const categories = BODY_CATEGORIES;
 
   const currentQuestion = questions[index] ?? null;
   const choices = useMemo<string[]>(
@@ -49,21 +44,5 @@ export function useHumanBodyGame() {
     storeSelectAnswer(answer, correct);
   }, [selected, questions, index, storeSelectAnswer]);
 
-  const nextQuestion = useCallback(() => advanceQuestion(), [advanceQuestion]);
-
-  return {
-    phase,
-    category,
-    categories,
-    currentQuestion,
-    currentIndex: index,
-    total: questions.length,
-    choices,
-    selected,
-    isCorrect: isCorrect ?? false,
-    score,
-    startGame,
-    selectAnswer,
-    nextQuestion,
-  };
+  return { phase, category, currentQuestion, choices, startGame, selectAnswer };
 }

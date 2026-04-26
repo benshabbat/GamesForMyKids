@@ -1,17 +1,24 @@
 'use client';
-import { useGeographyGame } from '../useGeographyGame';
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+import { type GeoQuestion } from '../useGeographyGame';
+import { getGeoPrompt, getChoiceLabel } from '../data/countries';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
-export default function GeographyQuestion() {
-  const { index, total, score, current, selected, isCorrect, selectAnswer, next } = useGeographyGame();
+interface Props {
+  current: GeoQuestion;
+  onSelect: (id: string) => void;
+}
 
-  if (!current) return null;
+export default function GeographyQuestion({ current, onSelect }: Props) {
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const score     = useQuizGameStore(s => s.score);
+  const selected  = useQuizGameStore(s => s.selected);
+  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
+  const next      = useQuizGameStore(s => s.nextQuestion);
 
   const { country, mode, choices } = current;
-  const prompt = mode === 'capital'
-    ? `🏙️ מה הבירה של ${country.name} ${country.flag}?`
-    : mode === 'flag'
-    ? `🚩 לאיזו מדינה שייך הדגל ${country.flag}?`
-    : `🌍 באיזו יבשת נמצאת ${country.name} ${country.flag}?`;
+  const prompt = getGeoPrompt(country, mode);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100 p-4" dir="rtl">
@@ -27,22 +34,17 @@ export default function GeographyQuestion() {
           <p className="text-xl font-bold text-gray-800">{prompt}</p>
         </div>
         <div className="grid grid-cols-2 gap-3">
-          {choices.map(c => {
-            const val = mode === 'capital' ? c.capital : mode === 'flag' ? c.name : c.continent;
-            const isRight = c.id === country.id;
-            let style = 'bg-white border-2 border-gray-200 text-gray-700 hover:border-teal-400';
-            if (selected) {
-              if (isRight) style = 'bg-green-500 border-2 border-green-600 text-white';
-              else if (c.id === selected && !isCorrect) style = 'bg-red-400 border-2 border-red-500 text-white';
-              else style = 'bg-gray-100 border-2 border-gray-200 text-gray-400';
-            }
-            return (
-              <button key={c.id} onClick={() => selectAnswer(c.id)} disabled={!!selected}
-                className={`py-4 px-3 rounded-2xl font-semibold text-lg transition-all active:scale-95 ${style}`}>
-                {mode === 'flag' ? `${c.flag} ${c.name}` : val}
-              </button>
-            );
-          })}
+          {choices.map(c => (
+            <button key={c.id} onClick={() => onSelect(c.id)} disabled={!!selected}
+              className={`py-4 px-3 rounded-2xl font-semibold text-lg transition-all active:scale-95 ${answerButtonClass(
+                c.id === country.id,
+                c.id === selected,
+                !!selected,
+                'bg-white border-2 border-gray-200 text-gray-700 hover:border-teal-400',
+              )}`}>
+              {getChoiceLabel(c, mode)}
+            </button>
+          ))}
         </div>
         {selected && (
           <div className="mt-4">
@@ -58,5 +60,3 @@ export default function GeographyQuestion() {
     </div>
   );
 }
-
-

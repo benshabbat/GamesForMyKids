@@ -27,6 +27,14 @@ export const TRANSPORT_QUESTIONS: TransportQuestion[] = [
   { id: 14, vehicle: 'מטוס קרב',    emoji: '🛩️', type: 'אוויר',  question: 'מטוס מיוחד של הצבא שיכול לפגוע במטרות ממרחק:',                    answers: ['מסוק', 'מטוס נוסעים', 'מטוס קרב', 'רחפן'],  correctIndex: 2, funFact: 'מטוסי קרב יכולים לתמרן ב-G שבני אדם רגילים לא יכולים לעמוד בהם!' },
   { id: 15, vehicle: 'קיאק',        emoji: '🛶', type: 'ים',     question: 'סירה קטנה צרה שמשוטטת בנהרות ובים בעזרת משוטים:',                  answers: ['גלשן', 'קיאק', 'ספינה', 'סירת מנוע'],        correctIndex: 1, funFact: 'קיאק מגיע ממסורת הציד של האינואיטים!' },
 ];
-
+
 export const TRANSPORT_TYPES = ['הכל', 'יבשה', 'ים', 'אוויר', 'מסילה'] as const;
 export type TransportType = typeof TRANSPORT_TYPES[number];
+
+export const TYPE_STYLES: Record<TransportType, { icon: string; color: string }> = {
+  'הכל':   { icon: '🌐', color: 'from-slate-400 to-slate-600' },
+  'יבשה':  { icon: '🚗', color: 'from-green-400 to-green-600' },
+  'ים':    { icon: '🚢', color: 'from-blue-400 to-blue-600' },
+  'אוויר': { icon: '✈️', color: 'from-sky-400 to-sky-600' },
+  'מסילה': { icon: '🚂', color: 'from-amber-400 to-amber-600' },
+};

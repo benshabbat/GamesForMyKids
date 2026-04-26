@@ -1,15 +1,7 @@
 'use client';
 
 import type { NatureCategory } from '../data/questions';
-
-const CAT_COLORS: Record<string, string> = {
-  'הכל':       'bg-green-600 text-white',
-  'בעלי חיים': 'bg-amber-500 text-white',
-  'צמחים':     'bg-emerald-500 text-white',
-  'מזג אוויר': 'bg-blue-500 text-white',
-  'חלל':       'bg-indigo-600 text-white',
-  'מים':       'bg-cyan-500 text-white',
-};
+import { CATEGORY_COLORS } from '../data/questions';
 
 interface Props {
   categories: readonly NatureCategory[];
@@ -26,7 +18,7 @@ export default function NatureMenuScreen({ categories, onStart }: Props) {
         <div className="grid grid-cols-3 gap-2 mb-6">
           {categories.map(cat => (
             <button key={cat} onClick={() => onStart(cat)}
-              className={`py-3 rounded-xl font-bold text-sm transition-all shadow hover:opacity-90 ${CAT_COLORS[cat] ?? 'bg-gray-400 text-white'}`}>
+              className={`py-3 rounded-xl font-bold text-sm transition-all shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}>
               {cat}
             </button>
           ))}

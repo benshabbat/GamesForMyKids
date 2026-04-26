@@ -1,12 +1,6 @@
 'use client';
 
-interface Holiday {
-  id: string;
-  name: string;
-  emoji: string;
-  color: string;
-  when: string;
-}
+import type { Holiday } from '../data/holidays';
 
 interface Props {
   holidays: Holiday[];

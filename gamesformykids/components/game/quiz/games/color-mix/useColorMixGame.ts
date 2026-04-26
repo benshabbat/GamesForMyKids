@@ -17,12 +17,10 @@ function buildQuestion(mix: ColorMix): ColorMixQuestion {
 
 export function useColorMixGame() {
   // ── Zustand — shared quiz session state ───────────────────
-  const phase      = useQuizGameStore(s => s.phase);
-  const index      = useQuizGameStore(s => s.index);
-  const score      = useQuizGameStore(s => s.score);
-  const selected   = useQuizGameStore(s => s.selected);
-  const isCorrect  = useQuizGameStore(s => s.isCorrect);
-  const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
+  const phase    = useQuizGameStore(s => s.phase);
+  const index    = useQuizGameStore(s => s.index);
+  const selected = useQuizGameStore(s => s.selected);
+  const { startQuiz, selectAnswer: storeSelectAnswer, restartQuiz } = useQuizGameStore();
 
   // ── Local state — game-specific data ──────────────────────
   const [questions, setQuestions] = useState<ColorMixQuestion[]>([]);
@@ -42,7 +40,6 @@ export function useColorMixGame() {
     storeSelectAnswer(label, label === current.mix.resultLabel);
   }, [selected, current, storeSelectAnswer]);
 
-  const next    = useCallback(() => nextQuestion(), [nextQuestion]);
   const restart = useCallback(() => {
     const shuffled = [...COLOR_MIXES].sort(() => Math.random() - 0.5).slice(0, QUESTIONS_PER_GAME);
     const q = shuffled.map(buildQuestion);
@@ -50,9 +47,5 @@ export function useColorMixGame() {
     restartQuiz();
   }, [restartQuiz]);
 
-  return {
-    phase, index, score, selected, isCorrect, current,
-    total: QUESTIONS_PER_GAME,
-    startGame, selectAnswer, next, restart,
-  };
+  return { phase, current, startGame, selectAnswer, restart };
 }

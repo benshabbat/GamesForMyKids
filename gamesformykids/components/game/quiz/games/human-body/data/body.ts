@@ -28,6 +28,21 @@ export const BODY_QUESTIONS: BodyQuestion[] = [
   { id: 17, part: 'אצבעות',   emoji: '🖐️', category: 'גפיים',          function: 'מאפשרות אחיזה עדינה ומגע',            wrongOptions: ['כפות ידיים', 'פרקים', 'ציפורניים'] },
   { id: 18, part: 'לב',       emoji: '❤️', category: 'איברים פנימיים', function: 'פועם בממוצע 100,000 פעמים ביום',       wrongOptions: ['ריאות', 'מוח', 'קיבה'] },
 ];
-
+
 export const BODY_CATEGORIES = ['הכל', 'ראש', 'גוף', 'גפיים', 'איברים פנימיים'] as const;
 export type BodyCategory = typeof BODY_CATEGORIES[number];
+
+export const CATEGORY_GRADIENT_COLORS: Partial<Record<BodyCategory, string>> = {
+  'ראש':            'from-blue-400 to-blue-600',
+  'גוף':            'from-green-400 to-green-600',
+  'גפיים':          'from-orange-400 to-orange-600',
+  'איברים פנימיים': 'from-red-400 to-red-600',
+};
+
+export const CATEGORY_LABELS: Record<BodyCategory, string> = {
+  'הכל':            '🦴 הכל',
+  'ראש':            '🧠 ראש',
+  'גוף':            '💪 גוף',
+  'גפיים':          '🙌 גפיים',
+  'איברים פנימיים': '❤️ איברים פנימיים',
+};

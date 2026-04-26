@@ -6,9 +6,9 @@ import GeographyQuestion from './components/GeographyQuestion';
 import GeographyResultScreen from './components/GeographyResultScreen';
 
 export default function GeographyGame() {
-  const { phase, startGame, restart } = useGeographyGame();
+  const { phase, current, startGame, selectAnswer, restart } = useGeographyGame();
 
   if (phase === 'menu') return <GeographyMenuScreen onStart={(mode: QuestionMode) => startGame(mode)} />;
-  if (phase === 'playing') return <GeographyQuestion />;
+  if (phase === 'playing' && current) return <GeographyQuestion current={current} onSelect={selectAnswer} />;
   return <GeographyResultScreen onRestart={restart} />;
 }

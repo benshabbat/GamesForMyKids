@@ -1,12 +1,6 @@
 'use client';
 
-type QuestionMode = 'capital' | 'flag' | 'continent';
-
-const MODES: { mode: QuestionMode; label: string; desc: string; emoji: string }[] = [
-  { mode: 'capital',   label: 'בירות',  desc: 'מה הבירה של...?',          emoji: '🏛️' },
-  { mode: 'flag',      label: 'דגלים',  desc: 'לאיזו מדינה שייך הדגל?',  emoji: '🚩' },
-  { mode: 'continent', label: 'יבשות',  desc: 'באיזו יבשה נמצאת המדינה?', emoji: '🌍' },
-];
+import { type QuestionMode, MODES } from '../data/countries';
 
 interface Props {
   onStart: (mode: QuestionMode) => void;

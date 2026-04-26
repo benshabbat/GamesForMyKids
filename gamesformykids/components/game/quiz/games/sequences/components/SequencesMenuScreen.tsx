@@ -7,9 +7,6 @@ interface Props {
   onStart: (level: SequenceLevel) => void;
 }
 
-const LEVEL_EMOJIS = ['🟢', '🟡', '🔴', '🌟'];
-const LEVEL_DESCS = ['+1 / +2 / +5', '+3 / +4 / -2', '×2 / ×3 / ריבועים', 'כל הסדרות'];
-
 export default function SequencesMenuScreen({ levels, onStart }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-cyan-100 p-6" dir="rtl">
@@ -20,11 +17,11 @@ export default function SequencesMenuScreen({ levels, onStart }: Props) {
           <p className="text-cyan-600">מה המספר הבא בסדרה?</p>
         </div>
         <div className="grid grid-cols-2 gap-4">
-          {levels.map((lv, i) => (
+          {levels.map(lv => (
             <button key={lv.id} onClick={() => onStart(lv)}
               className="p-5 rounded-2xl text-white font-bold shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-br from-cyan-500 to-sky-600 text-right">
-              <div className="text-2xl font-black mb-1">{LEVEL_EMOJIS[i] ?? '⭐'} {lv.label}</div>
-              <div className="text-sm opacity-80">{LEVEL_DESCS[i] ?? ''}</div>
+              <div className="text-2xl font-black mb-1">{lv.emoji} {lv.label}</div>
+              <div className="text-sm opacity-80">{lv.desc}</div>
             </button>
           ))}
         </div>
