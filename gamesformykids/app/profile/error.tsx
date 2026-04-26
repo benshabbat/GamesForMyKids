@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -25,12 +26,12 @@ export default function ProfileError({ error, reset }: ErrorProps) {
           >
             נסה שוב
           </button>
-          <a
+          <Link
             href="/"
             className="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
           >
             דף הבית
-          </a>
+          </Link>
         </div>
       </div>
     </div>
