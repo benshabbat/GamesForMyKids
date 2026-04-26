@@ -1,3 +1,4 @@
+export { QuizGameShell }           from './QuizGameShell';
 export { QuizResultScreen }        from './QuizResultScreen';
 export { QuizProgress }            from './QuizProgress';
 export { QuizAnswerGrid }          from './QuizAnswerGrid';

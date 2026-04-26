@@ -4,7 +4,7 @@ import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
 import { QuizGameRouter } from '@/components/game/quiz';
-import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameRegistry';
+import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameTypes';
 import { type GamePageParams } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 

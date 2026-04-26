@@ -3,6 +3,7 @@
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 import { QUIZ_GAME_CONFIGS, type QuizGameConfig } from '@/lib/quiz/quizGameConfigs';
 import { useGenericQuizGame } from '@/lib/quiz/useGenericQuizGame';
+import { QuizGameShell } from './QuizGameShell';
 import { QuizMenuScreen } from './QuizMenuScreen';
 import { QuizQuestionShell } from './QuizQuestionShell';
 import { QuizResultScreen } from './QuizResultScreen';
@@ -16,32 +17,29 @@ export default function GenericQuizGame() {
 }
 
 function GenericQuizGameContent({ config }: { config: QuizGameConfig }) {
-  const { phase, current, choices, correctLabel, startGame, selectAnswer, restart } = useGenericQuizGame(config);
-
-  if (phase === 'menu') return (
-    <QuizMenuScreen
-      emoji={config.emoji} title={config.title} description={config.description}
-      theme={config.theme} preview={config.preview} buttonLabel={config.buttonLabel}
-      onStart={startGame}
-    />
-  );
-
-  if (phase === 'result') return <QuizResultScreen onRestart={restart} theme={config.theme} />;
-
-  if (!current) return null;
-
-  const wrongMsg = config.wrongMsg ? config.wrongMsg(current) : undefined;
-
+  const { current, choices, correctLabel, startGame, selectAnswer, restart } = useGenericQuizGame(config);
   return (
-    <QuizQuestionShell
-      theme={config.theme}
-      choices={choices}
-      correctLabel={correctLabel}
-      onSelect={selectAnswer}
-      correctMsg={config.correctMsg}
-      wrongMsg={wrongMsg}
-    >
-      {config.renderQuestion(current)}
-    </QuizQuestionShell>
+    <QuizGameShell
+      menu={
+        <QuizMenuScreen
+          emoji={config.emoji} title={config.title} description={config.description}
+          theme={config.theme} preview={config.preview} buttonLabel={config.buttonLabel}
+          onStart={startGame}
+        />
+      }
+      question={current && (
+        <QuizQuestionShell
+          theme={config.theme}
+          choices={choices}
+          correctLabel={correctLabel}
+          onSelect={selectAnswer}
+          correctMsg={config.correctMsg}
+          wrongMsg={config.wrongMsg?.(current)}
+        >
+          {config.renderQuestion(current)}
+        </QuizQuestionShell>
+      )}
+      result={<QuizResultScreen onRestart={restart} theme={config.theme} />}
+    />
   );
 }
