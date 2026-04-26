@@ -9,6 +9,6 @@ interface Props {
   onRestart: (level: number) => void;
 }
 
-export default function MultiplicationResultScreen({ level, correct, totalQuestions, score, onRestart }: Props) {
+export default function MultiplicationResultScreen({ level, correct, totalQuestions, onRestart }: Props) {
   return <QuizResultScreen correctCount={correct} total={totalQuestions} onRestart={() => onRestart(level)} theme="violet" />;
 }

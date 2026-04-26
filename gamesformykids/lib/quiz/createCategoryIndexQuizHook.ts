@@ -31,7 +31,6 @@ export function createCategoryIndexQuizHook<
     const current      = questions[index] ?? null;
     const choices      = current ? current.answers.map((_, i) => String(i)) : [];
     const correctLabel = current ? String(current.correctIndex) : '';
-    const total        = questions.length;
 
     const startGame = useCallback((cat: Category = config.allCategory) => {
       const pool = cat === config.allCategory

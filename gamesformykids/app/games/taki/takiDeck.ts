@@ -1,5 +1,4 @@
 import type { TakiCard, CardColor, CardValue } from './takiTypes';
-import { shuffle } from '@/lib/utils';
 
 export const CARD_COLORS: CardColor[] = ['red', 'green', 'blue', 'yellow'];
 
