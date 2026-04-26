@@ -110,17 +110,20 @@ export default function UnifiedCard({
       large: "w-20 h-20 text-base"
     };
     
+    const ariaLabel = hebrewText || item?.hebrew || name || undefined;
     return (
-      <div
+      <button
+        type="button"
         className={`
           ${sizeClasses[size]} ${shapeClasses[shape]}
           shadow-${shadow} ${color} ${textColor} border-${borderWidth} ${borderColor}
-          transform ${hoverEffect === "scale" ? "hover:scale-110" : ""} 
-          transition-all duration-300 cursor-pointer 
+          transform ${hoverEffect === "scale" ? "hover:scale-110" : ""}
+          transition-all duration-300 cursor-pointer
           flex flex-col items-center justify-center p-2
           ${className}
         `}
         onClick={handleClick}
+        aria-label={ariaLabel}
       >
         {icon && <div className="mb-1">{icon}</div>}
         <div className="font-bold text-center">
@@ -131,8 +134,8 @@ export default function UnifiedCard({
             {secondaryText}
           </div>
         )}
-        {finalShowSoundIcon && <Volume2 className="w-3 h-3 opacity-70 mt-1" />}
-      </div>
+        {finalShowSoundIcon && <Volume2 className="w-3 h-3 opacity-70 mt-1" aria-hidden="true" />}
+      </button>
     );
   }
   
@@ -182,9 +185,12 @@ export default function UnifiedCard({
     ? `${color || `bg-${gradientFrom}`}`
     : `bg-gradient-to-br from-${gradientFrom} to-${gradientTo} hover:from-${hoverFrom} hover:to-${hoverTo}`;
   
+  const advancedAriaLabel = hebrewText || item?.hebrew || name || (digit ? String(digit) : undefined);
   return (
-    <div
+    <button
+      type="button"
       onClick={handleClick}
+      aria-label={advancedAriaLabel}
       className={`
         ${aspectClasses[aspectRatio]}
         rounded-${borderRadius}
@@ -272,11 +278,11 @@ export default function UnifiedCard({
             
             {/* Sound icon */}
             {finalShowSoundIcon && (
-              <Volume2 className="w-4 h-4 opacity-70 mt-2" />
+              <Volume2 className="w-4 h-4 opacity-70 mt-2" aria-hidden="true" />
             )}
           </>
         )}
       </div>
-    </div>
+    </button>
   );
 }
