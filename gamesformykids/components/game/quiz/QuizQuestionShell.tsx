@@ -13,7 +13,10 @@ interface Props {
   onSelect: (choice: string) => void;
   correctMsg?: string;
   wrongMsg?: string;
+  funFact?: string;
   cardVariant?: 'themed' | 'white';
+  cols?: 1 | 2;
+  renderChoice?: (choice: string) => ReactNode;
   children: ReactNode;
 }
 
@@ -24,7 +27,10 @@ export function QuizQuestionShell({
   onSelect,
   correctMsg = '🎉 נכון מאוד!',
   wrongMsg,
+  funFact,
   cardVariant = 'themed',
+  cols,
+  renderChoice,
   children,
 }: Props) {
   const t = QUIZ_THEMES[theme];
@@ -43,12 +49,15 @@ export function QuizQuestionShell({
           correctValue={correctLabel}
           onSelect={onSelect}
           theme={theme}
+          cols={cols}
+          renderChoice={renderChoice}
         />
         <QuizFeedback
           correctLabel={correctLabel}
           theme={theme}
           correctMsg={correctMsg}
           wrongMsg={wrongMsg}
+          funFact={funFact}
         />
       </div>
     </div>
