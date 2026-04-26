@@ -7,10 +7,7 @@ import TransportQuestion from './components/TransportQuestion';
 import TransportResultScreen from './components/TransportResultScreen';
 
 export default function TransportGame() {
-  const {
-    phase, transportType, types, currentQuestion,
-    selected, isCorrect, startGame, selectAnswer, nextQuestion,
-  } = useTransportGame();
+  const { phase, transportType, types, currentQuestion, startGame, selectAnswer } = useTransportGame();
 
   if (phase === 'menu') return (
     <TransportMenuScreen types={types as readonly TransportType[]} onStart={startGame} />
@@ -22,14 +19,5 @@ export default function TransportGame() {
 
   if (!currentQuestion) return null;
 
-  return (
-    <TransportQuestion
-      currentQuestion={currentQuestion}
-      phase={phase}
-      selected={selected}
-      isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer}
-      onNext={nextQuestion}
-    />
-  );
+  return <TransportQuestion currentQuestion={currentQuestion} onSelect={selectAnswer} />;
 }

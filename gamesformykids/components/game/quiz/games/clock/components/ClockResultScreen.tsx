@@ -1,14 +1,13 @@
 'use client';
+
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import ClockFace from './ClockFace';
 
-interface Props {
-  correct: number;
-  total: number;
-  onRestart: () => void;
-}
+export default function ClockResultScreen({ onRestart }: { onRestart: () => void }) {
+  const correct = useQuizGameStore(s => s.score);
+  const total   = useQuizGameStore(s => s.total);
+  const pct = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-export default function ClockResultScreen({ correct, total, onRestart }: Props) {
-  const pct = Math.round((correct / total) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100 p-4 flex items-center" dir="rtl">
       <div className="max-w-md mx-auto w-full bg-white rounded-3xl shadow-xl p-8 text-center">

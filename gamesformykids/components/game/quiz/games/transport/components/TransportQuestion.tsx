@@ -1,6 +1,6 @@
 'use client';
 
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+import { useTransportStore } from '../store/transportStore';
 
 interface TransportQuestion {
   emoji: string;
@@ -13,17 +13,17 @@ interface TransportQuestion {
 
 interface Props {
   currentQuestion: TransportQuestion;
-  phase: string;
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (idx: number) => void;
-  onNext: () => void;
 }
 
-export default function TransportQuestion({ currentQuestion, phase, selected, isCorrect, onSelect, onNext }: Props) {
-  const index = useQuizGameStore(s => s.index);
-  const total = useQuizGameStore(s => s.total);
-  const score = useQuizGameStore(s => s.score);
+export default function TransportQuestion({ currentQuestion, onSelect }: Props) {
+  const index     = useTransportStore(s => s.currentIndex);
+  const total     = useTransportStore(s => s.questions.length);
+  const score     = useTransportStore(s => s.score);
+  const selected  = useTransportStore(s => s.selected);
+  const isCorrect = useTransportStore(s => s.isCorrect);
+  const phase     = useTransportStore(s => s.phase);
+  const next      = useTransportStore(s => s.nextQuestion);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col p-4" dir="rtl">
@@ -60,7 +60,7 @@ export default function TransportQuestion({ currentQuestion, phase, selected, is
           })}
         </div>
         {phase === 'answered' && (
-          <button onClick={onNext} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
+          <button onClick={next} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
             {index + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>
         )}

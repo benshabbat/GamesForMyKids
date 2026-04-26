@@ -7,16 +7,16 @@ interface Props {
   level: SequenceLevel;
   current: SequenceQuestion;
   choices: number[];
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (n: number) => void;
-  onNext: () => void;
 }
 
-export default function SequencesQuestion({ level, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
-  const index = useQuizGameStore(s => s.index);
-  const total = useQuizGameStore(s => s.total);
-  const score = useQuizGameStore(s => s.score);
+export default function SequencesQuestion({ level, current, choices, onSelect }: Props) {
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const score     = useQuizGameStore(s => s.score);
+  const selected  = useQuizGameStore(s => s.selected !== null ? Number(s.selected) : null);
+  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
+  const next      = useQuizGameStore(s => s.nextQuestion);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-cyan-100 p-4" dir="rtl">
@@ -70,7 +70,7 @@ export default function SequencesQuestion({ level, current, choices, selected, i
             <div className={`rounded-2xl p-3 mb-3 text-center font-bold ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
               {isCorrect ? `✅ נכון! הסדרה: ${[...current.sequence, current.next].join(', ')}` : `💙 הנכון: ${current.next} (כלל: ${current.rule})`}
             </div>
-            <button onClick={onNext} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-cyan-500 to-sky-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button onClick={next} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-cyan-500 to-sky-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
               {index < total - 1 ? 'הבא ←' : 'תוצאות! 🎉'}
             </button>
           </div>

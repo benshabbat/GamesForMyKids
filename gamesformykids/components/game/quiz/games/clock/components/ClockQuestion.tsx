@@ -1,26 +1,29 @@
 'use client';
+
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import ClockFace from './ClockFace';
 import { ClockQuestion as ClockQuestionType } from '../data/times';
 
 interface Props {
-  index: number;
-  total: number;
-  score: number;
   current: ClockQuestionType;
   choices: ClockQuestionType[];
-  selected: number | null;
-  isCorrect: boolean;
   onSelect: (id: number) => void;
-  onNext: () => void;
 }
 
-export default function ClockQuestion({ index, total, score, current, choices, selected, isCorrect, onSelect, onNext }: Props) {
+export default function ClockQuestion({ current, choices, onSelect }: Props) {
+  const index     = useQuizGameStore(s => s.index);
+  const total     = useQuizGameStore(s => s.total);
+  const score     = useQuizGameStore(s => s.score);
+  const selected  = useQuizGameStore(s => s.selected !== null ? Number(s.selected) : null);
+  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
+  const next      = useQuizGameStore(s => s.nextQuestion);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100 p-4" dir="rtl">
       <div className="max-w-lg mx-auto">
         <div className="flex justify-between items-center mb-4">
           <span className="font-bold text-indigo-700">{index + 1} / {total}</span>
-          <span className="font-bold text-indigo-700">⭐ {score}</span>
+          <span className="font-bold text-indigo-700">⭐ {score * 10}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full mb-5">
           <div className="h-full bg-indigo-400 rounded-full transition-all" style={{ width: `${(index / total) * 100}%` }} />
@@ -54,7 +57,7 @@ export default function ClockQuestion({ index, total, score, current, choices, s
             <div className={`rounded-2xl p-3 mb-3 text-center font-bold ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
               {isCorrect ? `✅ נכון! ${current.digital} — ${current.description}` : `💙 ${current.digital} — ${current.description}`}
             </div>
-            <button onClick={onNext} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-violet-500 to-indigo-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button onClick={next} className="w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-violet-500 to-indigo-600 shadow-lg hover:opacity-90 active:scale-95 transition-all">
               {index < total - 1 ? 'הבא ←' : 'תוצאות! 🎉'}
             </button>
           </div>

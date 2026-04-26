@@ -5,19 +5,9 @@ import ClockQuestionCard from './components/ClockQuestion';
 import ClockResultScreen from './components/ClockResultScreen';
 
 export default function ClockGame() {
-  const { phase, index, score, selected, isCorrect, current, choices, total, startGame, selectAnswer, next, restart } = useClockGame();
+  const { phase, current, choices, startGame, selectAnswer, restart } = useClockGame();
 
   if (phase === 'menu') return <ClockMenuScreen onStart={startGame} />;
-
-  if (phase === 'playing' && current) return (
-    <ClockQuestionCard
-      index={index} total={total} score={score}
-      current={current} choices={choices}
-      selected={selected} isCorrect={isCorrect ?? false}
-      onSelect={selectAnswer} onNext={next}
-    />
-  );
-
-  const correct = Math.round(score / 10);
-  return <ClockResultScreen correct={correct} total={total} onRestart={restart} />;
+  if (phase === 'playing' && current) return <ClockQuestionCard current={current} choices={choices} onSelect={selectAnswer} />;
+  return <ClockResultScreen onRestart={restart} />;
 }
