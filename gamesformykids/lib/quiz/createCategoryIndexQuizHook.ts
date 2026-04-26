@@ -4,7 +4,7 @@ import { useState, useCallback } from 'react';
 import { useQuizGameStore } from '@/lib/stores';
 import { shuffle } from '@/lib/utils';
 
-interface Config<Category extends string, Q extends { correctIndex: number }> {
+interface Config<Category extends string, Q extends { correctIndex: number; answers: unknown[] }> {
   questions: Q[];
   gameType: string;
   questionsPerGame: number;
@@ -17,21 +17,21 @@ interface Config<Category extends string, Q extends { correctIndex: number }> {
 
 export function createCategoryIndexQuizHook<
   Category extends string,
-  Q extends { correctIndex: number }
+  Q extends { correctIndex: number; answers: unknown[] }
 >(config: Config<Category, Q>) {
   return function useHook() {
-    const phase     = useQuizGameStore(s => s.phase);
-    const index     = useQuizGameStore(s => s.index);
-    const score     = useQuizGameStore(s => s.score);
-    const selected  = useQuizGameStore(s => s.selected);
-    const isCorrect = useQuizGameStore(s => s.isCorrect);
-    const { startQuiz, selectAnswer: storeSelectAnswer, nextQuestion, restartQuiz } = useQuizGameStore();
+    const phase    = useQuizGameStore(s => s.phase);
+    const index    = useQuizGameStore(s => s.index);
+    const selected = useQuizGameStore(s => s.selected);
+    const { startQuiz, selectAnswer: storeSelectAnswer, restartQuiz } = useQuizGameStore();
 
     const [questions, setQuestions] = useState<Q[]>([]);
     const [category, setCategory]   = useState<Category>(config.allCategory);
 
-    const current = questions[index] ?? null;
-    const total   = questions.length;
+    const current      = questions[index] ?? null;
+    const choices      = current ? current.answers.map((_, i) => String(i)) : [];
+    const correctLabel = current ? String(current.correctIndex) : '';
+    const total        = questions.length;
 
     const startGame = useCallback((cat: Category = config.allCategory) => {
       const pool = cat === config.allCategory
@@ -43,12 +43,11 @@ export function createCategoryIndexQuizHook<
       startQuiz(config.gameType, q.length);
     }, [startQuiz]);
 
-    const selectAnswer = useCallback((idx: number) => {
+    const selectAnswer = useCallback((idxStr: string) => {
+      const idx = Number(idxStr);
       if (selected !== null || !current) return;
-      storeSelectAnswer(String(idx), idx === current.correctIndex);
+      storeSelectAnswer(idxStr, idx === current.correctIndex);
     }, [selected, current, storeSelectAnswer]);
-
-    const next = useCallback(() => nextQuestion(), [nextQuestion]);
 
     const restart = useCallback(() => {
       const pool = category === config.allCategory
@@ -63,16 +62,11 @@ export function createCategoryIndexQuizHook<
       phase,
       category,
       categories: config.categories,
-      index,
-      score: score * (config.scoreMultiplier ?? 10),
-      selected: selected !== null ? Number(selected) : null,
-      isCorrect,
       current,
-      total,
-      correctCount: score,
+      choices,
+      correctLabel,
       startGame,
       selectAnswer,
-      next,
       restart,
     };
   };

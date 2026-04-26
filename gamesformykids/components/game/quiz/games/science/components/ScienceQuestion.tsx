@@ -5,17 +5,18 @@ import type { ScienceQuestion as Q } from '../data/questions';
 
 interface Props {
   current: Q;
-  onSelect: (i: number) => void;
+  choices: string[];
+  correctLabel: string;
+  onSelect: (v: string) => void;
 }
 
-export default function ScienceQuestion({ current, onSelect }: Props) {
-  const choices = current.answers.map((_, i) => String(i));
+export default function ScienceQuestion({ current, choices, correctLabel, onSelect }: Props) {
   return (
     <QuizQuestionShell
       theme="cyan"
       choices={choices}
-      correctLabel={String(current.correctIndex)}
-      onSelect={(v) => onSelect(Number(v))}
+      correctLabel={correctLabel}
+      onSelect={onSelect}
       cols={1}
       renderChoice={(v) => current.answers[Number(v)]}
       funFact={`💡 ${current.explanation}`}

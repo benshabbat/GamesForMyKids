@@ -1,21 +1,9 @@
 'use client';
 
-interface HolidayQuestion {
-  question: string;
-  answers: string[];
-  correctIndex: number;
-}
-
-interface CurrentHoliday {
-  emoji: string;
-  name: string;
-  description: string;
-  color: string;
-  bg: string;
-}
+import type { Holiday, HolidayQuestion } from '../data/holidays';
 
 interface Props {
-  current: CurrentHoliday;
+  current: Holiday;
   currentQuestion: HolidayQuestion;
   questionIndex: number;
   totalQuestions: number;

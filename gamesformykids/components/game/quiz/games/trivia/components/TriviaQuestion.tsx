@@ -1,29 +1,22 @@
 'use client';
 
 import { QuizQuestionShell } from '@/components/game/quiz';
-import { CATEGORY_EMOJIS, type TriviaCategory } from '../data/questions';
-
-interface TriviaQuestion {
-  category: TriviaCategory;
-  question: string;
-  answers: string[];
-  correctIndex: number;
-  funFact: string;
-}
+import { CATEGORY_EMOJIS, type TriviaQuestion as Q } from '../data/questions';
 
 interface Props {
-  current: TriviaQuestion;
-  onSelect: (idx: number) => void;
+  current: Q;
+  choices: string[];
+  correctLabel: string;
+  onSelect: (v: string) => void;
 }
 
-export default function TriviaQuestion({ current, onSelect }: Props) {
-  const choices = current.answers.map((_, i) => String(i));
+export default function TriviaQuestion({ current, choices, correctLabel, onSelect }: Props) {
   return (
     <QuizQuestionShell
       theme="amber"
       choices={choices}
-      correctLabel={String(current.correctIndex)}
-      onSelect={(v) => onSelect(Number(v))}
+      correctLabel={correctLabel}
+      onSelect={onSelect}
       cols={1}
       renderChoice={(v) => current.answers[Number(v)]}
       funFact={current.funFact}

@@ -16,14 +16,15 @@ export interface IndexedQuestion {
 
 interface Props {
   current: IndexedQuestion;
-  onSelect: (i: number) => void;
+  choices: string[];
+  correctLabel: string;
+  onSelect: (v: string) => void;
   theme: QuizTheme;
   categoryColors?: Record<string, string>;
 }
 
-export function CategoryIndexedQuestion({ current, onSelect, theme, categoryColors = {} }: Props) {
+export function CategoryIndexedQuestion({ current, choices, correctLabel, onSelect, theme, categoryColors = {} }: Props) {
   const t = QUIZ_THEMES[theme];
-  const choices = current.answers.map((_, i) => String(i));
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${t.gradient} flex flex-col items-center justify-center p-4`} dir="rtl">
@@ -38,13 +39,13 @@ export function CategoryIndexedQuestion({ current, onSelect, theme, categoryColo
         </div>
         <QuizAnswerGrid
           choices={choices}
-          correctValue={String(current.correctIndex)}
-          onSelect={(v) => onSelect(Number(v))}
+          correctValue={correctLabel}
+          onSelect={onSelect}
           theme={theme}
           renderChoice={(v) => current.answers[Number(v)]}
         />
         <QuizFeedback
-          correctLabel={current.answers[current.correctIndex]}
+          correctLabel={current.answers[Number(correctLabel)]}
           funFact={current.funFact ? `💡 ${current.funFact}` : undefined}
           theme={theme}
         />

@@ -6,9 +6,9 @@ import ScienceQuestion from './components/ScienceQuestion';
 import { QuizResultScreen } from '@/components/game/quiz';
 
 export default function ScienceGame() {
-  const { phase, current, startGame, selectAnswer, restart } = useScienceGame();
+  const { phase, current, choices, correctLabel, startGame, selectAnswer, restart } = useScienceGame();
 
   if (phase === 'menu') return <ScienceMenuScreen topics={TOPICS} topicEmojis={TOPIC_EMOJIS} onStart={startGame} />;
-  if (phase === 'playing' && current) return <ScienceQuestion current={current} onSelect={selectAnswer} />;
+  if (phase === 'playing' && current) return <ScienceQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} />;
   return <QuizResultScreen onRestart={restart} theme="cyan" />;
 }

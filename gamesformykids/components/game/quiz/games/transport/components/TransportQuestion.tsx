@@ -1,15 +1,7 @@
 'use client';
 
 import { useTransportStore } from '../store/transportStore';
-
-interface TransportQuestion {
-  emoji: string;
-  type: string;
-  question: string;
-  answers: string[];
-  correctIndex: number;
-  funFact: string;
-}
+import type { TransportQuestion } from '../data/transport';
 
 interface Props {
   currentQuestion: TransportQuestion;

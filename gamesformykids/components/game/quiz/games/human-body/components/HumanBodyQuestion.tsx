@@ -1,13 +1,7 @@
 'use client';
 
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
-
-interface BodyQuestion {
-  emoji: string;
-  category: string;
-  part: string;
-  function: string;
-}
+import type { BodyQuestion } from '../data/body';
 
 interface Props {
   currentQuestion: BodyQuestion;

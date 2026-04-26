@@ -28,4 +28,13 @@ export const ISRAEL_QUESTIONS: IsraelQuestion[] = [
 ];
 
 export const CATEGORIES = ['הכל', 'גאוגרפיה', 'היסטוריה', 'תרבות', 'טבע', 'ערים'] as const;
-export type IsraelCategory = typeof CATEGORIES[number];
+export type IsraelCategory = typeof CATEGORIES[number];
+
+export const CATEGORY_COLORS: Record<IsraelCategory, string> = {
+  'הכל':      'bg-blue-600 text-white',
+  'גאוגרפיה': 'bg-teal-500 text-white',
+  'היסטוריה': 'bg-amber-500 text-white',
+  'תרבות':    'bg-purple-500 text-white',
+  'טבע':      'bg-green-500 text-white',
+  'ערים':     'bg-rose-500 text-white',
+};

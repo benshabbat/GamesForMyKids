@@ -1,24 +1,14 @@
 'use client';
 
-interface CurrentHoliday {
-  emoji: string;
-  name: string;
-  color: string;
-  bg: string;
-}
-
-interface NextHoliday {
-  name: string;
-  emoji: string;
-}
+import type { Holiday } from '../data/holidays';
 
 interface Props {
-  current: CurrentHoliday;
+  current: Holiday;
   score: number;
   maxScore: number;
   holidayIndex: number;
   totalHolidays: number;
-  nextHolidayInfo: NextHoliday | null;
+  nextHolidayInfo: Holiday | null;
   onNext: () => void;
 }
 

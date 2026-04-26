@@ -1,18 +1,10 @@
 'use client';
 
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
-
-interface Mix {
-  color1: string;
-  color2: string;
-  label1: string;
-  label2: string;
-  result: string;
-  resultLabel: string;
-}
+import type { ColorMix } from '../data/mixes';
 
 interface Props {
-  mix: Mix;
+  mix: ColorMix;
   choices: string[];
   onSelect: (label: string) => void;
 }
