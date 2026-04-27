@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useStackGame, W, H } from './useStackGame';
 import StackMenuOverlay from './components/StackMenuOverlay';
@@ -7,6 +8,7 @@ import StackDropButton from './components/StackDropButton';
 
 export default function StackGame() {
   const { canvasRef, ui, startGame, drop, handleCanvasClick } = useStackGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
@@ -17,7 +19,7 @@ export default function StackGame() {
           height={H}
           onClick={handleCanvasClick}
           className="rounded-3xl shadow-2xl border-2 border-slate-700 cursor-pointer"
-          style={{ touchAction: 'none', maxHeight: '80vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '80vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

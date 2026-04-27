@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useBrickBreakerGame, W, H } from './useBrickBreakerGame';
 import BrickScoreBar from './components/BrickScoreBar';
@@ -8,6 +9,7 @@ import BrickControls from './components/BrickControls';
 
 export default function BrickBreakerGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight } = useBrickBreakerGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-950 to-slate-950 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
@@ -24,7 +26,7 @@ export default function BrickBreakerGame() {
           onTouchMove={handleTouchMove}
           onTouchStart={handleTouchStart}
           className="rounded-3xl shadow-2xl border-4 border-purple-700 cursor-none"
-          style={{ touchAction: 'none', maxHeight: '85vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '85vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

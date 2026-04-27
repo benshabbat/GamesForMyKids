@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useFlappyBirdGame, W, H } from './useFlappyBirdGame';
 import FlappyMenuOverlay from './components/FlappyMenuOverlay';
@@ -6,6 +7,7 @@ import FlappyGameOverOverlay from './components/FlappyGameOverOverlay';
 
 export default function FlappyBirdGame() {
   const { canvasRef, ui, handleInput } = useFlappyBirdGame();
+  const ready = useCanvasReady();
 
   return (
     <div
@@ -20,7 +22,7 @@ export default function FlappyBirdGame() {
           onClick={handleInput}
           onTouchStart={handleInput}
           className="rounded-3xl shadow-2xl cursor-pointer max-w-full"
-          style={{ touchAction: 'none', maxHeight: '90vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '90vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

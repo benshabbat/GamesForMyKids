@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useFroggerGame, W, H } from './useFroggerGame';
 import FroggerScoreBar from './components/FroggerScoreBar';
@@ -8,6 +9,7 @@ import FroggerControls from './components/FroggerControls';
 
 export default function FroggerGame() {
   const { canvasRef, ui, startGame, moveFrog, handleTouchStart, handleTouchEnd } = useFroggerGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
@@ -23,7 +25,7 @@ export default function FroggerGame() {
           onTouchStart={handleTouchStart}
           onTouchEnd={handleTouchEnd}
           className="rounded-2xl shadow-2xl border-2 border-gray-700"
-          style={{ touchAction: 'none', maxHeight: '70vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '70vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

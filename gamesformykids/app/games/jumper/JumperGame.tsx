@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useJumperGame, W, H } from './useJumperGame';
 import JumperScoreBar from './components/JumperScoreBar';
@@ -8,6 +9,7 @@ import JumperControls from './components/JumperControls';
 
 export default function JumperGame() {
   const { canvasRef, ui, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight } = useJumperGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-indigo-950 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
@@ -24,7 +26,7 @@ export default function JumperGame() {
           onTouchEnd={handleTouchEnd}
           onClick={handleCanvasClick}
           className="rounded-3xl shadow-2xl border-2 border-indigo-800"
-          style={{ touchAction: 'none', maxHeight: '78vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '78vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

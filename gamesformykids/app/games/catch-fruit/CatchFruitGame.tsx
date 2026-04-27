@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useCatchFruitGame, W, H } from './useCatchFruitGame';
 import CatchFruitHUD from './components/CatchFruitHUD';
@@ -7,6 +8,7 @@ import CatchFruitResultOverlay from './components/CatchFruitResultOverlay';
 
 export default function CatchFruitGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart } = useCatchFruitGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-950 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
@@ -25,7 +27,7 @@ export default function CatchFruitGame() {
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
           className="rounded-3xl shadow-2xl cursor-grab active:cursor-grabbing border-4 border-purple-700"
-          style={{ touchAction: 'none', maxHeight: '80vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '80vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (

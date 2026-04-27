@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useDinoRunnerGame, W, H } from './useDinoRunnerGame';
 import DinoScoreBar from './components/DinoScoreBar';
@@ -7,6 +8,7 @@ import DinoGameOverOverlay from './components/DinoGameOverOverlay';
 
 export default function DinoRunnerGame() {
   const { canvasRef, ui, handleTap } = useDinoRunnerGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
@@ -22,7 +24,7 @@ export default function DinoRunnerGame() {
           onClick={handleTap}
           onTouchStart={handleTap}
           className="rounded-3xl shadow-2xl cursor-pointer border-4 border-amber-300"
-          style={{ touchAction: 'none', maxWidth: '100%' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxWidth: '100%' }}
         />
 
         {ui.phase === 'menu' && (

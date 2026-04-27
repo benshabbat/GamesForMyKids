@@ -1,4 +1,5 @@
 'use client';
+import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
 import MeteorScoreBar from './components/MeteorScoreBar';
@@ -8,6 +9,7 @@ import MeteorControls from './components/MeteorControls';
 
 export default function MeteorDodgeGame() {
   const { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight } = useMeteorDodgeGame();
+  const ready = useCanvasReady();
 
   return (
     <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
@@ -25,7 +27,7 @@ export default function MeteorDodgeGame() {
           onClick={handleCanvasClick}
           onTouchStart={handleTouchStart}
           className="rounded-3xl shadow-2xl border-4 border-slate-700 cursor-none"
-          style={{ touchAction: 'none', maxHeight: '85vh', width: 'auto' }}
+          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '85vh', width: 'auto' }}
         />
 
         {ui.phase === 'menu' && (
