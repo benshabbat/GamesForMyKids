@@ -74,7 +74,7 @@ export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get)
     if (card.value === 'plus') {
       const newDeck = [...prev.deck];
       const compHand = [...prev.computerHand];
-      for (let i = 0; i < 2; i++) { if (newDeck.length > 0) compHand.push(newDeck.pop()!); }
+      for (let i = 0; i < 2; i++) { const c = newDeck.pop(); if (c) compHand.push(c); }
       set({ ...prev, playerHand: newHand, topCard: card, deck: newDeck, computerHand: compHand, effectiveColor: null, inTakiSequence: false, takiColor: null, needsColorChoice: false, currentTurn: 'computer', turnId: prev.turnId + 1, message: `+2! המחשב מושך 2 קלפים${takiMsg}` });
       return;
     }
@@ -108,7 +108,8 @@ export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get)
     if (prev.needsColorChoice) { set({ message: 'קודם בחר צבע!' }); return; }
     if (prev.deck.length === 0) { set({ message: 'הקלחפה ריקה!' }); return; }
     const newDeck = [...prev.deck];
-    const drawn = newDeck.pop()!;
+    const drawn = newDeck.pop();
+    if (!drawn) return;
     set({ ...prev, deck: newDeck, playerHand: [...prev.playerHand, drawn], currentTurn: 'computer', turnId: prev.turnId + 1, message: `משכת קלף (${getColorName(drawn.color)} ${getValueLabel(drawn.value)}). תור המחשב...` });
   },
 
@@ -129,7 +130,7 @@ export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get)
         set({ ...prev, inTakiSequence: false, takiColor: null, currentTurn: 'player', message: 'המחשב סגר טאקי. תורך!' });
         return;
       }
-      if (deck.length > 0) hand = [...hand, deck.pop()!];
+      const drawn2 = deck.pop(); if (drawn2) hand = [...hand, drawn2];
       set({ ...prev, computerHand: hand, deck, inTakiSequence: false, takiColor: null, effectiveColor, currentTurn: 'player', message: 'המחשב משך קלף. תורך!' });
       return;
     }
@@ -194,7 +195,7 @@ export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get)
     }
 
     if (card.value === 'plus') {
-      for (let i = 0; i < 2; i++) { if (deck.length > 0) playerHand = [...playerHand, deck.pop()!]; }
+      for (let i = 0; i < 2; i++) { const c = deck.pop(); if (c) playerHand = [...playerHand, c]; }
       set({ ...prev, computerHand: hand, playerHand, deck, topCard, effectiveColor: null, inTakiSequence: false, takiColor: null, currentTurn: 'player', message: `+2! המחשב שיחק פלוס  אתה מושך 2 קלפים! תורך!` });
       return;
     }

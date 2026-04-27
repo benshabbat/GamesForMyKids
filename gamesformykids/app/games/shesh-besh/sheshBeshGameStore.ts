@@ -248,7 +248,8 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
       const s = get();
       if (s.phase !== 'moving' || s.currentTurn !== 'player' || s.turnHistory.length === 0) return;
       const newHistory = [...s.turnHistory];
-      const prev = newHistory.pop()!;
+      const prev = newHistory.pop();
+      if (!prev) return;
       set({
         points: prev.points, barPlayer: prev.barPlayer,
         barComputer: prev.barComputer, dice: prev.dice,
