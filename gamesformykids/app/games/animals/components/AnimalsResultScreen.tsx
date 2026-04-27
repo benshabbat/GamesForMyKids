@@ -1,11 +1,10 @@
 'use client';
-import { useAnimalsStore } from '@/lib/stores/animalsStore';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+import { useAnimalsSession } from '../hooks/useAnimalsSession';
 
 export default function AnimalsResultScreen() {
-  const score   = useQuizGameStore(s => s.score);
   const total   = useQuizGameStore(s => s.total);
-  const restart  = useAnimalsStore(s => s.restart);
+  const { score, restart } = useAnimalsSession();
   const pct = Math.round((score / total) * 100);
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-100 p-4 flex items-center" dir="rtl">

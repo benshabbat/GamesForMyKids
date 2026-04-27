@@ -52,7 +52,7 @@ export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLe
 
 // Animals (category / questions / game actions)
 export { useAnimalsStore } from './animalsStore';
-export type { QuestionMode } from './animalsStore';
+export type { AnimalsState, AnimalsActions, AnimalQuestion, QuestionMode } from './animalsStore';
 
 // Progress Tracking (allSessions — persisted)
 export { useProgressTrackingStore } from './progressTrackingStore';

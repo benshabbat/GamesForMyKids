@@ -1,9 +1,9 @@
 'use client';
-import { useAnimalsStore } from '@/lib/stores/animalsStore';
+import { useAnimalsSession } from '../hooks/useAnimalsSession';
 import { CATEGORY_ORDER, CATEGORY_DISPLAY } from '../data/animals';
 
 export default function AnimalsMenuScreen() {
-  const startGame = useAnimalsStore(s => s.startGame);
+  const { startGame } = useAnimalsSession();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-teal-100 p-4" dir="rtl">

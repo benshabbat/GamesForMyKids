@@ -1,19 +1,12 @@
 'use client';
 import { useQuizGameStore } from '@/lib/stores';
-import { useAnimalsStore } from '@/lib/stores/animalsStore';
+import { useAnimalsSession } from '../hooks/useAnimalsSession';
 
 export default function AnimalsQuestionCard() {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected);
-  const isCorrect = useQuizGameStore(s => s.isCorrect);
+  const total        = useQuizGameStore(s => s.total);
   const nextQuestion = useQuizGameStore(s => s.nextQuestion);
 
-  const questions    = useAnimalsStore(s => s.questions);
-  const selectAnswer = useAnimalsStore(s => s.selectAnswer);
-
-  const current = questions[index] ?? null;
+  const { index, score, selected, isCorrect, current, selectAnswer } = useAnimalsSession();
   if (!current) return null;
   const prompt = current.mode === 'emoji-to-name' ? current.animal.emoji : current.animal.hebrew;
   const promptLabel = current.mode === 'emoji-to-name' ? 'מה שם החיה?' : 'מה הסמל של החיה?';
