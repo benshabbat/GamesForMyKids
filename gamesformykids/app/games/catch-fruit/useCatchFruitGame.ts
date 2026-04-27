@@ -50,7 +50,8 @@ export function useCatchFruitGame() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d')!;
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
+    if (!ctx) return;
     let lastTime = performance.now();
 
     function loop(now: number) {
@@ -143,7 +144,8 @@ export function useCatchFruitGame() {
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!pointerDown.current) return;
-    const canvas = canvasRef.current!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
@@ -152,7 +154,8 @@ export function useCatchFruitGame() {
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     pointerDown.current = true;
-    const canvas = canvasRef.current!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
@@ -161,7 +164,8 @@ export function useCatchFruitGame() {
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    const canvas = canvasRef.current!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     const mx = (e.touches[0].clientX - rect.left) * scaleX;
@@ -170,7 +174,8 @@ export function useCatchFruitGame() {
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    const canvas = canvasRef.current!;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     const mx = (e.touches[0].clientX - rect.left) * scaleX;
