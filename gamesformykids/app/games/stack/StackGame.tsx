@@ -1,39 +1,26 @@
 'use client';
-import { useCanvasReady } from '@/hooks/canvas/useCanvasReady';
 
 import { useStackGame, W, H } from './useStackGame';
 import StackMenuOverlay from './components/StackMenuOverlay';
 import StackGameOverOverlay from './components/StackGameOverOverlay';
 import StackDropButton from './components/StackDropButton';
+import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function StackGame() {
   const { canvasRef, ui, startGame, drop, handleCanvasClick } = useStackGame();
-  const ready = useCanvasReady();
 
   return (
-    <div className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-2 select-none" dir="rtl">
-      <div className="relative">
-        <canvas
-          ref={canvasRef}
-          width={W}
-          height={H}
-          onClick={handleCanvasClick}
-          className="rounded-3xl shadow-2xl border-2 border-slate-700 cursor-pointer"
-          style={{ touchAction: 'none', opacity: ready ? 1 : 0, transition: 'opacity 0.2s', maxHeight: '80vh', width: 'auto' }}
-        />
-
-        {ui.phase === 'menu' && (
-          <StackMenuOverlay best={ui.best} onStart={startGame} />
-        )}
-
-        {ui.phase === 'dead' && (
-          <StackGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />
-        )}
-      </div>
-
-      {ui.phase === 'playing' && (
-        <StackDropButton onDrop={drop} />
-      )}
-    </div>
+    <CanvasGameShell
+      canvasRef={canvasRef} width={W} height={H}
+      className="min-h-screen bg-slate-900 flex flex-col items-center justify-center p-2 select-none"
+      canvasClassName="rounded-3xl shadow-2xl border-2 border-slate-700 cursor-pointer"
+      canvasStyle={{ maxHeight: '80vh', width: 'auto' }}
+      canvasProps={{ onClick: handleCanvasClick }}
+      overlays={<>
+        {ui.phase === 'menu' && <StackMenuOverlay best={ui.best} onStart={startGame} />}
+        {ui.phase === 'dead' && <StackGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
+      </>}
+      controls={ui.phase === 'playing' && <StackDropButton onDrop={drop} />}
+    />
   );
 }
