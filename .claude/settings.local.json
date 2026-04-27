@@ -14,7 +14,12 @@
       "Read(//tmp/**)",
       "Bash(npx next *)",
       "Bash(grep -E \"\\\\.ts$\")",
-      "Bash(grep \"\\\\.ts$\")"
+      "Bash(grep \"\\\\.ts$\")",
+      "Bash(gh pr create --base refactor/quiz-registry-and-zustand-cleanup --head main --title 'refactor: quiz registry pattern, screen components, Zustand cleanup & lib deduplication' --body ' *)",
+      "Bash(git checkout *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git push *)"
     ]
   }
 }

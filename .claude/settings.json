@@ -1,0 +1,32 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git commit -m ' *)",
+      "Bash(git pull *)",
+      "Bash(gh pr create --title 'feat: add loading.tsx route segments for navigation skeleton' --body ' *)",
+      "Bash(gh pr create --title 'feat: add error.tsx route segments for graceful error handling' --body ' *)",
+      "Bash(npm run *)",
+      "Bash(gh pr create --title 'fix: replace div+onClick with button in UnifiedCard for accessibility' --body ' *)",
+      "Bash(gh issue *)",
+      "Read(//c/Users/bensh/OneDrive/שולחן/ העבודה/GamesForMyKids/gamesformykids/**)",
+      "Bash(xargs wc *)",
+      "Bash(git branch *)",
+      "Bash(npm test *)",
+      "Bash(gh pr create --title 'chore: add GitHub Actions CI pipeline' --body ' *)",
+      "Bash(gh run *)",
+      "Bash(gh pr create --title 'chore: move dotenv from dependencies to devDependencies' --body ' *)",
+      "Bash(gh pr create --title 'fix: replace non-null assertions on array.pop\\(\\) in board game stores' --body ' *)",
+      "Bash(gh pr create --title 'refactor: decouple animalsStore from cross-store getState\\(\\) calls' --body ' *)",
+      "Bash(gh pr create --title 'fix: replace non-null assertions on canvas getContext with null guards' --body ' *)",
+      "Bash(gh pr create --title 'perf: apply React.memo to pure display components \\(#81\\)' --body ' *)",
+      "Bash(gh pr *)",
+      "Bash(npm install *)",
+      "Bash(cat vitest.config.ts)",
+      "Bash(cat vitest.config.js)",
+      "Read(//c/Users/bensh/.claude/projects/c--Users-bensh-OneDrive--------------GamesForMyKids/memory/**)"
+    ],
+    "additionalDirectories": [
+      "c:\\Users\\bensh\\.claude\\projects\\c--Users-bensh-OneDrive--------------GamesForMyKids\\memory"
+    ]
+  }
+}
