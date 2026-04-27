@@ -2,6 +2,9 @@ import type { NextConfig } from "next";
 
 // Bundle analyzer configuration - disabled by default
 const nextConfig: NextConfig = {
+  experimental: {
+    reactCompiler: true,
+  },
   images: {
     unoptimized: true,
   },
