@@ -1,9 +1,10 @@
 'use client';
 
+import { memo } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
-export function QuizProgress({ theme }: { theme: QuizTheme }) {
+function QuizProgressInner({ theme }: { theme: QuizTheme }) {
   const index = useQuizGameStore(s => s.index);
   const total = useQuizGameStore(s => s.total);
   const score = useQuizGameStore(s => s.score);
@@ -23,3 +24,5 @@ export function QuizProgress({ theme }: { theme: QuizTheme }) {
     </>
   );
 }
+
+export const QuizProgress = memo(QuizProgressInner);

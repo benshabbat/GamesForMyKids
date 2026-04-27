@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { Volume2 } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
@@ -9,7 +10,7 @@ import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
  * 
  * מתאים עצמו אוטומטית לפי הפרמטרים שמועברים
  */
-export default function UnifiedCard({
+function UnifiedCard({
   // Data
   item,
   onClick,
@@ -286,3 +287,5 @@ export default function UnifiedCard({
     </button>
   );
 }
+
+export default memo(UnifiedCard);

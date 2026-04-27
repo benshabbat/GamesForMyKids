@@ -1,12 +1,14 @@
 'use client';
 
+import { memo } from 'react';
+
 interface Props {
   numerator: number;
   denominator: number;
   color?: string;
 }
 
-export default function FractionBar({ numerator, denominator, color = '#7c3aed' }: Props) {
+function FractionBar({ numerator, denominator, color = '#7c3aed' }: Props) {
   return (
     <div className="flex gap-1 justify-center my-2">
       {Array.from({ length: denominator }).map((_, i) => (
@@ -22,3 +24,5 @@ export default function FractionBar({ numerator, denominator, color = '#7c3aed' 
     </div>
   );
 }
+
+export default memo(FractionBar);
