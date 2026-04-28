@@ -1,15 +1,14 @@
 import type { ImageId } from '../store/coloringStore';
 import type { ImageComponentType, ImageMeta } from '../types';
-import {
-  CatImage, catRegions, catRegionNames,
-  HouseImage, houseRegions, houseRegionNames,
-  SunImage, sunRegions, sunRegionNames, SUN_RAY_IDS,
-  ButterflyImage, butterflyRegions, butterflyRegionNames,
-  FlowerImage, flowerRegions, flowerRegionNames,
-  FishImage, fishRegions, fishRegionNames,
-  TreeImage, treeRegions, treeRegionNames,
-  CarImage, carRegions, carRegionNames,
-} from './coloringImages';
+
+import { CatImage, catRegions, catRegionNames } from './images/cat';
+import { HouseImage, houseRegions, houseRegionNames } from './images/house';
+import { SunImage, sunRegions, sunRegionNames, SUN_RAY_IDS } from './images/sun';
+import { ButterflyImage, butterflyRegions, butterflyRegionNames } from './images/butterfly';
+import { FlowerImage, flowerRegions, flowerRegionNames } from './images/flower';
+import { FishImage, fishRegions, fishRegionNames } from './images/fish';
+import { TreeImage, treeRegions, treeRegionNames } from './images/tree';
+import { CarImage, carRegions, carRegionNames } from './images/car';
 
 export type { ImageComponentType, ImageMeta };
 
