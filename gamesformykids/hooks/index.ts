@@ -10,6 +10,9 @@
 // Game State Hooks
 export * from './shared/game-state';
 
+// Shared game logic hooks
+export { useTimedQuizGame } from './games/useTimedQuizGame';
+
 // Progress & Achievements
 export * from './shared/progress';
 

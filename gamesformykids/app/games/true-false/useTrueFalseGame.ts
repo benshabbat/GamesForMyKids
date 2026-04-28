@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef } from 'react';
+import { useTimedQuizGame } from '@/hooks/games/useTimedQuizGame';
 
 export const FACTS = [
   { fact: 'לכלב יש ארבע רגליים', answer: true, emoji: '🐕' },
@@ -31,104 +32,53 @@ export const FACTS = [
 
 export const TIME_PER_Q = 6;
 
-import type { PhaseDead as GamePhase } from '@/lib/types';
 import { shuffle } from '@/lib/utils';
 
-
 export function useTrueFalseGame() {
-  const [phase, setPhase]       = useState<GamePhase>('menu');
-  const [deck, setDeck]         = useState(shuffle(FACTS));
-  const [idx, setIdx]           = useState(0);
-  const [score, setScore]       = useState(0);
-  const [best, setBest]         = useState(0);
-  const [lives, setLives]       = useState(3);
-  const [timeLeft, setTimeLeft] = useState(TIME_PER_Q);
-  const [feedback, setFeedback] = useState<'correct' | 'wrong' | null>(null);
+  const [deck, setDeck]   = useState(() => shuffle(FACTS));
+  const [idx, setIdx]     = useState(0);
 
-  const phaseRef  = useRef<GamePhase>('menu');
-  const scoreRef  = useRef(0);
-  const livesRef  = useRef(3);
-  const idxRef    = useRef(0);
-  const deckRef   = useRef(shuffle(FACTS));
+  const idxRef  = useRef(0);
+  const deckRef = useRef(shuffle(FACTS));
 
-  const nextQ = useCallback(() => {
-    const nextIdx = idxRef.current + 1;
-    if (nextIdx >= deckRef.current.length) {
-      deckRef.current = shuffle(FACTS);
-      setDeck([...deckRef.current]);
-      idxRef.current = 0;
-    } else {
-      idxRef.current = nextIdx;
-    }
-    setIdx(idxRef.current);
-    setTimeLeft(TIME_PER_Q);
-    setFeedback(null);
-  }, []);
+  const {
+    phase, score, best, lives, timeLeft, feedback,
+    phaseRef, startGame: startBase, handleCorrect, handleWrong,
+  } = useTimedQuizGame({
+    timePerQ: TIME_PER_Q,
+    feedbackDelay: 800,
+    onNextQuestion: () => {
+      const nextIdx = idxRef.current + 1;
+      if (nextIdx >= deckRef.current.length) {
+        deckRef.current = shuffle(FACTS);
+        setDeck([...deckRef.current]);
+        idxRef.current = 0;
+      } else {
+        idxRef.current = nextIdx;
+      }
+      setIdx(idxRef.current);
+    },
+  });
 
   const startGame = useCallback(() => {
     const d = shuffle(FACTS);
     deckRef.current = d;
-    idxRef.current  = 0;
-    scoreRef.current = 0;
-    livesRef.current = 3;
-    phaseRef.current = 'playing';
-    setDeck(d);
-    setIdx(0);
-    setScore(0);
-    setLives(3);
-    setTimeLeft(TIME_PER_Q);
-    setFeedback(null);
-    setPhase('playing');
-  }, []);
-
-  useEffect(() => {
-    if (phase !== 'playing' || feedback) return;
-    const t = setInterval(() => {
-      setTimeLeft(prev => {
-        if (prev <= 1) {
-          const newLives = livesRef.current - 1;
-          livesRef.current = newLives;
-          setLives(newLives);
-          setFeedback('wrong');
-          if (newLives <= 0) {
-            phaseRef.current = 'dead';
-            setPhase('dead');
-            setBest(b => Math.max(b, scoreRef.current));
-          }
-          return TIME_PER_Q;
-        }
-        return prev - 1;
-      });
-    }, 1000);
-    return () => clearInterval(t);
-  }, [phase, feedback]);
-
-  useEffect(() => {
-    if (!feedback || phaseRef.current !== 'playing') return;
-    const t = setTimeout(nextQ, 800);
-    return () => clearTimeout(t);
-  }, [feedback, nextQ]);
+    idxRef.current = 0;
+    startBase(() => {
+      setDeck(d);
+      setIdx(0);
+    });
+  }, [startBase]);
 
   const answer = useCallback((choice: boolean) => {
     if (phaseRef.current !== 'playing' || feedback) return;
     const correct = choice === deckRef.current[idxRef.current].answer;
     if (correct) {
-      const ns = scoreRef.current + 10;
-      scoreRef.current = ns;
-      setScore(ns);
-      setFeedback('correct');
+      handleCorrect(10);
     } else {
-      const nl = livesRef.current - 1;
-      livesRef.current = nl;
-      setLives(nl);
-      setFeedback('wrong');
-      if (nl <= 0) {
-        phaseRef.current = 'dead';
-        setPhase('dead');
-        setBest(b => Math.max(b, scoreRef.current));
-      }
+      handleWrong();
     }
-  }, [feedback]);
+  }, [feedback, phaseRef, handleCorrect, handleWrong]);
 
   return {
     phase,
