@@ -5,7 +5,6 @@ import { useTimedQuizGame } from '@/hooks/games/useTimedQuizGame';
 const EMOJIS = ['🍎','🍊','🍋','🍇','🍓','🫐','🍒','🍑','🥝','🍉','🍍','🥭'];
 
 export type Op = '+' | '-';
-import type { PhaseDead as GamePhase } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
 export interface Question {
