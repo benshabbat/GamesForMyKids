@@ -9,9 +9,20 @@ import { GAME_ITEMS_MAP } from "./gameItemsMap";
 
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 import { useCountingGame } from "@/app/games/counting/useCountingGame";
+import type { BaseGameItem } from "@/lib/types/core/base";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyGameHookFn = () => any;
+type AnyGameHookFn = () => {
+  startGame?: () => void | Promise<void>;
+  resetGame?: () => void;
+  handleItemClick?: (item: BaseGameItem) => void | Promise<void>;
+  speakItemName?: (name: string) => void | Promise<void>;
+  hints?: unknown[];
+  hasMoreHints?: boolean;
+  showNextHint?: () => void;
+  currentAccuracy?: number;
+  progressStats?: unknown;
+  [key: string]: unknown;
+};
 
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד
 export type AutoGameType =

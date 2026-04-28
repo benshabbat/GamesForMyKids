@@ -21,9 +21,10 @@ function GameLogicSyncInner() {
       resetGame: gameHookResult.resetGame,
       handleItemClick: gameHookResult.handleItemClick,
       speakItemName: gameHookResult.speakItemName,
-      hints: gameHookResult.hints?.map(
-        (h: string | { text?: string }) => (typeof h === 'string' ? h : h.text || ''),
-      ) ?? [],
+      hints: gameHookResult.hints?.map((h) => {
+        const hint = h as string | { text?: string };
+        return typeof hint === 'string' ? hint : hint.text ?? '';
+      }) ?? [],
       hasMoreHints: gameHookResult.hasMoreHints ?? false,
       showNextHint: gameHookResult.showNextHint ?? (() => {}),
       currentAccuracy: gameHookResult.currentAccuracy ?? 0,

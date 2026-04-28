@@ -69,13 +69,13 @@ export function useAutoGame(): GameLogicState {
     timeSpent: 0,
     totalQuestions: 0,
     correctAnswers: 0,
-    currentAccuracy,
+    currentAccuracy: currentAccuracy ?? 0,
 
     // Game Actions
-    startGame,
-    resetGame,
-    handleItemClick,
-    speakItemName,
+    startGame: startGame ?? (() => {}),
+    resetGame: resetGame ?? (() => {}),
+    handleItemClick: handleItemClick ?? (() => {}),
+    speakItemName: speakItemName ?? (() => {}),
     pauseGame: () => {},
     resumeGame: () => {},
     resetProgress: () => {},
@@ -84,9 +84,10 @@ export function useAutoGame(): GameLogicState {
     handleWrongAnswer: () => {},
 
     // Enhanced Features
-    hints: hints?.map((hint: string | { text?: string }) =>
-      typeof hint === 'string' ? hint : hint.text || '',
-    ),
+    hints: hints?.map((hint) => {
+      const h = hint as string | { text?: string };
+      return typeof h === 'string' ? h : h.text ?? '';
+    }),
     hasMoreHints,
     showNextHint,
     progressStats: progressStats ? (progressStats as unknown as Record<string, unknown>) : undefined,
