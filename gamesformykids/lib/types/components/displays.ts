@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-export interface GameProgressStats {
+interface GameProgressStats {
   totalItems: number;
   completedItems: number;
   averageTime: number;

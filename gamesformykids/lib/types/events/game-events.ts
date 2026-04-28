@@ -4,12 +4,10 @@
  * ===============================================
  */
 
-import type { GameTyped } from '../core/base';
-
 /**
  * אירועי מחזור חיים של משחק - עקרון Single Responsibility
  */
-export type GameLifecycleEvent = 
+type GameLifecycleEvent = 
   | 'game_start'
   | 'game_pause'
   | 'game_resume'
@@ -18,14 +16,14 @@ export type GameLifecycleEvent =
 /**
  * אירועי תגובת שחקן - עקרון Single Responsibility
  */
-export type PlayerResponseEvent = 
+type PlayerResponseEvent = 
   | 'correct_answer'
   | 'wrong_answer';
 
 /**
  * אירועי התקדמות במשחק - עקרון Single Responsibility
  */
-export type GameProgressEvent = 
+type GameProgressEvent = 
   | 'level_up'
   | 'new_high_score'
   | 'streak_milestone';
@@ -41,7 +39,7 @@ export type GameEvent =
 /**
  * מידע בסיסי לאירוע - עקרון Single Responsibility
  */
-export interface EventMetadata {
+interface EventMetadata {
   readonly event: GameEvent;
   readonly timestamp: number;
 }
@@ -51,7 +49,7 @@ export interface EventMetadata {
 /**
  * נתונים נוספים לאירוע - עקרון Single Responsibility
  */
-export interface EventPayload {
+interface EventPayload {
   readonly data?: Readonly<Record<string, unknown>>;
 }
 
@@ -60,8 +58,9 @@ export interface EventPayload {
  */
 export interface GameEventData extends 
   EventMetadata,
-  GameTyped,
-  EventPayload {}
+  EventPayload {
+  readonly gameType: string;
+}
 
 /**
  * הגדרת Window עבור gtag

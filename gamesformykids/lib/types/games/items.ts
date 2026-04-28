@@ -11,12 +11,12 @@ import { BaseGameItem, BaseGameState } from '../core/base';
  */
 
 // צורות - מכיל SVG נוסף
-export interface ShapeItem extends BaseGameItem {
+interface ShapeItem extends BaseGameItem {
   svg: string;
 }
 
 // מספרים - מכיל ספרה נוספת
-export interface NumberItem extends BaseGameItem {
+interface NumberItem extends BaseGameItem {
   digit: string;
 }
 

@@ -14,7 +14,7 @@ export type { GameUIConfig } from '../../constants/ui/gameConfigs';
 /**
  * מידע משחק נוכחי - עקרון Single Responsibility
  */
-export interface CurrentGameInfo {
+interface CurrentGameInfo {
   readonly gameType: GameType | null;
   readonly config: GameUIConfig | null;
   readonly items: BaseGameItem[] | null;
@@ -25,7 +25,7 @@ export interface CurrentGameInfo {
 /**
  * מצב תקינות המשחק - עקרון Single Responsibility
  */
-export interface GameValidationStatus {
+interface GameValidationStatus {
   readonly isSupported: boolean;
   readonly isReady: boolean;
   readonly error: string | null;
@@ -38,12 +38,4 @@ export interface GameConfigContextValue extends
   CurrentGameInfo,
   GameValidationStatus {}
 
-/**
- * Props לProvider של GameConfig Context
- */
-export interface GameConfigProviderProps {
-  readonly children: React.ReactNode;
-  readonly gameType?: GameType;
-}
-
-// הערה: GameConfigProviderProps מוגדר כאן לפי עקרון DRY
+// GameConfigProviderProps removed (unused)

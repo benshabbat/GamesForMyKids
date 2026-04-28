@@ -5,12 +5,11 @@
  */
 
 import { ReactNode } from 'react';
-import type { TitledEntity } from '../core/base';
 
 /**
  * מאפיינים בסיסיים לכל רכיב - עקרון Single Responsibility
  */
-export interface BaseComponentProps {
+interface BaseComponentProps {
   readonly children?: ReactNode;
   readonly className?: string;
 }
@@ -18,7 +17,7 @@ export interface BaseComponentProps {
 /**
  * Props בסיסיים לכפתור - עקרון Interface Segregation
  */
-export interface BaseButtonProps extends BaseComponentProps {
+interface BaseButtonProps extends BaseComponentProps {
   readonly onClick?: () => void;
   readonly disabled?: boolean;
   readonly loading?: boolean;
@@ -32,30 +31,12 @@ export type ButtonProps = BaseButtonProps;
 /**
  * סוגי וריאנטים לכפתור - עקרון Open/Closed
  */
-export type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success';
+type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success';
 
 /**
  * גדלים זמינים לכפתור - עקרון Open/Closed
  */
-export type ComponentSize = 'small' | 'medium' | 'large';
-
-/**
- * Props לכפתור התחלת משחק
- */
-export interface GameStartButtonProps extends BaseButtonProps {
-  readonly variant?: ButtonVariant;
-  readonly size?: ComponentSize;
-  readonly title?: string;
-  readonly text?: string;
-  readonly fromColor?: string;
-  readonly toColor?: string;
-  readonly customOnStart?: () => void;
-}
-
-/**
- * מאפיינים לכותרת - עקרון DRY, type alias
- */
-export type TitledComponent = TitledEntity;
+type ComponentSize = 'small' | 'medium' | 'large';
 
 /**
  * Props ל-Google Analytics - עקרון Single Responsibility

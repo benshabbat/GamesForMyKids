@@ -1,7 +1,6 @@
 import { useGameActions } from '@/hooks';
-import { ComponentTypes } from '@/lib/types';
 
-type SimpleGameStartButtonProps = ComponentTypes.SimpleGameStartButtonProps & {
+type SimpleGameStartButtonProps = {
   fromColor?: string;
   toColor?: string;
   text?: string;

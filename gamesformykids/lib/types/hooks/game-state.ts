@@ -4,9 +4,10 @@
  * ===============================================
  */
 
+import { ComponentType } from 'react';
 import { BaseGameItem, GameType } from '../core/base';
 import type { GameItemCardProps } from '../components/cards';
-import { UniversalGameConfiguration, GameUI } from '../contexts/universal-game';
+import type { GameUIConfig } from '../contexts/game-config';
 
 // ייצוא הטייפ למען תאימות - עקרון Liskov Substitution
 export type { GameItemCardProps };
@@ -25,7 +26,7 @@ export interface UseGameOptionsProps {
 /**
  * קבועי משחק - עקרון Single Responsibility
  */
-export interface GameConstants {
+interface GameConstants {
   readonly BASE_COUNT: number;
   readonly INCREMENT: number;
   readonly LEVEL_THRESHOLD: number;
@@ -67,7 +68,7 @@ export interface GameProgress {
 /**
  * תכונות מתקדמות של משחק - עקרון Single Responsibility
  */
-export interface GameEnhancements {
+interface GameEnhancements {
   readonly hints?: readonly string[];
   readonly hasMoreHints?: boolean;
   readonly showNextHint?: () => void;
@@ -90,7 +91,7 @@ export interface GameActions {
 /**
  * פעולות תגובה למשחק - עקרון Single Responsibility
  */
-export interface GameResponseActions {
+interface GameResponseActions {
   readonly handleCorrectAnswer: (data?: Record<string, unknown>) => void;
   readonly handleWrongAnswer: (data?: Record<string, unknown>) => void;
 }
@@ -98,13 +99,21 @@ export interface GameResponseActions {
 /**
  * מצב UI של משחק - עקרון DRY, type alias
  */
-export type GameUIState = GameUI;
+type GameUIState = {
+  readonly showProgressModal: boolean;
+  readonly setShowProgressModal: (show: boolean) => void;
+};
 
 /**
  * הגדרות משחק - עקרון Single Responsibility  
  * מרחיב את BaseGameConfiguration מ-universal-game
  */
-export type GameConfiguration = UniversalGameConfiguration;
+type GameConfiguration = {
+  readonly config: GameUIConfig;
+  readonly items: readonly BaseGameItem[];
+  readonly CardComponent: ComponentType<GameItemCardProps>;
+  readonly gameType: GameType;
+};
 
 /**
  * מצב משחק לוגי מלא - עקרון Interface Segregation
@@ -162,7 +171,7 @@ export interface GameTypeDbRecord {
 /**
  * מידע בסיסי על סוג משחק - עקרון Single Responsibility
  */
-export interface GameTypeInfo {
+interface GameTypeInfo {
   readonly gameType: string | null;
   readonly gameConfig: {
     readonly title: string;

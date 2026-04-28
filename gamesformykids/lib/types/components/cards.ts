@@ -5,32 +5,15 @@
  */
 
 import { BaseGameItem } from '../core/base';
-import { ColorItem, ShapeItem, NumberItem } from '../games/items';
-
-import type { Nameable, Translatable, Visualizable, Audioable } from '../core/base';
+import { ColorItem } from '../games/items';
 
 // ===== SOLID Principle: Single Responsibility =====
-// Using type aliases instead of empty interfaces for better DRY
 
-/**
- * תוכן טקסטואלי - type alias for clarity
- */
-export type ItemTextContent = Translatable;
+type ItemTextContent = { readonly hebrew: string; readonly english: string; readonly plural?: string; };
+type ItemVisuals = { readonly emoji: string; readonly color: string; };
+type ItemAudio = { readonly sound?: number[]; };
 
-/**
- * מאפיינים ויזואליים בסיסיים - type alias for clarity
- */
-export type ItemVisuals = Visualizable;
-
-/**
- * מאפיינים קוליים - type alias for clarity
- */
-export type ItemAudio = Audioable;
-
-/**
- * מאפיינים גיאומטריים - עקרון Single Responsibility
- */
-export interface ShapeProperties {
+interface ShapeProperties {
   readonly shape: string;
   readonly shapeHebrew: string;
   readonly svg: string;
@@ -39,7 +22,7 @@ export interface ShapeProperties {
 /**
  * מאפיינים של ערך - עקרון Single Responsibility
  */
-export interface ValueProperties {
+interface ValueProperties {
   readonly value: string;
   readonly tailwindClass?: string;
 }
@@ -47,13 +30,20 @@ export interface ValueProperties {
 /**
  * פריט צורה צבעונית - עקרון Interface Segregation
  */
-export interface ColoredShapeItem extends 
-  Nameable,
-  ItemTextContent,
-  ItemVisuals,
-  ItemAudio,
-  ShapeProperties,
-  ValueProperties {}
+export interface ColoredShapeItem {
+  readonly name: string;
+  readonly hebrew: string;
+  readonly english: string;
+  readonly plural?: string;
+  readonly emoji: string;
+  readonly color: string;
+  readonly sound?: number[];
+  readonly shape: string;
+  readonly shapeHebrew: string;
+  readonly svg: string;
+  readonly value: string;
+  readonly tailwindClass?: string;
+}
 
 // ===== SOLID Principle: Open/Closed =====
 
@@ -61,7 +51,7 @@ export interface ColoredShapeItem extends
  * טייפ union למיני פריטים - עקרון Open/Closed
  * ניתן להוסיף טייפים חדשים מבלי לשנות קוד קיים
  */
-export type GameItemType = BaseGameItem | ColorItem | ShapeItem | NumberItem | ColoredShapeItem;
+export type GameItemType = BaseGameItem | ColorItem | ColoredShapeItem;
 
 // ===== SOLID Principle: Interface Segregation =====
 
@@ -78,7 +68,7 @@ export interface CardContent {
 /**
  * עיצוב הכרטיס
  */
-export interface CardAppearance {
+interface CardAppearance {
   size?: "small" | "medium" | "large";
   shape?: "rounded" | "circle" | "square";
   variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto';
@@ -107,7 +97,7 @@ export interface CardAppearance {
 /**
  * התנהגות הכרטיס
  */
-export interface CardBehavior {
+interface CardBehavior {
   animationEnabled?: boolean;
   autoSpeak?: boolean;
   onSpeak?: () => void;
@@ -117,7 +107,7 @@ export interface CardBehavior {
 /**
  * תוכן מותאם אישית
  */
-export interface CardCustomContent {
+interface CardCustomContent {
   customContent?: React.ReactNode;
   customDecoration?: React.ReactNode;
   icon?: React.ReactNode;
@@ -132,7 +122,7 @@ export interface CardCustomContent {
 /**
  * Props בסיסיים לכל כרטיס
  */
-export interface BaseCardProps extends CardAppearance, CardBehavior, CardCustomContent {
+interface BaseCardProps extends CardAppearance, CardBehavior, CardCustomContent {
   className?: string;
   isSelected?: boolean;
 }
