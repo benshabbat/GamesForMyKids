@@ -1,7 +1,8 @@
 'use client';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 import type { SequenceLevel, SequenceQuestion } from '@/lib/quiz/data/sequences';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import { useQuizProgress } from '@/hooks/quiz/useQuizProgress';
 
 interface Props {
   level: SequenceLevel;
@@ -11,12 +12,8 @@ interface Props {
 }
 
 export default function SequencesQuestion({ level, current, choices, onSelect }: Props) {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected !== null ? Number(s.selected) : null);
-  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
-  const next      = useQuizGameStore(s => s.nextQuestion);
+  const { index, total, score, selected: rawSelected, isCorrect, next } = useQuizProgress();
+  const selected = rawSelected !== null ? Number(rawSelected) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-cyan-100 p-4" dir="rtl">

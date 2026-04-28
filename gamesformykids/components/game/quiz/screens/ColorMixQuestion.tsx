@@ -1,7 +1,8 @@
 'use client';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 import type { ColorMix } from '@/lib/quiz/data/color-mix';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import { useQuizProgress } from '@/hooks/quiz/useQuizProgress';
 
 interface Props {
   mix: ColorMix;
@@ -10,12 +11,7 @@ interface Props {
 }
 
 export default function ColorMixQuestion({ mix, choices, onSelect }: Props) {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected);
-  const isCorrect = useQuizGameStore(s => s.isCorrect);
-  const next      = useQuizGameStore(s => s.nextQuestion);
+  const { index, total, score, selected, isCorrect, next } = useQuizProgress();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 via-purple-50 to-indigo-100 p-4" dir="rtl">

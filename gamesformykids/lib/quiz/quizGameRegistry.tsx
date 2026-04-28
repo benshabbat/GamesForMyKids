@@ -29,11 +29,12 @@ import TriviaQuestion from '@/components/game/quiz/screens/TriviaQuestion';
 import ScienceMenuScreen from '@/components/game/quiz/screens/ScienceMenuScreen';
 import ScienceQuestion from '@/components/game/quiz/screens/ScienceQuestion';
 import NatureMenuScreen from '@/components/game/quiz/screens/NatureMenuScreen';
-import NatureQuestion from '@/components/game/quiz/screens/NatureQuestion';
 import IsraelMenuScreen from '@/components/game/quiz/screens/IsraelMenuScreen';
-import IsraelQuestion from '@/components/game/quiz/screens/IsraelQuestion';
+import { CategoryIndexedQuestion } from '@/components/game/quiz';
 import type { NatureCategory } from '@/lib/quiz/data/nature';
+import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
+import { CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
 const GenericQuizGame = dynamic(() => import('@/components/game/quiz/GenericQuizGame'));
 
@@ -122,7 +123,7 @@ const QUIZ_COMPONENTS: Record<string, ComponentType> = {
     useNatureGame,
     ({ current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
       menu:     <NatureMenuScreen onStart={startGame as (cat: NatureCategory) => void} />,
-      question: current ? <NatureQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} /> : null,
+      question: current ? <CategoryIndexedQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} theme="green" categoryColors={NATURE_COLORS} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="green" />,
     }),
   ),
@@ -131,7 +132,7 @@ const QUIZ_COMPONENTS: Record<string, ComponentType> = {
     useIsraelGame,
     ({ current, choices, correctLabel, startGame, selectAnswer, restart }) => ({
       menu:     <IsraelMenuScreen onStart={startGame as (cat: IsraelCategory) => void} />,
-      question: current ? <IsraelQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} /> : null,
+      question: current ? <CategoryIndexedQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} theme="blue" categoryColors={ISRAEL_COLORS} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="blue" />,
     }),
   ),
