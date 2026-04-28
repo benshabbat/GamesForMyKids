@@ -14,8 +14,7 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { BaseGameItem } from '@/lib/types/core/base';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const NOOP = (): any => {};
+const NOOP = () => {};
 const ASYNC_NOOP = async (): Promise<void> => {};
 
 export interface GameActionsState {
