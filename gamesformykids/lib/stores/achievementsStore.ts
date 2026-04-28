@@ -11,13 +11,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { Achievement } from '@/hooks/shared/progress/useAchievements';
+import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
-// ── State ──────────────────────────────────────────────────
-export interface AchievementsState {
+// ── State ────────────────────────────────────────────────────────────
+export interface AchievementsState extends RemoteDataSlice {
   achievements: Achievement[];
-  loading: boolean;
-  error: string | null;
-  loadedForUserId: string | null;
 }
 
 // ── Actions ────────────────────────────────────────────────
@@ -32,9 +30,7 @@ export interface AchievementsStoreActions {
 
 const initialState: AchievementsState = {
   achievements: [],
-  loading: true,
-  error: null,
-  loadedForUserId: null,
+  ...INITIAL_REMOTE_SLICE,
 };
 
 // ── Store ──────────────────────────────────────────────────

@@ -12,15 +12,12 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { UserProfile, UserSettings } from '@/hooks/shared/user/useUserProfile';
+import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
-// ── State ──────────────────────────────────────────────────
-export interface UserProfileState {
+// ── State ────────────────────────────────────────────────────────────
+export interface UserProfileState extends RemoteDataSlice {
   profile: UserProfile | null;
   settings: UserSettings | null;
-  loading: boolean;
-  error: string | null;
-  /** tracks which userId's data is currently loaded */
-  loadedForUserId: string | null;
 }
 
 // ── Actions ────────────────────────────────────────────────
@@ -36,9 +33,7 @@ export interface UserProfileStoreActions {
 const initialState: UserProfileState = {
   profile: null,
   settings: null,
-  loading: true,
-  error: null,
-  loadedForUserId: null,
+  ...INITIAL_REMOTE_SLICE,
 };
 
 // ── Store ──────────────────────────────────────────────────

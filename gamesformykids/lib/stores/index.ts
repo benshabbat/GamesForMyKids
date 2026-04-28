@@ -80,3 +80,11 @@ export { useGameAudioStore } from './gameAudioStore';
 
 // Favorites (favoriteIds — persisted in localStorage)
 export { useFavoritesStore } from './favoritesStore';
+
+// Challenge Stores (current challenge for visual rendering)
+export { useCountingChallengeStore } from './countingChallengeStore';
+export { useMathChallengeStore } from './mathChallengeStore';
+
+// Store utilities
+export type { RemoteDataSlice } from './utils/RemoteDataSlice';
+export type { ChallengeStoreState } from './utils/createChallengeStore';

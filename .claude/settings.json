@@ -23,10 +23,12 @@
       "Bash(npm install *)",
       "Bash(cat vitest.config.ts)",
       "Bash(cat vitest.config.js)",
-      "Read(//c/Users/bensh/.claude/projects/c--Users-bensh-OneDrive--------------GamesForMyKids/memory/**)"
+      "Read(//c/Users/bensh/.claude/projects/c--Users-bensh-OneDrive--------------GamesForMyKids/memory/**)",
+      "Bash(git rm *)"
     ],
     "additionalDirectories": [
-      "c:\\Users\\bensh\\.claude\\projects\\c--Users-bensh-OneDrive--------------GamesForMyKids\\memory"
+      "c:\\Users\\bensh\\.claude\\projects\\c--Users-bensh-OneDrive--------------GamesForMyKids\\memory",
+      "c:\\Users\\bensh\\OneDrive\\שולחן העבודה\\GamesForMyKids\\gamesformykids\\hooks"
     ]
   }
 }
