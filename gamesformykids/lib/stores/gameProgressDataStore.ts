@@ -11,13 +11,11 @@
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 import type { GameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
-// ── State ──────────────────────────────────────────────────
-export interface GameProgressDataState {
+// ── State ────────────────────────────────────────────────────────────
+export interface GameProgressDataState extends RemoteDataSlice {
   progress: GameProgress[];
-  loading: boolean;
-  error: string | null;
-  loadedForUserId: string | null;
 }
 
 // ── Actions ────────────────────────────────────────────────
@@ -32,9 +30,7 @@ export interface GameProgressDataActions {
 
 const initialState: GameProgressDataState = {
   progress: [],
-  loading: true,
-  error: null,
-  loadedForUserId: null,
+  ...INITIAL_REMOTE_SLICE,
 };
 
 // ── Store ──────────────────────────────────────────────────
