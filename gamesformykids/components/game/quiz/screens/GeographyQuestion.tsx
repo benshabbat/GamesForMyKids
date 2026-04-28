@@ -1,8 +1,9 @@
 'use client';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
-import { type GeoQuestion } from '@/lib/quiz/useGeographyGame';
+
+import type { GeoQuestion } from '@/lib/quiz/useGeographyGame';
 import { getGeoPrompt, getChoiceLabel } from '@/lib/quiz/data/geography';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import { useQuizProgress } from '@/hooks/quiz/useQuizProgress';
 
 interface Props {
   current: GeoQuestion;
@@ -10,12 +11,7 @@ interface Props {
 }
 
 export default function GeographyQuestion({ current, onSelect }: Props) {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected);
-  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
-  const next      = useQuizGameStore(s => s.nextQuestion);
+  const { index, total, score, selected, isCorrect, next } = useQuizProgress();
 
   const { country, mode, choices } = current;
   const prompt = getGeoPrompt(country, mode);

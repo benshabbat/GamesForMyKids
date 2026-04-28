@@ -1,7 +1,8 @@
 'use client';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 import type { ClockQuestion as ClockQuestionType } from '@/lib/quiz/data/clock';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import { useQuizProgress } from '@/hooks/quiz/useQuizProgress';
 import ClockFace from './ClockFace';
 
 interface Props {
@@ -11,12 +12,8 @@ interface Props {
 }
 
 export default function ClockQuestion({ current, choices, onSelect }: Props) {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected !== null ? Number(s.selected) : null);
-  const isCorrect = useQuizGameStore(s => s.isCorrect ?? false);
-  const next      = useQuizGameStore(s => s.nextQuestion);
+  const { index, total, score, selected: rawSelected, isCorrect, next } = useQuizProgress();
+  const selected = rawSelected !== null ? Number(rawSelected) : null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100 p-4" dir="rtl">

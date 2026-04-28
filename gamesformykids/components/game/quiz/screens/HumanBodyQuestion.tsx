@@ -1,7 +1,8 @@
 'use client';
-import { useQuizGameStore } from '@/lib/stores/quizGameStore';
+
 import type { BodyQuestion } from '@/lib/quiz/data/body';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import { useQuizProgress } from '@/hooks/quiz/useQuizProgress';
 
 interface Props {
   currentQuestion: BodyQuestion;
@@ -10,12 +11,7 @@ interface Props {
 }
 
 export default function HumanBodyQuestion({ currentQuestion, choices, onSelect }: Props) {
-  const index     = useQuizGameStore(s => s.index);
-  const total     = useQuizGameStore(s => s.total);
-  const score     = useQuizGameStore(s => s.score);
-  const selected  = useQuizGameStore(s => s.selected);
-  const isCorrect = useQuizGameStore(s => s.isCorrect);
-  const next      = useQuizGameStore(s => s.nextQuestion);
+  const { index, total, score, selected, isCorrect, next } = useQuizProgress();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-50 to-pink-100 flex flex-col p-4" dir="rtl">
