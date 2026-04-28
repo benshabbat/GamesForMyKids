@@ -95,11 +95,16 @@ describe('useGenericQuizGame', () => {
   const questions = ['apple', 'banana', 'cherry', 'date', 'elderberry'];
   const config: QuizGameConfig<string> = {
     gameType: 'test-generic',
+    emoji: '🧪',
+    title: 'Test',
+    description: 'Test game',
+    theme: 'teal',
     questions,
     questionsPerGame: 3,
     getChoices: (q) => [q, 'wrong1', 'wrong2'],
     isCorrect: (choice, q) => choice === q,
     getCorrectLabel: (q) => q,
+    renderQuestion: (q) => q,
   };
 
   it('starts with phase=menu', () => {
@@ -191,16 +196,16 @@ describe('useGeographyGame', () => {
     expect(useQuizGameStore.getState().isCorrect).toBe(false);
   });
 
-  it('startGame("name") sets mode to name', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame('name'));
-    expect(result.current.current!.mode).toBe('name');
-  });
-
   it('startGame("flag") sets mode to flag', () => {
     const { result } = renderHook(() => useGeographyGame());
     act(() => result.current.startGame('flag'));
     expect(result.current.current!.mode).toBe('flag');
+  });
+
+  it('startGame("continent") sets mode to continent', () => {
+    const { result } = renderHook(() => useGeographyGame());
+    act(() => result.current.startGame('continent'));
+    expect(result.current.current!.mode).toBe('continent');
   });
 });
 
