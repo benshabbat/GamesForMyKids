@@ -7,26 +7,6 @@
 import { BaseGameItem } from '../core/base';
 import { ColorItem } from '../games/items';
 
-// ===== SOLID Principle: Single Responsibility =====
-
-type ItemTextContent = { readonly hebrew: string; readonly english: string; readonly plural?: string; };
-type ItemVisuals = { readonly emoji: string; readonly color: string; };
-type ItemAudio = { readonly sound?: number[]; };
-
-interface ShapeProperties {
-  readonly shape: string;
-  readonly shapeHebrew: string;
-  readonly svg: string;
-}
-
-/**
- * מאפיינים של ערך - עקרון Single Responsibility
- */
-interface ValueProperties {
-  readonly value: string;
-  readonly tailwindClass?: string;
-}
-
 /**
  * פריט צורה צבעונית - עקרון Interface Segregation
  */

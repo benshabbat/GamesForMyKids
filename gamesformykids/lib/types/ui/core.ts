@@ -29,16 +29,6 @@ interface BaseButtonProps extends BaseComponentProps {
 export type ButtonProps = BaseButtonProps;
 
 /**
- * סוגי וריאנטים לכפתור - עקרון Open/Closed
- */
-type ButtonVariant = 'primary' | 'secondary' | 'danger' | 'success';
-
-/**
- * גדלים זמינים לכפתור - עקרון Open/Closed
- */
-type ComponentSize = 'small' | 'medium' | 'large';
-
-/**
  * Props ל-Google Analytics - עקרון Single Responsibility
  */
 export interface GoogleAnalyticsProps {

@@ -5,40 +5,9 @@
  */
 
 import { ReactNode } from 'react';
-import type { DifficultyLevel } from '../games/base';
 
 interface Identifiable<TId = string> {
   readonly id: TId;
-}
-
-/**
- * שם בסיסי - עקרון Single Responsibility  
- */
-interface Nameable {
-  readonly name: string;
-}
-
-/**
- * מאפיינים בסיסיים עם כותרת ותיאור - עקרון DRY
- */
-interface TitledEntity {
-  readonly title: string;
-  readonly description?: string;
-}
-
-/**
- * זיהוי סוג משחק - עקרון DRY
- */
-interface GameTyped {
-  readonly gameType: string;
-}
-
-/**
- * ממשק לניהול modal התקדמות - עקרון DRY
- */
-interface ProgressModalState {
-  readonly showProgressModal: boolean;
-  readonly setShowProgressModal: (show: boolean) => void;
 }
 
 /**
@@ -48,21 +17,6 @@ interface Translatable {
   readonly hebrew: string;
   readonly english: string;
   readonly plural?: string;
-}
-
-/**
- * מאפיינים ויזואליים - עקרון Single Responsibility
- */
-interface Visualizable {
-  readonly emoji: string;
-  readonly color: string;
-}
-
-/**
- * מאפיינים קוליים - עקרון Single Responsibility
- */
-interface Audioable {
-  readonly sound?: number[];
 }
 
 /**
