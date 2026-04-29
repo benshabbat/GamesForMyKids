@@ -53,6 +53,8 @@ export function useCountingGame() {
     if (!audioContext && !speechEnabled) {
       initSpeechAndAudio(setSpeechEnabled, setAudioContext);
     }
+  // intentionally run only on mount — setSpeechEnabled/setAudioContext are stable Zustand
+  // actions; audioContext/speechEnabled are only checked once to avoid double-initialisation
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

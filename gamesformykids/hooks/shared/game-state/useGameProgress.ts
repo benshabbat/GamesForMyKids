@@ -15,12 +15,14 @@ export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10) {
 
   const incrementScore = useCallback(
     (points = pointsPerCorrect) => store.incrementScore(points),
+    // intentionally omit `store` — Zustand store actions are stable references
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [pointsPerCorrect],
   )
 
   const incrementLevel = useCallback(
     () => store.incrementLevel(maxLevel),
+    // intentionally omit `store` — Zustand store actions are stable references
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [maxLevel],
   )
@@ -37,6 +39,7 @@ export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10) {
 
   const getProgressPercentage = useCallback(() => {
     return (useGameProgressStore.getState().level / maxLevel) * 100
+    // reads live state via getState() — no reactive dependency needed beyond maxLevel
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxLevel])
 

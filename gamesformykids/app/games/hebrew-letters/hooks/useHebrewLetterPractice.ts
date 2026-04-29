@@ -33,6 +33,9 @@ export const useHebrewLetterPractice = (letterData: HebrewLetter) => {
     return () => {
       endPracticeSession();
     };
+    // intentionally omit selectLetter/startPracticeSession/endPracticeSession — they are
+    // stable Zustand store actions; letterData object is omitted to avoid re-running when
+    // other fields change — only the letter name triggers a new practice session
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [letterData.name]);
 
