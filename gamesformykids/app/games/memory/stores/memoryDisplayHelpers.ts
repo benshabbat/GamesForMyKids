@@ -1,15 +1,16 @@
 import { MEMORY_GAME_CONSTANTS } from '@/lib/constants';
-import type { DifficultyLevel } from './types/memory';
-import type { DifficultyOption, PerformanceLevel, WinAchievement } from './types/memoryDisplay';
+import type { DifficultyLevel } from '../types/memory';
+import type { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
 
 export function getDifficultyOptions(
   activeDifficulty: DifficultyLevel,
 ): DifficultyOption[] {
-  const activeName = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[activeDifficulty].name;
+  type DifficultyKey = keyof typeof MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS;
+  const activeName = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[activeDifficulty as DifficultyKey].name;
   return (
     Object.entries(MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS) as [
-      DifficultyLevel,
-      (typeof MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS)[DifficultyLevel],
+      DifficultyKey,
+      (typeof MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS)[DifficultyKey],
     ][]
   ).map(([key, config]) => ({
     key,
