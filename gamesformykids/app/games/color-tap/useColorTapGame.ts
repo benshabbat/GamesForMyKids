@@ -18,9 +18,11 @@ export type ColorItem = typeof COLORS[0];
 
 export const TIME_PER_Q = 5;
 
+const FALLBACK_COLOR: ColorItem = { name: 'אדום', bg: 'bg-red-500', hex: '#ef4444', emoji: '🔴' };
+
 function makeQuestion() {
   const shuffled = [...COLORS].sort(() => Math.random() - 0.5);
-  const target = shuffled[0];
+  const target = shuffled[0] ?? FALLBACK_COLOR;
   const options = shuffled.slice(0, 4).sort(() => Math.random() - 0.5);
   return { target, options };
 }

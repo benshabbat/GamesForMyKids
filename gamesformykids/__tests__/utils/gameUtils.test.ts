@@ -125,7 +125,7 @@ describe('generateOptions', () => {
   it('returns no duplicate items', () => {
     const correct = allItems[0];
     const options = generateOptions(correct, allItems, 4);
-    const names = options.map((o) => o.name);
+    const names = options.map((o) => o!.name);
     expect(new Set(names).size).toBe(names.length);
   });
 

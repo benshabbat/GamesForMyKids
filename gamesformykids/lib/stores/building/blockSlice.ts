@@ -173,7 +173,7 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockSlice> =
     const { canvasEl, blocks } = get();
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
-    const touch = e.touches[0];
+    const touch = e.touches[0]!;
     set({
       dragState: {
         isDragging: true,
@@ -205,7 +205,7 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockSlice> =
     if (!dragState.isDragging || !dragState.draggedBlock) return;
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
-    const touch = e.touches[0];
+    const touch = e.touches[0]!;
     const pos = calcDragPosition(touch.clientX, touch.clientY, rect, dragState.dragOffset, showGrid);
     set((s) => ({
       blocks: s.blocks.map((b) =>

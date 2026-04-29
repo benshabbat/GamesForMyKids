@@ -43,8 +43,10 @@ export function useMeteorDodgeGame() {
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (st.current.phase !== 'playing') return;
+    const t = e.touches[0];
+    if (!t) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    st.current.playerX = Math.max(PLAYER_R, Math.min(W - PLAYER_R, (e.touches[0].clientX - rect.left) * (W / rect.width)));
+    st.current.playerX = Math.max(PLAYER_R, Math.min(W - PLAYER_R, (t.clientX - rect.left) * (W / rect.width)));
   }, []);
 
   const handleCanvasClick = useCallback(() => {
@@ -75,12 +77,12 @@ export function useMeteorDodgeGame() {
         s.nextMeteor--;
         if (s.nextMeteor <= 0) {
           const r = 14 + Math.random() * 20;
-          s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: METEOR_EMOJIS[Math.floor(Math.random() * METEOR_EMOJIS.length)], spin: (Math.random() - 0.5) * 0.1, angle: 0 });
+          s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: METEOR_EMOJIS[Math.floor(Math.random() * METEOR_EMOJIS.length)] ?? METEOR_EMOJIS[0] ?? '☄️', spin: (Math.random() - 0.5) * 0.1, angle: 0 });
           s.nextMeteor = Math.max(15, Math.floor((50 - s.score / 20)));
         }
         s.nextStar--;
         if (s.nextStar <= 0) {
-          s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: STAR_EMOJIS[Math.floor(Math.random() * STAR_EMOJIS.length)] });
+          s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: STAR_EMOJIS[Math.floor(Math.random() * STAR_EMOJIS.length)] ?? STAR_EMOJIS[0] ?? '⭐' });
           s.nextStar = 100 + Math.random() * 100;
         }
 

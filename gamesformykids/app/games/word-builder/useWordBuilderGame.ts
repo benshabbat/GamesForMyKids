@@ -31,13 +31,14 @@ export function useWordBuilderGame() {
     setIndex(0);
     setScore(0);
     setPhase('playing');
-    loadPuzzle(puzzles[0]);
+    const p0 = puzzles[0]; if (p0) loadPuzzle(p0);
   }, [puzzles, loadPuzzle]);
 
   const pressLetter = useCallback((idx: number) => {
     if (status !== 'idle') return;
     const letter = available[idx];
-    if (letter.used) return;
+    if (!letter || letter.used) return;
+    if (!current) return;
 
     const newTyped = [...typed, letter.letter];
     const newAvail = available.map((l, i) => i === idx ? { ...l, used: true } : l);
@@ -65,7 +66,7 @@ export function useWordBuilderGame() {
     if (index < puzzles.length - 1) {
       const next = index + 1;
       setIndex(next);
-      loadPuzzle(puzzles[next]);
+      const pn = puzzles[next]; if (pn) loadPuzzle(pn);
     } else {
       setPhase('result');
     }

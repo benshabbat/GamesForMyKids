@@ -12,7 +12,7 @@ export interface Question {
   choices: number[]; emojiA: string; emojiB: string;
 }
 
-function pickEmoji() { return EMOJIS[Math.floor(Math.random() * EMOJIS.length)]; }
+function pickEmoji() { return EMOJIS[Math.floor(Math.random() * EMOJIS.length)]!; }
 
 export function makeQuestion(level: number): Question {
   const maxNum = Math.min(5 + level * 2, 15);

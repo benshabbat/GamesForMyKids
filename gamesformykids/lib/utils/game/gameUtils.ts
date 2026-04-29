@@ -45,7 +45,7 @@ export function getRandomItem<T>(items: T[]): T {
   if (!items || items.length === 0) {
     throw new Error("Cannot get random item from empty array");
   }
-  return items[Math.floor(Math.random() * items.length)];
+  return items[Math.floor(Math.random() * items.length)]!;
 }
 
 /**

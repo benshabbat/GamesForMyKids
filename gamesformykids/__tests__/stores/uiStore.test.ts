@@ -21,13 +21,13 @@ describe('uiStore', () => {
       useUIStore.getState().addNotification('שמרת!', 'success');
       const notifications = useUIStore.getState().notifications;
       expect(notifications).toHaveLength(1);
-      expect(notifications[0].message).toBe('שמרת!');
-      expect(notifications[0].type).toBe('success');
+      expect(notifications[0]!.message).toBe('שמרת!');
+      expect(notifications[0]!.type).toBe('success');
     });
 
     it('defaults type to info', () => {
       useUIStore.getState().addNotification('הודעה');
-      expect(useUIStore.getState().notifications[0].type).toBe('info');
+      expect(useUIStore.getState().notifications[0]!.type).toBe('info');
     });
 
     it('returns a unique id', () => {
@@ -63,7 +63,7 @@ describe('uiStore', () => {
       useUIStore.getState().removeNotification(removeId);
       const remaining = useUIStore.getState().notifications;
       expect(remaining).toHaveLength(1);
-      expect(remaining[0].message).toBe('keep');
+      expect(remaining[0]!.message).toBe('keep');
     });
   });
 

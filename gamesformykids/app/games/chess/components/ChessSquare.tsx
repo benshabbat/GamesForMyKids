@@ -11,7 +11,7 @@ interface Props {
 export default function ChessSquare({ row, col }: Props) {
   const { board, selected, validMoves, lastMove, phase, turn, selectSquare } = useChessStore();
 
-  const piece = board[row][col];
+  const piece = board[row]?.[col] ?? null;
   const isSelected = selected?.row === row && selected?.col === col;
   const isValidDest = validMoves.some(m => m.to.row === row && m.to.col === col);
   const isLastMove = !!lastMove && (

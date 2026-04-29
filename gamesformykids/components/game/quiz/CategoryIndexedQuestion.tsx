@@ -45,7 +45,7 @@ export function CategoryIndexedQuestion({ current, choices, correctLabel, onSele
           renderChoice={(v) => current.answers[Number(v)]}
         />
         <QuizFeedback
-          correctLabel={current.answers[Number(correctLabel)]}
+          correctLabel={current.answers[Number(correctLabel)] ?? ''}
           funFact={current.funFact ? `💡 ${current.funFact}` : undefined}
           theme={theme}
         />

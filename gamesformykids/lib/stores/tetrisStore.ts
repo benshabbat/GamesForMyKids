@@ -26,15 +26,15 @@ import {
 function checkValidPosition(piece: Piece | null, pos: Position, board: Board): boolean {
   if (!piece) return false;
   for (let y = 0; y < piece.blocks.length; y++) {
-    for (let x = 0; x < piece.blocks[y].length; x++) {
-      if (piece.blocks[y][x]) {
+    for (let x = 0; x < piece.blocks[y]!.length; x++) {
+      if (piece.blocks[y]![x]) {
         const newX = pos.x + x;
         const newY = pos.y + y;
         if (
           newX < 0 ||
           newX >= BOARD_WIDTH ||
           newY >= BOARD_HEIGHT ||
-          (newY >= 0 && board[newY][newX])
+          (newY >= 0 && board[newY]![newX])
         ) {
           return false;
         }
@@ -47,9 +47,9 @@ function checkValidPosition(piece: Piece | null, pos: Position, board: Board): b
 function mergePiece(piece: Piece, pos: Position, board: Board): Board {
   const newBoard = board.map(row => [...row]);
   for (let y = 0; y < piece.blocks.length; y++) {
-    for (let x = 0; x < piece.blocks[y].length; x++) {
-      if (piece.blocks[y][x] && pos.y + y >= 0) {
-        newBoard[pos.y + y][pos.x + x] = piece.color;
+    for (let x = 0; x < piece.blocks[y]!.length; x++) {
+      if (piece.blocks[y]![x] && pos.y + y >= 0) {
+        newBoard[pos.y + y]![pos.x + x] = piece.color;
       }
     }
   }
@@ -60,10 +60,10 @@ function clearFullLines(board: Board): { board: Board; linesCleared: number } {
   const newBoard: Board = [];
   let linesCleared = 0;
   for (let y = BOARD_HEIGHT - 1; y >= 0; y--) {
-    if (board[y].every(cell => cell !== 0)) {
+    if (board[y]!.every(cell => cell !== 0)) {
       linesCleared++;
     } else {
-      newBoard.unshift(board[y]);
+      newBoard.unshift(board[y]!);
     }
   }
   while (newBoard.length < BOARD_HEIGHT) {

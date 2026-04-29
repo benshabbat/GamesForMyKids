@@ -13,7 +13,7 @@ export interface AnimalQuestion {
 }
 
 export function makeAnimalQuestion(pool: Animal[]): AnimalQuestion {
-  const animal = pool[Math.floor(Math.random() * pool.length)];
+  const animal = pool[Math.floor(Math.random() * pool.length)]!;
   const others = shuffle(pool.filter(a => a.id !== animal.id)).slice(0, 3);
   const choices = shuffle([animal, ...others]);
   const mode: QuestionMode = Math.random() > 0.5 ? 'emoji-to-name' : 'name-to-emoji';

@@ -13,7 +13,8 @@ export function useHolidaysGame() {
   const [selected, setSelected] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
-  const current: Holiday = HOLIDAYS[holidayIndex];
+  const current = HOLIDAYS[holidayIndex];
+  if (!current) throw new Error('Invalid holiday index');
   const currentQuestion = current.questions[questionIndex];
   const totalHolidays = HOLIDAYS.length;
   const totalQuestions = current.questions.length;
@@ -30,7 +31,7 @@ export function useHolidaysGame() {
   const selectAnswer = useCallback((idx: number) => {
     if (selected !== null) return;
     setSelected(idx);
-    const correct = idx === currentQuestion.correctIndex;
+    const correct = idx === (currentQuestion?.correctIndex ?? -1);
     setIsCorrect(correct);
     if (correct) setScore(s => s + 1);
   }, [selected, currentQuestion]);

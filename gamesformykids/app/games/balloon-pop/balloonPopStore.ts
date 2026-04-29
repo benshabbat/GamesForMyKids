@@ -68,7 +68,7 @@ function makeBalloon(): Balloon {
     y: H + 40,
     r: 22 + Math.random() * 18,
     vy: -(0.8 + Math.random() * 1.2),
-    color: BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)],
+    color: BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)]!,
     isBomb,
     popped: false,
     popAnim: 0,

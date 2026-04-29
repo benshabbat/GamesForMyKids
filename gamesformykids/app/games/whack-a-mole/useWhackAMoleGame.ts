@@ -56,18 +56,21 @@ export function useWhackAMoleGame() {
       .map(({ i }) => i);
 
     if (empty.length > 0) {
-      const idx = empty[Math.floor(Math.random() * empty.length)];
+      const idx = empty[Math.floor(Math.random() * empty.length)] ?? 0;
       const isBad = Math.random() < 0.15;
-      const val = isBad ? BAD : MOLES[Math.floor(Math.random() * MOLES.length)];
-      holesRef.current[idx].state = isBad ? 'bad' : 'mole';
-      holesRef.current[idx].value = val;
+      const val = isBad ? BAD : (MOLES[Math.floor(Math.random() * MOLES.length)] ?? MOLES[0] ?? '🐹');
+      const hole = holesRef.current[idx];
+      if (!hole) return;
+      hole.state = isBad ? 'bad' : 'mole';
+      hole.value = val;
       syncUI();
 
       const hideDelay = 800 + Math.random() * 800;
       moleTimers.current[idx] = setTimeout(() => {
-        if (holesRef.current[idx].state === 'mole' || holesRef.current[idx].state === 'bad') {
-          holesRef.current[idx].state = 'empty';
-          holesRef.current[idx].value = '';
+        const h = holesRef.current[idx];
+        if (h && (h.state === 'mole' || h.state === 'bad')) {
+          h.state = 'empty';
+          h.value = '';
           syncUI();
         }
       }, hideDelay);
@@ -106,6 +109,7 @@ export function useWhackAMoleGame() {
   const whack = useCallback((idx: number) => {
     if (phaseRef.current !== 'playing') return;
     const h = holesRef.current[idx];
+    if (!h) return;
     if (h.state === 'mole') {
       if (moleTimers.current[idx]) clearTimeout(moleTimers.current[idx]);
       h.state = 'hit';
@@ -114,8 +118,7 @@ export function useWhackAMoleGame() {
       setCombo(c => c + 1);
       syncUI();
       setTimeout(() => {
-        holesRef.current[idx].state = 'empty';
-        holesRef.current[idx].value = '';
+        const moleHole = holesRef.current[idx]; if (moleHole) { moleHole.state = 'empty'; moleHole.value = ''; }
         syncUI();
       }, 300);
     } else if (h.state === 'bad') {
@@ -126,8 +129,7 @@ export function useWhackAMoleGame() {
       setCombo(0);
       syncUI();
       setTimeout(() => {
-        holesRef.current[idx].state = 'empty';
-        holesRef.current[idx].value = '';
+        const badHole = holesRef.current[idx]; if (badHole) { badHole.state = 'empty'; badHole.value = ''; }
         syncUI();
       }, 300);
     }

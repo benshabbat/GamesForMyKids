@@ -28,7 +28,7 @@ export function useReflexGame() {
       id,
       x: 5 + Math.random() * 80,
       y: 10 + Math.random() * 70,
-      emoji: TARGET_EMOJIS[Math.floor(Math.random() * TARGET_EMOJIS.length)],
+      emoji: TARGET_EMOJIS[Math.floor(Math.random() * TARGET_EMOJIS.length)] ?? TARGET_EMOJIS[0] ?? '🎯',
       lifetime: getLifetime(scoreRef.current),
       born: Date.now(),
     };

@@ -35,7 +35,6 @@ export default function LetterWritingStep() {
 
       <WritingCanvas
         height={300}
-        guideLetter={undefined}
       />
     </motion.div>
   );

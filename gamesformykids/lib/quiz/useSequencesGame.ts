@@ -6,7 +6,7 @@ import { shuffle } from '@/lib/utils';
 
 export function useSequencesGame() {
   const { phase, current, begin, answer, reset } = useQuizSession<SequenceQuestion>('sequences');
-  const [level, setLevel] = useState<SequenceLevel>(LEVELS[0]);
+  const [level, setLevel] = useState<SequenceLevel>(LEVELS[0]!);
 
   const choices = useMemo<number[]>(
     () => (current ? shuffle([current.next, ...current.wrong]) : []),

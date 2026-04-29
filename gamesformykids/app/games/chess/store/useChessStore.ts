@@ -1,7 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
-import { makeInitialBoard, applyMove, isInCheck, pieceColor, INIT_CASTLING, INIT } from '../logic/chessBoardUtils';
+import { makeInitialBoard, applyMove, isInCheck, pieceColor, INIT_CASTLING, INIT, gc } from '../logic/chessBoardUtils';
 import { getAllValidMoves, getValidMoves } from '../logic/chessMoveGen';
 import { bestComputerMove } from '../logic/chessAI';
 import {
@@ -67,13 +67,13 @@ function scheduleComputerMove() {
       return;
     }
 
-    const pieceMoved = s.board[move.from.row][move.from.col]!;
+    const pieceMoved = gc(s.board, move.from.row, move.from.col);
     const { board: nb, castling: nc, enPassant: nep, captured } = applyMove(s.board, move, s.castling, s.enPassant);
     const playerMoves = getAllValidMoves(nb, 'w', nc, nep);
 
     if (playerMoves.length === 0) {
       const phrase = isInCheck(nb, 'w') ? 'שחמט' : 'פאט';
-      const record = buildRecord(move, pieceMoved, 'b', captured, false, Math.floor(s.moveHistory.length / 2) + 1);
+      const record = buildRecord(move, pieceMoved ?? '', 'b', captured, false, Math.floor(s.moveHistory.length / 2) + 1);
       useChessStore.setState({
         board: nb, castling: nc, enPassant: nep, lastMove: move,
         phase: 'checkmate',
@@ -87,7 +87,7 @@ function scheduleComputerMove() {
 
     const gaveCheck = isInCheck(nb, 'w');
     const phase: GamePhase = gaveCheck ? 'check' : 'playing';
-    const record = buildRecord(move, pieceMoved, 'b', captured, gaveCheck, Math.floor(s.moveHistory.length / 2) + 1);
+    const record = buildRecord(move, pieceMoved ?? '', 'b', captured, gaveCheck, Math.floor(s.moveHistory.length / 2) + 1);
     useChessStore.setState({
       board: nb, castling: nc, enPassant: nep, lastMove: move,
       selected: null, validMoves: [], turn: 'w', phase,
@@ -122,14 +122,14 @@ export const useChessStore = create<ChessStore>((set, get) => ({
 
     const move = prev.validMoves.find(m => m.to.row === pos.row && m.to.col === pos.col);
     if (move) {
-      const pieceMoved = prev.board[move.from.row][move.from.col]!;
+      const pieceMoved = gc(prev.board, move.from.row, move.from.col);
       const { board: nb, castling: nc, enPassant: nep, captured } = applyMove(prev.board, move, prev.castling, prev.enPassant);
       const compMoves = getAllValidMoves(nb, 'b', nc, nep);
 
       if (compMoves.length === 0) {
         const phrase = isInCheck(nb, 'b') ? 'שחמט!' : 'פאט!';
         const gaveCheck = isInCheck(nb, 'b');
-        const record = buildRecord(move, pieceMoved, 'w', captured, gaveCheck, Math.floor(prev.moveHistory.length / 2) + 1);
+        const record = buildRecord(move, pieceMoved ?? '', 'w', captured, gaveCheck, Math.floor(prev.moveHistory.length / 2) + 1);
         set({
           board: nb, castling: nc, enPassant: nep, lastMove: move,
           selected: null, validMoves: [],
@@ -144,7 +144,7 @@ export const useChessStore = create<ChessStore>((set, get) => ({
 
       const gaveCheck = isInCheck(nb, 'b');
       const phase: GamePhase = gaveCheck ? 'check' : 'playing';
-      const record = buildRecord(move, pieceMoved, 'w', captured, gaveCheck, Math.floor(prev.moveHistory.length / 2) + 1);
+      const record = buildRecord(move, pieceMoved ?? '', 'w', captured, gaveCheck, Math.floor(prev.moveHistory.length / 2) + 1);
       set({
         board: nb, castling: nc, enPassant: nep, lastMove: move,
         selected: null, validMoves: [], turn: 'b', phase,
@@ -156,7 +156,7 @@ export const useChessStore = create<ChessStore>((set, get) => ({
       return;
     }
 
-    if (pieceColor(prev.board[pos.row][pos.col]) !== 'w') {
+    if (pieceColor(gc(prev.board, pos.row, pos.col)) !== 'w') {
       set({ selected: null, validMoves: [], message: 'בחר כלי לבן שלך!' });
       return;
     }

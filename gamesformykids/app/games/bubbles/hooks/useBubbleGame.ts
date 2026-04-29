@@ -55,7 +55,7 @@ export function useBubbleGame() {
     if (!gameContainerRef.current) return;
 
     const containerWidth = gameContainerRef.current.offsetWidth;
-    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)];
+    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)]!;
     const size = 40 + Math.random() * 60; // גודל בין 40-100px
     
     const newBubble: BubbleData = {

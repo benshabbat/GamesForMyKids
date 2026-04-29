@@ -25,7 +25,7 @@ export const createDropSlice: StateCreator<PuzzleStore, [], [], DropSlice> = (se
       set({
         pieces: get().pieces.map(p =>
           p.id === existingPiece.id
-            ? { ...p, isPlaced: false, isCorrect: false, currentPosition: undefined }
+            ? (({ currentPosition: _cp, ...rest }) => ({ ...rest, isPlaced: false, isCorrect: false }))(p)
             : p,
         ),
       });

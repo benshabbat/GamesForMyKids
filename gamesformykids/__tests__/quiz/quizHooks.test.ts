@@ -225,26 +225,26 @@ describe('useSequencesGame', () => {
 
   it('startGame(level) sets phase=playing', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     expect(result.current.phase).toBe('playing');
   });
 
   it('provides choices that include the correct next number', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     const { current, choices } = result.current;
     expect(choices).toContain(current!.next);
   });
 
   it('choices contain wrong options as well', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     expect(result.current.choices.length).toBeGreaterThan(1);
   });
 
   it('selectAnswer() with correct next number sets isCorrect=true', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     const correct = result.current.current!.next;
     act(() => result.current.selectAnswer(correct));
     expect(useQuizGameStore.getState().isCorrect).toBe(true);
@@ -252,7 +252,7 @@ describe('useSequencesGame', () => {
 
   it('selectAnswer() with wrong number sets isCorrect=false', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     const { current, choices } = result.current;
     const wrong = choices.find(c => c !== current!.next)!;
     act(() => result.current.selectAnswer(wrong));
@@ -261,7 +261,7 @@ describe('useSequencesGame', () => {
 
   it('restart() resets score to 0', () => {
     const { result } = renderHook(() => useSequencesGame());
-    act(() => result.current.startGame(result.current.levels[0]));
+    act(() => result.current.startGame(result.current.levels[0]!));
     act(() => result.current.selectAnswer(result.current.current!.next));
     act(() => result.current.restart());
     expect(useQuizGameStore.getState().score).toBe(0);

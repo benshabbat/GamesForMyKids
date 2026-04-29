@@ -47,7 +47,7 @@ export function useSimonGame() {
   }, [flash]);
 
   const startGame = useCallback(() => {
-    const first = BUTTONS[Math.floor(Math.random() * BUTTONS.length)].id;
+    const first = (BUTTONS[Math.floor(Math.random() * BUTTONS.length)] ?? BUTTONS[0]).id;
     const seq: ButtonId[] = [first];
     sequenceRef.current = seq;
     setRoundScore(0);
@@ -76,7 +76,7 @@ export function useSimonGame() {
 
     if (next >= seq.length) {
       setRoundScore(seq.length);
-      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)].id;
+      const nextBtn = (BUTTONS[Math.floor(Math.random() * BUTTONS.length)] ?? BUTTONS[0]).id;
       const newSeq: ButtonId[] = [...seq, nextBtn];
       sequenceRef.current = newSeq;
       setTimeout(() => showSequence(newSeq), 900);

@@ -58,7 +58,7 @@ export default function TzadikimGame() {
     return (
       <QuizView
         story={currentStory}
-        question={currentQuestion}
+        question={currentQuestion ?? { question: '', answers: [], correctIndex: 0 }}
         questionIndex={questionIndex}
         totalQuestions={totalQuestions}
         selectedAnswer={selectedAnswer}

@@ -3,7 +3,7 @@ import { PieceStack } from './PieceStack';
 
 interface BoardPointProps {
   idx: number;
-  pt: PointState;
+  pt: PointState | undefined;
   isTop: boolean;
   isSelected: boolean;
   isTarget: boolean;
@@ -11,6 +11,7 @@ interface BoardPointProps {
 }
 
 export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick }: BoardPointProps) {
+  if (!pt) return null;
   // Alternating deep crimson / warm parchment — classic backgammon palette
   const fillColor = idx % 2 === 0 ? '#7f1d1d' : '#e8d0a0';
 

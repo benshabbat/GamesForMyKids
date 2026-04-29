@@ -1,11 +1,12 @@
 import { type Color, type Piece, type PieceType, type Board, type Pos, type CastleRights, type ChessMove } from './chessTypes';
-import { inB, pieceColor, isOpp, isFriend, isAttackedBy, isInCheck, applyMove } from './chessBoardUtils';
+import { inB, pieceColor, isOpp, isFriend, isAttackedBy, isInCheck, applyMove, gc } from './chessBoardUtils';
 
 // ─────────────────────── Raw move generation ─────────────────
 function getRawMoves(b: Board, pos: Pos, castling: CastleRights, enPassant: Pos | null): ChessMove[] {
-  const piece = b[pos.row][pos.col];
+  const piece = gc(b, pos.row, pos.col);
   if (!piece) return [];
-  const color = pieceColor(piece)!;
+  const color = pieceColor(piece);
+  if (!color) return [];
   const pType = piece[1] as PieceType;
   const { row: r, col: c } = pos;
   const moves: ChessMove[] = [];
@@ -20,56 +21,56 @@ function getRawMoves(b: Board, pos: Pos, castling: CastleRights, enPassant: Pos 
           moves.push({ from: pos, to, promotion: `${color}${pt}` as Piece, ...extra });
       } else moves.push({ from: pos, to, ...extra });
     };
-    if (inB(r + dir, c) && !b[r + dir][c]) {
+    if (inB(r + dir, c) && !gc(b, r + dir, c)) {
       addPawn({ row: r + dir, col: c });
-      if (r === startRow && !b[r + 2 * dir][c])
+      if (r === startRow && !gc(b, r + 2 * dir, c))
         moves.push({ from: pos, to: { row: r + 2 * dir, col: c } });
     }
     for (const dc of [-1, 1]) {
       const tr = r + dir, tc = c + dc;
       if (!inB(tr, tc)) continue;
-      if (isOpp(b[tr][tc], color)) addPawn({ row: tr, col: tc });
+      if (isOpp(gc(b, tr, tc), color)) addPawn({ row: tr, col: tc });
       else if (enPassant && tr === enPassant.row && tc === enPassant.col)
         moves.push({ from: pos, to: { row: tr, col: tc }, enPassant: true });
     }
   }
 
   else if (pType === 'N') {
-    for (const [dr, dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]) {
+    for (const [dr, dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]] as [number,number][]) {
       const tr = r+dr, tc = c+dc;
-      if (inB(tr, tc) && !isFriend(b[tr][tc], color)) moves.push({ from: pos, to: { row: tr, col: tc } });
+      if (inB(tr, tc) && !isFriend(gc(b, tr, tc), color)) moves.push({ from: pos, to: { row: tr, col: tc } });
     }
   }
 
   else if (pType === 'B' || pType === 'R' || pType === 'Q') {
-    const dirs = pType === 'B' ? [[-1,-1],[-1,1],[1,-1],[1,1]]
+    const dirs = (pType === 'B' ? [[-1,-1],[-1,1],[1,-1],[1,1]]
       : pType === 'R' ? [[-1,0],[1,0],[0,-1],[0,1]]
-      : [[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]];
+      : [[-1,-1],[-1,1],[1,-1],[1,1],[-1,0],[1,0],[0,-1],[0,1]]) as [number,number][];
     for (const [dr, dc] of dirs) {
       let tr = r+dr, tc = c+dc;
-      while (inB(tr, tc) && !isFriend(b[tr][tc], color)) {
+      while (inB(tr, tc) && !isFriend(gc(b, tr, tc), color)) {
         moves.push({ from: pos, to: { row: tr, col: tc } });
-        if (b[tr][tc]) break;
+        if (gc(b, tr, tc)) break;
         tr += dr; tc += dc;
       }
     }
   }
 
   else if (pType === 'K') {
-    for (const [dr, dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]) {
+    for (const [dr, dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]] as [number,number][]) {
       const tr = r+dr, tc = c+dc;
-      if (inB(tr, tc) && !isFriend(b[tr][tc], color)) moves.push({ from: pos, to: { row: tr, col: tc } });
+      if (inB(tr, tc) && !isFriend(gc(b, tr, tc), color)) moves.push({ from: pos, to: { row: tr, col: tc } });
     }
     const crow = color === 'w' ? 7 : 0;
     const opp: Color = color === 'w' ? 'b' : 'w';
     if (r === crow && c === 4 && !isAttackedBy(b, pos, opp)) {
       const kingside = color === 'w' ? castling.wK : castling.bK;
       const queenside = color === 'w' ? castling.wQ : castling.bQ;
-      if (kingside && !b[crow][5] && !b[crow][6]
+      if (kingside && !gc(b, crow, 5) && !gc(b, crow, 6)
         && !isAttackedBy(b, { row: crow, col: 5 }, opp)
         && !isAttackedBy(b, { row: crow, col: 6 }, opp))
         moves.push({ from: pos, to: { row: crow, col: 6 }, castle: 'K' });
-      if (queenside && !b[crow][3] && !b[crow][2] && !b[crow][1]
+      if (queenside && !gc(b, crow, 3) && !gc(b, crow, 2) && !gc(b, crow, 1)
         && !isAttackedBy(b, { row: crow, col: 3 }, opp)
         && !isAttackedBy(b, { row: crow, col: 2 }, opp))
         moves.push({ from: pos, to: { row: crow, col: 2 }, castle: 'Q' });
@@ -81,9 +82,10 @@ function getRawMoves(b: Board, pos: Pos, castling: CastleRights, enPassant: Pos 
 
 // ─────────────────────── Legal moves ─────────────────────────
 export function getValidMoves(b: Board, pos: Pos, castling: CastleRights, enPassant: Pos | null): ChessMove[] {
-  const piece = b[pos.row][pos.col];
+  const piece = gc(b, pos.row, pos.col);
   if (!piece) return [];
-  const color = pieceColor(piece)!;
+  const color = pieceColor(piece);
+  if (!color) return [];
   return getRawMoves(b, pos, castling, enPassant).filter(m => {
     const { board: nb } = applyMove(b, m, castling, enPassant);
     return !isInCheck(nb, color);
@@ -94,7 +96,7 @@ export function getAllValidMoves(b: Board, color: Color, castling: CastleRights,
   const moves: ChessMove[] = [];
   for (let r = 0; r < 8; r++)
     for (let c = 0; c < 8; c++)
-      if (pieceColor(b[r][c]) === color)
+      if (pieceColor(gc(b, r, c)) === color)
         moves.push(...getValidMoves(b, { row: r, col: c }, castling, enPassant));
   return moves;
 }

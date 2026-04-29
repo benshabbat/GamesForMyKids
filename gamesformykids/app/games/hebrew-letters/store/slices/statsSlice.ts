@@ -28,7 +28,7 @@ export const createStatsSlice: StateCreator<HebrewLettersStore, [['zustand/devto
     if (encouragementTimerRef) clearTimeout(encouragementTimerRef);
     const msg =
       message ??
-      ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)];
+      ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)] ?? ENCOURAGEMENT_MESSAGES[0] ?? '';
     set(
       { encouragementState: { showEncouragement: true, currentMessage: msg, isStepCompleted: false } },
       false,

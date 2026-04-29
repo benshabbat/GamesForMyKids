@@ -49,52 +49,52 @@ export interface CardContent {
  * עיצוב הכרטיס
  */
 interface CardAppearance {
-  size?: "small" | "medium" | "large";
-  shape?: "rounded" | "circle" | "square";
-  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto';
+  size?: "small" | "medium" | "large" | undefined;
+  shape?: "rounded" | "circle" | "square" | undefined;
+  variant?: 'default' | 'large' | 'compact' | 'simple' | 'advanced' | 'auto' | undefined;
   
   // צבעים
-  color?: string;
-  gradientFrom?: string;
-  gradientTo?: string;
-  hoverFrom?: string;
-  hoverTo?: string;
-  borderColor?: string;
-  borderWidth?: string;
-  textColor?: string;
+  color?: string | undefined;
+  gradientFrom?: string | undefined;
+  gradientTo?: string | undefined;
+  hoverFrom?: string | undefined;
+  hoverTo?: string | undefined;
+  borderColor?: string | undefined;
+  borderWidth?: string | undefined;
+  textColor?: string | undefined;
   
   // צורה ומבנה
-  aspectRatio?: "square" | "wide" | "tall";
-  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full";
+  aspectRatio?: "square" | "wide" | "tall" | undefined;
+  borderRadius?: "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "full" | undefined;
   
   // אפקטים
-  animation?: "bounce" | "pulse" | "none";
-  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none";
-  hoverEffect?: "scale" | "lift" | "glow" | "none";
-  backgroundPattern?: "stars" | "dots" | "none";
+  animation?: "bounce" | "pulse" | "none" | undefined;
+  shadow?: "sm" | "md" | "lg" | "xl" | "2xl" | "none" | undefined;
+  hoverEffect?: "scale" | "lift" | "glow" | "none" | undefined;
+  backgroundPattern?: "stars" | "dots" | "none" | undefined;
 }
 
 /**
  * התנהגות הכרטיס
  */
 interface CardBehavior {
-  animationEnabled?: boolean;
-  autoSpeak?: boolean;
-  onSpeak?: () => void;
-  useContext?: boolean;
+  animationEnabled?: boolean | undefined;
+  autoSpeak?: boolean | undefined;
+  onSpeak?: (() => void) | undefined;
+  useContext?: boolean | undefined;
 }
 
 /**
  * תוכן מותאם אישית
  */
 interface CardCustomContent {
-  customContent?: React.ReactNode;
-  customDecoration?: React.ReactNode;
-  icon?: React.ReactNode;
-  description?: string;
-  digit?: string;
-  svg?: string;
-  value?: string;
+  customContent?: React.ReactNode | undefined;
+  customDecoration?: React.ReactNode | undefined;
+  icon?: React.ReactNode | undefined;
+  description?: string | undefined;
+  digit?: string | undefined;
+  svg?: string | undefined;
+  value?: string | undefined;
 }
 
 // ===== MAIN CARD PROPS =====
@@ -103,8 +103,8 @@ interface CardCustomContent {
  * Props בסיסיים לכל כרטיס
  */
 interface BaseCardProps extends CardAppearance, CardBehavior, CardCustomContent {
-  className?: string;
-  isSelected?: boolean;
+  className?: string | undefined;
+  isSelected?: boolean | undefined;
 }
 
 /**
@@ -132,21 +132,21 @@ export interface ColoredShapeCardProps extends BaseCardProps {
  */
 export interface UnifiedCardProps extends BaseCardProps {
   // Data
-  item?: BaseGameItem;
-  onClick?: (item?: BaseGameItem) => void;
-  showContent?: CardContent;
+  item?: BaseGameItem | undefined;
+  onClick?: ((item?: BaseGameItem) => void) | undefined;
+  showContent?: CardContent | undefined;
   
   // Simple mode - for direct text input
-  hebrewText?: string;
-  secondaryText?: string;
-  name?: string;
+  hebrewText?: string | undefined;
+  secondaryText?: string | undefined;
+  name?: string | undefined;
   
   // Display control
-  showEmoji?: boolean;
-  showHebrew?: boolean;
-  showEnglish?: boolean;
-  showSoundIcon?: boolean;
-  hideSoundIcon?: boolean;
+  showEmoji?: boolean | undefined;
+  showHebrew?: boolean | undefined;
+  showEnglish?: boolean | undefined;
+  showSoundIcon?: boolean | undefined;
+  hideSoundIcon?: boolean | undefined;
 }
 
 // ===== GRID COMPONENTS =====

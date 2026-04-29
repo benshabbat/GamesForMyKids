@@ -1,5 +1,5 @@
 import { type Color, type PieceType, type Board, type Pos, type CastleRights, type ChessMove } from './chessTypes';
-import { isInCheck, applyMove } from './chessBoardUtils';
+import { isInCheck, applyMove, gc } from './chessBoardUtils';
 import { getAllValidMoves } from './chessMoveGen';
 
 // ─────────────────────── Evaluation ──────────────────────────
@@ -13,7 +13,7 @@ const CENTER_BONUS: Record<string, number[][]> = {
 function evaluate(b: Board): number {
   let score = 0;
   for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
-    const p = b[r][c];
+    const p = gc(b, r, c);
     if (!p) continue;
     const pColor = p[0] as Color;
     const pType = p[1] as PieceType;
@@ -60,7 +60,7 @@ function minimax(
 export function bestComputerMove(b: Board, castling: CastleRights, enPassant: Pos | null): ChessMove | null {
   const moves = getAllValidMoves(b, 'b', castling, enPassant);
   if (!moves.length) return null;
-  let bestScore = -Infinity, best = moves[0];
+  let bestScore = -Infinity, best: ChessMove | null = moves[0] ?? null;
   for (const m of moves) {
     const { board: nb, castling: nc, enPassant: nep } = applyMove(b, m, castling, enPassant);
     const s = minimax(nb, 2, -Infinity, Infinity, false, nc, nep);

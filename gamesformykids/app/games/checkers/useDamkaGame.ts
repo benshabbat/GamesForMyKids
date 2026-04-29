@@ -14,13 +14,17 @@ export interface DamkaMove { from: Pos; to: Pos; captures: Pos[]; }
 const isDark = (r: number, c: number) => (r + c) % 2 === 1;
 const inBounds = (r: number, c: number) => r >= 0 && r < 8 && c >= 0 && c < 8;
 const empty = (): Cell => ({ color: null, isKing: false });
+/** Safe cell read */
+const gc = (b: Board, r: number, c: number): Cell => b[r]?.[c] ?? empty();
+/** Safe cell write */
+const sc = (b: Board, r: number, c: number, v: Cell): void => { const row = b[r]; if (row) row[c] = v; };
 
 export function makeInitialBoard(): Board {
   const b: Board = Array.from({ length: 8 }, () => Array.from({ length: 8 }, empty));
   for (let r = 0; r < 3; r++) for (let c = 0; c < 8; c++)
-    if (isDark(r, c)) b[r][c] = { color: 'computer', isKing: false };
+    if (isDark(r, c)) sc(b, r, c, { color: 'computer', isKing: false });
   for (let r = 5; r < 8; r++) for (let c = 0; c < 8; c++)
-    if (isDark(r, c)) b[r][c] = { color: 'player', isKing: false };
+    if (isDark(r, c)) sc(b, r, c, { color: 'player', isKing: false });
   return b;
 }
 
@@ -42,8 +46,8 @@ function getCaptures(b: Board, startPos: Pos, side: Side): DamkaMove[] {
       const mr = pos.row + dr, mc = pos.col + dc;
       const tr = pos.row + 2 * dr, tc = pos.col + 2 * dc;
       if (!inBounds(mr, mc) || !inBounds(tr, tc)) continue;
-      if (board[mr][mc].color !== opp) continue;
-      if (board[tr][tc].color !== null) continue;
+      if (gc(board, mr, mc).color !== opp) continue;
+      if (gc(board, tr, tc).color !== null) continue;
       if (captured.some(p => p.row === mr && p.col === mc)) continue;
 
       jumped = true;
@@ -51,9 +55,9 @@ function getCaptures(b: Board, startPos: Pos, side: Side): DamkaMove[] {
       const kingAfter = isKing
         || (side === 'player' && tr === 0)
         || (side === 'computer' && tr === 7);
-      nb[tr][tc] = { color: side, isKing: kingAfter };
-      nb[pos.row][pos.col] = empty();
-      nb[mr][mc] = empty();
+      sc(nb, tr, tc, { color: side, isKing: kingAfter });
+      sc(nb, pos.row, pos.col, empty());
+      sc(nb, mr, mc, empty());
       dfs(nb, { row: tr, col: tc }, kingAfter, [...captured, { row: mr, col: mc }]);
     }
     if (!jumped && captured.length > 0) {
@@ -61,18 +65,18 @@ function getCaptures(b: Board, startPos: Pos, side: Side): DamkaMove[] {
     }
   }
 
-  dfs(b, startPos, b[startPos.row][startPos.col].isKing, []);
+  dfs(b, startPos, gc(b, startPos.row, startPos.col).isKing, []);
   return results;
 }
 
 function getNormals(b: Board, pos: Pos, side: Side): DamkaMove[] {
-  const piece = b[pos.row][pos.col];
+  const piece = gc(b, pos.row, pos.col);
   const dirs: [number, number][] = piece.isKing
     ? [[-1, -1], [-1, 1], [1, -1], [1, 1]]
     : side === 'player' ? [[-1, -1], [-1, 1]] : [[1, -1], [1, 1]];
   return dirs
     .map(([dr, dc]) => ({ row: pos.row + dr, col: pos.col + dc }))
-    .filter(to => inBounds(to.row, to.col) && b[to.row][to.col].color === null)
+    .filter(to => inBounds(to.row, to.col) && gc(b, to.row, to.col).color === null)
     .map(to => ({ from: pos, to, captures: [] }));
 }
 
@@ -80,7 +84,7 @@ export function getAllMoves(b: Board, side: Side): DamkaMove[] {
   const captures: DamkaMove[] = [];
   const normals: DamkaMove[] = [];
   for (let r = 0; r < 8; r++) for (let c = 0; c < 8; c++) {
-    if (b[r][c].color !== side) continue;
+    if (b[r]?.[c]?.color !== side) continue;
     const pos = { row: r, col: c };
     captures.push(...getCaptures(b, pos, side));
     normals.push(...getNormals(b, pos, side));
@@ -90,12 +94,12 @@ export function getAllMoves(b: Board, side: Side): DamkaMove[] {
 
 export function applyMove(b: Board, move: DamkaMove): Board {
   const nb = cloneBoard(b);
-  const piece = nb[move.from.row][move.from.col];
-  for (const cap of move.captures) nb[cap.row][cap.col] = empty();
-  nb[move.to.row][move.to.col] = { ...piece };
-  nb[move.from.row][move.from.col] = empty();
-  if (piece.color === 'player' && move.to.row === 0) nb[move.to.row][move.to.col].isKing = true;
-  if (piece.color === 'computer' && move.to.row === 7) nb[move.to.row][move.to.col].isKing = true;
+  const piece = gc(nb, move.from.row, move.from.col);
+  for (const cap of move.captures) sc(nb, cap.row, cap.col, empty());
+  sc(nb, move.to.row, move.to.col, { ...piece });
+  sc(nb, move.from.row, move.from.col, empty());
+  if (piece.color === 'player' && move.to.row === 0) sc(nb, move.to.row, move.to.col, { ...gc(nb, move.to.row, move.to.col), isKing: true });
+  if (piece.color === 'computer' && move.to.row === 7) sc(nb, move.to.row, move.to.col, { ...gc(nb, move.to.row, move.to.col), isKing: true });
   return nb;
 }
 
@@ -136,7 +140,7 @@ function minimax(b: Board, depth: number, alpha: number, beta: number, isMax: bo
 function bestComputerMove(b: Board): DamkaMove | null {
   const moves = getAllMoves(b, 'computer');
   if (!moves.length) return null;
-  let bestScore = -Infinity, best = moves[0];
+  let bestScore = -Infinity, best: DamkaMove | null = moves[0] ?? null;
   for (const m of moves) {
     const s = minimax(applyMove(b, m), 3, -Infinity, Infinity, false);
     if (s > bestScore) { bestScore = s; best = m; }
@@ -182,7 +186,7 @@ export function useDamkaGame() {
   const selectCell = useCallback((pos: Pos) => {
     setState(prev => {
       if (prev.phase !== 'playing' || prev.currentTurn !== 'player') return prev;
-      const cell = prev.board[pos.row][pos.col];
+      const cell = prev.board[pos.row]?.[pos.col] ?? empty();
 
       // Execute move if clicking a valid destination
       const move = prev.validMoves.find(m => m.to.row === pos.row && m.to.col === pos.col);

@@ -45,7 +45,7 @@ export const getRandomPiece = (): Piece => {
     throw new Error('No tetrominoes defined');
   }
   
-  const randomPiece = pieces[Math.floor(Math.random() * pieces.length)];
+  const randomPiece = pieces[Math.floor(Math.random() * pieces.length)]!;
   const pieceData = TETROMINOES[randomPiece];
   
   if (!pieceData || !pieceData.blocks || !pieceData.color) {
@@ -60,11 +60,11 @@ export const getRandomPiece = (): Piece => {
 };
 
 export const rotatePiece = (piece: Piece): Piece => {
-  const rotated = [];
-  for (let x = 0; x < piece.blocks[0].length; x++) {
-    const row = [];
+  const rotated: number[][] = [];
+  for (let x = 0; x < piece.blocks[0]!.length; x++) {
+    const row: number[] = [];
     for (let y = piece.blocks.length - 1; y >= 0; y--) {
-      row.push(piece.blocks[y][x]);
+      row.push(piece.blocks[y]![x]!);
     }
     rotated.push(row);
   }

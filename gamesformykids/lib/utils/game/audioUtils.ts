@@ -73,7 +73,7 @@ export function playAnimalSound(
   emoji: string,
   frequencies: Record<string, number[]>,
 ): void {
-  const animalFreqs = frequencies[emoji] || frequencies['default'];
+  const animalFreqs = frequencies[emoji] ?? frequencies['default'] ?? [];
   playCustomSound(audioContext, animalFreqs);
 }
 

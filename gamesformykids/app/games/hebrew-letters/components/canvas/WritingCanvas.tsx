@@ -11,7 +11,7 @@ interface WritingCanvasProps {
   width?: number;
   height?: number;
   backgroundColor?: string;
-  guideLetter?: string;
+  guideLetter?: string | undefined;
 }
 
 export default function WritingCanvas({
