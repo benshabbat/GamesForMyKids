@@ -17,6 +17,9 @@ import {
 } from '@/lib/utils/game/gameUtils';
 import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
 import { DifficultyLevel, MemoryCard, GameStats } from '../types/memory';
+import { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
+import { getDifficultyOptions, getPerformanceLevel, getWinAchievements } from './memoryDisplayHelpers';
+export type { DifficultyOption, PerformanceLevel, WinAchievement };
 
 // ─── Initial values ───────────────────────────────────────────────────────────
 
@@ -54,30 +57,6 @@ export interface MemoryStoreState {
   // UI
   showHints: boolean;
   showDebug: boolean;
-}
-
-// ─── Display types ───────────────────────────────────────────────────────────
-
-export interface DifficultyOption {
-  key: DifficultyLevel;
-  emoji: string;
-  name: string;
-  pairs: number;
-  isActive: boolean;
-}
-
-export interface PerformanceLevel {
-  level: string;
-  emoji: string;
-  color: string;
-  timeComment: string;
-}
-
-export interface WinAchievement {
-  id: string;
-  bgColor: string;
-  textColor: string;
-  label: string;
 }
 
 // ─── Actions shape ────────────────────────────────────────────────────────────
@@ -153,18 +132,7 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
       getDifficultyConfig: () =>
         MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty],
 
-      getDifficultyOptions: () => {
-        const activeName = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty].name;
-        return (Object.entries(MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS) as [DifficultyLevel, typeof MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[DifficultyLevel]][]).map(
-          ([key, config]) => ({
-            key,
-            emoji: config.emoji,
-            name: config.name,
-            pairs: config.pairs,
-            isActive: config.name === activeName,
-          }),
-        );
-      },
+      getDifficultyOptions: () => getDifficultyOptions(get().difficulty),
 
       getGridCols: () => {
         const count = get().cards.length;
@@ -238,29 +206,13 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
 
       getPerformanceLevel: () => {
         const { gameStats, timeLeft, formatTime } = get();
-        const efficiency = gameStats.score / Math.max(gameStats.moves, 1);
-        const timeBonus = timeLeft > 60 ? 'מהיר כברק!' : timeLeft > 30 ? 'בזמן טוב!' : 'ממש בזמן!';
-        const remaining = formatTime(timeLeft);
-        const timeComment = `${timeBonus} נשאר לך ${remaining}`;
-        if (efficiency > 50) return { level: 'מושלם!', emoji: '🏆', color: 'text-yellow-600', timeComment };
-        if (efficiency > 30) return { level: 'מעולה!', emoji: '🥇', color: 'text-green-600', timeComment };
-        if (efficiency > 20) return { level: 'טוב מאוד!', emoji: '🥈', color: 'text-blue-600', timeComment };
-        return { level: 'יפה!', emoji: '🥉', color: 'text-purple-600', timeComment };
+        return getPerformanceLevel(gameStats.score, gameStats.moves, timeLeft, formatTime);
       },
 
       getWinAchievements: () => {
         const { gameStats, timeLeft, getGameProgress } = get();
         const { totalPairs } = getGameProgress();
-        const achievements: WinAchievement[] = [];
-        if (gameStats.perfectMatches === totalPairs)
-          achievements.push({ id: 'perfect', bgColor: 'bg-yellow-100', textColor: 'text-yellow-800', label: '🏆 מושלם בכל הזוגות!' });
-        if (gameStats.streak >= 5)
-          achievements.push({ id: 'streak', bgColor: 'bg-orange-100', textColor: 'text-orange-800', label: `🔥 רצף אש של ${gameStats.streak}!` });
-        if (gameStats.moves <= totalPairs * 1.5)
-          achievements.push({ id: 'efficient', bgColor: 'bg-green-100', textColor: 'text-green-800', label: '⚡ יעילות מקסימלית!' });
-        if (timeLeft > 120)
-          achievements.push({ id: 'fast', bgColor: 'bg-blue-100', textColor: 'text-blue-800', label: '⏰ מהיר כאלף!' });
-        return achievements;
+        return getWinAchievements(gameStats.score, gameStats.moves, gameStats.streak, gameStats.perfectMatches, timeLeft, totalPairs);
       },
 
       // ─── Timer actions (driven by useEffect in useMemoryGameContent) ───────
