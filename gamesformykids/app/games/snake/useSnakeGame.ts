@@ -116,6 +116,9 @@ export function useSnakeGame() {
     useGameStore.getState().startGame('snake');
     setPhase('playing');
     scheduleStep();
+    // intentionally omit all deps — all references are stable (st.current ref, Zustand
+    // getState() calls, and scheduleStep uses st.current internally); empty deps ensures
+    // a single stable callback identity for the game-start button
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

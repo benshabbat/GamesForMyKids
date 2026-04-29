@@ -10,6 +10,8 @@ export function useGenericQuizGame<Q>(config: QuizGameConfig<Q>) {
 
   const choices = useMemo(
     () => (current ? config.getChoices(current) : []),
+    // intentionally omit `config` — it is a static game-config object created outside the
+    // component and never changes; including it would cause unnecessary recomputation
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [current],
   );
