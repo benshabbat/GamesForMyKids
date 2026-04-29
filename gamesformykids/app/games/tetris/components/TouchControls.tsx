@@ -1,16 +1,16 @@
-import { TouchControlsProps } from '../types';
+import { useTetrisStore } from '@/lib/stores/tetrisStore';
 import { useTouchControls } from './useTouchControls';
 
-const TouchControls = ({ 
-  isGameRunning, 
-  gameOver, 
-  score, 
-  onMove, 
-  onRotate, 
-  onStartGame,
-  isDesktop = false
-}: TouchControlsProps) => {
-  const { handleMove, handleRotate } = useTouchControls({ isGameRunning, onMove, onRotate });
+interface TouchControlsProps {
+  isDesktop?: boolean;
+}
+
+const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
+  const isGameRunning = useTetrisStore(s => s.isGameRunning);
+  const gameOver = useTetrisStore(s => s.gameOver);
+  const score = useTetrisStore(s => s.score);
+  const onStartGame = useTetrisStore(s => s.startNewGame);
+  const { handleMove, handleRotate } = useTouchControls();
 
   // פריסה למחשב
   if (isDesktop) {

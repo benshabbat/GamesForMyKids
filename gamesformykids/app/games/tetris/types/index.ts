@@ -24,29 +24,8 @@ export interface TetrisGameState {
   isLoading: boolean;
 }
 
-export interface TetrisGameProps {
-  onBack?: () => void;
-}
-
 export interface GameBoardProps {
   displayBoard: Board;
-}
-
-export interface InfoPanelProps {
-  score: number;
-  level: number;
-  linesCleared: number;
-  nextPiece: Piece | null;
-}
-
-export interface TouchControlsProps {
-  isGameRunning: boolean;
-  gameOver: boolean;
-  score: number;
-  onMove: (dx: number, dy: number) => void;
-  onRotate: () => void;
-  onStartGame: () => void;
-  isDesktop?: boolean;
 }
 
 export interface NextPieceDisplayProps {
