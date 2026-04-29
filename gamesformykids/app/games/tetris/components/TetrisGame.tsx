@@ -2,6 +2,7 @@
 
 import { GenericStartScreen } from '@/components/shared';
 import { useTetrisGame } from '../hooks/useTetrisGame';
+import { useTetrisStore } from '@/lib/stores/tetrisStore';
 import GameBoard from './GameBoard';
 import { MobileInfoPanel, DesktopInfoPanel } from './InfoPanels';
 import TouchControls from './TouchControls';
@@ -9,13 +10,19 @@ import AnimatedBackground from './AnimatedBackground';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 
 function TetrisGame(){
-  const { gameState, actions, getBoardWithCurrentPiece } = useTetrisGame();
+  // רישום side-effects (game loop, מקלדת, טעינה)
+  useTetrisGame();
 
-  if (gameState.isLoading) {
+  const isLoading = useTetrisStore(s => s.isLoading);
+  const showStartScreen = useTetrisStore(s => s.showStartScreen);
+  const startNewGame = useTetrisStore(s => s.startNewGame);
+  const getBoardWithCurrentPiece = useTetrisStore(s => s.getBoardWithCurrentPiece);
+
+  if (isLoading) {
     return <LoadingScreen />;
   }
 
-  if (gameState.showStartScreen) {
+  if (showStartScreen) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700">
         <GenericStartScreen
@@ -30,7 +37,7 @@ function TetrisGame(){
           ]}
           gameStepsBgClass="bg-white/20"
           items={[]}
-          customOnStart={actions.startNewGame}
+          customOnStart={startNewGame}
           buttonFromColor="from-yellow-400"
           buttonToColor="to-orange-500"
           backgroundStyle="bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700"
@@ -64,18 +71,10 @@ function TetrisGame(){
           <div className="col-span-6 flex justify-center">
             <GameBoard displayBoard={displayBoard} />
           </div>
-          
+
           {/* Right Controls Panel */}
           <div className="col-span-3">
-            <TouchControls
-              isGameRunning={gameState.isGameRunning}
-              gameOver={gameState.gameOver}
-              score={gameState.score}
-              onMove={actions.movePiece}
-              onRotate={actions.handleRotate}
-              onStartGame={actions.startNewGame}
-              isDesktop={true}
-            />
+            <TouchControls isDesktop={true} />
           </div>
         </div>
 
@@ -90,15 +89,7 @@ function TetrisGame(){
           </div>
 
           {/* Touch Controls */}
-          <TouchControls
-            isGameRunning={gameState.isGameRunning}
-            gameOver={gameState.gameOver}
-            score={gameState.score}
-            onMove={actions.movePiece}
-            onRotate={actions.handleRotate}
-            onStartGame={actions.startNewGame}
-            isDesktop={false}
-          />
+          <TouchControls isDesktop={false} />
         </div>
       </div>
     </div>

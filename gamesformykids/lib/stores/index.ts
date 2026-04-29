@@ -78,6 +78,9 @@ export { useFeaturedGameStore } from './featuredGameStore';
 // Game Audio (audioContext / speechEnabled — initialized once, shared)
 export { useGameAudioStore } from './gameAudioStore';
 
+// Tetris (board / pieces / score / level — singleton game state)
+export { useTetrisStore } from './tetrisStore';
+
 // Favorites (favoriteIds — persisted in localStorage)
 export { useFavoritesStore } from './favoritesStore';
 
