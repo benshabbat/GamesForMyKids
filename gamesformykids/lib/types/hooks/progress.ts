@@ -25,7 +25,7 @@ export interface GameSession {
   completed: boolean;
 }
 
-export interface UserProgressStats {
+export interface ProgressStats {
   totalSessions: number;
   totalTime: number;
   averageScore: number;
@@ -39,8 +39,5 @@ export interface UserProgressStats {
   improvementTrend: 'up' | 'down' | 'stable';
   recommendedPractice: string[];
 }
-
-// Alias for backward compatibility
-export type ProgressStats = UserProgressStats;
 
 

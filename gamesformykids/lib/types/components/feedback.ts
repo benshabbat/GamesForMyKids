@@ -4,7 +4,7 @@
  * ===============================================
  */
 
-export interface Hint {
+interface Hint {
   id: string;
   text: string;
   type: 'tip' | 'warning' | 'info';

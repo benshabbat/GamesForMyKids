@@ -6,8 +6,7 @@
 
 // ייצוא ממשקים מתוקנים
 export type { 
-  GameConfigContextValue,
-  GameConfigProviderProps
+  GameConfigContextValue
 } from './game-config';
 
 export type {

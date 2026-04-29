@@ -9,7 +9,7 @@ import type { ComponentType } from 'react';
 /**
  * רישום משחק בסיסי - עקרון Single Responsibility
  */
-export interface GameRegistrationBase {
+interface GameRegistrationBase {
   readonly id: string;
   readonly title: string;
   readonly description: string;
@@ -19,7 +19,7 @@ export interface GameRegistrationBase {
 /**
  * מאפיינים ויזואליים למשחק - עקרון Single Responsibility
  */
-export interface GameVisuals {
+interface GameVisuals {
   readonly color: string;
   readonly icon: ComponentType<{ className?: string }>;
   readonly emoji?: string;
@@ -28,7 +28,7 @@ export interface GameVisuals {
 /**
  * זמינות משחק - עקרון Single Responsibility
  */
-export interface GameAvailability {
+interface GameAvailability {
   readonly available: boolean;
 }
 
@@ -43,7 +43,7 @@ export interface GameRegistration extends
 /**
  * מידע בסיסי לקטגוריה - עקרון Single Responsibility
  */
-export interface CategoryInfo {
+interface CategoryInfo {
   readonly title: string;
   readonly description: string;
 }
@@ -51,7 +51,7 @@ export interface CategoryInfo {
 /**
  * מאפיינים ויזואליים לקטגוריה - עקרון Single Responsibility
  */
-export interface CategoryVisuals {
+interface CategoryVisuals {
   readonly icon: ComponentType<{ size?: number; className?: string }>;
   readonly gradient: string;
 }
@@ -59,7 +59,7 @@ export interface CategoryVisuals {
 /**
  * משחקים בקטגוריה - עקרון Single Responsibility
  */
-export interface CategoryGames {
+interface CategoryGames {
   readonly gameIds: ReadonlyArray<string>;
 }
 
@@ -72,61 +72,6 @@ export interface Category extends
   CategoryGames {}
 
 /**
- * מידע בסיסי לקבוצת גיל - עקרון Single Responsibility
- */
-export interface AgeGroupInfo {
-  readonly title: string;
-  readonly icon: string;
-  readonly description: string;
-}
-
-/**
- * משחקים מומלצים לקבוצת גיל - עקרון Single Responsibility
- */
-export interface AgeGroupRecommendations {
-  readonly recommendedGames: ReadonlyArray<GameRegistration>;
-}
-
-/**
- * קבוצת גיל מלאה - עקרון Interface Segregation
- */
-export interface AgeGroup extends 
-  AgeGroupInfo,
-  AgeGroupRecommendations {}
-
-/**
  * רמות קושי - עקרון Open/Closed
  */
 export type DifficultyLevel = 'easy' | 'medium' | 'hard';
-
-/**
- * מידע אתגר במשחק - עקרון Single Responsibility
- */
-export interface ChallengeInfo {
-  readonly id: string;
-  readonly title: string;
-  readonly description: string;
-}
-
-/**
- * מאפיינים לאתגר - עקרון Single Responsibility
- */
-export interface ChallengeProperties {
-  readonly difficulty: DifficultyLevel;
-  readonly points: number;
-}
-
-/**
- * מצב אתגר - עקרון Single Responsibility
- */
-export interface ChallengeState {
-  readonly completed: boolean;
-}
-
-/**
- * אתגר במשחק - עקרון Interface Segregation
- */
-export interface GameChallenge extends 
-  ChallengeInfo,
-  ChallengeProperties,
-  ChallengeState {}

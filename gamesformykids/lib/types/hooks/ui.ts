@@ -42,7 +42,7 @@ export interface UseGameHintsReturn {
 /**
  * סוגי אירועי משחק מורחבים - עקרון DRY, uses existing types
  */
-export type ExtendedGameEvent = 
+type ExtendedGameEvent = 
   | GameEvent
   | 'streak_milestone';
 

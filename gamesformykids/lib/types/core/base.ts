@@ -5,90 +5,25 @@
  */
 
 import { ReactNode } from 'react';
-import type { GameAvailability, DifficultyLevel } from '../games/base';
 
-export interface Identifiable<TId = string> {
+interface Identifiable<TId = string> {
   readonly id: TId;
-}
-
-/**
- * שם בסיסי - עקרון Single Responsibility  
- */
-export interface Nameable {
-  readonly name: string;
-}
-
-/**
- * מאפיינים בסיסיים עם כותרת ותיאור - עקרון DRY
- */
-export interface TitledEntity {
-  readonly title: string;
-  readonly description?: string;
-}
-
-/**
- * זיהוי סוג משחק - עקרון DRY
- */
-export interface GameTyped {
-  readonly gameType: string;
-}
-
-/**
- * ממשק לניהול modal התקדמות - עקרון DRY
- */
-export interface ProgressModalState {
-  readonly showProgressModal: boolean;
-  readonly setShowProgressModal: (show: boolean) => void;
-}
-
-/**
- * ממשק בסיסי לרמת קושי - עקרון DRY
- */
-export interface BaseDifficultyConfig {
-  readonly difficulty?: DifficultyLevel;
 }
 
 /**
  * תרגום רב-לשוני - עקרון Single Responsibility
  */
-export interface Translatable {
+interface Translatable {
   readonly hebrew: string;
   readonly english: string;
   readonly plural?: string;
 }
 
 /**
- * מאפיינים ויזואליים - עקרון Single Responsibility
- */
-export interface Visualizable {
-  readonly emoji: string;
-  readonly color: string;
-}
-
-/**
- * מאפיינים קוליים - עקרון Single Responsibility
- */
-export interface Audioable {
-  readonly sound?: number[];
-}
-
-/**
- * גרסה מקוצרת של BaseGameItem לתאימות לאחור - ללא id חובה
- * להשתמש כאשר id לא נדרש
- */
-export interface BaseGameItemLegacy extends 
-  Nameable,
-  Translatable, 
-  Visualizable, 
-  Audioable {
-  readonly id?: string;
-}
-
-/**
  * טייפ לנתוני משחקים ללא ID - לתמיכה בקבצי קבועים קיימים
  * SOLID Principle: Single Responsibility - אחראי רק על נתוני פריט בסיסיים ללא מזהה
  */
-export interface GameDataItem {
+interface GameDataItem {
   readonly name: string;
   readonly hebrew: string;
   readonly english: string;
@@ -112,7 +47,7 @@ export type BaseGameItem = GameDataItem & {
  * מצב אתגר משחק בסיסי - עקרון Single Responsibility
  * מכיל רק מידע על מצב נוכחי
  */
-export interface GameChallengeState<T extends BaseGameItem = BaseGameItem> {
+interface GameChallengeState<T extends BaseGameItem = BaseGameItem> {
   readonly currentChallenge: T | null;
   readonly options: T[];
 }
@@ -120,7 +55,7 @@ export interface GameChallengeState<T extends BaseGameItem = BaseGameItem> {
 /**
  * מצב משחק עם ניקוד - עקרון Single Responsibility
  */
-export interface GameScoreState {
+interface GameScoreState {
   readonly score: number;
   readonly level: number;
 }
@@ -128,7 +63,7 @@ export interface GameScoreState {
 /**
  * מצב משחק עם סטטוס - עקרון Single Responsibility
  */
-export interface GamePlayState {
+interface GamePlayState {
   readonly isPlaying: boolean;
   readonly showCelebration: boolean;
 }
@@ -143,32 +78,9 @@ export interface BaseGameState<T extends BaseGameItem = BaseGameItem> extends
   GamePlayState {}
 
 /**
- * הגדרות בסיסיות למשחק - עקרון Single Responsibility
- */
-export interface BaseGameSettings {
-  readonly baseCount: number;
-  readonly increment: number;
-  readonly levelThreshold: number;
-}
-
-/**
- * הגדרות מתקדמות למשחק - עקרון Interface Segregation
- */
-export interface AdvancedGameSettings {
-  readonly maxCount?: number;
-  readonly timeLimit?: number;
-  readonly difficultyScaling?: boolean;
-}
-
-/**
- * הגדרות משחק מלאות - עקרון Open/Closed
- */
-export interface GameConfig extends BaseGameSettings, AdvancedGameSettings {}
-
-/**
  * מאפיינים בסיסיים למשחק - עקרון Single Responsibility
  */
-export interface GameBasicInfo extends Identifiable, Translatable {
+interface GameBasicInfo extends Identifiable, Translatable {
   readonly description: string;
   readonly href: string;
 }
@@ -176,7 +88,7 @@ export interface GameBasicInfo extends Identifiable, Translatable {
 /**
  * מאפיינים ויזואליים למשחק - עקרון Single Responsibility
  */
-export interface GameVisualInfo {
+interface GameVisualInfo {
   readonly icon: ReactNode;
   readonly color: string;
 }
@@ -186,13 +98,14 @@ export interface GameVisualInfo {
  */
 export interface Game extends 
   GameBasicInfo,
-  GameVisualInfo,
-  GameAvailability {}
+  GameVisualInfo {
+  readonly available: boolean;
+}
 
 /**
  * מצב כרטיס זיכרון - עקרון Single Responsibility
  */
-export interface CardState {
+interface CardState {
   readonly isFlipped: boolean;
   readonly isMatched: boolean;
 }
@@ -200,7 +113,7 @@ export interface CardState {
 /**
  * מידע כרטיס זיכרון - עקרון Single Responsibility
  */
-export interface CardInfo {
+interface CardInfo {
   readonly id: number;
   readonly emoji: string;
 }

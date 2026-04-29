@@ -14,7 +14,6 @@ export * from './shared';
 // ייצוא טיפוסי הבסיס מ-core
 export type {
   BaseGameItem,
-  BaseGameItemLegacy,
   GameType
 } from '../core/base';
 

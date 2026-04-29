@@ -11,8 +11,6 @@ export * from './core';
 export type {
   GameRegistration,
   Category,
-  AgeGroup,
-  GameChallenge,
   DifficultyLevel
 } from './games/base';
 
@@ -37,7 +35,6 @@ export type {
   GameType,
   BaseGameItem,
   BaseGameState,
-  GameConfig,
   Game,
   Card
 } from './core/base';

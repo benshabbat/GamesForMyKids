@@ -10,17 +10,9 @@ import { BaseGameItem, BaseGameState } from '../core/base';
  * פריטים ייחודיים למשחקים מיוחדים
  */
 
-// צורות - מכיל SVG נוסף
-export interface ShapeItem extends BaseGameItem {
-  svg: string;
-}
-
-// מספרים - מכיל ספרה נוספת
-export interface NumberItem extends BaseGameItem {
-  digit: string;
-}
-
-// מקצועות - מכיל תיאור נוסף
+/**
+ * מקצועות - מכיל תיאור נוסף
+ */
 export interface ProfessionItem extends BaseGameItem {
   id: string;
   description: string;
