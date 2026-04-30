@@ -16,7 +16,8 @@ describe('animalsStore helpers', () => {
       const allPool = buildAnimalPool('all');
       const categories = [...new Set(allPool.map(a => a.category))] as Parameters<typeof buildAnimalPool>[0][];
       if (categories.length === 0) return;
-      const cat = categories[0]!;
+      const cat = categories[0];
+      if (!cat) return;
       const filtered = buildAnimalPool(cat);
       expect(filtered.every(a => a.category === cat)).toBe(true);
       expect(filtered.length).toBeGreaterThan(0);

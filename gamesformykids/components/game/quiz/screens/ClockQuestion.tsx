@@ -18,7 +18,7 @@ export default function ClockQuestion({ current, choices, onSelect }: Props) {
       correctLabel={String(current.id)}
       onSelect={(id) => onSelect(Number(id))}
       renderChoice={(id) => {
-        const c = choices.find(ch => String(ch.id) === id)!;
+        const c = choices.find((ch) => String(ch.id) === id) ?? current;
         return (
           <>
             <div className="text-2xl font-black">{c.digital}</div>

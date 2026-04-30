@@ -75,6 +75,10 @@ export function useGameLogic(): GameLogicContextValue {
 
   const { config, items, CardComponent, gameType, isReady, error } = useGameConfig()
 
+  if (!config || !CardComponent || !gameType) {
+    throw new Error(error ?? 'Game configuration is not ready')
+  }
+
   const gameState: GameState | null = isGameActive
     ? { isPlaying: isGameActive, showCelebration, currentChallenge, options, score, level }
     : null
@@ -97,10 +101,10 @@ export function useGameLogic(): GameLogicContextValue {
     ...(currentAccuracy !== undefined ? { currentAccuracy } : {}),
     showProgressModal,
     setShowProgressModal,
-    config: config!,
+    config,
     items: items ?? [],
-    CardComponent: CardComponent!,
-    gameType: gameType as GameType,
+    CardComponent,
+    gameType,
     isReady: isReady ?? false,
     error,
   }

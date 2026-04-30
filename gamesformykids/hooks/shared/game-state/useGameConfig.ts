@@ -83,15 +83,19 @@ export function useAutoGameConfig(overrideGameType?: AutoGameType | GameType) {
     throw new Error(cfg.error || 'Game type ' + cfg.gameType + ' is not supported by AutoGamePage')
   }
 
+  if (!cfg.config || !cfg.CardComponent) {
+    throw new Error('Game configuration is incomplete for ' + cfg.gameType)
+  }
+
   const gameHook = GAME_HOOKS_MAP[cfg.gameType as AutoGameType]
   if (!gameHook) {
     throw new Error('Game hook not found for ' + cfg.gameType)
   }
 
   return {
-    config: cfg.config!,
-    items: cfg.items!,
-    CardComponent: cfg.CardComponent!,
+    config: cfg.config,
+    items: cfg.items ?? [],
+    CardComponent: cfg.CardComponent,
     useGameHook: gameHook,
     gameType: cfg.gameType,
   }

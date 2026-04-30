@@ -27,7 +27,9 @@ export const createHistorySlice: StateCreator<BuildingStore, [], [], HistorySlic
     const { historyIndex, history } = get();
     if (historyIndex > 0) {
       const newIndex = historyIndex - 1;
-      set({ historyIndex: newIndex, blocks: [...history[newIndex]!] });
+      const blocks = history[newIndex];
+      if (!blocks) return;
+      set({ historyIndex: newIndex, blocks: [...blocks] });
     }
   },
 
@@ -35,7 +37,9 @@ export const createHistorySlice: StateCreator<BuildingStore, [], [], HistorySlic
     const { historyIndex, history } = get();
     if (historyIndex < history.length - 1) {
       const newIndex = historyIndex + 1;
-      set({ historyIndex: newIndex, blocks: [...history[newIndex]!] });
+      const blocks = history[newIndex];
+      if (!blocks) return;
+      set({ historyIndex: newIndex, blocks: [...blocks] });
     }
   },
 });

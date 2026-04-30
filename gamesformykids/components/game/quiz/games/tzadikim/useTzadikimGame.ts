@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { TZADIKIM_STORIES, TzaddikStory } from './data/tzadikim';
+import { TZADIKIM_STORIES } from './data/tzadikim';
 
 export type GamePhase = 'menu' | 'story' | 'quiz' | 'result' | 'complete';
 

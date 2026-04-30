@@ -108,7 +108,7 @@ export function useSnakeGame() {
     s.dir = 'R';
     s.nextDir = 'R';
     s.food = placeFood(s.snake);
-    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)]!;
+    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)] ?? EMOJIS[0] ?? '🍎';
     s.score = 0;
     s.level = 1;
     // אתחל store session + איפוס progress

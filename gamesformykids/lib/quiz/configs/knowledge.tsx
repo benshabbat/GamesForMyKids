@@ -93,7 +93,7 @@ export const sportsQuizConfig = defineConfig({
   questions: SPORTS_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => [...q.answers],
   isCorrect: (c, q) => c === q.answers[q.correctIndex],
-  getCorrectLabel: (q) => q.answers[q.correctIndex]!,
+  getCorrectLabel: (q) => q.answers[q.correctIndex] ?? '',
   renderQuestion: (q) => (
     <><div className="text-5xl mb-3">{q.emoji}</div>
       <p className="text-lg font-bold text-gray-700 mb-1">{q.sport}</p>
@@ -107,7 +107,7 @@ export const continentsConfig = defineConfig({
   questions: CONTINENT_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => [...q.answers],
   isCorrect: (c, q) => c === q.answers[q.correctIndex],
-  getCorrectLabel: (q) => q.answers[q.correctIndex]!,
+  getCorrectLabel: (q) => q.answers[q.correctIndex] ?? '',
   renderQuestion: (q) => (
     <><div className="text-5xl mb-3">{q.emoji}</div>
       <p className="text-gray-700 text-lg font-medium">{q.question}</p></>

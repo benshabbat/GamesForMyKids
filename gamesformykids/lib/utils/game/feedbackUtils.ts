@@ -11,7 +11,11 @@ import { delay } from './gameUtils';
  */
 export function getRandomFeedbackMessage(type: 'SUCCESS' | 'WRONG' | 'START'): string {
   const messages = FEEDBACK_MESSAGES[type];
-  return messages[Math.floor(Math.random() * messages.length)]!;
+  const message = messages[Math.floor(Math.random() * messages.length)];
+  if (message === undefined) {
+    throw new Error(`Missing feedback message for ${type}`);
+  }
+  return message;
 }
 
 /**

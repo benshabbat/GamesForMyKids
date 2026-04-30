@@ -47,7 +47,7 @@ function unique(correct: number, count: number, near: number): number[] {
 }
 
 export function generateQuestion(level: ArithmeticLevel): ArithmeticQuestion {
-  const op = level.operations[Math.floor(Math.random() * level.operations.length)]!;
+  const op = level.operations[Math.floor(Math.random() * level.operations.length)] ?? level.operations[0] ?? '+';
   let a: number, b: number, answer: number;
   if (op === '×') {
     a = rand(1, level.maxNum); b = rand(1, level.maxNum); answer = a * b;

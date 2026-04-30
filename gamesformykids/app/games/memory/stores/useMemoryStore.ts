@@ -298,7 +298,8 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
         const { canClickCard, cards, flippedCards, gameStats } = get();
         if (!canClickCard(cardIndex)) return;
 
-        const card = cards[cardIndex]!;
+        const card = cards[cardIndex];
+        if (!card) return;
 
         // Count move when first card of a pair is flipped
         const updatedStats =

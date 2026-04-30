@@ -62,13 +62,14 @@ function clearTimers() {
 
 function makeBalloon(): Balloon {
   const isBomb = Math.random() < BOMB_CHANCE;
+  const color = BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)] ?? BALLOON_COLORS[0] ?? ['#EF4444', '#B91C1C'];
   return {
     id: uid++,
     x: 30 + Math.random() * (W - 60),
     y: H + 40,
     r: 22 + Math.random() * 18,
     vy: -(0.8 + Math.random() * 1.2),
-    color: BALLOON_COLORS[Math.floor(Math.random() * BALLOON_COLORS.length)]!,
+    color,
     isBomb,
     popped: false,
     popAnim: 0,

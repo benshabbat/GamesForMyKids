@@ -173,7 +173,8 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockSlice> =
     const { canvasEl, blocks } = get();
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
-    const touch = e.touches[0]!;
+    const touch = e.touches[0];
+    if (!touch) return;
     set({
       dragState: {
         isDragging: true,
@@ -193,9 +194,10 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockSlice> =
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
     const pos = calcDragPosition(e.clientX, e.clientY, rect, dragState.dragOffset, showGrid);
+    const draggedBlockId = dragState.draggedBlock.id;
     set((s) => ({
       blocks: s.blocks.map((b) =>
-        b.id === dragState.draggedBlock!.id ? { ...b, ...pos } : b,
+        b.id === draggedBlockId ? { ...b, ...pos } : b,
       ),
     }));
   },
@@ -205,11 +207,13 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockSlice> =
     if (!dragState.isDragging || !dragState.draggedBlock) return;
     const rect = canvasEl?.getBoundingClientRect();
     if (!rect) return;
-    const touch = e.touches[0]!;
+    const touch = e.touches[0];
+    if (!touch) return;
     const pos = calcDragPosition(touch.clientX, touch.clientY, rect, dragState.dragOffset, showGrid);
+    const draggedBlockId = dragState.draggedBlock.id;
     set((s) => ({
       blocks: s.blocks.map((b) =>
-        b.id === dragState.draggedBlock!.id ? { ...b, ...pos } : b,
+        b.id === draggedBlockId ? { ...b, ...pos } : b,
       ),
     }));
   },

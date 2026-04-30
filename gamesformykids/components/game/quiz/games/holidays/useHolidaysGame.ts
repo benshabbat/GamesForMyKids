@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { HOLIDAYS, Holiday } from './data/holidays';
+import { HOLIDAYS } from './data/holidays';
 
 export type HolidayPhase = 'menu' | 'quiz' | 'result' | 'complete';
 

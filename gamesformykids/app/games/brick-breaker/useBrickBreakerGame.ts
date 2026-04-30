@@ -15,7 +15,9 @@ const BRICK_H = 20;
 const BRICK_PAD = 3;
 const BRICK_TOP = 50;
 
-const ROW_COLORS = [
+const FALLBACK_ROW_COLORS: [string, string] = ['#60A5FA', '#3B82F6'];
+
+const ROW_COLORS: [string, string][] = [
   ['#EF4444', '#DC2626'],
   ['#F97316', '#EA580C'],
   ['#EAB308', '#CA8A04'],
@@ -75,13 +77,17 @@ export function useBrickBreakerGame() {
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
-    movePaddle(e.touches[0]!.clientX, e.currentTarget.getBoundingClientRect());
+    const touch = e.touches[0];
+    if (!touch) return;
+    movePaddle(touch.clientX, e.currentTarget.getBoundingClientRect());
   }, [movePaddle]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     handleClick();
-    movePaddle(e.touches[0]!.clientX, e.currentTarget.getBoundingClientRect());
+    const touch = e.touches[0];
+    if (!touch) return;
+    movePaddle(touch.clientX, e.currentTarget.getBoundingClientRect());
   }, [handleClick, movePaddle]);
 
   const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, []);
@@ -122,15 +128,16 @@ export function useBrickBreakerGame() {
             else { setUi(u => ({ ...u, lives: s.lives })); }
           }
           for (let i = 0; i < s.bricks.length; i++) {
-            if (!s.bricks[i]!.alive) continue;
+            const brick = s.bricks[i];
+            if (!brick?.alive) continue;
             const { x, y, w, h } = brickRect(i);
             if (s.ballX + BALL_R > x && s.ballX - BALL_R < x + w && s.ballY + BALL_R > y && s.ballY - BALL_R < y + h) {
-              s.bricks[i]!.alive = false; s.score += 10;
+              brick.alive = false; s.score += 10;
               const overlapLeft = s.ballX + BALL_R - x, overlapRight = x + w - (s.ballX - BALL_R);
               const overlapTop = s.ballY + BALL_R - y, overlapBottom = y + h - (s.ballY - BALL_R);
               if (Math.min(overlapLeft, overlapRight) < Math.min(overlapTop, overlapBottom)) s.ballVX *= -1; else s.ballVY *= -1;
-              const colors = ROW_COLORS[s.bricks[i]!.row]!;
-              for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)]! });
+              const colors: [string, string] = ROW_COLORS[brick.row] ?? ROW_COLORS[0] ?? FALLBACK_ROW_COLORS;
+              for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)] ?? colors[0] ?? '#60A5FA' });
               setUi(u => ({ ...u, score: s.score }));
             }
           }
@@ -148,9 +155,11 @@ export function useBrickBreakerGame() {
       ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
 
       for (let i = 0; i < s.bricks.length; i++) {
-        if (!s.bricks[i]!.alive) continue;
+        const brick = s.bricks[i];
+        if (!brick?.alive) continue;
         const { x, y, w, h } = brickRect(i);
-        const [c1, c2] = ROW_COLORS[s.bricks[i]!.row] as [string, string];
+        const rowColors: [string, string] = ROW_COLORS[brick.row] ?? ROW_COLORS[0] ?? FALLBACK_ROW_COLORS;
+        const [c1, c2] = rowColors;
         const g = ctx.createLinearGradient(x, y, x, y + h);
         g.addColorStop(0, c1); g.addColorStop(1, c2);
         ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill();
