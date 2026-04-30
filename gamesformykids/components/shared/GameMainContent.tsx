@@ -19,8 +19,8 @@ export default function GameMainContent() {
           currentChallenge={game.currentChallenge}
           gridCols="grid-cols-2 md:grid-cols-4"
           maxWidth="max-w-4xl"
-          renderCustomCard={(item: BaseGameItem) => (
-            <game.CardComponent item={item} onClick={game.handleItemClick} />
+          renderCustomCard={(item: BaseGameItem, isCorrect: boolean) => (
+            <game.CardComponent item={item} onClick={game.handleItemClick} isSelected={isCorrect} />
           )}
         />
       </div>

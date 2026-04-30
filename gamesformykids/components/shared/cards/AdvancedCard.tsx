@@ -30,9 +30,27 @@ type AdvancedCardProps = Pick<
   | 'customDecoration'
   | 'customContent'
   | 'className'
+  | 'isSelected'
 > & {
   finalShowSoundIcon: boolean;
   handleClick: () => void;
+};
+
+const borderRadiusClasses: Record<string, string> = {
+  sm: "rounded-sm",
+  md: "rounded-md",
+  lg: "rounded-lg",
+  xl: "rounded-xl",
+  "2xl": "rounded-2xl",
+  "3xl": "rounded-3xl",
+  full: "rounded-full",
+};
+
+const borderWidthClasses: Record<string, string> = {
+  "0": "border-0",
+  "2": "border-2",
+  "4": "border-4",
+  "8": "border-8",
 };
 
 export function AdvancedCard({
@@ -42,10 +60,10 @@ export function AdvancedCard({
   name,
   icon,
   color = "bg-blue-500",
-  gradientFrom = "blue-400",
-  gradientTo = "blue-600",
-  hoverFrom = "blue-500",
-  hoverTo = "blue-700",
+  gradientFrom: _gradientFrom = "blue-400",
+  gradientTo: _gradientTo = "blue-600",
+  hoverFrom: _hoverFrom = "blue-500",
+  hoverTo: _hoverTo = "blue-700",
   borderColor = "border-white/70",
   borderWidth = "4",
   size = "medium",
@@ -63,6 +81,7 @@ export function AdvancedCard({
   customDecoration,
   customContent,
   className = "",
+  isSelected = false,
   finalShowSoundIcon,
   handleClick,
 }: AdvancedCardProps) {
@@ -100,13 +119,18 @@ export function AdvancedCard({
     none: "",
   };
 
-  const backgroundClass =
-    gradientFrom === gradientTo && hoverFrom === hoverTo
-      ? `${color || `bg-${gradientFrom}`}`
-      : `bg-gradient-to-br from-${gradientFrom} to-${gradientTo} hover:from-${hoverFrom} hover:to-${hoverTo}`;
+  // item.color takes priority (contains full static class strings from game data)
+  // fallback: solid color prop (avoids dynamic from-/to- class generation issues)
+  const backgroundClass = item?.color || color;
 
   const ariaLabel =
     hebrewText || item?.hebrew || name || (digit ? String(digit) : undefined);
+
+  // For letter items: emoji and hebrew are identical (e.g. "א") — only show once
+  const displayedEmoji = item?.emoji;
+  const hebrewIsSameAsEmoji = displayedEmoji && displayedEmoji === (hebrewText || item?.hebrew);
+
+  const displayDigit = digit || item?.digit;
 
   return (
     <button
@@ -114,14 +138,16 @@ export function AdvancedCard({
       onClick={handleClick}
       aria-label={ariaLabel}
       className={`
+        w-full
         ${aspectClasses[aspectRatio]}
-        rounded-${borderRadius}
+        ${borderRadiusClasses[borderRadius] ?? "rounded-xl"}
         cursor-pointer transition-all duration-300 transform
         ${hoverClasses[hoverEffect]}
         ${shadowClasses[shadow]} hover:shadow-2xl
         ${backgroundClass}
-        border-${borderWidth} ${borderColor}
+        ${borderWidthClasses[borderWidth] ?? "border-4"} ${borderColor}
         relative overflow-hidden
+        ${isSelected ? "ring-4 ring-green-400 ring-offset-2 scale-105" : ""}
         ${className}
       `}
     >
@@ -146,23 +172,23 @@ export function AdvancedCard({
       <div className="w-full h-full flex flex-col items-center justify-center text-white relative z-10">
         {customContent || (
           <>
-            {showEmoji && item?.emoji && (
+            {showEmoji && displayedEmoji && (
               <div className={`${advancedSizeClasses[size]} mb-2 ${animationClasses[animation]}`}>
-                {item.emoji}
+                {displayedEmoji}
               </div>
             )}
 
-            {icon && !item?.emoji && (
+            {icon && !displayedEmoji && (
               <div className="text-3xl mb-2">{icon}</div>
             )}
 
-            {digit && (
+            {displayDigit && (
               <div className={`${advancedSizeClasses[size]} font-bold mb-2`}>
-                {digit}
+                {displayDigit}
               </div>
             )}
 
-            {showHebrew && (
+            {showHebrew && !hebrewIsSameAsEmoji && (hebrewText || item?.hebrew) && (
               <div className="text-xl md:text-2xl font-bold text-center px-2">
                 {hebrewText || item?.hebrew}
               </div>
