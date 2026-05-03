@@ -60,6 +60,7 @@ export function useWordScrambleGame() {
 
   const loadWord = useCallback((ws: WordEntry[], idx: number) => {
     const entry = ws[idx];
+    if (!entry) return;
     const sc = scramble(entry.word);
     const newLetters = sc.map((ch, i) => ({ ch, picked: false, idx: i }));
     lettersRef.current = newLetters;
@@ -98,7 +99,9 @@ export function useWordScrambleGame() {
     pickedRef.current = newPicked;
     setPicked(newPicked);
 
-    const currentWord = wordsRef.current[wIdxRef.current].word;
+    const currentEntry = wordsRef.current[wIdxRef.current];
+    if (!currentEntry) return;
+    const currentWord = currentEntry.word;
 
     if (newPicked.length === currentWord.length) {
       const attempt = newPicked.map(p => p.ch).join('');

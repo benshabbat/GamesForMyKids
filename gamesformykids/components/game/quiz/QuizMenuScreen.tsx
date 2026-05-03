@@ -10,7 +10,7 @@ interface Props {
   theme: QuizTheme;
   /** Optional preview/example content shown above the button */
   preview?: ReactNode;
-  buttonLabel?: string;
+  buttonLabel?: string | undefined;
   onStart: () => void;
 }
 

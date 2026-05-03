@@ -128,7 +128,7 @@ export interface GameLogicState extends
   GameConfiguration {
   readonly gameState: GameState | null;
   readonly isGameActive: boolean;
-  readonly progressStats?: Record<string, unknown>;
+  readonly progressStats?: Record<string, unknown> | undefined;
 }
 
 /**

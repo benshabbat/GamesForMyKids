@@ -72,7 +72,8 @@ export function useCatchFruitGame() {
         if (s.nextItem <= 0) {
           const isBad = Math.random() < 0.18;
           const emojis = isBad ? BAD_ITEMS : GOOD_FRUITS;
-          s.items.push({ id: idCounter++, x: FRUIT_R + Math.random() * (W - FRUIT_R * 2), y: -FRUIT_R, speed: 2.5 + Math.random() * 2 + s.frame / 600, emoji: emojis[Math.floor(Math.random() * emojis.length)], isBad });
+          const emoji = emojis[Math.floor(Math.random() * emojis.length)] ?? emojis[0] ?? '🍎';
+          s.items.push({ id: idCounter++, x: FRUIT_R + Math.random() * (W - FRUIT_R * 2), y: -FRUIT_R, speed: 2.5 + Math.random() * 2 + s.frame / 600, emoji, isBad });
           s.nextItem = 35 + Math.random() * 30;
         }
         for (const item of s.items) item.y += item.speed;
@@ -166,9 +167,11 @@ export function useCatchFruitGame() {
     e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const touch = e.touches[0];
+    if (!touch) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
-    const mx = (e.touches[0].clientX - rect.left) * scaleX;
+    const mx = (touch.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
   }, []);
 
@@ -176,9 +179,11 @@ export function useCatchFruitGame() {
     e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
+    const touch = e.touches[0];
+    if (!touch) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
-    const mx = (e.touches[0].clientX - rect.left) * scaleX;
+    const mx = (touch.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
     if (st.current.phase !== 'playing') startGame();
   }, [startGame]);

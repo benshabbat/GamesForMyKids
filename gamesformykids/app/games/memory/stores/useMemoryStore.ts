@@ -299,6 +299,7 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
         if (!canClickCard(cardIndex)) return;
 
         const card = cards[cardIndex];
+        if (!card) return;
 
         // Count move when first card of a pair is flipped
         const updatedStats =
@@ -317,15 +318,19 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
 
         if (flippedCards.length === 1) {
           const firstCardIndex = flippedCards[0];
+          if (firstCardIndex === undefined) return;
           const firstCard = cards[firstCardIndex];
+          if (!firstCard) return;
 
           setTimeout(() => {
             const s = get();
             if (firstCard.animal.name === card.animal.name) {
               // ── Match ──
               const matched = [...s.cards];
-              matched[firstCardIndex] = { ...matched[firstCardIndex], isMatched: true };
-              matched[cardIndex] = { ...matched[cardIndex], isMatched: true };
+              const mc1 = matched[firstCardIndex];
+              const mc2 = matched[cardIndex];
+              if (mc1) matched[firstCardIndex] = { id: mc1.id, animal: mc1.animal, isFlipped: mc1.isFlipped, isMatched: true };
+              if (mc2) matched[cardIndex] = { id: mc2.id, animal: mc2.animal, isFlipped: mc2.isFlipped, isMatched: true };
 
               const newMatches = s.gameStats.matches + 1;
               const newStreak = s.gameStats.streak + 1;
@@ -351,8 +356,10 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
             } else {
               // ── No match ──
               const reset = [...s.cards];
-              reset[firstCardIndex] = { ...reset[firstCardIndex], isFlipped: false };
-              reset[cardIndex] = { ...reset[cardIndex], isFlipped: false };
+              const rc1 = reset[firstCardIndex];
+              const rc2 = reset[cardIndex];
+              if (rc1) reset[firstCardIndex] = { id: rc1.id, animal: rc1.animal, isFlipped: false, isMatched: rc1.isMatched };
+              if (rc2) reset[cardIndex] = { id: rc2.id, animal: rc2.animal, isFlipped: false, isMatched: rc2.isMatched };
 
               set(
                 { cards: reset, flippedCards: [], gameStats: { ...s.gameStats, streak: 0 } },

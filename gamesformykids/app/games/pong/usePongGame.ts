@@ -57,7 +57,9 @@ export function usePongGame() {
     e.preventDefault();
     if (st.current.phase !== 'playing') return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const mx = (e.touches[0].clientX - rect.left) * (W / rect.width);
+    const t = e.touches[0];
+    if (!t) return;
+    const mx = (t.clientX - rect.left) * (W / rect.width);
     st.current.playerX = Math.max(0, Math.min(W - PAD_W, mx - PAD_W / 2));
   }, []);
 

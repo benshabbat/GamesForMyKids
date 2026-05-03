@@ -1,10 +1,10 @@
 import { useGameActions } from '@/hooks';
 
 type SimpleGameStartButtonProps = {
-  fromColor?: string;
-  toColor?: string;
-  text?: string;
-  customOnStart?: () => void;
+  fromColor?: string | undefined;
+  toColor?: string | undefined;
+  text?: string | undefined;
+  customOnStart?: (() => void) | undefined;
 };
 
 /**

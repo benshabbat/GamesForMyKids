@@ -67,7 +67,7 @@ export const useSoccerStore = create<SoccerStore>((set, get) => ({
   selectAnswer: (idx) => {
     const { phase, questions, currentIndex } = get();
     if (phase !== 'playing') return;
-    const correct = questions[currentIndex].correctIndex === idx;
+    const correct = (questions[currentIndex]?.correctIndex ?? -1) === idx;
     if (correct) {
       set((s) => ({
         selected: idx,

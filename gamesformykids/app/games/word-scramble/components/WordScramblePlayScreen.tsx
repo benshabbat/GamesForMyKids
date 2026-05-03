@@ -33,6 +33,7 @@ export default function WordScramblePlayScreen({
   words, wIdx, letters, picked, score, lives, shake, correct, onPickLetter, onUnpick,
 }: Props) {
   const entry = words[wIdx];
+  if (!entry) return null;
   const target = entry.word;
 
   return (

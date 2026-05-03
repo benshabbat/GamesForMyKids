@@ -71,6 +71,7 @@ export function useSnakeGame() {
 
     s.dir = s.nextDir;
     const head = s.snake[0];
+    if (!head) return;
     let nx = head.x, ny = head.y;
     if (s.dir === 'R') nx++;
     else if (s.dir === 'L') nx--;
@@ -91,7 +92,7 @@ export function useSnakeGame() {
       s.score += 10;
       s.level = Math.min(7, 1 + Math.floor(s.score / 50));
       s.food = placeFood(newSnake);
-      s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
+      s.foodEmoji = EMOJIS[rnd(EMOJIS.length)] ?? EMOJIS[0] ?? '🍎';
       // עדכון store — מפעיל רענדור בקומפוננט דרך selector
       useGameProgressStore.getState().updateProgress({ score: s.score, level: s.level });
     }
@@ -107,7 +108,7 @@ export function useSnakeGame() {
     s.dir = 'R';
     s.nextDir = 'R';
     s.food = placeFood(s.snake);
-    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
+    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)] ?? EMOJIS[0] ?? '🍎';
     s.score = 0;
     s.level = 1;
     // אתחל store session + איפוס progress
@@ -152,6 +153,7 @@ export function useSnakeGame() {
 
         for (let i = 0; i < s.snake.length; i++) {
           const p = s.snake[i];
+          if (!p) continue;
           const isHead = i === 0;
           const t = 1 - i / s.snake.length;
           const r = Math.round(50 + t * 100);
@@ -163,7 +165,8 @@ export function useSnakeGame() {
           ctx.fill();
 
           if (isHead) {
-            const eyeOff = { R: [1, -1], L: [-1, -1], U: [-1, -1], D: [1, 1] }[s.dir];
+            const dirs: Record<Dir, [number,number]> = { R: [1, -1], L: [-1, -1], U: [-1, -1], D: [1, 1] };
+            const eyeOff: [number, number] = dirs[s.dir] ?? [0, 0];
             ctx.fillStyle = 'white';
             ctx.beginPath(); ctx.arc(p.x * CELL + CELL * 0.65 + eyeOff[0] * 2, p.y * CELL + CELL * 0.3 + eyeOff[1] * 2, 3, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#111';
@@ -203,12 +206,16 @@ export function useSnakeGame() {
 
   const touchStart = useRef<{ x: number; y: number } | null>(null);
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    const t = e.touches[0];
+    if (!t) return;
+    touchStart.current = { x: t.clientX, y: t.clientY };
   }, []);
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (!touchStart.current) return;
-    const dx = e.changedTouches[0].clientX - touchStart.current.x;
-    const dy = e.changedTouches[0].clientY - touchStart.current.y;
+    const ct = e.changedTouches[0];
+    if (!ct) return;
+    const dx = ct.clientX - touchStart.current.x;
+    const dy = ct.clientY - touchStart.current.y;
     touchStart.current = null;
     const s = st.current;
     if (s.phase !== 'playing') return;

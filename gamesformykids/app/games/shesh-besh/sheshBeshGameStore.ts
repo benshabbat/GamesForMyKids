@@ -87,7 +87,7 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
 
         const msg = parts.length ? `המחשב: ${parts.join(', ')}. תורך!` : 'המחשב לא יכול לזוז. תורך!';
 
-        if (pts[25].computer === 15) {
+        if ((pts[25]?.computer ?? 0) === 15) {
           set({ points: pts, barPlayer: barP, barComputer: barC, dice: [], phase: 'lost',
             computerScore: cur.computerScore + 1, message: '😢 המחשב ניצח!' });
           return;
@@ -114,7 +114,7 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
     const newDice = s.dice.filter((_, i) => i !== diceIdx);
 
     // Win
-    if (np[0].player === 15) {
+    if ((np[0]?.player ?? 0) === 15) {
       set({ points: np, barPlayer: nbP, barComputer: nbC,
         dice: [], selected: null, validMoves: [], turnHistory: [],
         phase: 'won', playerScore: s.playerScore + 1,
@@ -179,7 +179,7 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
       if (uniqueFroms.size === 1 && uniqueTos.size === 1) {
         set({ dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
           message: `הטלת ${d1}-${d2}. מהלך יחיד — מבצע אוטומטית...` });
-        _after(() => execPlayerMove(moves[0]), 700);
+        const autoMove = moves[0]; if (autoMove) _after(() => execPlayerMove(autoMove), 700);
         return;
       }
       set({ dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
@@ -230,7 +230,7 @@ export const useSheshBeshStore = create<SheshState & SheshActions>()((set, get) 
           // Only one destination — execute automatically
           const uniqueDests = new Set(fromHere.map(m => m.to));
           if (uniqueDests.size === 1) {
-            execPlayerMove(fromHere[0]);
+            const dest = fromHere[0]; if (dest) execPlayerMove(dest);
             return;
           }
           set({ selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' });

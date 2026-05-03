@@ -84,13 +84,13 @@ export function useAutoGame(): GameLogicState {
     handleWrongAnswer: () => {},
 
     // Enhanced Features
-    hints: hints?.map((hint) => {
+    ...(hints !== undefined ? { hints: hints.map((hint) => {
       const h = hint as string | { text?: string };
       return typeof h === 'string' ? h : h.text ?? '';
-    }),
-    hasMoreHints,
-    showNextHint,
-    progressStats: progressStats ? (progressStats as unknown as Record<string, unknown>) : undefined,
+    }) } : {}),
+    ...(hasMoreHints !== undefined ? { hasMoreHints } : {}),
+    ...(showNextHint !== undefined ? { showNextHint } : {}),
+    ...(progressStats ? { progressStats: progressStats as unknown as Record<string, unknown> } : {}),
 
     // UI State
     showProgressModal,

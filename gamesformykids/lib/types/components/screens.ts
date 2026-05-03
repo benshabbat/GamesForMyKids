@@ -20,10 +20,10 @@ export interface GenericStartScreenProps<T> {
     icon: string;
     title: string;
     description: string;
-  }>;
-  gameStepsBgClass?: string;
-  onStart?: () => void;
-  customOnStart?: () => void;
+  }> | undefined;
+  gameStepsBgClass?: string | undefined;
+  onStart?: (() => void) | undefined;
+  customOnStart?: (() => void) | undefined;
   onItemClick?: (item: T) => void;
   onSpeak?: (name: string) => void;
   showPreview?: boolean;

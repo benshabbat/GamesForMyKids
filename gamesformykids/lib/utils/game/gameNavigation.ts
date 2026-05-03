@@ -7,8 +7,8 @@ export interface NavigationGame {
 }
 
 export function getGameNavigation(currentGameId: string): {
-  previous?: NavigationGame;
-  next?: NavigationGame;
+  previous?: NavigationGame | undefined;
+  next?: NavigationGame | undefined;
 } {
   const allGames = GamesRegistry.getAllGameRegistrations().filter(game => game.available);
   const currentIndex = allGames.findIndex((game: GameRegistration) => game.id === currentGameId);

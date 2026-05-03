@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useCallback } from 'react';
-import { TZADIKIM_STORIES, TzaddikStory } from './data/tzadikim';
+import { TZADIKIM_STORIES } from './data/tzadikim';
 
 export type GamePhase = 'menu' | 'story' | 'quiz' | 'result' | 'complete';
 
@@ -20,7 +20,8 @@ export function useTzadikimGame() {
   const [feedback, setFeedback] = useState<AnswerFeedback | null>(null);
   const [storyScores, setStoryScores] = useState<number[]>([]);
 
-  const currentStory: TzaddikStory = TZADIKIM_STORIES[storyIndex];
+  const currentStory = TZADIKIM_STORIES[storyIndex];
+  if (!currentStory) throw new Error('Invalid story index');
   const totalStories = TZADIKIM_STORIES.length;
   const currentQuestion = currentStory.questions[questionIndex];
   const totalQuestions = currentStory.questions.length;
@@ -44,7 +45,7 @@ export function useTzadikimGame() {
   const selectAnswer = useCallback((answerIndex: number) => {
     if (selectedAnswer !== null) return; // already answered
     setSelectedAnswer(answerIndex);
-    const isCorrect = answerIndex === currentQuestion.correctIndex;
+    const isCorrect = answerIndex === (currentQuestion?.correctIndex ?? -1);
     setFeedback({ questionIndex, selectedIndex: answerIndex, isCorrect });
     if (isCorrect) {
       setScore(prev => prev + 1);

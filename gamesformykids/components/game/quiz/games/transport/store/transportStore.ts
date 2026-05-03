@@ -67,7 +67,9 @@ export const useTransportStore = create<TransportStore>((set, get) => ({
   selectAnswer: (idx) => {
     const { phase, questions, currentIndex } = get();
     if (phase !== 'playing') return;
-    const correct = questions[currentIndex].correctIndex === idx;
+    const q = questions[currentIndex];
+    if (!q) return;
+    const correct = q.correctIndex === idx;
     set((s) => ({
       selected: idx,
       isCorrect: correct,

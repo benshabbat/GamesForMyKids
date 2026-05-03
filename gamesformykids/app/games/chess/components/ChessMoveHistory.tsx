@@ -24,7 +24,7 @@ function MoveCell({ record, isLastRow }: { record: MoveRecord | undefined; isLas
     }`}>
       <span>{record.notation}</span>
       {record.gaveCheck && <span className="text-red-400 mr-0.5 text-[9px] font-bold">+</span>}
-      {badge.label && <span className={`mr-0.5 ${badge.cls}`}>{badge.label}</span>}
+      {badge?.label && <span className={`mr-0.5 ${badge.cls}`}>{badge.label}</span>}
     </td>
   );
 }
@@ -39,10 +39,12 @@ export default function ChessMoveHistory() {
 
   if (moveHistory.length === 0) return null;
 
-  const pairs: [MoveRecord, MoveRecord | undefined][] = [];
+  const pairs: [MoveRecord | undefined, MoveRecord | undefined][] = [];
   for (let i = 0; i < moveHistory.length; i += 2) {
-    const white = moveHistory[i].by === 'w' ? moveHistory[i] : moveHistory[i + 1];
-    const black = moveHistory[i].by === 'b' ? moveHistory[i] : moveHistory[i + 1];
+    const cur = moveHistory[i];
+    const nxt = moveHistory[i + 1];
+    const white = cur?.by === 'w' ? cur : nxt;
+    const black = cur?.by === 'b' ? cur : nxt;
     pairs.push([white, black]);
   }
   const totalPairs = pairs.length;

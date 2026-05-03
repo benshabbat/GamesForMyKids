@@ -47,7 +47,7 @@ export const createAudioSlice: StateCreator<HebrewLettersStore, [['zustand/devto
   playEncouragementSound: () => {
     const { isAudioEnabled, speakText } = get();
     if (!isAudioEnabled) return;
-    const msg = ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)];
+    const msg = ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)] ?? ENCOURAGEMENT_MESSAGES[0] ?? '';
     speakText(msg);
   },
 

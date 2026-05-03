@@ -58,6 +58,8 @@ describe('useGameOptions', () => {
         useGameOptions({ allItems: items, level: 1, baseCount: 6 })
       );
       const challenge = result.current.availableItems[0];
+      expect(challenge).toBeDefined();
+      if (!challenge) return;
       const options = result.current.getOptionsForChallenge(challenge);
       expect(options).toContainEqual(challenge);
     });
@@ -67,7 +69,9 @@ describe('useGameOptions', () => {
       const { result } = renderHook(() =>
         useGameOptions({ allItems: items, level: 1, baseCount: 6 })
       );
-      const challenge = result.current.availableItems[0];
+      const challenge = result.current.availableItems[0]
+      expect(challenge).toBeDefined();
+      if (!challenge) return;
       const options = result.current.getOptionsForChallenge(challenge);
       const names = options.map((o) => o.name);
       expect(new Set(names).size).toBe(names.length);

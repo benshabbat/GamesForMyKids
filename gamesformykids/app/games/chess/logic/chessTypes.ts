@@ -2,7 +2,11 @@
 export type Color = 'w' | 'b';
 export type PieceType = 'K' | 'Q' | 'R' | 'B' | 'N' | 'P';
 export type Piece = `${Color}${PieceType}` | null;
-export type Board = Piece[][];
+// Override default array index signature to avoid `| undefined` with noUncheckedIndexedAccess.
+// Board is always 8×8; all accesses are guarded by inB() checks.
+interface PieceRow extends Array<Piece> { [n: number]: Piece }
+interface BoardArray extends Array<PieceRow> { [n: number]: PieceRow }
+export type Board = BoardArray;
 
 export interface Pos { row: number; col: number; }
 

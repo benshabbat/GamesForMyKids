@@ -46,6 +46,9 @@ export const getRandomPiece = (): Piece => {
   }
   
   const randomPiece = pieces[Math.floor(Math.random() * pieces.length)];
+  if (!randomPiece) {
+    throw new Error('Failed to select tetromino');
+  }
   const pieceData = TETROMINOES[randomPiece];
   
   if (!pieceData || !pieceData.blocks || !pieceData.color) {
@@ -60,11 +63,16 @@ export const getRandomPiece = (): Piece => {
 };
 
 export const rotatePiece = (piece: Piece): Piece => {
-  const rotated = [];
-  for (let x = 0; x < piece.blocks[0].length; x++) {
-    const row = [];
+  const firstRow = piece.blocks[0];
+  if (!firstRow) {
+    return piece;
+  }
+  const rotated: number[][] = [];
+  for (let x = 0; x < firstRow.length; x++) {
+    const row: number[] = [];
     for (let y = piece.blocks.length - 1; y >= 0; y--) {
-      row.push(piece.blocks[y][x]);
+      const sourceRow = piece.blocks[y];
+      row.push(sourceRow?.[x] ?? 0);
     }
     rotated.push(row);
   }

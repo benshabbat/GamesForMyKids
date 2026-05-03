@@ -65,6 +65,7 @@ export const useFeaturedGameStore = create<FeaturedGameState>()(
           (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) / 1000 / 60 / 60 / 24
         );
         const featuredGame = allGames[dayOfYear % allGames.length];
+        if (!featuredGame) return;
         const ageGroups = computeAgeGroups(allGames);
 
         set(

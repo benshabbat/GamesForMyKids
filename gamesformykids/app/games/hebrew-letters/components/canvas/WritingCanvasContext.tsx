@@ -4,7 +4,7 @@ import React, { createContext, useContext } from 'react';
 import { useWritingCanvas } from './useWritingCanvas';
 
 type WritingCanvasContextValue = ReturnType<typeof useWritingCanvas> & {
-  guideLetter?: string;
+  guideLetter?: string | undefined;
 };
 
 const WritingCanvasContext = createContext<WritingCanvasContextValue | null>(null);
@@ -17,7 +17,7 @@ export function useWritingCanvasContext(): WritingCanvasContextValue {
 
 interface WritingCanvasProviderProps {
   value: ReturnType<typeof useWritingCanvas>;
-  guideLetter?: string;
+  guideLetter?: string | undefined;
   children: React.ReactNode;
 }
 

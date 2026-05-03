@@ -18,7 +18,10 @@ export default function GeographyQuestion({ current, onSelect }: Props) {
       correctLabel={country.id}
       onSelect={onSelect}
       cols={2}
-      renderChoice={(id) => getChoiceLabel(choices.find(c => c.id === id)!, mode)}
+      renderChoice={(id) => {
+        const choice = choices.find((c) => c.id === id);
+        return getChoiceLabel(choice ?? country, mode);
+      }}
       correctMsg={`✅ נכון! ${country.flag} ${country.name} — ${country.capital}`}
       wrongMsg={`💙 ${country.flag} ${country.name} — ${country.capital}, ${country.continent}`}
     >

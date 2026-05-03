@@ -22,6 +22,7 @@ export const createDragSlice: StateCreator<PuzzleStore, [], [], DragSlice> = (se
   handleTouchStart: (e, piece) => {
     e.preventDefault();
     const touch = e.touches[0];
+    if (!touch) return;
     const rect = (e.currentTarget as HTMLElement).getBoundingClientRect();
     set({
       touchState: {
@@ -39,6 +40,7 @@ export const createDragSlice: StateCreator<PuzzleStore, [], [], DragSlice> = (se
     e.preventDefault();
     e.stopPropagation();
     const touch = e.touches[0];
+    if (!touch) return;
     set({ touchState: { ...touchState, dragPosition: { x: touch.clientX, y: touch.clientY } } });
 
     const elementBelow = document.elementFromPoint(touch.clientX, touch.clientY);
@@ -55,6 +57,7 @@ export const createDragSlice: StateCreator<PuzzleStore, [], [], DragSlice> = (se
     e.preventDefault();
     e.stopPropagation();
     const touch = e.changedTouches[0];
+    if (!touch) return;
 
     let gridCell: Element | null = null;
     const searchRadius = 10;

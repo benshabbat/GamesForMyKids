@@ -72,7 +72,7 @@ export function useTrueFalseGame() {
 
   const answer = useCallback((choice: boolean) => {
     if (phaseRef.current !== 'playing' || feedback) return;
-    const correct = choice === deckRef.current[idxRef.current].answer;
+    const correct = choice === (deckRef.current[idxRef.current]?.answer ?? false);
     if (correct) {
       handleCorrect(10);
     } else {
@@ -82,7 +82,7 @@ export function useTrueFalseGame() {
 
   return {
     phase,
-    q: deck[idx],
+    q: deck[idx] ?? null,
     score,
     best,
     lives,

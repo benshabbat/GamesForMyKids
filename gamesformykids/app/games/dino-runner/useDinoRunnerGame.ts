@@ -87,7 +87,7 @@ export function useDinoRunnerGame() {
             x: W + 20,
             w,
             h,
-            emoji: OBSTACLE_EMOJIS[Math.floor(Math.random() * OBSTACLE_EMOJIS.length)],
+            emoji: OBSTACLE_EMOJIS[Math.floor(Math.random() * OBSTACLE_EMOJIS.length)] ?? OBSTACLE_EMOJIS[0] ?? '🪨',
           });
           s.nextObstacle = 60 + Math.random() * 80;
         }

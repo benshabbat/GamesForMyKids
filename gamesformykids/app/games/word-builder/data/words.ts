@@ -43,7 +43,8 @@ export function shuffleLetters(word: string): string[] {
   do {
     for (let i = shuffled.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+      const si = shuffled[i], sj = shuffled[j];
+      if (si !== undefined && sj !== undefined) { shuffled[i] = sj; shuffled[j] = si; }
     }
   } while (shuffled.join('') === word && word.length > 1);
   return shuffled;

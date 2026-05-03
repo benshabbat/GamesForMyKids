@@ -69,8 +69,8 @@ export function GameBoard() {
 
         {/* Borne-off tray */}
         <BorneOff
-          playerCount={points[0].player}
-          compCount={points[25].computer}
+          playerCount={points[0]?.player ?? 0}
+          compCount={points[25]?.computer ?? 0}
           onBearOff={() => selectPoint(0)}
           isBearOffTarget={validTargets.has(0) && selected !== null}
         />

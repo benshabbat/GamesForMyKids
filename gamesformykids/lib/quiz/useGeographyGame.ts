@@ -12,6 +12,9 @@ export interface GeoQuestion {
 function buildQuestion(pool: Country[], mode: QuestionMode): GeoQuestion {
   const shuffled = [...pool].sort(() => Math.random() - 0.5);
   const country = shuffled[0];
+  if (!country) {
+    throw new Error('Missing geography country');
+  }
   const choices = [country, ...shuffled.slice(1, 4)].sort(() => Math.random() - 0.5);
   return { country, mode, choices };
 }

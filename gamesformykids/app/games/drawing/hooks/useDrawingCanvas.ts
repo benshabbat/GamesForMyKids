@@ -38,16 +38,19 @@ export const useDrawingCanvas = () => {
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
     
-    let clientX, clientY;
+    let clientX: number;
+    let clientY: number;
     
     if ('touches' in e) {
       // Touch event
       if (e.touches.length > 0) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
+        const t = e.touches[0];
+        if (t) { clientX = t.clientX; clientY = t.clientY; }
+        else return { x: 0, y: 0 };
       } else if (e.changedTouches && e.changedTouches.length > 0) {
-        clientX = e.changedTouches[0].clientX;
-        clientY = e.changedTouches[0].clientY;
+        const t = e.changedTouches[0];
+        if (t) { clientX = t.clientX; clientY = t.clientY; }
+        else return { x: 0, y: 0 };
       } else {
         return { x: 0, y: 0 };
       }

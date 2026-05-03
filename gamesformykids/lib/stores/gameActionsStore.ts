@@ -18,13 +18,13 @@ const NOOP = () => {};
 const ASYNC_NOOP = async (): Promise<void> => {};
 
 export interface GameActionsState {
-  startGame: () => void | Promise<void>;
-  resetGame: () => void;
-  handleItemClick: (item: BaseGameItem) => void | Promise<void>;
-  speakItemName: (name: string) => void | Promise<void>;
+  startGame: (() => void | Promise<void>) | undefined;
+  resetGame: (() => void) | undefined;
+  handleItemClick: ((item: BaseGameItem) => void | Promise<void>) | undefined;
+  speakItemName: ((name: string) => void | Promise<void>) | undefined;
   hints: string[];
   hasMoreHints: boolean;
-  showNextHint: () => void;
+  showNextHint: (() => void) | undefined;
   currentAccuracy: number;
 }
 

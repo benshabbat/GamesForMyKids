@@ -56,7 +56,7 @@ export type AutoGameType =
   | 'counting';
 
 const g = (key: keyof typeof GAME_ITEMS_MAP, type: AutoGameType): AnyGameHookFn =>
-  () => useGenericGame(GAME_ITEMS_MAP[key]!, type);
+  () => useGenericGame(GAME_ITEMS_MAP[key] ?? [], type);
 
 export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   animals:           g('animals', 'animals'),

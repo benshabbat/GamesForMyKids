@@ -39,7 +39,7 @@ export interface GoogleAnalyticsProps {
  * Props למסך טעינה - עקרון Single Responsibility
  */
 export interface LoadingScreenProps {
-  readonly message?: string;
-  readonly showSpinner?: boolean;
-  readonly onLoadingComplete?: () => void;
+  readonly message?: string | undefined;
+  readonly showSpinner?: boolean | undefined;
+  readonly onLoadingComplete?: (() => void) | undefined;
 }

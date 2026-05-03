@@ -39,7 +39,7 @@ export function Scoreboard() {
       {/* Dice row */}
       <div className="flex gap-3 items-center justify-center h-14">
         {rolledDice.map((d, i) => (
-          <DieChip key={i} face={d} used={remaining[i]} />
+          <DieChip key={i} face={d} used={remaining[i] ?? false} />
         ))}
       </div>
     </>

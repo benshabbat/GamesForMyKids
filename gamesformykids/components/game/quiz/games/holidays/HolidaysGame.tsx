@@ -23,7 +23,7 @@ export default function HolidaysGame() {
     return (
       <HolidaysQuizScreen
         current={current}
-        currentQuestion={currentQuestion}
+        currentQuestion={currentQuestion ?? { question: '', answers: [], correctIndex: 0 }}
         questionIndex={questionIndex}
         totalQuestions={totalQuestions}
         score={score}
@@ -36,7 +36,7 @@ export default function HolidaysGame() {
   }
 
   if (phase === 'result') {
-    const nextHolidayInfo = holidayIndex < totalHolidays - 1 ? HOLIDAYS[holidayIndex + 1] : null;
+    const nextHolidayInfo = holidayIndex < totalHolidays - 1 ? (HOLIDAYS[holidayIndex + 1] ?? null) : null;
     return (
       <HolidaysResultScreen
         current={current}

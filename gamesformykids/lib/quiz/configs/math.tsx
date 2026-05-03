@@ -32,15 +32,19 @@ export const shapes3dConfig = defineConfig({
   description: 'זהה גופים תלת-ממדיים!', theme: 'violet',
   questions: QUIZ_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
   getChoices: (q) => {
-    const shape = SHAPES_3D.find(s => s.id === q.shapeId)!;
+    const shape = SHAPES_3D.find((s) => s.id === q.shapeId);
+    if (!shape) {
+      return shuffle([q.answer]);
+    }
     return shuffle([q.answer, ...shape.wrongOptions]);
   },
   isCorrect: (c, q) => c === q.answer,
   getCorrectLabel: (q) => q.answer,
   renderQuestion: (q) => {
-    const shape = SHAPES_3D.find(s => s.id === q.shapeId);
+    const shape = SHAPES_3D.find((s) => s.id === q.shapeId);
+    const shapeEmoji = shape?.emoji ?? '📦';
     return (
-      <><div className="text-5xl mb-3">{shape?.emoji}</div>
+      <><div className="text-5xl mb-3">{shapeEmoji}</div>
         <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
     );
   },

@@ -157,6 +157,7 @@ export function useCharityCoinGame() {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
     const touch = e.touches[0];
+    if (!touch) return;
     const touchX = touch.clientX - rect.left;
     setBasketX(Math.max(0, Math.min(gameWidth - basketWidth, touchX - basketWidth / 2)));
   };

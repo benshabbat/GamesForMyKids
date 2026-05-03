@@ -26,6 +26,10 @@ export function useUniversalGame(): UniversalGameContextValue {
   const { hints, hasMoreHints, showNextHint, currentAccuracy } = useGameHints()
   const { showProgressModal, setShowProgressModal } = useGameUI()
 
+  if (!config || !CardComponent || !gameType) {
+    throw new Error(error ?? 'Universal game configuration is not ready')
+  }
+
   return {
     gameState,
     isPlaying,
@@ -36,14 +40,14 @@ export function useUniversalGame(): UniversalGameContextValue {
     level,
     isReady,
     error,
-    startGame,
-    resetGame,
-    handleItemClick,
-    speakItemName,
-    config: config!,
+    startGame: startGame ?? (() => {}),
+    resetGame: resetGame ?? (() => {}),
+    handleItemClick: handleItemClick ?? (() => {}),
+    speakItemName: speakItemName ?? (() => {}),
+    config,
     items: items || [],
-    CardComponent: CardComponent!,
-    gameType: gameType as GameType,
+    CardComponent,
+    gameType,
     hints: hints || [],
     hasMoreHints: hasMoreHints || false,
     showNextHint: showNextHint || (() => {}),
