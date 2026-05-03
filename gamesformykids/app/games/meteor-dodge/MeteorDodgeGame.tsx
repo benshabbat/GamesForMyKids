@@ -1,7 +1,7 @@
 'use client';
 
 import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
-import MeteorScoreBar from './components/MeteorScoreBar';
+import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import MeteorMenuOverlay from './components/MeteorMenuOverlay';
 import MeteorGameOverOverlay from './components/MeteorGameOverOverlay';
 import MeteorControls from './components/MeteorControls';
@@ -17,7 +17,15 @@ export default function MeteorDodgeGame() {
       canvasClassName="rounded-3xl shadow-2xl border-4 border-slate-700 cursor-none"
       canvasStyle={{ maxHeight: '85vh', width: 'auto' }}
       canvasProps={{ onMouseMove: handleMouseMove, onTouchMove: handleTouchMove, onClick: handleCanvasClick, onTouchStart: handleTouchStart }}
-      hud={ui.phase === 'playing' && <MeteorScoreBar score={ui.score} best={ui.best} />}
+      hud={ui.phase === 'playing' && (
+        <CanvasScoreBar
+          stats={[
+            { value: ui.score, label: "ניקוד", valueClass: "text-2xl font-black text-yellow-300", labelClass: "text-xs text-yellow-500" },
+            { value: ui.best,  label: "שיא",   valueClass: "text-2xl font-black text-gray-400",   labelClass: "text-xs text-gray-500" },
+          ]}
+          className="text-white"
+        />
+      )}
       overlays={<>
         {ui.phase === 'menu' && <MeteorMenuOverlay best={ui.best} onStart={startGame} />}
         {ui.phase === 'dead' && <MeteorGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}

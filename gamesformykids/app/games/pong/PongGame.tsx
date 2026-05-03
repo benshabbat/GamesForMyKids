@@ -1,7 +1,7 @@
 'use client';
 
 import { usePongGame, W, H, WIN_SCORE } from './usePongGame';
-import PongScoreBar from './components/PongScoreBar';
+import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import PongMenuOverlay from './components/PongMenuOverlay';
 import PongResultOverlay from './components/PongResultOverlay';
 import PongControls from './components/PongControls';
@@ -17,7 +17,16 @@ export default function PongGame() {
       canvasClassName="rounded-3xl shadow-2xl border-4 border-slate-700 cursor-none"
       canvasStyle={{ maxHeight: '85vh', width: 'auto' }}
       canvasProps={{ onMouseMove: handleMouseMove, onTouchMove: handleTouchMove, onClick: handleCanvasClick, onTouchStart: handleTouchStart }}
-      hud={ui.phase === 'playing' && <PongScoreBar aiScore={ui.aiScore} playerScore={ui.playerScore} />}
+      hud={ui.phase === 'playing' && (
+        <CanvasScoreBar
+          stats={[
+            { value: ui.aiScore,     label: "מחשב 🤖", valueClass: "text-3xl font-black text-red-400",   labelClass: "text-xs text-red-600" },
+            { value: ui.playerScore, label: "אתה 🎮",  valueClass: "text-3xl font-black text-green-400", labelClass: "text-xs text-green-600" },
+          ]}
+          gap="gap-8"
+          separator={<div className="text-white/30 text-2xl font-bold self-center">:</div>}
+        />
+      )}
       overlays={<>
         {ui.phase === 'menu' && <PongMenuOverlay winScore={WIN_SCORE} onStart={startGame} />}
         {ui.phase === 'result' && (

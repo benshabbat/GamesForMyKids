@@ -1,7 +1,7 @@
 'use client';
 
 import { useJumperGame, W, H } from './useJumperGame';
-import JumperScoreBar from './components/JumperScoreBar';
+import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import JumperMenuOverlay from './components/JumperMenuOverlay';
 import JumperGameOverOverlay from './components/JumperGameOverOverlay';
 import JumperControls from './components/JumperControls';
@@ -17,7 +17,14 @@ export default function JumperGame() {
       canvasClassName="rounded-3xl shadow-2xl border-2 border-indigo-800"
       canvasStyle={{ maxHeight: '78vh', width: 'auto' }}
       canvasProps={{ onTouchMove: handleTouchMove, onTouchEnd: handleTouchEnd, onClick: handleCanvasClick }}
-      hud={ui.phase === 'playing' && <JumperScoreBar score={ui.score} best={ui.best} />}
+      hud={ui.phase === 'playing' && (
+        <CanvasScoreBar
+          stats={[
+            { value: `${ui.score}m`, label: "גובה", valueClass: "text-2xl font-black text-green-300", labelClass: "text-xs text-green-600" },
+            { value: `${ui.best}m`,  label: "שיא",  valueClass: "text-2xl font-black text-gray-400",  labelClass: "text-xs text-gray-600" },
+          ]}
+        />
+      )}
       overlays={<>
         {ui.phase === 'menu' && <JumperMenuOverlay best={ui.best} onStart={startGame} />}
         {ui.phase === 'dead' && <JumperGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
