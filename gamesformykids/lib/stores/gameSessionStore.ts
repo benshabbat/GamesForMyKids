@@ -13,8 +13,7 @@
  * יכול לגשת לנתוני הסשן ישירות ללא props drilling.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { BaseGameItem } from '@/lib/types/core/base';
 
 // ── State ──────────────────────────────────────────────────
@@ -43,9 +42,7 @@ const INITIAL_STATE: GameSessionState = {
   wrongAttempts: 0,
 };
 
-export const useGameSessionStore = create<GameSessionState & GameSessionActions>()(
-  devtools(
-    (set) => ({
+export const useGameSessionStore = makeStore<GameSessionState & GameSessionActions>('GameSessionStore', (set) => ({
       ...INITIAL_STATE,
 
       setChallenge: (challenge) =>
@@ -68,7 +65,4 @@ export const useGameSessionStore = create<GameSessionState & GameSessionActions>
 
       resetSession: () =>
         set({ ...INITIAL_STATE }, false, 'session/resetSession'),
-    }),
-    { name: 'GameSessionStore' },
-  ),
-);
+    }));

@@ -10,8 +10,7 @@
  *   - איפוס ההתקדמות כשמשתנה סוג המשחק
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 
 export interface GameProgressState {
   score: number;
@@ -53,9 +52,7 @@ const INITIAL_STATE: GameProgressState = {
   timerPaused: false,
 };
 
-export const useGameProgressStore = create<GameProgressState & GameProgressActions>()(
-  devtools(
-    (set) => ({
+export const useGameProgressStore = makeStore<GameProgressState & GameProgressActions>('GameProgressStore', (set) => ({
       ...INITIAL_STATE,
 
       incrementScore: (points = 10) =>
@@ -115,8 +112,5 @@ export const useGameProgressStore = create<GameProgressState & GameProgressActio
 
       updateProgress: (updates) =>
         set(updates as Partial<GameProgressState>, false, 'progress/updateProgress'),
-    }),
-    { name: 'GameProgressStore' },
-  ),
-);
+    }));
 

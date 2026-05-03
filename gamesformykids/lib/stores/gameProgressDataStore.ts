@@ -8,8 +8,7 @@
  * מחליף את useState ב-useGameProgress.ts.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { GameProgress } from '@/hooks/shared/progress/useGameProgress';
 import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
@@ -34,9 +33,7 @@ const initialState: GameProgressDataState = {
 };
 
 // ── Store ──────────────────────────────────────────────────
-export const useGameProgressDataStore = create<GameProgressDataState & GameProgressDataActions>()(
-  devtools(
-    (set) => ({
+export const useGameProgressDataStore = makeStore<GameProgressDataState & GameProgressDataActions>('GameProgressDataStore', (set) => ({
       ...initialState,
 
       setProgress: (progress) =>
@@ -64,7 +61,4 @@ export const useGameProgressDataStore = create<GameProgressDataState & GameProgr
         set({ loadedForUserId: userId }, false, 'gameProgressData/setLoadedForUserId'),
 
       reset: () => set(initialState, false, 'gameProgressData/reset'),
-    }),
-    { name: 'GameProgressDataStore' },
-  ),
-);
+    }));

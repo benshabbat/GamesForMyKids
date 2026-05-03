@@ -7,8 +7,7 @@
  * ומעדכן את ה-store — כל שאר הקומפוננטות קוראות מהסטור ישירות.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { User, Session } from '@supabase/supabase-js';
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client';
 
@@ -38,9 +37,7 @@ const INITIAL_STATE: AuthState = {
   isGuest: false,
 };
 
-export const useAuthStore = create<AuthState & AuthActions>()(
-  devtools(
-    (set) => ({
+export const useAuthStore = makeStore<AuthState & AuthActions>('AuthStore', (set) => ({
       ...INITIAL_STATE,
 
       setUser: (user) => set({ user }, false, 'auth/setUser'),
@@ -57,8 +54,5 @@ export const useAuthStore = create<AuthState & AuthActions>()(
       },
 
       reset: () => set(INITIAL_STATE, false, 'auth/reset'),
-    }),
-    { name: 'AuthStore' }
-  )
-);
+    }));
 

@@ -9,8 +9,7 @@
  * מחליף את useState ב-useUserProfile.ts.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { UserProfile, UserSettings } from '@/hooks/shared/user/useUserProfile';
 import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
@@ -37,9 +36,7 @@ const initialState: UserProfileState = {
 };
 
 // ── Store ──────────────────────────────────────────────────
-export const useUserProfileStore = create<UserProfileState & UserProfileStoreActions>()(
-  devtools(
-    (set) => ({
+export const useUserProfileStore = makeStore<UserProfileState & UserProfileStoreActions>('UserProfileStore', (set) => ({
       ...initialState,
 
       setProfile: (profile) => set({ profile }, false, 'userProfile/setProfile'),
@@ -54,7 +51,4 @@ export const useUserProfileStore = create<UserProfileState & UserProfileStoreAct
         set({ loadedForUserId: userId }, false, 'userProfile/setLoadedForUserId'),
 
       reset: () => set(initialState, false, 'userProfile/reset'),
-    }),
-    { name: 'UserProfileStore' },
-  ),
-);
+    }));

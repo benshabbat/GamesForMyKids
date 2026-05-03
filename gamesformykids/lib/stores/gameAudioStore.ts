@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 
 interface GameAudioState {
   audioContext: AudioContext | null;
@@ -8,14 +7,9 @@ interface GameAudioState {
   setSpeechEnabled: (enabled: boolean) => void;
 }
 
-export const useGameAudioStore = create<GameAudioState>()(
-  devtools(
-    (set) => ({
+export const useGameAudioStore = makeStore<GameAudioState>('GameAudioStore', (set) => ({
       audioContext: null,
       speechEnabled: false,
       setAudioContext: (ctx) => set({ audioContext: ctx }),
       setSpeechEnabled: (enabled) => set({ speechEnabled: enabled }),
-    }),
-    { name: 'GameAudioStore' }
-  )
-);
+    }));
