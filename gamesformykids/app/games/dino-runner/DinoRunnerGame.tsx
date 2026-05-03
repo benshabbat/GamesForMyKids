@@ -2,7 +2,7 @@
 
 import { useDinoRunnerGame, W, H } from './useDinoRunnerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import DinoMenuOverlay from './components/DinoMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import DinoGameOverOverlay from './components/DinoGameOverOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
@@ -26,7 +26,16 @@ export default function DinoRunnerGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <DinoMenuOverlay best={ui.best} onStart={handleTap} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🦖" title="דינוזאור קופץ"
+            description="הקש כדי לקפוץ מעל המכשולים!"
+            best={ui.best} onStart={handleTap}
+            backdropClass="rounded-3xl bg-black/35" cardWidth="w-64"
+            titleColor="text-amber-700"
+            buttonClass="bg-gradient-to-l from-amber-500 to-orange-500 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'dead' && <DinoGameOverOverlay score={ui.score} best={ui.best} onRestart={handleTap} />}
       </>}
       controls={<p className="mt-4 text-amber-600 text-sm font-medium">הקש / לחץ מקש רווח לקפוץ</p>}

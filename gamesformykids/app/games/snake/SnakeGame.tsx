@@ -2,7 +2,7 @@
 
 import { useSnakeGame, W, H } from './useSnakeGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import SnakeMenuOverlay from './components/SnakeMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SnakeGameOverOverlay from './components/SnakeGameOverOverlay';
 import SnakeTouchControls from './components/SnakeTouchControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -28,7 +28,16 @@ export default function SnakeGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <SnakeMenuOverlay best={ui.best} onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🐍" title="נחש"
+            description={<>אסוף פירות וגדל!<br />הימנע מהקירות ומעצמך</>}
+            best={ui.best} onStart={startGame}
+            backdropClass="rounded-2xl bg-black/50" cardWidth="w-64"
+            emojiSize="text-6xl" titleSize="text-3xl" titleColor="text-green-700"
+            buttonClass="bg-gradient-to-l from-green-500 to-emerald-600 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'dead' && <SnakeGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
       controls={<SnakeTouchControls onControl={controlDir} />}

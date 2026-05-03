@@ -2,7 +2,7 @@
 
 import { useJumperGame, W, H } from './useJumperGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import JumperMenuOverlay from './components/JumperMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import JumperGameOverOverlay from './components/JumperGameOverOverlay';
 import JumperControls from './components/JumperControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -26,7 +26,16 @@ export default function JumperGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <JumperMenuOverlay best={ui.best} onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🦘" title="קפצן"
+            description={<>קפץ על הפלטפורמות וטפס גבוה!<br />הזז שמאלה/ימינה· אל תיפול</>}
+            best={ui.best} bestSuffix="m" onStart={startGame}
+            backdropClass="rounded-3xl bg-black/70" cardWidth="w-64"
+            titleColor="text-gray-700" startLabel="🦘 קפץ!"
+            buttonClass="bg-indigo-600 hover:bg-indigo-500"
+          />
+        )}
         {ui.phase === 'dead' && <JumperGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
       controls={ui.phase === 'playing' && (

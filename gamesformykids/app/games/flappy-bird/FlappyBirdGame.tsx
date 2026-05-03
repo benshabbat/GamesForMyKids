@@ -1,7 +1,7 @@
 'use client';
 
 import { useFlappyBirdGame, W, H } from './useFlappyBirdGame';
-import FlappyMenuOverlay from './components/FlappyMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FlappyGameOverOverlay from './components/FlappyGameOverOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
@@ -16,7 +16,16 @@ export default function FlappyBirdGame() {
       canvasStyle={{ maxHeight: '90vh', width: 'auto' }}
       canvasProps={{ onClick: handleInput, onTouchStart: handleInput }}
       overlays={<>
-        {ui.phase === 'menu' && <FlappyMenuOverlay best={ui.best} onStart={handleInput} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🐦" title="ציפור מעופפת"
+            description={<>הקש כדי לעוף!<br />עזור לציפור לעבור בין הצינורות</>}
+            best={ui.best} onStart={handleInput}
+            backdropClass="rounded-3xl bg-black/35"
+            emojiSize="text-6xl" titleSize="text-3xl" titleColor="text-sky-600"
+            buttonClass="bg-gradient-to-l from-sky-500 to-blue-600 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'dead' && <FlappyGameOverOverlay score={ui.score} best={ui.best} onRestart={handleInput} />}
       </>}
     />

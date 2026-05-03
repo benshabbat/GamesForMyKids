@@ -2,7 +2,7 @@
 
 import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import MeteorMenuOverlay from './components/MeteorMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import MeteorGameOverOverlay from './components/MeteorGameOverOverlay';
 import MeteorControls from './components/MeteorControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -27,7 +27,16 @@ export default function MeteorDodgeGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <MeteorMenuOverlay best={ui.best} onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="☄️" title="התחמק ממטאורים"
+            description={<>הזז את הספינה 🚀 והימנע ממטאורים<br />אסוף כוכבים ⭐ לנקודות בונוס!</>}
+            best={ui.best} onStart={startGame}
+            backdropClass="rounded-3xl bg-black/70"
+            titleColor="text-slate-700"
+            buttonClass="bg-gradient-to-l from-violet-600 to-purple-700 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'dead' && <MeteorGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
       controls={ui.phase === 'playing' && <MeteorControls onNudgeLeft={nudgeLeft} onNudgeRight={nudgeRight} />}
