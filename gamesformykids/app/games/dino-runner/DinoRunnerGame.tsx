@@ -1,7 +1,7 @@
 'use client';
 
 import { useDinoRunnerGame, W, H } from './useDinoRunnerGame';
-import DinoScoreBar from './components/DinoScoreBar';
+import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import DinoMenuOverlay from './components/DinoMenuOverlay';
 import DinoGameOverOverlay from './components/DinoGameOverOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -16,7 +16,15 @@ export default function DinoRunnerGame() {
       canvasClassName="rounded-3xl shadow-2xl cursor-pointer border-4 border-amber-300"
       canvasStyle={{ maxWidth: '100%' }}
       canvasProps={{ onClick: handleTap, onTouchStart: handleTap }}
-      hud={ui.phase === 'playing' && <DinoScoreBar score={ui.score} best={ui.best} />}
+      hud={ui.phase === 'playing' && (
+        <CanvasScoreBar
+          stats={[
+            { value: ui.score, label: "מפגש", valueClass: "text-2xl font-black text-amber-700", labelClass: "text-xs text-amber-500" },
+            { value: ui.best,  label: "שיא",  valueClass: "text-2xl font-black text-gray-600",  labelClass: "text-xs text-gray-400" },
+          ]}
+          mb="mb-4"
+        />
+      )}
       overlays={<>
         {ui.phase === 'menu' && <DinoMenuOverlay best={ui.best} onStart={handleTap} />}
         {ui.phase === 'dead' && <DinoGameOverOverlay score={ui.score} best={ui.best} onRestart={handleTap} />}
