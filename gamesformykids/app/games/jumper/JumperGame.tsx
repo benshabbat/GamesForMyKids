@@ -4,7 +4,7 @@ import { useJumperGame, W, H } from './useJumperGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import JumperGameOverOverlay from './components/JumperGameOverOverlay';
-import JumperControls from './components/JumperControls';
+import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function JumperGame() {
@@ -39,7 +39,11 @@ export default function JumperGame() {
         {ui.phase === 'dead' && <JumperGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
       controls={ui.phase === 'playing' && (
-        <JumperControls pressLeft={pressLeft} releaseLeft={releaseLeft} pressRight={pressRight} releaseRight={releaseRight} />
+        <CanvasLRControls
+          onLeft={pressLeft} onRight={pressRight}
+          onLeftRelease={releaseLeft} onRightRelease={releaseRight}
+          buttonClass="bg-indigo-700/80 text-white rounded-xl px-10 py-3 text-xl font-bold active:bg-indigo-500 touch-none"
+        />
       )}
     />
   );

@@ -4,7 +4,7 @@ import { useSnakeGame, W, H } from './useSnakeGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SnakeGameOverOverlay from './components/SnakeGameOverOverlay';
-import SnakeTouchControls from './components/SnakeTouchControls';
+import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SnakeGame() {
@@ -40,7 +40,13 @@ export default function SnakeGame() {
         )}
         {ui.phase === 'dead' && <SnakeGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
-      controls={<SnakeTouchControls onControl={controlDir} />}
+      controls={
+        <CanvasDPadControls
+          onUp={() => controlDir('U')} onDown={() => controlDir('D')}
+          onLeft={() => controlDir('L')} onRight={() => controlDir('R')}
+          mt="mt-4" style={{ width: 144 }}
+        />
+      }
     />
   );
 }

@@ -4,7 +4,7 @@ import { useSpaceDefenderGame, W, H } from './useSpaceDefenderGame';
 import SpaceDefenderHUD from './components/SpaceDefenderHUD';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SpaceDefenderResultOverlay from './components/SpaceDefenderResultOverlay';
-import SpaceDefenderControls from './components/SpaceDefenderControls';
+import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SpaceDefenderGame() {
@@ -34,7 +34,12 @@ export default function SpaceDefenderGame() {
         )}
       </>}
       controls={ui.phase === 'playing' && (
-        <SpaceDefenderControls onNudgeLeft={nudgeLeft} onShoot={shoot} onNudgeRight={nudgeRight} />
+        <CanvasLRControls
+          onLeft={nudgeLeft} onRight={nudgeRight}
+          center={{ label: "💥 ירה!", onAction: shoot, className: "bg-yellow-500/90 text-white rounded-xl px-8 py-3 text-xl font-bold active:bg-yellow-400 touch-none" }}
+          buttonClass="bg-indigo-700/80 text-white rounded-xl px-6 py-3 text-xl font-bold active:bg-indigo-500 touch-none"
+          gap="gap-3"
+        />
       )}
     />
   );
