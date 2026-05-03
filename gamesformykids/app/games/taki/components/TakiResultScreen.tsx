@@ -1,5 +1,6 @@
 'use client';
 
+import GameResultCard from '@/components/game/shared/GameResultCard';
 import { useTakiStore } from '../takiGameStore';
 
 export default function TakiResultScreen() {
@@ -8,23 +9,21 @@ export default function TakiResultScreen() {
   const playerScore = useTakiStore(s => s.playerScore);
   const computerScore = useTakiStore(s => s.computerScore);
   const startGame = useTakiStore(s => s.startGame);
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen gap-6 px-4 text-center">
-      <div className="text-8xl">{phase === 'won' ? '🎉' : '😢'}</div>
-      <h2 className="text-4xl font-extrabold text-white drop-shadow-lg">
-        {phase === 'won' ? 'ניצחת!' : 'המחשב ניצח!'}
-      </h2>
-      <p className="text-green-200 text-xl">{message}</p>
-      <div className="flex gap-6 text-white text-xl font-semibold">
+    <GameResultCard
+      emoji={phase === 'won' ? '🎉' : '😢'}
+      title={phase === 'won' ? 'ניצחת!' : 'המחשב ניצח!'}
+      gradientClass="from-green-50 to-teal-100"
+      buttonClass="from-teal-500 to-emerald-600"
+      onRestart={startGame}
+      restartLabel="🔄 שחק שוב"
+    >
+      {message && <p className="text-gray-500 text-base mb-3">{message}</p>}
+      <div className="flex justify-center gap-6 text-gray-700 text-xl font-semibold">
         <span>🧑 אתה: {playerScore}</span>
         <span>🤖 מחשב: {computerScore}</span>
       </div>
-      <button
-        onClick={startGame}
-        className="bg-yellow-400 hover:bg-yellow-300 text-gray-900 font-extrabold text-xl px-10 py-4 rounded-2xl shadow-xl transition-transform hover:scale-105 active:scale-95 mt-2"
-      >
-        🔄 שחק שוב
-      </button>
-    </div>
+    </GameResultCard>
   );
 }
