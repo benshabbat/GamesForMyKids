@@ -8,8 +8,8 @@ interface Props {
   /** Full Tailwind gradient classes, e.g. "from-green-50 to-teal-100" */
   gradientClass: string;
   /** Full Tailwind gradient classes for the start button, e.g. "from-blue-500 to-indigo-600" */
-  buttonClass: string;
-  onStart: () => void;
+  buttonClass?: string;
+  onStart?: () => void;
   startLabel?: string;
   animateEmoji?: boolean;
   /** Optional extra info line below description (e.g. rules, time per question) */
@@ -53,13 +53,15 @@ export default function GameMenuCard({
           <p className="text-yellow-600 font-bold mb-4">🏆 שיא: {best}</p>
         )}
         {children && <div className="mb-6">{children}</div>}
-        {!children && <div className="mb-2" />}
-        <button
-          onClick={onStart}
-          className={`w-full py-4 rounded-2xl bg-gradient-to-r ${buttonClass} text-white font-black text-xl hover:opacity-90 active:scale-95 transition-all`}
-        >
-          {startLabel ?? `${emoji} התחל!`}
-        </button>
+        {!children && onStart && <div className="mb-2" />}
+        {onStart && (
+          <button
+            onClick={onStart}
+            className={`w-full py-4 rounded-2xl bg-gradient-to-r ${buttonClass ?? ''} text-white font-black text-xl hover:opacity-90 active:scale-95 transition-all`}
+          >
+            {startLabel ?? `${emoji} התחל!`}
+          </button>
+        )}
       </div>
     </div>
   );
