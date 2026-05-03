@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import { ANIMALS, type Animal, type AnimalCategory } from '@/app/games/animals/data/animals';
 import { shuffle } from '@/lib/utils';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
@@ -41,16 +40,11 @@ const INITIAL_STATE: AnimalsState = {
   questions: [],
 };
 
-export const useAnimalsStore = create<AnimalsState & AnimalsActions>()(
-  devtools(
-    (set) => ({
+export const useAnimalsStore = makeStore<AnimalsState & AnimalsActions>('AnimalsStore', (set) => ({
       ...INITIAL_STATE,
 
       setQuestions: (category, questions) =>
         set({ category, questions }, false, 'animals/setQuestions'),
 
       reset: () => set(INITIAL_STATE, false, 'animals/reset'),
-    }),
-    { name: 'AnimalsStore' },
-  ),
-);
+    }));

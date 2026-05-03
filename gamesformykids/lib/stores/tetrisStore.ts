@@ -9,8 +9,7 @@
  * כאן עם get() כדי להמנע מ-stale closures.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import { Board, Piece, Position, TetrisGameState } from '@/app/games/tetris/types';
 import {
   BOARD_WIDTH,
@@ -101,9 +100,7 @@ const INITIAL_STATE: TetrisGameState = {
 
 // ── Store ──────────────────────────────────────────────────────────────────────
 
-export const useTetrisStore = create<TetrisGameState & TetrisActions>()(
-  devtools(
-    (set, get) => ({
+export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('TetrisStore', (set, get) => ({
       ...INITIAL_STATE,
 
       setLoaded: () => set({ isLoading: false }),
@@ -187,7 +184,4 @@ export const useTetrisStore = create<TetrisGameState & TetrisActions>()(
         }
         return displayBoard;
       },
-    }),
-    { name: 'TetrisStore' }
-  )
-);
+    }));

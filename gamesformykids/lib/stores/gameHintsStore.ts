@@ -8,8 +8,7 @@
  * מחליף את useState ב-useGameHints.ts.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { GameHint } from '@/lib/types/hooks/ui';
 
 // ── State ──────────────────────────────────────────────────
@@ -26,9 +25,7 @@ export interface GameHintsActions {
 }
 
 // ── Store ──────────────────────────────────────────────────
-export const useGameHintsStore = create<GameHintsState & GameHintsActions>()(
-  devtools(
-    (set, get) => ({
+export const useGameHintsStore = makeStore<GameHintsState & GameHintsActions>('GameHintsStore', (set, get) => ({
       hints: [],
       revealedHintsCount: 0,
 
@@ -52,7 +49,4 @@ export const useGameHintsStore = create<GameHintsState & GameHintsActions>()(
 
       resetHints: () =>
         set({ hints: [], revealedHintsCount: 0 }, false, 'hints/reset'),
-    }),
-    { name: 'GameHintsStore' },
-  ),
-);
+    }));

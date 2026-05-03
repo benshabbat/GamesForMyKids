@@ -8,8 +8,7 @@
  * כיוון שהוא דורש useRouter מ-React.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import { GameType } from '@/lib/types/core/base';
 
 export interface GameTypeState {
@@ -29,9 +28,7 @@ const INITIAL_STATE: GameTypeState = {
   gameHistory: [],
 };
 
-export const useGameTypeStore = create<GameTypeState & GameTypeActions>()(
-  devtools(
-    (set) => ({
+export const useGameTypeStore = makeStore<GameTypeState & GameTypeActions>('GameTypeStore', (set) => ({
       ...INITIAL_STATE,
 
       setCurrentGameType: (gameType) =>
@@ -56,8 +53,5 @@ export const useGameTypeStore = create<GameTypeState & GameTypeActions>()(
           false,
           'gameType/clearGameHistory',
         ),
-    }),
-    { name: 'GameTypeStore' },
-  ),
-);
+    }));
 
