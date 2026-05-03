@@ -1,5 +1,7 @@
 'use client';
 
+import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
+
 interface Props {
   score: number;
   best: number;
@@ -7,15 +9,11 @@ interface Props {
 
 export default function JumperScoreBar({ score, best }: Props) {
   return (
-    <div className="flex gap-6 mb-2 text-center">
-      <div>
-        <p className="text-2xl font-black text-green-300">{score}m</p>
-        <p className="text-xs text-green-600">גובה</p>
-      </div>
-      <div>
-        <p className="text-2xl font-black text-gray-400">{best}m</p>
-        <p className="text-xs text-gray-600">שיא</p>
-      </div>
-    </div>
+    <CanvasScoreBar
+      stats={[
+        { value: `${score}m`, label: "גובה", valueClass: "text-2xl font-black text-green-300", labelClass: "text-xs text-green-600" },
+        { value: `${best}m`,  label: "שיא",  valueClass: "text-2xl font-black text-gray-400",  labelClass: "text-xs text-gray-600" },
+      ]}
+    />
   );
 }
