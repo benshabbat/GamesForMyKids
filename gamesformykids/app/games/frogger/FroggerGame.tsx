@@ -4,7 +4,7 @@ import { useFroggerGame, W, H } from './useFroggerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FroggerGameOverOverlay from './components/FroggerGameOverOverlay';
-import FroggerControls from './components/FroggerControls';
+import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function FroggerGame() {
@@ -38,7 +38,12 @@ export default function FroggerGame() {
         )}
         {ui.phase === 'dead' && <FroggerGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
-      controls={ui.phase === 'playing' && <FroggerControls onMove={moveFrog} />}
+      controls={ui.phase === 'playing' && (
+        <CanvasDPadControls
+          onUp={() => moveFrog(0, -1)} onDown={() => moveFrog(0, 1)}
+          onLeft={() => moveFrog(-1, 0)} onRight={() => moveFrog(1, 0)}
+        />
+      )}
     />
   );
 }

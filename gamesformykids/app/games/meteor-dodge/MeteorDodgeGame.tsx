@@ -4,7 +4,7 @@ import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import MeteorGameOverOverlay from './components/MeteorGameOverOverlay';
-import MeteorControls from './components/MeteorControls';
+import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function MeteorDodgeGame() {
@@ -39,7 +39,7 @@ export default function MeteorDodgeGame() {
         )}
         {ui.phase === 'dead' && <MeteorGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
-      controls={ui.phase === 'playing' && <MeteorControls onNudgeLeft={nudgeLeft} onNudgeRight={nudgeRight} />}
+      controls={ui.phase === 'playing' && <CanvasLRControls onLeft={nudgeLeft} onRight={nudgeRight} buttonClass="bg-violet-700/80 text-white rounded-xl px-8 py-3 text-xl font-bold active:bg-violet-500 touch-none" />}
     />
   );
 }

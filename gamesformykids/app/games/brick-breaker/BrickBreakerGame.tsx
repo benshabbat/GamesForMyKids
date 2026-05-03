@@ -4,7 +4,7 @@ import { useBrickBreakerGame, W, H } from './useBrickBreakerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import BrickGameOverOverlay from './components/BrickGameOverOverlay';
-import BrickControls from './components/BrickControls';
+import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function BrickBreakerGame() {
@@ -42,7 +42,13 @@ export default function BrickBreakerGame() {
           <BrickGameOverOverlay phase={ui.phase as 'dead' | 'won'} score={ui.score} best={ui.best} onRestart={() => startGame(1)} />
         )}
       </>}
-      controls={ui.phase === 'playing' && <BrickControls onNudgeLeft={nudgeLeft} onLaunch={handleClick} onNudgeRight={nudgeRight} />}
+      controls={ui.phase === 'playing' && (
+        <CanvasLRControls
+          onLeft={nudgeLeft} onRight={nudgeRight}
+          center={{ label: "🏸 השק", onAction: handleClick, className: "bg-white/20 text-white rounded-xl px-6 py-3 text-sm font-bold active:bg-white/40 touch-none" }}
+          buttonClass="bg-purple-700/80 text-white rounded-xl px-7 py-3 text-xl font-bold active:bg-purple-500 touch-none"
+        />
+      )}
     />
   );
 }
