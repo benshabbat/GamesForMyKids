@@ -2,7 +2,7 @@
 
 import { useBrickBreakerGame, W, H } from './useBrickBreakerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import BrickMenuOverlay from './components/BrickMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import BrickGameOverOverlay from './components/BrickGameOverOverlay';
 import BrickControls from './components/BrickControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -28,7 +28,16 @@ export default function BrickBreakerGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <BrickMenuOverlay best={ui.best} onStart={() => startGame(1)} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🧱" title="שובר לבנים"
+            description={<>הזז את המחבט ושבור את כל הלבנים!<br />5 רמות של כיף</>}
+            best={ui.best} onStart={() => startGame(1)}
+            backdropClass="rounded-3xl bg-black/60"
+            titleColor="text-purple-700"
+            buttonClass="bg-gradient-to-l from-purple-500 to-indigo-600 shadow-lg hover:opacity-90"
+          />
+        )}
         {(ui.phase === 'dead' || ui.phase === 'won') && (
           <BrickGameOverOverlay phase={ui.phase as 'dead' | 'won'} score={ui.score} best={ui.best} onRestart={() => startGame(1)} />
         )}

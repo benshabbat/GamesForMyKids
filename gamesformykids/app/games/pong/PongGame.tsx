@@ -2,7 +2,7 @@
 
 import { usePongGame, W, H, WIN_SCORE } from './usePongGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import PongMenuOverlay from './components/PongMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import PongResultOverlay from './components/PongResultOverlay';
 import PongControls from './components/PongControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -28,7 +28,16 @@ export default function PongGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <PongMenuOverlay winScore={WIN_SCORE} onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🏓" title="פונג"
+            description={<>הזז את המחבט הירוק<br />הגע ל-{WIN_SCORE} נקודות לפני המחשב!</>}
+            onStart={startGame}
+            backdropClass="rounded-3xl bg-black/70"
+            titleSize="text-3xl" titleColor="text-slate-700"
+            buttonClass="bg-gradient-to-l from-slate-600 to-slate-800 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'result' && (
           <PongResultOverlay playerWon={playerWon} playerScore={ui.playerScore} aiScore={ui.aiScore} onRestart={startGame} />
         )}

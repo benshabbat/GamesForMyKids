@@ -2,7 +2,7 @@
 
 import { useFroggerGame, W, H } from './useFroggerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
-import FroggerMenuOverlay from './components/FroggerMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FroggerGameOverOverlay from './components/FroggerGameOverOverlay';
 import FroggerControls from './components/FroggerControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -26,7 +26,16 @@ export default function FroggerGame() {
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && <FroggerMenuOverlay onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🐸" title="צפרדע חוצה"
+            description={<>עזור לצפרדע לחצות את הכביש!<br />הימנע מהרכבים — הגע לדגלים 🏁</>}
+            onStart={startGame}
+            backdropClass="rounded-2xl bg-black/75"
+            titleColor="text-gray-700" startLabel="🐸 התחל!"
+            buttonClass="bg-green-500 hover:bg-green-600"
+          />
+        )}
         {ui.phase === 'dead' && <FroggerGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
       </>}
       controls={ui.phase === 'playing' && <FroggerControls onMove={moveFrog} />}

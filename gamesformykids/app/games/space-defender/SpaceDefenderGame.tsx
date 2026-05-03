@@ -2,7 +2,7 @@
 
 import { useSpaceDefenderGame, W, H } from './useSpaceDefenderGame';
 import SpaceDefenderHUD from './components/SpaceDefenderHUD';
-import SpaceDefenderMenuOverlay from './components/SpaceDefenderMenuOverlay';
+import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SpaceDefenderResultOverlay from './components/SpaceDefenderResultOverlay';
 import SpaceDefenderControls from './components/SpaceDefenderControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
@@ -19,7 +19,16 @@ export default function SpaceDefenderGame() {
       canvasProps={{ onMouseMove: handleMouseMove, onClick: handleCanvasClick, onTouchMove: handleTouchMove, onTouchStart: handleTouchStart }}
       hud={ui.phase === 'playing' && <SpaceDefenderHUD score={ui.score} lives={ui.lives} timeLeft={ui.timeLeft} />}
       overlays={<>
-        {ui.phase === 'menu' && <SpaceDefenderMenuOverlay best={ui.best} onStart={startGame} />}
+        {ui.phase === 'menu' && (
+          <CanvasMenuOverlay
+            emoji="🚀" title="מגן החלל"
+            description={<>הזז את הספינה וירה באסטרואידים!<br />הגן על כדור הארץ 🌍</>}
+            best={ui.best} onStart={startGame}
+            backdropClass="rounded-3xl bg-black/60"
+            titleColor="text-indigo-700"
+            buttonClass="bg-gradient-to-l from-indigo-500 to-blue-600 shadow-lg hover:opacity-90"
+          />
+        )}
         {ui.phase === 'result' && (
           <SpaceDefenderResultOverlay lives={ui.lives} score={ui.score} best={ui.best} onRestart={startGame} />
         )}
