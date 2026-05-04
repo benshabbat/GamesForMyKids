@@ -1,9 +1,3 @@
 'use client';
-
-import dynamic from 'next/dynamic';
-
-const DinoRunnerGame = dynamic(() => import('./DinoRunnerGame'), { ssr: false });
-
-export default function DinoRunnerClient() {
-  return <DinoRunnerGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./DinoRunnerGame'));

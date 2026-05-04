@@ -1,9 +1,3 @@
 'use client';
-
-import dynamic from 'next/dynamic';
-
-const SpaceDefenderGame = dynamic(() => import('./SpaceDefenderGame'), { ssr: false });
-
-export default function SpaceDefenderClient() {
-  return <SpaceDefenderGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./SpaceDefenderGame'));

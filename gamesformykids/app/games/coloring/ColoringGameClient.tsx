@@ -1,9 +1,3 @@
 'use client';
-
-import dynamic from 'next/dynamic';
-
-const ColoringGame = dynamic(() => import('./components/ColoringGame'), { ssr: false });
-
-export default function ColoringGameClient() {
-  return <ColoringGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./components/ColoringGame'));

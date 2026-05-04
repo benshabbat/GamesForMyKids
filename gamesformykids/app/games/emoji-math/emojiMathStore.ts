@@ -1,6 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
-import type { PhaseDead as Phase } from '@/lib/types';
+import type { LivesGameState } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
 // ── Question helpers ────────────────────────────────────────────────────────
@@ -40,16 +40,10 @@ export function makeQuestion(level: number): Question {
 
 export const TIME_PER_Q = 8;
 
-interface EmojiMathState {
-  phase:    Phase;
-  score:    number;
-  best:     number;
-  lives:    number;
-  timeLeft: number;
-  feedback: 'correct' | 'wrong' | null;
-  q:        Question;
-  level:    number;
-  streak:   number;
+interface EmojiMathState extends LivesGameState {
+  q:      Question;
+  level:  number;
+  streak: number;
 }
 
 interface EmojiMathActions {

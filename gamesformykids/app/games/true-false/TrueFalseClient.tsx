@@ -1,4 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const TrueFalseGame = dynamic(() => import('./TrueFalseGame'), { ssr: false });
-export default function TrueFalseClient() { return <TrueFalseGame />; }
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./TrueFalseGame'));

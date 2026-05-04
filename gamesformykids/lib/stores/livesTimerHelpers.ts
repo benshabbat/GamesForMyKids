@@ -6,9 +6,10 @@
  * that handle countdown, feedback delay, and game-over logic.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnySet = (partial: any, replace?: false, name?: string) => void;
-type AnyGet = () => { phase: string; lives: number; score: number; best: number; timeLeft: number; feedback: unknown };
+import type { LivesGameState } from '@/lib/types';
+
+type LivesSet = (partial: Record<string, unknown>, replace?: false, name?: string) => void;
+type LivesGet = () => LivesGameState;
 
 export interface LivesTimerConfig {
   /** DevTools store name prefix used in action labels */
@@ -16,8 +17,8 @@ export interface LivesTimerConfig {
   timePerQ:     number;
   feedbackMs:   number;
   initialLives: number;
-  set:          AnySet;
-  get:          AnyGet;
+  set:          LivesSet;
+  get:          LivesGet;
   /**
    * Returns the state updates needed to show the next question.
    * Called when the feedback delay expires. May return any store keys

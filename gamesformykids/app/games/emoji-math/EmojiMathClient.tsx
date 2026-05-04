@@ -1,4 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const EmojiMathGame = dynamic(() => import('./EmojiMathGame'), { ssr: false });
-export default function EmojiMathClient() { return <EmojiMathGame />; }
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./EmojiMathGame'));

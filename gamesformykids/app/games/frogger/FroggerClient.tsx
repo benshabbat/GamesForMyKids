@@ -1,8 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-
-const FroggerGame = dynamic(() => import('./FroggerGame'), { ssr: false });
-
-export default function FroggerClient() {
-  return <FroggerGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./FroggerGame'));

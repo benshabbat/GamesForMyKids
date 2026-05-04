@@ -1,6 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const BrickBreakerGame = dynamic(() => import('./BrickBreakerGame'), { ssr: false });
-export default function BrickBreakerClient() {
-  return <BrickBreakerGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./BrickBreakerGame'));

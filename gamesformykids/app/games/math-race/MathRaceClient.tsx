@@ -1,4 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const MathRaceGame = dynamic(() => import('./MathRaceGame'), { ssr: false });
-export default function MathRaceClient() { return <MathRaceGame />; }
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./MathRaceGame'));

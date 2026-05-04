@@ -1,4 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const NumberBubblesGame = dynamic(() => import('./NumberBubblesGame'), { ssr: false });
-export default function NumberBubblesClient() { return <NumberBubblesGame />; }
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./NumberBubblesGame'));

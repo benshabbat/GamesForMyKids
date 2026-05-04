@@ -1,6 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
-import type { PhaseDead as Phase } from '@/lib/types';
+import type { LivesGameState } from '@/lib/types';
 
 // ── Color data ──────────────────────────────────────────────────────────────
 
@@ -31,13 +31,7 @@ function makeQuestion(): Question {
 
 export const TIME_PER_Q = 5;
 
-interface ColorTapState {
-  phase:    Phase;
-  score:    number;
-  best:     number;
-  lives:    number;
-  timeLeft: number;
-  feedback: 'correct' | 'wrong' | null;
+interface ColorTapState extends LivesGameState {
   question: Question;
 }
 
