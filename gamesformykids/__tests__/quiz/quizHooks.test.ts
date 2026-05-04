@@ -1,5 +1,5 @@
 // @vitest-environment jsdom
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';

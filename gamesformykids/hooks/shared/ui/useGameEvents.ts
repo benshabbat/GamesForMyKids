@@ -27,7 +27,7 @@ export function useGameEvents(): UseGameEventsReturn {
 
   // אירוע גנרי
   const triggerEvent = useCallback((event: GameEvent, data?: Record<string, unknown>) => {
-    const eventData: GameEventData = {
+    const _eventData: GameEventData = {
       event,
       gameType: currentGameType || 'unknown',
       timestamp: Date.now(),

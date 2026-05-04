@@ -12,7 +12,7 @@ import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
 
 export function useProgressTracking(gameType: GameType) {
   const allSessions = useProgressTrackingStore((s) => s.allSessions);
-  const { addSession, updateCurrentSession } = useProgressTrackingStore();
+  const { addSession } = useProgressTrackingStore();
 
   const [currentSession, setCurrentSession] = useState<GameSession | null>(null);
   const [progressStats, setProgressStats] = useState<ProgressStats | null>(null);

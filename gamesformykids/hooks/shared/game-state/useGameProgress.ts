@@ -40,7 +40,6 @@ export function useGameProgress(maxLevel = 10, pointsPerCorrect = 10) {
   const getProgressPercentage = useCallback(() => {
     return (useGameProgressStore.getState().level / maxLevel) * 100
     // reads live state via getState() — no reactive dependency needed beyond maxLevel
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [maxLevel])
 
   return {

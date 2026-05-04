@@ -5,8 +5,7 @@
  * שומר רשימת מזהי משחקים מועדפים ב-localStorage.
  */
 
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { makePersistStore } from './createStore';
 
 export interface FavoritesState {
   favoriteIds: string[];
@@ -17,27 +16,23 @@ export interface FavoritesActions {
   isFavorite: (id: string) => boolean;
 }
 
-export const useFavoritesStore = create<FavoritesState & FavoritesActions>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        favoriteIds: [],
+export const useFavoritesStore = makePersistStore<FavoritesState & FavoritesActions>(
+  'FavoritesStore',
+  'gfk-favorites',
+  (set, get) => ({
+    favoriteIds: [],
 
-        toggleFavorite: (id) =>
-          set(
-            (state) => ({
-              favoriteIds: state.favoriteIds.includes(id)
-                ? state.favoriteIds.filter((f) => f !== id)
-                : [...state.favoriteIds, id],
-            }),
-            false,
-            'favorites/toggle',
-          ),
+    toggleFavorite: (id) =>
+      set(
+        (state) => ({
+          favoriteIds: state.favoriteIds.includes(id)
+            ? state.favoriteIds.filter((f) => f !== id)
+            : [...state.favoriteIds, id],
+        }),
+        false,
+        'favorites/toggle',
+      ),
 
-        isFavorite: (id) => get().favoriteIds.includes(id),
-      }),
-      { name: 'gfk-favorites' },
-    ),
-    { name: 'FavoritesStore' },
-  ),
+    isFavorite: (id) => get().favoriteIds.includes(id),
+  }),
 );

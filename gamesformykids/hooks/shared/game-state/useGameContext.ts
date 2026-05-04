@@ -11,7 +11,7 @@ import { useCallback } from 'react';
 import { useGameType } from './useGameType';
 import { useGameProgress } from './useGameProgress';
 import { useGameEvents } from '../ui/useGameEvents';
-import { GameType } from '@/lib/types/core/base';
+
 import { GameContextHookReturn } from "@/lib/types/hooks/game-state";
 
 /**

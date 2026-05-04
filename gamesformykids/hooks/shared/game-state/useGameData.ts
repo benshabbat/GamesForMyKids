@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from 'react'
 import { supabase } from '@/lib/supabase/client'
-import { GameItem, GameTypeDbRecord, UseGameDataReturn } from "@/lib/types/hooks/game-state";
+import type { UseGameDataReturn } from "@/lib/types/hooks/game-state";
 import { useGameDataStore } from '@/lib/stores/gameDataStore';
 
 export function useGameData(): UseGameDataReturn {
@@ -49,6 +49,7 @@ export function useGameData(): UseGameDataReturn {
     } finally {
       setLoading(false)
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps -- Zustand actions are stable references
   }, [])
 
   useEffect(() => {

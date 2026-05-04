@@ -11,8 +11,7 @@
  *   const volume = useAudioSettingsStore((s) => s.volume);
  */
 
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { makePersistStore } from './createStore';
 
 // ── Types ──────────────────────────────────────────────────
 export interface AudioSettingsState {
@@ -39,46 +38,40 @@ const DEFAULTS: AudioSettingsState = {
 };
 
 // ── Store ──────────────────────────────────────────────────
-export const useAudioSettingsStore = create<AudioSettingsState & AudioSettingsActions>()(
-  devtools(
-    persist(
-      (set) => ({
-        ...DEFAULTS,
+export const useAudioSettingsStore = makePersistStore<AudioSettingsState & AudioSettingsActions>(
+  'AudioSettingsStore',
+  'games-audio-settings',
+  (set) => ({
+    ...DEFAULTS,
 
-        saveSettings: (partial) =>
-          set((s) => ({ ...s, ...partial }), false, 'audio/saveSettings'),
+    saveSettings: (partial) =>
+      set((s) => ({ ...s, ...partial }), false, 'audio/saveSettings'),
 
-        updateSpeechRate: (rate) =>
-          set(
-            { speechRate: Math.max(0.1, Math.min(3.0, rate)) },
-            false,
-            'audio/updateSpeechRate',
-          ),
+    updateSpeechRate: (rate) =>
+      set(
+        { speechRate: Math.max(0.1, Math.min(3.0, rate)) },
+        false,
+        'audio/updateSpeechRate',
+      ),
 
-        updateSpeechPitch: (pitch) =>
-          set(
-            { speechPitch: Math.max(0.1, Math.min(2.0, pitch)) },
-            false,
-            'audio/updateSpeechPitch',
-          ),
+    updateSpeechPitch: (pitch) =>
+      set(
+        { speechPitch: Math.max(0.1, Math.min(2.0, pitch)) },
+        false,
+        'audio/updateSpeechPitch',
+      ),
 
-        updateVolume: (volume) =>
-          set(
-            { volume: Math.max(0.0, Math.min(1.0, volume)) },
-            false,
-            'audio/updateVolume',
-          ),
+    updateVolume: (volume) =>
+      set(
+        { volume: Math.max(0.0, Math.min(1.0, volume)) },
+        false,
+        'audio/updateVolume',
+      ),
 
-        toggleEnabled: () =>
-          set((s) => ({ enabled: !s.enabled }), false, 'audio/toggleEnabled'),
+    toggleEnabled: () =>
+      set((s) => ({ enabled: !s.enabled }), false, 'audio/toggleEnabled'),
 
-        resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
-      }),
-      {
-        name: 'games-audio-settings',   // same localStorage key as before
-        version: 1,
-      },
-    ),
-    { name: 'AudioSettingsStore' },
-  ),
+    resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
+  }),
+  { version: 1 },
 );

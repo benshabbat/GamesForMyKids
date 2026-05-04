@@ -7,8 +7,7 @@
  * את סטייט המשחק מבלי לעבור דרך Context nesting.
  */
 
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { makePersistStore } from './createStore';
 
 // ── State ──────────────────────────────────────────────────
 export interface ActiveGameState {
@@ -58,65 +57,61 @@ const INITIAL_STATS: GameStats = {
   lastPlayedAt: null,
 };
 
-export const useGameStore = create<ActiveGameState & GameStats & GameActions>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        // State
-        ...INITIAL_ACTIVE,
-        ...INITIAL_STATS,
+export const useGameStore = makePersistStore<ActiveGameState & GameStats & GameActions>(
+  'GameStore',
+  'gamesformykids-game-stats',
+  (set, get) => ({
+    // State
+    ...INITIAL_ACTIVE,
+    ...INITIAL_STATS,
 
-        startGame: (gameType) =>
-          set(
-            { gameType, isPlaying: true, score: 0, level: 1, startedAt: Date.now() },
-            false,
-            'game/startGame'
-          ),
+    startGame: (gameType) =>
+      set(
+        { gameType, isPlaying: true, score: 0, level: 1, startedAt: Date.now() },
+        false,
+        'game/startGame'
+      ),
 
-        updateProgress: (score, level) =>
-          set({ score, level }, false, 'game/updateProgress'),
+    updateProgress: (score, level) =>
+      set({ score, level }, false, 'game/updateProgress'),
 
-        endGame: () => {
-          const { gameType, score, highScores, totalGamesPlayed, totalScore } = get();
-          const key = gameType ?? 'unknown';
-          const prevBest = highScores[key] ?? 0;
+    endGame: () => {
+      const { gameType, score, highScores, totalGamesPlayed, totalScore } = get();
+      const key = gameType ?? 'unknown';
+      const prevBest = highScores[key] ?? 0;
 
-          set(
-            {
-              ...INITIAL_ACTIVE,
-              totalGamesPlayed: totalGamesPlayed + 1,
-              totalScore: totalScore + score,
-              highScores: {
-                ...highScores,
-                [key]: Math.max(score, prevBest),
-              },
-              lastPlayedGame: key,
-              lastPlayedAt: Date.now(),
-            },
-            false,
-            'game/endGame'
-          );
+      set(
+        {
+          ...INITIAL_ACTIVE,
+          totalGamesPlayed: totalGamesPlayed + 1,
+          totalScore: totalScore + score,
+          highScores: {
+            ...highScores,
+            [key]: Math.max(score, prevBest),
+          },
+          lastPlayedGame: key,
+          lastPlayedAt: Date.now(),
         },
+        false,
+        'game/endGame'
+      );
+    },
 
-        resetGame: () =>
-          set(INITIAL_ACTIVE, false, 'game/resetGame'),
+    resetGame: () =>
+      set(INITIAL_ACTIVE, false, 'game/resetGame'),
 
-        clearStats: () =>
-          set(INITIAL_STATS, false, 'game/clearStats'),
-      }),
-      {
-        name: 'gamesformykids-game-stats',
-        // שמור רק סטטיסטיקות, לא סטייט משחק פעיל
-        partialize: (state) => ({
-          totalGamesPlayed: state.totalGamesPlayed,
-          totalScore: state.totalScore,
-          highScores: state.highScores,
-          lastPlayedGame: state.lastPlayedGame,
-          lastPlayedAt: state.lastPlayedAt,
-        }),
-      }
-    ),
-    { name: 'GameStore' }
-  )
+    clearStats: () =>
+      set(INITIAL_STATS, false, 'game/clearStats'),
+  }),
+  {
+    // שמור רק סטטיסטיקות, לא סטייט משחק פעיל
+    partialize: (state) => ({
+      totalGamesPlayed: state.totalGamesPlayed,
+      totalScore: state.totalScore,
+      highScores: state.highScores,
+      lastPlayedGame: state.lastPlayedGame,
+      lastPlayedAt: state.lastPlayedAt,
+    }),
+  },
 );
 

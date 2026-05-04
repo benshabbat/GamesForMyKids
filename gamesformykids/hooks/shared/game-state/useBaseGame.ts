@@ -1,6 +1,6 @@
 'use client';
 
-import { BaseGameItem, BaseGameState, GameType } from "@/lib/types/core/base";
+import { BaseGameItem, BaseGameState } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
