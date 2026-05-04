@@ -2,15 +2,10 @@
 
 import { useEffect } from 'react';
 import { usePuzzleStore } from './store/puzzleStore';
+import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 
 function useRouterBridge() {
   // bridge removed — UniversalGameNavigation handles routing
-}
-
-function useAudioInit() {
-  useEffect(() => {
-    usePuzzleStore.getState().initAudio();
-  }, []);
 }
 
 function usePuzzleTimer() {
@@ -45,7 +40,7 @@ function useKeyboardShortcuts() {
 
 export function usePuzzleSetup() {
   useRouterBridge();
-  useAudioInit();
+  useGameAudio();
   usePuzzleTimer();
   useKeyboardShortcuts();
 }
