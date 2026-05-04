@@ -1,38 +1,11 @@
 'use client';
+import { useShallow } from 'zustand/react/shallow';
+import { useWordScrambleStore } from '../wordScrambleStore';
 
-interface ScrambleLetter {
-  idx: number;
-  ch: string;
-  picked: boolean;
-}
-
-interface PickedLetter {
-  ch: string;
-}
-
-interface WordEntry {
-  emoji: string;
-  hint: string;
-  word: string;
-}
-
-interface Props {
-  words: WordEntry[];
-  wIdx: number;
-  letters: ScrambleLetter[];
-  picked: (PickedLetter | undefined)[];
-  score: number;
-  lives: number;
-  shake: boolean;
-  correct: boolean;
-  onPickLetter: (idx: number) => void;
-  onUnpick: (i: number) => void;
-}
-
-export default function WordScramblePlayScreen({
-  words, wIdx, letters, picked, score, lives, shake, correct, onPickLetter, onUnpick,
-}: Props) {
-  const entry = words[wIdx];
+export default function WordScramblePlayScreen() {
+  const { words, wIdx, letters, picked, score, lives, shake, correct, pickLetter, unpick } =
+    useWordScrambleStore(useShallow((s) => s));
+  const entry  = words[wIdx];
   const target = entry.word;
 
   return (
@@ -49,7 +22,7 @@ export default function WordScramblePlayScreen({
           {Array.from({ length: target.length }).map((_, i) => (
             <button
               key={i}
-              onClick={() => picked[i] && onUnpick(i)}
+              onClick={() => picked[i] && unpick(i)}
               className={`w-12 h-12 rounded-xl border-2 text-xl font-black transition-all
                 ${picked[i]
                   ? correct
@@ -66,7 +39,7 @@ export default function WordScramblePlayScreen({
           {letters.map(l => (
             <button
               key={l.idx}
-              onClick={() => onPickLetter(l.idx)}
+              onClick={() => pickLetter(l.idx)}
               disabled={l.picked}
               className={`w-12 h-12 rounded-xl text-xl font-black transition-all
                 ${l.picked

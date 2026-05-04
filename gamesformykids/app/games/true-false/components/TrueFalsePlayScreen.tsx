@@ -1,22 +1,12 @@
 'use client';
+import { useShallow } from 'zustand/react/shallow';
+import { useTrueFalseStore, TIME_PER_Q } from '../trueFalseStore';
 
-interface TrueFalseQuestion {
-  emoji: string;
-  fact: string;
-  answer: boolean;
-}
+export default function TrueFalsePlayScreen() {
+  const { score, lives, timeLeft, feedback, deck, idx, answer } =
+    useTrueFalseStore(useShallow((s) => s));
+  const q = deck[idx];
 
-interface Props {
-  score: number;
-  lives: number;
-  timeLeft: number;
-  timePer: number;
-  q: TrueFalseQuestion | null;
-  feedback: string | null;
-  onAnswer: (val: boolean) => void;
-}
-
-export default function TrueFalsePlayScreen({ score, lives, timeLeft, timePer, q, feedback, onAnswer }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 to-cyan-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
       <div className="flex gap-6 mb-5 text-center">
@@ -43,18 +33,18 @@ export default function TrueFalsePlayScreen({ score, lives, timeLeft, timePer, q
         <div className="mt-4 bg-gray-100 rounded-full h-2">
           <div
             className="bg-gradient-to-r from-teal-400 to-cyan-500 h-2 rounded-full transition-all duration-1000"
-            style={{ width: `${(timeLeft / timePer) * 100}%` }}
+            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
           />
         </div>
       </div>
       <div className="flex gap-5 w-full max-w-sm">
         <button
-          onClick={() => onAnswer(true)}
+          onClick={() => answer(true)}
           disabled={!!feedback}
           className="flex-1 py-6 rounded-3xl bg-green-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-green-400 transition-all disabled:opacity-60"
         >✅</button>
         <button
-          onClick={() => onAnswer(false)}
+          onClick={() => answer(false)}
           disabled={!!feedback}
           className="flex-1 py-6 rounded-3xl bg-red-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-red-400 transition-all disabled:opacity-60"
         >❌</button>
