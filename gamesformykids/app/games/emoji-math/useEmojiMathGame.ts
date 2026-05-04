@@ -1,6 +1,6 @@
-﻿'use client';
-import { useState, useCallback, useRef } from 'react';
-import { useTimedQuizGame } from '@/hooks/games/useTimedQuizGame';
+'use client';
+import { useEffect, useCallback } from 'react';
+import { useEmojiMathStore } from './emojiMathStore';
 
 const EMOJIS = ['🍎','🍊','🍋','🍇','🍓','🫐','🍒','🍑','🥝','🍉','🍍','🥭'];
 
@@ -35,52 +35,91 @@ export function makeQuestion(level: number): Question {
 }
 
 export const TIME_PER_Q = 8;
+const INITIAL_LIVES = 3;
 
 export function useEmojiMathGame() {
-  const [q, setQ]           = useState<Question>(() => makeQuestion(1));
-  const [level, setLevel]   = useState(1);
-  const [streak, setStreak] = useState(0);
+  const phase    = useEmojiMathStore((s) => s.phase);
+  const score    = useEmojiMathStore((s) => s.score);
+  const best     = useEmojiMathStore((s) => s.best);
+  const lives    = useEmojiMathStore((s) => s.lives);
+  const timeLeft = useEmojiMathStore((s) => s.timeLeft);
+  const feedback = useEmojiMathStore((s) => s.feedback);
+  const q        = useEmojiMathStore((s) => s.q);
+  const level    = useEmojiMathStore((s) => s.level);
+  const streak   = useEmojiMathStore((s) => s.streak);
 
-  const levelRef  = useRef(1);
-  const streakRef = useRef(0);
+  // Countdown timer — runs while playing and no feedback showing
+  useEffect(() => {
+    if (phase !== 'playing' || feedback !== null) return;
+    const interval = setInterval(() => {
+      const store = useEmojiMathStore.getState();
+      if (store.phase !== 'playing' || store.feedback !== null) return;
+      if (store.timeLeft <= 1) {
+        const newLives = store.lives - 1;
+        store.setLives(newLives);
+        store.setFeedback('wrong');
+        store.setTimeLeft(TIME_PER_Q);
+        if (newLives <= 0) {
+          store.setPhase('dead');
+          store.updateBest(store.score);
+        }
+      } else {
+        store.setTimeLeft(store.timeLeft - 1);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, [phase, feedback]);
 
-  const {
-    phase, score, best, lives, timeLeft, feedback,
-    phaseRef, scoreRef, startGame: startBase, handleCorrect, handleWrong,
-  } = useTimedQuizGame({
-    timePerQ: TIME_PER_Q,
-    feedbackDelay: 900,
-    onNextQuestion: () => setQ(makeQuestion(levelRef.current)),
-  });
+  // Advance to next question after feedback delay
+  useEffect(() => {
+    if (feedback === null || phase !== 'playing') return;
+    const t = setTimeout(() => {
+      const store = useEmojiMathStore.getState();
+      if (store.phase !== 'playing') return;
+      store.setFeedback(null);
+      store.setTimeLeft(TIME_PER_Q);
+      store.setQ(makeQuestion(store.level));
+    }, 900);
+    return () => clearTimeout(t);
+  }, [feedback, phase]);
 
   const startGame = useCallback(() => {
-    levelRef.current = 1;
-    streakRef.current = 0;
-    startBase(() => {
-      setLevel(1);
-      setStreak(0);
-      setQ(makeQuestion(1));
-    });
-  }, [startBase]);
+    const store = useEmojiMathStore.getState();
+    store.setPhase('playing');
+    store.setScore(0);
+    store.setLives(INITIAL_LIVES);
+    store.setTimeLeft(TIME_PER_Q);
+    store.setFeedback(null);
+    store.setLevel(1);
+    store.setStreak(0);
+    store.setQ(makeQuestion(1));
+  }, []);
 
   const tap = useCallback((choice: number) => {
-    if (phaseRef.current !== 'playing' || feedback) return;
-    if (choice === q.answer) {
-      const ns = streakRef.current + 1;
-      streakRef.current = ns;
-      setStreak(ns);
-      const bonus = ns >= 3 ? 20 : 10;
-      handleCorrect(bonus);
-      if (scoreRef.current > 0 && scoreRef.current % 50 === 0) {
-        levelRef.current++;
-        setLevel(levelRef.current);
+    const store = useEmojiMathStore.getState();
+    if (store.phase !== 'playing' || store.feedback !== null) return;
+
+    if (choice === store.q.answer) {
+      const newStreak = store.streak + 1;
+      const bonus = newStreak >= 3 ? 20 : 10;
+      const newScore = store.score + bonus;
+      store.setStreak(newStreak);
+      store.setScore(newScore);
+      store.setFeedback('correct');
+      if (newScore > 0 && newScore % 50 === 0) {
+        store.setLevel(store.level + 1);
       }
     } else {
-      streakRef.current = 0;
-      setStreak(0);
-      handleWrong();
+      const newLives = store.lives - 1;
+      store.setStreak(0);
+      store.setLives(newLives);
+      store.setFeedback('wrong');
+      if (newLives <= 0) {
+        store.setPhase('dead');
+        store.updateBest(store.score);
+      }
     }
-  }, [feedback, q.answer, phaseRef, scoreRef, handleCorrect, handleWrong]);
+  }, []);
 
   return { phase, q, score, best, lives, level, timeLeft, feedback, streak, startGame, tap };
 }
