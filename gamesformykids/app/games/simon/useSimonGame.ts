@@ -16,10 +16,7 @@ import type { PhaseSimon as Phase } from '@/lib/types';
 
 export function useSimonGame() {
   const { phase, activeColor, playerIdx, best, roundScore, sequence } =
-    useSimonStore(useShallow((s) => ({
-      phase: s.phase, activeColor: s.activeColor, playerIdx: s.playerIdx,
-      best: s.best, roundScore: s.roundScore, sequence: s.sequence,
-    })));
+    useSimonStore(useShallow((s) => s));
 
   const flash = useCallback((id: ButtonId, ms: number) =>
     new Promise<void>(resolve => {
