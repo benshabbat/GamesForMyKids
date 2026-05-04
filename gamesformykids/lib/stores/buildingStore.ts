@@ -1,5 +1,5 @@
-﻿import { create } from 'zustand';
-import { COLORS, SHAPES } from '@/app/games/building/constants';
+﻿import { COLORS, SHAPES } from '@/app/games/building/constants';
+import { makeStore } from './createStore';
 import { createBlockSlice, type BlockSlice } from './building/blockSlice';
 import { createHistorySlice, type HistorySlice } from './building/historySlice';
 import { createParticleSlice, type ParticleSlice } from './building/particleSlice';
@@ -15,7 +15,7 @@ export type { BlockSlice as BuildingState, BlockSlice as BuildingActions };
 
 // ─── Store ────────────────────────────────────────────────────────────────────
 
-export const useBuildingStore = create<BuildingStore>()((...a) => ({
+export const useBuildingStore = makeStore<BuildingStore>('BuildingStore', (...a) => ({
   ...createBlockSlice(...a),
   ...createHistorySlice(...a),
   ...createParticleSlice(...a),

@@ -1,4 +1,4 @@
-import { create } from 'zustand';
+import { makeStore } from './createStore';
 import type { PhaseResult as Phase } from '@/lib/types';
 
 interface TimedQuizConfig<Level, Question extends { answer: number }> {
@@ -37,7 +37,7 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
     if (timerRef) { clearInterval(timerRef); timerRef = null; }
   }
 
-  const useStore = create<TimedQuizState<Level, Question> & TimedQuizActions<Level>>()((set, get) => {
+  const useStore = makeStore<TimedQuizState<Level, Question> & TimedQuizActions<Level>>('TimedQuizStore', (set, get) => {
     function startTimer() {
       clearTimer();
       if (typeof window === 'undefined') return;
