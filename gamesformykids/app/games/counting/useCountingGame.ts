@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
 import { BaseGameItem } from "@/lib/types/core/base";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
