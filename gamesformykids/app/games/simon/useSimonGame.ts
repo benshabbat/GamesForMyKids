@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useSimonStore } from './simonStore';
 
 export const BUTTONS = [
@@ -14,12 +15,11 @@ export type ButtonId = typeof BUTTONS[number]['id'];
 import type { PhaseSimon as Phase } from '@/lib/types';
 
 export function useSimonGame() {
-  const phase       = useSimonStore((s) => s.phase);
-  const activeColor = useSimonStore((s) => s.activeColor);
-  const playerIdx   = useSimonStore((s) => s.playerIdx);
-  const best        = useSimonStore((s) => s.best);
-  const roundScore  = useSimonStore((s) => s.roundScore);
-  const sequence    = useSimonStore((s) => s.sequence);
+  const { phase, activeColor, playerIdx, best, roundScore, sequence } =
+    useSimonStore(useShallow((s) => ({
+      phase: s.phase, activeColor: s.activeColor, playerIdx: s.playerIdx,
+      best: s.best, roundScore: s.roundScore, sequence: s.sequence,
+    })));
 
   const flash = useCallback((id: ButtonId, ms: number) =>
     new Promise<void>(resolve => {
