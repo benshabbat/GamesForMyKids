@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
 import { BaseGameItem } from "@/lib/types/core/base";
-import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 import { 
   delay, 
   playSuccessSound as playSound, 
@@ -13,7 +14,6 @@ import {
   speakStartMessage
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
-import { useGameAudioStore } from "@/lib/stores/gameAudioStore";
 import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
 import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
 import { useCountingChallengeStore } from "@/lib/stores/countingChallengeStore";
@@ -44,19 +44,7 @@ export function useCountingGame() {
     options: [],
   });
 
-  const audioContext = useGameAudioStore((s) => s.audioContext);
-  const speechEnabled = useGameAudioStore((s) => s.speechEnabled);
-  const setAudioContext = useGameAudioStore((s) => s.setAudioContext);
-  const setSpeechEnabled = useGameAudioStore((s) => s.setSpeechEnabled);
-
-  useEffect(() => {
-    if (!audioContext && !speechEnabled) {
-      initSpeechAndAudio(setSpeechEnabled, setAudioContext);
-    }
-  // intentionally run only on mount — setSpeechEnabled/setAudioContext are stable Zustand
-  // actions; audioContext/speechEnabled are only checked once to avoid double-initialisation
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { audioContext, speechEnabled } = useGameAudio();
 
   // --- Utility Functions ---
 

@@ -1,9 +1,10 @@
 'use client';
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { MathChallenge } from "@/lib/types";
 import { BaseGameItem } from "@/lib/types/core/base";
-import { initSpeechAndAudio, speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 import { 
   delay, 
   playSuccessSound as playSound, 
@@ -72,12 +73,7 @@ export function useMathGame() {
     options: [],
   });
 
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
-  const [speechEnabled, setSpeechEnabled] = useState(false);
-
-  useEffect(() => {
-    initSpeechAndAudio(setSpeechEnabled, setAudioContext);
-  }, []);
+  const { audioContext, speechEnabled } = useGameAudio();
 
   // --- Utility Functions ---
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
-import { initSpeechAndAudio } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 
 interface BubbleData {
   id: number;
@@ -28,15 +28,10 @@ export function useBubbleGame() {
     poppedCount: 0,
   });
 
-  const [audioContext, setAudioContext] = useState<AudioContext | null>(null);
+  const { audioContext } = useGameAudio();
   const nextBubbleId = useRef(0);
   const bubbleCreationInterval = useRef<NodeJS.Timeout | null>(null);
   const gameContainerRef = useRef<HTMLDivElement>(null);
-
-  // אתחול מערכת השמע
-  useEffect(() => {
-    initSpeechAndAudio(() => {}, setAudioContext);
-  }, []);
 
   // צבעים ותדרים לבועות
   const bubbleTypes = useMemo(() => [
