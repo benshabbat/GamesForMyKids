@@ -5,7 +5,7 @@ import SimonBoard from './components/SimonBoard';
 import SimonGameOverScreen from './components/SimonGameOverScreen';
 
 export default function SimonGame() {
-  const { phase, activeColor, playerIdx, best, roundScore, sequenceRef, startGame, handleTap } = useSimonGame();
+  const { phase, activeColor, playerIdx, best, roundScore, sequenceLength, startGame, handleTap } = useSimonGame();
 
   return (
     <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
@@ -18,7 +18,7 @@ export default function SimonGame() {
           phase={phase}
           activeColor={activeColor}
           playerIdx={playerIdx}
-          sequenceLength={sequenceRef.current.length}
+          sequenceLength={sequenceLength}
           best={best}
           onTap={handleTap}
         />
