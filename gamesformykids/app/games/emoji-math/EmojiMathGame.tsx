@@ -1,13 +1,27 @@
 'use client';
 import { useEmojiMathGame } from './useEmojiMathGame';
 import EmojiMathMenuScreen from './components/EmojiMathMenuScreen';
-import EmojiMathGameOverScreen from './components/EmojiMathGameOverScreen';
+import ScoreBestResultCard from '@/components/game/shared/ScoreBestResultCard';
 import EmojiMathPlayArea from './components/EmojiMathPlayArea';
 
 export default function EmojiMathGame() {
   const { phase, score, best, startGame } = useEmojiMathGame();
 
   if (phase === 'menu') return <EmojiMathMenuScreen best={best} onStart={startGame} />;
-  if (phase === 'dead') return <EmojiMathGameOverScreen score={score} best={best} onRestart={startGame} />;
+  if (phase === 'dead') return (
+    <ScoreBestResultCard
+      emoji="🤓"
+      title="כל הכבוד על המאמץ!"
+      gradientClass="from-yellow-100 to-orange-200"
+      buttonClass="from-yellow-400 to-orange-500"
+      score={score}
+      best={best}
+      scoreBgClass="bg-orange-50"
+      scoreTextClass="text-orange-600"
+      scoreLabelClass="text-orange-400"
+      onRestart={startGame}
+      restartLabel="🔄 שוב!"
+    />
+  );
   return <EmojiMathPlayArea />;
 }
