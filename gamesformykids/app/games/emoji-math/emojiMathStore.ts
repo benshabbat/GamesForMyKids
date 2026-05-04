@@ -1,4 +1,5 @@
 import { makeStore } from '@/lib/stores/createStore';
+import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import type { PhaseDead as Phase } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
@@ -37,8 +38,7 @@ export function makeQuestion(level: number): Question {
 
 // ── Store ───────────────────────────────────────────────────────────────────
 
-export const TIME_PER_Q  = 8;
-const        INITIAL_LIVES = 3;
+export const TIME_PER_Q = 8;
 
 interface EmojiMathState {
   phase:    Phase;
@@ -58,86 +58,36 @@ interface EmojiMathActions {
 }
 
 const INITIAL: EmojiMathState = {
-  phase: 'menu', score: 0, best: 0, lives: INITIAL_LIVES,
+  phase: 'menu', score: 0, best: 0, lives: 3,
   timeLeft: TIME_PER_Q, feedback: null, q: makeQuestion(1), level: 1, streak: 0,
 };
 
 export const useEmojiMathStore = makeStore<EmojiMathState & EmojiMathActions>(
   'EmojiMathStore',
   (set, get) => {
-    let countdownId: ReturnType<typeof setInterval> | null = null;
-    let feedbackId:  ReturnType<typeof setTimeout>  | null = null;
-
-    function clearCountdown()    { if (countdownId) { clearInterval(countdownId); countdownId = null; } }
-    function clearFeedbackTimer(){ if (feedbackId)  { clearTimeout(feedbackId);   feedbackId  = null; } }
-
-    function advanceAfterFeedback() {
-      clearFeedbackTimer();
-      feedbackId = setTimeout(() => {
-        if (get().phase !== 'playing') return;
-        const level = get().level;
-        set({ feedback: null, timeLeft: TIME_PER_Q, q: makeQuestion(level) }, false, 'emojiMath/nextQuestion');
-        startCountdown();
-      }, 900);
-    }
-
-    function startCountdown() {
-      clearCountdown();
-      if (typeof window === 'undefined') return;
-      countdownId = setInterval(() => {
-        const { phase, feedback, timeLeft, lives, score, best } = get();
-        if (phase !== 'playing' || feedback !== null) { clearCountdown(); return; }
-        if (timeLeft <= 1) {
-          clearCountdown();
-          const newLives = lives - 1;
-          const isDead   = newLives <= 0;
-          set(
-            isDead
-              ? { lives: newLives, feedback: 'wrong', timeLeft: TIME_PER_Q, phase: 'dead', best: Math.max(best, score) }
-              : { lives: newLives, feedback: 'wrong', timeLeft: TIME_PER_Q },
-            false,
-            'emojiMath/timeout',
-          );
-          if (!isDead) advanceAfterFeedback();
-        } else {
-          set({ timeLeft: timeLeft - 1 }, false, 'emojiMath/tick');
-        }
-      }, 1000);
-    }
+    const timer = setupLivesTimer({
+      name: 'EmojiMathStore', timePerQ: TIME_PER_Q, feedbackMs: 900, initialLives: 3,
+      set, get,
+      getNextUpdates: () => ({ q: makeQuestion(get().level) }),
+    });
 
     return {
       ...INITIAL,
 
-      startGame: () => {
-        clearCountdown();
-        clearFeedbackTimer();
-        set({ ...INITIAL, phase: 'playing', best: get().best, q: makeQuestion(1) }, false, 'emojiMath/startGame');
-        startCountdown();
-      },
+      startGame: () => timer.startGame(() => ({ q: makeQuestion(1), level: 1, streak: 0 })),
 
       tap: (choice: number) => {
-        const { phase, feedback, q, streak, score, lives, level, best } = get();
+        const { phase, feedback, q, streak, score, level } = get();
         if (phase !== 'playing' || feedback !== null) return;
-        clearCountdown();
 
         if (choice === q.answer) {
           const newStreak = streak + 1;
           const bonus     = newStreak >= 3 ? 20 : 10;
           const newScore  = score + bonus;
           const newLevel  = newScore > 0 && newScore % 50 === 0 ? level + 1 : level;
-          set({ streak: newStreak, score: newScore, level: newLevel, feedback: 'correct' }, false, 'emojiMath/correct');
-          advanceAfterFeedback();
+          timer.correct(bonus, { streak: newStreak, level: newLevel });
         } else {
-          const newLives = lives - 1;
-          const isDead   = newLives <= 0;
-          set(
-            isDead
-              ? { streak: 0, lives: newLives, feedback: 'wrong', phase: 'dead', best: Math.max(best, score) }
-              : { streak: 0, lives: newLives, feedback: 'wrong' },
-            false,
-            'emojiMath/wrong',
-          );
-          if (!isDead) advanceAfterFeedback();
+          timer.wrong({ streak: 0 });
         }
       },
     };
