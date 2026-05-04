@@ -1,8 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-
-const JumperGame = dynamic(() => import('./JumperGame'), { ssr: false });
-
-export default function JumperClient() {
-  return <JumperGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./JumperGame'));

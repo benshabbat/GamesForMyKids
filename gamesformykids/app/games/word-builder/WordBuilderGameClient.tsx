@@ -1,9 +1,3 @@
 'use client';
-
-import dynamic from 'next/dynamic';
-
-const WordBuilderGame = dynamic(() => import('./WordBuilderGame'), { ssr: false });
-
-export default function WordBuilderGameClient() {
-  return <WordBuilderGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./WordBuilderGame'));

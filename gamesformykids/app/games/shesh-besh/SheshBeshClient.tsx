@@ -1,4 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-const SheshBeshGame = dynamic(() => import('./SheshBeshGame'), { ssr: false });
-export default function SheshBeshClient() { return <SheshBeshGame />; }
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./SheshBeshGame'));

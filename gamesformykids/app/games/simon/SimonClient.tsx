@@ -1,8 +1,3 @@
 'use client';
-import dynamic from 'next/dynamic';
-
-const SimonGame = dynamic(() => import('./SimonGame'), { ssr: false });
-
-export default function SimonClient() {
-  return <SimonGame />;
-}
+import { makeGameClient } from '@/components/game/shared/makeGameClient';
+export default makeGameClient(() => import('./SimonGame'));

@@ -1,6 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
-import type { PhaseDead as Phase } from '@/lib/types';
+import type { LivesGameState } from '@/lib/types';
 import { shuffle } from '@/lib/utils';
 
 // ── Facts data ──────────────────────────────────────────────────────────────
@@ -39,15 +39,9 @@ export type Fact = typeof FACTS[number];
 
 export const TIME_PER_Q = 6;
 
-interface TrueFalseState {
-  phase:    Phase;
-  score:    number;
-  best:     number;
-  lives:    number;
-  timeLeft: number;
-  feedback: 'correct' | 'wrong' | null;
-  deck:     Fact[];
-  idx:      number;
+interface TrueFalseState extends LivesGameState {
+  deck: Fact[];
+  idx:  number;
 }
 
 interface TrueFalseActions {

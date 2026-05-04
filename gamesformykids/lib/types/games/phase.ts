@@ -23,3 +23,16 @@ export type PhaseSimon = 'menu' | 'showing' | 'input' | 'dead';
 
 /** שלבי משחק עם תוצאות (results) — number-bubbles, word-scramble */
 export type PhaseResults = 'menu' | 'playing' | 'results';
+
+/**
+ * Base state shared by all lives-based quiz games (emoji-math, color-tap, true-false, …).
+ * Used with setupLivesTimer. Game-specific stores extend this interface.
+ */
+export interface LivesGameState {
+  phase:    PhaseDead;
+  score:    number;
+  best:     number;
+  lives:    number;
+  timeLeft: number;
+  feedback: 'correct' | 'wrong' | null;
+}
