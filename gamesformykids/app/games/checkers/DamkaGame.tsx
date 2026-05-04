@@ -4,8 +4,7 @@ import { useDamkaGame } from './useDamkaGame';
 import { DamkaMenuScreen, DamkaResultScreen, DamkaBoard, DamkaScoreBar } from './components';
 
 export default function DamkaGame() {
-  const { state, startGame, selectCell } = useDamkaGame();
-  const { phase, board, selected, validMoves, currentTurn, playerScore, computerScore, message } = state;
+  const { phase, board, selected, validMoves, currentTurn, playerScore, computerScore, message, startGame, selectCell } = useDamkaGame();
 
   const playerPieces = board.flat().filter(c => c.color === 'player').length;
   const compPieces   = board.flat().filter(c => c.color === 'computer').length;
