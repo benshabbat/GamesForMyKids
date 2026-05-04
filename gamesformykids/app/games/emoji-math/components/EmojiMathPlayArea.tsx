@@ -1,25 +1,6 @@
 'use client';
-
-interface Question {
-  a: number;
-  b: number;
-  op: '+' | '-';
-  emojiA: string;
-  emojiB: string;
-  choices: number[];
-}
-
-interface Props {
-  q: Question;
-  feedback: 'correct' | 'wrong' | null;
-  level: number;
-  timeLeft: number;
-  timePerQ: number;
-  score: number;
-  lives: number;
-  streak: number;
-  onTap: (choice: number) => void;
-}
+import { useShallow } from 'zustand/react/shallow';
+import { useEmojiMathStore, TIME_PER_Q } from '../emojiMathStore';
 
 function renderEmojis(count: number, emoji: string) {
   return Array.from({ length: Math.min(count, 15) }, (_, i) => (
@@ -27,7 +8,10 @@ function renderEmojis(count: number, emoji: string) {
   ));
 }
 
-export default function EmojiMathPlayArea({ q, feedback, level, timeLeft, timePerQ, score, lives, streak, onTap }: Props) {
+export default function EmojiMathPlayArea() {
+  const { q, feedback, level, timeLeft, score, lives, streak, tap } =
+    useEmojiMathStore(useShallow((s) => s));
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
       <div className="flex gap-5 mb-4 text-center">
@@ -70,7 +54,7 @@ export default function EmojiMathPlayArea({ q, feedback, level, timeLeft, timePe
         <div className="mt-3 bg-gray-100 rounded-full h-1.5">
           <div
             className="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full transition-all duration-1000"
-            style={{ width: `${(timeLeft / timePerQ) * 100}%` }}
+            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
           />
         </div>
       </div>
@@ -79,7 +63,7 @@ export default function EmojiMathPlayArea({ q, feedback, level, timeLeft, timePe
         {q.choices.map(c => (
           <button
             key={c}
-            onClick={() => onTap(c)}
+            onClick={() => tap(c)}
             disabled={!!feedback}
             className="py-5 rounded-3xl bg-white font-black text-3xl text-gray-700 shadow-xl border-2 border-orange-200 active:scale-90 hover:border-orange-400 transition-all disabled:opacity-60"
           >

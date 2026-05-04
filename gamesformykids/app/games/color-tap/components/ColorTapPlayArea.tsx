@@ -1,28 +1,11 @@
 'use client';
+import { useShallow } from 'zustand/react/shallow';
+import { useColorTapStore, TIME_PER_Q } from '../colorTapStore';
 
-interface Color {
-  name: string;
-  bg: string;
-  hex: string;
-  emoji: string;
-}
+export default function ColorTapPlayArea() {
+  const { question, feedback, timeLeft, score, lives, handleTap } =
+    useColorTapStore(useShallow((s) => s));
 
-interface Question {
-  target: Color;
-  options: Color[];
-}
-
-interface Props {
-  question: Question;
-  feedback: 'correct' | 'wrong' | null;
-  timeLeft: number;
-  timePerQ: number;
-  score: number;
-  lives: number;
-  onTap: (color: Color) => void;
-}
-
-export default function ColorTapPlayArea({ question, feedback, timeLeft, timePerQ, score, lives, onTap }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
       <div className="flex gap-8 mb-5 text-center">
@@ -53,7 +36,7 @@ export default function ColorTapPlayArea({ question, feedback, timeLeft, timePer
         <div className="bg-gray-100 rounded-full h-2 w-full mx-auto">
           <div
             className="bg-gradient-to-r from-pink-400 to-purple-500 h-2 rounded-full transition-all duration-1000"
-            style={{ width: `${(timeLeft / timePerQ) * 100}%` }}
+            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
           />
         </div>
       </div>
@@ -62,7 +45,7 @@ export default function ColorTapPlayArea({ question, feedback, timeLeft, timePer
         {question.options.map(color => (
           <button
             key={color.name}
-            onClick={() => onTap(color)}
+            onClick={() => handleTap(color)}
             disabled={!!feedback}
             className={`${color.bg} h-24 rounded-3xl shadow-xl font-black text-white text-lg flex items-center justify-center gap-2 active:scale-90 transition-all hover:brightness-110 disabled:opacity-80`}
           >
