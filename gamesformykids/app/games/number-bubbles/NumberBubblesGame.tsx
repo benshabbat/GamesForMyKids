@@ -25,7 +25,7 @@ export default function NumberBubblesGame() {
         elapsed={elapsed}
         next={next}
       />
-      <NumberBubbleGrid bubbles={bubbles} next={next} level={level} onTap={tap} />
+      <NumberBubbleGrid bubbles={bubbles} next={next} onTap={tap} />
     </div>
   );
 }

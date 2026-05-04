@@ -12,11 +12,10 @@ interface Bubble {
 interface Props {
   bubbles: Bubble[];
   next: number;
-  level: number;
   onTap: (bubble: Bubble) => void;
 }
 
-export default function NumberBubbleGrid({ bubbles, next, level, onTap }: Props) {
+export default function NumberBubbleGrid({ bubbles, next, onTap }: Props) {
   return (
     <div className="relative w-full" style={{ height: '70vh', maxWidth: 400 }}>
       {bubbles.map(b => (
