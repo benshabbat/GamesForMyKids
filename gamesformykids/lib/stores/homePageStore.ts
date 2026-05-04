@@ -10,8 +10,7 @@
  * כך שמצב הניווט נשמר גם אם הקומפוננט מתרנדר מחדש.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 
 // ── State ──────────────────────────────────────────────────
 export interface HomePageState {
@@ -33,9 +32,7 @@ export interface HomePageActions {
   setShouldShowLoader: (show: boolean) => void;
 }
 
-export const useHomePageStore = create<HomePageState & HomePageActions>()(
-  devtools(
-    (set) => ({
+export const useHomePageStore = makeStore<HomePageState & HomePageActions>('HomePageStore', (set) => ({
       selectedCategory: null,
       showAllGames: false,
       showFavorites: false,
@@ -60,7 +57,4 @@ export const useHomePageStore = create<HomePageState & HomePageActions>()(
 
       backToCategories: () =>
         set({ selectedCategory: null, showFavorites: false }, false, 'homePage/backToCategories'),
-    }),
-    { name: 'HomePageStore' },
-  ),
-);
+    }));

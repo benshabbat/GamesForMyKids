@@ -14,8 +14,7 @@
  *   useUIStore.getState().addNotification('שגיאה כלשהי', 'error');
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 
 // ── Types ──────────────────────────────────────────────────
 export type NotificationType = 'success' | 'error' | 'info' | 'warning';
@@ -60,9 +59,7 @@ let _counter = 0;
 const genId = () => `notif_${Date.now()}_${++_counter}`;
 
 // ── Store ──────────────────────────────────────────────────
-export const useUIStore = create<UIState & UIActions>()(
-  devtools(
-    (set, get) => ({
+export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) => ({
       notifications: [],
       sidebarOpen: false,
       showProgressModal: false,
@@ -112,10 +109,7 @@ export const useUIStore = create<UIState & UIActions>()(
       closeUserMenu: () => set({ isUserMenuOpen: false }, false, 'ui/closeUserMenu'),
       toggleUserMenu: () =>
         set((s) => ({ isUserMenuOpen: !s.isUserMenuOpen }), false, 'ui/toggleUserMenu'),
-    }),
-    { name: 'UIStore' }
-  )
-);
+    }));
 
 // ── Convenience Selectors ──────────────────────────────────
 /** שמישה ישירות בתוך קומפוננט הצגת Toasts */

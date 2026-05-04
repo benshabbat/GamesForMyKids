@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import { GameItem, GameTypeDbRecord } from '@/lib/types/hooks/game-state';
 
 interface GameDataState {
@@ -14,9 +13,7 @@ interface GameDataState {
   reset: () => void;
 }
 
-export const useGameDataStore = create<GameDataState>()(
-  devtools(
-    (set) => ({
+export const useGameDataStore = makeStore<GameDataState>('GameDataStore', (set) => ({
       gameItems: [],
       gameTypes: [],
       loading: false,
@@ -26,7 +23,4 @@ export const useGameDataStore = create<GameDataState>()(
       setLoading: (loading) => set({ loading }),
       setError: (error) => set({ error }),
       reset: () => set({ gameItems: [], gameTypes: [], loading: false, error: null, loaded: false }),
-    }),
-    { name: 'GameDataStore' }
-  )
-);
+    }));

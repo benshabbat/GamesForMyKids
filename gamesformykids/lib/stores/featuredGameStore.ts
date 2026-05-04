@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import { GamesRegistry, GameRegistration } from '@/lib/registry/gamesRegistry';
 
 export interface AgeGroupData {
@@ -46,9 +45,7 @@ function computeAgeGroups(allGames: GameRegistration[]): Record<string, AgeGroup
   };
 }
 
-export const useFeaturedGameStore = create<FeaturedGameState>()(
-  devtools(
-    (set, get) => ({
+export const useFeaturedGameStore = makeStore<FeaturedGameState>('FeaturedGameStore', (set, get) => ({
       featuredGame: null,
       ageGroups: {},
       ageGroupKeys: [],
@@ -73,7 +70,4 @@ export const useFeaturedGameStore = create<FeaturedGameState>()(
           'featuredGame/initialize'
         );
       },
-    }),
-    { name: 'FeaturedGameStore' }
-  )
-);
+    }));

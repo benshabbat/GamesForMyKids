@@ -1,5 +1,4 @@
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 
 export type QuizPhase = 'menu' | 'playing' | 'result';
 
@@ -31,9 +30,7 @@ const INITIAL_STATE: QuizGameState = {
   isCorrect: null,
 };
 
-export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
-  devtools(
-    (set, get) => ({
+export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('QuizGameStore', (set, get) => ({
       ...INITIAL_STATE,
 
       startQuiz: (gameType, total) =>
@@ -68,7 +65,4 @@ export const useQuizGameStore = create<QuizGameState & QuizGameActions>()(
           false,
           'quiz/restartQuiz',
         ),
-    }),
-    { name: 'QuizGameStore' },
-  ),
-);
+    }));

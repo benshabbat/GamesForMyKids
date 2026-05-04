@@ -8,8 +8,7 @@
  * מחליף את useState ב-useAchievements.ts.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { Achievement } from '@/hooks/shared/progress/useAchievements';
 import { INITIAL_REMOTE_SLICE, type RemoteDataSlice } from './utils/RemoteDataSlice';
 
@@ -34,9 +33,7 @@ const initialState: AchievementsState = {
 };
 
 // ── Store ──────────────────────────────────────────────────
-export const useAchievementsStore = create<AchievementsState & AchievementsStoreActions>()(
-  devtools(
-    (set) => ({
+export const useAchievementsStore = makeStore<AchievementsState & AchievementsStoreActions>('AchievementsStore', (set) => ({
       ...initialState,
 
       setAchievements: (achievements) =>
@@ -57,7 +54,4 @@ export const useAchievementsStore = create<AchievementsState & AchievementsStore
         set({ loadedForUserId: userId }, false, 'achievements/setLoadedForUserId'),
 
       reset: () => set(initialState, false, 'achievements/reset'),
-    }),
-    { name: 'AchievementsStore' },
-  ),
-);
+    }));

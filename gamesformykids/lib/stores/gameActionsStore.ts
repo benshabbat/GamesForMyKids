@@ -10,8 +10,7 @@
  * המשחק ללא props drilling.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from './createStore';
 import type { BaseGameItem } from '@/lib/types/core/base';
 
 const NOOP = () => {};
@@ -32,9 +31,7 @@ export interface GameActionsStoreActions {
   setGameActions: (actions: Partial<GameActionsState>) => void;
 }
 
-export const useGameActionsStore = create<GameActionsState & GameActionsStoreActions>()(
-  devtools(
-    (set) => ({
+export const useGameActionsStore = makeStore<GameActionsState & GameActionsStoreActions>('GameActionsStore', (set) => ({
       startGame: ASYNC_NOOP,
       resetGame: NOOP,
       handleItemClick: ASYNC_NOOP,
@@ -45,7 +42,4 @@ export const useGameActionsStore = create<GameActionsState & GameActionsStoreAct
       currentAccuracy: 0,
 
       setGameActions: (actions) => set(actions, false, 'gameActions/setGameActions'),
-    }),
-    { name: 'GameActionsStore' },
-  ),
-);
+    }));
