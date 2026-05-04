@@ -111,7 +111,7 @@ export const useEmojiMathStore = makeStore<EmojiMathState & EmojiMathActions>(
       startGame: () => {
         clearCountdown();
         clearFeedbackTimer();
-        set({ ...INITIAL, best: get().best, q: makeQuestion(1) }, false, 'emojiMath/startGame');
+        set({ ...INITIAL, phase: 'playing', best: get().best, q: makeQuestion(1) }, false, 'emojiMath/startGame');
         startCountdown();
       },
 
