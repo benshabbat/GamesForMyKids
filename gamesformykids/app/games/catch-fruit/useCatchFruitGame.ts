@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
 
 export const W = 360;
 export const H = 520;
@@ -8,8 +9,6 @@ const BASKET_W = 70;
 const BASKET_H = 40;
 const BASKET_Y = H - 60;
 const FRUIT_R = 22;
-const GAME_DURATION = 45;
-
 import type { PhaseResult as Phase } from '@/lib/types';
 interface FallingItem { id: number; x: number; y: number; speed: number; emoji: string; isBad: boolean; }
 
@@ -23,13 +22,9 @@ export function useCatchFruitGame() {
     phase: 'menu' as Phase,
     basketX: W / 2 - BASKET_W / 2,
     items: [] as FallingItem[],
-    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, raf: 0, nextItem: 40, best: 0,
+    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, raf: 0, nextItem: 40,
     bgStars: Array.from({ length: 8 }, () => ({ x: Math.random() * W, y: Math.random() * H * 0.7, r: 2 + Math.random() * 3 })),
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; lives: number; timeLeft: number; best: number }>(
-    { phase: 'menu', score: 0, lives: 3, timeLeft: GAME_DURATION, best: 0 }
-  );
-
   const dragging = useRef(false);
   const pointerDown = useRef(false);
 
@@ -39,7 +34,7 @@ export function useCatchFruitGame() {
     s.basketX = W / 2 - BASKET_W / 2;
     s.items = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextItem = 40;
-    setUi({ phase: 'playing', score: 0, lives: 3, timeLeft: GAME_DURATION, best: s.best });
+    useCatchFruitStore.getState().startGame();
   }, []);
 
   const handleMouseUp = useCallback(() => {
@@ -65,8 +60,7 @@ export function useCatchFruitGame() {
         if (s.timeLeft <= 0) {
           s.timeLeft = 0;
           s.phase = 'result';
-          if (s.score > s.best) s.best = s.score;
-          setUi({ phase: 'result', score: s.score, lives: s.lives, timeLeft: 0, best: s.best });
+          useCatchFruitStore.getState().setGameResult(s.score, s.lives, 0);
         }
         s.nextItem--;
         if (s.nextItem <= 0) {
@@ -81,15 +75,15 @@ export function useCatchFruitGame() {
           if (item.y + FRUIT_R >= BASKET_Y && item.y - FRUIT_R <= BASKET_Y + BASKET_H && item.x + FRUIT_R > bx && item.x - FRUIT_R < bx + BASKET_W) {
             if (item.isBad) {
               s.lives--;
-              if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'result', score: s.score, lives: 0, timeLeft: Math.ceil(s.timeLeft), best: s.best }); }
-              setUi(u => ({ ...u, lives: s.lives }));
-            } else { s.score += 10; setUi(u => ({ ...u, score: s.score })); }
+              if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; useCatchFruitStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); }
+              else { useCatchFruitStore.getState().setLives(s.lives); }
+            } else { s.score += 10; useCatchFruitStore.getState().setScore(s.score); }
             return false;
           }
           if (item.y - FRUIT_R > H) return false;
           return true;
         });
-        if (s.frame % 20 === 0) setUi(u => u.phase === 'playing' ? { ...u, timeLeft: Math.ceil(s.timeLeft) } : u);
+        if (s.frame % 20 === 0 && st.current.phase === 'playing') useCatchFruitStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
       }
 
       const grad = ctx.createLinearGradient(0, 0, 0, H);
@@ -183,5 +177,5 @@ export function useCatchFruitGame() {
     if (st.current.phase !== 'playing') startGame();
   }, [startGame]);
 
-  return { canvasRef, ui, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart };
+  return { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart };
 }
