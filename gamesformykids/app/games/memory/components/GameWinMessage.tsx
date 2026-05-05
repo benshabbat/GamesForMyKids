@@ -1,32 +1,53 @@
+'use client';
+
 import { useMemoryStore } from "../stores/useMemoryStore";
 import WinStatsGrid from "./WinStatsGrid";
 import WinAchievements from "./WinAchievements";
 
 export default function GameWinMessage() {
-  const { gameStats, getDifficultyConfig, getPerformanceLevel } = useMemoryStore();
+  const { gameStats, difficulty, getDifficultyConfig, getPerformanceLevel, initializeGame, resetToMenu } = useMemoryStore();
   const difficultyConfig = getDifficultyConfig();
   const performance = getPerformanceLevel();
 
   return (
-    <div className="text-center mb-8 p-8 bg-gradient-to-r from-yellow-200 via-orange-200 to-pink-200 rounded-3xl shadow-xl animate-bounce-gentle">
-      <div className="mb-6">
-        <h2 className="text-5xl font-bold text-orange-800 mb-2">🎉 {performance.level} 🎉</h2>
-        <p className="text-2xl text-orange-700 mb-2">
-          סיימת ברמת <span className="font-bold">{difficultyConfig.name}</span>!
-        </p>
-        <p className="text-lg text-orange-600 mb-2">{performance.timeComment}</p>
-        <div className={`text-4xl ${performance.color} font-bold`}>
-          {performance.emoji} {gameStats.score} נקודות
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4 flex items-center justify-center">
+      <div className="max-w-2xl w-full mx-auto">
+        <div className="text-center p-8 bg-gradient-to-r from-yellow-200 via-orange-200 to-pink-200 rounded-3xl shadow-xl animate-bounce-gentle">
+          <div className="mb-6">
+            <h2 className="text-5xl font-bold text-orange-800 mb-2">🎉 {performance.level} 🎉</h2>
+            <p className="text-2xl text-orange-700 mb-2">
+              סיימת ברמת <span className="font-bold">{difficultyConfig.name}</span>!
+            </p>
+            <p className="text-lg text-orange-600 mb-2">{performance.timeComment}</p>
+            <div className={`text-4xl ${performance.color} font-bold`}>
+              {performance.emoji} {gameStats.score} נקודות
+            </div>
+          </div>
+
+          <WinStatsGrid />
+          <WinAchievements />
+
+          <div className="bg-white/80 rounded-xl p-6 shadow-lg mb-6">
+            <div className="text-3xl mb-2">🌟</div>
+            <h3 className="text-xl font-bold text-gray-800 mb-2">כל הכבוד!</h3>
+            <p className="text-gray-600">זיכרון מעולה! אתה מוכן לאתגר הבא?</p>
+          </div>
+
+          <div className="flex gap-4 justify-center flex-wrap">
+            <button
+              onClick={() => initializeGame(difficulty)}
+              className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              🎮 שחק שוב
+            </button>
+            <button
+              onClick={resetToMenu}
+              className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+            >
+              🏠 תפריט
+            </button>
+          </div>
         </div>
-      </div>
-
-      <WinStatsGrid />
-      <WinAchievements />
-
-      <div className="bg-white/80 rounded-xl p-6 shadow-lg">
-        <div className="text-3xl mb-2">🌟</div>
-        <h3 className="text-xl font-bold text-gray-800 mb-2">כל הכבוד!</h3>
-        <p className="text-gray-600">זיכרון מעולה! אתה מוכן לאתגר הבא?</p>
       </div>
     </div>
   );
