@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useDinoRunnerStore } from './dinoRunnerStore';
 
 export const W = 400;
 export const H = 220;
@@ -27,14 +28,11 @@ export function useDinoRunnerGame() {
     obstacles: [] as Obstacle[],
     clouds: [{ x: 100, y: 40 }, { x: 280, y: 25 }, { x: 360, y: 55 }] as Cloud[],
     score: 0,
-    best: 0,
     frame: 0,
     speed: BASE_SPEED,
     raf: 0,
     nextObstacle: 80,
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; best: number }>({ phase: 'menu', score: 0, best: 0 });
-
   const jump = useCallback(() => {
     const s = st.current;
     if (s.phase === 'playing' && s.onGround) {
@@ -50,10 +48,10 @@ export function useDinoRunnerGame() {
       s.frame = 0;
       s.speed = BASE_SPEED;
       s.nextObstacle = 80;
-      setUi({ phase: 'playing', score: 0, best: s.best });
+      useDinoRunnerStore.getState().startGame();
     } else if (s.phase === 'dead') {
       s.phase = 'menu';
-      setUi(u => ({ ...u, phase: 'menu' }));
+      useDinoRunnerStore.getState().resetToMenu();
     }
   }, []);
 
@@ -99,7 +97,7 @@ export function useDinoRunnerGame() {
           if (c.x < -60) c.x = W + 60;
         }
 
-        if (s.frame % 6 === 0) setUi(u => ({ ...u, score: s.score }));
+        if (s.frame % 6 === 0) useDinoRunnerStore.getState().setScore(s.score);
 
         const margin = 8;
         for (const o of s.obstacles) {
@@ -109,8 +107,7 @@ export function useDinoRunnerGame() {
             s.dinoY + DINO_H - margin > GROUND_Y - o.h + margin
           ) {
             s.phase = 'dead';
-            if (s.score > s.best) s.best = s.score;
-            setUi({ phase: 'dead', score: s.score, best: s.best });
+            useDinoRunnerStore.getState().setGameOver(s.score);
           }
         }
       }
@@ -177,5 +174,5 @@ export function useDinoRunnerGame() {
     jump();
   }, [jump]);
 
-  return { canvasRef, ui, jump, handleTap };
+  return { canvasRef, jump, handleTap };
 }
