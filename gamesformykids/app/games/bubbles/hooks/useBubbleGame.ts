@@ -1,93 +1,60 @@
-import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useCallback, useMemo } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
-
-interface BubbleData {
-  id: number;
-  x: number;
-  y: number;
-  size: number;
-  color: string;
-  speed: number;
-  frequency: number;
-}
-
-interface BubbleGameState {
-  bubbles: BubbleData[];
-  score: number;
-  level: number;
-  isPlaying: boolean;
-  poppedCount: number;
-}
+import { useBubblesStore, type BubbleData } from '../bubblesStore';
 
 export function useBubbleGame() {
-  const [gameState, setGameState] = useState<BubbleGameState>({
-    bubbles: [],
-    score: 0,
-    level: 1,
-    isPlaying: false,
-    poppedCount: 0,
-  });
-
   const { audioContext } = useGameAudio();
   const nextBubbleId = useRef(0);
-  const bubbleCreationInterval = useRef<NodeJS.Timeout | null>(null);
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
-  // צבעים ותדרים לבועות
+  const { isPlaying, level } = useBubblesStore(
+    useShallow((s) => ({ isPlaying: s.isPlaying, level: s.level })),
+  );
+
   const bubbleTypes = useMemo(() => [
-    { color: '#FF6B6B', frequency: 261.63 }, // C4 - אדום
-    { color: '#4ECDC4', frequency: 293.66 }, // D4 - תכלת
-    { color: '#45B7D1', frequency: 329.63 }, // E4 - כחול
-    { color: '#96CEB4', frequency: 349.23 }, // F4 - ירוק
-    { color: '#FECA57', frequency: 392.00 }, // G4 - צהוב
-    { color: '#FF9FF3', frequency: 440.00 }, // A4 - ורוד
-    { color: '#54A0FF', frequency: 493.88 }, // B4 - כחול בהיר
-    { color: '#5F27CD', frequency: 523.25 }, // C5 - סגול
+    { color: '#FF6B6B', frequency: 261.63 },
+    { color: '#4ECDC4', frequency: 293.66 },
+    { color: '#45B7D1', frequency: 329.63 },
+    { color: '#96CEB4', frequency: 349.23 },
+    { color: '#FECA57', frequency: 392.00 },
+    { color: '#FF9FF3', frequency: 440.00 },
+    { color: '#54A0FF', frequency: 493.88 },
+    { color: '#5F27CD', frequency: 523.25 },
   ], []);
 
-  // יצירת בועה חדשה
   const createBubble = useCallback(() => {
     if (!gameContainerRef.current) return;
-
+    const currentLevel = useBubblesStore.getState().level;
     const containerWidth = gameContainerRef.current.offsetWidth;
     const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)];
-    const size = 40 + Math.random() * 60; // גודל בין 40-100px
-    
+    const size = 40 + Math.random() * 60;
+
     const newBubble: BubbleData = {
       id: nextBubbleId.current++,
       x: Math.random() * (containerWidth - size),
       y: window.innerHeight + size,
       size,
       color: bubbleType.color,
-      speed: 1 + Math.random() * 2 + gameState.level * 0.3, // מהירות גדלה עם הרמה
+      speed: 1 + Math.random() * 2 + currentLevel * 0.3,
       frequency: bubbleType.frequency,
     };
 
-    setGameState(prev => ({
-      ...prev,
-      bubbles: [...prev.bubbles, newBubble],
-    }));
-  }, [gameState.level, bubbleTypes]);
+    useBubblesStore.getState().addBubble(newBubble);
+  }, [bubbleTypes]);
 
-  // השמעת צליל בועה
   const playBubbleSound = useCallback((frequency: number) => {
     if (!audioContext || frequency === 0) return;
-
     try {
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
-
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
-
       oscillator.frequency.setValueAtTime(frequency, audioContext.currentTime);
       oscillator.type = 'sine';
-
-      // עקומת עוצמה לצליל בועה
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
       gainNode.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.01);
       gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.8);
-
       oscillator.start(audioContext.currentTime);
       oscillator.stop(audioContext.currentTime + 0.8);
     } catch (error) {
@@ -95,113 +62,31 @@ export function useBubbleGame() {
     }
   }, [audioContext]);
 
-  // טיפול בפיצוץ בועה
   const handleBubblePop = useCallback((bubbleId: number, frequency: number) => {
-    setGameState(prev => {
-      const updatedBubbles = prev.bubbles.filter(bubble => bubble.id !== bubbleId);
-      const scoreIncrease = frequency > 0 ? 10 : 0; // נקודות רק אם הבועה נפוצצה ולא יצאה מהמסך
-      
-      return {
-        ...prev,
-        bubbles: updatedBubbles,
-        score: prev.score + scoreIncrease,
-        poppedCount: frequency > 0 ? prev.poppedCount + 1 : prev.poppedCount,
-      };
-    });
-
-    if (frequency > 0) {
-      playBubbleSound(frequency);
-    }
+    useBubblesStore.getState().popBubble(bubbleId, frequency > 0);
+    if (frequency > 0) playBubbleSound(frequency);
   }, [playBubbleSound]);
 
-  // עליה ברמה
+  // Manage bubble creation interval — recreates only when isPlaying or level changes
   useEffect(() => {
-    if (gameState.poppedCount > 0 && gameState.poppedCount % 15 === 0) {
-      setGameState(prev => ({
-        ...prev,
-        level: prev.level + 1,
-      }));
-    }
-  }, [gameState.poppedCount]);
+    if (!isPlaying) return;
+    const intervalMs = Math.max(800, 2000 - level * 100);
+    const id = setInterval(createBubble, intervalMs);
+    return () => clearInterval(id);
+  }, [isPlaying, level, createBubble]);
 
-  // התחלת המשחק
   const startGame = useCallback(() => {
-    setGameState({
-      bubbles: [],
-      score: 0,
-      level: 1,
-      isPlaying: true,
-      poppedCount: 0,
-    });
-
-    // יצירת בועות במרווחים קבועים - מתחילים עם רמה 1
-    bubbleCreationInterval.current = setInterval(() => {
-      createBubble();
-    }, 2000); // מתחילים עם מרווח בסיסי
-
-    // יצירת בועה ראשונה מהר יותר
-    setTimeout(createBubble, 200); // הפחתה מ-500 ל-200
+    useBubblesStore.getState().startGame();
+    setTimeout(createBubble, 200);
   }, [createBubble]);
 
-  // עצירת המשחק
   const stopGame = useCallback(() => {
-    setGameState(prev => ({
-      ...prev,
-      isPlaying: false,
-    }));
-
-    if (bubbleCreationInterval.current) {
-      clearInterval(bubbleCreationInterval.current);
-      bubbleCreationInterval.current = null;
-    }
+    useBubblesStore.getState().stopGame();
   }, []);
 
-  // איפוס המשחק
   const resetGame = useCallback(() => {
-    stopGame();
-    setGameState({
-      bubbles: [],
-      score: 0,
-      level: 1,
-      isPlaying: false,
-      poppedCount: 0,
-    });
-  }, [stopGame]);
-
-  // ניקוי בסיום הקומפוננטה
-  useEffect(() => {
-    return () => {
-      if (bubbleCreationInterval.current) {
-        clearInterval(bubbleCreationInterval.current);
-      }
-    };
+    useBubblesStore.getState().resetGame();
   }, []);
 
-  // עדכון מרווח יצירת בועות לפי הרמה
-  useEffect(() => {
-    const INITIAL_BUBBLE_CREATION_INTERVAL_MS = 2000;
-    const LEVEL_SPEED_INCREASE_MS = 100;
-    const MIN_BUBBLE_CREATION_INTERVAL_MS = 800;
-    
-    if (gameState && gameState.isPlaying && bubbleCreationInterval.current) {
-      clearInterval(bubbleCreationInterval.current);
-      const intervalMs = Math.max(
-        MIN_BUBBLE_CREATION_INTERVAL_MS, 
-        INITIAL_BUBBLE_CREATION_INTERVAL_MS - gameState.level * LEVEL_SPEED_INCREASE_MS
-      );
-      
-      bubbleCreationInterval.current = setInterval(() => {
-        createBubble();
-      }, intervalMs);
-    }
-  }, [gameState, createBubble]);
-
-  return {
-    gameState,
-    gameContainerRef,
-    startGame,
-    stopGame,
-    resetGame,
-    handleBubblePop,
-  };
+  return { gameContainerRef, startGame, stopGame, resetGame, handleBubblePop };
 }
