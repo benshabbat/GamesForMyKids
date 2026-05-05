@@ -1,27 +1,16 @@
+'use client';
+import { useShallow } from 'zustand/react/shallow';
+import { useTzedakahStore } from '../tzedakahStore';
 
+export default function GameControls() {
+  const { gameStarted, gameTime, score, collectedCoins, isMobile, startGame } =
+    useTzedakahStore(useShallow((s) => s));
 
-interface GameControlsProps {
-  gameStarted: boolean;
-  gameTime: number;
-  score: number;
-  collectedCoins: number;
-  isMobile: boolean;
-  onStartGame: () => void;
-}
-
-export default function GameControls({
-  gameStarted,
-  gameTime,
-  score,
-  collectedCoins,
-  isMobile,
-  onStartGame,
-}: GameControlsProps) {
   return (
     <div className="flex justify-center mb-6">
       {!gameStarted && gameTime > 0 && (
         <button
-          onClick={onStartGame}
+          onClick={startGame}
           className={`bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-green-300 ${
             isMobile ? 'py-3 px-6 text-lg' : 'py-4 px-8 text-2xl'
           }`}
@@ -44,10 +33,9 @@ export default function GameControls({
           <p className={`text-gray-600 mb-4 ${isMobile ? 'text-sm' : 'text-lg'}`}>
             תפסת <span className="font-bold text-green-600">{collectedCoins}</span> מטבעות! 🪙
           </p>
-          
           <div className="flex flex-col gap-3">
             <button
-              onClick={onStartGame}
+              onClick={startGame}
               className={`bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg ${
                 isMobile ? 'py-2 px-4 text-sm' : 'py-3 px-6'
               }`}
