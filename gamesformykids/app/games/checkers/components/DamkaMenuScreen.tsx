@@ -1,14 +1,12 @@
 'use client';
-
+import { useShallow } from 'zustand/react/shallow';
+import { useDamkaStore } from '../damkaStore';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
 
-interface DamkaMenuScreenProps {
-  playerScore: number;
-  computerScore: number;
-  onStart: () => void;
-}
+export default function DamkaMenuScreen() {
+  const { playerScore, computerScore, startGame } =
+    useDamkaStore(useShallow((s) => s));
 
-export default function DamkaMenuScreen({ playerScore, computerScore, onStart }: DamkaMenuScreenProps) {
   return (
     <GameMenuCard
       emoji="♟️"
@@ -16,7 +14,7 @@ export default function DamkaMenuScreen({ playerScore, computerScore, onStart }:
       description="משחק הדמקה הקלאסי נגד המחשב!"
       gradientClass="from-amber-900 to-stone-950"
       buttonClass="from-amber-400 to-amber-500"
-      onStart={onStart}
+      onStart={startGame}
       startLabel="🎮 התחל משחק"
     >
       {(playerScore > 0 || computerScore > 0) && (

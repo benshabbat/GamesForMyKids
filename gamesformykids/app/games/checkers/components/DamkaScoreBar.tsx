@@ -1,19 +1,14 @@
 'use client';
+import { useShallow } from 'zustand/react/shallow';
+import { useDamkaStore } from '../damkaStore';
 
-import type { Side } from '../useDamkaGame';
+export default function DamkaScoreBar() {
+  const { board, currentTurn, playerScore, computerScore, message } =
+    useDamkaStore(useShallow((s) => s));
 
-interface DamkaScoreBarProps {
-  playerPieces: number;
-  compPieces: number;
-  playerScore: number;
-  computerScore: number;
-  currentTurn: Side;
-  message: string;
-}
+  const playerPieces = board.flat().filter(c => c.color === 'player').length;
+  const compPieces   = board.flat().filter(c => c.color === 'computer').length;
 
-export default function DamkaScoreBar({
-  playerPieces, compPieces, playerScore, computerScore, currentTurn, message
-}: DamkaScoreBarProps) {
   return (
     <>
       {/* Turn indicator + piece counts */}
