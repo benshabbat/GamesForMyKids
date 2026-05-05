@@ -1,11 +1,10 @@
+'use client';
+import { useTzedakahStore } from '../tzedakahStore';
 
+export default function TzedakahGameInstructions() {
+  const gameStarted = useTzedakahStore((s) => s.gameStarted);
+  const isMobile    = useTzedakahStore((s) => s.isMobile);
 
-interface GameInstructionsProps {
-  gameStarted: boolean;
-  isMobile: boolean;
-}
-
-export default function GameInstructions({ gameStarted, isMobile }: GameInstructionsProps) {
   if (!gameStarted) return null;
 
   return (
@@ -14,9 +13,7 @@ export default function GameInstructions({ gameStarted, isMobile }: GameInstruct
     }`}>
       <div className="flex items-center gap-2 mb-2">
         <span className={isMobile ? 'text-lg' : 'text-2xl'}>🎯</span>
-        <div className={`font-bold text-purple-800 ${isMobile ? 'text-sm' : 'text-base'}`}>
-          הוראות:
-        </div>
+        <div className={`font-bold text-purple-800 ${isMobile ? 'text-sm' : 'text-base'}`}>הוראות:</div>
       </div>
       <div className={`text-gray-700 ${isMobile ? 'text-xs' : 'text-sm'}`}>
         {isMobile ? 'גע והזז את האצבע לתפיסת מטבעות!' : 'הזז את העכבר כדי לתפוס מטבעות!'}
@@ -25,8 +22,6 @@ export default function GameInstructions({ gameStarted, isMobile }: GameInstruct
         <span>🪙</span>
         <span>כל מטבע = 10 נקודות</span>
       </div>
-      
-      {/* אינדיקטור כיוון */}
       <div className="flex items-center justify-center mt-2">
         <div className="animate-bounce">
           <span className={isMobile ? 'text-sm' : 'text-base'}>👆</span>
