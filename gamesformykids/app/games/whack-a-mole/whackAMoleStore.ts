@@ -1,4 +1,5 @@
 import { makeStore } from '@/lib/stores/createStore';
+import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import type { PhaseResult as Phase } from '@/lib/types';
 
 // ── Constants ──────────────────────────────────────────────────────────────
@@ -39,12 +40,22 @@ function freshState(best = 0): WhackAMoleState {
 export const useWhackAMoleStore = makeStore<WhackAMoleState & WhackAMoleActions>(
   'WhackAMoleStore',
   (set, get) => {
-    let timerRef:     ReturnType<typeof setInterval> | null = null;
     let moleSpawnRef: ReturnType<typeof setTimeout>  | null = null;
     const moleTimers: (ReturnType<typeof setTimeout> | null)[] = Array(GRID).fill(null);
 
+    const timer = setupGameTimer({
+      name: 'whack',
+      set, get,
+      onEnd: () => {
+        if (moleSpawnRef) { clearTimeout(moleSpawnRef); moleSpawnRef = null; }
+        moleTimers.forEach((t, i) => { if (t) { clearTimeout(t); moleTimers[i] = null; } });
+        const { score, best } = get();
+        set({ timeLeft: 0, phase: 'result', best: Math.max(best, score) }, false, 'whack/gameOver');
+      },
+    });
+
     function clearAllTimers() {
-      if (timerRef)     { clearInterval(timerRef);    timerRef     = null; }
+      timer.stop();
       if (moleSpawnRef) { clearTimeout(moleSpawnRef); moleSpawnRef = null; }
       moleTimers.forEach((t, i) => { if (t) { clearTimeout(t); moleTimers[i] = null; } });
     }
@@ -90,17 +101,7 @@ export const useWhackAMoleStore = makeStore<WhackAMoleState & WhackAMoleActions>
       startGame: () => {
         clearAllTimers();
         set({ ...freshState(get().best), phase: 'playing' }, false, 'whack/startGame');
-
-        timerRef = setInterval(() => {
-          const { timeLeft, score, best } = get();
-          if (timeLeft <= 1) {
-            clearAllTimers();
-            set({ timeLeft: 0, phase: 'result', best: Math.max(best, score) }, false, 'whack/gameOver');
-          } else {
-            set({ timeLeft: timeLeft - 1 }, false, 'whack/tick');
-          }
-        }, 1000);
-
+        timer.start();
         moleSpawnRef = setTimeout(spawnMole, 400);
       },
 

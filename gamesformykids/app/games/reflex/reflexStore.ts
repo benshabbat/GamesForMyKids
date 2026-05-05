@@ -1,4 +1,5 @@
 import { makeStore } from '@/lib/stores/createStore';
+import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import type { PhaseResult as Phase } from '@/lib/types';
 import { TARGET_EMOJIS, GAME_DURATION, type Target, getLifetime, getSpawnInterval } from './data/targets';
 
@@ -26,13 +27,21 @@ const INITIAL: ReflexState = {
 export const useReflexStore = makeStore<ReflexState & ReflexActions>(
   'ReflexStore',
   (set, get) => {
-    let nextId:  number = 0;
-    let spawnId: ReturnType<typeof setTimeout>  | null = null;
-    let tickId:  ReturnType<typeof setInterval> | null = null;
+    let nextId  = 0;
+    let spawnId: ReturnType<typeof setTimeout> | null = null;
+
+    const timer = setupGameTimer({
+      name: 'reflex',
+      set, get,
+      onEnd: () => {
+        if (spawnId) { clearTimeout(spawnId); spawnId = null; }
+        set({ timeLeft: 0, phase: 'result' }, false, 'reflex/gameOver');
+      },
+    });
 
     function clearTimers() {
-      if (spawnId) { clearTimeout(spawnId);  spawnId = null; }
-      if (tickId)  { clearInterval(tickId);  tickId  = null; }
+      timer.stop();
+      if (spawnId) { clearTimeout(spawnId); spawnId = null; }
     }
 
     function spawnTarget() {
@@ -58,18 +67,6 @@ export const useReflexStore = makeStore<ReflexState & ReflexActions>(
       spawnId = setTimeout(spawnTarget, getSpawnInterval(get().score));
     }
 
-    function startTick() {
-      tickId = setInterval(() => {
-        const { timeLeft } = get();
-        if (timeLeft <= 1) {
-          clearTimers();
-          set({ timeLeft: 0, phase: 'result' }, false, 'reflex/gameOver');
-        } else {
-          set({ timeLeft: timeLeft - 1 }, false, 'reflex/tick');
-        }
-      }, 1000);
-    }
-
     return {
       ...INITIAL,
 
@@ -78,7 +75,7 @@ export const useReflexStore = makeStore<ReflexState & ReflexActions>(
         nextId = 0;
         set({ ...INITIAL, phase: 'playing' }, false, 'reflex/startGame');
         spawnId = setTimeout(spawnTarget, 600);
-        startTick();
+        timer.start();
       },
 
       hitTarget: (id: number) => {
