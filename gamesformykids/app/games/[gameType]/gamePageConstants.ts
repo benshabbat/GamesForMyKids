@@ -19,6 +19,15 @@ export const SUPPORTED_GAMES = [
   'tech-logos', 'dog-breeds', 'cat-breeds', 'nba-teams', 'exotic-birds', 'butterflies',
   'counting',
 
+  // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
+  'animals', 'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
+  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
+  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
+  'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
+  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
+  'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
+  'word-builder', 'word-scramble',
+
   // ── משחקי חידון (QuizGameRouter) ──────────────────────────────────────────
   'riddles', 'capitals', 'fractions', 'spelling',
   'emotions', 'instruments', 'world-languages', 'opposites', 'sports-quiz',
@@ -29,6 +38,16 @@ export const SUPPORTED_GAMES = [
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
+
+export const CUSTOM_GAME_TYPES = new Set([
+  'animals', 'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
+  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
+  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
+  'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
+  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
+  'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
+  'word-builder', 'word-scramble',
+]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────
 

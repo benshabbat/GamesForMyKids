@@ -7,7 +7,7 @@ export function resolveGameType(urlSlug: string): GameType {
 }
 
 /** מחזיר true אם המשחק נמצא ברשימת המשחקים הנתמכים */
-export function isSupportedGame(gameType: GameType): gameType is SupportedGameType {
+export function isSupportedGame(gameType: string): gameType is SupportedGameType {
   return (SUPPORTED_GAMES as ReadonlyArray<string>).includes(gameType);
 }
 
