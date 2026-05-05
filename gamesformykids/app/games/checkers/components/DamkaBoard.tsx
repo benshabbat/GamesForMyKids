@@ -1,17 +1,15 @@
 'use client';
 
-import type { Board, Pos, DamkaMove } from '../useDamkaGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useDamkaStore } from '../damkaStore';
 
 const isDark = (r: number, c: number) => (r + c) % 2 === 1;
 
-interface DamkaBoardProps {
-  board: Board;
-  selected: Pos | null;
-  validMoves: DamkaMove[];
-  onCellClick: (pos: Pos) => void;
-}
+export default function DamkaBoard() {
+  const { board, selected, validMoves, selectCell } = useDamkaStore(
+    useShallow((s) => ({ board: s.board, selected: s.selected, validMoves: s.validMoves, selectCell: s.selectCell })),
+  );
 
-export default function DamkaBoard({ board, selected, validMoves, onCellClick }: DamkaBoardProps) {
   const validDests   = new Set(validMoves.map(m => `${m.to.row},${m.to.col}`));
   const captureDests = new Set(validMoves.filter(m => m.captures.length > 0).map(m => `${m.to.row},${m.to.col}`));
 
@@ -27,14 +25,14 @@ export default function DamkaBoard({ board, selected, validMoves, onCellClick }:
             const isCapture = captureDests.has(key);
 
             let bg = isLight ? 'bg-amber-100' : 'bg-amber-800';
-            if (isSel)       bg = 'bg-yellow-400';
+            if (isSel)          bg = 'bg-yellow-400';
             else if (isCapture) bg = 'bg-red-500/70';
             else if (isValid)   bg = 'bg-green-500/70';
 
             return (
               <div
                 key={c}
-                onClick={() => onCellClick({ row: r, col: c })}
+                onClick={() => selectCell({ row: r, col: c })}
                 className={`w-10 h-10 sm:w-11 sm:h-11 flex items-center justify-center cursor-pointer ${bg} transition-colors`}
               >
                 {cell.color && (

@@ -1,15 +1,16 @@
 'use client';
 
-import type { GamePhase } from '../useDamkaGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useDamkaStore } from '../damkaStore';
 
-interface DamkaResultScreenProps {
-  phase: Extract<GamePhase, 'won' | 'lost'>;
-  playerScore: number;
-  computerScore: number;
-  onRestart: () => void;
-}
+export default function DamkaResultScreen() {
+  const { phase, playerScore, computerScore, startGame } = useDamkaStore(
+    useShallow((s) => ({
+      phase: s.phase, playerScore: s.playerScore,
+      computerScore: s.computerScore, startGame: s.startGame,
+    })),
+  );
 
-export default function DamkaResultScreen({ phase, playerScore, computerScore, onRestart }: DamkaResultScreenProps) {
   return (
     <div className="flex flex-col items-center gap-6 text-center">
       <div className="text-8xl">{phase === 'won' ? '🎉' : '😢'}</div>
@@ -21,7 +22,7 @@ export default function DamkaResultScreen({ phase, playerScore, computerScore, o
         <span>⚪ מחשב: {computerScore}</span>
       </div>
       <button
-        onClick={onRestart}
+        onClick={startGame}
         className="bg-amber-400 hover:bg-amber-300 text-gray-900 font-extrabold text-xl px-10 py-4 rounded-2xl shadow-xl transition-transform hover:scale-105 active:scale-95"
       >
         🔄 שחק שוב
