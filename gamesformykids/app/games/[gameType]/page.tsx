@@ -5,8 +5,9 @@ import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
 import { QuizGameRouter } from '@/components/game/quiz';
 import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameTypes';
-import { type GamePageParams } from './gamePageConstants';
+import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
+import CustomGameRenderer from './CustomGameRenderer';
 
 interface PageProps {
   params: Promise<GamePageParams>;
@@ -23,6 +24,10 @@ export default async function UniversalGamePage({ params }: PageProps) {
   const actualGameType = resolveGameType(gameType);
 
   if (!isSupportedGame(actualGameType)) notFound();
+
+  if (CUSTOM_GAME_TYPES.has(actualGameType)) {
+    return <CustomGameRenderer gameType={actualGameType} />;
+  }
 
   const isQuizGame = QUIZ_GAME_TYPES.has(actualGameType);
 
