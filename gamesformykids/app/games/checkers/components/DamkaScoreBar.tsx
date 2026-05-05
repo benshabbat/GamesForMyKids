@@ -1,22 +1,21 @@
 'use client';
 
-import type { Side } from '../useDamkaGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useDamkaStore } from '../damkaStore';
 
-interface DamkaScoreBarProps {
-  playerPieces: number;
-  compPieces: number;
-  playerScore: number;
-  computerScore: number;
-  currentTurn: Side;
-  message: string;
-}
+export default function DamkaScoreBar() {
+  const { board, playerScore, computerScore, currentTurn, message } = useDamkaStore(
+    useShallow((s) => ({
+      board: s.board, playerScore: s.playerScore,
+      computerScore: s.computerScore, currentTurn: s.currentTurn, message: s.message,
+    })),
+  );
 
-export default function DamkaScoreBar({
-  playerPieces, compPieces, playerScore, computerScore, currentTurn, message
-}: DamkaScoreBarProps) {
+  const playerPieces = board.flat().filter(c => c.color === 'player').length;
+  const compPieces   = board.flat().filter(c => c.color === 'computer').length;
+
   return (
     <>
-      {/* Turn indicator + piece counts */}
       <div className="flex justify-between w-full text-white text-sm font-semibold px-1">
         <span>🔴 {playerPieces} אסימונים</span>
         <span className={`px-3 py-1 rounded-full text-xs font-bold ${
@@ -27,12 +26,10 @@ export default function DamkaScoreBar({
         <span>⚪ {compPieces} אסימונים</span>
       </div>
 
-      {/* Message */}
       <p className="text-amber-200 text-sm font-medium bg-black/30 rounded-xl py-2 px-4 text-center max-w-xs">
         {message}
       </p>
 
-      {/* Win counts */}
       <div className="flex gap-4 text-white text-sm">
         <span>🔴 ניצחונות: {playerScore}</span>
         <span>⚪ ניצחונות: {computerScore}</span>
