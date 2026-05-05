@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useBrickBreakerStore } from './brickBreakerStore';
 
 export const W = 360;
 export const H = 560;
@@ -37,13 +38,9 @@ export function useBrickBreakerGame() {
     phase: 'menu' as Phase,
     padX: W / 2 - PAD_W / 2,
     ballX: W / 2, ballY: PAD_Y - BALL_R - 2, ballVX: 3, ballVY: -4, launched: false,
-    bricks: makeBricks(), score: 0, best: 0, lives: 3, level: 1, raf: 0, frame: 0,
+    bricks: makeBricks(), score: 0, lives: 3, level: 1, raf: 0, frame: 0,
     particles: [] as { x: number; y: number; vx: number; vy: number; life: number; color: string }[],
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; best: number; lives: number; level: number }>(
-    { phase: 'menu', score: 0, best: 0, lives: 3, level: 1 }
-  );
-
   const startGame = useCallback((level = 1) => {
     const s = st.current;
     s.phase = 'playing';
@@ -54,7 +51,7 @@ export function useBrickBreakerGame() {
     s.score = level === 1 ? 0 : s.score;
     s.lives = level === 1 ? 3 : s.lives;
     s.level = level; s.particles = [];
-    setUi({ phase: 'playing', score: s.score, best: s.best, lives: s.lives, level });
+    useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
   }, []);
 
   const handleClick = useCallback(() => {
@@ -118,8 +115,8 @@ export function useBrickBreakerGame() {
           if (s.ballY + BALL_R > H) {
             s.lives--;
             s.launched = false; s.ballX = s.padX + PAD_W / 2; s.ballY = PAD_Y - BALL_R - 2;
-            if (s.lives <= 0) { s.lives = 0; s.phase = 'dead'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'dead', score: s.score, best: s.best, lives: 0, level: s.level }); }
-            else { setUi(u => ({ ...u, lives: s.lives })); }
+            if (s.lives <= 0) { s.lives = 0; s.phase = 'dead'; useBrickBreakerStore.getState().setGameOver(s.score, s.level); }
+            else { useBrickBreakerStore.getState().setLives(s.lives); }
           }
           for (let i = 0; i < s.bricks.length; i++) {
             if (!s.bricks[i].alive) continue;
@@ -131,12 +128,12 @@ export function useBrickBreakerGame() {
               if (Math.min(overlapLeft, overlapRight) < Math.min(overlapTop, overlapBottom)) s.ballVX *= -1; else s.ballVY *= -1;
               const colors = ROW_COLORS[s.bricks[i].row];
               for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)] });
-              setUi(u => ({ ...u, score: s.score }));
+              useBrickBreakerStore.getState().setScore(s.score);
             }
           }
           if (s.bricks.every(b => !b.alive)) {
             const nextLevel = s.level + 1;
-            if (nextLevel > 5) { s.phase = 'won'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'won', score: s.score, best: s.best, lives: s.lives, level: s.level }); }
+            if (nextLevel > 5) { s.phase = 'won'; useBrickBreakerStore.getState().setWon(s.score, s.lives, s.level); }
             else { startGame(nextLevel); }
           }
         }
@@ -202,5 +199,5 @@ export function useBrickBreakerGame() {
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, [handleClick]);
 
-  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight };
+  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight };
 }
