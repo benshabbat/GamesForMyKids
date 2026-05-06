@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useStackStore } from './stackStore';
 
 export const W = 300;
 export const H = 480;
@@ -28,8 +29,6 @@ export function useStackGame() {
     colorIdx: 0,
     frame: 0, raf: 0,
   });
-  const [ui, setUi] = useState({ phase: 'menu' as Phase, score: 0, best: 0 });
-
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing';
@@ -37,7 +36,7 @@ export function useStackGame() {
     s.curW = INIT_W; s.curX = (W - INIT_W) / 2;
     s.curDir = 1; s.curSpeed = 2.5; s.colorIdx = 0;
     s.blocks = [{ x: (W - INIT_W) / 2, y: FLOOR_Y, w: INIT_W, color: '#6b7280' }];
-    setUi({ phase: 'playing', score: 0, best: s.best });
+    useStackStore.getState().startPlaying();
   }, []);
 
   const drop = useCallback(() => {
@@ -52,8 +51,7 @@ export function useStackGame() {
 
     if (overlap <= 2) {
       s.phase = 'dead';
-      if (s.score > s.best) s.best = s.score;
-      setUi({ phase: 'dead', score: s.score, best: s.best });
+      useStackStore.getState().endGame(s.score);
       return;
     }
 
@@ -67,7 +65,7 @@ export function useStackGame() {
 
     const topWorldY = sliderWorldY;
     s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
-    setUi(u => ({ ...u, score: s.score }));
+    useStackStore.getState().setScore(s.score);
   }, []);
 
   const handleCanvasClick = useCallback(() => {
@@ -151,5 +149,5 @@ export function useStackGame() {
   // suppress unused warning from module-level helper
   void makeBricks;
 
-  return { canvasRef, ui, startGame, drop, handleCanvasClick };
+  return { canvasRef, startGame, drop, handleCanvasClick };
 }
