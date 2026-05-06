@@ -1,6 +1,8 @@
 'use client';
 
-import { usePongGame, W, H, WIN_SCORE } from './usePongGame';
+import { useShallow } from 'zustand/react/shallow';
+import { usePongGame, W, H } from './usePongGame';
+import { usePongStore, WIN_SCORE } from './pongStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import PongResultOverlay from './components/PongResultOverlay';
@@ -8,7 +10,11 @@ import PongControls from './components/PongControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function PongGame() {
-  const { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, playerWon, nudgeLeft, nudgeRight } = usePongGame();
+  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, nudgeLeft, nudgeRight } = usePongGame();
+  const { phase, playerScore, aiScore } = usePongStore(
+    useShallow((s) => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })),
+  );
+  const playerWon = playerScore >= WIN_SCORE;
 
   return (
     <CanvasGameShell
@@ -17,18 +23,18 @@ export default function PongGame() {
       canvasClassName="rounded-3xl shadow-2xl border-4 border-slate-700 cursor-none"
       canvasStyle={{ maxHeight: '85vh', width: 'auto' }}
       canvasProps={{ onMouseMove: handleMouseMove, onTouchMove: handleTouchMove, onClick: handleCanvasClick, onTouchStart: handleTouchStart }}
-      hud={ui.phase === 'playing' && (
+      hud={phase === 'playing' && (
         <CanvasScoreBar
           stats={[
-            { value: ui.aiScore,     label: "מחשב 🤖", valueClass: "text-3xl font-black text-red-400",   labelClass: "text-xs text-red-600" },
-            { value: ui.playerScore, label: "אתה 🎮",  valueClass: "text-3xl font-black text-green-400", labelClass: "text-xs text-green-600" },
+            { value: aiScore,     label: "מחשב 🤖", valueClass: "text-3xl font-black text-red-400",   labelClass: "text-xs text-red-600" },
+            { value: playerScore, label: "אתה 🎮",  valueClass: "text-3xl font-black text-green-400", labelClass: "text-xs text-green-600" },
           ]}
           gap="gap-8"
           separator={<div className="text-white/30 text-2xl font-bold self-center">:</div>}
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && (
+        {phase === 'menu' && (
           <CanvasMenuOverlay
             emoji="🏓" title="פונג"
             description={<>הזז את המחבט הירוק<br />הגע ל-{WIN_SCORE} נקודות לפני המחשב!</>}
@@ -38,11 +44,11 @@ export default function PongGame() {
             buttonClass="bg-gradient-to-l from-slate-600 to-slate-800 shadow-lg hover:opacity-90"
           />
         )}
-        {ui.phase === 'result' && (
-          <PongResultOverlay playerWon={playerWon} playerScore={ui.playerScore} aiScore={ui.aiScore} onRestart={startGame} />
+        {phase === 'result' && (
+          <PongResultOverlay playerWon={playerWon} playerScore={playerScore} aiScore={aiScore} onRestart={startGame} />
         )}
       </>}
-      controls={ui.phase === 'playing' && <PongControls onNudgeLeft={nudgeLeft} onNudgeRight={nudgeRight} />}
+      controls={phase === 'playing' && <PongControls onNudgeLeft={nudgeLeft} onNudgeRight={nudgeRight} />}
     />
   );
 }

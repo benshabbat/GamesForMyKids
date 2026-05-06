@@ -1,13 +1,13 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { usePongStore } from './pongStore';
 
 export const W = 360;
 export const H = 560;
 const PAD_W = 70;
 const PAD_H = 12;
 const BALL_R = 8;
-export const WIN_SCORE = 7;
 const AI_SPEED = 3.5;
 
 import type { PhaseResult as Phase } from '@/lib/types';
@@ -21,8 +21,6 @@ export function usePongGame() {
     playerScore: 0, aiScore: 0, raf: 0, frame: 0,
     particles: [] as { x: number; y: number; vx: number; vy: number; life: number }[],
   });
-  const [ui, setUi] = useState<{ phase: Phase; playerScore: number; aiScore: number }>({ phase: 'menu', playerScore: 0, aiScore: 0 });
-
   function serveBall(direction: 1 | -1) {
     const s = st.current;
     const spd = 4 + Math.min(s.playerScore + s.aiScore, 8) * 0.2;
@@ -39,7 +37,7 @@ export function usePongGame() {
     const angle = (Math.random() - 0.5) * 1.2, spd = 4;
     s.ballVX = Math.sin(angle) * spd; s.ballVY = (Math.random() < 0.5 ? 1 : -1) * Math.cos(angle) * spd;
     s.playerScore = 0; s.aiScore = 0; s.frame = 0; s.particles = [];
-    setUi({ phase: 'playing', playerScore: 0, aiScore: 0 });
+    usePongStore.getState().startGame();
   }, []);
 
   const handleCanvasClick = useCallback(() => {
@@ -106,8 +104,8 @@ export function usePongGame() {
           addParticles(s.ballX, aiPad_Y + PAD_H);
         }
 
-        if (s.ballY + BALL_R > H) { s.aiScore++; setUi(u => ({ ...u, aiScore: s.aiScore })); if (s.aiScore >= WIN_SCORE) { s.phase = 'result'; setUi(u => ({ ...u, phase: 'result' })); } else serveBall(-1); }
-        if (s.ballY - BALL_R < 0) { s.playerScore++; setUi(u => ({ ...u, playerScore: s.playerScore })); if (s.playerScore >= WIN_SCORE) { s.phase = 'result'; setUi(u => ({ ...u, phase: 'result' })); } else serveBall(1); }
+        if (s.ballY + BALL_R > H) { s.aiScore++; const aiWon = usePongStore.getState().aiScores(s.aiScore); if (aiWon) { s.phase = 'result'; } else serveBall(-1); }
+        if (s.ballY - BALL_R < 0) { s.playerScore++; const playerWon = usePongStore.getState().playerScores(s.playerScore); if (playerWon) { s.phase = 'result'; } else serveBall(1); }
 
         s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.05; return p.life > 0; });
       }
@@ -163,10 +161,9 @@ export function usePongGame() {
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, []);
 
-  const playerWon = ui.playerScore >= WIN_SCORE;
-
-  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, playerWon,
-    nudgeLeft: () => { const s = st.current; s.playerX = Math.max(0, s.playerX - 45); },
+  return {
+    canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick,
+    nudgeLeft:  () => { const s = st.current; s.playerX = Math.max(0, s.playerX - 45); },
     nudgeRight: () => { const s = st.current; s.playerX = Math.min(W - PAD_W, s.playerX + 45); },
   };
 }
