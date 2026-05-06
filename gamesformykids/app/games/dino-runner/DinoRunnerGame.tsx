@@ -41,7 +41,7 @@ export default function DinoRunnerGame() {
             buttonClass="bg-gradient-to-l from-amber-500 to-orange-500 shadow-lg hover:opacity-90"
           />
         )}
-        {phase === 'dead' && <DinoGameOverOverlay score={score} best={best} onRestart={handleTap} />}
+        {phase === 'dead' && <DinoGameOverOverlay onRestart={handleTap} />}
       </>}
       controls={<p className="mt-4 text-amber-600 text-sm font-medium">הקש / לחץ מקש רווח לקפוץ</p>}
     />

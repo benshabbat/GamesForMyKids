@@ -1,12 +1,14 @@
 'use client';
 
+import { useDinoRunnerStore } from '../dinoRunnerStore';
+import { useShallow } from 'zustand/react/shallow';
+
 interface Props {
-  score: number;
-  best: number;
   onRestart: () => void;
 }
 
-export default function DinoGameOverOverlay({ score, best, onRestart }: Props) {
+export default function DinoGameOverOverlay({ onRestart }: Props) {
+  const { score, best } = useDinoRunnerStore(useShallow(s => ({ score: s.score, best: s.best })));
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/40">
       <div className="bg-white rounded-3xl p-6 text-center shadow-2xl w-64">
