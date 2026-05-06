@@ -1,5 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { HebrewLettersStore } from '../types';
+import { makeToggle, makeSetter } from '@/lib/stores/utils/sliceUtils';
 import {
   DEFAULT_AUDIO_STATE,
   ENCOURAGEMENT_MESSAGES,
@@ -19,11 +20,9 @@ export type AudioSlice = {
 export const createAudioSlice: StateCreator<HebrewLettersStore, [['zustand/devtools', never]], [], AudioSlice> = (set, get) => ({
   isAudioEnabled: true,
 
-  setIsAudioEnabled: (enabled) =>
-    set({ isAudioEnabled: enabled }, false, 'hebrewLetters/setAudio'),
+  setIsAudioEnabled: makeSetter(set, 'isAudioEnabled'),
 
-  toggleAudio: () =>
-    set((s) => ({ isAudioEnabled: !s.isAudioEnabled }), false, 'hebrewLetters/toggleAudio'),
+  toggleAudio: makeToggle(set, 'isAudioEnabled'),
 
   speakText: (text, settings) => {
     const { isAudioEnabled } = get();

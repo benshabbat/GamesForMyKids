@@ -2,6 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { BuildingStore } from '../buildingStore';
 import type { ToolType } from '@/app/games/building/types';
 import { COLORS } from '@/app/games/building/constants';
+import { makeSetter } from '@/lib/stores/utils/sliceUtils';
 
 export type SettingsSlice = {
   soundEnabled: boolean;
@@ -29,13 +30,13 @@ export const createSettingsSlice: StateCreator<BuildingStore, [], [], SettingsSl
   showGrid: false,
   animationMode: false,
 
-  setSoundEnabled: (enabled) => set({ soundEnabled: enabled }),
-  setSelectedTool: (tool) => set({ selectedTool: tool }),
-  setSelectedColor: (color) => set({ selectedColor: color }),
-  setSelectedSize: (size) => set({ selectedSize: size }),
-  setShowGrid: (show) => set({ showGrid: show }),
-  setAnimationMode: (mode) => set({ animationMode: mode }),
-  handleColorSelect: (color) => set({ selectedColor: color }),
-  handleToolSelect: (tool) => set({ selectedTool: tool }),
-  handleSizeChange: (size) => set({ selectedSize: size }),
+  setSoundEnabled: makeSetter(set, 'soundEnabled'),
+  setSelectedTool: makeSetter(set, 'selectedTool'),
+  setSelectedColor: makeSetter(set, 'selectedColor'),
+  setSelectedSize: makeSetter(set, 'selectedSize'),
+  setShowGrid: makeSetter(set, 'showGrid'),
+  setAnimationMode: makeSetter(set, 'animationMode'),
+  handleColorSelect: makeSetter(set, 'selectedColor'),
+  handleToolSelect: makeSetter(set, 'selectedTool'),
+  handleSizeChange: makeSetter(set, 'selectedSize'),
 });
