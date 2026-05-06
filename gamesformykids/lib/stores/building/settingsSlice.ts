@@ -2,7 +2,7 @@ import type { StateCreator } from 'zustand';
 import type { BuildingStore } from '../buildingStore';
 import type { ToolType } from '@/app/games/building/types';
 import { COLORS } from '@/app/games/building/constants';
-import { makeSetter, makeToggle } from '@/lib/stores/utils/sliceUtils';
+import { makeSetter } from '@/lib/stores/utils/sliceUtils';
 
 export type SettingsSlice = {
   soundEnabled: boolean;
