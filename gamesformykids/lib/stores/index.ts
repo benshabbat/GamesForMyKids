@@ -91,3 +91,4 @@ export { useMathChallengeStore } from './mathChallengeStore';
 // Store utilities
 export type { RemoteDataSlice } from './utils/RemoteDataSlice';
 export type { ChallengeStoreState } from './utils/createChallengeStore';
+export { makeLivesInitial, makeSetter, makeToggle, createShallowHook } from './utils/sliceUtils';
