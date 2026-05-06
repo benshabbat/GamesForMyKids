@@ -1,0 +1,202 @@
+'use client';
+
+import { useState } from "react";
+import { BaseGameItem } from "@/lib/types/core/base";
+import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
+import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
+import {
+  delay,
+  playSuccessSound as playSound,
+  handleWrongGameAnswer,
+  handleCorrectGameAnswer,
+  speakStartMessage,
+} from "@/lib/utils/game/gameUtils";
+import { GAME_CONSTANTS } from "@/lib/constants";
+import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
+import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+
+// ---------------------------------------------------------------------------
+// Types
+// ---------------------------------------------------------------------------
+
+export interface NumericQuizState<TChallenge> {
+  currentChallenge: TChallenge | null;
+  score: number;
+  level: number;
+  isPlaying: boolean;
+  showCelebration: boolean;
+  options: number[];
+}
+
+export interface NumericQuizCallbacks<TChallenge extends { correctAnswer: number }> {
+  /** Generate a new challenge. Receives current level for difficulty scaling. */
+  generateChallenge: (level: number) => TChallenge;
+  /** Generate numeric answer options. Receives the correct answer and current level. */
+  generateOptions: (correctAnswer: number, level: number) => number[];
+  /** Speak the current challenge aloud. Should guard on speechEnabled internally. */
+  speakQuestion: (challenge: TChallenge) => Promise<void>;
+  /** Map a challenge to the universal BaseGameItem format for the session store. */
+  toChallengeItem: (challenge: TChallenge) => BaseGameItem;
+  /** Map a numeric option to the universal BaseGameItem format. */
+  toOptionItem: (n: number) => BaseGameItem;
+  /** Called each time a new challenge is applied (e.g. to update a per-game store). */
+  onChallengeChange?: (challenge: TChallenge) => void;
+}
+
+// ---------------------------------------------------------------------------
+// Hook
+// ---------------------------------------------------------------------------
+
+/**
+ * Shared runtime hook for numeric quiz games (math, counting).
+ *
+ * Owns the common async flow:
+ *   startGame → answer handling → celebration → next challenge → session/progress bridge
+ *
+ * Game-specific logic (challenge generation, speech text, option pool) is
+ * injected via `callbacks` so each game remains independently testable.
+ */
+export function useNumericQuizRuntime<TChallenge extends { correctAnswer: number }>(
+  callbacks: NumericQuizCallbacks<TChallenge>,
+) {
+  const {
+    generateChallenge,
+    generateOptions,
+    speakQuestion,
+    toChallengeItem,
+    toOptionItem,
+    onChallengeChange,
+  } = callbacks;
+
+  const [gameState, setGameState] = useState<NumericQuizState<TChallenge>>({
+    currentChallenge: null,
+    score: 0,
+    level: 1,
+    isPlaying: false,
+    showCelebration: false,
+    options: [],
+  });
+
+  const { audioContext, speechEnabled } = useGameAudio();
+
+  // ---------------------------------------------------------------------------
+  // Internal helpers
+  // ---------------------------------------------------------------------------
+
+  /** Apply a new challenge: update local state + sync Zustand session store. */
+  const _applyChallenge = (challenge: TChallenge, level: number) => {
+    const options = generateOptions(challenge.correctAnswer, level);
+    setGameState(prev => ({ ...prev, currentChallenge: challenge, options }));
+    useGameSessionStore.getState().setChallengeAndOptions(
+      toChallengeItem(challenge),
+      options.map(toOptionItem),
+    );
+    onChallengeChange?.(challenge);
+  };
+
+  // ---------------------------------------------------------------------------
+  // Public API
+  // ---------------------------------------------------------------------------
+
+  const startGame = async () => {
+    try {
+      setGameState({
+        currentChallenge: null,
+        score: 0,
+        level: 1,
+        isPlaying: true,
+        showCelebration: false,
+        options: [],
+      });
+
+      const progressStore = useGameProgressStore.getState();
+      progressStore.resetProgress();
+      progressStore.setGameActive(true);
+      useGameSessionStore.getState().resetSession();
+
+      await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
+      await speakStartMessage();
+
+      const challenge = generateChallenge(1);
+      _applyChallenge(challenge, 1);
+
+      await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+      await speakQuestion(challenge);
+    } catch (error) {
+      console.error("Error in startGame:", error);
+    }
+  };
+
+  const handleNumberClick = async (selectedNumber: number) => {
+    if (!gameState.currentChallenge) return;
+
+    if (selectedNumber === gameState.currentChallenge.correctAnswer) {
+      playSound(audioContext);
+
+      // Capture level before any awaits to avoid stale closure issues.
+      const level = gameState.level;
+      const nextChallenge = generateChallenge(level);
+      const nextOptions = generateOptions(nextChallenge.correctAnswer, level);
+
+      const onComplete = async () => {
+        setGameState(prev => ({ ...prev, currentChallenge: nextChallenge, options: nextOptions }));
+        useGameSessionStore.getState().setChallengeAndOptions(
+          toChallengeItem(nextChallenge),
+          nextOptions.map(toOptionItem),
+        );
+        onChallengeChange?.(nextChallenge);
+
+        await delay(300);
+        await speakQuestion(nextChallenge);
+      };
+
+      await handleCorrectGameAnswer(
+        (v) => {
+          setGameState(prev => ({ ...prev, showCelebration: v }));
+          useGameSessionStore.getState().setShowCelebration(v);
+        },
+        onComplete,
+      );
+    } else {
+      await handleWrongGameAnswer(async () => {
+        if (gameState.currentChallenge) {
+          await speakQuestion(gameState.currentChallenge);
+        }
+      });
+    }
+  };
+
+  /** Bridge for the universal card-click system (UltimateGamePage). */
+  const handleItemClick = async (item: BaseGameItem) => {
+    await handleNumberClick(Number(item.name));
+  };
+
+  /** Speak an arbitrary item name — used by GameLogicSync. */
+  const speakItemName = async (itemName: string): Promise<void> => {
+    if (!speechEnabled) return;
+    try {
+      await speakHebrew(itemName);
+    } catch {
+      // ignore speech errors
+    }
+  };
+
+  const resetGame = () =>
+    setGameState({
+      currentChallenge: null,
+      score: 0,
+      level: 1,
+      isPlaying: false,
+      showCelebration: false,
+      options: [],
+    });
+
+  return {
+    gameState,
+    startGame,
+    handleNumberClick,
+    handleItemClick,
+    speakItemName,
+    resetGame,
+  };
+}

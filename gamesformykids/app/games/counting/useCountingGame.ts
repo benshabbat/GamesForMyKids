@@ -1,24 +1,18 @@
 'use client';
 
-import { useState } from "react";
 import { CountingChallenge, CountingGameState } from "@/lib/types/games";
 import { BaseGameItem } from "@/lib/types/core/base";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
-import { 
-  delay, 
-  playSuccessSound as playSound, 
-  getRandomItem,
-  handleWrongGameAnswer,
-  handleCorrectGameAnswer,
-  speakStartMessage
-} from "@/lib/utils/game/gameUtils";
-import { GAME_CONSTANTS, COUNTING_GAME_CONSTANTS } from "@/lib/constants";
-import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
-import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+import { getRandomItem } from "@/lib/utils/game/gameUtils";
+import { COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 import { useCountingChallengeStore } from "@/lib/stores/countingChallengeStore";
+import { useNumericQuizRuntime } from "@/hooks/games/useNumericQuizRuntime";
 
-// אימוג'ים לספירה עם שמות בעברית
+// ---------------------------------------------------------------------------
+// Items
+// ---------------------------------------------------------------------------
+
 const COUNTING_ITEMS = [
   { emoji: "🐶", name: "כלב", plural: "כלבים" },
   { emoji: "🐱", name: "חתול", plural: "חתולים" },
@@ -34,211 +28,87 @@ const COUNTING_ITEMS = [
   { emoji: "🎀", name: "סרט", plural: "סרטים" },
 ];
 
-export function useCountingGame() {
-  const [gameState, setGameState] = useState<CountingGameState>({
-    currentChallenge: null,
-    score: 0,
-    level: 1,
-    isPlaying: false,
-    showCelebration: false,
-    options: [],
-  });
+// ---------------------------------------------------------------------------
+// Pure helpers (defined outside hook — stable references, no closures)
+// ---------------------------------------------------------------------------
 
-  const { audioContext, speechEnabled } = useGameAudio();
+function getMaxCount(level: number): number {
+  return Math.min(
+    COUNTING_GAME_CONSTANTS.BASE_COUNT +
+      Math.floor((level - 1) / COUNTING_GAME_CONSTANTS.LEVEL_THRESHOLD) *
+        COUNTING_GAME_CONSTANTS.INCREMENT,
+    15,
+  );
+}
 
-  // --- Utility Functions ---
-
-  const getMaxCount = (): number => {
-    return Math.min(
-      COUNTING_GAME_CONSTANTS.BASE_COUNT + 
-      Math.floor((gameState.level - 1) / COUNTING_GAME_CONSTANTS.LEVEL_THRESHOLD) * 
-      COUNTING_GAME_CONSTANTS.INCREMENT,
-      15 // מקסימום מוחלט של ספירה
-    );
+function generateCountingChallenge(level: number): CountingChallenge {
+  const maxCount = getMaxCount(level);
+  const count = Math.floor(Math.random() * maxCount) + 1;
+  const item = getRandomItem(COUNTING_ITEMS);
+  return {
+    emojis: item.emoji.repeat(count),
+    correctAnswer: count,
+    itemName: item.name,
+    itemPlural: item.plural,
+    emoji: item.emoji,
   };
+}
 
-  const generateCountingChallenge = (): CountingChallenge => {
-    const maxCount = getMaxCount();
-    const count = Math.floor(Math.random() * maxCount) + 1; // 1 עד maxCount
-    const item = getRandomItem(COUNTING_ITEMS);
-    
-    return {
-      emojis: item.emoji.repeat(count), // נשאיר לתאימות לאחור
-      correctAnswer: count,
-      itemName: item.name,
-      itemPlural: item.plural,
-      emoji: item.emoji
-    };
-  };
+function generateCountingOptions(correctAnswer: number, level: number): number[] {
+  const maxCount = getMaxCount(level);
+  const allNumbers = Array.from({ length: maxCount }, (_, i) => i + 1);
+  const incorrect = allNumbers
+    .filter(n => n !== correctAnswer)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+  return [...incorrect, correctAnswer].sort(() => Math.random() - 0.5);
+}
 
-  const generateOptions = (correctAnswer: number): number[] => {
-    const maxCount = getMaxCount();
-    const allNumbers = Array.from({ length: maxCount }, (_, i) => i + 1);
-    
-    // וידוא שהתשובה הנכונה נכללת
-    const incorrectNumbers = allNumbers.filter(num => num !== correctAnswer);
-    
-    // בחירת 3 מספרים שגויים
-    const shuffledIncorrect = incorrectNumbers.sort(() => Math.random() - 0.5);
-    const selectedIncorrect = shuffledIncorrect.slice(0, 3);
-    
-    // שילוב עם התשובה הנכונה וערבוב
-    const options = [...selectedIncorrect, correctAnswer].sort(() => Math.random() - 0.5);
-    
-    return options;
-  };
-
-  // --- Zustand bridge helpers ---
-
-  const toChallengeItem = (challenge: CountingChallenge): BaseGameItem => ({
+function toChallengeItem(challenge: CountingChallenge): BaseGameItem {
+  return {
     name: String(challenge.correctAnswer),
     hebrew: `כמה ${challenge.itemPlural} יש?`,
     english: `How many ${challenge.itemPlural}?`,
     emoji: challenge.emoji,
     color: '#06b6d4',
-  });
-
-  const toOptionItem = (n: number): BaseGameItem => ({
-    name: String(n),
-    hebrew: String(n),
-    english: String(n),
-    emoji: '',
-    color: '#06b6d4',
-  });
-
-  // --- Audio & Speech ---
-
-  const playSuccessSound = () => {
-    playSound(audioContext);
   };
+}
 
-  const speakQuestion = async (challenge: CountingChallenge): Promise<void> => {
+function toOptionItem(n: number): BaseGameItem {
+  return { name: String(n), hebrew: String(n), english: String(n), emoji: '', color: '#06b6d4' };
+}
+
+// ---------------------------------------------------------------------------
+// Hook
+// ---------------------------------------------------------------------------
+
+export function useCountingGame() {
+  const { speechEnabled } = useGameAudio();
+
+  const speakCountingQuestion = async (challenge: CountingChallenge): Promise<void> => {
     if (!speechEnabled) return;
-    
     try {
-      const questionText = `כמה ${challenge.itemPlural} יש?`;
-      await speakHebrew(questionText);
+      await speakHebrew(`כמה ${challenge.itemPlural} יש?`);
     } catch (error) {
       console.error("שגיאה בהשמעת השאלה:", error);
     }
   };
 
-  const startGame = async () => {
-    try {
-      // עדכון ראשוני - מעבר למצב משחק
-      setGameState(prev => ({
-        ...prev,
-        isPlaying: true,
-        currentChallenge: null,
-        score: 0,
-        level: 1,
-        showCelebration: false,
-        options: [],
-      }));
-
-      // Sync to Zustand so UltimateGamePage transitions correctly
-      const progressStore = useGameProgressStore.getState();
-      progressStore.resetProgress();
-      progressStore.setGameActive(true);
-      useGameSessionStore.getState().resetSession();
-
-      await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
-      await speakStartMessage();
-      
-      const challenge = generateCountingChallenge();
-      const options = generateOptions(challenge.correctAnswer);
-
-      // עדכון שני - הוספת האתגר
-      setGameState((prev) => ({
-        ...prev,
-        currentChallenge: challenge,
-        options,
-      }));
-
-      // Write challenge/options to Zustand so GameMainContent can render them
-      useGameSessionStore.getState().setChallengeAndOptions(
-        toChallengeItem(challenge),
-        options.map(toOptionItem),
-      );
-      useCountingChallengeStore.getState().setChallenge(challenge);
-
-      await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-      await speakQuestion(challenge);
-    } catch (error) {
-      console.error("Error in startGame:", error);
-    }
-  };
-
-  const handleNumberClick = async (selectedNumber: number) => {
-    if (!gameState.currentChallenge) return;
-
-    if (selectedNumber === gameState.currentChallenge.correctAnswer) {
-      playSuccessSound();
-      
-      const challenge = generateCountingChallenge();
-      const options = generateOptions(challenge.correctAnswer);
-      
-      const onComplete = async () => {
-        setGameState((prev) => ({
-          ...prev,
-          currentChallenge: challenge,
-          options,
-        }));
-        useGameSessionStore.getState().setChallengeAndOptions(
-          toChallengeItem(challenge),
-          options.map(toOptionItem),
-        );
-        useCountingChallengeStore.getState().setChallenge(challenge);
-        
-        await delay(300);
-        await speakQuestion(challenge);
-      };
-      
-      await handleCorrectGameAnswer(
-        (v) => {
-          setGameState((prev) => ({ ...prev, showCelebration: v }));
-          useGameSessionStore.getState().setShowCelebration(v);
-        },
-        onComplete
-      );
-    } else {
-      await handleWrongGameAnswer(async () => {
-        if (gameState.currentChallenge) {
-          await speakQuestion(gameState.currentChallenge);
-        }
-      });
-    }
-  };
-
-  const resetGame = () => {
-    setGameState({
-      currentChallenge: null,
-      score: 0,
-      level: 1,
-      isPlaying: false,
-      showCelebration: false,
-      options: [],
+  const { gameState, startGame, handleNumberClick, handleItemClick, speakItemName, resetGame } =
+    useNumericQuizRuntime<CountingChallenge>({
+      generateChallenge: generateCountingChallenge,
+      generateOptions: generateCountingOptions,
+      speakQuestion: speakCountingQuestion,
+      toChallengeItem,
+      toOptionItem,
+      onChallengeChange: (challenge) => useCountingChallengeStore.getState().setChallenge(challenge),
     });
-  };
-
-  // handleItemClick bridges the universal card-click system to handleNumberClick
-  const handleItemClick = async (item: BaseGameItem) => {
-    await handleNumberClick(Number(item.name));
-  };
-
-  const speakItemName = async (itemName: string): Promise<void> => {
-    if (!speechEnabled) return;
-    try {
-      await speakHebrew(itemName);
-    } catch {
-      // ignore speech errors
-    }
-  };
 
   return {
     // For the dedicated app/games/counting/page.tsx
-    gameState,
-    speakQuestion: () => gameState.currentChallenge ? speakQuestion(gameState.currentChallenge) : Promise.resolve(),
+    gameState: gameState as CountingGameState,
+    speakQuestion: () =>
+      gameState.currentChallenge ? speakCountingQuestion(gameState.currentChallenge) : Promise.resolve(),
     startGame,
     handleNumberClick,
     resetGame,
