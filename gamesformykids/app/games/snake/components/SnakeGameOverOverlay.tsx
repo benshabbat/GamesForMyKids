@@ -1,12 +1,14 @@
 'use client';
 
+import { useGameProgressStore, useGameStore } from '@/lib/stores';
+
 interface Props {
-  score: number;
-  best: number;
   onRestart: () => void;
 }
 
-export default function SnakeGameOverOverlay({ score, best, onRestart }: Props) {
+export default function SnakeGameOverOverlay({ onRestart }: Props) {
+  const score = useGameProgressStore(s => s.score);
+  const best = useGameStore(s => s.highScores['snake'] ?? 0);
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/50">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-64">
