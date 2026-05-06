@@ -1,7 +1,8 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useGameProgressStore, useGameStore } from '@/lib/stores';
+import { useSnakeStore } from './stores/useSnakeStore';
 
 const COLS = 20;
 const ROWS = 20;
@@ -34,8 +35,7 @@ export function useSnakeGame() {
     animFrame: 0,
   });
 
-  // פאזה בלבד נשמרת ב-local state — ניקוד/רמה/שיא בין דרך Zustand stores
-  const [phase, setPhase] = useState<Phase>('menu');
+  const phase = useSnakeStore((s) => s.phase);
   const score = useGameProgressStore((s) => s.score);
   const level = useGameProgressStore((s) => s.level);
   const best  = useGameStore((s) => s.highScores['snake'] ?? 0);
@@ -62,7 +62,7 @@ export function useSnakeGame() {
     // endGame() automatically persists score as highScore['snake']
     useGameStore.getState().endGame();
     useGameProgressStore.getState().setGameActive(false);
-    setPhase('dead');
+    useSnakeStore.getState().setPhase('dead');
   }
 
   function step() {
@@ -114,7 +114,7 @@ export function useSnakeGame() {
     useGameProgressStore.getState().resetProgress();
     useGameProgressStore.getState().setGameActive(true);
     useGameStore.getState().startGame('snake');
-    setPhase('playing');
+    useSnakeStore.getState().setPhase('playing');
     scheduleStep();
     // intentionally omit all deps — all references are stable (st.current ref, Zustand
     // getState() calls, and scheduleStep uses st.current internally); empty deps ensures
