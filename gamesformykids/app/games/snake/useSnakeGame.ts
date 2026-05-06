@@ -35,14 +35,6 @@ export function useSnakeGame() {
     animFrame: 0,
   });
 
-  const phase = useSnakeStore((s) => s.phase);
-  const score = useGameProgressStore((s) => s.score);
-  const level = useGameProgressStore((s) => s.level);
-  const best  = useGameStore((s) => s.highScores['snake'] ?? 0);
-
-  // אובייקט ui באפייניין אחורה-תאימות לקוד שקורא את ה-hook
-  const ui = { phase, score, level, best };
-
   function placeFood(snake: Pt[]): Pt {
     let pt: Pt;
     do { pt = { x: rnd(COLS), y: rnd(ROWS) }; }
@@ -228,5 +220,5 @@ export function useSnakeGame() {
     if (dir !== opposite[s.dir]) s.nextDir = dir;
   }, []);
 
-  return { canvasRef, ui, startGame, handleTouchStart, handleTouchEnd, controlDir };
+  return { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir };
 }
