@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useFroggerStore } from './froggerStore';
 
 const CELL = 40;
 const COLS = 9;
@@ -39,14 +40,12 @@ export function useFroggerGame() {
     frame: 0, raf: 0, dead: false, deadTimer: 0,
     lanes: makeLanes(),
   });
-  const [ui, setUi] = useState({ phase: 'menu' as Phase, lives: 3, score: 0, best: 0 });
-
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing'; s.fCol = 4; s.fRow = 8;
     s.lives = 3; s.score = 0; s.level = 1; s.frame = 0; s.dead = false; s.deadTimer = 0;
     s.lanes = makeLanes();
-    setUi({ phase: 'playing', lives: 3, score: 0, best: s.best });
+    useFroggerStore.getState().startPlaying();
   }, []);
 
   const moveFrog = useCallback((dc: number, dr: number) => {
@@ -56,7 +55,7 @@ export function useFroggerGame() {
     const nr = Math.max(0, Math.min(8, s.fRow + dr));
     if (dr < 0) s.score += 2;
     s.fCol = nc; s.fRow = nr;
-    if (nr === 0) { s.score += 30; s.level++; s.fCol = 4; s.fRow = 8; setUi(u => ({ ...u, score: s.score })); }
+    if (nr === 0) { s.score += 30; s.level++; s.fCol = 4; s.fRow = 8; useFroggerStore.getState().setScore(s.score); }
   }, []);
 
   const touchRef = useRef<{ x: number; y: number } | null>(null);
@@ -106,7 +105,7 @@ export function useFroggerGame() {
               const cx = car.x + CAR_W / 2;
               if (Math.abs(fx - cx) < CAR_W / 2 - 4) {
                 s.lives--; s.dead = true; s.deadTimer = 55; s.fCol = 4; s.fRow = 8;
-                if (s.lives <= 0) { s.phase = 'dead'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'dead', lives: 0, score: s.score, best: s.best }); }
+                if (s.lives <= 0) { s.phase = 'dead'; useFroggerStore.getState().endGame(s.score); }
               }
             }
           }
@@ -167,5 +166,5 @@ export function useFroggerGame() {
     return () => window.removeEventListener('keydown', kd);
   }, [moveFrog]);
 
-  return { canvasRef, ui, startGame, moveFrog, handleTouchStart, handleTouchEnd };
+  return { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd };
 }
