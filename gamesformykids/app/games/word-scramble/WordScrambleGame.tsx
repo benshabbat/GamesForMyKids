@@ -5,7 +5,7 @@ import WordScramblePlayScreen from './components/WordScramblePlayScreen';
 import WordScrambleResultScreen from './components/WordScrambleResultScreen';
 
 export default function WordScrambleGame() {
-  const { phase, score, lives, startGame } = useWordScrambleGame();
+  const { phase, startGame } = useWordScrambleGame();
 
   if (phase === 'menu') return (
     <GameMenuCard
@@ -18,6 +18,6 @@ export default function WordScrambleGame() {
       startLabel="🔡 התחל!"
     />
   );
-  if (phase === 'results') return <WordScrambleResultScreen score={score} lives={lives} onRestart={startGame} />;
+  if (phase === 'results') return <WordScrambleResultScreen />;
   return <WordScramblePlayScreen />;
 }
