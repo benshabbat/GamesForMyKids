@@ -1,21 +1,18 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { useReflexStore } from '../reflexStore';
 
-interface Props {
-  score: number;
-  missed: number;
-  onRestart: () => void;
-}
-
-export default function ReflexResultScreen({ score, missed, onRestart }: Props) {
+export default function ReflexResultScreen() {
+  const { score, missed, startGame } = useReflexStore();
   const accuracy = score + missed > 0 ? Math.round((score / (score + missed)) * 100) : 0;
+
   return (
     <GameResultCard
       emoji="⚡"
       title="הסתיים!"
       gradientClass="from-rose-50 to-red-100"
       buttonClass="from-rose-500 to-red-600"
-      onRestart={onRestart}
+      onRestart={startGame}
       animateEmoji
     >
       <div className="grid grid-cols-3 gap-3">
