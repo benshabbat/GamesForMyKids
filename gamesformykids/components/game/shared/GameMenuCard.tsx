@@ -11,9 +11,9 @@ interface Props {
   buttonClass?: string;
   onStart?: () => void;
   startLabel?: string;
-  animateEmoji?: boolean;
+  animateEmoji?: boolean | undefined;
   /** Optional extra info line below description (e.g. rules, time per question) */
-  hint?: string;
+  hint?: string | undefined;
   /** Optional best score to display */
   best?: number;
   /** Optional extra content rendered below the description (e.g. level/category grid) */

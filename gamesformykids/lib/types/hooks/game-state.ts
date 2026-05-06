@@ -69,9 +69,9 @@ export interface GameProgress {
  * תכונות מתקדמות של משחק - עקרון Single Responsibility
  */
 interface GameEnhancements {
-  readonly hints?: readonly string[];
-  readonly hasMoreHints?: boolean;
-  readonly showNextHint?: () => void;
+  readonly hints?: readonly string[] | undefined;
+  readonly hasMoreHints?: boolean | undefined;
+  readonly showNextHint?: (() => void) | undefined;
 }
 
 /**
@@ -128,7 +128,7 @@ export interface GameLogicState extends
   GameConfiguration {
   readonly gameState: GameState | null;
   readonly isGameActive: boolean;
-  readonly progressStats?: Record<string, unknown>;
+  readonly progressStats?: Record<string, unknown> | undefined;
 }
 
 /**

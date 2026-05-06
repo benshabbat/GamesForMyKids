@@ -5,10 +5,10 @@ import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
 interface Props {
   correctLabel: string;
-  funFact?: string;
+  funFact?: string | undefined;
   theme: QuizTheme;
-  correctMsg?: string;
-  wrongMsg?: string;
+  correctMsg?: string | undefined;
+  wrongMsg?: string | undefined;
 }
 
 export function QuizFeedback({

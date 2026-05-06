@@ -7,7 +7,7 @@ import { GameHints } from "../../../shared";
 import { TipsBox } from "../../../shared";
 
 interface AutoGameBodyProps {
-  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode;
+  renderCard?: ((item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode) | undefined;
 }
 
 /**

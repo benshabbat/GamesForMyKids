@@ -50,7 +50,7 @@ interface EventMetadata {
  * נתונים נוספים לאירוע - עקרון Single Responsibility
  */
 interface EventPayload {
-  readonly data?: Readonly<Record<string, unknown>>;
+  readonly data?: Readonly<Record<string, unknown>> | undefined;
 }
 
 /**

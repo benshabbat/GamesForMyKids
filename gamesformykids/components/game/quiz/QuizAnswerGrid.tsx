@@ -9,8 +9,8 @@ interface Props {
   correctValue: string;
   onSelect: (choice: string) => void;
   theme: QuizTheme;
-  renderChoice?: (choice: string) => ReactNode;
-  cols?: 1 | 2;
+  renderChoice?: ((choice: string) => ReactNode) | undefined;
+  cols?: 1 | 2 | undefined;
 }
 
 export function QuizAnswerGrid({

@@ -11,12 +11,12 @@ interface Props {
   choices: string[];
   correctLabel: string;
   onSelect: (choice: string) => void;
-  correctMsg?: string;
-  wrongMsg?: string;
-  funFact?: string;
+  correctMsg?: string | undefined;
+  wrongMsg?: string | undefined;
+  funFact?: string | undefined;
   cardVariant?: 'themed' | 'white';
-  cols?: 1 | 2;
-  renderChoice?: (choice: string) => ReactNode;
+  cols?: 1 | 2 | undefined;
+  renderChoice?: ((choice: string) => ReactNode) | undefined;
   children: ReactNode;
 }
 
