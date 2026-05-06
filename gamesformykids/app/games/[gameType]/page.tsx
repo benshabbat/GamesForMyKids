@@ -8,6 +8,7 @@ import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameTypes';
 import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 import CustomGameRenderer from './CustomGameRenderer';
+import { loadGameItems } from '@/lib/constants/gameItemsLoader';
 
 interface PageProps {
   params: Promise<GamePageParams>;
@@ -30,9 +31,10 @@ export default async function UniversalGamePage({ params }: PageProps) {
   }
 
   const isQuizGame = QUIZ_GAME_TYPES.has(actualGameType);
+  const gameItems = await loadGameItems(actualGameType);
 
   return (
-    <GameTypeProvider initialGameType={actualGameType}>
+    <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
       {isQuizGame ? (
         <QuizGameRouter />
       ) : (

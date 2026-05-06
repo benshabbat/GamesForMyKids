@@ -8,7 +8,6 @@
 import { useCallback } from 'react'
 import { GameType } from '@/lib/types/core/base'
 import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs'
-import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap'
 import { useRouter } from 'next/navigation'
 import { ROUTES } from '@/lib/constants/routes'
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore'
@@ -44,13 +43,15 @@ export function useGameType(): GameTypeContextValue {
     [],
   )
 
+  const storeItems = useGameTypeStore((s) => s.gameItems)
+
   const getGameItems = useCallback(
-    (gameType: GameType) => GAME_ITEMS_MAP[gameType] || null,
-    [],
+    (_gameType: GameType) => storeItems,
+    [storeItems],
   )
 
   const currentGameConfig = currentGameType ? getGameConfig(currentGameType) : null
-  const currentGameItems = currentGameType ? getGameItems(currentGameType) : null
+  const currentGameItems = storeItems
 
   return {
     gameState: { currentGameType, previousGameType, gameHistory },
