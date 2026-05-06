@@ -1,4 +1,21 @@
-import type { StoreMutatorIdentifier, StateCreator } from 'zustand';
+import type { StoreMutatorIdentifier, StateCreator, StoreApi, UseBoundStore } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// createShallowHook
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Returns a React hook that selects the entire store state shallowly.
+ * Eliminates the repeated `useXStore(useShallow((s) => s))` boilerplate.
+ *
+ * @example
+ * export const useColorTapGame = createShallowHook(useColorTapStore);
+ */
+export function createShallowHook<S>(store: UseBoundStore<StoreApi<S>>): () => S {
+  return () => store(useShallow((s) => s));
+}
+
 
 /**
  * Type alias for the `set` function injected into a Zustand StateCreator.

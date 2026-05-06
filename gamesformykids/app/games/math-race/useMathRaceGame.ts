@@ -1,13 +1,14 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
+import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useMathRaceStore } from './mathRaceStore';
 
 export type { Question } from './mathRaceStore';
 export { makeQ, GAME_TIME } from './mathRaceStore';
 
+const _useStore = createShallowHook(useMathRaceStore);
+
 export function useMathRaceGame() {
-  const { phase, q, score, best, timeLeft, feedback, streak, total, correct, startGame, tap } =
-    useMathRaceStore(useShallow((s) => s));
-  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
-  return { phase, q, score, best, timeLeft, feedback, streak, total, correct, accuracy, startGame, tap };
+  const state = _useStore();
+  const accuracy = state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0;
+  return { ...state, accuracy };
 }
