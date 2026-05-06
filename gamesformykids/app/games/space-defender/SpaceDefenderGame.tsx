@@ -1,6 +1,8 @@
 'use client';
 
+import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderGame, W, H } from './useSpaceDefenderGame';
+import { useSpaceDefenderStore } from './spaceDefenderStore';
 import SpaceDefenderHUD from './components/SpaceDefenderHUD';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SpaceDefenderResultOverlay from './components/SpaceDefenderResultOverlay';
@@ -8,7 +10,10 @@ import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SpaceDefenderGame() {
-  const { canvasRef, ui, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight } = useSpaceDefenderGame();
+  const { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight } = useSpaceDefenderGame();
+  const { phase, score, best, lives, timeLeft } = useSpaceDefenderStore(
+    useShallow((s) => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, timeLeft: s.timeLeft })),
+  );
 
   return (
     <CanvasGameShell
@@ -17,23 +22,23 @@ export default function SpaceDefenderGame() {
       canvasClassName="rounded-3xl shadow-2xl border-4 border-indigo-700 cursor-crosshair"
       canvasStyle={{ maxHeight: '85vh', width: 'auto' }}
       canvasProps={{ onMouseMove: handleMouseMove, onClick: handleCanvasClick, onTouchMove: handleTouchMove, onTouchStart: handleTouchStart }}
-      hud={ui.phase === 'playing' && <SpaceDefenderHUD score={ui.score} lives={ui.lives} timeLeft={ui.timeLeft} />}
+      hud={phase === 'playing' && <SpaceDefenderHUD score={score} lives={lives} timeLeft={timeLeft} />}
       overlays={<>
-        {ui.phase === 'menu' && (
+        {phase === 'menu' && (
           <CanvasMenuOverlay
             emoji="🚀" title="מגן החלל"
             description={<>הזז את הספינה וירה באסטרואידים!<br />הגן על כדור הארץ 🌍</>}
-            best={ui.best} onStart={startGame}
+            best={best} onStart={startGame}
             backdropClass="rounded-3xl bg-black/60"
             titleColor="text-indigo-700"
             buttonClass="bg-gradient-to-l from-indigo-500 to-blue-600 shadow-lg hover:opacity-90"
           />
         )}
-        {ui.phase === 'result' && (
-          <SpaceDefenderResultOverlay lives={ui.lives} score={ui.score} best={ui.best} onRestart={startGame} />
+        {phase === 'result' && (
+          <SpaceDefenderResultOverlay lives={lives} score={score} best={best} onRestart={startGame} />
         )}
       </>}
-      controls={ui.phase === 'playing' && (
+      controls={phase === 'playing' && (
         <CanvasLRControls
           onLeft={nudgeLeft} onRight={nudgeRight}
           center={{ label: "💥 ירה!", onAction: shoot, className: "bg-yellow-500/90 text-white rounded-xl px-8 py-3 text-xl font-bold active:bg-yellow-400 touch-none" }}

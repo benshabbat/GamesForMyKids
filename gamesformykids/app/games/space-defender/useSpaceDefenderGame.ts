@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 
 export const W = 360;
 export const H = 560;
@@ -9,8 +10,6 @@ const SHIP_H = 40;
 const BULLET_SPEED = 8;
 const BULLET_R = 5;
 const ASTEROID_EMOJIS = ['☄️', '🪨', '💫'];
-const GAME_DURATION = 60;
-
 import type { PhaseResult as Phase } from '@/lib/types';
 interface Bullet { id: number; x: number; y: number; }
 interface Asteroid { id: number; x: number; y: number; speed: number; r: number; emoji: string; angle: number; spin: number; }
@@ -24,14 +23,10 @@ export function useSpaceDefenderGame() {
     shipX: W / 2,
     bullets: [] as Bullet[],
     asteroids: [] as Asteroid[],
-    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, raf: 0, nextAsteroid: 60, best: 0,
+    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, raf: 0, nextAsteroid: 60,
     stars: Array.from({ length: 40 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 2, twinkle: Math.random() * Math.PI * 2 })),
     lastShot: 0,
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; lives: number; timeLeft: number; best: number }>(
-    { phase: 'menu', score: 0, lives: 3, timeLeft: GAME_DURATION, best: 0 }
-  );
-
   const shoot = useCallback(() => {
     const s = st.current;
     if (s.phase !== 'playing') return;
@@ -46,7 +41,7 @@ export function useSpaceDefenderGame() {
     s.phase = 'playing';
     s.shipX = W / 2; s.bullets = []; s.asteroids = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0;
-    setUi({ phase: 'playing', score: 0, lives: 3, timeLeft: GAME_DURATION, best: s.best });
+    useSpaceDefenderStore.getState().startGame();
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -96,8 +91,7 @@ export function useSpaceDefenderGame() {
         if (s.timeLeft <= 0) {
           s.timeLeft = 0;
           s.phase = 'result';
-          if (s.score > s.best) s.best = s.score;
-          setUi({ phase: 'result', score: s.score, lives: s.lives, timeLeft: 0, best: s.best });
+          useSpaceDefenderStore.getState().setGameResult(s.score, s.lives, 0);
         }
         s.nextAsteroid--;
         if (s.nextAsteroid <= 0) {
@@ -113,7 +107,7 @@ export function useSpaceDefenderGame() {
         for (const b of s.bullets) {
           for (const a of s.asteroids) {
             const dx = b.x - a.x, dy = b.y - a.y;
-            if (Math.sqrt(dx * dx + dy * dy) < a.r + BULLET_R) { toRemoveBullets.add(b.id); toRemoveAsteroids.add(a.id); s.score += 10; setUi(u => ({ ...u, score: s.score })); }
+            if (Math.sqrt(dx * dx + dy * dy) < a.r + BULLET_R) { toRemoveBullets.add(b.id); toRemoveAsteroids.add(a.id); s.score += 10; useSpaceDefenderStore.getState().setScore(s.score); }
           }
         }
         s.bullets = s.bullets.filter(b => !toRemoveBullets.has(b.id));
@@ -121,11 +115,11 @@ export function useSpaceDefenderGame() {
 
         const shipY = H - 80;
         s.asteroids = s.asteroids.filter(a => {
-          if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'result', score: s.score, lives: 0, timeLeft: Math.ceil(s.timeLeft), best: s.best }); } else { setUi(u => ({ ...u, lives: s.lives })); } return false; }
-          if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'result', score: s.score, lives: 0, timeLeft: Math.ceil(s.timeLeft), best: s.best }); } else { setUi(u => ({ ...u, lives: s.lives })); } return false; }
+          if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
+          if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
           return true;
         });
-        if (s.frame % 20 === 0) setUi(u => u.phase === 'playing' ? { ...u, timeLeft: Math.ceil(s.timeLeft) } : u);
+        if (s.frame % 20 === 0 && st.current.phase === 'playing') useSpaceDefenderStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
       }
 
       ctx.fillStyle = '#050514';
@@ -202,7 +196,7 @@ export function useSpaceDefenderGame() {
     return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); clearInterval(moveInterval); };
   }, [shoot]);
 
-  return { canvasRef, ui, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart,
+  return { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart,
     nudgeLeft: () => { const s = st.current; s.shipX = Math.max(SHIP_W / 2, s.shipX - 40); },
     nudgeRight: () => { const s = st.current; s.shipX = Math.min(W - SHIP_W / 2, s.shipX + 40); },
   };
