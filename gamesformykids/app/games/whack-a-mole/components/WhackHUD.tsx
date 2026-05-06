@@ -1,13 +1,11 @@
 'use client';
 
-interface Props {
-  score: number;
-  timeLeft: number;
-  pct: number;
-  combo: number;
-}
+import { useWhackAMoleStore, GAME_DURATION } from '../whackAMoleStore';
 
-export default function WhackHUD({ score, timeLeft, pct, combo }: Props) {
+export default function WhackHUD() {
+  const { score, timeLeft, combo } = useWhackAMoleStore();
+  const pct = (timeLeft / GAME_DURATION) * 100;
+
   return (
     <div className="flex items-center gap-4 mb-4 w-full max-w-sm">
       <div className="text-center">
