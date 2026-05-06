@@ -1,14 +1,9 @@
 'use client';
 import { QuizResultScreen } from '@/components/game/quiz';
+import { useMultiplicationGameStore } from '../multiplicationGameStore';
+import { QUESTIONS_PER_LEVEL } from '../data/tables';
 
-interface Props {
-  level: number;
-  correct: number;
-  totalQuestions: number;
-  score: number;
-  onRestart: (level: number) => void;
-}
-
-export default function MultiplicationResultScreen({ level, correct, totalQuestions, onRestart }: Props) {
-  return <QuizResultScreen correctCount={correct} total={totalQuestions} onRestart={() => onRestart(level)} theme="violet" />;
+export default function MultiplicationResultScreen() {
+  const { level, correct, startGame } = useMultiplicationGameStore();
+  return <QuizResultScreen correctCount={correct} total={QUESTIONS_PER_LEVEL} onRestart={() => startGame(level)} theme="violet" />;
 }
