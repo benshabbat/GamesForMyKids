@@ -1,12 +1,14 @@
 'use client';
 
+import { useMeteorDodgeStore } from '../meteorDodgeStore';
+import { useShallow } from 'zustand/react/shallow';
+
 interface Props {
-  score: number;
-  best: number;
   onRestart: () => void;
 }
 
-export default function MeteorGameOverOverlay({ score, best, onRestart }: Props) {
+export default function MeteorGameOverOverlay({ onRestart }: Props) {
+  const { score, best } = useMeteorDodgeStore(useShallow(s => ({ score: s.score, best: s.best })));
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/70">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-72">

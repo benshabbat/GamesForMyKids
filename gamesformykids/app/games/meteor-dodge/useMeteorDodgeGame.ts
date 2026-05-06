@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useMeteorDodgeStore } from './meteorDodgeStore';
 
 export const W = 360;
 export const H = 560;
@@ -25,13 +26,11 @@ export function useMeteorDodgeGame() {
     bgStars: Array.from({ length: 50 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 1.5, twinkle: Math.random() * Math.PI * 2 })),
     invincible: 0,
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; best: number }>({ phase: 'menu', score: 0, best: 0 });
-
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
     s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
-    setUi({ phase: 'playing', score: 0, best: s.best });
+    useMeteorDodgeStore.getState().startPlaying();
   }, []);
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -91,18 +90,18 @@ export function useMeteorDodgeGame() {
 
         s.stars = s.stars.filter(st2 => {
           const dx = st2.x - s.playerX, dy = st2.y - PLAYER_Y;
-          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.score += 50; setUi(u => ({ ...u, score: s.score })); return false; }
+          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.score += 50; useMeteorDodgeStore.getState().setScore(s.score); return false; }
           return true;
         });
 
         if (s.invincible === 0) {
           for (const m of s.meteors) {
             const dx = m.x - s.playerX, dy = m.y - PLAYER_Y;
-            if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) { s.phase = 'dead'; if (s.score > s.best) s.best = s.score; setUi({ phase: 'dead', score: s.score, best: s.best }); break; }
+            if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) { s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break; }
           }
         }
 
-        if (s.frame % 8 === 0) setUi(u => u.phase === 'playing' ? { ...u, score: s.score } : u);
+        if (s.frame % 8 === 0 && useMeteorDodgeStore.getState().phase === 'playing') useMeteorDodgeStore.getState().setScore(s.score);
       }
 
       ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, W, H);
@@ -176,5 +175,5 @@ export function useMeteorDodgeGame() {
     s.playerX = Math.min(W - PLAYER_R, s.playerX + 45);
   }, []);
 
-  return { canvasRef, ui, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight };
+  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight };
 }
