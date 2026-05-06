@@ -1,17 +1,17 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
+import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useWordBuilderStore } from './wordBuilderStore';
 
 export type { WordPuzzle, AvailableLetter } from './wordBuilderStore';
 
+const _useStore = createShallowHook(useWordBuilderStore);
+
 export function useWordBuilderGame() {
-  const { phase, puzzles, index, score, typed, available, status, startGame, pressLetter, clearTyped, next } =
-    useWordBuilderStore(useShallow((s) => s));
+  const state = _useStore();
   return {
-    phase, index, score, typed, available, status,
-    current: puzzles[index],
-    total: puzzles.length,
-    startGame, pressLetter, clearTyped, next,
-    restart: startGame,
+    ...state,
+    current: state.puzzles[state.index],
+    total: state.puzzles.length,
+    restart: state.startGame,
   };
 }

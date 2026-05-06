@@ -1,12 +1,8 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
+import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useWordScrambleStore } from './wordScrambleStore';
 
 export type { WordEntry, LetterSlot, PickedLetter } from './wordScrambleStore';
 export { WORD_LIST } from './wordScrambleStore';
 
-export function useWordScrambleGame() {
-  const { phase, words, wIdx, letters, picked, score, lives, shake, correct, startGame, pickLetter, unpick } =
-    useWordScrambleStore(useShallow((s) => s));
-  return { phase, words, wIdx, letters, picked, score, lives, shake, correct, startGame, pickLetter, unpick };
-}
+export const useWordScrambleGame = createShallowHook(useWordScrambleStore);
