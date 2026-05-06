@@ -14,8 +14,6 @@ export default function PongGame() {
   const { phase, playerScore, aiScore } = usePongStore(
     useShallow((s) => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })),
   );
-  const playerWon = playerScore >= WIN_SCORE;
-
   return (
     <CanvasGameShell
       canvasRef={canvasRef} width={W} height={H}
@@ -45,7 +43,7 @@ export default function PongGame() {
           />
         )}
         {phase === 'result' && (
-          <PongResultOverlay playerWon={playerWon} playerScore={playerScore} aiScore={aiScore} onRestart={startGame} />
+          <PongResultOverlay onRestart={startGame} />
         )}
       </>}
       controls={phase === 'playing' && <PongControls onNudgeLeft={nudgeLeft} onNudgeRight={nudgeRight} />}
