@@ -8,7 +8,7 @@ export interface PuzzlePiece {
   isPlaced: boolean;
   isCorrect: boolean;
   expectedPosition: { row: number; col: number };
-  currentPosition?: { row: number; col: number };
+  currentPosition?: { row: number; col: number } | undefined;
 }
 
 export interface SimplePuzzlePiece extends PuzzlePiece {

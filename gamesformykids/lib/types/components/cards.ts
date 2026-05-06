@@ -104,7 +104,7 @@ interface CardCustomContent {
  */
 interface BaseCardProps extends CardAppearance, CardBehavior, CardCustomContent {
   className?: string;
-  isSelected?: boolean;
+  isSelected?: boolean | undefined;
 }
 
 /**
@@ -132,12 +132,12 @@ export interface ColoredShapeCardProps extends BaseCardProps {
  */
 export interface UnifiedCardProps extends BaseCardProps {
   // Data
-  item?: BaseGameItem;
-  onClick?: (item?: BaseGameItem) => void;
+  item?: BaseGameItem | undefined;
+  onClick?: ((item?: BaseGameItem) => void) | undefined;
   showContent?: CardContent;
-  
+
   // Simple mode - for direct text input
-  hebrewText?: string;
+  hebrewText?: string | undefined;
   secondaryText?: string;
   name?: string;
   
