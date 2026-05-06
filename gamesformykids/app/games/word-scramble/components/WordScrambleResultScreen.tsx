@@ -1,13 +1,9 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { useWordScrambleStore } from '../wordScrambleStore';
 
-interface Props {
-  score: number;
-  lives: number;
-  onRestart: () => void;
-}
-
-export default function WordScrambleResultScreen({ score, lives, onRestart }: Props) {
+export default function WordScrambleResultScreen() {
+  const { score, lives, startGame: onRestart } = useWordScrambleStore();
   const emoji = score >= 100 ? '🏆' : score >= 60 ? '🎉' : '😊';
   const title = score >= 100 ? 'מדהים!' : score >= 60 ? 'כל הכבוד!' : 'ניסיון טוב!';
   return (
