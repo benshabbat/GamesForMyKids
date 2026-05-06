@@ -1,14 +1,12 @@
 'use client';
 
-interface Props {
-  popped: number;
-  total: number;
-  level: number;
-  elapsed: number;
-  next: number;
-}
+import { useNumberBubblesStore } from '../numberBubblesStore';
 
-export default function NumberBubblesHUD({ popped, total, level, elapsed, next }: Props) {
+export default function NumberBubblesHUD() {
+  const { next, bubbles, level, elapsed } = useNumberBubblesStore();
+  const popped = next - 1;
+  const total = bubbles.length;
+
   return (
     <>
       <div className="flex gap-5 mb-2 text-center">

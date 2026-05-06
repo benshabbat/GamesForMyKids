@@ -1,18 +1,11 @@
 'use client';
 
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
+import { useNumberBubblesStore } from '../numberBubblesStore';
 
-interface Best {
-  level: number;
-  time: number;
-}
+export default function NumberBubblesMenuScreen() {
+  const { best, startGame } = useNumberBubblesStore();
 
-interface Props {
-  best: Best | null;
-  onStart: () => void;
-}
-
-export default function NumberBubblesMenuScreen({ best, onStart }: Props) {
   return (
     <GameMenuCard
       emoji="🔢"
@@ -21,7 +14,7 @@ export default function NumberBubblesMenuScreen({ best, onStart }: Props) {
       hint="כל רמה יש יותר מספרים!"
       gradientClass="from-sky-100 to-blue-200"
       buttonClass="from-sky-500 to-blue-600"
-      onStart={onStart}
+      onStart={startGame}
       startLabel="🔢 התחל!"
     >
       {best && (
