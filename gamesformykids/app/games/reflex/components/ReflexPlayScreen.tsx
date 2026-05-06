@@ -1,16 +1,15 @@
 'use client';
 
-import type { Target } from '../data/targets';
+import { useShallow } from 'zustand/react/shallow';
+import { useReflexStore } from '../reflexStore';
+import { GAME_DURATION } from '../data/targets';
 
-interface Props {
-  score: number;
-  timeLeft: number;
-  timePct: number;
-  targets: Target[];
-  onHit: (id: number) => void;
-}
+export default function ReflexPlayScreen() {
+  const { score, timeLeft, targets, hitTarget } = useReflexStore(
+    useShallow((s) => ({ score: s.score, timeLeft: s.timeLeft, targets: s.targets, hitTarget: s.hitTarget })),
+  );
+  const timePct = (timeLeft / GAME_DURATION) * 100;
 
-export default function ReflexPlayScreen({ score, timeLeft, timePct, targets, onHit }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 select-none" dir="rtl">
       <div className="absolute top-0 left-0 right-0 p-3 flex items-center gap-3 z-10">
@@ -27,7 +26,7 @@ export default function ReflexPlayScreen({ score, timeLeft, timePct, targets, on
         {targets.map(t => (
           <button
             key={t.id}
-            onClick={() => onHit(t.id)}
+            onClick={() => hitTarget(t.id)}
             style={{ left: `${t.x}%`, top: `${t.y}%` }}
             className="absolute text-5xl transform -translate-x-1/2 -translate-y-1/2 hover:scale-125 active:scale-90 transition-transform animate-pulse drop-shadow-lg"
           >
