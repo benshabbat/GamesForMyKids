@@ -1,14 +1,10 @@
 'use client';
 
-type HoleState = 'empty' | 'mole' | 'bad' | 'hit' | 'miss';
+import { useWhackAMoleStore } from '../whackAMoleStore';
 
-interface Props {
-  holes: HoleState[];
-  holeValues: string[];
-  onWhack: (index: number) => void;
-}
+export default function WhackGrid() {
+  const { holes, holeValues, whack: onWhack } = useWhackAMoleStore();
 
-export default function WhackGrid({ holes, holeValues, onWhack }: Props) {
   return (
     <>
       <div className="grid grid-cols-3 gap-4 max-w-sm w-full">
