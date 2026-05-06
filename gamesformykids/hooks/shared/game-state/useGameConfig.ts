@@ -9,7 +9,6 @@ import { useMemo } from 'react'
 import { GameType, BaseGameItem } from '@/lib/types/core/base'
 import { GAME_UI_CONFIGS, GameUIConfig } from '@/lib/constants/ui/gameConfigs'
 import { GAME_HOOKS_MAP, AutoGameType } from '@/lib/constants/gameHooksMap'
-import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap'
 import { GameCardMap } from '@/components/shared/GameCardMap'
 import { Metadata } from 'next'
 import {
@@ -21,7 +20,10 @@ import { useGameTypeStore } from '@/lib/stores/gameTypeStore'
 // ---------------------------------------------------------------------------
 // Core logic
 // ---------------------------------------------------------------------------
-function buildGameConfigValue(gameType: GameType | null): GameConfigContextValue {
+function buildGameConfigValue(
+  gameType: GameType | null,
+  storeItems: BaseGameItem[] | null,
+): GameConfigContextValue {
   if (!gameType) {
     return {
       gameType: null,
@@ -38,7 +40,7 @@ function buildGameConfigValue(gameType: GameType | null): GameConfigContextValue
   try {
     const config = GAME_UI_CONFIGS[gameType]
     const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType]
-    const items = GAME_ITEMS_MAP[gameType] as BaseGameItem[]
+    const items = storeItems
     const CardComponent = GameCardMap[gameType] ?? null
 
     const isSupported = !!(config && (gameType in GAME_HOOKS_MAP) && items?.length && CardComponent)
@@ -69,8 +71,9 @@ function buildGameConfigValue(gameType: GameType | null): GameConfigContextValue
 // ---------------------------------------------------------------------------
 export function useGameConfig(overrideGameType?: AutoGameType | GameType): GameConfigContextValue {
   const storeGameType = useGameTypeStore((s) => s.currentGameType)
+  const storeItems    = useGameTypeStore((s) => s.gameItems)
   const gameType = (overrideGameType ?? storeGameType) as GameType | null
-  return useMemo(() => buildGameConfigValue(gameType), [gameType])
+  return useMemo(() => buildGameConfigValue(gameType, storeItems), [gameType, storeItems])
 }
 
 // ---------------------------------------------------------------------------
