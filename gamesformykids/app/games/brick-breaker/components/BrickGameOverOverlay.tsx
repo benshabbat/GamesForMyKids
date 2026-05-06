@@ -1,13 +1,14 @@
 'use client';
 
+import { useBrickBreakerStore } from '../brickBreakerStore';
+import { useShallow } from 'zustand/react/shallow';
+
 interface Props {
-  phase: 'dead' | 'won';
-  score: number;
-  best: number;
   onRestart: () => void;
 }
 
-export default function BrickGameOverOverlay({ phase, score, best, onRestart }: Props) {
+export default function BrickGameOverOverlay({ onRestart }: Props) {
+  const { phase, score, best } = useBrickBreakerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/60">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-72">

@@ -44,7 +44,7 @@ export default function BrickBreakerGame() {
           />
         )}
         {(phase === 'dead' || phase === 'won') && (
-          <BrickGameOverOverlay phase={phase as 'dead' | 'won'} score={score} best={best} onRestart={() => startGame(1)} />
+          <BrickGameOverOverlay onRestart={() => startGame(1)} />
         )}
       </>}
       controls={phase === 'playing' && (
