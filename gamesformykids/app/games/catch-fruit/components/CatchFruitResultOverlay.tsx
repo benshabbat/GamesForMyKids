@@ -1,13 +1,14 @@
 'use client';
 
+import { useCatchFruitStore } from '../catchFruitStore';
+import { useShallow } from 'zustand/react/shallow';
+
 interface Props {
-  score: number;
-  best: number;
-  lives: number;
   onRestart: () => void;
 }
 
-export default function CatchFruitResultOverlay({ score, best, lives, onRestart }: Props) {
+export default function CatchFruitResultOverlay({ onRestart }: Props) {
+  const { score, best, lives } = useCatchFruitStore(useShallow(s => ({ score: s.score, best: s.best, lives: s.lives })));
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/50">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-72">

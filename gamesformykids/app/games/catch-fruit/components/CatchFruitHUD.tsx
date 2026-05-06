@@ -1,12 +1,10 @@
 'use client';
 
-interface Props {
-  score: number;
-  lives: number;
-  timeLeft: number;
-}
+import { useCatchFruitStore } from '../catchFruitStore';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function CatchFruitHUD({ score, lives, timeLeft }: Props) {
+export default function CatchFruitHUD() {
+  const { score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
   return (
     <div className="flex gap-5 mb-3 text-white text-center">
       <div>

@@ -10,8 +10,8 @@ import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function CatchFruitGame() {
   const { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart } = useCatchFruitGame();
-  const { phase, score, best, lives, timeLeft } = useCatchFruitStore(
-    useShallow((s) => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, timeLeft: s.timeLeft })),
+  const { phase, best } = useCatchFruitStore(
+    useShallow((s) => ({ phase: s.phase, best: s.best })),
   );
 
   return (
@@ -21,7 +21,7 @@ export default function CatchFruitGame() {
       canvasClassName="rounded-3xl shadow-2xl cursor-grab active:cursor-grabbing border-4 border-purple-700"
       canvasStyle={{ maxHeight: '80vh', width: 'auto' }}
       canvasProps={{ onMouseDown: handleMouseDown, onMouseMove: handleMouseMove, onMouseUp: handleMouseUp, onTouchStart: handleTouchStart, onTouchMove: handleTouchMove }}
-      hud={phase === 'playing' && <CatchFruitHUD score={score} lives={lives} timeLeft={timeLeft} />}
+      hud={phase === 'playing' && <CatchFruitHUD />}
       overlays={<>
         {phase === 'menu' && (
           <CanvasMenuOverlay
@@ -33,7 +33,7 @@ export default function CatchFruitGame() {
             buttonClass="bg-gradient-to-l from-purple-500 to-indigo-600 shadow-lg hover:opacity-90"
           />
         )}
-        {phase === 'result' && <CatchFruitResultOverlay score={score} best={best} lives={lives} onRestart={startGame} />}
+        {phase === 'result' && <CatchFruitResultOverlay onRestart={startGame} />}
       </>}
     />
   );
