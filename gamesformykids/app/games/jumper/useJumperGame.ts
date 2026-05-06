@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useJumperStore } from './jumperStore';
 
 export const W = 300;
 export const H = 500;
@@ -42,8 +43,6 @@ export function useJumperGame() {
     leftDown: false, rightDown: false,
     nextPlatY: H - 60 - INIT_PLATS * (PLAT_GAP * 0.75),
   });
-  const [ui, setUi] = useState({ phase: 'menu' as Phase, score: 0, best: 0 });
-
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing';
@@ -53,7 +52,7 @@ export function useJumperGame() {
     s.score = 0; s.frame = 0;
     s.platforms = generateInitial();
     s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
-    setUi({ phase: 'playing', score: 0, best: s.best });
+    useJumperStore.getState().startPlaying();
   }, []);
 
   const handleCanvasClick = useCallback(() => {
@@ -113,7 +112,7 @@ export function useJumperGame() {
         s.score = Math.floor(s.camY / 10);
         if (s.camY > s.maxCamY) {
           s.maxCamY = s.camY;
-          if (s.frame % 10 === 0) setUi(u => ({ ...u, score: s.score }));
+          if (s.frame % 10 === 0) useJumperStore.getState().setScore(s.score);
         }
 
         while (s.nextPlatY > -(s.camY) - H) {
@@ -124,8 +123,7 @@ export function useJumperGame() {
 
         if (s.py > H + 60) {
           s.phase = 'dead';
-          if (s.score > s.best) s.best = s.score;
-          setUi({ phase: 'dead', score: s.score, best: s.best });
+          useJumperStore.getState().endGame(s.score);
         }
       }
 
@@ -205,5 +203,5 @@ export function useJumperGame() {
     st.current.rightDown = false;
   }, []);
 
-  return { canvasRef, ui, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight };
+  return { canvasRef, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight };
 }
