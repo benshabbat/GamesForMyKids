@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useWordBuilderGame } from './useWordBuilderGame';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
@@ -6,10 +6,7 @@ import WordBuilderQuestion from './components/WordBuilderQuestion';
 import WordBuilderResultScreen from './components/WordBuilderResultScreen';
 
 export default function WordBuilderGame() {
-  const {
-    phase, index, score, typed, available, status, current, total,
-    startGame, pressLetter, clearTyped, next, restart,
-  } = useWordBuilderGame();
+  const { phase, startGame } = useWordBuilderGame();
 
   if (phase === 'menu') return (
     <GameMenuCard
@@ -23,26 +20,7 @@ export default function WordBuilderGame() {
     />
   );
 
-  if (phase === 'playing' && current) return (
-    <WordBuilderQuestion
-      index={index}
-      total={total}
-      score={score}
-      current={current}
-      typed={typed}
-      available={available}
-      status={status}
-      onPressLetter={pressLetter}
-      onClear={clearTyped}
-      onNext={next}
-    />
-  );
+  if (phase === 'playing') return <WordBuilderQuestion />;
 
-  return (
-    <WordBuilderResultScreen
-      score={score}
-      total={total}
-      onRestart={restart}
-    />
-  );
+  return <WordBuilderResultScreen />;
 }

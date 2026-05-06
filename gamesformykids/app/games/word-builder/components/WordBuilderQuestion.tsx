@@ -1,33 +1,15 @@
 'use client';
 
-interface AvailableLetter {
-  letter: string;
-  used: boolean;
-}
+import { useWordBuilderStore } from '../wordBuilderStore';
 
-interface WordBuilderItem {
-  emoji: string;
-  hint: string;
-  category: string;
-  word: string;
-}
+export default function WordBuilderQuestion() {
+  const { puzzles, index, score, typed, available, status, pressLetter, clearTyped, next } =
+    useWordBuilderStore();
+  const current = puzzles[index];
+  const total = puzzles.length;
 
-interface Props {
-  index: number;
-  total: number;
-  score: number;
-  current: WordBuilderItem;
-  typed: string[];
-  available: AvailableLetter[];
-  status: 'idle' | 'correct' | 'wrong';
-  onPressLetter: (i: number) => void;
-  onClear: () => void;
-  onNext: () => void;
-}
+  if (!current) return null;
 
-export default function WordBuilderQuestion({
-  index, total, score, current, typed, available, status, onPressLetter, onClear, onNext,
-}: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 p-4" dir="rtl">
       <div className="max-w-xl mx-auto">
@@ -71,7 +53,7 @@ export default function WordBuilderQuestion({
             {available.map((item, i) => (
               <button
                 key={i}
-                onClick={() => onPressLetter(i)}
+                onClick={() => pressLetter(i)}
                 disabled={item.used}
                 className={`w-12 h-12 rounded-xl text-2xl font-black transition-all active:scale-90
                   ${item.used ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
@@ -84,17 +66,17 @@ export default function WordBuilderQuestion({
         )}
         <div className="flex gap-3">
           {status === 'idle' && typed.length > 0 && (
-            <button onClick={onClear} className="flex-1 py-3 rounded-2xl border-2 border-orange-300 text-orange-600 font-semibold hover:bg-orange-50 transition-all">
+            <button onClick={clearTyped} className="flex-1 py-3 rounded-2xl border-2 border-orange-300 text-orange-600 font-semibold hover:bg-orange-50 transition-all">
               🔄 נקה
             </button>
           )}
           {(status === 'correct' || status === 'wrong') && (
-            <button onClick={onNext} className="flex-1 py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-orange-500 to-amber-500 shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button onClick={next} className="flex-1 py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-orange-500 to-amber-500 shadow-lg hover:opacity-90 active:scale-95 transition-all">
               {index < total - 1 ? 'מילה הבאה ←' : 'תוצאות! 🎉'}
             </button>
           )}
           {status === 'wrong' && (
-            <button onClick={onClear} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">
+            <button onClick={clearTyped} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">
               🔄 נסה שוב
             </button>
           )}
