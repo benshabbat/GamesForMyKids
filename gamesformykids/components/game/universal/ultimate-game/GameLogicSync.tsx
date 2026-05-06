@@ -17,10 +17,10 @@ function GameLogicSyncInner() {
   // This component doesn't subscribe to the store, so no infinite loop.
   useEffect(() => {
     useGameActionsStore.getState().setGameActions({
-      startGame: gameHookResult.startGame,
-      resetGame: gameHookResult.resetGame,
-      handleItemClick: gameHookResult.handleItemClick,
-      speakItemName: gameHookResult.speakItemName,
+      startGame: gameHookResult.startGame ?? (() => {}),
+      resetGame: gameHookResult.resetGame ?? (() => {}),
+      handleItemClick: gameHookResult.handleItemClick ?? (() => {}),
+      speakItemName: gameHookResult.speakItemName ?? (() => {}),
       hints: gameHookResult.hints?.map((h) => {
         const hint = h as string | { text?: string };
         return typeof hint === 'string' ? hint : hint.text ?? '';

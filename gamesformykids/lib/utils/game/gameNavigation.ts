@@ -21,15 +21,7 @@ export function getGameNavigation(currentGameId: string): {
   const next = currentIndex < allGames.length - 1 ? allGames[currentIndex + 1] : undefined;
 
   return {
-    previous: previous ? {
-      href: previous.href,
-      title: previous.title,
-      icon: previous.icon
-    } : undefined,
-    next: next ? {
-      href: next.href,
-      title: next.title,
-      icon: next.icon
-    } : undefined
+    ...(previous ? { previous: { href: previous.href, title: previous.title, icon: previous.icon } } : {}),
+    ...(next    ? { next:     { href: next.href,     title: next.title,     icon: next.icon     } } : {}),
   };
 }

@@ -33,10 +33,7 @@ export default function LetterWritingStep() {
         </p>
       </div>
 
-      <WritingCanvas
-        height={300}
-        guideLetter={undefined}
-      />
+      <WritingCanvas height={300} />
     </motion.div>
   );
 }

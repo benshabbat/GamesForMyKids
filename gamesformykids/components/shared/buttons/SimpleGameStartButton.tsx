@@ -4,7 +4,7 @@ type SimpleGameStartButtonProps = {
   fromColor?: string;
   toColor?: string;
   text?: string;
-  customOnStart?: () => void;
+  customOnStart?: (() => void) | undefined;
 };
 
 /**

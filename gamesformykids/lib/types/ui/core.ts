@@ -41,5 +41,5 @@ export interface GoogleAnalyticsProps {
 export interface LoadingScreenProps {
   readonly message?: string;
   readonly showSpinner?: boolean;
-  readonly onLoadingComplete?: () => void;
+  readonly onLoadingComplete?: (() => void) | undefined;
 }
