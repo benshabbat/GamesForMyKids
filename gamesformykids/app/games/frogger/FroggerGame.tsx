@@ -1,14 +1,17 @@
 'use client';
 
 import { useFroggerGame, W, H } from './useFroggerGame';
+import { useFroggerStore } from './froggerStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FroggerGameOverOverlay from './components/FroggerGameOverOverlay';
 import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
+import { useShallow } from 'zustand/react/shallow';
 
 export default function FroggerGame() {
-  const { canvasRef, ui, startGame, moveFrog, handleTouchStart, handleTouchEnd } = useFroggerGame();
+  const { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd } = useFroggerGame();
+  const { phase, score, lives } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives })));
 
   return (
     <CanvasGameShell
@@ -17,16 +20,16 @@ export default function FroggerGame() {
       canvasClassName="rounded-2xl shadow-2xl border-2 border-gray-700"
       canvasStyle={{ maxHeight: '70vh', width: 'auto' }}
       canvasProps={{ onTouchStart: handleTouchStart, onTouchEnd: handleTouchEnd }}
-      hud={ui.phase === 'playing' && (
+      hud={phase === 'playing' && (
         <CanvasScoreBar
           stats={[
-            { value: ui.score, label: "ניקוד", valueClass: "text-xl font-black text-green-300", labelClass: "text-xs text-green-600" },
-            { value: <div className="flex gap-1 items-center justify-center">{[0,1,2].map(i => <span key={i} className={`text-xl ${i < ui.lives ? '' : 'opacity-20'}`}>❤️</span>)}</div> },
+            { value: score, label: "ניקוד", valueClass: "text-xl font-black text-green-300", labelClass: "text-xs text-green-600" },
+            { value: <div className="flex gap-1 items-center justify-center">{[0,1,2].map(i => <span key={i} className={`text-xl ${i < lives ? '' : 'opacity-20'}`}>❤️</span>)}</div> },
           ]}
         />
       )}
       overlays={<>
-        {ui.phase === 'menu' && (
+        {phase === 'menu' && (
           <CanvasMenuOverlay
             emoji="🐸" title="צפרדע חוצה"
             description={<>עזור לצפרדע לחצות את הכביש!<br />הימנע מהרכבים — הגע לדגלים 🏁</>}
@@ -36,9 +39,9 @@ export default function FroggerGame() {
             buttonClass="bg-green-500 hover:bg-green-600"
           />
         )}
-        {ui.phase === 'dead' && <FroggerGameOverOverlay score={ui.score} best={ui.best} onRestart={startGame} />}
+        {phase === 'dead' && <FroggerGameOverOverlay onRestart={startGame} />}
       </>}
-      controls={ui.phase === 'playing' && (
+      controls={phase === 'playing' && (
         <CanvasDPadControls
           onUp={() => moveFrog(0, -1)} onDown={() => moveFrog(0, 1)}
           onLeft={() => moveFrog(-1, 0)} onRight={() => moveFrog(1, 0)}
