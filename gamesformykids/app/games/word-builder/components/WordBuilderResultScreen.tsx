@@ -1,13 +1,8 @@
 'use client';
 import { QuizResultScreen } from '@/components/game/quiz';
+import { useWordBuilderStore } from '../wordBuilderStore';
 
-interface Props {
-  score: number;
-  total: number;
-  onRestart: () => void;
-}
-
-export default function WordBuilderResultScreen({ score, total, onRestart }: Props) {
-  return <QuizResultScreen correctCount={score} total={total} onRestart={onRestart} theme="amber" />;
-
+export default function WordBuilderResultScreen() {
+  const { score, puzzles, startGame } = useWordBuilderStore();
+  return <QuizResultScreen correctCount={score} total={puzzles.length} onRestart={startGame} theme="amber" />;
 }
