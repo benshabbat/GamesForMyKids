@@ -22,7 +22,7 @@ export function makeSetter<S, K extends keyof S>(
   set: SetFn<S>,
   key: K,
 ): (value: S[K]) => void {
-  return (value) => set({ [key]: value } as Partial<S>);
+  return (value) => set({ [key]: value } as unknown as Partial<S>);
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -41,5 +41,5 @@ export function makeToggle<S, K extends { [P in keyof S]: S[P] extends boolean ?
   set: SetFn<S>,
   key: K,
 ): () => void {
-  return () => set((s) => ({ [key]: !(s as S)[key] } as Partial<S>));
+  return () => set((s) => ({ [key]: !(s as S)[key] } as unknown as Partial<S>));
 }
