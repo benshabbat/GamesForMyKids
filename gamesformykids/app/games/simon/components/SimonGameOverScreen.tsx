@@ -1,21 +1,18 @@
 'use client';
 
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { useSimonStore } from '../simonStore';
 
-interface Props {
-  roundScore: number;
-  best: number;
-  onRestart: () => void;
-}
+export default function SimonGameOverScreen() {
+  const { roundScore, best, startGame } = useSimonStore();
 
-export default function SimonGameOverScreen({ roundScore, best, onRestart }: Props) {
   return (
     <GameResultCard
       emoji="😵"
       title="טעית!"
       gradientClass="from-gray-800 to-gray-900"
       buttonClass="from-gray-600 to-gray-800"
-      onRestart={onRestart}
+      onRestart={startGame}
       restartLabel="🔄 שוב!"
     >
       <p className="text-gray-400 text-sm mb-4">הגעת לרצף של {roundScore} צבעים</p>
