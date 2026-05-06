@@ -1,23 +1,18 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { useMathRaceStore } from '../mathRaceStore';
 
-interface Props {
-  score: number;
-  best: number;
-  correct: number;
-  total: number;
-  accuracy: number;
-  onRestart: () => void;
-}
+export default function MathRaceResultScreen() {
+  const { score, best, correct, total, startGame } = useMathRaceStore();
+  const accuracy = total > 0 ? Math.round((correct / total) * 100) : 0;
 
-export default function MathRaceResultScreen({ score, best, correct, total, accuracy, onRestart }: Props) {
   return (
     <GameResultCard
       emoji="🏁"
       title="הסיום!"
       gradientClass="from-blue-100 to-indigo-200"
       buttonClass="from-blue-500 to-indigo-600"
-      onRestart={onRestart}
+      onRestart={startGame}
       restartLabel="🔄 שוב!"
     >
       <div className="grid grid-cols-2 gap-3">
