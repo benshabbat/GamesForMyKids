@@ -1,5 +1,33 @@
 import type { StoreMutatorIdentifier, StateCreator, StoreApi, UseBoundStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
+import type { LivesGameState } from '@/lib/types';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// makeLivesInitial
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Builds a typed INITIAL_STATE object for LivesGameState-based stores.
+ * Eliminates the repeated phase/score/best/lives/timeLeft/feedback boilerplate.
+ *
+ * @example
+ * const INITIAL = makeLivesInitial(TIME_PER_Q, { question: makeQuestion() });
+ */
+export function makeLivesInitial<T extends object>(
+  timePerQ: number,
+  extra: T,
+  initialLives = 3,
+): LivesGameState & T {
+  return {
+    phase: 'menu',
+    score: 0,
+    best: 0,
+    lives: initialLives,
+    timeLeft: timePerQ,
+    feedback: null,
+    ...extra,
+  } as LivesGameState & T;
+}
 
 // ─────────────────────────────────────────────────────────────────────────────
 // createShallowHook

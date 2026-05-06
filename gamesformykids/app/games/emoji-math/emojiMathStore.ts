@@ -1,5 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
+import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
@@ -51,10 +52,7 @@ interface EmojiMathActions {
   tap:       (choice: number) => void;
 }
 
-const INITIAL: EmojiMathState = {
-  phase: 'menu', score: 0, best: 0, lives: 3,
-  timeLeft: TIME_PER_Q, feedback: null, q: makeQuestion(1), level: 1, streak: 0,
-};
+const INITIAL = makeLivesInitial(TIME_PER_Q, { q: makeQuestion(1), level: 1, streak: 0 });
 
 export const useEmojiMathStore = makeStore<EmojiMathState & EmojiMathActions>(
   'EmojiMathStore',

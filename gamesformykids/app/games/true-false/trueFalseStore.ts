@@ -1,5 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
+import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
 import { shuffle } from '@/lib/utils';
 
@@ -49,10 +50,7 @@ interface TrueFalseActions {
   answer:    (choice: boolean) => void;
 }
 
-const INITIAL: TrueFalseState = {
-  phase: 'menu', score: 0, best: 0, lives: 3,
-  timeLeft: TIME_PER_Q, feedback: null, deck: shuffle(FACTS), idx: 0,
-};
+const INITIAL = makeLivesInitial(TIME_PER_Q, { deck: shuffle(FACTS), idx: 0 });
 
 export const useTrueFalseStore = makeStore<TrueFalseState & TrueFalseActions>(
   'TrueFalseStore',

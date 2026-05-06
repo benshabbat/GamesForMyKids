@@ -1,5 +1,6 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
+import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
 
 // ── Color data ──────────────────────────────────────────────────────────────
@@ -40,10 +41,7 @@ interface ColorTapActions {
   handleTap: (color: ColorItem) => void;
 }
 
-const INITIAL: ColorTapState = {
-  phase: 'menu', score: 0, best: 0, lives: 3,
-  timeLeft: TIME_PER_Q, feedback: null, question: makeQuestion(),
-};
+const INITIAL = makeLivesInitial(TIME_PER_Q, { question: makeQuestion() });
 
 export const useColorTapStore = makeStore<ColorTapState & ColorTapActions>(
   'ColorTapStore',
