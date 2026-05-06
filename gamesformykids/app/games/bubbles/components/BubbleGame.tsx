@@ -1,19 +1,24 @@
 "use client";
 
+import { useShallow } from 'zustand/react/shallow';
 import { useBubbleGame } from '../hooks/useBubbleGame';
+import { useBubblesStore } from '../bubblesStore';
 import BubbleStartScreen from './BubbleStartScreen';
 import Bubble from './Bubble';
 
 export default function BubbleGame() {
-  const {
-    gameState,
-    gameContainerRef,
-    stopGame,
-    handleBubblePop,
-    startGame,
-  } = useBubbleGame();
+  const { gameContainerRef, stopGame, handleBubblePop, startGame } = useBubbleGame();
+  const { isPlaying, score, level, poppedCount, bubbles } = useBubblesStore(
+    useShallow((s) => ({
+      isPlaying: s.isPlaying,
+      score: s.score,
+      level: s.level,
+      poppedCount: s.poppedCount,
+      bubbles: s.bubbles,
+    })),
+  );
 
-  if (!gameState || !gameState.isPlaying) {
+  if (!isPlaying) {
     return <BubbleStartScreen startGame={startGame} />;
   }
 
@@ -29,13 +34,13 @@ export default function BubbleGame() {
       <div className="relative z-10 p-4">
         <div className="text-center">
           <h1 className="text-3xl font-bold text-purple-800 mb-2">🫧 משחק הבועות</h1>
-          <p className="text-lg text-purple-600">ניקוד: {gameState.score} | רמה: {gameState.level}</p>
+          <p className="text-lg text-purple-600">ניקוד: {score} | רמה: {level}</p>
         </div>
       </div>
 
       {/* אזור המשחק */}
       <div className="absolute inset-0 pointer-events-none">
-        {gameState.bubbles.map((bubble) => (
+        {bubbles.map((bubble) => (
           <div key={bubble.id} className="pointer-events-auto">
             <Bubble
               id={bubble.id}
@@ -55,7 +60,7 @@ export default function BubbleGame() {
       <div className="absolute top-20 right-4 z-20 bg-white bg-opacity-80 rounded-2xl p-4 shadow-lg">
         <div className="text-center">
           <div className="text-lg font-bold text-blue-800">בועות פוצצו:</div>
-          <div className="text-2xl font-bold text-blue-600">{gameState.poppedCount}</div>
+          <div className="text-2xl font-bold text-blue-600">{poppedCount}</div>
         </div>
       </div>
 
