@@ -1,6 +1,7 @@
 ﻿'use client';
 
-import { useEffect, useRef, useCallback, useState } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
+import { useFlappyBirdStore } from './flappyBirdStore';
 
 export const W = 360;
 export const H = 560;
@@ -30,9 +31,6 @@ export function useFlappyBirdGame() {
     raf: 0,
     bgOffset: 0,
   });
-  const [ui, setUi] = useState<{ phase: Phase; score: number; best: number }>({ phase: 'menu', score: 0, best: 0 });
-  const bestRef = useRef(0);
-
   const resetGame = useCallback(() => {
     const st = s.current;
     st.phase = 'playing';
@@ -41,7 +39,8 @@ export function useFlappyBirdGame() {
     st.pipes = [];
     st.score = 0;
     st.frame = 0;
-    setUi({ phase: 'playing', score: 0, best: bestRef.current });
+    useFlappyBirdStore.getState().setPhase('playing');
+    useFlappyBirdStore.getState().setScore(0);
   }, []);
 
   const flap = useCallback(() => {
@@ -52,7 +51,7 @@ export function useFlappyBirdGame() {
       resetGame();
     } else if (st.phase === 'dead') {
       st.phase = 'menu';
-      setUi(u => ({ ...u, phase: 'menu' }));
+      useFlappyBirdStore.getState().setPhase('menu');
     }
   }, [resetGame]);
 
@@ -177,15 +176,14 @@ export function useFlappyBirdGame() {
           if (!p.scored && p.x + PIPE_W < BIRD_X - BIRD_R) {
             p.scored = true;
             st.score++;
-            setUi(u => ({ ...u, score: st.score }));
+            useFlappyBirdStore.getState().setScore(st.score);
           }
         }
         st.pipes = st.pipes.filter(p => p.x > -PIPE_W - 20);
 
         if (st.birdY + BIRD_R >= H - GROUND_H || st.birdY - BIRD_R <= 0) {
           st.phase = 'dead';
-          if (st.score > bestRef.current) bestRef.current = st.score;
-          setUi({ phase: 'dead', score: st.score, best: bestRef.current });
+          useFlappyBirdStore.getState().endGame(st.score);
         }
 
         for (const p of st.pipes) {
@@ -196,8 +194,7 @@ export function useFlappyBirdGame() {
           if (bR > p.x && bL < p.x + PIPE_W) {
             if (bT < p.gapY || bB > p.gapY + PIPE_GAP) {
               st.phase = 'dead';
-              if (st.score > bestRef.current) bestRef.current = st.score;
-              setUi({ phase: 'dead', score: st.score, best: bestRef.current });
+              useFlappyBirdStore.getState().endGame(st.score);
             }
           }
         }
@@ -217,5 +214,5 @@ export function useFlappyBirdGame() {
     flap();
   }, [flap]);
 
-  return { canvasRef, ui, flap, handleInput };
+  return { canvasRef, flap, handleInput };
 }
