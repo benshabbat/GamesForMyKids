@@ -16,10 +16,10 @@ import { createPhotoCard } from './cards/PhotoGameCard';
 
 // Generic card component that works for all game types
 const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
-  <UnifiedCard 
+  <UnifiedCard
     item={item}
-    onClick={onClick ? () => onClick(item) : undefined}
-    isSelected={isSelected}
+    onClick={() => onClick(item)}
+    {...(isSelected !== undefined ? { isSelected } : {})}
     variant="advanced"
   />
 );

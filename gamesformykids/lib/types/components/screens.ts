@@ -7,11 +7,11 @@
 export interface GenericStartScreenProps<T> {
   // Header props
   title: string;
-  subtitle?: string;
-  subTitle?: string; // alias for subtitle
-  textColorHeader?: string;
-  textColorSubHeader?: string;
-  
+  subtitle?: string | undefined;
+  subTitle?: string | undefined;
+  textColorHeader?: string | undefined;
+  textColorSubHeader?: string | undefined;
+
   // Game props
   items: T[];
   gameSteps?: Array<{
@@ -20,36 +20,36 @@ export interface GenericStartScreenProps<T> {
     icon: string;
     title: string;
     description: string;
-  }>;
-  gameStepsBgClass?: string;
-  onStart?: () => void;
-  customOnStart?: () => void;
-  onItemClick?: (item: T) => void;
-  onSpeak?: (name: string) => void;
-  showPreview?: boolean;
-  difficulty?: 'easy' | 'medium' | 'hard';
-  
+  }> | undefined;
+  gameStepsBgClass?: string | undefined;
+  onStart?: (() => void) | undefined;
+  customOnStart?: (() => void) | undefined;
+  onItemClick?: ((item: T) => void) | undefined;
+  onSpeak?: ((name: string) => void) | undefined;
+  showPreview?: boolean | undefined;
+  difficulty?: 'easy' | 'medium' | 'hard' | undefined;
+
   // Button colors
-  buttonFromColor?: string;
-  buttonToColor?: string;
-  
+  buttonFromColor?: string | undefined;
+  buttonToColor?: string | undefined;
+
   // Background
-  backgroundStyle?: string;
-  
+  backgroundStyle?: string | undefined;
+
   // Items display
-  itemsTitle?: string;
-  itemsDescription?: string;
-  itemsDescriptionColor?: string;
-  itemsGridClass?: string;
-  
+  itemsTitle?: string | undefined;
+  itemsDescription?: string | undefined;
+  itemsDescriptionColor?: string | undefined;
+  itemsGridClass?: string | undefined;
+
   // Item rendering function
-  renderItem?: (item: T, index: number) => React.ReactNode;
-  customItemsRenderer?: () => React.ReactNode;
+  renderItem?: ((item: T, index: number) => React.ReactNode) | undefined;
+  customItemsRenderer?: (() => React.ReactNode) | undefined;
   customContent?: React.ReactNode;
-  
+
   // Layout options
-  showAudioCheck?: boolean;
-  className?: string;
+  showAudioCheck?: boolean | undefined;
+  className?: string | undefined;
 }
 
 export interface GameErrorScreenProps {
