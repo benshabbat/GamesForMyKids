@@ -11,8 +11,8 @@ import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SpaceDefenderGame() {
   const { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight } = useSpaceDefenderGame();
-  const { phase, score, best, lives, timeLeft } = useSpaceDefenderStore(
-    useShallow((s) => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, timeLeft: s.timeLeft })),
+  const { phase, best } = useSpaceDefenderStore(
+    useShallow((s) => ({ phase: s.phase, best: s.best })),
   );
 
   return (
@@ -22,7 +22,7 @@ export default function SpaceDefenderGame() {
       canvasClassName="rounded-3xl shadow-2xl border-4 border-indigo-700 cursor-crosshair"
       canvasStyle={{ maxHeight: '85vh', width: 'auto' }}
       canvasProps={{ onMouseMove: handleMouseMove, onClick: handleCanvasClick, onTouchMove: handleTouchMove, onTouchStart: handleTouchStart }}
-      hud={phase === 'playing' && <SpaceDefenderHUD score={score} lives={lives} timeLeft={timeLeft} />}
+      hud={phase === 'playing' && <SpaceDefenderHUD />}
       overlays={<>
         {phase === 'menu' && (
           <CanvasMenuOverlay
@@ -35,7 +35,7 @@ export default function SpaceDefenderGame() {
           />
         )}
         {phase === 'result' && (
-          <SpaceDefenderResultOverlay lives={lives} score={score} best={best} onRestart={startGame} />
+          <SpaceDefenderResultOverlay onRestart={startGame} />
         )}
       </>}
       controls={phase === 'playing' && (

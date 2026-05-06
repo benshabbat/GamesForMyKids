@@ -1,12 +1,10 @@
 'use client';
 
-interface Props {
-  score: number;
-  lives: number;
-  timeLeft: number;
-}
+import { useSpaceDefenderStore } from '../spaceDefenderStore';
+import { useShallow } from 'zustand/react/shallow';
 
-export default function SpaceDefenderHUD({ score, lives, timeLeft }: Props) {
+export default function SpaceDefenderHUD() {
+  const { score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
   return (
     <div className="flex gap-5 mb-2 text-white text-center">
       <div>

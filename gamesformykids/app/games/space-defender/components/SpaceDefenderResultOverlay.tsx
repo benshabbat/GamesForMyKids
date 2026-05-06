@@ -1,13 +1,14 @@
 'use client';
 
+import { useSpaceDefenderStore } from '../spaceDefenderStore';
+import { useShallow } from 'zustand/react/shallow';
+
 interface Props {
-  lives: number;
-  score: number;
-  best: number;
   onRestart: () => void;
 }
 
-export default function SpaceDefenderResultOverlay({ lives, score, best, onRestart }: Props) {
+export default function SpaceDefenderResultOverlay({ onRestart }: Props) {
+  const { lives, score, best } = useSpaceDefenderStore(useShallow(s => ({ lives: s.lives, score: s.score, best: s.best })));
   const outOfLives = lives === 0;
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/60">
