@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
@@ -43,8 +43,9 @@ interface ColorTapActions {
 
 const INITIAL = makeLivesInitial(TIME_PER_Q, { question: makeQuestion() });
 
-export const useColorTapStore = makeStore<ColorTapState & ColorTapActions>(
+export const useColorTapStore = makePersistStore<ColorTapState & ColorTapActions>(
   'ColorTapStore',
+  'color-tap-best',
   (set, get) => {
     const timer = setupLivesTimer({
       name: 'ColorTapStore', timePerQ: TIME_PER_Q, feedbackMs: 700, initialLives: 3,
@@ -65,4 +66,5 @@ export const useColorTapStore = makeStore<ColorTapState & ColorTapActions>(
       },
     };
   },
+  { partialize: (s) => ({ best: s.best }) },
 );

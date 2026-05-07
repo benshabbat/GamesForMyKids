@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface FroggerState {
@@ -14,8 +14,9 @@ interface FroggerActions {
   endGame: (score: number) => void;
 }
 
-export const useFroggerStore = makeStore<FroggerState & FroggerActions>(
+export const useFroggerStore = makePersistStore<FroggerState & FroggerActions>(
   'FroggerStore',
+  'frogger-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -28,4 +29,5 @@ export const useFroggerStore = makeStore<FroggerState & FroggerActions>(
       set({ phase: 'dead', lives: 0, score, best }, false, 'frogger/endGame');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );

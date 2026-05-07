@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
@@ -54,8 +54,9 @@ interface EmojiMathActions {
 
 const INITIAL = makeLivesInitial(TIME_PER_Q, { q: makeQuestion(1), level: 1, streak: 0 });
 
-export const useEmojiMathStore = makeStore<EmojiMathState & EmojiMathActions>(
+export const useEmojiMathStore = makePersistStore<EmojiMathState & EmojiMathActions>(
   'EmojiMathStore',
+  'emoji-math-best',
   (set, get) => {
     const timer = setupLivesTimer({
       name: 'EmojiMathStore', timePerQ: TIME_PER_Q, feedbackMs: 900, initialLives: 3,
@@ -84,4 +85,5 @@ export const useEmojiMathStore = makeStore<EmojiMathState & EmojiMathActions>(
       },
     };
   },
+  { partialize: (s) => ({ best: s.best }) },
 );

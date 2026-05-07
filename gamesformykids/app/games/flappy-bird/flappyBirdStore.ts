@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface FlappyState {
@@ -13,8 +13,9 @@ interface FlappyActions {
   endGame: (score: number) => void;
 }
 
-export const useFlappyBirdStore = makeStore<FlappyState & FlappyActions>(
+export const useFlappyBirdStore = makePersistStore<FlappyState & FlappyActions>(
   'FlappyBirdStore',
+  'flappy-bird-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -26,4 +27,5 @@ export const useFlappyBirdStore = makeStore<FlappyState & FlappyActions>(
       set({ phase: 'dead', score, best }, false, 'flappy/endGame');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );
