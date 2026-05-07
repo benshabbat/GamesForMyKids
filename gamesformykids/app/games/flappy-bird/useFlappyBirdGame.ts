@@ -3,7 +3,7 @@
 import { useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFlappyBirdStore } from './flappyBirdStore';
-import { useCanvasLoop } from '@/hooks/shared/common';
+import { useCanvasLoop } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 560;
