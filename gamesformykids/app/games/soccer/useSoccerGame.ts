@@ -1,26 +1,17 @@
 ﻿'use client';
 
+import { useShallow } from 'zustand/react/shallow';
 import { useSoccerStore } from './store/soccerStore';
 
 export function useSoccerGame() {
-  const store = useSoccerStore();
+  const store = useSoccerStore(useShallow(s => s));
   const currentQuestion = store.questions[store.currentIndex] ?? null;
   const total = store.questions.length;
 
   return {
-    phase: store.phase,
-    category: store.category,
-    categories: store.categories,
+    ...store,
     currentQuestion,
-    currentIndex: store.currentIndex,
     total,
-    selected: store.selected,
-    isCorrect: store.isCorrect,
-    score: store.score,
-    showGoal: store.showGoal,
-    startGame: store.startGame,
-    selectAnswer: store.selectAnswer,
-    nextQuestion: store.nextQuestion,
   };
 }
 

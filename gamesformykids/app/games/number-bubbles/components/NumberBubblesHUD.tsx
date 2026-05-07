@@ -1,9 +1,9 @@
 'use client';
 
-import { useNumberBubblesStore } from '../numberBubblesStore';
+import { useNumberBubblesGame } from '../useNumberBubblesGame';
 
 export default function NumberBubblesHUD() {
-  const { next, bubbles, level, elapsed } = useNumberBubblesStore();
+  const { next, bubbles, level, elapsed } = useNumberBubblesGame();
   const popped = next - 1;
   const total = bubbles.length;
 

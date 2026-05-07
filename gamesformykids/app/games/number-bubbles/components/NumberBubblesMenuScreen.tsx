@@ -1,10 +1,10 @@
 'use client';
 
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
-import { useNumberBubblesStore } from '../numberBubblesStore';
+import { useNumberBubblesGame } from '../useNumberBubblesGame';
 
 export default function NumberBubblesMenuScreen() {
-  const { best, startGame } = useNumberBubblesStore();
+  const { best, startGame } = useNumberBubblesGame();
 
   return (
     <GameMenuCard

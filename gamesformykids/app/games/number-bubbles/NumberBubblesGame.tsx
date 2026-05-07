@@ -1,12 +1,12 @@
 'use client';
-import { useNumberBubblesStore } from './numberBubblesStore';
+import { useNumberBubblesGame } from './useNumberBubblesGame';
 import NumberBubblesMenuScreen from './components/NumberBubblesMenuScreen';
 import NumberBubblesResultScreen from './components/NumberBubblesResultScreen';
 import NumberBubblesHUD from './components/NumberBubblesHUD';
 import NumberBubbleGrid from './components/NumberBubbleGrid';
 
 export default function NumberBubblesGame() {
-  const { phase, wrong } = useNumberBubblesStore();
+  const { phase, wrong } = useNumberBubblesGame();
 
   if (phase === 'menu')    return <NumberBubblesMenuScreen />;
   if (phase === 'results') return <NumberBubblesResultScreen />;
