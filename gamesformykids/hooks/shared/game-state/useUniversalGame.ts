@@ -53,24 +53,3 @@ export function useUniversalGame(): UniversalGameContextValue {
   }
 }
 
-export function useGameData() {
-  const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level, isReady, error } =
-    useUniversalGame()
-  return { gameState, isPlaying, showCelebration, currentChallenge, options, score, level, isReady, error }
-}
-
-export function useGameControls() {
-  const { startGame, resetGame, handleItemClick, speakItemName } = useUniversalGame()
-  return { startGame, resetGame, handleItemClick, speakItemName }
-}
-
-export function useGameConfiguration() {
-  const { config, items, CardComponent, gameType } = useUniversalGame()
-  return { config, items, CardComponent, gameType }
-}
-
-export function useGameEnhancements() {
-  const { hints, hasMoreHints, showNextHint, currentAccuracy, showProgressModal, setShowProgressModal } =
-    useUniversalGame()
-  return { hints, hasMoreHints, showNextHint, currentAccuracy, showProgressModal, setShowProgressModal }
-}

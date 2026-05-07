@@ -7,14 +7,12 @@
 
 import { useMemo } from 'react'
 import { GameType, BaseGameItem } from '@/lib/types/core/base'
-import { GAME_UI_CONFIGS, GameUIConfig } from '@/lib/constants/ui/gameConfigs'
+import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs'
 import { GAME_HOOKS_MAP, AutoGameType } from '@/lib/constants/gameHooksMap'
 import { GameCardMap } from '@/components/shared/GameCardMap'
-import { Metadata } from 'next'
 import {
   GameConfigContextValue,
 } from '@/lib/types/contexts/game-config'
-import type { GameItemCardProps } from '@/lib/types/components/cards'
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore'
 
 // ---------------------------------------------------------------------------
@@ -100,62 +98,3 @@ export function useAutoGameConfig(overrideGameType?: AutoGameType | GameType) {
   }
 }
 
-export function useGameUIConfig(): GameUIConfig | null {
-  return useGameConfig().config
-}
-
-export function useGameItems(): BaseGameItem[] | null {
-  return useGameConfig().items
-}
-
-export function useGameCardComponent(): React.ComponentType<GameItemCardProps> | null {
-  return useGameConfig().CardComponent
-}
-
-// ---------------------------------------------------------------------------
-// Metadata helpers
-// ---------------------------------------------------------------------------
-export function generateGameMetadata(
-  gameType: GameType,
-  gameUrlType?: string,
-  baseUrl = 'https://gamesformykids.vercel.app',
-): Metadata {
-  const config = GAME_UI_CONFIGS[gameType]
-  const urlGameType = gameUrlType || gameType
-
-  if (!config) return { title: 'משחק לא נמצא', description: 'המשחק שחיפשת לא נמצא' }
-
-  const description = config.metadata?.description || config.subTitle
-  const keywords =
-    config.metadata?.keywords ||
-    (config.title + ', משחקים לילדים, חינוכי, גיל 2-5, פעוטות, למידה, ' + gameType)
-  const ogImage = config.metadata?.ogImagePath || '/images/games/' + gameType + '-og.png'
-  const twitterImage =
-    config.metadata?.twitterImagePath || '/images/games/' + gameType + '-twitter.png'
-
-  return {
-    title: config.title,
-    description,
-    keywords,
-    openGraph: {
-      title: config.title,
-      description,
-      type: 'article',
-      url: baseUrl + '/games/' + urlGameType,
-      images: [{ url: ogImage, width: 1200, height: 630, alt: config.title }],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: config.title,
-      description,
-      images: [twitterImage],
-    },
-    alternates: { canonical: '/games/' + urlGameType },
-  }
-}
-
-export function useGameMetadata(gameUrlType?: string): Metadata {
-  const gameType = useGameTypeStore((s) => s.currentGameType)
-  if (!gameType) return { title: 'משחק לא נמצא', description: 'המשחק שחיפשת לא נמצא' }
-  return generateGameMetadata(gameType as GameType, gameUrlType)
-}

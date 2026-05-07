@@ -67,12 +67,3 @@ export function useGameType(): GameTypeContextValue {
     getGameItems,
   }
 }
-
-export function useCurrentGameType(): GameType | null {
-  return useGameTypeStore((s) => s.currentGameType)
-}
-
-export function useCurrentGameConfig() {
-  const gameType = useGameTypeStore((s) => s.currentGameType)
-  return gameType ? GAME_UI_CONFIGS[gameType] ?? null : null
-}
