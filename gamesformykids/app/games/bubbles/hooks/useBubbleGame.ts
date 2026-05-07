@@ -8,8 +8,8 @@ export function useBubbleGame() {
   const nextBubbleId = useRef(0);
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
-  const { isPlaying, level } = useBubblesStore(
-    useShallow((s) => ({ isPlaying: s.isPlaying, level: s.level })),
+  const { isPlaying, level, score, poppedCount, bubbles } = useBubblesStore(
+    useShallow((s) => ({ isPlaying: s.isPlaying, level: s.level, score: s.score, poppedCount: s.poppedCount, bubbles: s.bubbles })),
   );
 
   const bubbleTypes = useMemo(() => [
@@ -88,5 +88,5 @@ export function useBubbleGame() {
     useBubblesStore.getState().resetGame();
   }, []);
 
-  return { gameContainerRef, startGame, stopGame, resetGame, handleBubblePop };
+  return { gameContainerRef, startGame, stopGame, resetGame, handleBubblePop, isPlaying, score, level, poppedCount, bubbles };
 }

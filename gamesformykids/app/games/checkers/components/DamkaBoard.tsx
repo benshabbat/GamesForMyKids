@@ -1,14 +1,11 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
-import { useDamkaStore } from '../damkaStore';
+import { useDamkaGame } from '../useDamkaGame';
 
 const isDark = (r: number, c: number) => (r + c) % 2 === 1;
 
 export default function DamkaBoard() {
-  const { board, selected, validMoves, selectCell } = useDamkaStore(
-    useShallow((s) => ({ board: s.board, selected: s.selected, validMoves: s.validMoves, selectCell: s.selectCell })),
-  );
+  const { board, selected, validMoves, selectCell } = useDamkaGame();
 
   const validDests   = new Set(validMoves.map(m => `${m.to.row},${m.to.col}`));
   const captureDests = new Set(validMoves.filter(m => m.captures.length > 0).map(m => `${m.to.row},${m.to.col}`));

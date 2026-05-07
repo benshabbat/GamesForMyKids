@@ -1,7 +1,5 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
-import { useTzedakahStore } from './tzedakahStore';
 import { useCharityCoinGame } from './useCharityCoinGame';
 import CharityGameHeader from './components/CharityGameHeader';
 import CharityCoin from './components/CharityCoin';
@@ -12,8 +10,7 @@ import TzedakahGameInstructions from './components/TzedakahGameInstructions';
 import styles from './charity.module.css';
 
 const CharityCoinGame = () => {
-  const { gameWidth, gameHeight, handleMouseMove, handleTouchMove } = useCharityCoinGame();
-  const coins = useTzedakahStore(useShallow((s) => s.coins));
+  const { gameWidth, gameHeight, handleMouseMove, handleTouchMove, coins } = useCharityCoinGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-100 via-blue-100 to-indigo-200 p-4">

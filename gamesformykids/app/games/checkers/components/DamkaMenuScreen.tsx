@@ -1,13 +1,10 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
-import { useDamkaStore } from '../damkaStore';
+import { useDamkaGame } from '../useDamkaGame';
 
 export default function DamkaMenuScreen() {
-  const { playerScore, computerScore, startGame } = useDamkaStore(
-    useShallow((s) => ({ playerScore: s.playerScore, computerScore: s.computerScore, startGame: s.startGame })),
-  );
+  const { playerScore, computerScore, startGame } = useDamkaGame();
 
   return (
     <GameMenuCard

@@ -1,19 +1,16 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import MemoryGameHeader from './components/MemoryGameHeader';
 import GameWinMessage from './components/GameWinMessage';
 import GameTimeoutScreen from './components/GameTimeoutScreen';
 import MemoryGameBoard from './components/MemoryGameBoard';
 import MemoryStartScreen from './components/MemoryStartScreen';
 import { useMemoryGameContent } from './useMemoryGameContent';
-import { useMemoryStore } from './stores/useMemoryStore';
+import { useMemoryGame } from './useMemoryGame';
 
 export default function MemoryClient() {
   useMemoryGameContent();
-  const { gameStarted, isGameWon, isCompleted } = useMemoryStore(
-    useShallow((s) => ({ gameStarted: s.gameStarted, isGameWon: s.isGameWon, isCompleted: s.isCompleted })),
-  );
+  const { gameStarted, isGameWon, isCompleted } = useMemoryGame();
 
   if (!gameStarted) return <MemoryStartScreen />;
   if (isGameWon)    return <GameWinMessage />;

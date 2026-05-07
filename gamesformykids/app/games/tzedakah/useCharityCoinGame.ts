@@ -9,7 +9,7 @@ export type { Coin } from './tzedakahStore';
 
 export function useCharityCoinGame() {
   const { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
-          score, gameTime, collectedCoins, startGame, moveBasket, stepBasket, setIsMobile } =
+          score, gameTime, collectedCoins, coins, startGame, moveBasket, stepBasket, setIsMobile } =
     useTzedakahStore(useShallow((s) => s));
 
   const router = useRouter();
@@ -48,5 +48,5 @@ export function useCharityCoinGame() {
   };
 
   return { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
-           score, gameTime, collectedCoins, startGame, handleMouseMove, handleTouchMove, nextGame, router };
+           score, gameTime, collectedCoins, coins, startGame, handleMouseMove, handleTouchMove, nextGame, router };
 }
