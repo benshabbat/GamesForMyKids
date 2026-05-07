@@ -8,7 +8,8 @@ import { useRouter } from 'next/navigation';
 export type { Coin } from './tzedakahStore';
 
 export function useCharityCoinGame() {
-  const { isMobile, gameWidth, gameHeight, basketWidth, gameStarted, moveBasket, stepBasket, setIsMobile } =
+  const { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
+          score, gameTime, collectedCoins, startGame, moveBasket, stepBasket, setIsMobile } =
     useTzedakahStore(useShallow((s) => s));
 
   const router = useRouter();
@@ -46,5 +47,6 @@ export function useCharityCoinGame() {
     moveBasket(e.touches[0].clientX - rect.left - basketWidth / 2);
   };
 
-  return { isMobile, gameWidth, gameHeight, handleMouseMove, handleTouchMove, nextGame, router };
+  return { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
+           score, gameTime, collectedCoins, startGame, handleMouseMove, handleTouchMove, nextGame, router };
 }
