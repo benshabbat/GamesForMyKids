@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useJumperStore } from './jumperStore';
+import { useCanvasLoop } from '@/hooks/shared/common';
 
 export const W = 300;
 export const H = 500;
@@ -30,7 +31,6 @@ function generateInitial(): Array<Platform & { id: number }> {
 }
 
 export function useJumperGame() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const st = useRef({
     phase: 'menu' as Phase,
     px: W / 2, py: H - 100,
@@ -39,7 +39,7 @@ export function useJumperGame() {
     maxCamY: 0,
     platforms: generateInitial() as Array<Platform & { id: number }>,
     score: 0, best: 0,
-    frame: 0, raf: 0,
+    frame: 0,
     leftDown: false, rightDown: false,
     nextPlatY: H - 60 - INIT_PLATS * (PLAT_GAP * 0.75),
   });
@@ -64,115 +64,102 @@ export function useJumperGame() {
   const pressRight = useCallback(() => { st.current.rightDown = true; }, []);
   const releaseRight = useCallback(() => { st.current.rightDown = false; }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    if (!ctx) return;
+  const canvasRef = useCanvasLoop((ctx) => {
+    const s = st.current;
+    s.frame++;
 
-    function loop() {
-      const s = st.current;
-      s.frame++;
+    if (s.phase === 'playing') {
+      const HSPEED = 4.5;
+      if (s.leftDown)  s.pvx = Math.max(s.pvx - 0.8, -HSPEED);
+      if (s.rightDown) s.pvx = Math.min(s.pvx + 0.8, HSPEED);
+      if (!s.leftDown && !s.rightDown) s.pvx *= 0.85;
 
-      if (s.phase === 'playing') {
-        const HSPEED = 4.5;
-        if (s.leftDown)  s.pvx = Math.max(s.pvx - 0.8, -HSPEED);
-        if (s.rightDown) s.pvx = Math.min(s.pvx + 0.8, HSPEED);
-        if (!s.leftDown && !s.rightDown) s.pvx *= 0.85;
+      s.pvy += GRAVITY;
+      s.py += s.pvy;
+      s.px += s.pvx;
 
-        s.pvy += GRAVITY;
-        s.py += s.pvy;
-        s.px += s.pvx;
+      if (s.px < -PLAYER_R)    s.px = W + PLAYER_R;
+      if (s.px > W + PLAYER_R) s.px = -PLAYER_R;
 
-        if (s.px < -PLAYER_R)    s.px = W + PLAYER_R;
-        if (s.px > W + PLAYER_R) s.px = -PLAYER_R;
-
-        if (s.pvy > 0) {
-          for (const p of s.platforms) {
-            const screenY = p.y + s.camY;
-            if (
-              s.py + PLAYER_R >= screenY &&
-              s.py + PLAYER_R <= screenY + PLAT_H + Math.abs(s.pvy) + 2 &&
-              s.px + PLAYER_R * 0.7 > p.x &&
-              s.px - PLAYER_R * 0.7 < p.x + p.w
-            ) {
-              s.pvy = JUMP_VY;
-              s.py = screenY - PLAYER_R;
-            }
+      if (s.pvy > 0) {
+        for (const p of s.platforms) {
+          const screenY = p.y + s.camY;
+          if (
+            s.py + PLAYER_R >= screenY &&
+            s.py + PLAYER_R <= screenY + PLAT_H + Math.abs(s.pvy) + 2 &&
+            s.px + PLAYER_R * 0.7 > p.x &&
+            s.px - PLAYER_R * 0.7 < p.x + p.w
+          ) {
+            s.pvy = JUMP_VY;
+            s.py = screenY - PLAYER_R;
           }
         }
-
-        const playerScreenY = s.py;
-        if (playerScreenY < H * 0.45) {
-          const shift = H * 0.45 - playerScreenY;
-          s.camY += shift;
-          s.py += shift;
-        }
-
-        s.score = Math.floor(s.camY / 10);
-        if (s.camY > s.maxCamY) {
-          s.maxCamY = s.camY;
-          if (s.frame % 10 === 0) useJumperStore.getState().setScore(s.score);
-        }
-
-        while (s.nextPlatY > -(s.camY) - H) {
-          s.platforms.push(makePlatform(s.nextPlatY));
-          s.nextPlatY -= PLAT_GAP * (0.6 + Math.random() * 0.5);
-        }
-        s.platforms = s.platforms.filter(p => p.y + s.camY < H + 50);
-
-        if (s.py > H + 60) {
-          s.phase = 'dead';
-          useJumperStore.getState().endGame(s.score);
-        }
       }
 
-      const sky = ctx.createLinearGradient(0, 0, 0, H);
-      sky.addColorStop(0, '#0c1445');
-      sky.addColorStop(1, '#1a237e');
-      ctx.fillStyle = sky;
-      ctx.fillRect(0, 0, W, H);
-
-      ctx.fillStyle = 'rgba(255,255,255,0.6)';
-      for (let i = 0; i < 30; i++) {
-        const sx = ((i * 97 + st.current.camY * 0.05) % W + W) % W;
-        const sy = ((i * 137) % H);
-        ctx.beginPath();
-        ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
-        ctx.fill();
+      const playerScreenY = s.py;
+      if (playerScreenY < H * 0.45) {
+        const shift = H * 0.45 - playerScreenY;
+        s.camY += shift;
+        s.py += shift;
       }
 
-      const s2 = st.current;
-      for (const p of s2.platforms) {
-        const drawY = p.y + s2.camY;
-        if (drawY > H + 10 || drawY < -PLAT_H - 5) continue;
-        ctx.fillStyle = '#4ade80';
-        ctx.fillRect(p.x, drawY, p.w, PLAT_H);
-        ctx.fillStyle = 'rgba(255,255,255,0.3)';
-        ctx.fillRect(p.x, drawY, p.w, 4);
-        ctx.fillStyle = '#16a34a';
-        ctx.fillRect(p.x, drawY + PLAT_H - 3, p.w, 3);
+      s.score = Math.floor(s.camY / 10);
+      if (s.camY > s.maxCamY) {
+        s.maxCamY = s.camY;
+        if (s.frame % 10 === 0) useJumperStore.getState().setScore(s.score);
       }
 
-      if (s2.phase === 'playing') {
-        ctx.font = `${PLAYER_R * 2.2}px serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('🦘', s2.px, s2.py);
+      while (s.nextPlatY > -(s.camY) - H) {
+        s.platforms.push(makePlatform(s.nextPlatY));
+        s.nextPlatY -= PLAT_GAP * (0.6 + Math.random() * 0.5);
       }
+      s.platforms = s.platforms.filter(p => p.y + s.camY < H + 50);
 
-      ctx.font = 'bold 22px Arial';
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      ctx.textAlign = 'left';
-      ctx.fillText(`${s2.score}m`, 10, 30);
-
-      s.raf = requestAnimationFrame(loop);
+      if (s.py > H + 60) {
+        s.phase = 'dead';
+        useJumperStore.getState().endGame(s.score);
+      }
     }
 
-    st.current.raf = requestAnimationFrame(loop);
-    const stRef = st.current;
-    return () => cancelAnimationFrame(stRef.raf);
-  }, []);
+    const sky = ctx.createLinearGradient(0, 0, 0, H);
+    sky.addColorStop(0, '#0c1445');
+    sky.addColorStop(1, '#1a237e');
+    ctx.fillStyle = sky;
+    ctx.fillRect(0, 0, W, H);
+
+    ctx.fillStyle = 'rgba(255,255,255,0.6)';
+    for (let i = 0; i < 30; i++) {
+      const sx = ((i * 97 + st.current.camY * 0.05) % W + W) % W;
+      const sy = ((i * 137) % H);
+      ctx.beginPath();
+      ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    const s2 = st.current;
+    for (const p of s2.platforms) {
+      const drawY = p.y + s2.camY;
+      if (drawY > H + 10 || drawY < -PLAT_H - 5) continue;
+      ctx.fillStyle = '#4ade80';
+      ctx.fillRect(p.x, drawY, p.w, PLAT_H);
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.fillRect(p.x, drawY, p.w, 4);
+      ctx.fillStyle = '#16a34a';
+      ctx.fillRect(p.x, drawY + PLAT_H - 3, p.w, 3);
+    }
+
+    if (s2.phase === 'playing') {
+      ctx.font = `${PLAYER_R * 2.2}px serif`;
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('🦘', s2.px, s2.py);
+    }
+
+    ctx.font = 'bold 22px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.textAlign = 'left';
+    ctx.fillText(`${s2.score}m`, 10, 30);
+  });
 
   useEffect(() => {
     const kd = (e: KeyboardEvent) => {

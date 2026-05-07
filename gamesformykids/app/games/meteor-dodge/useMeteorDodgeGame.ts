@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
+import { useCanvasLoop } from '@/hooks/shared/common';
 
 export const W = 360;
 export const H = 560;
@@ -17,12 +18,11 @@ interface StarPick { id: number; x: number; y: number; vy: number; emoji: string
 let uid = 0;
 
 export function useMeteorDodgeGame() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const st = useRef({
     phase: 'menu' as Phase,
     playerX: W / 2,
     meteors: [] as Meteor[], stars: [] as StarPick[],
-    score: 0, best: 0, frame: 0, raf: 0, nextMeteor: 50, nextStar: 120,
+    score: 0, best: 0, frame: 0, nextMeteor: 50, nextStar: 120,
     bgStars: Array.from({ length: 50 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 1.5, twinkle: Math.random() * Math.PI * 2 })),
     invincible: 0,
   });
@@ -56,99 +56,86 @@ export function useMeteorDodgeGame() {
     handleTouchMove(e);
   }, [startGame, handleTouchMove]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    if (!ctx) return;
+  const canvasRef = useCanvasLoop((ctx) => {
+    const s = st.current;
 
-    function loop() {
-      const s = st.current;
+    if (s.phase === 'playing') {
+      s.frame++;
+      s.score = Math.floor(s.frame / 4);
+      if (s.invincible > 0) s.invincible--;
 
-      if (s.phase === 'playing') {
-        s.frame++;
-        s.score = Math.floor(s.frame / 4);
-        if (s.invincible > 0) s.invincible--;
+      const difficulty = 1 + Math.floor(s.score / 100) * 0.3;
+      s.nextMeteor--;
+      if (s.nextMeteor <= 0) {
+        const r = 14 + Math.random() * 20;
+        s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: METEOR_EMOJIS[Math.floor(Math.random() * METEOR_EMOJIS.length)], spin: (Math.random() - 0.5) * 0.1, angle: 0 });
+        s.nextMeteor = Math.max(15, Math.floor((50 - s.score / 20)));
+      }
+      s.nextStar--;
+      if (s.nextStar <= 0) {
+        s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: STAR_EMOJIS[Math.floor(Math.random() * STAR_EMOJIS.length)] });
+        s.nextStar = 100 + Math.random() * 100;
+      }
 
-        const difficulty = 1 + Math.floor(s.score / 100) * 0.3;
-        s.nextMeteor--;
-        if (s.nextMeteor <= 0) {
-          const r = 14 + Math.random() * 20;
-          s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: METEOR_EMOJIS[Math.floor(Math.random() * METEOR_EMOJIS.length)], spin: (Math.random() - 0.5) * 0.1, angle: 0 });
-          s.nextMeteor = Math.max(15, Math.floor((50 - s.score / 20)));
+      for (const m of s.meteors) { m.y += m.speed; m.angle += m.spin; }
+      s.meteors = s.meteors.filter(m => m.y - m.r < H + 10);
+      for (const st2 of s.stars) st2.y += st2.vy;
+      s.stars = s.stars.filter(st2 => st2.y < H + 20);
+
+      s.stars = s.stars.filter(st2 => {
+        const dx = st2.x - s.playerX, dy = st2.y - PLAYER_Y;
+        if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.score += 50; useMeteorDodgeStore.getState().setScore(s.score); return false; }
+        return true;
+      });
+
+      if (s.invincible === 0) {
+        for (const m of s.meteors) {
+          const dx = m.x - s.playerX, dy = m.y - PLAYER_Y;
+          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) { s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break; }
         }
-        s.nextStar--;
-        if (s.nextStar <= 0) {
-          s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: STAR_EMOJIS[Math.floor(Math.random() * STAR_EMOJIS.length)] });
-          s.nextStar = 100 + Math.random() * 100;
-        }
-
-        for (const m of s.meteors) { m.y += m.speed; m.angle += m.spin; }
-        s.meteors = s.meteors.filter(m => m.y - m.r < H + 10);
-        for (const st2 of s.stars) st2.y += st2.vy;
-        s.stars = s.stars.filter(st2 => st2.y < H + 20);
-
-        s.stars = s.stars.filter(st2 => {
-          const dx = st2.x - s.playerX, dy = st2.y - PLAYER_Y;
-          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.score += 50; useMeteorDodgeStore.getState().setScore(s.score); return false; }
-          return true;
-        });
-
-        if (s.invincible === 0) {
-          for (const m of s.meteors) {
-            const dx = m.x - s.playerX, dy = m.y - PLAYER_Y;
-            if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) { s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break; }
-          }
-        }
-
-        if (s.frame % 8 === 0 && useMeteorDodgeStore.getState().phase === 'playing') useMeteorDodgeStore.getState().setScore(s.score);
       }
 
-      ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, W, H);
-      const curr = st.current;
-      for (const star of curr.bgStars) {
-        const alpha = 0.3 + Math.sin(curr.frame * 0.02 + star.twinkle) * 0.3;
-        ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255,255,230,${alpha})`; ctx.fill();
-      }
-
-      const neb = ctx.createRadialGradient(W * 0.7, H * 0.3, 0, W * 0.7, H * 0.3, 180);
-      neb.addColorStop(0, 'rgba(99,0,150,0.08)'); neb.addColorStop(1, 'rgba(0,0,0,0)');
-      ctx.fillStyle = neb; ctx.fillRect(0, 0, W, H);
-
-      ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-      for (const st2 of curr.stars) {
-        const glow = ctx.createRadialGradient(st2.x, st2.y, 0, st2.x, st2.y, 22);
-        glow.addColorStop(0, 'rgba(255,220,0,0.4)'); glow.addColorStop(1, 'rgba(255,220,0,0)');
-        ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(st2.x, st2.y, 22, 0, Math.PI * 2); ctx.fill();
-        ctx.fillText(st2.emoji, st2.x, st2.y);
-      }
-
-      for (const m of curr.meteors) {
-        ctx.save(); ctx.translate(m.x, m.y); ctx.rotate(m.angle);
-        ctx.font = `${m.r * 1.8}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText(m.emoji, 0, 0); ctx.restore();
-      }
-
-      const blink = curr.invincible > 0 && curr.frame % 6 < 3;
-      if (!blink) {
-        const glow = ctx.createRadialGradient(curr.playerX, PLAYER_Y, 0, curr.playerX, PLAYER_Y, PLAYER_R * 2);
-        glow.addColorStop(0, 'rgba(200,150,255,0.5)'); glow.addColorStop(1, 'rgba(150,50,255,0)');
-        ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(curr.playerX, PLAYER_Y, PLAYER_R * 2, 0, Math.PI * 2); ctx.fill();
-        ctx.font = `${PLAYER_R * 2}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
-        ctx.fillText('🚀', curr.playerX, PLAYER_Y);
-      }
-
-      ctx.font = 'bold 20px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.textAlign = 'right';
-      ctx.fillText(`${curr.score}`, W - 12, 28);
-
-      s.raf = requestAnimationFrame(loop);
+      if (s.frame % 8 === 0 && useMeteorDodgeStore.getState().phase === 'playing') useMeteorDodgeStore.getState().setScore(s.score);
     }
 
-    st.current.raf = requestAnimationFrame(loop);
-    const stRef = st.current;
-    return () => cancelAnimationFrame(stRef.raf);
-  }, []);
+    ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, W, H);
+    const curr = st.current;
+    for (const star of curr.bgStars) {
+      const alpha = 0.3 + Math.sin(curr.frame * 0.02 + star.twinkle) * 0.3;
+      ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255,255,230,${alpha})`; ctx.fill();
+    }
+
+    const neb = ctx.createRadialGradient(W * 0.7, H * 0.3, 0, W * 0.7, H * 0.3, 180);
+    neb.addColorStop(0, 'rgba(99,0,150,0.08)'); neb.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = neb; ctx.fillRect(0, 0, W, H);
+
+    ctx.font = '28px serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    for (const st2 of curr.stars) {
+      const glow = ctx.createRadialGradient(st2.x, st2.y, 0, st2.x, st2.y, 22);
+      glow.addColorStop(0, 'rgba(255,220,0,0.4)'); glow.addColorStop(1, 'rgba(255,220,0,0)');
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(st2.x, st2.y, 22, 0, Math.PI * 2); ctx.fill();
+      ctx.fillText(st2.emoji, st2.x, st2.y);
+    }
+
+    for (const m of curr.meteors) {
+      ctx.save(); ctx.translate(m.x, m.y); ctx.rotate(m.angle);
+      ctx.font = `${m.r * 1.8}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText(m.emoji, 0, 0); ctx.restore();
+    }
+
+    const blink = curr.invincible > 0 && curr.frame % 6 < 3;
+    if (!blink) {
+      const glow = ctx.createRadialGradient(curr.playerX, PLAYER_Y, 0, curr.playerX, PLAYER_Y, PLAYER_R * 2);
+      glow.addColorStop(0, 'rgba(200,150,255,0.5)'); glow.addColorStop(1, 'rgba(150,50,255,0)');
+      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(curr.playerX, PLAYER_Y, PLAYER_R * 2, 0, Math.PI * 2); ctx.fill();
+      ctx.font = `${PLAYER_R * 2}px serif`; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.fillText('🚀', curr.playerX, PLAYER_Y);
+    }
+
+    ctx.font = 'bold 20px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.textAlign = 'right';
+    ctx.fillText(`${curr.score}`, W - 12, 28);
+  });
 
   useEffect(() => {
     let left = false, right = false;
