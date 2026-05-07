@@ -26,27 +26,4 @@ export * from './shared/user';
 export * from './shared/ui';
 
 // Games Hooks
-export { useSimpleGame } from "./games/useSimpleGame";
 export { useGenericGame } from "./games/useGenericGame";
-
-/**
- * ===============================================
- * שימוש - דוגמאות
- * ===============================================
- * 
- * // למשחק פשוט:
- * import { useSimpleGame } from "@/hooks";
- * 
- * const useMyGame = () => useSimpleGame({
- *   gameType: 'my-game',
- *   items: MY_ITEMS,
- *   pronunciations: MY_PRONUNCIATIONS,
- *   gameConstants: MY_CONSTANTS
- * });
- * 
- * // למשחק כללי (מומלץ):
- * import { useGenericGame } from "@/hooks";
- * 
- * const useMyGame = () => useGenericGame(MY_ITEMS, 'my-game');
- * 
- */
