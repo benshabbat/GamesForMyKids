@@ -1,10 +1,9 @@
 'use client';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
-import { useBalloonPopStore } from '../balloonPopStore';
+import { useBalloonPopGame } from '../useBalloonPopGame';
 
 export default function BalloonPopMenuScreen() {
-  const best      = useBalloonPopStore(s => s.best);
-  const startGame = useBalloonPopStore(s => s.startGame);
+  const { best, startGame } = useBalloonPopGame();
   return (
     <GameMenuCard
       emoji="🎈"

@@ -2,7 +2,7 @@
 
 import { useRef, useEffect } from 'react';
 import { type MoveRecord } from '../logic/chessTypes';
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 
 const RATING_BADGE: Record<string, { label: string; cls: string }> = {
   excellent: { label: '⭐', cls: 'text-yellow-300' },
@@ -30,7 +30,7 @@ function MoveCell({ record, isLastRow }: { record: MoveRecord | undefined; isLas
 }
 
 export default function ChessMoveHistory() {
-  const { moveHistory } = useChessStore();
+  const { moveHistory } = useChessGame();
   const bottomRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

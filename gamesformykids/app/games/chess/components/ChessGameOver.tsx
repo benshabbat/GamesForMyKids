@@ -1,10 +1,10 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 import ChessScoreCards from './ChessScoreCards';
 
 export default function ChessGameOver() {
-  const { message, startGame } = useChessStore();
+  const { message, startGame } = useChessGame();
   const playerWon = message.includes('ניצחת');
   const isDraw = message.includes('תיקו') || message.includes('פאט');
 

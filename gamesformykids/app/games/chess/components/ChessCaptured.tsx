@@ -1,7 +1,7 @@
 'use client';
 
 import { PIECE_SYMBOLS } from '../logic/chessTypes';
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 
 const ORDER = ['Q', 'R', 'B', 'N', 'P'];
 const PIECE_VALUE: Record<string, number> = { Q: 9, R: 5, B: 3, N: 3, P: 1 };
@@ -17,7 +17,7 @@ function materialSum(pieces: string[]) {
 }
 
 export default function ChessCaptured() {
-  const { capturedByPlayer, capturedByComputer } = useChessStore();
+  const { capturedByPlayer, capturedByComputer } = useChessGame();
 
   const byPlayer = sortPieces(capturedByPlayer);
   const byComputer = sortPieces(capturedByComputer);

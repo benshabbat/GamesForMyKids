@@ -1,11 +1,9 @@
 'use client';
 import { useRef, useEffect } from 'react';
-import { useBalloonPopStore } from '../balloonPopStore';
+import { useBalloonPopGame } from '../useBalloonPopGame';
 
 export default function BalloonGameArea() {
-  const balloons      = useBalloonPopStore(s => s.balloons);
-  const pop           = useBalloonPopStore(s => s.pop);
-  const setDimensions = useBalloonPopStore(s => s.setDimensions);
+  const { balloons, pop, setDimensions } = useBalloonPopGame();
 
   const containerRef = useRef<HTMLDivElement>(null);
 

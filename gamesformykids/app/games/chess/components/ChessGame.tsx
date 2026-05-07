@@ -1,6 +1,6 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 import ChessMenu from './ChessMenu';
 import ChessGameOver from './ChessGameOver';
 import ChessBoard from './ChessBoard';
@@ -9,7 +9,7 @@ import ChessCaptured from './ChessCaptured';
 import ChessMoveHistory from './ChessMoveHistory';
 
 export default function ChessGame() {
-  const { phase, message } = useChessStore();
+  const { phase, message } = useChessGame();
   const isPlaying = phase === 'playing' || phase === 'check';
 
   return (
