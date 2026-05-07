@@ -1,6 +1,5 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useEmojiMathStore, TIME_PER_Q } from '../emojiMathStore';
+import { useEmojiMathGame, TIME_PER_Q } from '../useEmojiMathGame';
 
 function renderEmojis(count: number, emoji: string) {
   return Array.from({ length: Math.min(count, 15) }, (_, i) => (
@@ -10,7 +9,7 @@ function renderEmojis(count: number, emoji: string) {
 
 export default function EmojiMathPlayArea() {
   const { q, feedback, level, timeLeft, score, lives, streak, tap } =
-    useEmojiMathStore(useShallow((s) => s));
+    useEmojiMathGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
