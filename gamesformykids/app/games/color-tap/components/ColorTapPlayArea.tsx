@@ -1,10 +1,9 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useColorTapStore, TIME_PER_Q } from '../colorTapStore';
+import { useColorTapGame, TIME_PER_Q } from '../useColorTapGame';
 
 export default function ColorTapPlayArea() {
   const { question, feedback, timeLeft, score, lives, handleTap } =
-    useColorTapStore(useShallow((s) => s));
+    useColorTapGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
