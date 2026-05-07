@@ -10,10 +10,10 @@ const COLORS: { color: CardColor; label: string; cls: string }[] = [
   { color: 'yellow', label: '🟡 צהוב',  cls: 'bg-yellow-400 hover:bg-yellow-300 text-gray-900' },
 ];
 
-import { useTakiStore } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 
 export default function TakiColorPicker() {
-  const onPick = useTakiStore(s => s.chooseColor);
+  const { chooseColor: onPick } = useTakiGame();
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50" dir="rtl">
       <div className="bg-gray-900 rounded-2xl p-6 shadow-2xl text-center max-w-xs w-full mx-4">

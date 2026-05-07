@@ -1,14 +1,10 @@
 'use client';
 
 import GameResultCard from '@/components/game/shared/GameResultCard';
-import { useTakiStore } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 
 export default function TakiResultScreen() {
-  const phase = useTakiStore(s => s.phase);
-  const message = useTakiStore(s => s.message);
-  const playerScore = useTakiStore(s => s.playerScore);
-  const computerScore = useTakiStore(s => s.computerScore);
-  const startGame = useTakiStore(s => s.startGame);
+  const { phase, message, playerScore, computerScore, startGame } = useTakiGame();
 
   return (
     <GameResultCard

@@ -1,17 +1,11 @@
 'use client';
 
-import { COLOR_BG, useTakiStore } from '../takiGameStore';
+import { COLOR_BG } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 import TakiCardView, { FaceDownCard } from './TakiCardView';
 
 export default function TakiTable() {
-  const topCard = useTakiStore(s => s.topCard);
-  const effectiveColor = useTakiStore(s => s.effectiveColor);
-  const inTakiSequence = useTakiStore(s => s.inTakiSequence);
-  const takiColor = useTakiStore(s => s.takiColor);
-  const needsColorChoice = useTakiStore(s => s.needsColorChoice);
-  const currentTurn = useTakiStore(s => s.currentTurn);
-  const deck = useTakiStore(s => s.deck);
-  const drawCard = useTakiStore(s => s.drawCard);
+  const { topCard, effectiveColor, inTakiSequence, takiColor, needsColorChoice, currentTurn, deck, drawCard } = useTakiGame();
 
   const displayColor = (inTakiSequence && takiColor) ? takiColor : effectiveColor ?? topCard.color;
 

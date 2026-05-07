@@ -1,10 +1,10 @@
 'use client';
 
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import PuzzlePieceItem from './PuzzlePieceItem';
 
 export default function PiecesPool() {
-  const pieces = usePuzzleStore(s => s.pieces);
+  const { pieces } = usePuzzleGame();
   const availablePieces = pieces.filter(p => !p.isPlaced);
   const totalPieces = pieces.length;
   const placedOnGrid = pieces.filter(p => p.isPlaced).length;

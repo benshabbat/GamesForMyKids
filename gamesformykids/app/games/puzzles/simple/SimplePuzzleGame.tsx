@@ -1,6 +1,6 @@
 'use client';
 
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import { usePuzzleSetup } from '../usePuzzleSetup';
 import SimpleHeader from './SimpleHeader';
 import FeedbackMessage from '../shared/FeedbackMessage';
@@ -12,9 +12,7 @@ import SimpleGameArea from './SimpleGameArea';
 
 export default function SimplePuzzleGame() {
   usePuzzleSetup();
-  const selectedPuzzle = usePuzzleStore(s => s.selectedPuzzle);
-  const gameStarted = usePuzzleStore(s => s.gameStarted);
-  const imageLoaded = usePuzzleStore(s => s.imageLoaded);
+  const { selectedPuzzle, gameStarted, imageLoaded } = usePuzzleGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 to-green-100 p-4">

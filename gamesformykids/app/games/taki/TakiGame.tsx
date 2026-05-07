@@ -1,6 +1,6 @@
 'use client';
 
-import { useTakiStore } from './takiGameStore';
+import { useTakiGame } from './useTakiGame';
 import {
   TakiMenuScreen,
   TakiResultScreen,
@@ -10,9 +10,7 @@ import {
 import TakiComputerAI from './components/TakiComputerAI';
 
 export default function TakiGame() {
-  const phase = useTakiStore(s => s.phase);
-  const needsColorChoice = useTakiStore(s => s.needsColorChoice);
-  const currentTurn = useTakiStore(s => s.currentTurn);
+  const { phase, needsColorChoice, currentTurn } = useTakiGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-emerald-950 to-teal-950 select-none" dir="rtl">

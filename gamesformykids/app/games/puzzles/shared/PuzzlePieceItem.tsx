@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import type { PuzzlePiece } from '@/app/games/puzzles/utils/puzzleUtils';
 
 export default function PuzzlePieceItem({ piece }: { piece: PuzzlePiece }) {
-  const { handleDragStart, handleTouchStart, handleTouchMove, handleTouchEnd } = usePuzzleStore();
+  const { handleDragStart, handleTouchStart, handleTouchMove, handleTouchEnd } = usePuzzleGame();
   return (
     <div
       className="cursor-grab active:cursor-grabbing hover:scale-105 transition-transform duration-200 rounded-lg overflow-hidden shadow-md hover:shadow-lg touch-none min-w-[80px] min-h-[80px]"

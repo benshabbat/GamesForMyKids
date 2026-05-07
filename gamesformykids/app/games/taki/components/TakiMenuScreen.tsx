@@ -1,12 +1,10 @@
 'use client';
 
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
-import { useTakiStore } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 
 export default function TakiMenuScreen() {
-  const playerScore = useTakiStore(s => s.playerScore);
-  const computerScore = useTakiStore(s => s.computerScore);
-  const startGame = useTakiStore(s => s.startGame);
+  const { playerScore, computerScore, startGame } = useTakiGame();
 
   return (
     <GameMenuCard
