@@ -143,7 +143,7 @@ export function useGameConfigFromLogic() {
   return { config, items, CardComponent, gameType }
 }
 
-export function useGameHints() {
+export function useHintActions() {
   const hints           = useGameActionsStore((s) => s.hints)
   const hasMoreHints    = useGameActionsStore((s) => s.hasMoreHints)
   const showNextHint    = useGameActionsStore((s) => s.showNextHint)

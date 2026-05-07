@@ -1,18 +1,5 @@
 'use client';
 
-/**
- * ===============================================
- * useAutoGame Hook - לוגיקת המשחק בhook מותאם 🎮
- * ===============================================
- * 
- * מפשט את AutoGamePage על ידי:
- * - הפרדת הלוגיקה להוק מותאם
- * - ניהול UI state  Zustand (ללא useState)
- * - אינטגרציה עם Zustand stores
- */
-
-'use client';
-
 import { GameLogicState } from "@/lib/types/hooks/game-state";
 import { GameType } from "@/lib/types/core/base";
 import { useAutoGameConfig } from './useGameConfig';

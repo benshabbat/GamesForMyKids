@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
-import { useCanvasLoop } from '@/hooks/shared/common';
+import { useCanvasLoop } from '@/hooks/canvas';
 
 export const W = 300;
 export const H = 500;

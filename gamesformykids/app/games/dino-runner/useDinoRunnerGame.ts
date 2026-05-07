@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
-import { useCanvasLoop } from '@/hooks/shared/common';
+import { useCanvasLoop } from '@/hooks/canvas';
 
 export const W = 400;
 export const H = 220;

@@ -13,7 +13,7 @@ import {
   useGameState,
   useGameActions,
   useGameConfigFromLogic,
-  useGameHints,
+  useHintActions,
   useGameUI,
 } from './useGameLogic'
 
@@ -23,7 +23,7 @@ export function useUniversalGame(): UniversalGameContextValue {
     useGameState()
   const { startGame, resetGame, handleItemClick, speakItemName } = useGameActions()
   const { config, items, CardComponent, gameType } = useGameConfigFromLogic()
-  const { hints, hasMoreHints, showNextHint, currentAccuracy } = useGameHints()
+  const { hints, hasMoreHints, showNextHint, currentAccuracy } = useHintActions()
   const { showProgressModal, setShowProgressModal } = useGameUI()
 
   return {

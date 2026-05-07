@@ -3,7 +3,7 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
-import { useCanvasLoop } from '@/hooks/shared/common';
+import { useCanvasLoop } from '@/hooks/canvas';
 
 const CELL = 40;
 const COLS = 9;
