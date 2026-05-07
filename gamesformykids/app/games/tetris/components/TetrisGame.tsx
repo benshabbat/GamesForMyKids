@@ -2,7 +2,7 @@
 
 import { GenericStartScreen } from '@/components/shared';
 import { useTetrisGame } from '../hooks/useTetrisGame';
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisState } from '../hooks/useTetrisState';
 import GameBoard from './GameBoard';
 import { MobileInfoPanel, DesktopInfoPanel } from './InfoPanels';
 import TouchControls from './TouchControls';
@@ -13,10 +13,7 @@ function TetrisGame(){
   // רישום side-effects (game loop, מקלדת, טעינה)
   useTetrisGame();
 
-  const isLoading = useTetrisStore(s => s.isLoading);
-  const showStartScreen = useTetrisStore(s => s.showStartScreen);
-  const startNewGame = useTetrisStore(s => s.startNewGame);
-  const getBoardWithCurrentPiece = useTetrisStore(s => s.getBoardWithCurrentPiece);
+  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece } = useTetrisState();
 
   if (isLoading) {
     return <LoadingScreen />;

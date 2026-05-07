@@ -1,12 +1,12 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 import ChessTitleCard from './ChessTitleCard';
 import ChessScoreCards from './ChessScoreCards';
 import ChessPieceLegend from './ChessPieceLegend';
 
 export default function ChessMenu() {
-  const { playerScore, computerScore, startGame } = useChessStore();
+  const { playerScore, computerScore, startGame } = useChessGame();
   const hasHistory = playerScore > 0 || computerScore > 0;
 
   return (

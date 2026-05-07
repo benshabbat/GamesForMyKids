@@ -1,7 +1,7 @@
 'use client';
 
 import { PIECE_SYMBOLS } from '../logic/chessTypes';
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 
 interface Props {
   row: number;
@@ -9,7 +9,7 @@ interface Props {
 }
 
 export default function ChessSquare({ row, col }: Props) {
-  const { board, selected, validMoves, lastMove, phase, turn, selectSquare } = useChessStore();
+  const { board, selected, validMoves, lastMove, phase, turn, selectSquare } = useChessGame();
 
   const piece = board[row][col];
   const isSelected = selected?.row === row && selected?.col === col;

@@ -1,11 +1,8 @@
 import NextPieceDisplay from './NextPieceDisplay';
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisState } from '../hooks/useTetrisState';
 
 export const MobileInfoPanel = () => {
-  const score = useTetrisStore(s => s.score);
-  const level = useTetrisStore(s => s.level);
-  const linesCleared = useTetrisStore(s => s.linesCleared);
-  const nextPiece = useTetrisStore(s => s.nextPiece);
+  const { score, level, linesCleared, nextPiece } = useTetrisState();
   
   return (
     <div className="xl:hidden flex flex-row gap-4 w-full justify-center">
@@ -33,10 +30,7 @@ export const MobileInfoPanel = () => {
 };
 
 export const DesktopInfoPanel = () => {
-  const score = useTetrisStore(s => s.score);
-  const level = useTetrisStore(s => s.level);
-  const linesCleared = useTetrisStore(s => s.linesCleared);
-  const nextPiece = useTetrisStore(s => s.nextPiece);
+  const { score, level, linesCleared, nextPiece } = useTetrisState();
   
   return (
     <div className="space-y-6">

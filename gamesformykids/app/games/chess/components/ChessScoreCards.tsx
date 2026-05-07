@@ -1,9 +1,9 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 
 export default function ChessScoreCards() {
-  const { playerScore, computerScore } = useChessStore();
+  const { playerScore, computerScore } = useChessGame();
 
   return (
     <div className="flex gap-3 w-full">

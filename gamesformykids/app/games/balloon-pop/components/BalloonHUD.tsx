@@ -1,10 +1,9 @@
 'use client';
-import { useBalloonPopStore, GAME_DURATION } from '../balloonPopStore';
+import { useBalloonPopGame } from '../useBalloonPopGame';
+import { GAME_DURATION } from '../balloonPopStore';
 
 export default function BalloonHUD() {
-  const score    = useBalloonPopStore(s => s.score);
-  const lives    = useBalloonPopStore(s => s.lives);
-  const timeLeft = useBalloonPopStore(s => s.timeLeft);
+  const { score, lives, timeLeft } = useBalloonPopGame();
   const pct      = (timeLeft / GAME_DURATION) * 100;
 
   return (

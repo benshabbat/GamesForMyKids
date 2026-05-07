@@ -1,12 +1,10 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 import ChessPlayerPanel from './ChessPlayerPanel';
 
 export default function ChessStatusBar() {
-  const { turn, startGame } = useChessStore();
-  const playerScore = useChessStore(s => s.playerScore);
-  const computerScore = useChessStore(s => s.computerScore);
+  const { turn, startGame, playerScore, computerScore } = useChessGame();
 
   return (
     <div className="flex items-stretch gap-2 w-full">

@@ -1,13 +1,13 @@
 'use client';
 
-import { useChessStore } from '../store/useChessStore';
+import { useChessGame } from '../useChessGame';
 import ChessSquare from './ChessSquare';
 
 const FILES = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח'];
 const RANKS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
 export default function ChessBoard() {
-  const { board } = useChessStore();
+  const { board } = useChessGame();
 
   return (
     <div className="flex items-start gap-1">

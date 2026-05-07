@@ -1,4 +1,4 @@
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisState } from '../hooks/useTetrisState';
 import { useTouchControls } from './useTouchControls';
 
 interface TouchControlsProps {
@@ -6,10 +6,7 @@ interface TouchControlsProps {
 }
 
 const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
-  const isGameRunning = useTetrisStore(s => s.isGameRunning);
-  const gameOver = useTetrisStore(s => s.gameOver);
-  const score = useTetrisStore(s => s.score);
-  const onStartGame = useTetrisStore(s => s.startNewGame);
+  const { isGameRunning, gameOver, score, startNewGame: onStartGame } = useTetrisState();
   const { handleMove, handleRotate } = useTouchControls();
 
   // פריסה למחשב

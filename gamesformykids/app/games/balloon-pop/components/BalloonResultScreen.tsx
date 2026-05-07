@@ -1,12 +1,9 @@
 'use client';
-import { useBalloonPopStore } from '../balloonPopStore';
+import { useBalloonPopGame } from '../useBalloonPopGame';
 import GameResultCard from '@/components/game/shared/GameResultCard';
 
 export default function BalloonResultScreen() {
-  const score     = useBalloonPopStore(s => s.score);
-  const best      = useBalloonPopStore(s => s.best);
-  const lives     = useBalloonPopStore(s => s.lives);
-  const startGame = useBalloonPopStore(s => s.startGame);
+  const { score, best, lives, startGame } = useBalloonPopGame();
   return (
     <GameResultCard
       emoji={lives <= 0 ? '💔' : '🎉'}
