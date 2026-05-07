@@ -1,10 +1,9 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useTzedakahStore } from '../tzedakahStore';
+import { useCharityCoinGame } from '../useCharityCoinGame';
 
 export default function CharityGameHeader() {
   const { score, gameTime, collectedCoins, isMobile } =
-    useTzedakahStore(useShallow((s) => s));
+    useCharityCoinGame();
 
   return (
     <>

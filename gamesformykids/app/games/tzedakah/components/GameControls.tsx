@@ -1,10 +1,9 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useTzedakahStore } from '../tzedakahStore';
+import { useCharityCoinGame } from '../useCharityCoinGame';
 
 export default function GameControls() {
   const { gameStarted, gameTime, score, collectedCoins, isMobile, startGame } =
-    useTzedakahStore(useShallow((s) => s));
+    useCharityCoinGame();
 
   return (
     <div className="flex justify-center mb-6">

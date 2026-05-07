@@ -1,16 +1,13 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useSimonStore } from '../simonStore';
-import { BUTTONS, type ButtonId } from '../useSimonGame';
+import { useSimonGame, BUTTONS, type ButtonId } from '../useSimonGame';
 
 interface Props {
   onTap: (id: ButtonId) => void;
 }
 
 export default function SimonBoard({ onTap }: Props) {
-  const { phase, activeColor, playerIdx, best, sequence } =
-    useSimonStore(useShallow((s) => s));
-  const sequenceLength = sequence.length;
+  const { phase, activeColor, playerIdx, best, sequenceLength } =
+    useSimonGame();
 
   return (
     <div className="flex flex-col items-center gap-6">
