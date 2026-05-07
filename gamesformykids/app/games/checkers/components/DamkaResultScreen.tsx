@@ -1,15 +1,9 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
-import { useDamkaStore } from '../damkaStore';
+import { useDamkaGame } from '../useDamkaGame';
 
 export default function DamkaResultScreen() {
-  const { phase, playerScore, computerScore, startGame } = useDamkaStore(
-    useShallow((s) => ({
-      phase: s.phase, playerScore: s.playerScore,
-      computerScore: s.computerScore, startGame: s.startGame,
-    })),
-  );
+  const { phase, playerScore, computerScore, startGame } = useDamkaGame();
 
   return (
     <div className="flex flex-col items-center gap-6 text-center">

@@ -1,13 +1,10 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
-import { useReflexStore } from '../reflexStore';
+import { useReflexGame } from '../useReflexGame';
 import { GAME_DURATION } from '../data/targets';
 
 export default function ReflexPlayScreen() {
-  const { score, timeLeft, targets, hitTarget } = useReflexStore(
-    useShallow((s) => ({ score: s.score, timeLeft: s.timeLeft, targets: s.targets, hitTarget: s.hitTarget })),
-  );
+  const { score, timeLeft, targets, hitTarget } = useReflexGame();
   const timePct = (timeLeft / GAME_DURATION) * 100;
 
   return (

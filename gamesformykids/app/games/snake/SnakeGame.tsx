@@ -1,9 +1,6 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { useSnakeGame, W, H } from './useSnakeGame';
-import { useSnakeStore } from './stores/useSnakeStore';
-import { useGameProgressStore, useGameStore } from '@/lib/stores';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SnakeGameOverOverlay from './components/SnakeGameOverOverlay';
@@ -11,10 +8,7 @@ import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls'
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SnakeGame() {
-  const { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir } = useSnakeGame();
-  const phase = useSnakeStore((s) => s.phase);
-  const { score, level } = useGameProgressStore(useShallow((s) => ({ score: s.score, level: s.level })));
-  const best = useGameStore((s) => s.highScores['snake'] ?? 0);
+  const { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir, phase, score, level, best } = useSnakeGame();
 
   return (
     <CanvasGameShell

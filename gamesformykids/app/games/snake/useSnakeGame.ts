@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useGameProgressStore, useGameStore } from '@/lib/stores';
 import { useSnakeStore } from './stores/useSnakeStore';
 
@@ -220,5 +221,9 @@ export function useSnakeGame() {
     if (dir !== opposite[s.dir]) s.nextDir = dir;
   }, []);
 
-  return { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir };
+  const phase = useSnakeStore((s) => s.phase);
+  const { score, level } = useGameProgressStore(useShallow((s) => ({ score: s.score, level: s.level })));
+  const best = useGameStore((s) => s.highScores['snake'] ?? 0);
+
+  return { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir, phase, score, level, best };
 }

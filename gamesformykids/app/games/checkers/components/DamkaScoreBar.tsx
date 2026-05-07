@@ -1,15 +1,9 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
-import { useDamkaStore } from '../damkaStore';
+import { useDamkaGame } from '../useDamkaGame';
 
 export default function DamkaScoreBar() {
-  const { board, playerScore, computerScore, currentTurn, message } = useDamkaStore(
-    useShallow((s) => ({
-      board: s.board, playerScore: s.playerScore,
-      computerScore: s.computerScore, currentTurn: s.currentTurn, message: s.message,
-    })),
-  );
+  const { board, playerScore, computerScore, currentTurn, message } = useDamkaGame();
 
   const playerPieces = board.flat().filter(c => c.color === 'player').length;
   const compPieces   = board.flat().filter(c => c.color === 'computer').length;

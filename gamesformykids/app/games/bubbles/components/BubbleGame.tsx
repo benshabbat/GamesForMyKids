@@ -1,22 +1,11 @@
 "use client";
 
-import { useShallow } from 'zustand/react/shallow';
 import { useBubbleGame } from '../hooks/useBubbleGame';
-import { useBubblesStore } from '../bubblesStore';
 import BubbleStartScreen from './BubbleStartScreen';
 import Bubble from './Bubble';
 
 export default function BubbleGame() {
-  const { gameContainerRef, stopGame, handleBubblePop, startGame } = useBubbleGame();
-  const { isPlaying, score, level, poppedCount, bubbles } = useBubblesStore(
-    useShallow((s) => ({
-      isPlaying: s.isPlaying,
-      score: s.score,
-      level: s.level,
-      poppedCount: s.poppedCount,
-      bubbles: s.bubbles,
-    })),
-  );
+  const { gameContainerRef, stopGame, handleBubblePop, startGame, isPlaying, score, level, poppedCount, bubbles } = useBubbleGame();
 
   if (!isPlaying) {
     return <BubbleStartScreen startGame={startGame} />;
