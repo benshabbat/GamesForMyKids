@@ -1,7 +1,7 @@
 'use client';
 
 import { useWhackAMoleGame } from './useWhackAMoleGame';
-import GameMenuCard from '@/components/game/shared/GameMenuCard';
+import WhackAMoleMenuScreen from './components/WhackAMoleMenuScreen';
 import ScoreBestResultCard from '@/components/game/shared/ScoreBestResultCard';
 import WhackHUD from './components/WhackHUD';
 import WhackGrid from './components/WhackGrid';
@@ -9,19 +9,7 @@ import WhackGrid from './components/WhackGrid';
 export default function WhackAMoleGame() {
   const { phase, score, best, bgColor, startGame } = useWhackAMoleGame();
 
-  if (phase === 'menu') return (
-    <GameMenuCard
-      emoji="🐹"
-      title="חבט על החפרפרת!"
-      description="הקש על החפרפרות לפני שהן נעלמות · הימנע מהפצצות 💣"
-      gradientClass="from-yellow-50 to-amber-100"
-      buttonClass="from-amber-500 to-orange-500"
-      onStart={startGame}
-      startLabel="🔨 התחל!"
-      best={best}
-      animateEmoji
-    />
-  );
+  if (phase === 'menu') return <WhackAMoleMenuScreen />;
 
   if (phase === 'result') return (
     <ScoreBestResultCard

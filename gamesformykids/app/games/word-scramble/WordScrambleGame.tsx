@@ -1,23 +1,13 @@
 'use client';
 import { useWordScrambleGame } from './useWordScrambleGame';
-import GameMenuCard from '@/components/game/shared/GameMenuCard';
+import WordScrambleMenuScreen from './components/WordScrambleMenuScreen';
 import WordScramblePlayScreen from './components/WordScramblePlayScreen';
 import WordScrambleResultScreen from './components/WordScrambleResultScreen';
 
 export default function WordScrambleGame() {
-  const { phase, startGame } = useWordScrambleGame();
+  const { phase } = useWordScrambleGame();
 
-  if (phase === 'menu') return (
-    <GameMenuCard
-      emoji="🔡"
-      title="מילים מבולבלות"
-      description="לחצו על האותיות בסדר הנכון כדי לכתוב את המילה!"
-      gradientClass="from-green-100 to-emerald-200"
-      buttonClass="from-green-500 to-emerald-600"
-      onStart={startGame}
-      startLabel="🔡 התחל!"
-    />
-  );
+  if (phase === 'menu') return <WordScrambleMenuScreen />;
   if (phase === 'results') return <WordScrambleResultScreen />;
   return <WordScramblePlayScreen />;
 }
