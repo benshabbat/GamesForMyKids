@@ -3,8 +3,6 @@ import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
-import { QuizGameRouter } from '@/components/game/quiz';
-import { QUIZ_GAME_TYPES } from '@/lib/quiz/quizGameTypes';
 import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 import CustomGameRenderer from './CustomGameRenderer';
@@ -30,19 +28,12 @@ export default async function UniversalGamePage({ params }: PageProps) {
     return <CustomGameRenderer gameType={actualGameType} />;
   }
 
-  const isQuizGame = QUIZ_GAME_TYPES.has(actualGameType);
   const gameItems = await loadGameItems(actualGameType);
 
   return (
     <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
-      {isQuizGame ? (
-        <QuizGameRouter />
-      ) : (
-        <>
-          <GameLogicSync />
-          <UltimateGamePage />
-        </>
-      )}
+      <GameLogicSync />
+      <UltimateGamePage />
     </GameTypeProvider>
   );
 }

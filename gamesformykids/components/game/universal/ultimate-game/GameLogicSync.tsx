@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { useAutoGameConfig } from '@/hooks/shared/game-state/useGameConfig';
 import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
+import { GAME_HOOKS_MAP } from '@/lib/constants/gameHooksMap';
 
 /**
  * Inner component — only rendered once the game type is in the store.
@@ -46,9 +47,7 @@ function GameLogicSyncInner() {
 export function GameLogicSync() {
   const gameType = useGameTypeStore((s) => s.currentGameType);
   if (!gameType) return null;
-  // key=gameType forces a full unmount/remount when the game type changes so
-  // that the dynamic useGameHook() call inside GameLogicSyncInner always
-  // starts with a fresh hook call-stack and never violates the Rules of Hooks
-  // (React error #311: hooks called conditionally / call count mismatch).
+  // Skip for game types without a registered hook (quiz games, etc.)
+  if (!(gameType in GAME_HOOKS_MAP)) return null;
   return <GameLogicSyncInner key={gameType} />;
 }

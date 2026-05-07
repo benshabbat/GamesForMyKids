@@ -14,6 +14,8 @@
 
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { useGameEffects } from '@/hooks/shared/game-state/useGameEffects';
+import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
+import { getQuizGameComponent } from '@/lib/quiz/quizGameRegistry';
 
 import { GameLoadingScreen } from "../../../shared";
 import { GameErrorScreen } from "../../../shared";
@@ -28,10 +30,26 @@ export { GameLogicSync } from './GameLogicSync';
 const DEFAULT_BG = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
 
 /**
- * 🎯 הקומפוננט הסופי - אפס props drilling, הכל מ-Zustand!
- * קורא game type ישירות מ-useGameTypeStore (seed על ידי GameTypeProvider).
+ * 🎯 נקודת כניסה אחת לכל המשחקים שאינם custom.
+ * - משחקי חידון (quiz) → מועברים ל-QuizGameRouter הרלוונטי
+ * - משחקי כרטיסים → CardGamePage (הלוגיקה המקורית)
  */
 export function UltimateGamePage() {
+  const gameType = useGameTypeStore(s => s.currentGameType);
+
+  if (!gameType) return null;
+
+  const QuizComponent = getQuizGameComponent(gameType);
+  if (QuizComponent) return <QuizComponent />;
+
+  return <CardGamePage />;
+}
+
+/**
+ * Card-game rendering — original UltimateGamePage logic.
+ * Hooks here are always called unconditionally (Rules of Hooks safe).
+ */
+function CardGamePage() {
   // ⚙️ Side effects: timer + progress reset
   useGameEffects();
 

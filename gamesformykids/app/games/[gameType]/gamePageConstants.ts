@@ -20,7 +20,7 @@ export const SUPPORTED_GAMES = [
   'counting',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
-  'animals', 'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
+  'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
@@ -40,7 +40,7 @@ export const SUPPORTED_GAMES = [
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
 export const CUSTOM_GAME_TYPES = new Set([
-  'animals', 'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
+  'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
