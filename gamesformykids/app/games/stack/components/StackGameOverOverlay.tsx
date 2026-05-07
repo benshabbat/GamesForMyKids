@@ -1,14 +1,13 @@
 'use client';
 
-import { useStackStore } from '../stackStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useStackGame } from '../useStackGame';
 
 interface Props {
   onRestart: () => void;
 }
 
 export default function StackGameOverOverlay({ onRestart }: Props) {
-  const { score, best } = useStackStore(useShallow(s => ({ score: s.score, best: s.best })));
+  const { score, best } = useStackGame();
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/70">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-60">

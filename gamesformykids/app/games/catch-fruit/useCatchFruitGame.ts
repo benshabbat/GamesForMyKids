@@ -162,7 +162,7 @@ export function useCatchFruitGame() {
     if (st.current.phase !== 'playing') startGame();
   }, [canvasRef, startGame]);
 
-  const { phase, best } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+  const { phase, best, score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 
-  return { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart, phase, best };
+  return { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart, phase, best, score, lives, timeLeft };
 }

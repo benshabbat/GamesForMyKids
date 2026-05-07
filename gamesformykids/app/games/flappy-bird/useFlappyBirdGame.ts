@@ -197,7 +197,7 @@ export function useFlappyBirdGame() {
     flap();
   }, [flap]);
 
-  const { phase, best } = useFlappyBirdStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+  const { phase, best, score } = useFlappyBirdStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score })));
 
-  return { canvasRef, flap, handleInput, phase, best };
+  return { canvasRef, flap, handleInput, phase, best, score };
 }

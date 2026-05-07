@@ -1,14 +1,14 @@
 'use client';
 
-import { usePongStore, WIN_SCORE } from '../pongStore';
-import { useShallow } from 'zustand/react/shallow';
+import { usePongGame } from '../usePongGame';
+import { WIN_SCORE } from '../pongStore';
 
 interface Props {
   onRestart: () => void;
 }
 
 export default function PongResultOverlay({ onRestart }: Props) {
-  const { playerScore, aiScore } = usePongStore(useShallow(s => ({ playerScore: s.playerScore, aiScore: s.aiScore })));
+  const { playerScore, aiScore } = usePongGame();
   const playerWon = playerScore >= WIN_SCORE;
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/70">

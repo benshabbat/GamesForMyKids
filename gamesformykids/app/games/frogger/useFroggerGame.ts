@@ -154,7 +154,7 @@ export function useFroggerGame() {
     return () => window.removeEventListener('keydown', kd);
   }, [moveFrog]);
 
-  const { phase, score, lives } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives })));
+  const { phase, score, lives, best } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives, best: s.best })));
 
-  return { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd, phase, score, lives };
+  return { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd, phase, score, lives, best };
 }
