@@ -1,5 +1,5 @@
 import { ComponentTypes } from "@/lib/types";
-import { useGameActions, useGridFillers } from "@/hooks";
+import { useGridFillers } from "@/hooks";
 
 // Use the new organized type from ComponentTypes
 type GameItemType = ComponentTypes.GameItemType;
@@ -16,28 +16,14 @@ export function GameCardGrid<T extends GameItemType>({
   compareKey = 'name' as keyof T,
   renderCustomCard,
   cardClassName = "",
-  useContext = false,
 }: GameCardGridProps<T>) {
-  
-  // 🎮 שימוש בקונטקסט אם מבוקש
-  const gameActions = useGameActions();
   // 🔢 fillers להשלמת שורה אחרונה
   const fillerCount = useGridFillers(
     items.length,
     typeof gridCols === 'string' ? gridCols : { mobile: gridCols, tablet: gridCols, desktop: gridCols }
   );
-  
-  // החלטה על הפונקציה הסופית לטיפול בקליק
-  const handleItemClick = propOnItemClick || (useContext ? ((item: T) => {
-    // לוגיקה חכמה - בדיקה אם הפריט נכון
-    const isCorrect = currentChallenge ? isCurrentItem(item, currentChallenge) : false;
-    
-    if (isCorrect && gameActions?.onCorrect) {
-      gameActions.onCorrect();
-    } else if (!isCorrect && gameActions?.onWrong) {
-      gameActions.onWrong();
-    }
-  }) : () => {});
+
+  const handleItemClick = propOnItemClick ?? (() => {});
   // Helper function to determine if an item is the current challenge
   const isCurrentItem = (item: T, challenge?: T | null): boolean => {
     if (!challenge) return false;

@@ -16,13 +16,13 @@ export default function SimpleGameStartButton({
   text = "🎮 בואו נתחיל לשחק! 🎮",
   customOnStart
 }: SimpleGameStartButtonProps) {
-  const { start } = useGameActions();
-  
+  const { startGame } = useGameActions();
+
   const handleStart = () => {
     if (customOnStart) {
       customOnStart();
     } else {
-      start();
+      startGame();
     }
   };
   
