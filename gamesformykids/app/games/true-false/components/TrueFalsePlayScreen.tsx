@@ -1,11 +1,8 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useTrueFalseStore, TIME_PER_Q } from '../trueFalseStore';
+import { useTrueFalseGame, TIME_PER_Q } from '../useTrueFalseGame';
 
 export default function TrueFalsePlayScreen() {
-  const { score, lives, timeLeft, feedback, deck, idx, answer } =
-    useTrueFalseStore(useShallow((s) => s));
-  const q = deck[idx];
+  const { score, lives, timeLeft, feedback, q, answer } = useTrueFalseGame();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 to-cyan-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">

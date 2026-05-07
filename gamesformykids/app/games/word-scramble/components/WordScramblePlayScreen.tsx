@@ -1,10 +1,9 @@
 'use client';
-import { useShallow } from 'zustand/react/shallow';
-import { useWordScrambleStore } from '../wordScrambleStore';
+import { useWordScrambleGame } from '../useWordScrambleGame';
 
 export default function WordScramblePlayScreen() {
   const { words, wIdx, letters, picked, score, lives, shake, correct, pickLetter, unpick } =
-    useWordScrambleStore(useShallow((s) => s));
+    useWordScrambleGame();
   const entry  = words[wIdx];
   const target = entry.word;
 
