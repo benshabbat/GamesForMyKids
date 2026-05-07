@@ -1,10 +1,3 @@
-/**
- * Gamimport { GameContextHookReturn } from '@/lib/types/hooks/game-state';Context Hook
- * Hook מותאם אישית שמחבר בין כל הקונטקסטים
- */
-
-'use client';
-
 'use client';
 
 import { useCallback } from 'react';
