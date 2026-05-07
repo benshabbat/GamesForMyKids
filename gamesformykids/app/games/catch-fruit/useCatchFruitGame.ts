@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -161,5 +162,7 @@ export function useCatchFruitGame() {
     if (st.current.phase !== 'playing') startGame();
   }, [canvasRef, startGame]);
 
-  return { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart };
+  const { phase, best } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+
+  return { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart, phase, best };
 }

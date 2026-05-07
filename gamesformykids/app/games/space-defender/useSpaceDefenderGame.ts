@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -180,8 +181,11 @@ export function useSpaceDefenderGame() {
     return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); clearInterval(moveInterval); };
   }, [shoot]);
 
+  const { phase, best } = useSpaceDefenderStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+
   return { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart,
     nudgeLeft: () => { const s = st.current; s.shipX = Math.max(SHIP_W / 2, s.shipX - 40); },
     nudgeRight: () => { const s = st.current; s.shipX = Math.min(W - SHIP_W / 2, s.shipX + 40); },
+    phase, best,
   };
 }

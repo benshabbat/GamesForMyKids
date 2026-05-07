@@ -1,18 +1,13 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerGame, W, H } from './useDinoRunnerGame';
-import { useDinoRunnerStore } from './dinoRunnerStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import DinoGameOverOverlay from './components/DinoGameOverOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function DinoRunnerGame() {
-  const { canvasRef, handleTap } = useDinoRunnerGame();
-  const { phase, score, best } = useDinoRunnerStore(
-    useShallow((s) => ({ phase: s.phase, score: s.score, best: s.best })),
-  );
+  const { canvasRef, handleTap, phase, score, best } = useDinoRunnerGame();
 
   return (
     <CanvasGameShell

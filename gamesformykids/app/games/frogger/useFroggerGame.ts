@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -153,5 +154,7 @@ export function useFroggerGame() {
     return () => window.removeEventListener('keydown', kd);
   }, [moveFrog]);
 
-  return { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd };
+  const { phase, score, lives } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives })));
+
+  return { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd, phase, score, lives };
 }

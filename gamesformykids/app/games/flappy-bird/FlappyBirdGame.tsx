@@ -1,15 +1,12 @@
 'use client';
 
 import { useFlappyBirdGame, W, H } from './useFlappyBirdGame';
-import { useFlappyBirdStore } from './flappyBirdStore';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FlappyGameOverOverlay from './components/FlappyGameOverOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function FlappyBirdGame() {
-  const { canvasRef, handleInput } = useFlappyBirdGame();
-  const { phase, best } = useFlappyBirdStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+  const { canvasRef, handleInput, phase, best } = useFlappyBirdGame();
 
   return (
     <CanvasGameShell

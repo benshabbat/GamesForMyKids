@@ -1,8 +1,7 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { usePongGame, W, H } from './usePongGame';
-import { usePongStore, WIN_SCORE } from './pongStore';
+import { WIN_SCORE } from './pongStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import PongResultOverlay from './components/PongResultOverlay';
@@ -10,10 +9,7 @@ import PongControls from './components/PongControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function PongGame() {
-  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, nudgeLeft, nudgeRight } = usePongGame();
-  const { phase, playerScore, aiScore } = usePongStore(
-    useShallow((s) => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })),
-  );
+  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick, nudgeLeft, nudgeRight, phase, playerScore, aiScore } = usePongGame();
   return (
     <CanvasGameShell
       canvasRef={canvasRef} width={W} height={H}

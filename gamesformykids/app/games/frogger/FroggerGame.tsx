@@ -1,17 +1,14 @@
 'use client';
 
 import { useFroggerGame, W, H } from './useFroggerGame';
-import { useFroggerStore } from './froggerStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FroggerGameOverOverlay from './components/FroggerGameOverOverlay';
 import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function FroggerGame() {
-  const { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd } = useFroggerGame();
-  const { phase, score, lives } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives })));
+  const { canvasRef, startGame, moveFrog, handleTouchStart, handleTouchEnd, phase, score, lives } = useFroggerGame();
 
   return (
     <CanvasGameShell

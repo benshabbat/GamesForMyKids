@@ -1,8 +1,6 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderGame, W, H } from './useSpaceDefenderGame';
-import { useSpaceDefenderStore } from './spaceDefenderStore';
 import SpaceDefenderHUD from './components/SpaceDefenderHUD';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import SpaceDefenderResultOverlay from './components/SpaceDefenderResultOverlay';
@@ -10,10 +8,7 @@ import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function SpaceDefenderGame() {
-  const { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight } = useSpaceDefenderGame();
-  const { phase, best } = useSpaceDefenderStore(
-    useShallow((s) => ({ phase: s.phase, best: s.best })),
-  );
+  const { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart, nudgeLeft, nudgeRight, phase, best } = useSpaceDefenderGame();
 
   return (
     <CanvasGameShell

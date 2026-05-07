@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -190,5 +191,7 @@ export function useJumperGame() {
     st.current.rightDown = false;
   }, []);
 
-  return { canvasRef, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight };
+  const { phase, score, best } = useJumperStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
+
+  return { canvasRef, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight, phase, score, best };
 }

@@ -1,18 +1,13 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitGame, W, H } from './useCatchFruitGame';
-import { useCatchFruitStore } from './catchFruitStore';
 import CatchFruitHUD from './components/CatchFruitHUD';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import CatchFruitResultOverlay from './components/CatchFruitResultOverlay';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function CatchFruitGame() {
-  const { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart } = useCatchFruitGame();
-  const { phase, best } = useCatchFruitStore(
-    useShallow((s) => ({ phase: s.phase, best: s.best })),
-  );
+  const { canvasRef, startGame, handleMouseMove, handleMouseDown, handleMouseUp, handleTouchMove, handleTouchStart, phase, best } = useCatchFruitGame();
 
   return (
     <CanvasGameShell
