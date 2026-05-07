@@ -1,12 +1,12 @@
 'use client';
 
 import { Clock, Trophy, Star, CheckCircle, Target } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import StatCard from './StatCard';
 import CompletionBanner from './CompletionBanner';
 
 export default function PuzzleStats({ className = '' }: { className?: string }) {
-  const { placedPieces, selectedPuzzle, difficulty, timer, score, isCompleted } = usePuzzleStore();
+  const { placedPieces, selectedPuzzle, difficulty, timer, score, isCompleted } = usePuzzleGame();
   const correctPieces = placedPieces.filter(p => p?.isCorrect).length;
   const totalPieces = selectedPuzzle?.gridSize || difficulty;
   const completionPercentage = Math.round((correctPieces / totalPieces) * 100);

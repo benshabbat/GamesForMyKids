@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function FloatingDragPiece() {
-  const { touchState } = usePuzzleStore();
+  const { touchState } = usePuzzleGame();
   const { isDragging, draggedPiece, dragPosition } = touchState;
   if (!isDragging || !draggedPiece) return null;
   return (

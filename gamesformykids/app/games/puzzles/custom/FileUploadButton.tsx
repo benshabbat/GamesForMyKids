@@ -2,11 +2,11 @@
 
 import { useRef } from 'react';
 import { Upload } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function FileUploadButton() {
   const inputRef = useRef<HTMLInputElement>(null);
-  const { handleImageUpload } = usePuzzleStore();
+  const { handleImageUpload } = usePuzzleGame();
 
   return (
     <div className="border-t border-gray-200 pt-8">

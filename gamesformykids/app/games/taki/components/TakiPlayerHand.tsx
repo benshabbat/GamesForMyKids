@@ -1,17 +1,11 @@
 'use client';
 
-import { canPlay, useTakiStore } from '../takiGameStore';
+import { canPlay } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 import TakiCardView from './TakiCardView';
 
 export default function TakiPlayerHand() {
-  const playerHand = useTakiStore(s => s.playerHand);
-  const topCard = useTakiStore(s => s.topCard);
-  const effectiveColor = useTakiStore(s => s.effectiveColor);
-  const inTakiSequence = useTakiStore(s => s.inTakiSequence);
-  const takiColor = useTakiStore(s => s.takiColor);
-  const needsColorChoice = useTakiStore(s => s.needsColorChoice);
-  const currentTurn = useTakiStore(s => s.currentTurn);
-  const playCard = useTakiStore(s => s.playCard);
+  const { playerHand, topCard, effectiveColor, inTakiSequence, takiColor, needsColorChoice, currentTurn, playCard } = useTakiGame();
 
   const playableIds = new Set(
     currentTurn === 'player' && !needsColorChoice

@@ -1,10 +1,10 @@
 'use client';
 
-import { useTakiStore } from '../takiGameStore';
+import { useTakiGame } from '../useTakiGame';
 import { FaceDownCard } from './TakiCardView';
 
 export default function TakiComputerHand() {
-  const computerHand = useTakiStore(s => s.computerHand);
+  const { computerHand } = useTakiGame();
 
   return (
     <div className="flex flex-col items-center gap-1">

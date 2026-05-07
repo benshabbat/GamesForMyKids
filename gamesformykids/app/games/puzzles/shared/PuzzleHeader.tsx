@@ -1,10 +1,10 @@
 'use client';
 
 import { HelpCircle } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function PuzzleHeader({ title, subtitle }: { title: string; subtitle: string }) {
-  const { toggleHelp } = usePuzzleStore();
+  const { toggleHelp } = usePuzzleGame();
   return (
     <div className="text-center mb-6 sm:mb-8">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mb-6">

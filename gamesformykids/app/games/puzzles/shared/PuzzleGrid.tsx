@@ -1,10 +1,10 @@
 'use client';
 
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import GridCell from './GridCell';
 
 export default function PuzzleGrid() {
-  const { selectedPuzzle, difficulty, placedPieces } = usePuzzleStore();
+  const { selectedPuzzle, difficulty, placedPieces } = usePuzzleGame();
 
   const gridSize = selectedPuzzle?.gridSize || difficulty;
   const gridSide = Math.sqrt(gridSize);

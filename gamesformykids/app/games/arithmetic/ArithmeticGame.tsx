@@ -1,12 +1,13 @@
 'use client';
 import { useEffect } from 'react';
 import { useArithmeticGameStore, stopArithmeticTimer } from './arithmeticGameStore';
+import { useArithmeticGame } from './useArithmeticGame';
 import ArithmeticMenuScreen from './components/ArithmeticMenuScreen';
 import ArithmeticQuestion from './components/ArithmeticQuestion';
 import ArithmeticResultScreen from './components/ArithmeticResultScreen';
 
 export default function ArithmeticGame() {
-  const phase = useArithmeticGameStore(s => s.phase);
+  const { phase } = useArithmeticGame();
 
   useEffect(() => {
     // Reset to menu whenever the component mounts (e.g. after client-side

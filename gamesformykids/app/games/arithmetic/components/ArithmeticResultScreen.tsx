@@ -1,14 +1,10 @@
 'use client';
-import { useArithmeticGameStore } from '../arithmeticGameStore';
+import { useArithmeticGame } from '../useArithmeticGame';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import GameResultCard from '@/components/game/shared/GameResultCard';
 
 export default function ArithmeticResultScreen() {
-  const level     = useArithmeticGameStore(s => s.level);
-  const correct   = useArithmeticGameStore(s => s.correct);
-  const score     = useArithmeticGameStore(s => s.score);
-  const startGame = useArithmeticGameStore(s => s.startGame);
-  const goMenu    = useArithmeticGameStore(s => s.goMenu);
+  const { level, correct, score, startGame, goMenu } = useArithmeticGame();
   const pct = Math.round((correct / QUESTIONS_PER_GAME) * 100);
   return (
     <GameResultCard

@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Star } from 'lucide-react';
 import type { PuzzlePiece } from '@/app/games/puzzles/utils/puzzleUtils';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 interface GridCellProps {
   index: number;
@@ -13,7 +13,7 @@ interface GridCellProps {
 }
 
 export default function GridCell({ index, row, col, piece }: GridCellProps) {
-  const { showHints, showDebug, handleDragOver, handleDrop, handleDragStart, handleTouchStart, handleTouchMove, handleTouchEnd } = usePuzzleStore();
+  const { showHints, showDebug, handleDragOver, handleDrop, handleDragStart, handleTouchStart, handleTouchMove, handleTouchEnd } = usePuzzleGame();
 
   return (
     <div

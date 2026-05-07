@@ -1,19 +1,10 @@
 'use client';
-import { useArithmeticGameStore } from '../arithmeticGameStore';
+import { useArithmeticGame } from '../useArithmeticGame';
 import { TIME_PER_QUESTION } from '../data/questions';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 
 export default function ArithmeticQuestion() {
-  const level       = useArithmeticGameStore(s => s.level);
-  const question    = useArithmeticGameStore(s => s.question);
-  const questionNum = useArithmeticGameStore(s => s.questionNum);
-  const score       = useArithmeticGameStore(s => s.score);
-  const selected    = useArithmeticGameStore(s => s.selected);
-  const isCorrect   = useArithmeticGameStore(s => s.isCorrect);
-  const timeLeft    = useArithmeticGameStore(s => s.timeLeft);
-  const selectAnswer = useArithmeticGameStore(s => s.selectAnswer);
-  const advance      = useArithmeticGameStore(s => s.advance);
-  const goMenu       = useArithmeticGameStore(s => s.goMenu);
+  const { level, question, questionNum, score, selected, isCorrect, timeLeft, selectAnswer, advance, goMenu } = useArithmeticGame();
 
   if (!question) return null;
 

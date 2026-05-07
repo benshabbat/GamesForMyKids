@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { RotateCcw, Eye, Settings, Shuffle, Upload } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import DifficultySelector from '../shared/DifficultySelector';
 
 export default function CustomControls() {
@@ -10,7 +10,7 @@ export default function CustomControls() {
   const {
     gameStarted, showHints: hintsEnabled, showDebug: debugMode,
     resetGame, shufflePieces, toggleHints, toggleDebug, handleImageUpload,
-  } = usePuzzleStore();
+  } = usePuzzleGame();
 
   return (
     <div className="mb-8">

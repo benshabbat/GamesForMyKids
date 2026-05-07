@@ -1,11 +1,11 @@
 'use client';
 
 import GameMenuGrid from '@/components/game/shared/GameMenuGrid';
-import { useArithmeticGameStore } from '../arithmeticGameStore';
+import { useArithmeticGame } from '../useArithmeticGame';
 import { LEVELS, LEVEL_EMOJIS, ArithmeticLevel } from '../data/questions';
 
 export default function ArithmeticMenuScreen() {
-  const startGame = useArithmeticGameStore(s => s.startGame);
+  const { startGame } = useArithmeticGame();
 
   return (
     <GameMenuGrid<ArithmeticLevel>

@@ -1,10 +1,10 @@
 'use client';
 
 import { RotateCcw, Eye, Settings, Upload, Shuffle } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function CustomHelpModal() {
-  const { showHelp, toggleHelp } = usePuzzleStore();
+  const { showHelp, toggleHelp } = usePuzzleGame();
   if (!showHelp) return null;
   return (
     <div

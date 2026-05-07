@@ -1,10 +1,10 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function ReferenceImage() {
-  const displayImage = usePuzzleStore(s => s.image);
+  const { image: displayImage } = usePuzzleGame();
   if (!displayImage) return null;
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-xl p-4 lg:p-6">

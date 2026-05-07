@@ -1,9 +1,9 @@
 'use client';
 
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function DifficultySelector({ variant = 'buttons' }: { variant?: 'buttons' | 'select' }) {
-  const { difficulty, changeDifficulty } = usePuzzleStore();
+  const { difficulty, changeDifficulty } = usePuzzleGame();
 
   if (variant === 'select') {
     return (

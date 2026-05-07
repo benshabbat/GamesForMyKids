@@ -1,11 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import { PREVIEW_IMAGES } from '../constants/previewImages';
 
 export default function PreMadeImagesPicker() {
-  const { difficulty, handlePreMadeImageSelect } = usePuzzleStore();
+  const { difficulty, handlePreMadeImageSelect } = usePuzzleGame();
 
   return (
     <div className="mb-8">

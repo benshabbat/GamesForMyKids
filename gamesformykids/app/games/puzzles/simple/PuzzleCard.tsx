@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import type { SimplePuzzle } from '../constants/simplePuzzlesData';
 import { DIFFICULTY_TEXT, DIFFICULTY_COLOR } from '../constants/difficultyConfig';
 
 export default function PuzzleCard({ puzzle }: { puzzle: SimplePuzzle }) {
-  const { handlePuzzleSelect } = usePuzzleStore();
+  const { handlePuzzleSelect } = usePuzzleGame();
   return (
     <div
       className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105 transform"

@@ -1,13 +1,13 @@
 'use client';
 
 import { Home, RotateCcw, Eye, Settings } from 'lucide-react';
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 
 export default function SimpleControls() {
   const {
     gameStarted, showHints: hintsEnabled, showDebug: debugMode,
     resetGame, toggleHints, toggleDebug, goToMenu,
-  } = usePuzzleStore();
+  } = usePuzzleGame();
 
   return (
     <div className="flex justify-center gap-4 mb-6 flex-wrap">

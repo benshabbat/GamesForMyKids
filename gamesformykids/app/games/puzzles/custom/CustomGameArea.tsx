@@ -1,13 +1,13 @@
 'use client';
 
-import { usePuzzleStore } from '@/app/games/puzzles/store/puzzleStore';
+import { usePuzzleGame } from '../usePuzzleGame';
 import PuzzleGrid from '../shared/PuzzleGrid';
 import PiecesPool from '../shared/PiecesPool';
 import PuzzleStats from '../shared/PuzzleStats';
 import ReferenceImage from '../shared/ReferenceImage';
 
 export default function CustomGameArea() {
-  const image = usePuzzleStore(s => s.image);
+  const { image } = usePuzzleGame();
   return (
     <>
     
