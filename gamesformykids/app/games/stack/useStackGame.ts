@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
 import { useStackStore } from './stackStore';
+import { useCanvasLoop } from '@/hooks/shared/common';
 
 export const W = 300;
 export const H = 480;
@@ -14,10 +15,7 @@ const TARGET_TOP = 90;
 import type { PhaseDead as Phase } from '@/lib/types';
 interface Block { x: number; y: number; w: number; color: string; }
 
-function makeBricks() { return [] as Block[]; } // placeholder, actual init in startGame
-
 export function useStackGame() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const st = useRef({
     phase: 'menu' as Phase,
     blocks: [] as Block[],
@@ -27,7 +25,7 @@ export function useStackGame() {
     camOffset: 0,
     score: 0, best: 0,
     colorIdx: 0,
-    frame: 0, raf: 0,
+    frame: 0,
   });
   const startGame = useCallback(() => {
     const s = st.current;
@@ -73,70 +71,57 @@ export function useStackGame() {
     else if (st.current.phase === 'menu') startGame();
   }, [drop, startGame]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    if (!ctx) return;
+  const canvasRef = useCanvasLoop((ctx) => {
+    const s = st.current;
+    s.frame++;
 
-    function loop() {
-      const s = st.current;
-      s.frame++;
-
-      if (s.phase === 'playing') {
-        s.curX += s.curDir * s.curSpeed;
-        const top = s.blocks[s.blocks.length - 1];
-        if (s.curDir > 0 && s.curX > W + 20) s.curDir = -1;
-        if (s.curDir < 0 && s.curX + s.curW < -20) s.curDir = 1;
-        if (s.curX < -W * 0.4) { s.curDir = 1; s.curX = -W * 0.4; }
-        if (s.curX + s.curW > W + W * 0.4) { s.curDir = -1; s.curX = W + W * 0.4 - s.curW; }
-        void top;
-      }
-
-      const grad = ctx.createLinearGradient(0, 0, 0, H);
-      grad.addColorStop(0, '#0f172a');
-      grad.addColorStop(1, '#1e293b');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, W, H);
-
-      for (const block of s.blocks) {
-        const drawY = block.y + s.camOffset;
-        if (drawY > H + BH || drawY < -BH) continue;
-        ctx.fillStyle = block.color;
-        ctx.fillRect(block.x, drawY, block.w, BH - 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.18)';
-        ctx.fillRect(block.x, drawY, block.w, 5);
-        ctx.fillStyle = 'rgba(0,0,0,0.25)';
-        ctx.fillRect(block.x, drawY + BH - 5, block.w, 3);
-      }
-
-      if (s.phase === 'playing' && s.blocks.length > 0) {
-        const top = s.blocks[s.blocks.length - 1];
-        const sliderScreenY = top.y - BH + s.camOffset;
-        const nextColor = COLORS[(s.colorIdx + 1) % COLORS.length];
-        ctx.fillStyle = 'rgba(255,255,255,0.05)';
-        ctx.fillRect(top.x, sliderScreenY, top.w, BH - 2);
-        ctx.fillStyle = nextColor;
-        ctx.fillRect(s.curX, sliderScreenY, s.curW, BH - 2);
-        ctx.fillStyle = 'rgba(255,255,255,0.25)';
-        ctx.fillRect(s.curX, sliderScreenY, s.curW, 5);
-      }
-
-      ctx.font = 'bold 36px Arial';
-      ctx.fillStyle = 'rgba(255,255,255,0.85)';
-      ctx.textAlign = 'center';
-      ctx.fillText(`${s.score}`, W / 2, 55);
-      ctx.font = '13px Arial';
-      ctx.fillStyle = 'rgba(255,255,255,0.35)';
-      ctx.fillText('TAP to drop!', W / 2, 74);
-
-      s.raf = requestAnimationFrame(loop);
+    if (s.phase === 'playing') {
+      s.curX += s.curDir * s.curSpeed;
+      const top = s.blocks[s.blocks.length - 1];
+      if (s.curDir > 0 && s.curX > W + 20) s.curDir = -1;
+      if (s.curDir < 0 && s.curX + s.curW < -20) s.curDir = 1;
+      if (s.curX < -W * 0.4) { s.curDir = 1; s.curX = -W * 0.4; }
+      if (s.curX + s.curW > W + W * 0.4) { s.curDir = -1; s.curX = W + W * 0.4 - s.curW; }
+      void top;
     }
 
-    st.current.raf = requestAnimationFrame(loop);
-    const stRef = st.current;
-    return () => cancelAnimationFrame(stRef.raf);
-  }, []);
+    const grad = ctx.createLinearGradient(0, 0, 0, H);
+    grad.addColorStop(0, '#0f172a');
+    grad.addColorStop(1, '#1e293b');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, W, H);
+
+    for (const block of s.blocks) {
+      const drawY = block.y + s.camOffset;
+      if (drawY > H + BH || drawY < -BH) continue;
+      ctx.fillStyle = block.color;
+      ctx.fillRect(block.x, drawY, block.w, BH - 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.18)';
+      ctx.fillRect(block.x, drawY, block.w, 5);
+      ctx.fillStyle = 'rgba(0,0,0,0.25)';
+      ctx.fillRect(block.x, drawY + BH - 5, block.w, 3);
+    }
+
+    if (s.phase === 'playing' && s.blocks.length > 0) {
+      const top = s.blocks[s.blocks.length - 1];
+      const sliderScreenY = top.y - BH + s.camOffset;
+      const nextColor = COLORS[(s.colorIdx + 1) % COLORS.length];
+      ctx.fillStyle = 'rgba(255,255,255,0.05)';
+      ctx.fillRect(top.x, sliderScreenY, top.w, BH - 2);
+      ctx.fillStyle = nextColor;
+      ctx.fillRect(s.curX, sliderScreenY, s.curW, BH - 2);
+      ctx.fillStyle = 'rgba(255,255,255,0.25)';
+      ctx.fillRect(s.curX, sliderScreenY, s.curW, 5);
+    }
+
+    ctx.font = 'bold 36px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.85)';
+    ctx.textAlign = 'center';
+    ctx.fillText(`${s.score}`, W / 2, 55);
+    ctx.font = '13px Arial';
+    ctx.fillStyle = 'rgba(255,255,255,0.35)';
+    ctx.fillText('TAP to drop!', W / 2, 74);
+  });
 
   useEffect(() => {
     const kd = (e: KeyboardEvent) => {
@@ -145,9 +130,6 @@ export function useStackGame() {
     window.addEventListener('keydown', kd);
     return () => window.removeEventListener('keydown', kd);
   }, [drop]);
-
-  // suppress unused warning from module-level helper
-  void makeBricks;
 
   return { canvasRef, startGame, drop, handleCanvasClick };
 }

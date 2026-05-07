@@ -1,7 +1,8 @@
-﻿'use client';
+'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
 import { usePongStore } from './pongStore';
+import { useCanvasLoop } from '@/hooks/shared/common';
 
 export const W = 360;
 export const H = 560;
@@ -13,12 +14,11 @@ const AI_SPEED = 3.5;
 import type { PhaseResult as Phase } from '@/lib/types';
 
 export function usePongGame() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const st = useRef({
     phase: 'menu' as Phase,
     playerX: W / 2 - PAD_W / 2, aiX: W / 2 - PAD_W / 2,
     ballX: W / 2, ballY: H / 2, ballVX: 3, ballVY: 4,
-    playerScore: 0, aiScore: 0, raf: 0, frame: 0,
+    playerScore: 0, aiScore: 0, frame: 0,
     particles: [] as { x: number; y: number; vx: number; vy: number; life: number }[],
   });
   function serveBall(direction: 1 | -1) {
@@ -65,80 +65,66 @@ export function usePongGame() {
     handleTouchMove(e);
   }, [startGame, handleTouchMove]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D;
-    if (!ctx) return;
+  const canvasRef = useCanvasLoop((ctx) => {
+    const s = st.current;
+    s.frame++;
 
     function addParticles(x: number, y: number) {
-      const s = st.current;
       for (let i = 0; i < 8; i++) s.particles.push({ x, y, vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.5) * 6, life: 1 });
     }
 
-    function loop() {
-      const s = st.current;
-      s.frame++;
+    if (s.phase === 'playing') {
+      s.ballX += s.ballVX; s.ballY += s.ballVY;
+      if (s.ballX - BALL_R <= 0) { s.ballX = BALL_R; s.ballVX = Math.abs(s.ballVX); addParticles(s.ballX, s.ballY); }
+      if (s.ballX + BALL_R >= W) { s.ballX = W - BALL_R; s.ballVX = -Math.abs(s.ballVX); addParticles(s.ballX, s.ballY); }
 
-      if (s.phase === 'playing') {
-        s.ballX += s.ballVX; s.ballY += s.ballVY;
-        if (s.ballX - BALL_R <= 0) { s.ballX = BALL_R; s.ballVX = Math.abs(s.ballVX); addParticles(s.ballX, s.ballY); }
-        if (s.ballX + BALL_R >= W) { s.ballX = W - BALL_R; s.ballVX = -Math.abs(s.ballVX); addParticles(s.ballX, s.ballY); }
+      const aiPad_Y = 30;
+      const aiCenter = s.aiX + PAD_W / 2;
+      if (aiCenter < s.ballX - 2) s.aiX = Math.min(W - PAD_W, s.aiX + AI_SPEED);
+      else if (aiCenter > s.ballX + 2) s.aiX = Math.max(0, s.aiX - AI_SPEED);
 
-        const aiPad_Y = 30;
-        const aiCenter = s.aiX + PAD_W / 2;
-        if (aiCenter < s.ballX - 2) s.aiX = Math.min(W - PAD_W, s.aiX + AI_SPEED);
-        else if (aiCenter > s.ballX + 2) s.aiX = Math.max(0, s.aiX - AI_SPEED);
-
-        const playerPad_Y = H - 45;
-        if (s.ballY + BALL_R >= playerPad_Y && s.ballY - BALL_R <= playerPad_Y + PAD_H && s.ballX >= s.playerX && s.ballX <= s.playerX + PAD_W) {
-          const rel = (s.ballX - s.playerX) / PAD_W - 0.5;
-          const spd = Math.sqrt(s.ballVX ** 2 + s.ballVY ** 2) + 0.1;
-          s.ballVX = rel * spd * 2.5; s.ballVY = -Math.abs(s.ballVY);
-          addParticles(s.ballX, playerPad_Y);
-        }
-        if (s.ballY - BALL_R <= aiPad_Y + PAD_H && s.ballY + BALL_R >= aiPad_Y && s.ballX >= s.aiX && s.ballX <= s.aiX + PAD_W) {
-          const rel = (s.ballX - s.aiX) / PAD_W - 0.5;
-          const spd = Math.sqrt(s.ballVX ** 2 + s.ballVY ** 2) + 0.1;
-          s.ballVX = rel * spd * 2.5; s.ballVY = Math.abs(s.ballVY);
-          addParticles(s.ballX, aiPad_Y + PAD_H);
-        }
-
-        if (s.ballY + BALL_R > H) { s.aiScore++; const aiWon = usePongStore.getState().aiScores(s.aiScore); if (aiWon) { s.phase = 'result'; } else serveBall(-1); }
-        if (s.ballY - BALL_R < 0) { s.playerScore++; const playerWon = usePongStore.getState().playerScores(s.playerScore); if (playerWon) { s.phase = 'result'; } else serveBall(1); }
-
-        s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.05; return p.life > 0; });
+      const playerPad_Y = H - 45;
+      if (s.ballY + BALL_R >= playerPad_Y && s.ballY - BALL_R <= playerPad_Y + PAD_H && s.ballX >= s.playerX && s.ballX <= s.playerX + PAD_W) {
+        const rel = (s.ballX - s.playerX) / PAD_W - 0.5;
+        const spd = Math.sqrt(s.ballVX ** 2 + s.ballVY ** 2) + 0.1;
+        s.ballVX = rel * spd * 2.5; s.ballVY = -Math.abs(s.ballVY);
+        addParticles(s.ballX, playerPad_Y);
+      }
+      if (s.ballY - BALL_R <= aiPad_Y + PAD_H && s.ballY + BALL_R >= aiPad_Y && s.ballX >= s.aiX && s.ballX <= s.aiX + PAD_W) {
+        const rel = (s.ballX - s.aiX) / PAD_W - 0.5;
+        const spd = Math.sqrt(s.ballVX ** 2 + s.ballVY ** 2) + 0.1;
+        s.ballVX = rel * spd * 2.5; s.ballVY = Math.abs(s.ballVY);
+        addParticles(s.ballX, aiPad_Y + PAD_H);
       }
 
-      ctx.fillStyle = '#0F172A'; ctx.fillRect(0, 0, W, H);
-      ctx.setLineDash([10, 10]); ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 2;
-      ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke(); ctx.setLineDash([]);
-      ctx.textAlign = 'center'; ctx.font = 'bold 48px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.15)';
-      ctx.fillText(String(s.aiScore), W / 2, H / 2 - 15); ctx.fillText(String(s.playerScore), W / 2, H / 2 + 55);
+      if (s.ballY + BALL_R > H) { s.aiScore++; const aiWon = usePongStore.getState().aiScores(s.aiScore); if (aiWon) { s.phase = 'result'; } else serveBall(-1); }
+      if (s.ballY - BALL_R < 0) { s.playerScore++; const playerWon = usePongStore.getState().playerScores(s.playerScore); if (playerWon) { s.phase = 'result'; } else serveBall(1); }
 
-      for (const p of s.particles) { ctx.globalAlpha = p.life; ctx.fillStyle = '#FCD34D'; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill(); }
-      ctx.globalAlpha = 1;
-
-      const aiPad_Y = 30, playerPad_Y = H - 45;
-      const aiGrad = ctx.createLinearGradient(s.aiX, 0, s.aiX + PAD_W, 0);
-      aiGrad.addColorStop(0, '#F87171'); aiGrad.addColorStop(1, '#EF4444');
-      ctx.fillStyle = aiGrad; ctx.beginPath(); ctx.roundRect(s.aiX, aiPad_Y, PAD_W, PAD_H, 6); ctx.fill();
-      const plGrad = ctx.createLinearGradient(s.playerX, 0, s.playerX + PAD_W, 0);
-      plGrad.addColorStop(0, '#34D399'); plGrad.addColorStop(1, '#10B981');
-      ctx.fillStyle = plGrad; ctx.beginPath(); ctx.roundRect(s.playerX, playerPad_Y, PAD_W, PAD_H, 6); ctx.fill();
-
-      const glow = ctx.createRadialGradient(s.ballX, s.ballY, 0, s.ballX, s.ballY, BALL_R * 3);
-      glow.addColorStop(0, 'rgba(255,255,255,0.5)'); glow.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R * 3, 0, Math.PI * 2); ctx.fill();
-      ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R, 0, Math.PI * 2); ctx.fill();
-
-      s.raf = requestAnimationFrame(loop);
+      s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.05; return p.life > 0; });
     }
 
-    st.current.raf = requestAnimationFrame(loop);
-    const stRef = st.current;
-    return () => cancelAnimationFrame(stRef.raf);
-  }, []);
+    ctx.fillStyle = '#0F172A'; ctx.fillRect(0, 0, W, H);
+    ctx.setLineDash([10, 10]); ctx.strokeStyle = 'rgba(255,255,255,0.15)'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(0, H / 2); ctx.lineTo(W, H / 2); ctx.stroke(); ctx.setLineDash([]);
+    ctx.textAlign = 'center'; ctx.font = 'bold 48px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.15)';
+    ctx.fillText(String(s.aiScore), W / 2, H / 2 - 15); ctx.fillText(String(s.playerScore), W / 2, H / 2 + 55);
+
+    for (const p of s.particles) { ctx.globalAlpha = p.life; ctx.fillStyle = '#FCD34D'; ctx.beginPath(); ctx.arc(p.x, p.y, 3, 0, Math.PI * 2); ctx.fill(); }
+    ctx.globalAlpha = 1;
+
+    const aiPad_Y = 30, playerPad_Y = H - 45;
+    const aiGrad = ctx.createLinearGradient(s.aiX, 0, s.aiX + PAD_W, 0);
+    aiGrad.addColorStop(0, '#F87171'); aiGrad.addColorStop(1, '#EF4444');
+    ctx.fillStyle = aiGrad; ctx.beginPath(); ctx.roundRect(s.aiX, aiPad_Y, PAD_W, PAD_H, 6); ctx.fill();
+    const plGrad = ctx.createLinearGradient(s.playerX, 0, s.playerX + PAD_W, 0);
+    plGrad.addColorStop(0, '#34D399'); plGrad.addColorStop(1, '#10B981');
+    ctx.fillStyle = plGrad; ctx.beginPath(); ctx.roundRect(s.playerX, playerPad_Y, PAD_W, PAD_H, 6); ctx.fill();
+
+    const glow = ctx.createRadialGradient(s.ballX, s.ballY, 0, s.ballX, s.ballY, BALL_R * 3);
+    glow.addColorStop(0, 'rgba(255,255,255,0.5)'); glow.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = glow; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R * 3, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R, 0, Math.PI * 2); ctx.fill();
+  });
 
   useEffect(() => {
     let left = false, right = false;
