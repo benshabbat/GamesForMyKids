@@ -1,14 +1,13 @@
 'use client';
 
-import { useJumperStore } from '../jumperStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useJumperGame } from '../useJumperGame';
 
 interface Props {
   onRestart: () => void;
 }
 
 export default function JumperGameOverOverlay({ onRestart }: Props) {
-  const { score, best } = useJumperStore(useShallow(s => ({ score: s.score, best: s.best })));
+  const { score, best } = useJumperGame();
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-3xl bg-black/70">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-64">

@@ -132,7 +132,7 @@ export function useStackGame() {
     return () => window.removeEventListener('keydown', kd);
   }, [drop]);
 
-  const { phase, best } = useStackStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+  const { phase, best, score } = useStackStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score })));
 
-  return { canvasRef, startGame, drop, handleCanvasClick, phase, best };
+  return { canvasRef, startGame, drop, handleCanvasClick, phase, best, score };
 }

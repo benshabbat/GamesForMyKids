@@ -1,10 +1,9 @@
 'use client';
 
-import { useSpaceDefenderStore } from '../spaceDefenderStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useSpaceDefenderGame } from '../useSpaceDefenderGame';
 
 export default function SpaceDefenderHUD() {
-  const { score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
+  const { score, lives, timeLeft } = useSpaceDefenderGame();
   return (
     <div className="flex gap-5 mb-2 text-white text-center">
       <div>

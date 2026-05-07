@@ -1,14 +1,13 @@
 'use client';
 
-import { useFroggerStore } from '../froggerStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useFroggerGame } from '../useFroggerGame';
 
 interface Props {
   onRestart: () => void;
 }
 
 export default function FroggerGameOverOverlay({ onRestart }: Props) {
-  const { score, best } = useFroggerStore(useShallow(s => ({ score: s.score, best: s.best })));
+  const { score, best } = useFroggerGame();
   return (
     <div className="absolute inset-0 flex items-center justify-center rounded-2xl bg-black/75">
       <div className="bg-white rounded-3xl p-7 text-center shadow-2xl w-72">

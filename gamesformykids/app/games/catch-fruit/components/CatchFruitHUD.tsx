@@ -1,10 +1,9 @@
 'use client';
 
-import { useCatchFruitStore } from '../catchFruitStore';
-import { useShallow } from 'zustand/react/shallow';
+import { useCatchFruitGame } from '../useCatchFruitGame';
 
 export default function CatchFruitHUD() {
-  const { score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
+  const { score, lives, timeLeft } = useCatchFruitGame();
   return (
     <div className="flex gap-5 mb-3 text-white text-center">
       <div>
