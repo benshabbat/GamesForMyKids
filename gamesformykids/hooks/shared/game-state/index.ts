@@ -1,6 +1,6 @@
 export { useBaseGame } from './useBaseGame';
 export { useAutoGame } from './useAutoGame';
-export { useGameActions } from './useGameContext';
+export { useGameActions } from './useGameLogic';
 
 // Zustand-backed hooks (migrated from contexts)
 export { useGameType } from './useGameType';

@@ -119,18 +119,3 @@ export function useGameInfo() {
   };
 }
 
-/**
- * Hook מקוצר לפעולות בלבד
- */
-export function useGameActions() {
-  // נשתמש בזכירה של הפונקציות במקום try-catch
-  const defaultActions = {
-    onCorrect: () => {},
-    onWrong: () => {},
-    start: () => {},
-    pause: () => {},
-  };
-  
-  // אם הקונטקסט לא זמין, נחזיר פעולות ריקות
-  return defaultActions;
-}
