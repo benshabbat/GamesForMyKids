@@ -1,16 +1,13 @@
 'use client';
 
 import { useStackGame, W, H } from './useStackGame';
-import { useStackStore } from './stackStore';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import StackGameOverOverlay from './components/StackGameOverOverlay';
 import StackDropButton from './components/StackDropButton';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function StackGame() {
-  const { canvasRef, startGame, drop, handleCanvasClick } = useStackGame();
-  const { phase, best } = useStackStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+  const { canvasRef, startGame, drop, handleCanvasClick, phase, best } = useStackGame();
 
   return (
     <CanvasGameShell

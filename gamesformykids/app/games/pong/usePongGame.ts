@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { usePongStore } from './pongStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -147,9 +148,12 @@ export function usePongGame() {
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, []);
 
+  const { phase, playerScore, aiScore } = usePongStore(useShallow(s => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })));
+
   return {
     canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleCanvasClick,
     nudgeLeft:  () => { const s = st.current; s.playerX = Math.max(0, s.playerX - 45); },
     nudgeRight: () => { const s = st.current; s.playerX = Math.min(W - PAD_W, s.playerX + 45); },
+    phase, playerScore, aiScore,
   };
 }

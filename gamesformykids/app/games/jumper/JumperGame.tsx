@@ -1,17 +1,14 @@
 'use client';
 
 import { useJumperGame, W, H } from './useJumperGame';
-import { useJumperStore } from './jumperStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import JumperGameOverOverlay from './components/JumperGameOverOverlay';
 import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function JumperGame() {
-  const { canvasRef, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight } = useJumperGame();
-  const { phase, score, best } = useJumperStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
+  const { canvasRef, startGame, handleTouchMove, handleTouchEnd, handleCanvasClick, pressLeft, releaseLeft, pressRight, releaseRight, phase, score, best } = useJumperGame();
 
   return (
     <CanvasGameShell

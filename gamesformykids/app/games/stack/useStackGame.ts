@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useStackStore } from './stackStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -131,5 +132,7 @@ export function useStackGame() {
     return () => window.removeEventListener('keydown', kd);
   }, [drop]);
 
-  return { canvasRef, startGame, drop, handleCanvasClick };
+  const { phase, best } = useStackStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+
+  return { canvasRef, startGame, drop, handleCanvasClick, phase, best };
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -162,5 +163,7 @@ export function useMeteorDodgeGame() {
     s.playerX = Math.min(W - PLAYER_R, s.playerX + 45);
   }, []);
 
-  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight };
+  const { phase, score, best } = useMeteorDodgeStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
+
+  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight, phase, score, best };
 }

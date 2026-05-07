@@ -1,8 +1,6 @@
 'use client';
 
-import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerGame, W, H } from './useBrickBreakerGame';
-import { useBrickBreakerStore } from './brickBreakerStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import BrickGameOverOverlay from './components/BrickGameOverOverlay';
@@ -10,10 +8,7 @@ import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
 export default function BrickBreakerGame() {
-  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight } = useBrickBreakerGame();
-  const { phase, score, best, lives, level } = useBrickBreakerStore(
-    useShallow((s) => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, level: s.level })),
-  );
+  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight, phase, score, best, lives, level } = useBrickBreakerGame();
 
   return (
     <CanvasGameShell

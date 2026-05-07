@@ -1,17 +1,14 @@
 'use client';
 
 import { useMeteorDodgeGame, W, H } from './useMeteorDodgeGame';
-import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import MeteorGameOverOverlay from './components/MeteorGameOverOverlay';
 import { CanvasLRControls } from '@/components/game/shared/CanvasLRControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
-import { useShallow } from 'zustand/react/shallow';
 
 export default function MeteorDodgeGame() {
-  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight } = useMeteorDodgeGame();
-  const { phase, score, best } = useMeteorDodgeStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
+  const { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight, phase, score, best } = useMeteorDodgeGame();
 
   return (
     <CanvasGameShell

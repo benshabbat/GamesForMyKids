@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -160,5 +161,7 @@ export function useDinoRunnerGame() {
     jump();
   }, [jump]);
 
-  return { canvasRef, jump, handleTap };
+  const { phase, score, best } = useDinoRunnerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
+
+  return { canvasRef, jump, handleTap, phase, score, best };
 }

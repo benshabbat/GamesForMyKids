@@ -1,6 +1,7 @@
 'use client';
 
 import { useRef, useCallback } from 'react';
+import { useShallow } from 'zustand/react/shallow';
 import { useFlappyBirdStore } from './flappyBirdStore';
 import { useCanvasLoop } from '@/hooks/shared/common';
 
@@ -196,5 +197,7 @@ export function useFlappyBirdGame() {
     flap();
   }, [flap]);
 
-  return { canvasRef, flap, handleInput };
+  const { phase, best } = useFlappyBirdStore(useShallow(s => ({ phase: s.phase, best: s.best })));
+
+  return { canvasRef, flap, handleInput, phase, best };
 }
