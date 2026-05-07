@@ -1,16 +1,16 @@
 'use client';
 
-import { useSoccerStore } from './store/soccerStore';
+import { useSoccerGame } from './useSoccerGame';
 import SoccerMenuScreen from './components/SoccerMenuScreen';
 import SoccerQuestion from './components/SoccerQuestion';
 import SoccerResultScreen from './components/SoccerResultScreen';
 
 export default function SoccerGame() {
-  const { phase, questions, currentIndex } = useSoccerStore();
+  const { phase, currentQuestion } = useSoccerGame();
 
   if (phase === 'menu') return <SoccerMenuScreen />;
   if (phase === 'finished') return <SoccerResultScreen />;
-  if (!questions[currentIndex]) return null;
+  if (!currentQuestion) return null;
   return <SoccerQuestion />;
 }
 

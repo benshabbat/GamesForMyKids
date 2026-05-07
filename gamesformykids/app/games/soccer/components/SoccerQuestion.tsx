@@ -1,6 +1,6 @@
 'use client';
 
-import { useSoccerStore } from '../store/soccerStore';
+import { useSoccerGame } from '../useSoccerGame';
 import { PitchBackground, GoalAnimation } from './SoccerShared';
 import SoccerGameHeader from './SoccerGameHeader';
 import SoccerProgressBar from './SoccerProgressBar';
@@ -9,7 +9,7 @@ import SoccerAnswerGrid from './SoccerAnswerGrid';
 import SoccerNextButton from './SoccerNextButton';
 
 export default function SoccerQuestion() {
-  const { showGoal } = useSoccerStore();
+  const { showGoal } = useSoccerGame();
 
   return (
     <PitchBackground>

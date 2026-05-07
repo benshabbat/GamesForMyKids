@@ -1,9 +1,9 @@
 'use client';
 
-import { useNumberBubblesStore } from '../numberBubblesStore';
+import { useNumberBubblesGame } from '../useNumberBubblesGame';
 
 export default function NumberBubbleGrid() {
-  const { bubbles, next, tap } = useNumberBubblesStore();
+  const { bubbles, next, tap } = useNumberBubblesGame();
 
   return (
     <div className="relative w-full" style={{ height: '70vh', maxWidth: 400 }}>

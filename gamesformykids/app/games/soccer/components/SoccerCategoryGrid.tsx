@@ -1,11 +1,11 @@
 'use client';
 
 import type { SoccerCategory } from '../data/soccer';
-import { useSoccerStore } from '../store/soccerStore';
+import { useSoccerGame } from '../useSoccerGame';
 import { CATEGORY_COLORS, CATEGORY_ICONS } from './SoccerShared';
 
 export default function SoccerCategoryGrid() {
-  const { categories, startGame } = useSoccerStore();
+  const { categories, startGame } = useSoccerGame();
 
   return (
     <div className="grid grid-cols-2 gap-3 w-full max-w-sm mb-6">
