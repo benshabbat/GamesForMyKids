@@ -2,6 +2,7 @@
 
 import { useFroggerGame, W, H } from './useFroggerGame';
 import { CanvasScoreBar } from '@/components/game/shared/CanvasScoreBar';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 import { CanvasMenuOverlay } from '@/components/game/shared/CanvasMenuOverlay';
 import FroggerGameOverOverlay from './components/FroggerGameOverOverlay';
 import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
@@ -21,7 +22,7 @@ export default function FroggerGame() {
         <CanvasScoreBar
           stats={[
             { value: score, label: "ניקוד", valueClass: "text-xl font-black text-green-300", labelClass: "text-xs text-green-600" },
-            { value: <div className="flex gap-1 items-center justify-center">{[0,1,2].map(i => <span key={i} className={`text-xl ${i < lives ? '' : 'opacity-20'}`}>❤️</span>)}</div> },
+            { value: <LivesDisplay lives={lives} size="text-xl" /> },
           ]}
         />
       )}

@@ -1,5 +1,6 @@
 'use client';
 import { useEmojiMathGame, TIME_PER_Q } from '../useEmojiMathGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 function renderEmojis(count: number, emoji: string) {
   return Array.from({ length: Math.min(count, 15) }, (_, i) => (
@@ -19,9 +20,7 @@ export default function EmojiMathPlayArea() {
           <p className="text-xs text-orange-400">ניקוד</p>
         </div>
         <div className="flex gap-1 items-center">
-          {[0, 1, 2].map(i => (
-            <span key={i} className={`text-xl ${i < lives ? '' : 'opacity-20'}`}>❤️</span>
-          ))}
+          <LivesDisplay lives={lives} size="text-xl" />
         </div>
         <div>
           <p className={`text-2xl font-black ${timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-orange-700'}`}>{timeLeft}</p>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCatchFruitGame } from '../useCatchFruitGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function CatchFruitHUD() {
   const { score, lives, timeLeft } = useCatchFruitGame();
@@ -11,7 +12,7 @@ export default function CatchFruitHUD() {
         <p className="text-xs text-yellow-500">ניקוד</p>
       </div>
       <div>
-        <p className="text-2xl font-black text-red-300">{'❤️'.repeat(Math.max(0, lives))}</p>
+        <LivesDisplay lives={lives} />
         <p className="text-xs text-red-400">חיים</p>
       </div>
       <div>

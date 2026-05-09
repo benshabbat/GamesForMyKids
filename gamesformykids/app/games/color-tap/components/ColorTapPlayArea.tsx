@@ -1,5 +1,6 @@
 'use client';
 import { useColorTapGame, TIME_PER_Q } from '../useColorTapGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function ColorTapPlayArea() {
   const { question, feedback, timeLeft, score, lives, handleTap } =
@@ -13,9 +14,7 @@ export default function ColorTapPlayArea() {
           <p className="text-xs text-pink-400">ניקוד</p>
         </div>
         <div className="flex gap-1 items-center">
-          {[0, 1, 2].map(i => (
-            <span key={i} className={`text-2xl transition-all ${i < lives ? '' : 'opacity-20 grayscale'}`}>❤️</span>
-          ))}
+          <LivesDisplay lives={lives} />
         </div>
         <div>
           <p className={`text-2xl font-black ${timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-purple-600'}`}>{timeLeft}</p>
