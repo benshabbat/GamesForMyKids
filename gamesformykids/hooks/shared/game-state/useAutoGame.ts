@@ -8,8 +8,19 @@ import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 import { useUIStore } from '@/lib/stores/uiStore';
 
 /**
- * 🎮 Hook מותאם שמרכז את כל לוגיקת המשחק
- * קורא מ-Zustand stores ישירות — ללא props drilling
+ * DRIVER hook — use inside the auto-game component tree only.
+ *
+ * Calls `useAutoGameConfig().useGameHook()` which invokes the game-specific
+ * hook (looked up from GAME_HOOKS_MAP) and writes its results into the Zustand
+ * stores (gameSessionStore, gameProgressStore, gameActionsStore).
+ *
+ * Throws if the current game type is not registered in GAME_HOOKS_MAP — only
+ * use this in components guaranteed to be rendered under a valid game route.
+ *
+ * Callers: AutoGamePage, AutoGameHeader, AutoGameBody.
+ *
+ * For components that only need to *read* game state that another hook has
+ * already written, use `useUniversalGame` instead.
  */
 export function useAutoGame(): GameLogicState {
   // קבלת קונפיגורציה (Zustand-backed)

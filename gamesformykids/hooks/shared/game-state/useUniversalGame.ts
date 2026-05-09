@@ -1,7 +1,22 @@
 'use client'
 
 /**
- * useUniversalGame and sub-hooks — aggregates from useGameLogic sub-hooks.
+ * READER hook — use in shared UI components and the ultimate-game tree.
+ *
+ * Aggregates already-computed game state by reading from the Zustand stores
+ * via the useGameLogic sub-hooks. It does NOT call any game-specific hook and
+ * does NOT write to any store.
+ *
+ * This is safe to call from any component that is rendered inside a context
+ * where the game has already been driven (by useAutoGame or a game-specific
+ * hook). It never throws for an unrecognised game type.
+ *
+ * Callers: UltimateGamePage, UltimateStartScreen, AutoStartScreen, and all
+ * shared game UI components (GameChallengeSection, GameMainContent,
+ * GameStartButton, GameStatsButton, ColoredShapeCard, CelebrationBox, …).
+ *
+ * For the component tree that must also *drive* the game (invoke the
+ * game-specific hook), use `useAutoGame` instead.
  */
 
 import { GameType } from '@/lib/types/core/base'
