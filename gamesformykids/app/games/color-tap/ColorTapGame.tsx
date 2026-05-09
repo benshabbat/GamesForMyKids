@@ -1,27 +1,13 @@
 'use client';
 import { useColorTapGame } from './useColorTapGame';
-import ScoreBestResultCard from '@/components/game/shared/ScoreBestResultCard';
 import ColorTapMenuScreen from './components/ColorTapMenuScreen';
 import ColorTapPlayArea from './components/ColorTapPlayArea';
+import ColorTapResultScreen from './components/ColorTapResultScreen';
 
 export default function ColorTapGame() {
-  const { phase, score, best, startGame } = useColorTapGame();
+  const { phase } = useColorTapGame();
 
   if (phase === 'menu') return <ColorTapMenuScreen />;
-  if (phase === 'dead') return (
-    <ScoreBestResultCard
-      emoji="😢"
-      title="נגמרו החיים!"
-      gradientClass="from-pink-100 to-purple-200"
-      buttonClass="from-pink-500 to-purple-600"
-      score={score}
-      best={best}
-      scoreBgClass="bg-pink-50"
-      scoreTextClass="text-pink-600"
-      scoreLabelClass="text-pink-400"
-      onRestart={startGame}
-      restartLabel="🔄 שוב!"
-    />
-  );
+  if (phase === 'dead') return <ColorTapResultScreen />;
   return <ColorTapPlayArea />;
 }
