@@ -1,5 +1,6 @@
 'use client';
 import { useTrueFalseGame, TIME_PER_Q } from '../useTrueFalseGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function TrueFalsePlayScreen() {
   const { score, lives, timeLeft, feedback, q, answer } = useTrueFalseGame();
@@ -9,7 +10,7 @@ export default function TrueFalsePlayScreen() {
       <div className="flex gap-6 mb-5 text-center">
         <div><p className="text-2xl font-black text-teal-600">{score}</p><p className="text-xs text-teal-400">ניקוד</p></div>
         <div className="flex gap-1 items-center">
-          {[0, 1, 2].map(i => <span key={i} className={`text-2xl ${i < lives ? '' : 'opacity-20'}`}>❤️</span>)}
+          <LivesDisplay lives={lives} />
         </div>
         <div>
           <p className={`text-2xl font-black ${timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-cyan-600'}`}>{timeLeft}</p>

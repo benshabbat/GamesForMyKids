@@ -1,5 +1,6 @@
 'use client';
 import { useWordScrambleGame } from '../useWordScrambleGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function WordScramblePlayScreen() {
   const { words, wIdx, letters, picked, score, lives, shake, correct, pickLetter, unpick } =
@@ -12,7 +13,7 @@ export default function WordScramblePlayScreen() {
       <div className="flex items-center gap-6 mb-4 text-center">
         <div><p className="text-2xl font-black text-green-600">{score}</p><p className="text-xs text-green-400">ניקוד</p></div>
         <div><p className="text-lg font-bold text-gray-500">{wIdx + 1}/{words.length}</p></div>
-        <div className="flex gap-1">{Array.from({ length: 3 }).map((_, i) => <span key={i}>{i < lives ? '❤️' : '🖤'}</span>)}</div>
+        <LivesDisplay lives={lives} size="text-base" />
       </div>
       <div className={`bg-white rounded-3xl p-6 shadow-2xl max-w-sm w-full text-center transition-all duration-200 ${shake ? 'animate-shake' : ''}`}>
         <div className="text-7xl mb-2">{entry.emoji}</div>
