@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
@@ -52,8 +52,9 @@ interface TrueFalseActions {
 
 const INITIAL = makeLivesInitial(TIME_PER_Q, { deck: shuffle(FACTS), idx: 0 });
 
-export const useTrueFalseStore = makeStore<TrueFalseState & TrueFalseActions>(
+export const useTrueFalseStore = makePersistStore<TrueFalseState & TrueFalseActions>(
   'TrueFalseStore',
+  'true-false-best',
   (set, get) => {
     const timer = setupLivesTimer({
       name: 'TrueFalseStore', timePerQ: TIME_PER_Q, feedbackMs: 800, initialLives: 3,
@@ -85,4 +86,5 @@ export const useTrueFalseStore = makeStore<TrueFalseState & TrueFalseActions>(
       },
     };
   },
+  { partialize: (s) => ({ best: s.best }) },
 );

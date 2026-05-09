@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface MeteorState {
@@ -13,8 +13,9 @@ interface MeteorActions {
   endGame: (score: number) => void;
 }
 
-export const useMeteorDodgeStore = makeStore<MeteorState & MeteorActions>(
+export const useMeteorDodgeStore = makePersistStore<MeteorState & MeteorActions>(
   'MeteorDodgeStore',
+  'meteor-dodge-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -26,4 +27,5 @@ export const useMeteorDodgeStore = makeStore<MeteorState & MeteorActions>(
       set({ phase: 'dead', score, best }, false, 'meteor/endGame');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );

@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseSimon as Phase } from '@/lib/types';
 
 export const BUTTONS = [
@@ -63,7 +63,7 @@ export async function showSequence(seq: ButtonId[]) {
   useSimonStore.getState().setPlayerIdx(0);
 }
 
-export const useSimonStore = makeStore<SimonState & SimonActions>('SimonStore', (set) => ({
+export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonStore', 'simon-best', (set) => ({
   ...INITIAL,
   setPhase:       (phase) => set({ phase }, false, 'simon/setPhase'),
   setActiveColor: (color) => set({ activeColor: color }, false, 'simon/setActiveColor'),
@@ -79,4 +79,4 @@ export const useSimonStore = makeStore<SimonState & SimonActions>('SimonStore', 
     useSimonStore.getState().setRoundScore(0);
     showSequence(seq);
   },
-}));
+}), { partialize: (s) => ({ best: s.best }) });

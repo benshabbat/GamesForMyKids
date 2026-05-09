@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { ArithOp as Op, PhaseDead as Phase } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
@@ -57,8 +57,9 @@ const INITIAL: MathRaceState = {
   timeLeft: GAME_TIME, feedback: null, streak: 0, total: 0, correct: 0,
 };
 
-export const useMathRaceStore = makeStore<MathRaceState & MathRaceActions>(
+export const useMathRaceStore = makePersistStore<MathRaceState & MathRaceActions>(
   'MathRaceStore',
+  'math-race-best',
   (set, get) => {
     let gameTimerId:  ReturnType<typeof setInterval> | null = null;
     let feedbackId:   ReturnType<typeof setTimeout>  | null = null;
@@ -113,4 +114,5 @@ export const useMathRaceStore = makeStore<MathRaceState & MathRaceActions>(
       },
     };
   },
+  { partialize: (s) => ({ best: s.best }) },
 );

@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseWonDead } from '@/lib/types';
 
 interface BrickBreakerState {
@@ -17,8 +17,9 @@ interface BrickBreakerActions {
   setWon: (score: number, lives: number, level: number) => void;
 }
 
-export const useBrickBreakerStore = makeStore<BrickBreakerState & BrickBreakerActions>(
+export const useBrickBreakerStore = makePersistStore<BrickBreakerState & BrickBreakerActions>(
   'BrickBreakerStore',
+  'brick-breaker-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -38,4 +39,5 @@ export const useBrickBreakerStore = makeStore<BrickBreakerState & BrickBreakerAc
       set({ phase: 'won', score, best, lives, level }, false, 'brickBreaker/won');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );

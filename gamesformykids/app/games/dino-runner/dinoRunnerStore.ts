@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface DinoState {
@@ -14,8 +14,9 @@ interface DinoActions {
   resetToMenu: () => void;
 }
 
-export const useDinoRunnerStore = makeStore<DinoState & DinoActions>(
+export const useDinoRunnerStore = makePersistStore<DinoState & DinoActions>(
   'DinoRunnerStore',
+  'dino-runner-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -28,4 +29,5 @@ export const useDinoRunnerStore = makeStore<DinoState & DinoActions>(
     },
     resetToMenu: () => set({ phase: 'menu' }, false, 'dino/resetToMenu'),
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );

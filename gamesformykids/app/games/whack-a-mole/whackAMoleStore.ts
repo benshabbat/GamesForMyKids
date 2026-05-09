@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import type { PhaseResult as Phase } from '@/lib/types';
 
@@ -37,8 +37,9 @@ function freshState(best = 0): WhackAMoleState {
   };
 }
 
-export const useWhackAMoleStore = makeStore<WhackAMoleState & WhackAMoleActions>(
+export const useWhackAMoleStore = makePersistStore<WhackAMoleState & WhackAMoleActions>(
   'WhackAMoleStore',
+  'whack-a-mole-best',
   (set, get) => {
     let moleSpawnRef: ReturnType<typeof setTimeout>  | null = null;
     const moleTimers: (ReturnType<typeof setTimeout> | null)[] = Array(GRID).fill(null);
@@ -134,4 +135,5 @@ export const useWhackAMoleStore = makeStore<WhackAMoleState & WhackAMoleActions>
       },
     };
   },
+  { partialize: (s) => ({ best: s.best }) },
 );

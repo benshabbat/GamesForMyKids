@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface JumperState {
@@ -13,8 +13,9 @@ interface JumperActions {
   endGame: (score: number) => void;
 }
 
-export const useJumperStore = makeStore<JumperState & JumperActions>(
+export const useJumperStore = makePersistStore<JumperState & JumperActions>(
   'JumperStore',
+  'jumper-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -26,4 +27,5 @@ export const useJumperStore = makeStore<JumperState & JumperActions>(
       set({ phase: 'dead', score, best }, false, 'jumper/endGame');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );

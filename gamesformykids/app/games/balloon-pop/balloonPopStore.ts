@@ -12,7 +12,7 @@
  */
 
 import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { devtools, persist } from 'zustand/middleware';
 import type { PhaseResult as Phase } from '@/lib/types';
 
 // ── Constants ──────────────────────────────────────────────
@@ -96,7 +96,8 @@ export interface BalloonPopActions {
 // ── Store ──────────────────────────────────────────────────
 export const useBalloonPopStore = create<BalloonPopState & BalloonPopActions>()(
   devtools(
-    (set, get) => {
+    persist(
+      (set, get) => {
       function endGame() {
         clearTimers();
         const { score, best } = get();
@@ -197,6 +198,8 @@ export const useBalloonPopStore = create<BalloonPopState & BalloonPopActions>()(
         },
       };
     },
+      { name: 'balloon-pop-best', partialize: (s) => ({ best: s.best }) },
+    ),
     { name: 'BalloonPopStore' },
   ),
 );

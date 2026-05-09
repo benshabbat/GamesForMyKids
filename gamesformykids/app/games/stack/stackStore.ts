@@ -1,4 +1,4 @@
-import { makeStore } from '@/lib/stores/createStore';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseDead } from '@/lib/types';
 
 interface StackState {
@@ -13,8 +13,9 @@ interface StackActions {
   endGame: (score: number) => void;
 }
 
-export const useStackStore = makeStore<StackState & StackActions>(
+export const useStackStore = makePersistStore<StackState & StackActions>(
   'StackStore',
+  'stack-best',
   (set, get) => ({
     phase: 'menu',
     score: 0,
@@ -26,4 +27,5 @@ export const useStackStore = makeStore<StackState & StackActions>(
       set({ phase: 'dead', score, best }, false, 'stack/endGame');
     },
   }),
+  { partialize: (s) => ({ best: s.best }) },
 );
