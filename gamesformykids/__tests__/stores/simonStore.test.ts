@@ -8,7 +8,7 @@ beforeEach(() => {
   store.setState({
     phase: 'menu', activeColor: null, playerIdx: 0,
     best: 0, roundScore: 0, sequence: [],
-  } as Parameters<typeof store.setState>[0]);
+  } as unknown as Parameters<typeof store.setState>[0]);
 });
 
 afterEach(() => {
@@ -71,7 +71,7 @@ describe('simonStore', () => {
     });
 
     it('does not decrease best', () => {
-      store.setState({ best: 15 } as Parameters<typeof store.setState>[0]);
+      store.setState({ best: 15 } as unknown as Parameters<typeof store.setState>[0]);
       store.getState().updateBest(5);
       expect(store.getState().best).toBe(15);
     });
@@ -97,7 +97,7 @@ describe('simonStore', () => {
     });
 
     it('resets round score to 0', () => {
-      store.setState({ roundScore: 5 } as Parameters<typeof store.setState>[0]);
+      store.setState({ roundScore: 5 } as unknown as Parameters<typeof store.setState>[0]);
       store.getState().startGame();
       expect(store.getState().roundScore).toBe(0);
     });
