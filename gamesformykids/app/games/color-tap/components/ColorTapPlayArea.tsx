@@ -1,10 +1,22 @@
 'use client';
 import { useColorTapGame, TIME_PER_Q } from '../useColorTapGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
+import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
+import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
 
 export default function ColorTapPlayArea() {
   const { question, feedback, timeLeft, score, lives, handleTap } =
     useColorTapGame();
+
+  useKeyboardControls(
+    {
+      '1': () => handleTap(question.options[0]),
+      '2': () => handleTap(question.options[1]),
+      '3': () => handleTap(question.options[2]),
+      '4': () => handleTap(question.options[3]),
+    },
+    !feedback,
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
@@ -52,6 +64,9 @@ export default function ColorTapPlayArea() {
           </button>
         ))}
       </div>
+      <KeyboardHint
+        hints={question.options.map((c, i) => ({ key: String(i + 1), label: c.name }))}
+      />
     </div>
   );
 }
