@@ -17,6 +17,7 @@ export default function ColorTapResultScreen() {
       scoreLabelClass="text-pink-400"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🎨 קיבלתי ${score} נקודות בהקש צבע!`}
     />
   );
 }

@@ -19,6 +19,7 @@ interface Props {
   onRestart: () => void;
   restartLabel?: string;
   animateEmoji?: boolean;
+  shareText?: string;
 }
 
 /**

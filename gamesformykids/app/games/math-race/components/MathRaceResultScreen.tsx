@@ -14,6 +14,7 @@ export default function MathRaceResultScreen() {
       buttonClass="from-blue-500 to-indigo-600"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🏁 קיבלתי ${score} נקודות במרוץ מתמטיקה!`}
     >
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-blue-50 rounded-2xl p-3">

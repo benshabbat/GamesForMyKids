@@ -16,6 +16,7 @@ export default function WhackAMoleResultScreen() {
       scoreTextClass="text-amber-600"
       scoreLabelClass="text-amber-400"
       onRestart={startGame}
+      shareText={`🔨 קיבלתי ${score} נקודות בהכאת עכברוש!`}
     />
   );
 }

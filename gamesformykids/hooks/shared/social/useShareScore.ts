@@ -1,0 +1,30 @@
+'use client';
+import { useState, useCallback } from 'react';
+
+export function useShareScore() {
+  const [copied, setCopied] = useState(false);
+
+  const share = useCallback(async (text: string) => {
+    const url = typeof window !== 'undefined' ? window.location.origin : '';
+    const fullText = `${text}\n${url}`;
+
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({ text: fullText, url });
+        return;
+      } catch {
+        // User cancelled or API unavailable — fall through to clipboard
+      }
+    }
+
+    try {
+      await navigator.clipboard.writeText(fullText);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  return { share, copied };
+}

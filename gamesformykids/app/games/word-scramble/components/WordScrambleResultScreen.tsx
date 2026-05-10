@@ -14,6 +14,7 @@ export default function WordScrambleResultScreen() {
       buttonClass="from-green-500 to-emerald-600"
       onRestart={onRestart}
       restartLabel="🔄 שחק שוב"
+      shareText={`📝 קיבלתי ${score} נקודות בחילופי מילים!`}
     >
       <div className="grid grid-cols-2 gap-4">
         <div className="bg-green-50 rounded-2xl p-3">

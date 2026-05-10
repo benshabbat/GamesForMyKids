@@ -12,6 +12,7 @@ export default function BalloonResultScreen() {
       buttonClass="from-pink-500 to-rose-500"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🎈 קיבלתי ${score} נקודות בפוצץ בלונים!`}
     >
       <div className="grid grid-cols-2 gap-3">
         <div className="bg-pink-50 rounded-2xl p-4">

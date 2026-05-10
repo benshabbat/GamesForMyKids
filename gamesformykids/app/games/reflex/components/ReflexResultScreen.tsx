@@ -14,6 +14,7 @@ export default function ReflexResultScreen() {
       buttonClass="from-rose-500 to-red-600"
       onRestart={startGame}
       animateEmoji
+      shareText={`⚡ קיבלתי ${score} לחיצות ברפלקס!`}
     >
       <div className="grid grid-cols-3 gap-3">
         <div className="bg-yellow-50 rounded-2xl p-4">

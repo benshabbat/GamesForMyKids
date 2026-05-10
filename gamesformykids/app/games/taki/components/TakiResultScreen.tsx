@@ -14,6 +14,7 @@ export default function TakiResultScreen() {
       buttonClass="from-teal-500 to-emerald-600"
       onRestart={startGame}
       restartLabel="🔄 שחק שוב"
+      shareText={`🃏 קיבלתי ${playerScore} נקודות בטקי!`}
     >
       {message && <p className="text-gray-500 text-base mb-3">{message}</p>}
       <div className="flex justify-center gap-6 text-gray-700 text-xl font-semibold">

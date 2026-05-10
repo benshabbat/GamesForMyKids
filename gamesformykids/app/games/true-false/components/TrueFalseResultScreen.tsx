@@ -17,6 +17,7 @@ export default function TrueFalseResultScreen() {
       scoreLabelClass="text-teal-400"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🧠 קיבלתי ${score} נקודות בנכון או שקר!`}
     />
   );
 }

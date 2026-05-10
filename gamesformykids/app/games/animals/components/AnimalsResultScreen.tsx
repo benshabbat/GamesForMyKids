@@ -14,6 +14,7 @@ export default function AnimalsResultScreen() {
       gradientClass="from-green-50 to-teal-100"
       buttonClass="from-green-500 to-teal-600"
       onRestart={restart}
+      shareText={`🦁 קיבלתי ${score} מתוך ${total} בחיות!`}
     >
       <div className="bg-green-50 rounded-2xl p-5">
         <p className="text-4xl font-black text-green-700">{score} / {total}</p>
