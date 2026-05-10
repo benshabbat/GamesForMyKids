@@ -1,5 +1,6 @@
 'use client';
 import { ReactNode } from 'react';
+import { GameCompletionCelebration } from './GameCompletionCelebration';
 
 interface SecondaryAction {
   label: string;
@@ -41,6 +42,7 @@ export default function GameResultCard({
       className={`min-h-screen bg-gradient-to-br ${gradientClass} flex items-center justify-center p-4`}
       dir="rtl"
     >
+      <GameCompletionCelebration />
       <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
         <div className={`text-6xl mb-3 ${animateEmoji ? 'animate-bounce' : ''}`}>{emoji}</div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
