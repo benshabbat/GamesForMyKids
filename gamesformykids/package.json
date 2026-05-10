@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.3",
+    "@sentry/nextjs": "^10.52.0",
     "@supabase/ssr": "^0.6.1",
     "@supabase/supabase-js": "^2.55.0",
     "class-variance-authority": "^0.7.1",

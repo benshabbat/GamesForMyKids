@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 import withBundleAnalyzer from "@next/bundle-analyzer";
+import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   experimental: {
@@ -103,5 +104,16 @@ const nextConfig: NextConfig = {
   },
 };
 
+const analyzed = withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })(nextConfig);
+
 // Enable with: npm run build:analyze (ANALYZE=true next build)
-export default withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })(nextConfig);
+export default withSentryConfig(analyzed, {
+  org: process.env.SENTRY_ORG ?? "",
+  project: process.env.SENTRY_PROJECT ?? "gamesformykids",
+  // Silent in CI to keep build logs clean; set SENTRY_LOG_LEVEL=info locally
+  silent: true,
+  // Upload source maps only when SENTRY_AUTH_TOKEN is set (production CI/CD)
+  authToken: process.env.SENTRY_AUTH_TOKEN ?? "",
+  widenClientFileUpload: true,
+  disableLogger: true,
+});
