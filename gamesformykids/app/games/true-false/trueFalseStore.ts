@@ -1,4 +1,5 @@
 import { makePersistStore } from '@/lib/stores/createStore';
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
@@ -40,6 +41,9 @@ export type Fact = typeof FACTS[number];
 
 export const TIME_PER_Q = 6;
 
+const DIFFICULTY_LIVES   = { easy: 5, medium: 3, hard: 2 } as const;
+const DIFFICULTY_TIME_TF = { easy: 10, medium: TIME_PER_Q, hard: 4 } as const;
+
 interface TrueFalseState extends LivesGameState {
   deck: Fact[];
   idx:  number;
@@ -75,7 +79,9 @@ export const useTrueFalseStore = makePersistStore<TrueFalseState & TrueFalseActi
 
       startGame: () => {
         const deck = shuffle(FACTS);
+        const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ deck, idx: 0 }));
+        set({ lives: DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_TF[diff] });
       },
 
       answer: (choice: boolean) => {
