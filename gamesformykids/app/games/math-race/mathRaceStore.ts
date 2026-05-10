@@ -1,6 +1,9 @@
 import { makePersistStore } from '@/lib/stores/createStore';
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import type { ArithOp as Op, PhaseDead as Phase } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
+
+const DIFFICULTY_TIME = { easy: 45, medium: 30, hard: 20 } as const;
 
 // ── Question helpers ────────────────────────────────────────────────────────
 
@@ -86,8 +89,9 @@ export const useMathRaceStore = makePersistStore<MathRaceState & MathRaceActions
       ...INITIAL,
 
       startGame: () => {
+        const diff = useGameDifficulty.getState().difficulty;
         clearTimers();
-        set({ ...INITIAL, phase: 'playing', best: get().best, q: makeQ(0) }, false, 'mathRace/startGame');
+        set({ ...INITIAL, phase: 'playing', best: get().best, q: makeQ(0), timeLeft: DIFFICULTY_TIME[diff] }, false, 'mathRace/startGame');
         startGameTimer();
       },
 
