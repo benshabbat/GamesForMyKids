@@ -1,5 +1,14 @@
 import { Volume2 } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
+import {
+  advancedSizeClasses,
+  aspectClasses,
+  animationClasses,
+  hoverClasses,
+  shadowClasses,
+  borderRadiusClasses,
+  borderWidthClasses,
+} from "./cardStyleMaps";
 
 type AdvancedCardProps = Pick<
   ComponentTypes.UnifiedCardProps,
@@ -36,23 +45,6 @@ type AdvancedCardProps = Pick<
   handleClick: () => void;
 };
 
-const borderRadiusClasses: Record<string, string> = {
-  sm: "rounded-sm",
-  md: "rounded-md",
-  lg: "rounded-lg",
-  xl: "rounded-xl",
-  "2xl": "rounded-2xl",
-  "3xl": "rounded-3xl",
-  full: "rounded-full",
-};
-
-const borderWidthClasses: Record<string, string> = {
-  "0": "border-0",
-  "2": "border-2",
-  "4": "border-4",
-  "8": "border-8",
-};
-
 export function AdvancedCard({
   item,
   hebrewText,
@@ -85,40 +77,6 @@ export function AdvancedCard({
   finalShowSoundIcon,
   handleClick,
 }: AdvancedCardProps) {
-  const advancedSizeClasses = {
-    small: "text-4xl md:text-5xl",
-    medium: "text-6xl md:text-8xl",
-    large: "text-7xl md:text-9xl",
-  };
-
-  const aspectClasses = {
-    square: "aspect-square",
-    wide: "aspect-[4/3]",
-    tall: "aspect-[3/4]",
-  };
-
-  const animationClasses = {
-    bounce: "animate-bounce-in",
-    pulse: "animate-pulse",
-    none: "",
-  };
-
-  const hoverClasses = {
-    scale: "hover:scale-110",
-    lift: "hover:-translate-y-2",
-    glow: "hover:shadow-2xl",
-    none: "",
-  };
-
-  const shadowClasses: Record<string, string> = {
-    sm: "shadow-sm",
-    md: "shadow-md",
-    lg: "shadow-lg",
-    xl: "shadow-xl",
-    "2xl": "shadow-2xl",
-    none: "",
-  };
-
   // item.color takes priority (contains full static class strings from game data)
   // fallback: solid color prop (avoids dynamic from-/to- class generation issues)
   const backgroundClass = item?.color || color;
