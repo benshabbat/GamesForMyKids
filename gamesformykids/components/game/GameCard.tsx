@@ -12,7 +12,7 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
   if (game.available) {
     return (
       <div className="relative">
-        <Link href={game.href}>
+        <Link href={game.href} aria-label={game.title}>
           <div
             className={`
               relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
@@ -59,8 +59,12 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
 
   return (
     <div className="relative">
-      <div className="relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg bg-gray-300 cursor-not-allowed overflow-hidden">
-        <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-2xl md:rounded-3xl flex items-center justify-center">
+      <div
+        className="relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg bg-gray-300 cursor-not-allowed overflow-hidden"
+        aria-label={`${game.title} — בקרוב`}
+        aria-disabled="true"
+      >
+        <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-2xl md:rounded-3xl flex items-center justify-center" aria-hidden="true">
           <span className="text-white text-sm md:text-base lg:text-xl font-bold">בקרוב!</span>
         </div>
         <div className="text-center text-white">

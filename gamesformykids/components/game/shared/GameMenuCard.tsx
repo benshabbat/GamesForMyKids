@@ -1,5 +1,7 @@
 'use client';
 import { ReactNode } from 'react';
+import { useRouter } from 'next/navigation';
+import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
 
 interface Props {
   emoji: string;
@@ -39,6 +41,9 @@ export default function GameMenuCard({
   best,
   children,
 }: Props) {
+  const router = useRouter();
+  useKeyboardControls({ Escape: () => router.back() });
+
   return (
     <div
       className={`min-h-screen bg-gradient-to-br ${gradientClass} flex items-center justify-center p-4`}
