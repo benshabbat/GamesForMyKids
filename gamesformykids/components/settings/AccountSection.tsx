@@ -1,15 +1,10 @@
 import Link from 'next/link';
+import type { AccountSectionProps } from '@/lib/types/components';
+import { SectionContainer } from './SectionContainer';
 
-interface Props {
-  onSignOut: () => void;
-}
-
-export function AccountSection({ onSignOut }: Props) {
+export function AccountSection({ onSignOut }: AccountSectionProps) {
   return (
-    <div className="bg-white rounded-2xl shadow-lg p-6">
-      <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-        👤 חשבון
-      </h2>
+    <SectionContainer title="חשבון" emoji="👤">
       <div className="space-y-4">
         <Link
           href="/profile"
@@ -24,6 +19,6 @@ export function AccountSection({ onSignOut }: Props) {
           התנתק מהחשבון
         </button>
       </div>
-    </div>
+    </SectionContainer>
   );
 }
