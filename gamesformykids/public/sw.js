@@ -1,136 +1,111 @@
 // GamesForMyKids Service Worker
-const CACHE_NAME = 'games-for-my-kids-v1';
-const STATIC_ASSETS = [
-  '/',
-  '/manifest.json',
-  '/favicon.ico',
-  // Core app files will be cached dynamically
-];
+// Bump CACHE_VERSION on each deploy to invalidate old caches.
+const CACHE_VERSION = 'v2';
+const STATIC_CACHE  = `gfk-static-${CACHE_VERSION}`;   // _next/static/* — content-addressed, cache forever
+const PAGES_CACHE   = `gfk-pages-${CACHE_VERSION}`;    // HTML navigation — stale-while-revalidate
+const ASSETS_CACHE  = `gfk-assets-${CACHE_VERSION}`;   // images / audio — cache-first
+const ALL_CACHES    = [STATIC_CACHE, PAGES_CACHE, ASSETS_CACHE];
 
-// Install event - cache static assets
+const PRECACHE_URLS = ['/', '/offline', '/manifest.json', '/favicon.ico'];
+
+// ── Install: pre-cache critical pages ────────────────────────────────────────
 self.addEventListener('install', (event) => {
-  console.log('🎮 GamesForMyKids Service Worker installing...');
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(async (cache) => {
-        console.log('📦 Caching static assets');
-        // Cache assets one by one to avoid failures
-        const cachePromises = STATIC_ASSETS.map(async (asset) => {
-          try {
-            await cache.add(asset);
-            console.log(`✅ Cached: ${asset}`);
-          } catch (error) {
-            console.log(`❌ Failed to cache ${asset}:`, error);
-          }
-        });
-        await Promise.allSettled(cachePromises);
-      })
-      .catch((error) => {
-        console.log('❌ Cache install failed:', error);
-      })
+    caches.open(PAGES_CACHE).then((cache) =>
+      Promise.allSettled(PRECACHE_URLS.map((url) => cache.add(url)))
+    )
   );
   self.skipWaiting();
 });
 
-// Activate event - clean up old caches
+// ── Activate: delete stale caches ────────────────────────────────────────────
 self.addEventListener('activate', (event) => {
-  console.log('✅ GamesForMyKids Service Worker activated');
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('🗑️ Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    })
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys.filter((k) => !ALL_CACHES.includes(k)).map((k) => caches.delete(k))
+      )
+    )
   );
   self.clients.claim();
 });
 
-// Fetch event - serve from cache when possible
+// ── Fetch: strategy per request type ─────────────────────────────────────────
 self.addEventListener('fetch', (event) => {
-  // Skip non-HTTP requests
-  if (!event.request.url.startsWith('http')) {
+  const { request } = event;
+
+  // Only intercept same-origin GET requests
+  if (request.method !== 'GET') return;
+  let url;
+  try { url = new URL(request.url); } catch { return; }
+  if (url.origin !== self.location.origin) return;
+
+  // Skip API routes and Next.js image optimisation
+  if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/_next/image')) return;
+
+  // Next.js static chunks — content-addressed → cache forever
+  if (url.pathname.startsWith('/_next/static/')) {
+    event.respondWith(cacheFirst(request, STATIC_CACHE));
     return;
   }
 
-  // Skip requests to external domains
-  if (!event.request.url.includes(self.location.origin)) {
+  // Images and audio — cache-first
+  if (/\.(png|jpe?g|svg|gif|webp|ico|mp3|wav|ogg)$/i.test(url.pathname)) {
+    event.respondWith(cacheFirst(request, ASSETS_CACHE));
     return;
   }
 
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Return cached version if available
-        if (response) {
-          return response;
-        }
-        
-        // Otherwise fetch from network
-        return fetch(event.request)
-          .then((response) => {
-            // Don't cache failed responses or non-basic responses
-            if (!response || response.status !== 200 || response.type !== 'basic') {
-              return response;
-            }
+  // HTML navigation and game pages — stale-while-revalidate with offline fallback
+  if (request.mode === 'navigate' || url.pathname.startsWith('/games/')) {
+    event.respondWith(staleWhileRevalidate(request, PAGES_CACHE));
+    return;
+  }
+});
 
-            // Don't cache authentication-related responses
-            if (response.status === 401 || response.status === 403) {
-              return response;
-            }
+// ── Strategy helpers ──────────────────────────────────────────────────────────
 
-            // Clone the response for caching
-            const responseToCache = response.clone();
-            
-            // Cache the response for future use (for GET requests only)
-            if (event.request.method === 'GET') {
-              caches.open(CACHE_NAME)
-                .then((cache) => {
-                  cache.put(event.request, responseToCache);
-                })
-                .catch((error) => {
-                  console.log('❌ Failed to cache response:', error);
-                });
-            }
+async function cacheFirst(request, cacheName) {
+  const cached = await caches.match(request);
+  if (cached) return cached;
+  try {
+    const response = await fetch(request);
+    if (response.ok) {
+      const cache = await caches.open(cacheName);
+      cache.put(request, response.clone());
+    }
+    return response;
+  } catch {
+    return new Response('Offline', { status: 503 });
+  }
+}
 
-            return response;
-          })
-          .catch((error) => {
-            console.log('🌐 Network request failed:', error);
-            
-            // For manifest.json specifically, try to serve from cache
-            if (event.request.url.includes('manifest.json')) {
-              return caches.match('/manifest.json');
-            }
-            
-            // For other requests, return a custom offline response
-            return new Response('אופס! נראה שאין חיבור לאינטרנט', {
-              status: 503,
-              statusText: 'Service Unavailable',
-              headers: new Headers({
-                'Content-Type': 'text/plain; charset=utf-8'
-              })
-            });
-          });
-      })
+async function staleWhileRevalidate(request, cacheName) {
+  const cache  = await caches.open(cacheName);
+  const cached = await cache.match(request);
+
+  const networkFetch = fetch(request)
+    .then((response) => {
+      if (response.ok) cache.put(request, response.clone());
+      return response;
+    })
+    .catch(() => null);
+
+  if (cached) {
+    networkFetch; // update cache in background
+    return cached;
+  }
+
+  // Nothing cached — wait for network
+  const response = await networkFetch;
+  if (response) return response;
+
+  // Both failed — serve offline page
+  return (
+    (await cache.match('/offline')) ??
+    (await caches.match('/offline')) ??
+    new Response('אופס! אין חיבור לאינטרנט', {
+      status: 503,
+      headers: { 'Content-Type': 'text/plain; charset=utf-8' },
+    })
   );
-});
-
-// Message event - handle commands from the page
-self.addEventListener('message', (event) => {
-  if (event.data && event.data.type === 'CLEAR_CACHE') {
-    event.waitUntil(
-      caches.keys().then((cacheNames) => {
-        return Promise.all(cacheNames.map((name) => caches.delete(name)));
-      }).then(() => {
-        if (event.ports && event.ports[0]) {
-          event.ports[0].postMessage({ success: true });
-        }
-      })
-    );
-  }
-});
+}
