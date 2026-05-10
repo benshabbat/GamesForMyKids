@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
+import withBundleAnalyzer from "@next/bundle-analyzer";
 
-// Bundle analyzer configuration - disabled by default
 const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
@@ -103,6 +103,5 @@ const nextConfig: NextConfig = {
   },
 };
 
-// Export with bundle analyzer wrapper
-// To enable bundle analysis: npm run build:analyze
-export default nextConfig;
+// Enable with: npm run build:analyze (ANALYZE=true next build)
+export default withBundleAnalyzer({ enabled: process.env.ANALYZE === "true" })(nextConfig);
