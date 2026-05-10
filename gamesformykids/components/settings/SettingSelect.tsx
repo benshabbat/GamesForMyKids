@@ -1,13 +1,6 @@
-interface Props {
-  label: string;
-  description: string;
-  value: string;
-  options: { value: string; label: string }[];
-  onChange: (value: string) => void;
-  disabled?: boolean;
-}
+import type { SettingSelectProps } from '@/lib/types/components';
 
-export function SettingSelect({ label, description, value, options, onChange, disabled }: Props) {
+export function SettingSelect({ label, description, value, options, onChange, disabled }: SettingSelectProps) {
   return (
     <div className="p-3 border border-gray-200 rounded-lg">
       <div className="mb-2">

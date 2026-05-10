@@ -1,20 +1,11 @@
+import type { AudioSectionProps } from '@/lib/types/components';
 import { SettingToggle } from './SettingToggle';
+import { SectionContainer } from './SectionContainer';
 
-interface Props {
-  soundEnabled: boolean;
-  musicEnabled: boolean;
-  notificationsEnabled: boolean;
-  onChange: (key: string, value: boolean) => void;
-  disabled: boolean;
-}
-
-export function AudioSection({ soundEnabled, musicEnabled, notificationsEnabled, onChange, disabled }: Props) {
+export function AudioSection({ soundEnabled, musicEnabled, notificationsEnabled, onChange, disabled }: AudioSectionProps) {
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-          🔊 הגדרות שמע
-        </h2>
+      <SectionContainer title="הגדרות שמע" emoji="🔊">
         <div className="space-y-4">
           <SettingToggle
             label="צלילי משחק"
@@ -31,12 +22,9 @@ export function AudioSection({ soundEnabled, musicEnabled, notificationsEnabled,
             disabled={disabled}
           />
         </div>
-      </div>
+      </SectionContainer>
 
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-          🔔 הגדרות התראות
-        </h2>
+      <SectionContainer title="הגדרות התראות" emoji="🔔">
         <div className="space-y-4">
           <SettingToggle
             label="התראות משחק"
@@ -46,7 +34,7 @@ export function AudioSection({ soundEnabled, musicEnabled, notificationsEnabled,
             disabled={disabled}
           />
         </div>
-      </div>
+      </SectionContainer>
     </>
   );
 }
