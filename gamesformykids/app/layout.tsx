@@ -5,6 +5,7 @@ import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegis
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 import { AuthProvider } from '@/lib/providers';
 import NotificationToast from '@/components/ui/NotificationToast';
+import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import HeadLinks from '@/components/layout/HeadLinks';
 import StructuredData from '@/components/layout/StructuredData';
 import { siteMetadata, siteViewport } from '@/lib/constants/siteMetadata';
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
         )}
         <ServiceWorkerRegistration />
+        <OfflineBanner />
         <AuthProvider>
           {children}
           <NotificationToast />
