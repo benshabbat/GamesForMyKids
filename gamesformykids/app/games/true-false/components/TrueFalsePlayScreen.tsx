@@ -1,9 +1,16 @@
 'use client';
 import { useTrueFalseGame, TIME_PER_Q } from '../useTrueFalseGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
+import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
+import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
 
 export default function TrueFalsePlayScreen() {
   const { score, lives, timeLeft, feedback, q, answer } = useTrueFalseGame();
+
+  useKeyboardControls(
+    { '1': () => answer(true), '2': () => answer(false) },
+    !feedback,
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-100 to-cyan-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
@@ -47,6 +54,12 @@ export default function TrueFalsePlayScreen() {
           className="flex-1 py-6 rounded-3xl bg-red-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-red-400 transition-all disabled:opacity-60"
         >❌</button>
       </div>
+      <KeyboardHint
+        hints={[
+          { key: '1', label: '✅ נכון' },
+          { key: '2', label: '❌ לא נכון' },
+        ]}
+      />
     </div>
   );
 }
