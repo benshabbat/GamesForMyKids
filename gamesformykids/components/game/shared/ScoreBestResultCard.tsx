@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import GameResultCard from './GameResultCard';
 
 interface Props {
@@ -34,11 +35,30 @@ export default function ScoreBestResultCard({
   scoreLabel = 'ניקוד',
   ...cardProps
 }: Props) {
+  const [displayed, setDisplayed] = useState(0);
+
+  useEffect(() => {
+    if (score === 0) return;
+    const steps = 20;
+    const increment = score / steps;
+    let current = 0;
+    const id = setInterval(() => {
+      current += increment;
+      if (current >= score) {
+        setDisplayed(score);
+        clearInterval(id);
+      } else {
+        setDisplayed(Math.round(current));
+      }
+    }, 600 / steps);
+    return () => clearInterval(id);
+  }, [score]);
+
   return (
     <GameResultCard {...cardProps}>
       <div className="grid grid-cols-2 gap-4">
         <div className={`${scoreBgClass} rounded-2xl p-3`}>
-          <p className={`text-3xl font-black ${scoreTextClass}`}>{score}</p>
+          <p className={`text-3xl font-black ${scoreTextClass} tabular-nums`}>{displayed}</p>
           <p className={`text-xs ${scoreLabelClass}`}>{scoreLabel}</p>
         </div>
         <div className="bg-yellow-50 rounded-2xl p-3">
