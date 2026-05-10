@@ -1,17 +1,20 @@
-import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
 
-export default function AdvancedGamePage() {
-  // For now, redirect to not found since advanced games are not implemented yet
-  // In the future, this could handle different advanced game types
-  
-  return notFound();
+interface Props {
+  params: Promise<{ gameType: string }>;
 }
 
-// Generate static params for known game types (if any)
+export default async function AdvancedGamePage({ params }: Props) {
+  const { gameType } = await params;
+  redirect(`/games/${gameType}`);
+}
+
 export async function generateStaticParams() {
   return [
-    // Add game types here when they are implemented
-    // { gameType: 'puzzle-advanced' },
-    // { gameType: 'memory-advanced' },
+    { gameType: 'memory' },
+    { gameType: 'puzzles' },
+    { gameType: 'math' },
+    { gameType: 'drawing' },
+    { gameType: 'builder' },
   ];
 }
