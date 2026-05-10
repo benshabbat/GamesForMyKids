@@ -1,12 +1,6 @@
-interface Props {
-  label: string;
-  description: string;
-  checked: boolean;
-  onChange: (checked: boolean) => void;
-  disabled?: boolean;
-}
+import type { SettingToggleProps } from '@/lib/types/components';
 
-export function SettingToggle({ label, description, checked, onChange, disabled }: Props) {
+export function SettingToggle({ label, description, checked, onChange, disabled }: SettingToggleProps) {
   return (
     <div className="flex items-center justify-between p-3 border border-gray-200 rounded-lg">
       <div>

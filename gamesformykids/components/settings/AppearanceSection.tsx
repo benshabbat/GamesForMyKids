@@ -1,20 +1,11 @@
+import type { AppearanceSectionProps } from '@/lib/types/components';
 import { SettingSelect } from './SettingSelect';
+import { SectionContainer } from './SectionContainer';
 
-interface Props {
-  difficulty: string;
-  theme: string;
-  language: string;
-  onChange: (key: string, value: string) => void;
-  disabled: boolean;
-}
-
-export function AppearanceSection({ difficulty, theme, language, onChange, disabled }: Props) {
+export function AppearanceSection({ difficulty, theme, language, onChange, disabled }: AppearanceSectionProps) {
   return (
     <>
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-          🎮 הגדרות משחק
-        </h2>
+      <SectionContainer title="הגדרות משחק" emoji="🎮">
         <div className="space-y-4">
           <SettingSelect
             label="רמת קושי"
@@ -41,12 +32,9 @@ export function AppearanceSection({ difficulty, theme, language, onChange, disab
             disabled={disabled}
           />
         </div>
-      </div>
+      </SectionContainer>
 
-      <div className="bg-white rounded-2xl shadow-lg p-6">
-        <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center">
-          🌐 שפה
-        </h2>
+      <SectionContainer title="שפה" emoji="🌐">
         <div className="space-y-4">
           <SettingSelect
             label="שפת האפליקציה"
@@ -60,7 +48,7 @@ export function AppearanceSection({ difficulty, theme, language, onChange, disab
             disabled={disabled}
           />
         </div>
-      </div>
+      </SectionContainer>
     </>
   );
 }

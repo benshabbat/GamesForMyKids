@@ -27,6 +27,9 @@ export * from './feedback';
 // ===== מסכים =====
 export * from './screens';
 
+// ===== קומפוננטות הגדרות =====
+export * from './settings';
+
 // ===== ייצוא נקודתי של טיפוסים נפוצים =====
 export type { GameStep } from './game';
 
