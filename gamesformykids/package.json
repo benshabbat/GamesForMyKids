@@ -11,6 +11,7 @@
     "test": "vitest",
     "test:run": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "test:e2e": "playwright test",
     "seo:sitemap": "next build && node -e \"console.log('Sitemap generated at /sitemap.xml')\"",
     "seo:check": "next build && echo 'SEO check complete - review sitemap.xml and robots.txt'",
     "supabase:create-tables": "node scripts/create-tables.js",
@@ -37,6 +38,7 @@
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@next/bundle-analyzer": "^15.0.0",
+    "@playwright/test": "^1.59.1",
     "@tailwindcss/postcss": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
