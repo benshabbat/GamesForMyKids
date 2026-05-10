@@ -1,6 +1,7 @@
 'use client';
 import { ReactNode } from 'react';
 import { GameCompletionCelebration } from './GameCompletionCelebration';
+import { useShareScore } from '@/hooks/shared/social/useShareScore';
 
 interface SecondaryAction {
   label: string;
@@ -18,6 +19,8 @@ interface Props {
   restartLabel?: string;
   secondaryAction?: SecondaryAction;
   animateEmoji?: boolean;
+  /** Share text passed to Web Share API / clipboard. Omit to hide share button. */
+  shareText?: string;
   children: ReactNode;
 }
 
@@ -35,8 +38,10 @@ export default function GameResultCard({
   restartLabel = '🔄 שוב',
   secondaryAction,
   animateEmoji = false,
+  shareText,
   children,
 }: Props) {
+  const { share, copied } = useShareScore();
   return (
     <div
       className={`min-h-screen bg-gradient-to-br ${gradientClass} flex items-center justify-center p-4`}
@@ -63,6 +68,14 @@ export default function GameResultCard({
             </button>
           )}
         </div>
+        {shareText && (
+          <button
+            onClick={() => share(shareText)}
+            className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-all"
+          >
+            {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
+          </button>
+        )}
       </div>
     </div>
   );

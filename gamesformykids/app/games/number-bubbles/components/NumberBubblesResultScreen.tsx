@@ -14,6 +14,7 @@ export default function NumberBubblesResultScreen() {
       onRestart={() => nextLevel()}
       restartLabel={`➡️ רמה ${level + 1}`}
       secondaryAction={{ label: '🔄 מחדש', onClick: startGame }}
+      shareText={`🎈 הגעתי לרמה ${level} בבועות מספרים!`}
     >
       <p className="text-gray-500 mb-2">סיימת רמה {level} ב-{elapsed} שניות</p>
       <div className="grid grid-cols-2 gap-4">

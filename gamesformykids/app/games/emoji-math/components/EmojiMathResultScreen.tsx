@@ -17,6 +17,7 @@ export default function EmojiMathResultScreen() {
       scoreLabelClass="text-orange-400"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🤓 קיבלתי ${score} נקודות באימוג'י מתמטיקה!`}
     />
   );
 }

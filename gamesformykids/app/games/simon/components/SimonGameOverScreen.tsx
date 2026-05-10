@@ -14,6 +14,7 @@ export default function SimonGameOverScreen() {
       buttonClass="from-gray-600 to-gray-800"
       onRestart={startGame}
       restartLabel="🔄 שוב!"
+      shareText={`🎮 הגעתי לרצף ${roundScore} צבעים בסימון!`}
     >
       <p className="text-gray-400 text-sm mb-4">הגעת לרצף של {roundScore} צבעים</p>
       <div className="grid grid-cols-2 gap-4">
