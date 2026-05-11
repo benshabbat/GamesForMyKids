@@ -7,11 +7,11 @@ import {
 
 const EMPTY_VM: MathChallengeBoxViewModel = {
   show: false,
-  firstNumber: 0,
-  secondNumber: 0,
+  operand1: 0,
+  operand2: 0,
   emoji: '',
   isAddition: true,
-  opSymbol: OPERATION_SYMBOLS.addition,
+  opSymbol: OPERATION_SYMBOLS['+'],
 };
 
 export function useMathChallengeBox(): MathChallengeBoxViewModel {
@@ -20,14 +20,14 @@ export function useMathChallengeBox(): MathChallengeBoxViewModel {
 
   if (!challenge || showCelebration) return EMPTY_VM;
 
-  const { firstNumber, secondNumber, operation, emoji } = challenge;
+  const { operand1, operand2, operator, emoji } = challenge;
 
   return {
     show: true,
-    firstNumber,
-    secondNumber,
+    operand1,
+    operand2,
     emoji,
-    isAddition: operation === 'addition',
-    opSymbol:   OPERATION_SYMBOLS[operation],
+    isAddition: operator === '+',
+    opSymbol:   OPERATION_SYMBOLS[operator],
   };
 }
