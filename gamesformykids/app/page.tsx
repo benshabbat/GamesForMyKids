@@ -19,12 +19,6 @@ const homePageStructuredData = {
     "price": "0",
     "priceCurrency": "ILS"
   },
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "4.9",
-    "ratingCount": "127",
-    "bestRating": "5"
-  },
   "keywords": "משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות",
   "inLanguage": "he"
 };
