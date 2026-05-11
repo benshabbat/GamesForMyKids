@@ -28,7 +28,7 @@ export interface NumericQuizState<TChallenge> {
   options: number[];
 }
 
-export interface NumericQuizCallbacks<TChallenge extends { correctAnswer: number }> {
+export interface NumericQuizCallbacks<TChallenge extends { answer: number }> {
   /** Generate a new challenge. Receives current level for difficulty scaling. */
   generateChallenge: (level: number) => TChallenge;
   /** Generate numeric answer options. Receives the correct answer and current level. */
@@ -56,7 +56,7 @@ export interface NumericQuizCallbacks<TChallenge extends { correctAnswer: number
  * Game-specific logic (challenge generation, speech text, option pool) is
  * injected via `callbacks` so each game remains independently testable.
  */
-export function useNumericQuizRuntime<TChallenge extends { correctAnswer: number }>(
+export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
   callbacks: NumericQuizCallbacks<TChallenge>,
 ) {
   const {
@@ -85,7 +85,7 @@ export function useNumericQuizRuntime<TChallenge extends { correctAnswer: number
 
   /** Apply a new challenge: update local state + sync Zustand session store. */
   const _applyChallenge = (challenge: TChallenge, level: number) => {
-    const options = generateOptions(challenge.correctAnswer, level);
+    const options = generateOptions(challenge.answer, level);
     setGameState(prev => ({ ...prev, currentChallenge: challenge, options }));
     useGameSessionStore.getState().setChallengeAndOptions(
       toChallengeItem(challenge),
@@ -130,13 +130,13 @@ export function useNumericQuizRuntime<TChallenge extends { correctAnswer: number
   const handleNumberClick = async (selectedNumber: number) => {
     if (!gameState.currentChallenge) return;
 
-    if (selectedNumber === gameState.currentChallenge.correctAnswer) {
+    if (selectedNumber === gameState.currentChallenge.answer) {
       playSound(audioContext);
 
       // Capture level before any awaits to avoid stale closure issues.
       const level = gameState.level;
       const nextChallenge = generateChallenge(level);
-      const nextOptions = generateOptions(nextChallenge.correctAnswer, level);
+      const nextOptions = generateOptions(nextChallenge.answer, level);
 
       const onComplete = async () => {
         setGameState(prev => ({ ...prev, currentChallenge: nextChallenge, options: nextOptions }));

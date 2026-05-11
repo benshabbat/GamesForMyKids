@@ -7,7 +7,7 @@ export default function CountingChallengeBox() {
 
   if (!challenge) return null;
 
-  const visible = Math.min(challenge.correctAnswer, 20);
+  const visible = Math.min(challenge.answer, 20);
 
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-xl text-center">

@@ -31,27 +31,22 @@ export interface ColorItem extends BaseGameItem {
 // אתגר מנייה
 export interface CountingChallenge {
   emojis: string;
-  correctAnswer: number;
-  itemName: string;      // שם הפריט ביחיד (כלב)
-  itemPlural: string;    // שם הפריט ברבים (כלבים)  
-  emoji: string;         // האימוג'י הבודד
+  answer: number;
+  itemName: string;
+  itemPlural: string;
+  emoji: string;
 }
 
 // אתגר מתמטיקה
 export interface MathChallenge {
-  firstNumber: number;
-  secondNumber: number;
-  operation: 'addition' | 'subtraction';
-  correctAnswer: number;
-  itemName: string;      // שם הפריט ביחיד (תפוח)
-  itemPlural: string;    // שם הפריט ברבים (תפוחים)  
-  emoji: string;         // האימוג'י הבודד
-  // New format for compatibility
   operand1: number;
   operand2: number;
   operator: '+' | '-' | '*' | '/';
   answer: number;
   question: string;
+  itemName: string;
+  itemPlural: string;
+  emoji: string;
 }
 
 /**
