@@ -18,22 +18,13 @@ export const siteMetadata: Metadata = {
     locale: 'he_IL',
     url: 'https://games-for-my-kids.vercel.app',
     siteName: 'משחקים לילדים',
-    images: [
-      {
-        url: '/images/og-image.png',
-        width: 1200,
-        height: 630,
-        alt: 'משחקים לילדים - למידה מהנה וחינוכית',
-      },
-    ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     site: '@GamesForMyKids',
     creator: '@davidchen_dev',
     title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
     description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים',
-    images: ['/images/twitter-image.png'],
   },
   robots: {
     index: true,
@@ -45,20 +36,6 @@ export const siteMetadata: Metadata = {
       'max-image-preview': 'large',
       'max-snippet': -1,
     },
-  },
-  verification: {
-    google: 'your-google-verification-code',
-    // הוסף כאן קודי אימות נוספים כמו Bing, Yandex וכו'
-    other: {
-      'msvalidate.01': 'your-bing-verification-code',
-      'yandex-verification': 'your-yandex-verification-code',
-    },
-  },
-  other: {
-    // Pinterest verification
-    'p:domain_verify': 'your-pinterest-verification-code',
-    // WhatsApp Business
-    'whatsapp:account_verification': 'your-whatsapp-verification',
   },
 };
 

@@ -11,7 +11,7 @@
 export * from './shared/game-state';
 
 // Shared game logic hooks
-export { useTimedQuizGame } from './games/useTimedQuizGame';
+export * from './games';
 
 // Progress & Achievements
 export * from './shared/progress';
@@ -40,5 +40,4 @@ export * from './shared/game-controls';
 // Canvas
 export * from './canvas';
 
-// Games Hooks
-export { useGenericGame } from "./games/useGenericGame";
+// Games Hooks (moved to barrel)
