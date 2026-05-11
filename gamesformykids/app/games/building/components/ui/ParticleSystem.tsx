@@ -1,6 +1,6 @@
 'use client';
 
-import { useBuildingStore } from '@/lib/stores/buildingStore';
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 
 export default function ParticleSystem() {
   const particles = useBuildingStore((s) => s.particles);

@@ -1,10 +1,10 @@
-﻿import { COLORS, SHAPES } from '@/app/games/building/constants';
-import { makeStore } from './createStore';
-import { createBlockSlice, type BlockSlice } from './building/blockSlice';
-import { createHistorySlice, type HistorySlice } from './building/historySlice';
-import { createParticleSlice, type ParticleSlice } from './building/particleSlice';
-import { createAchievementSlice, type AchievementSlice } from './building/achievementSlice';
-import { createSettingsSlice, type SettingsSlice } from './building/settingsSlice';
+import { COLORS, SHAPES } from '../constants';
+import { makeStore } from '@/lib/stores/createStore';
+import { createBlockSlice, type BlockSlice } from './blockSlice';
+import { createHistorySlice, type HistorySlice } from './historySlice';
+import { createParticleSlice, type ParticleSlice } from './particleSlice';
+import { createAchievementSlice, type AchievementSlice } from './achievementSlice';
+import { createSettingsSlice, type SettingsSlice } from './settingsSlice';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 

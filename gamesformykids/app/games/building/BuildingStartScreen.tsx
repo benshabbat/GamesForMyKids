@@ -1,6 +1,6 @@
 "use client";
 
-import { useBuildingStore } from '@/lib/stores/buildingStore';
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 
 export default function BuildingStartScreen() {
   const startGame = useBuildingStore((s) => s.startGame);

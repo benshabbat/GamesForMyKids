@@ -1,6 +1,6 @@
 import type { StateCreator } from 'zustand';
-import type { BuildingStore } from '../buildingStore';
-import type { Particle } from '@/app/games/building/types';
+import type { BuildingStore } from './buildingStore';
+import type { Particle } from '../types';
 
 export type ParticleSlice = {
   particles: Particle[];

@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { BuildingStore } from '../buildingStore';
-import type { Block } from '@/app/games/building/types';
-import { ACHIEVEMENTS } from '@/app/games/building/constants';
+import type { BuildingStore } from './buildingStore';
+import type { Block } from '../types';
+import { ACHIEVEMENTS } from '../constants';
 
 export type AchievementSlice = {
   achievements: string[];

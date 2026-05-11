@@ -1,10 +1,10 @@
 import type { StateCreator } from 'zustand';
-import type { BuildingStore } from '../buildingStore';
+import type { BuildingStore } from './buildingStore';
 
 export type HistorySlice = {
-  history: import('@/app/games/building/types').Block[][];
+  history: import('../types').Block[][];
   historyIndex: number;
-  addToHistory: (blocks: import('@/app/games/building/types').Block[]) => void;
+  addToHistory: (blocks: import('../types').Block[]) => void;
   undo: () => void;
   redo: () => void;
 };

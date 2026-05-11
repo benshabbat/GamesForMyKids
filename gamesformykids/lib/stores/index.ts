@@ -50,9 +50,6 @@ export { useHomePageStore } from './homePageStore';
 // Game Difficulty (difficulty — persisted)
 export { useGameDifficulty } from './gameDifficultyStore';
 
-// Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
-export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
-
 // Progress Tracking (allSessions — persisted)
 export { useProgressTrackingStore } from './progressTrackingStore';
 
@@ -76,9 +73,6 @@ export { useFeaturedGameStore } from './featuredGameStore';
 
 // Game Audio (audioContext / speechEnabled — initialized once, shared)
 export { useGameAudioStore } from './gameAudioStore';
-
-// Tetris (board / pieces / score / level — singleton game state)
-export { useTetrisStore } from './tetrisStore';
 
 // Favorites (favoriteIds — persisted in localStorage)
 export { useFavoritesStore } from './favoritesStore';

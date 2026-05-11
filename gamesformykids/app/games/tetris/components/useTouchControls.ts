@@ -1,7 +1,7 @@
 'use client';
 
 import { useCallback } from 'react';
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisStore } from '../store/tetrisStore';
 
 export function useTouchControls() {
   const isGameRunning = useTetrisStore(s => s.isGameRunning);

@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, Trash2, Undo2, Redo2 } from 'lucide-react';
-import { useBuildingStore } from '@/lib/stores/buildingStore';
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 
 export default function ActionButtons() {
   const historyIndex = useBuildingStore((s) => s.historyIndex);
