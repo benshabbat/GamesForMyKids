@@ -50,10 +50,6 @@ export { useHomePageStore } from './homePageStore';
 // Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
 export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 
-// Animals (category / questions / game actions)
-export { useAnimalsStore } from './animalsStore';
-export type { AnimalsState, AnimalsActions, AnimalQuestion, QuestionMode } from './animalsStore';
-
 // Progress Tracking (allSessions — persisted)
 export { useProgressTrackingStore } from './progressTrackingStore';
 
