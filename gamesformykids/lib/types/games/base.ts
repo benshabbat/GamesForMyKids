@@ -22,23 +22,25 @@ interface GameRegistrationBase {
 interface GameVisuals {
   readonly color: string;
   readonly icon: ComponentType<{ className?: string }>;
-  readonly emoji?: string;
+  readonly emoji: string;
 }
 
 /**
  * זמינות משחק - עקרון Single Responsibility
  */
 interface GameAvailability {
-  readonly available: boolean;
+  available: boolean;
 }
 
 /**
  * רישום משחק מלא - עקרון Interface Segregation
  */
-export interface GameRegistration extends 
+export interface GameRegistration extends
   GameRegistrationBase,
   GameVisuals,
-  GameAvailability {}
+  GameAvailability {
+  readonly order: number;
+}
 
 /**
  * מידע בסיסי לקטגוריה - עקרון Single Responsibility
