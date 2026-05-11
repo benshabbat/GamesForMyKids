@@ -6,7 +6,7 @@ import { useQuizSession } from '@/lib/quiz/useQuizSession';
 import { shuffle } from '@/lib/utils';
 
 export function useHumanBodyGame() {
-  const { phase, current, begin, answer } = useQuizSession<BodyQuestion>('human-body');
+  const { phase, current, begin, answer, reset } = useQuizSession<BodyQuestion>('human-body');
   const [category, setCategory] = useState<BodyCategory>('הכל');
 
   const choices = useMemo<string[]>(
@@ -14,15 +14,23 @@ export function useHumanBodyGame() {
     [current],
   );
 
+  const buildPool = useCallback((cat: BodyCategory) =>
+    shuffle(cat === 'הכל' ? BODY_QUESTIONS : BODY_QUESTIONS.filter(q => q.category === cat)).slice(0, QUESTIONS_PER_GAME),
+    [],
+  );
+
   const startGame = useCallback((cat: BodyCategory = 'הכל') => {
-    const pool = cat === 'הכל' ? BODY_QUESTIONS : BODY_QUESTIONS.filter(q => q.category === cat);
     setCategory(cat);
-    begin(shuffle(pool).slice(0, QUESTIONS_PER_GAME));
-  }, [begin]);
+    begin(buildPool(cat));
+  }, [begin, buildPool]);
+
+  const restart = useCallback(() => {
+    reset(buildPool(category));
+  }, [reset, buildPool, category]);
 
   const selectAnswer = useCallback((ans: string) => {
     answer(ans, ans === current?.function);
   }, [answer, current]);
 
-  return { phase, category, currentQuestion: current, choices, startGame, selectAnswer };
+  return { phase, category, currentQuestion: current, choices, startGame, selectAnswer, restart };
 }
