@@ -15,5 +15,5 @@ export function useFeaturedGameContent() {
     }
   }, [isInitialized, initialize]);
 
-  return { featuredGame };
+  return { featuredGame, isInitialized };
 }

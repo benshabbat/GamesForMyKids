@@ -21,7 +21,7 @@ import { GameLoadingScreen } from "../../../shared";
 import { GameErrorScreen } from "../../../shared";
 import { GameHeaderSection } from "../../../shared";
 import GameMainContent from "../../../shared/GameMainContent";
-import { SimpleProgressDisplay } from "../../../shared";
+import { ContextProgressDisplay } from "../../../shared";
 import { UltimateStartScreen } from "./UltimateStartScreen";
 
 // Re-export co-located components for convenience
@@ -80,7 +80,7 @@ function CardGamePage() {
       <div className="max-w-5xl mx-auto">
         <GameHeaderSection />
         <GameMainContent />
-        <SimpleProgressDisplay />
+        <ContextProgressDisplay />
       </div>
     </div>
   );

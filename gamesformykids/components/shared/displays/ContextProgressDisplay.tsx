@@ -11,9 +11,9 @@
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 
 /**
- * 🎯 SimpleProgressDisplay עם קונטקסט - ללא props!
+ * 🎯 ContextProgressDisplay עם קונטקסט - ללא props!
  */
-export function SimpleProgressDisplay() {
+export function ContextProgressDisplay() {
   const { 
     currentAccuracy, 
     showProgressModal, 
@@ -108,4 +108,4 @@ export function SimpleProgressDisplay() {
   );
 }
 
-export default SimpleProgressDisplay;
+export default ContextProgressDisplay;

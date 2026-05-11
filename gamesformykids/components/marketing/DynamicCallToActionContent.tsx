@@ -1,11 +1,10 @@
 "use client";
 
-import { useDailyGame } from "./useDailyGame";
+import { useFeaturedGameContent } from "./useFeaturedGameContent";
 import Link from "next/link";
 
-// Small client component just for the dynamic CTA button
 export default function DynamicCallToActionContent() {
-  const { dailyGame } = useDailyGame();
+  const { featuredGame: dailyGame } = useFeaturedGameContent();
 
   // Show loading state while client is initializing
   if (!dailyGame) {
