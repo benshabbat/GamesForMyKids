@@ -8,6 +8,7 @@ import { useGenericGame } from "@/hooks/games/useGenericGame";
 import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 import { useCountingGame } from "@/app/games/counting/useCountingGame";
+import { useNatureSoundsGame } from "@/app/games/nature-sounds/useNatureSoundsGame";
 import type { BaseGameItem } from "@/lib/types/core/base";
 
 type AnyGameHookFn = () => {
@@ -89,7 +90,7 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'world-food':       g('world-food'),
   recycling:          g('recycling'),
   medicine:           g('medicine'),
-  'nature-sounds':    g('nature-sounds'),
+  'nature-sounds':    useNatureSoundsGame,
   'seasons-holidays': g('seasons-holidays'),
   feelings:           g('feelings'),
   'shopping-money':   g('shopping-money'),

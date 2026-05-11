@@ -40,6 +40,11 @@ export interface UseBaseGameConfig {
   readonly items: readonly BaseGameItem[];
   readonly pronunciations: Readonly<Record<string, string>>;
   readonly gameConstants: GameConstants;
+  /**
+   * פונקציית אודיו מותאמת אישית שמחליפה את ה-TTS.
+   * אם מסופקת, היא תופעל במקום דיבור טקסט לדיבור.
+   */
+  readonly customAudio?: (itemName: string) => Promise<void>;
 }
 
 /**
