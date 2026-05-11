@@ -1,4 +1,10 @@
-'use client';
+import { Metadata } from 'next';
+import OfflineReloadButton from './OfflineReloadButton';
+
+export const metadata: Metadata = {
+  title: 'אין חיבור לאינטרנט | GamesForMyKids',
+  robots: { index: false },
+};
 
 export default function OfflinePage() {
   return (
@@ -14,12 +20,7 @@ export default function OfflinePage() {
           המשחקים שביקרת בהם עדיין זמינים!<br />
           בדוק את החיבור ונסה שוב.
         </p>
-        <button
-          onClick={() => window.location.reload()}
-          className="w-full py-3 rounded-2xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-bold text-lg hover:opacity-90 active:scale-95 transition-all"
-        >
-          🔄 נסה שוב
-        </button>
+        <OfflineReloadButton />
       </div>
     </div>
   );

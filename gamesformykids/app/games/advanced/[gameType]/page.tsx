@@ -15,6 +15,6 @@ export async function generateStaticParams() {
     { gameType: 'puzzles' },
     { gameType: 'math' },
     { gameType: 'drawing' },
-    { gameType: 'builder' },
+    { gameType: 'building' },
   ];
 }

@@ -1,3 +1,10 @@
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'שגיאת אימות | GamesForMyKids',
+  robots: { index: false },
+};
+
 export default function AuthCodeError() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center">

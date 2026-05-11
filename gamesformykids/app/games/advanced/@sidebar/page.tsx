@@ -34,7 +34,7 @@ const ADVANCED_GAMES = [
     color: 'from-purple-500 to-purple-600'
   },
   {
-    id: 'builder',
+    id: 'building',
     name: 'בונה עולמות',
     emoji: '🏗️',
     description: 'בנה עולמות וירטואליים',

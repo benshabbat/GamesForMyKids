@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
 
 const GAME_CLIENTS: Record<string, ComponentType> = {
-  animals:           dynamic(() => import('../animals/AnimalsGameClient')),
   arithmetic:        dynamic(() => import('../arithmetic/ArithmeticGameClient')),
   'balloon-pop':     dynamic(() => import('../balloon-pop/BalloonPopClient')),
   'brick-breaker':   dynamic(() => import('../brick-breaker/BrickBreakerClient')),

@@ -38,10 +38,6 @@ export default function HomePage() {
           __html: JSON.stringify(homePageStructuredData),
         }}
       />
-      {/* Cache busting meta tag */}
-      <meta name="cache-control" content="no-cache, no-store, must-revalidate" />
-      <meta name="pragma" content="no-cache" />
-      <meta name="expires" content="0" />
       <HomePageClient />
     </>
   );
