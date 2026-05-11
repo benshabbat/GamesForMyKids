@@ -353,14 +353,14 @@ function MyGameComponent() {
 ## 📊 מעקב התקדמות
 
 ```typescript
-import { useProgressTracking } from "@/hooks/shared/useProgressTracking";
+import { useSessionStats } from "@/hooks/shared/useSessionStats";
 
 function MyGameComponent() {
   const { 
     progress, 
     updateProgress, 
     resetProgress 
-  } = useProgressTracking('my-game');
+  } = useSessionStats('my-game');
 
   const handleCorrectAnswer = () => {
     updateProgress({

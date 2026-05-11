@@ -6,7 +6,7 @@ import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
 import { useGamePerformance } from "../analytics/useGamePerformance";
 import { useGameHints } from "../ui/useGameHints";
-import { useProgressTracking } from "../progress/useProgressTracking";
+import { useSessionStats } from "../progress/useSessionStats";
 import { 
   delay, 
   speakItemName as speakItemNameUtil,
@@ -62,7 +62,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   });
 
   // Progress tracking
-  const progressHooks = useProgressTracking(gameType);
+  const progressHooks = useSessionStats(gameType);
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,

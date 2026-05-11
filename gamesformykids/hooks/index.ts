@@ -25,5 +25,20 @@ export * from './shared/user';
 // UI & Events
 export * from './shared/ui';
 
+// Auth
+export * from './shared/auth';
+
+// Search
+export * from './shared/search';
+
+// Social
+export * from './shared/social';
+
+// Game Controls
+export * from './shared/game-controls';
+
+// Canvas
+export * from './canvas';
+
 // Games Hooks
 export { useGenericGame } from "./games/useGenericGame";

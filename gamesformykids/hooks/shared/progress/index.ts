@@ -1,3 +1,3 @@
 export { useGameProgress } from './useGameProgress';
-export { useProgressTracking } from './useProgressTracking';
+export { useSessionStats } from './useSessionStats';
 export { useAchievements } from './useAchievements';
