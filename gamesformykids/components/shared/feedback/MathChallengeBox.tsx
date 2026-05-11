@@ -30,7 +30,7 @@ export default function MathChallengeBox() {
 
   if (!vm.show) return null;
 
-  const { firstNumber, secondNumber, emoji, isAddition, opSymbol } = vm;
+  const { operand1, operand2, emoji, isAddition, opSymbol } = vm;
 
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-3xl p-6 shadow-xl text-center">
@@ -38,15 +38,15 @@ export default function MathChallengeBox() {
 
       <div className="flex items-center justify-center gap-6 flex-wrap">
         <div className="flex flex-col items-center gap-2">
-          <span className="text-4xl font-black text-blue-700">{firstNumber}</span>
-          <EmojiRow count={firstNumber} emoji={emoji} />
+          <span className="text-4xl font-black text-blue-700">{operand1}</span>
+          <EmojiRow count={operand1} emoji={emoji} />
         </div>
 
         <span className="text-5xl">{opSymbol}</span>
 
         <div className="flex flex-col items-center gap-2">
-          <span className="text-4xl font-black text-green-700">{secondNumber}</span>
-          <EmojiRow count={secondNumber} emoji={emoji} crossed={!isAddition} />
+          <span className="text-4xl font-black text-green-700">{operand2}</span>
+          <EmojiRow count={operand2} emoji={emoji} crossed={!isAddition} />
         </div>
 
         <span className="text-5xl font-black text-orange-600">{MATH_BOX_LABELS.equalsQuestion}</span>

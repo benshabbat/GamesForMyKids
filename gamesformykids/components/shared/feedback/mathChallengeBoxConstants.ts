@@ -9,9 +9,11 @@ export const MATH_BOX_LABELS = {
   equalsQuestion: '= ?',
 } as const;
 
-export const OPERATION_SYMBOLS: Record<MathChallenge['operation'], string> = {
-  addition: '➕',
-  subtraction: '➖',
+export const OPERATION_SYMBOLS: Record<MathChallenge['operator'], string> = {
+  '+': '➕',
+  '-': '➖',
+  '*': '✖️',
+  '/': '➗',
 };
 
 // ─── טייפים ───────────────────────────────────────────────────────────────────
@@ -24,8 +26,8 @@ export interface EmojiRowProps {
 
 export interface MathChallengeBoxViewModel {
   show: boolean;
-  firstNumber: number;
-  secondNumber: number;
+  operand1: number;
+  operand2: number;
   emoji: string;
   isAddition: boolean;
   opSymbol: string;

@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useAutoGameConfig } from '@/hooks/shared/game-state/useGameConfig';
 import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
-import { GAME_HOOKS_MAP } from '@/lib/constants/gameHooksMap';
+import { GAME_HOOKS_MAP } from '@/hooks/shared/game-state/gameHooksMap';
 
 /**
  * Inner component — only rendered once the game type is in the store.
