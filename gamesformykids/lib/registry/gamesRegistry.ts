@@ -89,18 +89,8 @@ import {
 import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
 import { Game } from "@/lib/types";
 import { createElement } from "react";
-
-export interface GameRegistration {
-  id: string;
-  title: string;
-  description: string;
-  icon: React.ComponentType<{ className?: string }>;
-  emoji: string; // אמוג'י לתצוגה בכרטיס
-  color: string;
-  href: string;
-  available: boolean;
-  order: number; // לקביעת סדר התצוגה
-}
+import type { GameRegistration } from "@/lib/types/games/base";
+export type { GameRegistration };
 
 // רישום כל המשחקים במקום אחד
 const GAMES_REGISTRY: GameRegistration[] = [
