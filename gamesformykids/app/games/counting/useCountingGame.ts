@@ -47,7 +47,7 @@ function generateCountingChallenge(level: number): CountingChallenge {
   const item = getRandomItem(COUNTING_ITEMS);
   return {
     emojis: item.emoji.repeat(count),
-    correctAnswer: count,
+    answer: count,
     itemName: item.name,
     itemPlural: item.plural,
     emoji: item.emoji,
@@ -66,7 +66,7 @@ function generateCountingOptions(correctAnswer: number, level: number): number[]
 
 function toChallengeItem(challenge: CountingChallenge): BaseGameItem {
   return {
-    name: String(challenge.correctAnswer),
+    name: String(challenge.answer),
     hebrew: `כמה ${challenge.itemPlural} יש?`,
     english: `How many ${challenge.itemPlural}?`,
     emoji: challenge.emoji,
