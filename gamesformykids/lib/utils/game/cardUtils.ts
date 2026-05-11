@@ -23,14 +23,14 @@ export const shuffle: <T>(arr: T[]) => T[] = shuffleArray;
 export function createShuffledMemoryCards<T>(
   items: T[],
 ): { id: number; item: T; isFlipped: boolean; isMatched: boolean }[] {
-  const shuffledCards = [...items, ...items]
-    .map((item) => ({
+  const shuffledCards = shuffleArray(
+    [...items, ...items].map((item) => ({
       id: Math.random(),
       item,
       isFlipped: false,
       isMatched: false,
     }))
-    .sort(() => Math.random() - 0.5);
+  );
 
   return shuffledCards.map((card, index) => ({
     ...card,
