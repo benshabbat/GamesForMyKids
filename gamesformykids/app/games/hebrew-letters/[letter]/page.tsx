@@ -26,20 +26,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `דף תרגול אינטראקטיבי לכתיבת האות ${letterData.letter} בעברית`,
       type: 'article',
       url: `https://gamesformykids.vercel.app/games/hebrew-letters/${letter}`,
-      images: [
-        {
-          url: `/images/letters/${letterData.name}-og.png`,
-          width: 1200,
-          height: 630,
-          alt: `תרגול האות ${letterData.letter}`,
-        },
-      ],
     },
     twitter: {
-      card: 'summary_large_image',
+      card: 'summary',
       title: `תרגול האות ${letterData.letter} - ${letterData.name}`,
       description: `דף תרגול אינטראקטיבי לכתיבת האות ${letterData.letter} בעברית`,
-      images: [`/images/letters/${letterData.name}-twitter.png`],
     },
     alternates: {
       canonical: `/games/hebrew-letters/${letter}`,
