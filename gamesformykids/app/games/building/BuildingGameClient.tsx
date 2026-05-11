@@ -11,7 +11,7 @@ import {
   BuildingCanvas,
   BuildingGameInstructions,
 } from './components';
-import { useBuildingStore } from '@/lib/stores/buildingStore';
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 import BuildingStartScreen from './BuildingStartScreen';
 
 export default function BuildingGameClient() {

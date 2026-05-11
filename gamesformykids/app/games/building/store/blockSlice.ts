@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { BuildingStore } from '../buildingStore';
-import type { Block, DragState, ShapeType } from '@/app/games/building/types';
-import { CANVAS_CONFIG } from '@/app/games/building/constants';
+import type { BuildingStore } from './buildingStore';
+import type { Block, DragState, ShapeType } from '../types';
+import { CANVAS_CONFIG } from '../constants';
 import {
   generateBlockId,
   getRandomPosition,
@@ -10,7 +10,7 @@ import {
   rotateBlock,
   shuffleBlocks,
   playSound,
-} from '@/app/games/building/utils';
+} from '../utils';
 
 export type BlockSlice = {
   isPlaying: boolean;

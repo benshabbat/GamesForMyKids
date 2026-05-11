@@ -1,7 +1,7 @@
 'use client';
 
 import { Palette } from 'lucide-react';
-import { useBuildingStore, BUILDING_COLORS } from '@/lib/stores/buildingStore';
+import { useBuildingStore, BUILDING_COLORS } from '@/app/games/building/store/buildingStore';
 
 export default function ColorPicker() {
   const selectedColor = useBuildingStore((s) => s.selectedColor);

@@ -1,5 +1,5 @@
 'use client';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisStore } from '../store/tetrisStore';
 
 export const useTetrisState = createShallowHook(useTetrisStore);

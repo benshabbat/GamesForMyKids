@@ -1,6 +1,6 @@
 'use client';
 
-import { useBuildingStore, BUILDING_SHAPES } from '@/lib/stores/buildingStore';
+import { useBuildingStore, BUILDING_SHAPES } from '@/app/games/building/store/buildingStore';
 import { SHAPE_ICONS } from '@/app/games/building/constants';
 
 export default function ShapeCreator() {

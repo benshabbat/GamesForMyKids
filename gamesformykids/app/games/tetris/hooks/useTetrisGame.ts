@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useTetrisStore } from '@/lib/stores/tetrisStore';
+import { useTetrisStore } from '../store/tetrisStore';
 
 /**
  * הוק דק שמנהל רק את ה-side-effects של המשחק:

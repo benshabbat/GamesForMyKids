@@ -1,7 +1,7 @@
 'use client';
 
 import { Sparkles, RotateCw } from 'lucide-react';
-import { useBuildingStore } from '@/lib/stores/buildingStore';
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 import BlockShape from './BlockShape';
 
 interface BlockRendererProps {

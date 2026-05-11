@@ -1,7 +1,7 @@
 import type { StateCreator } from 'zustand';
-import type { BuildingStore } from '../buildingStore';
-import type { ToolType } from '@/app/games/building/types';
-import { COLORS } from '@/app/games/building/constants';
+import type { BuildingStore } from './buildingStore';
+import type { ToolType } from '../types';
+import { COLORS } from '../constants';
 import { makeSetter } from '@/lib/stores/utils/sliceUtils';
 
 export type SettingsSlice = {
