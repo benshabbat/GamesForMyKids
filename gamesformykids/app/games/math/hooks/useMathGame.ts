@@ -39,30 +39,27 @@ function generateMathChallenge(level: number): MathChallenge {
   const maxNumber = getMaxNumber(level);
   const item = getRandomItem(MATH_ITEMS);
 
-  const operations = level >= 3 ? ['addition', 'subtraction'] : ['addition'];
-  const operation = getRandomItem(operations) as 'addition' | 'subtraction';
+  const isAddition = level < 3 || Math.random() < 0.5;
+  const operator: '+' | '-' = isAddition ? '+' : '-';
 
-  let firstNumber: number;
-  let secondNumber: number;
-  let correctAnswer: number;
+  let operand1: number;
+  let operand2: number;
+  let answer: number;
 
-  if (operation === 'addition') {
-    firstNumber = Math.floor(Math.random() * (maxNumber - 1)) + 1;
-    secondNumber = Math.floor(Math.random() * (maxNumber - firstNumber)) + 1;
-    correctAnswer = firstNumber + secondNumber;
+  if (isAddition) {
+    operand1 = Math.floor(Math.random() * (maxNumber - 1)) + 1;
+    operand2 = Math.floor(Math.random() * (maxNumber - operand1)) + 1;
+    answer = operand1 + operand2;
   } else {
-    correctAnswer = Math.floor(Math.random() * maxNumber) + 1;
-    secondNumber = Math.floor(Math.random() * correctAnswer) + 1;
-    firstNumber = correctAnswer + secondNumber;
+    answer = Math.floor(Math.random() * maxNumber) + 1;
+    operand2 = Math.floor(Math.random() * answer) + 1;
+    operand1 = answer + operand2;
   }
 
   return {
-    firstNumber, secondNumber, operation, correctAnswer,
+    operand1, operand2, operator, answer,
+    question: `${operand1} ${operator} ${operand2} = ?`,
     itemName: item.name, itemPlural: item.plural, emoji: item.emoji,
-    operand1: firstNumber, operand2: secondNumber,
-    operator: operation === 'addition' ? '+' : '-',
-    answer: correctAnswer,
-    question: `${firstNumber} ${operation === 'addition' ? '+' : '-'} ${secondNumber} = ?`,
   };
 }
 
@@ -80,9 +77,7 @@ function generateMathOptions(correctAnswer: number, level: number): number[] {
 }
 
 function toChallengeItem(challenge: MathChallenge): BaseGameItem {
-  const op = challenge.operation === 'addition' ? '+' : '-';
-  const equation = `${challenge.firstNumber} ${op} ${challenge.secondNumber} = ?`;
-  return { name: String(challenge.correctAnswer), hebrew: equation, english: equation, emoji: challenge.emoji, color: '#FF7043' };
+  return { name: String(challenge.answer), hebrew: challenge.question, english: challenge.question, emoji: challenge.emoji, color: '#FF7043' };
 }
 
 function toOptionItem(n: number): BaseGameItem {
@@ -99,8 +94,8 @@ export function useMathGame() {
   const speakMathQuestion = async (challenge: MathChallenge): Promise<void> => {
     if (!speechEnabled) return;
     try {
-      const operationText = challenge.operation === 'addition' ? 'ועוד' : 'פחות';
-      await speakHebrew(`${challenge.firstNumber} ${challenge.itemPlural} ${operationText} ${challenge.secondNumber} ${challenge.itemPlural}, `);
+      const operationText = challenge.operator === '+' ? 'ועוד' : 'פחות';
+      await speakHebrew(`${challenge.operand1} ${challenge.itemPlural} ${operationText} ${challenge.operand2} ${challenge.itemPlural}, `);
       await delay(500);
       await speakHebrew(`כמה ${challenge.itemPlural} יש?`);
     } catch (error) {

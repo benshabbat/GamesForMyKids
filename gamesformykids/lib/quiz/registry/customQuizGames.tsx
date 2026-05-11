@@ -77,10 +77,10 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
 
   'human-body': makeQuizGame(
     useHumanBodyGame,
-    ({ category, currentQuestion, choices, startGame, selectAnswer }) => ({
+    ({ currentQuestion, choices, startGame, selectAnswer, restart }) => ({
       menu:     <HumanBodyMenuScreen onStart={startGame} />,
       question: currentQuestion ? <HumanBodyQuestion currentQuestion={currentQuestion} choices={choices} onSelect={selectAnswer} /> : null,
-      result:   <QuizResultScreen onRestart={() => startGame(category)} theme="red" />,
+      result:   <QuizResultScreen onRestart={restart} theme="red" />,
     }),
   ),
 
