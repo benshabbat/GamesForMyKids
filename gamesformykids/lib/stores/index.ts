@@ -47,6 +47,9 @@ export type { AudioSettingsState } from './audioSettingsStore';
 // Home Page (selectedCategory / showAllGames)
 export { useHomePageStore } from './homePageStore';
 
+// Game Difficulty (difficulty — persisted)
+export { useGameDifficulty } from './gameDifficultyStore';
+
 // Hebrew Letters (currentLetter / completedLetters / isAudioEnabled)
 export { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
 

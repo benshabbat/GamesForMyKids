@@ -13,42 +13,42 @@ type DataModule = Record<string, any>;
 
 async function fromNature(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/nature');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromBasic(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/basic');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromWorld(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/world');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromLifestyle(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/lifestyle');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromAdditional(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/additionalGames');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromInnovative(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/innovative');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromTechnology(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/technology');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 async function fromFunGames(key: string): Promise<BaseGameItem[]> {
   const m: DataModule = await import('./gameData/funGames');
-  return m[key] as BaseGameItem[];
+  return (m[key] ?? []) as BaseGameItem[];
 }
 
 export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]> {
