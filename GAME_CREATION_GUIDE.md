@@ -12,19 +12,29 @@
 
 ## 🎯 סקירה כללית
 
-הפלטפורמה תומכת בשני סוגי משחקים עיקריים:
+כל המשחקים מוגשים ממסלול יחיד: `app/games/[gameType]/page.tsx`
 
-### 1. משחקים פשוטים (Simple Games)
+הפלטפורמה תומכת בשלושה סוגי משחקים:
+
+### 1. משחקי כרטיסים (Card Games)
 - משחקי זיהוי פריטים (צבעים, חיות, פירות וכו')
-- מבוססים על `AutoGamePage` ו-`useSimpleGame`
-- נוצרים דרך מיפוי בקובץ `[gameType]/page.tsx`
+- מרונדרים דרך `UltimateGamePage` + `GameTypeProvider` + `GameLogicSync`
+- נוצרים ע"י הוספה ל-`SUPPORTED_GAMES` ב-`gamePageConstants.ts`
+- דוגמאות: `colors`, `animals`, `math`, `weather`
 
-### 2. משחקים מותאמים אישית (Custom Games)
-- משחקים עם לוגיקה מיוחדת (זיכרון, חידות וכו')
-- דורשים קונטקסט ייעודי ודף נפרד
-- דוגמאות: `memory`, `hebrew-letters`, `puzzles`
+### 2. משחקי חידון (Quiz Games)
+- שאלות ותשובות, מילים, גאוגרפיה, מדע וכו'
+- מרונדרים דרך `UltimateGamePage` → `QuizGameRouter`
+- משתמשים ב-`createCategoryIndexQuizHook` או ב-`useGenericQuizGame`
+- דוגמאות: `geography`, `science`, `spelling`, `clock`
 
-## 🚀 שלבי הפיתוח
+### 3. משחקים מותאמים אישית (Custom Games)
+- משחקים עם לוגיקה ייחודית (ארקייד, לוח, ציור וכו')
+- מרונדרים דרך `CustomGameRenderer` → רכיב ייעודי
+- הסטייט מנוהל ב-Zustand store (לא React Context)
+- דוגמאות: `memory`, `chess`, `tetris`, `drawing`, `hebrew-letters`
+
+## 🚀 שלבי הפיתוח — משחק כרטיסים
 
 ### שלב 1: הגדרת נתוני המשחק
 
@@ -78,9 +88,6 @@ export const MY_GAME_CONFIG = {
 עדכן את הקובץ `lib/constants/gameItemsMap.ts`:
 
 ```typescript
-// בתחילת הקובץ
-import { MY_GAME_ITEMS, MY_GAME_PRONUNCIATIONS, MY_GAME_CONFIG } from './gameData/myCategory';
-
 // בתוך GAME_ITEMS_MAP
 export const GAME_ITEMS_MAP = {
   // ... משחקים קיימים
@@ -140,7 +147,7 @@ export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
 
 ### שלב 4: עדכון טיפוסים
 
-הוסף את סוג המשחק החדש ל-`lib/types/base.ts`:
+הוסף את סוג המשחק החדש ל-`lib/types/core/base.ts`:
 
 ```typescript
 export type GameType =
@@ -148,138 +155,138 @@ export type GameType =
   | 'colors' 
   | 'letters'
   // ... סוגי משחקים קיימים
-  | 'my-game'     // הוסף את המשחק החדש
-  | 'advanced';
+  | 'my-game';     // הוסף את המשחק החדש
 ```
 
 ### שלב 5: הוספה לרשימת המשחקים הנתמכים
 
-עדכן את `app/games/[gameType]/page.tsx`:
+עדכן את `app/games/[gameType]/gamePageConstants.ts`:
 
 ```typescript
-// הוסף את המשחק החדש לרשימה
-const SUPPORTED_GAMES = [
-  'animals', 'colors', 'fruits', 'vegetables', 'clothing',
-  'letters', 'shapes', 'numbers', 'smells-tastes', 'weather',
-  'transport', 'vehicles', 'tools', 'space', 'house',
-  'instruments', 'professions', 'emotions', 'math',
-  'my-game'  // הוסף כאן
+export const SUPPORTED_GAMES = [
+  // ...
+  'my-game',  // הוסף כאן (בקטגוריה המתאימה)
 ] as const;
 ```
 
-## 🎨 יצירת משחק מותאם אישית
+### שלב 6: הוספה לגריד הקטגוריות
 
-### שלב 1: יצירת קונטקסט
+עדכן את `components/marketing/CategorizedGamesGrid.tsx` כדי שהמשחק יופיע בדף הבית תחת הקטגוריה הנכונה.
 
-צור קובץ `contexts/MyGameContext.tsx`:
+## � יצירת משחק מותאם אישית (Custom Game)
+
+משחקים מותאמים משתמשים ב-Zustand store (לא React Context).  
+הסטייט חי בחנות גלובלית — אין props drilling ואין Provider.
+
+### שלב 1: יצירת Zustand store
+
+השתמש ב-`makeStore` / `makePersistStore` מ-`@/lib/stores/storeFactory`:
 
 ```typescript
-"use client";
+// app/games/my-game/myGameStore.ts
+'use client';
 
-import React, { createContext, useContext, ReactNode } from 'react';
-import { useAdvancedGameState } from '@/hooks/shared/useAdvancedGameState';
-import { BaseGameItem } from '@/lib/types/base';
+import { makeStore } from '@/lib/stores/storeFactory';
 
-// הגדרת מצב המשחק
 interface MyGameState {
-  // הגדר את המצב הייחודי למשחק שלך
-  items: BaseGameItem[];
-  currentItem: BaseGameItem | null;
-  gameStarted: boolean;
-  // ... שדות נוספים
+  score: number;
+  level: number;
+  phase: 'idle' | 'playing' | 'finished';
 }
 
-// פעולות המשחק
 interface MyGameActions {
-  initializeGame: () => void;
-  selectItem: (item: BaseGameItem) => void;
-  resetGame: () => void;
-  // ... פעולות נוספות
+  incrementScore: (by: number) => void;
+  nextLevel: () => void;
+  reset: () => void;
 }
 
-interface MyGameContextType {
-  state: MyGameState;
-  actions: MyGameActions;
-}
+export const useMyGameStore = makeStore<MyGameState & MyGameActions>(
+  'MyGameStore',
+  (set) => ({
+    score: 0,
+    level: 1,
+    phase: 'idle',
 
-const MyGameContext = createContext<MyGameContextType | undefined>(undefined);
+    incrementScore: (by) => set((s) => ({ score: s.score + by })),
+    nextLevel: () => set((s) => ({ level: s.level + 1 })),
+    reset: () => set({ score: 0, level: 1, phase: 'idle' }),
+  })
+);
+```
 
-export function MyGameProvider({ children }: { children: ReactNode }) {
-  // השתמש ב-useAdvancedGameState או ב-hooks אחרים
-  const gameState = useAdvancedGameState({
-    // הגדרות התחלתיות
-  });
+### שלב 2: יצירת hook ייעודי
 
-  const value = {
-    state: {
-      // מיפוי המצב
-    },
-    actions: {
-      // מיפוי הפעולות
-    }
-  };
+```typescript
+// app/games/my-game/useMyGame.ts
+'use client';
 
-  return (
-    <MyGameContext.Provider value={value}>
-      {children}
-    </MyGameContext.Provider>
-  );
-}
+import { useCallback } from 'react';
+import { useMyGameStore } from './myGameStore';
 
 export function useMyGame() {
-  const context = useContext(MyGameContext);
-  if (!context) {
-    throw new Error('useMyGame must be used within MyGameProvider');
-  }
-  return context;
+  const score   = useMyGameStore((s) => s.score);
+  const level   = useMyGameStore((s) => s.level);
+  const phase   = useMyGameStore((s) => s.phase);
+  const { incrementScore, nextLevel, reset } = useMyGameStore();
+
+  const handleCorrect = useCallback(() => {
+    incrementScore(10);
+  }, [incrementScore]);
+
+  return { score, level, phase, handleCorrect, reset };
 }
 ```
 
-### שלב 2: יצירת דף המשחק
+### שלב 3: יצירת רכיבי המשחק
 
-צור תיקייה `app/games/my-game/` והוסף `page.tsx`:
+```
+app/games/my-game/
+├── MyGameClient.tsx          # רכיב לקוח ראשי ('use client')
+├── myGameStore.ts            # Zustand store
+├── useMyGame.ts              # Hook ייעודי
+└── components/
+    ├── MyGameMenuScreen.tsx  # מסך תפריט (אם יש)
+    └── MyGamePlayArea.tsx    # אזור משחק
+```
+
+#### MyGameClient.tsx
 
 ```typescript
-"use client";
+'use client';
 
-import { MyGameProvider, useMyGame } from "@/contexts/MyGameContext";
-import AutoStartScreen from "@/components/shared/AutoStartScreen";
+import { useMyGame } from './useMyGame';
+import MyGamePlayArea from './components/MyGamePlayArea';
 
-function MyGameContent() {
-  const { state, actions } = useMyGame();
-
-  if (!state.gameStarted) {
-    return (
-      <AutoStartScreen 
-        gameType="my-game" 
-        items={state.items} 
-        onStart={actions.initializeGame}
-        onSpeak={() => {}}
-      />
-    );
-  }
+export default function MyGameClient() {
+  const { score, level, phase, handleCorrect, reset } = useMyGame();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-indigo-200 p-4">
-      <div className="max-w-4xl mx-auto">
-        {/* רכיבי המשחק שלך כאן */}
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-purple-200 p-4">
+      <MyGamePlayArea
+        score={score}
+        level={level}
+        onCorrect={handleCorrect}
+        onReset={reset}
+      />
     </div>
   );
 }
-
-export default function MyGamePage() {
-  return (
-    <MyGameProvider>
-      <MyGameContent />
-    </MyGameProvider>
-  );
-}
 ```
 
-### שלב 3: הסרה מרשימת המשחקים הכלליים
+### שלב 4: רישום ב-CustomGameRenderer
 
-הסר את המשחק מ-`SUPPORTED_GAMES` ב-`[gameType]/page.tsx` כדי שהוא יעבור לדף המותאם שלו.
+עדכן את `app/games/[gameType]/CustomGameRenderer.tsx`:
+
+```typescript
+const GAME_CLIENTS: Partial<Record<SupportedGameType, ComponentType>> = {
+  // ... משחקים קיימים
+  'my-game': dynamic(() => import('../my-game/MyGameClient')),
+};
+```
+
+### שלב 5: הוספה ל-CUSTOM_GAME_TYPES
+
+ב-`app/games/[gameType]/gamePageConstants.ts`, הוסף את `'my-game'` גם ל-`SUPPORTED_GAMES` וגם ל-`CUSTOM_GAME_TYPES`.
 
 ## 🧩 רכיבים נפוצים
 
@@ -331,7 +338,7 @@ function MyGameHeader() {
 ## 🔊 הוספת צלילים
 
 ```typescript
-import { useGameAudio } from "@/hooks/shared/useGameAudio";
+import { useGameAudio } from "@/hooks/shared/ui/useGameAudio";
 
 function MyGameComponent() {
   const { playSound, speak } = useGameAudio();
@@ -353,20 +360,22 @@ function MyGameComponent() {
 ## 📊 מעקב התקדמות
 
 ```typescript
-import { useSessionStats } from "@/hooks/shared/useSessionStats";
+import { useSessionStats } from "@/hooks/shared/progress/useSessionStats";
 
 function MyGameComponent() {
-  const { 
-    progress, 
-    updateProgress, 
-    resetProgress 
+  const {
+    currentSession,
+    startSession,
+    recordAnswer,
+    endSession,
   } = useSessionStats('my-game');
 
-  const handleCorrectAnswer = () => {
-    updateProgress({
-      correct: progress.correct + 1,
-      level: Math.floor(progress.correct / 3) + 1
-    });
+  // קרא לפני תחילת המשחק
+  const handleStart = () => startSession();
+
+  // קרא על כל תשובה
+  const handleAnswer = (item: BaseGameItem, correct: boolean) => {
+    recordAnswer(item, correct);
   };
 
   // ...
@@ -412,25 +421,34 @@ npm start
 
 ## 📁 מבנה קבצים למשחק חדש
 
+### משחק כרטיסים
+
 ```
-app/games/my-game/           # (רק למשחקים מותאמים)
-├── page.tsx                 # דף המשחק הראשי
-├── components/              # רכיבים ייעודיים למשחק
-│   ├── GameBoard.tsx
-│   └── GameCard.tsx
-└── types.ts                 # טיפוסים ייעודיים
+lib/constants/gameData/myCategory.ts   # נתוני הפריטים
+lib/constants/gameItemsMap.ts          # הוסף ערך
+lib/registry/gamesRegistry.ts         # הוסף רשומה
+lib/types/core/base.ts                # הוסף ל-GameType
+lib/constants/ui/gameConfigs.ts       # הוסף הגדרות UI
+app/games/[gameType]/gamePageConstants.ts  # הוסף ל-SUPPORTED_GAMES
+components/marketing/CategorizedGamesGrid.tsx  # הוסף לקטגוריה
+```
 
-contexts/                    # (רק למשחקים מותאמים)
-├── MyGameContext.tsx        # קונטקסט המשחק
-└── index.ts                 # ייצוא
+### משחק מותאם (Custom)
 
-lib/constants/gameData/
-├── myCategory.ts            # נתוני המשחק
-└── index.ts                 # ייצוא (עדכן)
+```
+app/games/my-game/
+├── MyGameClient.tsx          # רכיב לקוח ראשי ('use client')
+├── myGameStore.ts            # Zustand store
+├── useMyGame.ts              # Hook ייעודי
+└── components/
+    ├── MyGameMenuScreen.tsx  # מסך תפריט
+    └── MyGamePlayArea.tsx    # אזור משחק
 
-lib/types/
-├── games.ts                 # טיפוסים (עדכן)
-└── base.ts                  # טיפוסים בסיסיים (עדכן)
+# עדכן גם:
+app/games/[gameType]/CustomGameRenderer.tsx   # הוסף dynamic import
+app/games/[gameType]/gamePageConstants.ts     # הוסף ל-SUPPORTED_GAMES + CUSTOM_GAME_TYPES
+lib/registry/gamesRegistry.ts                # הוסף רשומה
+lib/types/core/base.ts                       # הוסף ל-GameType
 ```
 
 בהצלחה ביצירת המשחק החדש! 🎉

@@ -7,11 +7,11 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 ## Overview
 
-131 educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
+160+ educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
 
 ## Features
 
-- **131 Games**  covering all key early-childhood learning areas
+- **160+ Games**  covering all key early-childhood learning areas
 - **Daily Featured Game**  smart algorithm recommends a game each day
 - **Age Recommendations**  grouped for ages 2-3, 3-4, and 4-5
 - **Hebrew TTS**  full audio pronunciation via Web Speech API
@@ -70,33 +70,60 @@ Open [http://localhost:3000](http://localhost:3000)
 ```
 gamesformykids/
  app/
-    games/[gameType]/     # Universal route for all 131 games
-    page.tsx
+    games/[gameType]/         # Universal route — handles all game types
+      gamePageConstants.ts    # SUPPORTED_GAMES + CUSTOM_GAME_TYPES
+      CustomGameRenderer.tsx  # Dispatches to per-game client components
+    games/educational/        # Category hub page
+    page.tsx                  # Home page
  components/
-    game/                 # Game UI: cards, grid, navigation
-    layout/               # Header, Footer, LoadingScreen
-    marketing/            # Home page sections
+    game/
+      universal/              # UltimateGamePage, CardGamePage, GameLogicSync
+      shared/                 # Shared UI: GameMenuCard, GameResultCard, etc.
+    layout/                   # Header, Footer, LoadingScreen
+    marketing/                # CategorizedGamesGrid, GameRecommendations
+ hooks/
+    shared/
+      game-state/             # useBaseGame, useAutoGame, useUniversalGame, …
+      progress/               # useSessionStats, useGameProgress
+      ui/                     # useGameHints
+      auth/                   # useAuth
+      search/                 # useGameSearch
+      social/                 # useShareScore
+      game-controls/          # useKeyboardControls
+      analytics/              # useGamePerformance
+    games/                    # useGenericGame, useTimedQuizGame
+    canvas/                   # useCanvasLoop, useCanvasReady
  lib/
     constants/
-       gameData/         # Item data per game group
-       ui/gameConfigs.ts # Per-game auto-start config
-    registry/gamesRegistry.ts  # Single source of truth
-    types/core/base.ts    # GameType union
- contexts/                 # Auth, game config, logic contexts
- hooks/games/              # Per-game custom hooks
- public/                   # manifest.json, sw.js, icons
+      gameData/               # Item data per game group
+      ui/gameConfigs.ts       # Per-game UI config
+    registry/gamesRegistry.ts # Single source of truth for game metadata
+    types/core/base.ts        # GameType union
+    stores/                   # Zustand stores (shared/global only)
+    quiz/                     # Quiz hooks + factory functions
+    providers/                # React context providers (GameTypeProvider, etc.)
+ public/                      # manifest.json, sw.js, icons
 ```
+
+## Game Rendering Architecture
+
+All games are served from a single route: `app/games/[gameType]/page.tsx`
+
+| Game kind | How it renders | Examples |
+|-----------|---------------|----------|
+| **Card games** | `UltimateGamePage` via `GameTypeProvider` + `GameLogicSync` | colors, animals, math |
+| **Quiz games** | `UltimateGamePage` → `QuizGameRouter` | geography, science, spelling |
+| **Custom games** | `CustomGameRenderer` → per-game client component | memory, chess, tetris, drawing |
 
 ## Adding a New Game
 
-1. Add data to `lib/constants/gameData/*.ts`
-2. Export from `lib/constants/index.ts`
+1. Add item data to `lib/constants/gameData/*.ts`
+2. Export from `lib/constants/gameItemsMap.ts`
 3. Add to `GameType` union in `lib/types/core/base.ts`
-4. Add map entry in `lib/constants/gameItemsMap.ts`
-5. Add metadata in `lib/registry/gamesRegistry.ts`
-6. Add to `SUPPORTED_GAMES` in `app/games/[gameType]/page.tsx`
-7. Add UI config in `lib/constants/ui/gameConfigs.ts`
-8. Add to category in `components/marketing/CategorizedGamesGrid.tsx`
+4. Add entry in `lib/registry/gamesRegistry.ts`
+5. Add to `SUPPORTED_GAMES` (and `CUSTOM_GAME_TYPES` if custom) in `app/games/[gameType]/gamePageConstants.ts`
+6. Add UI config in `lib/constants/ui/gameConfigs.ts`
+7. Add to category in `components/marketing/CategorizedGamesGrid.tsx`
 
 See `../GAME_CREATION_GUIDE.md` for full instructions.
 
@@ -118,6 +145,8 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 npm run dev              # Start dev server (Turbopack)
 npm run build            # Production build
 npm run lint             # ESLint check
+npx tsc --noEmit         # Type check without emitting
+npm run test             # Run Vitest unit tests
 ```
 
 ## Browser Support
