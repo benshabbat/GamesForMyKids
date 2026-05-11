@@ -1,0 +1,1 @@
+export { useShareScore } from './useShareScore';

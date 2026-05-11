@@ -10,7 +10,7 @@ import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession, ProgressStats } from '@/lib/types/hooks/progress';
 import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
 
-export function useProgressTracking(gameType: GameType) {
+export function useSessionStats(gameType: GameType) {
   const allSessions = useProgressTrackingStore((s) => s.allSessions);
   const { addSession } = useProgressTrackingStore();
 

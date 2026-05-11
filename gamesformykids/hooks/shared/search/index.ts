@@ -1,0 +1,1 @@
+export { useGameSearch } from './useGameSearch';
