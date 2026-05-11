@@ -6,8 +6,10 @@ import { FeatureHighlights } from './header/FeatureHighlights';
 // Server Component - renders statically for better LCP
 export function StaticHeader() {
   return (
-    <header className="text-center py-6 md:py-8 lg:py-12 relative overflow-hidden">
-      <HeaderBackground />
+    <header className="text-center py-6 md:py-8 lg:py-12 relative">
+      <div className="absolute inset-0 overflow-hidden">
+        <HeaderBackground />
+      </div>
 
       <div className="relative z-10">
         <div className="flex justify-end px-4 mb-2">
