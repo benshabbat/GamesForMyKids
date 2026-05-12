@@ -6,14 +6,14 @@
 
 export interface GenericStartScreenProps<T> {
   // Header props
-  title: string;
+  title?: string | undefined;
   subtitle?: string | undefined;
   subTitle?: string | undefined;
   textColorHeader?: string | undefined;
   textColorSubHeader?: string | undefined;
 
   // Game props
-  items: T[];
+  items?: T[] | undefined;
   gameSteps?: Array<{
     stepNumber?: number;
     stepText?: string;
