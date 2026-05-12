@@ -7,6 +7,7 @@ import { useGameOptions } from "./useGameOptions";
 import { useGamePerformance } from "../analytics/useGamePerformance";
 import { useGameHints } from "../ui/useGameHints";
 import { useSessionStats } from "../progress/useSessionStats";
+import { useGameProgress } from "../progress/useGameProgress";
 import { 
   delay, 
   speakItemName as speakItemNameUtil,
@@ -63,6 +64,9 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // Progress tracking
   const progressHooks = useSessionStats(gameType);
+
+  // Supabase progress persistence
+  const { updateScore, updateLevel } = useGameProgress(gameType);
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,
@@ -168,11 +172,20 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // איפוס משחק
   const resetGame = () => {
+    // Capture final score/level before resetting local state
+    const { score: finalScore, level: finalLevel } = useGameProgressStore.getState();
+
     progressHooks.endSession();
     useGameStore.getState().endGame();
     useGameProgressStore.getState().setGameActive(false);
     useGameProgressStore.getState().resetProgress();
     useGameSessionStore.getState().resetSession();
+
+    // Persist progress to Supabase
+    if (finalScore > 0 || finalLevel > 1) {
+      updateScore(gameType, finalScore);
+      updateLevel(gameType, finalLevel);
+    }
   };
 
   return {
