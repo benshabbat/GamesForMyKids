@@ -10,19 +10,13 @@ type GameHeaderProps = ComponentTypes.GameHeaderProps;
 /**
  * 🎯 GameHeader עם props אופציונליים
  */
-export default function GameHeader({
-  score = 0,
-  level = 1,
-  onHome,
-}: GameHeaderProps = {}) {
+export default function GameHeader({ onHome }: GameHeaderProps = {}) {
   const router = useRouter();
 
   return (
     <UnifiedHeader
       title="משחק"
       showScore={true}
-      score={score}
-      level={level}
       showBackButton={true}
       onBack={onHome ?? (() => router.push(ROUTES.HOME))}
     />
