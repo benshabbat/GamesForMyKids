@@ -72,7 +72,7 @@ export function useStackGame() {
     const topWorldY = sliderWorldY;
     s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
     useStackStore.getState().setScore(s.score);
-  }, []);
+  }, [saveGameResultRef]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'playing') drop();
