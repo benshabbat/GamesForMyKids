@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import React from 'react';
+import React from "react";
 
 interface CenterAction {
   label: React.ReactNode;
@@ -32,23 +32,32 @@ export function CanvasLRControls({
   return (
     <div className={`${mt} flex ${gap}`}>
       <button
-        onPointerDown={onLeft}
-        onPointerUp={onLeftRelease}
-        onPointerLeave={onLeftRelease}
-        className={buttonClass}
-      >◄</button>
-      {center && (
-        <button
-          onPointerDown={center.onAction}
-          className={center.className ?? "bg-white/20 text-white rounded-xl px-6 py-3 text-sm font-bold active:bg-white/40 touch-none"}
-        >{center.label}</button>
-      )}
-      <button
         onPointerDown={onRight}
         onPointerUp={onRightRelease}
         onPointerLeave={onRightRelease}
         className={buttonClass}
-      >▶</button>
+      >
+        ▶
+      </button>
+      {center && (
+        <button
+          onPointerDown={center.onAction}
+          className={
+            center.className ??
+            "bg-white/20 text-white rounded-xl px-6 py-3 text-sm font-bold active:bg-white/40 touch-none"
+          }
+        >
+          {center.label}
+        </button>
+      )}
+      <button
+        onPointerDown={onLeft}
+        onPointerUp={onLeftRelease}
+        onPointerLeave={onLeftRelease}
+        className={buttonClass}
+      >
+        ◄
+      </button>
     </div>
   );
 }
