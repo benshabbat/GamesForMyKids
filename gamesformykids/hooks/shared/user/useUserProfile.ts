@@ -4,6 +4,20 @@ import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/shared/auth/useAuth'
 import { supabase } from '@/lib/supabase/client'
 import { useUserProfileStore } from '@/lib/stores/userProfileStore'
+import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore'
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore'
+import type { DifficultyLevel } from '@/lib/types'
+
+const DIFFICULTY_MAP: Record<string, DifficultyLevel> = {
+  easy: 'easy', medium: 'medium', hard: 'hard', normal: 'medium',
+}
+
+function syncSettingsToLocalStores(settings: { sound_enabled: boolean; difficulty_level: string } | null) {
+  if (!settings) return
+  useAudioSettingsStore.getState().saveSettings({ enabled: settings.sound_enabled })
+  const difficulty = DIFFICULTY_MAP[settings.difficulty_level] ?? 'medium'
+  useGameDifficulty.getState().setDifficulty(difficulty)
+}
 
 export interface UserProfile {
   id: string
@@ -70,6 +84,7 @@ export function useUserProfile() {
 
       setProfile(profileData)
       setSettings(settingsData)
+      syncSettingsToLocalStores(settingsData)
       setLoadedForUserId(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בטעינת הפרופיל')
@@ -130,6 +145,7 @@ export function useUserProfile() {
       if (error) throw error
 
       setSettings(data)
+      syncSettingsToLocalStores(data)
       return data
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בעדכון ההגדרות')
