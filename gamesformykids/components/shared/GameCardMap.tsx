@@ -14,13 +14,15 @@ import MathGameCard from './cards/MathGameCard';
 import FlagsGameCard from './cards/FlagsGameCard';
 import { createPhotoCard } from './cards/PhotoGameCard';
 
-// Generic card component that works for all game types
-const DefaultGameCard = ({ item, onClick, isSelected }: GameItemCardProps) => (
+// Generic card component that works for all game types.
+// showHebrew is false so the answer label is NOT shown on the card —
+// the child must recognise the visual, not read the text.
+const DefaultGameCard = ({ item, onClick }: GameItemCardProps) => (
   <UnifiedCard
     item={item}
     onClick={() => onClick(item)}
-    {...(isSelected !== undefined ? { isSelected } : {})}
     variant="advanced"
+    showHebrew={false}
   />
 );
 
