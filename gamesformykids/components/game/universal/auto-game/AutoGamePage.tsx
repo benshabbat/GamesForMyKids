@@ -13,6 +13,7 @@
 
 import { BaseGameItem } from "@/lib/types/core/base";
 import { useAutoGame } from "@/hooks";
+import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
 import { AutoStartScreen } from "../../../shared";
 import { ProgressDisplay } from "../../../shared";
 import { AutoGameHeader } from "./AutoGameHeader";
@@ -30,6 +31,13 @@ interface AutoGamePageProps {
  */
 export function AutoGamePage({ renderCard }: AutoGamePageProps) {
   const { gameState, isPlaying, config } = useAutoGame();
+  const totalQuestions = useGameProgressStore((s) => s.totalQuestions);
+  const correctAnswers = useGameProgressStore((s) => s.correctAnswers);
+  const streakCount    = useGameProgressStore((s) => s.streakCount);
+  const timeSpent      = useGameProgressStore((s) => s.timeSpent);
+
+  const accuracy     = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+  const averageTime  = correctAnswers > 0 ? Math.round(timeSpent / correctAnswers) : 0;
 
   // 🖥️ אם לא במשחק או gameState לא קיים, הראה StartScreen
   if (!gameState || !isPlaying) {
@@ -48,11 +56,11 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
         {/* מודל סטטיסטיקות */}
         <ProgressDisplay
           stats={{
-            totalItems: 10,
-            completedItems: 5,
-            averageTime: 2.5,
-            accuracy: 85,
-            streak: 3,
+            totalItems: totalQuestions,
+            completedItems: correctAnswers,
+            averageTime,
+            accuracy,
+            streak: streakCount,
           }}
         />
       </div>
