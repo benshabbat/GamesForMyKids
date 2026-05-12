@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS public.game_progress (
   game_type TEXT NOT NULL,
   level INTEGER DEFAULT 1,
   score INTEGER DEFAULT 0,
+  last_score INTEGER DEFAULT 0,
   best_score INTEGER DEFAULT 0,
   completed_levels INTEGER DEFAULT 0,
   total_play_time INTEGER DEFAULT 0, -- in seconds
