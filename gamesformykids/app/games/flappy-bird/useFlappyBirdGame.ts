@@ -4,6 +4,7 @@ import { useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFlappyBirdStore } from './flappyBirdStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 360;
 export const H = 560;
@@ -36,6 +37,8 @@ function drawRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
 }
 
 export function useFlappyBirdGame() {
+  const { saveGameResultRef } = useGameCompletion('flappy-bird');
+
   const s = useRef({
     phase: 'menu' as Phase,
     birdY: H / 2,
@@ -44,6 +47,7 @@ export function useFlappyBirdGame() {
     score: 0,
     frame: 0,
     bgOffset: 0,
+    startTime: 0,
   });
   const resetGame = useCallback(() => {
     const st = s.current;
@@ -53,6 +57,7 @@ export function useFlappyBirdGame() {
     st.pipes = [];
     st.score = 0;
     st.frame = 0;
+    st.startTime = Date.now();
     useFlappyBirdStore.getState().setPhase('playing');
     useFlappyBirdStore.getState().setScore(0);
   }, []);
@@ -92,8 +97,12 @@ export function useFlappyBirdGame() {
       st.pipes = st.pipes.filter(p => p.x > -PIPE_W - 20);
 
       if (st.birdY + BIRD_R >= H - GROUND_H || st.birdY - BIRD_R <= 0) {
-        st.phase = 'dead';
-        useFlappyBirdStore.getState().endGame(st.score);
+        if (st.phase === 'playing') {
+          const elapsed = Math.round((Date.now() - st.startTime) / 1000);
+          saveGameResultRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
+          st.phase = 'dead';
+          useFlappyBirdStore.getState().endGame(st.score);
+        }
       }
 
       for (const p of st.pipes) {
@@ -102,7 +111,9 @@ export function useFlappyBirdGame() {
         const bT = st.birdY - BIRD_R + 4;
         const bB = st.birdY + BIRD_R - 4;
         if (bR > p.x && bL < p.x + PIPE_W) {
-          if (bT < p.gapY || bB > p.gapY + PIPE_GAP) {
+          if ((bT < p.gapY || bB > p.gapY + PIPE_GAP) && st.phase === 'playing') {
+            const elapsed = Math.round((Date.now() - st.startTime) / 1000);
+            saveGameResultRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
             st.phase = 'dead';
             useFlappyBirdStore.getState().endGame(st.score);
           }

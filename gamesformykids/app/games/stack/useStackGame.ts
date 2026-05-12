@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStackStore } from './stackStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 300;
 export const H = 480;
@@ -17,6 +18,8 @@ import type { PhaseDead as Phase } from '@/lib/types';
 interface Block { x: number; y: number; w: number; color: string; }
 
 export function useStackGame() {
+  const { saveGameResultRef } = useGameCompletion('stack');
+
   const st = useRef({
     phase: 'menu' as Phase,
     blocks: [] as Block[],
@@ -27,6 +30,7 @@ export function useStackGame() {
     score: 0, best: 0,
     colorIdx: 0,
     frame: 0,
+    startTime: 0,
   });
   const startGame = useCallback(() => {
     const s = st.current;
@@ -35,6 +39,7 @@ export function useStackGame() {
     s.curW = INIT_W; s.curX = (W - INIT_W) / 2;
     s.curDir = 1; s.curSpeed = 2.5; s.colorIdx = 0;
     s.blocks = [{ x: (W - INIT_W) / 2, y: FLOOR_Y, w: INIT_W, color: '#6b7280' }];
+    s.startTime = Date.now();
     useStackStore.getState().startPlaying();
   }, []);
 
@@ -50,6 +55,8 @@ export function useStackGame() {
 
     if (overlap <= 2) {
       s.phase = 'dead';
+      const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+      saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
       useStackStore.getState().endGame(s.score);
       return;
     }
@@ -65,7 +72,7 @@ export function useStackGame() {
     const topWorldY = sliderWorldY;
     s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
     useStackStore.getState().setScore(s.score);
-  }, []);
+  }, [saveGameResultRef]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'playing') drop();

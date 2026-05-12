@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 300;
 export const H = 500;
@@ -32,6 +33,8 @@ function generateInitial(): Array<Platform & { id: number }> {
 }
 
 export function useJumperGame() {
+  const { saveGameResultRef } = useGameCompletion('jumper');
+
   const st = useRef({
     phase: 'menu' as Phase,
     px: W / 2, py: H - 100,
@@ -43,6 +46,7 @@ export function useJumperGame() {
     frame: 0,
     leftDown: false, rightDown: false,
     nextPlatY: H - 60 - INIT_PLATS * (PLAT_GAP * 0.75),
+    startTime: 0,
   });
   const startGame = useCallback(() => {
     const s = st.current;
@@ -53,6 +57,7 @@ export function useJumperGame() {
     s.score = 0; s.frame = 0;
     s.platforms = generateInitial();
     s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
+    s.startTime = Date.now();
     useJumperStore.getState().startPlaying();
   }, []);
 
@@ -118,6 +123,8 @@ export function useJumperGame() {
 
       if (s.py > H + 60) {
         s.phase = 'dead';
+        const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+        saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
         useJumperStore.getState().endGame(s.score);
       }
     }

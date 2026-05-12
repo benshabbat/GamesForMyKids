@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerStore } from './brickBreakerStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 360;
 export const H = 560;
@@ -41,11 +42,14 @@ function brickRect(i: number) {
 }
 
 export function useBrickBreakerGame() {
+  const { saveGameResultRef } = useGameCompletion('brick-breaker');
+
   const st = useRef({
     phase: 'menu' as Phase,
     padX: W / 2 - PAD_W / 2,
     ballX: W / 2, ballY: PAD_Y - BALL_R - 2, ballVX: 3, ballVY: -4, launched: false,
     bricks: makeBricks(), score: 0, lives: 3, level: 1, frame: 0,
+    startTime: 0,
     particles: [] as { x: number; y: number; vx: number; vy: number; life: number; color: string }[],
   });
   const startGame = useCallback((level = 1) => {
@@ -55,6 +59,7 @@ export function useBrickBreakerGame() {
     const spd = 3.5 + (level - 1) * 0.5;
     s.ballVX = spd; s.ballVY = -(spd + 0.5); s.launched = false;
     s.bricks = makeBricks();
+    if (level === 1) s.startTime = Date.now();
     s.score = level === 1 ? 0 : s.score;
     s.lives = level === 1 ? 3 : s.lives;
     s.level = level; s.particles = [];
@@ -110,8 +115,12 @@ export function useBrickBreakerGame() {
         if (s.ballY + BALL_R > H) {
           s.lives--;
           s.launched = false; s.ballX = s.padX + PAD_W / 2; s.ballY = PAD_Y - BALL_R - 2;
-          if (s.lives <= 0) { s.lives = 0; s.phase = 'dead'; useBrickBreakerStore.getState().setGameOver(s.score, s.level); }
-          else { useBrickBreakerStore.getState().setLives(s.lives); }
+          if (s.lives <= 0) {
+            s.lives = 0; s.phase = 'dead';
+            const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+            saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
+            useBrickBreakerStore.getState().setGameOver(s.score, s.level);
+          } else { useBrickBreakerStore.getState().setLives(s.lives); }
         }
         for (let i = 0; i < s.bricks.length; i++) {
           if (!s.bricks[i].alive) continue;
@@ -128,7 +137,12 @@ export function useBrickBreakerGame() {
         }
         if (s.bricks.every(b => !b.alive)) {
           const nextLevel = s.level + 1;
-          if (nextLevel > 5) { s.phase = 'won'; useBrickBreakerStore.getState().setWon(s.score, s.lives, s.level); }
+          if (nextLevel > 5) {
+            s.phase = 'won';
+            const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+            saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
+            useBrickBreakerStore.getState().setWon(s.score, s.lives, s.level);
+          }
           else { startGame(nextLevel); }
         }
       }
