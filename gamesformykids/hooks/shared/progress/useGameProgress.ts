@@ -11,6 +11,7 @@ export interface GameProgress {
   game_type: string
   level: number
   score: number
+  last_score: number
   best_score: number
   completed_levels: number
   total_play_time: number
@@ -106,6 +107,7 @@ export function useGameProgress(gameType?: string) {
 
     return updateProgress(gameType, {
       score: newScore,
+      last_score: newScore,
       best_score: bestScore,
       last_played_at: new Date().toISOString()
     })
