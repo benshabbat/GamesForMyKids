@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 360;
 export const H = 560;
@@ -19,18 +20,21 @@ interface StarPick { id: number; x: number; y: number; vy: number; emoji: string
 let uid = 0;
 
 export function useMeteorDodgeGame() {
+  const { saveGameResultRef } = useGameCompletion('meteor-dodge');
+
   const st = useRef({
     phase: 'menu' as Phase,
     playerX: W / 2,
     meteors: [] as Meteor[], stars: [] as StarPick[],
     score: 0, best: 0, frame: 0, nextMeteor: 50, nextStar: 120,
     bgStars: Array.from({ length: 50 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 1.5, twinkle: Math.random() * Math.PI * 2 })),
-    invincible: 0,
+    invincible: 0, startTime: 0,
   });
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
     s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
+    s.startTime = Date.now();
     useMeteorDodgeStore.getState().startPlaying();
   }, []);
 
@@ -92,7 +96,11 @@ export function useMeteorDodgeGame() {
       if (s.invincible === 0) {
         for (const m of s.meteors) {
           const dx = m.x - s.playerX, dy = m.y - PLAYER_Y;
-          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) { s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break; }
+          if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) {
+            const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+            saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
+            s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break;
+          }
         }
       }
 
