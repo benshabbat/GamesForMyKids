@@ -11,24 +11,18 @@
 
 "use client";
 
-import { BaseGameItem } from "@/lib/types/core/base";
 import { useAutoGame } from "@/hooks";
 import { AutoStartScreen } from "../../../shared";
 import { ProgressDisplay } from "../../../shared";
 import { AutoGameHeader } from "./AutoGameHeader";
 import { AutoGameBody } from "./AutoGameBody";
 
-interface AutoGamePageProps {
-  /** רינדר מותאם אישית לכרטיס - אופציונלי */
-  renderCard?: (item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode;
-}
-
 /**
  * 🎯 הקומפוננט הקסום שהופך כל משחק לאוטומטי
  * עכשיו ללא props drilling וכל הלוגיקה בhook מותאם!
  * 🚀 gameType אופציונלי - אם לא מועבר, יילקח מהקונטקסט
  */
-export function AutoGamePage({ renderCard }: AutoGamePageProps) {
+export function AutoGamePage() {
   const { gameState, isPlaying, config } = useAutoGame();
 
   // 🖥️ אם לא במשחק או gameState לא קיים, הראה StartScreen
@@ -43,7 +37,7 @@ export function AutoGamePage({ renderCard }: AutoGamePageProps) {
     >
       <div className="max-w-4xl mx-auto">
         <AutoGameHeader />
-        <AutoGameBody renderCard={renderCard} />
+        <AutoGameBody />
 
         {/* מודל סטטיסטיקות */}
         <ProgressDisplay
