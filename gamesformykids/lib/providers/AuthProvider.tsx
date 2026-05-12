@@ -9,6 +9,7 @@ import { useEffect, ReactNode } from 'react'
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
 import { useAuthStore } from '@/lib/stores/authStore'
+import { useUIStore } from '@/lib/stores/uiStore'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -36,7 +37,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     })
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event: AuthChangeEvent, session: Session | null) => {
+      (event: AuthChangeEvent, session: Session | null) => {
         if (session) localStorage.removeItem('guestMode')
         const isGuest = !session && localStorage.getItem('guestMode') === 'true'
         useAuthStore.getState().setAuthState({
@@ -45,6 +46,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           isGuest,
           loading: false,
         })
+
+        if (event === 'SIGNED_OUT' && !isGuest) {
+          useUIStore.getState().addNotification(
+            'פג תוקף ההתחברות — אנא התחבר שוב כדי לשמור את ההתקדמות',
+            'warning',
+          )
+        }
       },
     )
 
