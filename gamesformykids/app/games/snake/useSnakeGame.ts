@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameProgressStore, useGameStore } from '@/lib/stores';
 import { useSnakeStore } from './stores/useSnakeStore';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 const COLS = 20;
 const ROWS = 20;
@@ -22,6 +23,8 @@ function ptEq(a: Pt, b: Pt) { return a.x === b.x && a.y === b.y; }
 
 export function useSnakeGame() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { saveGameResultRef } = useGameCompletion('snake');
+
   const st = useRef({
     phase: 'menu' as Phase,
     snake: [{ x: 10, y: 10 }] as Pt[],
@@ -31,6 +34,7 @@ export function useSnakeGame() {
     foodEmoji: '🍎',
     score: 0,
     level: 1,
+    startTime: 0,
     timer: 0 as ReturnType<typeof setTimeout> | number,
     raf: 0,
     animFrame: 0,
@@ -52,6 +56,8 @@ export function useSnakeGame() {
   function die() {
     const s = st.current;
     s.phase = 'dead';
+    const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+    saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
     // endGame() automatically persists score as highScore['snake']
     useGameStore.getState().endGame();
     useGameProgressStore.getState().setGameActive(false);
@@ -103,6 +109,7 @@ export function useSnakeGame() {
     s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
     s.score = 0;
     s.level = 1;
+    s.startTime = Date.now();
     // אתחל store session + איפוס progress
     useGameProgressStore.getState().resetProgress();
     useGameProgressStore.getState().setGameActive(true);

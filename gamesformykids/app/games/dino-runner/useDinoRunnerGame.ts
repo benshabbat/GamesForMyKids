@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 400;
 export const H = 220;
@@ -21,6 +22,8 @@ interface Obstacle { x: number; w: number; h: number; emoji: string; }
 const OBSTACLE_EMOJIS = ['🌵', '🪨', '🌴', '🌿', '🍄'];
 
 export function useDinoRunnerGame() {
+  const { saveGameResultRef } = useGameCompletion('dino-runner');
+
   const st = useRef({
     phase: 'menu' as Phase,
     dinoY: GROUND_Y - DINO_H,
@@ -32,6 +35,7 @@ export function useDinoRunnerGame() {
     frame: 0,
     speed: BASE_SPEED,
     nextObstacle: 80,
+    startTime: 0,
   });
   const jump = useCallback(() => {
     const s = st.current;
@@ -48,6 +52,7 @@ export function useDinoRunnerGame() {
       s.frame = 0;
       s.speed = BASE_SPEED;
       s.nextObstacle = 80;
+      s.startTime = Date.now();
       useDinoRunnerStore.getState().startGame();
     } else if (s.phase === 'dead') {
       s.phase = 'menu';
@@ -101,6 +106,8 @@ export function useDinoRunnerGame() {
           s.dinoY + DINO_H - margin > GROUND_Y - o.h + margin
         ) {
           s.phase = 'dead';
+          const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+          saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
           useDinoRunnerStore.getState().setGameOver(s.score);
         }
       }
