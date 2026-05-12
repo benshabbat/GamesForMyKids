@@ -1,4 +1,7 @@
+"use client";
+
 import type { ComponentTypes } from "@/lib/types";
+import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
 
 /**
  * UnifiedHeader - קומפוננט Header אחוד
@@ -7,11 +10,11 @@ export default function UnifiedHeader({
   title,
   showBackButton = false,
   showScore = false,
-  score,
-  level,
   onBack,
   customActions
 }: ComponentTypes.UnifiedHeaderProps) {
+  const score = useGameProgressStore((s) => s.score);
+  const level = useGameProgressStore((s) => s.level);
   return (
     <header className="mb-8" dir="rtl">
       {title && (
