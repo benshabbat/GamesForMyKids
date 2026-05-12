@@ -30,6 +30,7 @@ export function useGameCompletion(gameType: GameType) {
         user_id: user.id,
         game_type: gt,
         score,
+        last_score: score,
         best_score: Math.max(cur?.best_score ?? 0, score),
         level,
         completed_levels: Math.max(cur?.completed_levels ?? 0, level - 1),

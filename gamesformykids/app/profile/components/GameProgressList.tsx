@@ -14,7 +14,10 @@ export function GameProgressList() {
                 <p className="text-sm text-gray-600">רמה {gameProgress.level}</p>
               </div>
               <div className="text-left">
-                <p className="font-bold text-purple-600">{gameProgress.best_score} נקודות</p>
+                <p className="font-bold text-purple-600">שיא: {gameProgress.best_score}</p>
+                {gameProgress.last_score > 0 && (
+                  <p className="text-sm text-blue-500">אחרון: {gameProgress.last_score}</p>
+                )}
                 <p className="text-sm text-gray-600">{Math.floor(gameProgress.total_play_time / 60)} דקות</p>
               </div>
             </div>
