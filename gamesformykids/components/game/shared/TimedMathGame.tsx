@@ -1,6 +1,6 @@
 'use client';
 import { ReactNode, useEffect } from 'react';
-import GameMenuGrid from './GameMenuGrid';
+import GameMenuGrid, { type MenuCardConfig } from './GameMenuGrid';
 import GameResultCard from './GameResultCard';
 
 interface TimedMathStore<Level, Q> {
@@ -71,12 +71,15 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
   }, []);
 
   if (phase === 'menu') {
+    const menuCard: MenuCardConfig = {
+      emoji: config.emoji,
+      title: config.title,
+      description: config.description,
+      gradientClass: config.gradient,
+    };
     return (
       <GameMenuGrid<Level>
-        emoji={config.emoji}
-        title={config.title}
-        description={config.description}
-        gradientClass={config.gradient}
+        card={menuCard}
         items={config.levels}
         getKey={config.getKey}
         onSelect={startGame}

@@ -20,15 +20,17 @@ const GAP_MAP = {
   6: 'gap-6',
 } as const;
 
-interface Props<T> {
-  // GameMenuCard passthrough
+export interface MenuCardConfig {
   emoji: string;
   title: string;
   description: string;
   gradientClass: string;
-  animateEmoji?: boolean;
-  hint?: string;
-  // Grid
+  animateEmoji?: boolean | undefined;
+  hint?: string | undefined;
+}
+
+interface Props<T> {
+  card: MenuCardConfig;
   items: T[];
   getKey: (item: T) => string | number;
   onSelect: (item: T) => void;
@@ -36,7 +38,6 @@ interface Props<T> {
   buttonClass: string;
   columns?: keyof typeof COLS_MAP;
   gap?: keyof typeof GAP_MAP;
-  // Optional footer rendered below the grid
   footer?: ReactNode;
 }
 
@@ -46,12 +47,7 @@ interface Props<T> {
  * Use for game lobby screens that offer a choice of levels/categories.
  */
 export default function GameMenuGrid<T>({
-  emoji,
-  title,
-  description,
-  gradientClass,
-  animateEmoji,
-  hint,
+  card,
   items,
   getKey,
   onSelect,
@@ -63,12 +59,12 @@ export default function GameMenuGrid<T>({
 }: Props<T>) {
   return (
     <GameMenuCard
-      emoji={emoji}
-      title={title}
-      description={description}
-      gradientClass={gradientClass}
-      animateEmoji={animateEmoji}
-      hint={hint}
+      emoji={card.emoji}
+      title={card.title}
+      description={card.description}
+      gradientClass={card.gradientClass}
+      animateEmoji={card.animateEmoji}
+      hint={card.hint}
     >
       <div className={`grid ${COLS_MAP[columns]} ${GAP_MAP[gap]}`}>
         {items.map((item) => (
