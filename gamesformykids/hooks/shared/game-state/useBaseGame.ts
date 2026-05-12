@@ -85,7 +85,6 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
         saveLevel(gt, l);
       }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []); // empty deps — run cleanup only on unmount
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
