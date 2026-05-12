@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from "react";
 import { BaseGameItem, BaseGameState } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
@@ -67,6 +68,25 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // Supabase progress persistence
   const { updateScore, updateLevel } = useGameProgress(gameType);
+
+  // Keep a ref to always-fresh save functions (avoids stale closures in cleanup)
+  const saveProgressRef = useRef({ updateScore, updateLevel, gameType });
+  useEffect(() => {
+    saveProgressRef.current = { updateScore, updateLevel, gameType };
+  });
+
+  // Save progress to Supabase when the component unmounts (user navigates away)
+  useEffect(() => {
+    return () => {
+      const { score: s, level: l, isGameActive } = useGameProgressStore.getState();
+      if (isGameActive && (s > 0 || l > 1)) {
+        const { updateScore: save, updateLevel: saveLevel, gameType: gt } = saveProgressRef.current;
+        save(gt, s);
+        saveLevel(gt, l);
+      }
+    };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // empty deps — run cleanup only on unmount
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,
