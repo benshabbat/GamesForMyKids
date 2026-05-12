@@ -81,8 +81,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       const { score: s, level: l, isGameActive } = useGameProgressStore.getState();
       if (isGameActive && (s > 0 || l > 1)) {
         const { updateScore: save, updateLevel: saveLevel, gameType: gt } = saveProgressRef.current;
-        save(gt, s);
-        saveLevel(gt, l);
+        // Sequential to avoid race condition on the same upsert row
+        save(gt, s).then(() => saveLevel(gt, l));
       }
     };
   }, []); // empty deps — run cleanup only on unmount
@@ -200,10 +200,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     useGameProgressStore.getState().resetProgress();
     useGameSessionStore.getState().resetSession();
 
-    // Persist progress to Supabase
+    // Persist progress to Supabase (single upsert to avoid race condition)
     if (finalScore > 0 || finalLevel > 1) {
-      updateScore(gameType, finalScore);
-      updateLevel(gameType, finalLevel);
+      const currentProgress = saveProgressRef.current;
+      currentProgress.updateScore(gameType, finalScore).then(() =>
+        currentProgress.updateLevel(gameType, finalLevel)
+      );
     }
   };
 
