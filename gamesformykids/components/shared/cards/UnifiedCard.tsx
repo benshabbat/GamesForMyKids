@@ -1,4 +1,4 @@
-﻿import { ComponentTypes } from "@/lib/types";
+import { ComponentTypes } from "@/lib/types";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { SimpleCard } from "./SimpleCard";
 import { AdvancedCard } from "./AdvancedCard";
@@ -13,8 +13,33 @@ export default function UnifiedCard({
   item,
   backgroundPattern = "none",
   customContent,
+  customDecoration,
   hebrewText,
-  ...rest
+  secondaryText,
+  name,
+  icon,
+  color,
+  gradientFrom,
+  gradientTo,
+  hoverFrom,
+  hoverTo,
+  borderColor,
+  borderWidth,
+  textColor,
+  size,
+  shape,
+  aspectRatio,
+  borderRadius,
+  showEmoji,
+  showHebrew,
+  showEnglish,
+  animation,
+  shadow,
+  hoverEffect,
+  description,
+  digit,
+  className,
+  isSelected,
 }: ComponentTypes.UnifiedCardProps) {
   let actualVariant = variant;
   if (variant === "auto") {
@@ -28,7 +53,7 @@ export default function UnifiedCard({
     showSoundIcon !== undefined ? showSoundIcon : !hideSoundIcon;
 
   const handleAudioClick = async () => {
-    const textToSpeak = hebrewText || item?.hebrew || rest.name;
+    const textToSpeak = hebrewText || item?.hebrew || name;
     if (textToSpeak && autoSpeak) await speakHebrew(textToSpeak);
     if (onSpeak) onSpeak();
   };
@@ -44,9 +69,20 @@ export default function UnifiedCard({
   if (actualVariant === "simple") {
     return (
       <SimpleCard
-        {...rest}
         item={item}
         hebrewText={hebrewText}
+        secondaryText={secondaryText}
+        name={name}
+        icon={icon}
+        color={color}
+        borderColor={borderColor}
+        borderWidth={borderWidth}
+        textColor={textColor}
+        size={size}
+        shape={shape}
+        shadow={shadow}
+        hoverEffect={hoverEffect}
+        className={className}
         finalShowSoundIcon={finalShowSoundIcon}
         handleClick={handleClick}
       />
@@ -55,11 +91,34 @@ export default function UnifiedCard({
 
   return (
     <AdvancedCard
-      {...rest}
       item={item}
       hebrewText={hebrewText}
+      secondaryText={secondaryText}
+      name={name}
+      icon={icon}
+      color={color}
+      gradientFrom={gradientFrom}
+      gradientTo={gradientTo}
+      hoverFrom={hoverFrom}
+      hoverTo={hoverTo}
+      borderColor={borderColor}
+      borderWidth={borderWidth}
+      size={size}
+      aspectRatio={aspectRatio}
+      borderRadius={borderRadius}
+      showEmoji={showEmoji}
+      showHebrew={showHebrew}
+      showEnglish={showEnglish}
+      animation={animation}
+      shadow={shadow}
+      hoverEffect={hoverEffect}
       backgroundPattern={backgroundPattern}
+      description={description}
+      digit={digit}
+      customDecoration={customDecoration}
       customContent={customContent}
+      className={className}
+      isSelected={isSelected}
       finalShowSoundIcon={finalShowSoundIcon}
       handleClick={handleClick}
     />
