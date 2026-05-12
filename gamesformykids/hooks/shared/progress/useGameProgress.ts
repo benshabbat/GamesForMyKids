@@ -75,7 +75,7 @@ export function useGameProgress(gameType?: string) {
           game_type: gameType,
           ...updates,
           updated_at: new Date().toISOString()
-        })
+        }, { onConflict: 'user_id,game_type' })
         .select()
         .single()
 
