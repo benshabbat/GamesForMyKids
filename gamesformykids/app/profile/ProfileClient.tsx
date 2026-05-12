@@ -19,10 +19,18 @@ export default function ProfileClient() {
   const { refreshProgress } = useGameProgress();
   useAchievements();
 
-  // Always re-fetch progress from Supabase when the profile page mounts,
-  // so any progress saved during the last game session is reflected.
+  // Fetch on mount (user change) and on tab re-focus so progress saved
+  // during a game session is visible when navigating back to this page.
   useEffect(() => {
-    if (user) refreshProgress();
+    if (!user) return;
+    refreshProgress();
+
+    const onVisible = () => {
+      if (document.visibilityState === 'visible') refreshProgress();
+    };
+    document.addEventListener('visibilitychange', onVisible);
+    return () => document.removeEventListener('visibilitychange', onVisible);
+  // refreshProgress is stable (useCallback), user drives re-runs
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
