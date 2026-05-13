@@ -7,7 +7,7 @@ import {
   createShuffledMemoryCards,
 } from '@/lib/utils/game/gameUtils';
 import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
-import { DifficultyLevel, MemoryCard } from '../types/memory';
+import { MemoryCard } from '../types/memory';
 import { getDifficultyOptions, getPerformanceLevel, getWinAchievements } from './memoryDisplayHelpers';
 import {
   MemoryStoreState,
