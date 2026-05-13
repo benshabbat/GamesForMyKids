@@ -1,8 +1,6 @@
 'use client';
 
 import { useAuth } from '@/hooks/shared/auth/useAuth';
-import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
-import { useAchievements } from '@/hooks/shared/progress/useAchievements';
 import Link from 'next/link';
 import { DashboardHeader } from './components/DashboardHeader';
 import { ActivitySummaryCard } from './components/ActivitySummaryCard';
@@ -13,10 +11,6 @@ import { RecommendedGameCard } from './components/RecommendedGameCard';
 
 export default function DashboardClient() {
   const { user, loading: authLoading } = useAuth();
-  const { progress, loading: progressLoading } = useGameProgress();
-  const { achievements, loading: achievementsLoading } = useAchievements();
-
-  const loading = authLoading || progressLoading || achievementsLoading;
 
   if (authLoading) {
     return (
@@ -49,30 +43,15 @@ export default function DashboardClient() {
       <div className="max-w-4xl mx-auto">
         <DashboardHeader />
 
-        {loading ? (
+        <div className="space-y-6">
+          <ActivitySummaryCard />
           <div className="grid md:grid-cols-2 gap-6">
-            {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-white rounded-2xl shadow-md p-6 animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
-                <div className="space-y-2">
-                  <div className="h-3 bg-gray-100 rounded" />
-                  <div className="h-3 bg-gray-100 rounded w-4/5" />
-                  <div className="h-3 bg-gray-100 rounded w-3/5" />
-                </div>
-              </div>
-            ))}
+            <MostPlayedCard />
+            <ScoreSummaryCard />
+            <RecentAchievementsCard />
+            <RecommendedGameCard />
           </div>
-        ) : (
-          <div className="space-y-6">
-            <ActivitySummaryCard progress={progress} />
-            <div className="grid md:grid-cols-2 gap-6">
-              <MostPlayedCard progress={progress} />
-              <ScoreSummaryCard progress={progress} />
-              <RecentAchievementsCard achievements={achievements} />
-              <RecommendedGameCard progress={progress} />
-            </div>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

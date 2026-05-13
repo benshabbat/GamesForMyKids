@@ -1,10 +1,22 @@
 'use client';
 
-import type { GameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
-export function ActivitySummaryCard({ progress }: { progress: GameProgress[] }) {
+export function ActivitySummaryCard() {
+  const { progress, loading } = useGameProgress();
+
+  if (loading) {
+    return (
+      <div className="bg-white rounded-2xl shadow-md p-6 animate-pulse">
+        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
+        <div className="grid grid-cols-3 gap-4">
+          {[...Array(3)].map((_, i) => <div key={i} className="h-16 bg-gray-100 rounded" />)}
+        </div>
+      </div>
+    );
+  }
   const now = Date.now();
   const gamesThisWeek = progress.filter(
     (p) => now - new Date(p.last_played_at).getTime() < SEVEN_DAYS_MS,
