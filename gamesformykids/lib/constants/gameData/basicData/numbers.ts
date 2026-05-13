@@ -1,5 +1,5 @@
 import { BaseGameItem } from "@/lib/types/core/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createGameConfig, createPronunciationDictionary } from "@/lib/constants/core";
 
 export const NUMBER_CONSTANTS: Record<string, BaseGameItem> = {
   ZERO: { name: "zero", hebrew: "אפס", english: "Zero", emoji: "0️⃣", digit: "0", color: "", sound: [261, 329, 392] },

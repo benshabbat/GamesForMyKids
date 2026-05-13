@@ -1,5 +1,5 @@
 import { BaseGameItem } from "@/lib/types/core/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
+import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 export const COLOR_CONSTANTS: Record<string, BaseGameItem> = {
   RED: { name: "red", hebrew: "אדום", english: "Red", emoji: "🔴", color: "bg-gradient-to-br from-red-400 to-red-600", sound: [440, 550, 660] },
