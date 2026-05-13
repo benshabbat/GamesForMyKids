@@ -1,0 +1,39 @@
+import {
+  Flag,
+  CircleDot,
+  Car,
+  Landmark,
+  Star,
+  Palette,
+  Cpu,
+  Dog,
+  Cat,
+  Trophy,
+  Bird,
+  Bug,
+  Gamepad2,
+  Crown,
+} from "lucide-react";
+import type { GameRegistration } from "@/lib/types/games/base";
+
+export const gamesRegistryBatch4: GameRegistration[] = [
+  // משחקי גיאוגרפיה
+  { id: "flags",            title: "דגלי מדינות",                   description: "זהה דגלים של מדינות מסביב לעולם!",                 icon: Flag,           emoji: "🚩", color: "bg-blue-600 hover:bg-blue-700",                                                                         href: "/games/flags",           available: true, order: 116 },
+  // משחקי ספורט
+  { id: "soccer-logos",     title: "סמלי כדורגל",                   description: "זהה סמלים של קבוצות כדורגל מסביב לעולם!",         icon: CircleDot,      emoji: "⚽", color: "bg-green-600 hover:bg-green-700",                                                                       href: "/games/soccer-logos",    available: true, order: 117 },
+  // משחקי תחבורה וסמלים
+  { id: "car-brands",       title: "לוגואים של מכוניות",            description: "זהה לוגואים של מותגי מכוניות מפורסמים!",         icon: Car,            emoji: "🚗", color: "bg-blue-700 hover:bg-blue-800",                                                                         href: "/games/car-brands",      available: true, order: 118 },
+  { id: "world-landmarks",  title: "אתרים מפורסמים",                description: "זהה אתרים מפורסמים מסביב לעולם!",                 icon: Landmark,       emoji: "🗼", color: "bg-teal-600 hover:bg-teal-700",                                                                         href: "/games/world-landmarks", available: true, order: 119 },
+  { id: "solar-system",     title: "מערכת השמש",                    description: "זהה כוכבי לכת וגרמי שמים!",                       icon: Star,           emoji: "🪐", color: "bg-indigo-900 hover:bg-indigo-950",                                                                     href: "/games/solar-system",    available: true, order: 120 },
+  { id: "famous-paintings", title: "ציורים מפורסמים",               description: "זהה ציורים מפורסמים מהיסטוריית האמנות!",          icon: Palette,        emoji: "🖼️", color: "bg-amber-800 hover:bg-amber-900",                                                                       href: "/games/famous-paintings",available: true, order: 121 },
+  { id: "tech-logos",       title: "לוגואים טכנולוגיה",             description: "זהה לוגואים של חברות הטכנולוגיה הגדולות!",        icon: Cpu,            emoji: "📱", color: "bg-sky-700 hover:bg-sky-800",                                                                           href: "/games/tech-logos",      available: true, order: 122 },
+  { id: "dog-breeds",       title: "גזעי כלבים",                    description: "זהה גזעי כלבים מסביב העולם!",                     icon: Dog,            emoji: "🐕", color: "bg-amber-600 hover:bg-amber-700",                                                                       href: "/games/dog-breeds",      available: true, order: 123 },
+  { id: "cat-breeds",       title: "גזעי חתולים",                   description: "זהה גזעי חתולים מסביב העולם!",                    icon: Cat,            emoji: "🐱", color: "bg-purple-600 hover:bg-purple-700",                                                                     href: "/games/cat-breeds",      available: true, order: 124 },
+  { id: "nba-teams",        title: "קבוצות NBA",                    description: "זהה לוגואים של קבוצות הבסקטבול הגדולות!",        icon: Trophy,         emoji: "🏀", color: "bg-orange-600 hover:bg-orange-700",                                                                     href: "/games/nba-teams",       available: true, order: 125 },
+  { id: "exotic-birds",     title: "ציפורים אקזוטיות",              description: "זהה ציפורים מסביב העולם!",                        icon: Bird,           emoji: "🦩", color: "bg-sky-600 hover:bg-sky-700",                                                                           href: "/games/exotic-birds",    available: true, order: 126 },
+  { id: "butterflies",      title: "פרפרים",                        description: "זהה פרפרים ועשים מסביב העולם!",                   icon: Bug,            emoji: "🦋", color: "bg-pink-500 hover:bg-pink-600",                                                                         href: "/games/butterflies",     available: true, order: 127 },
+  { id: "taki",             title: "טאקי",                          description: "משחק הקלפים הישראלי הקלאסי — שחק נגד המחשב!",    icon: Gamepad2,       emoji: "🃏", color: "bg-emerald-600 hover:bg-emerald-700",                                                                   href: "/games/taki",            available: true, order: 128 },
+  { id: "checkers",         title: "דמקה",                          description: "משחק הדמקה הקלאסי — קפוץ מעל האסימונים ונצח!",   icon: Gamepad2,       emoji: "♟️", color: "bg-amber-700 hover:bg-amber-800",                                                                       href: "/games/checkers",        available: true, order: 129 },
+  { id: "chess",            title: "שחמט",                          description: "שחמט קלאסי נגד המחשב — הביס את המלך!",           icon: Crown,          emoji: "♚",  color: "bg-slate-700 hover:bg-slate-800",                                                                       href: "/games/chess",           available: true, order: 130 },
+  { id: "shesh-besh",       title: "שש-בש",                         description: "משחק השש-בש הקלאסי — הטל קוביות ורוקן את הלוח!", icon: Gamepad2,       emoji: "🎲", color: "bg-stone-600 hover:bg-stone-700",                                                                       href: "/games/shesh-besh",      available: true, order: 131 },
+];
