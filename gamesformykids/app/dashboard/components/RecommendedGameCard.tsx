@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
 import type { GameProgress } from '@/hooks/shared/progress/useGameProgress';
 import { getGameLabel } from './gameLabels';
 
@@ -18,7 +19,18 @@ function getRecommended(progress: GameProgress[]): GameProgress | null {
   return pool.reduce((worst, p) => (p.best_score < worst.best_score ? p : worst), pool[0]);
 }
 
-export function RecommendedGameCard({ progress }: { progress: GameProgress[] }) {
+export function RecommendedGameCard() {
+  const { progress, loading } = useGameProgress();
+
+  if (loading) {
+    return (
+      <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl shadow-md p-6 animate-pulse">
+        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
+        <div className="h-16 bg-white/50 rounded" />
+      </div>
+    );
+  }
+
   const rec = getRecommended(progress);
 
   if (!rec) {
