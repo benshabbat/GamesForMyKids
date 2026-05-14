@@ -1,7 +1,7 @@
 import { makePersistStore } from '@/lib/stores/createStore';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
-import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
+import { makeLivesInitial, DEFAULT_DIFFICULTY_LIVES } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
 
 // ── Color data ──────────────────────────────────────────────────────────────
@@ -33,7 +33,6 @@ function makeQuestion(): Question {
 
 export const TIME_PER_Q = 5;
 
-const DIFFICULTY_LIVES   = { easy: 5, medium: 3, hard: 2 } as const;
 const DIFFICULTY_TIME_CT = { easy: 8, medium: TIME_PER_Q, hard: 3 } as const;
 
 interface ColorTapState extends LivesGameState {
@@ -63,7 +62,7 @@ export const useColorTapStore = makePersistStore<ColorTapState & ColorTapActions
       startGame: () => {
         const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ question: makeQuestion() }));
-        set({ lives: DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_CT[diff] });
+        set({ lives: DEFAULT_DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_CT[diff] });
       },
 
       handleTap: (color: ColorItem) => {
