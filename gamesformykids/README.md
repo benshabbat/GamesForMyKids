@@ -91,7 +91,7 @@ gamesformykids/
       social/                 # useShareScore
       game-controls/          # useKeyboardControls
       analytics/              # useGamePerformance
-    games/                    # useGenericGame, useTimedQuizGame
+    games/                    # useGenericGame, useNumericQuizRuntime
     canvas/                   # useCanvasLoop, useCanvasReady
  lib/
     constants/
