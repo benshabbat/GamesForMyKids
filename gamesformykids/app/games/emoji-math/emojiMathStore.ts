@@ -1,7 +1,7 @@
 import { makePersistStore } from '@/lib/stores/createStore';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
-import { makeLivesInitial } from '@/lib/stores/utils/sliceUtils';
+import { makeLivesInitial, DEFAULT_DIFFICULTY_LIVES } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
 
@@ -42,7 +42,6 @@ export function makeQuestion(level: number): Question {
 
 export const TIME_PER_Q = 8;
 
-const DIFFICULTY_LIVES   = { easy: 5, medium: 3, hard: 2 } as const;
 const DIFFICULTY_TIME_EM = { easy: 12, medium: TIME_PER_Q, hard: 5 } as const;
 
 interface EmojiMathState extends LivesGameState {
@@ -74,7 +73,7 @@ export const useEmojiMathStore = makePersistStore<EmojiMathState & EmojiMathActi
       startGame: () => {
         const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ q: makeQuestion(1), level: 1, streak: 0 }));
-        set({ lives: DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_EM[diff] });
+        set({ lives: DEFAULT_DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_EM[diff] });
       },
 
       tap: (choice: number) => {

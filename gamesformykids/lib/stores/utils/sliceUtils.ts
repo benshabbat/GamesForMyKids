@@ -3,6 +3,12 @@ import { useShallow } from 'zustand/react/shallow';
 import type { LivesGameState } from '@/lib/types';
 
 // ─────────────────────────────────────────────────────────────────────────────
+// DEFAULT_DIFFICULTY_LIVES
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const DEFAULT_DIFFICULTY_LIVES = { easy: 5, medium: 3, hard: 2 } as const;
+
+// ─────────────────────────────────────────────────────────────────────────────
 // makeLivesInitial
 // ─────────────────────────────────────────────────────────────────────────────
 
