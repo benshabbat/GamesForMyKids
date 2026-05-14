@@ -1,28 +1,13 @@
 'use client';
-import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBalloonPopStore } from './balloonPopStore';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { useGameCompletion, usePhaseGameCompletion } from '@/hooks/shared/progress';
 
 export function useBalloonPopGame() {
   const state = useBalloonPopStore(useShallow((s) => s));
   const { saveGameResultRef } = useGameCompletion('balloon-pop');
 
-  const startTimeRef = useRef(0);
-  const prevPhaseRef = useRef<string>(state.phase);
-
-  useEffect(() => {
-    const prev = prevPhaseRef.current;
-    const curr = state.phase;
-    prevPhaseRef.current = curr;
-
-    if (curr === 'playing' && prev !== 'playing') {
-      startTimeRef.current = Date.now();
-    } else if (prev === 'playing' && curr === 'result') {
-      const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000);
-      saveGameResultRef.current({ score: state.score, level: 1, durationSeconds: elapsed });
-    }
-  }, [state.phase]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }), ['result']);
 
   return state;
 }
