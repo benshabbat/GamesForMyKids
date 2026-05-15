@@ -4,3 +4,4 @@ export { useAchievements } from './useAchievements';
 export { useGameCompletion } from './useGameCompletion';
 export type { GameResult } from './useGameCompletion';
 export { usePhaseGameCompletion } from './usePhaseGameCompletion';
+export { createPhaseGameHook } from './createPhaseGameHook';
