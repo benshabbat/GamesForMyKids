@@ -1,7 +1,6 @@
 'use client';
 
 import { TzaddikStory, QuizQuestion } from '../data/tzadikim';
-import { AnswerFeedback } from '../useTzadikimGame';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface QuizViewProps {
@@ -9,8 +8,8 @@ interface QuizViewProps {
   question: QuizQuestion;
   questionIndex: number;
   totalQuestions: number;
-  selectedAnswer: number | null;
-  feedback: AnswerFeedback | null;
+  selected: number | null;
+  isCorrect: boolean | null;
   score: number;
   onSelectAnswer: (index: number) => void;
   onNext: () => void;
@@ -21,12 +20,14 @@ export default function QuizView({
   question,
   questionIndex,
   totalQuestions,
-  selectedAnswer,
-  feedback,
+  selected,
+  isCorrect,
   score,
   onSelectAnswer,
   onNext,
 }: QuizViewProps) {
+  const answered = selected !== null;
+
   return (
     <div className={`min-h-screen bg-gradient-to-br ${story.bgGradient} p-4`} dir="rtl">
       <div className="max-w-2xl mx-auto">
@@ -59,26 +60,26 @@ export default function QuizView({
             <button
               key={index}
               onClick={() => onSelectAnswer(index)}
-              disabled={selectedAnswer !== null}
+              disabled={answered}
               className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all duration-200 active:scale-95 ${answerButtonClass(
                 index === question.correctIndex,
-                index === selectedAnswer,
-                !!feedback,
+                index === selected,
+                answered,
                 'bg-white border-2 border-gray-200 text-gray-700 hover:border-amber-400 hover:bg-amber-50',
               )}`}
             >
-              {feedback && index === question.correctIndex ? '✅ ' : feedback && index === selectedAnswer && !feedback.isCorrect ? '❌ ' : ''}{answer}
+              {answered && index === question.correctIndex ? '✅ ' : answered && index === selected && !isCorrect ? '❌ ' : ''}{answer}
             </button>
           ))}
         </div>
 
         {/* פידבק */}
-        {feedback && (
+        {answered && (
           <div className={`
             rounded-2xl p-4 mb-5 text-center font-bold text-lg
-            ${feedback.isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}
+            ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}
           `}>
-            {feedback.isCorrect
+            {isCorrect
               ? '🌟 כל הכבוד! תשובה נכונה!'
               : `💙 התשובה הנכונה: "${question.answers[question.correctIndex]}"`
             }
@@ -86,7 +87,7 @@ export default function QuizView({
         )}
 
         {/* כפתור הבא */}
-        {feedback && (
+        {answered && (
           <button
             onClick={onNext}
             className={`
