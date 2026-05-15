@@ -10,12 +10,13 @@ interface Props {
   title?: string;
   /** Replaces the default emoji header when provided */
   headerContent?: ReactNode;
+  subtitle?: string;
   /** Override store values for games that don't use quizGameStore */
   correctCount?: number;
   total?: number;
 }
 
-export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', headerContent, correctCount: correctCountProp, total: totalProp }: Props) {
+export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', headerContent, subtitle, correctCount: correctCountProp, total: totalProp }: Props) {
   const storeScore = useQuizGameStore(s => s.score);
   const storeTotal = useQuizGameStore(s => s.total);
   const correctCount = correctCountProp ?? storeScore;
@@ -34,7 +35,7 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
         {headerContent ?? <div className="text-8xl mb-4">{emoji}</div>}
         <h2 className={`text-2xl font-bold ${t.text} mb-2`}>{title}</h2>
         <p className="text-gray-600 mb-4">
-          ענית נכון על {correctCount} מתוך {total} שאלות
+          {subtitle ?? `ענית נכון על ${correctCount} מתוך ${total} שאלות`}
         </p>
         <div className={`text-5xl font-black ${t.text} mb-1`}>{score}</div>
         <p className="text-gray-400 text-sm mb-6">נקודות</p>
