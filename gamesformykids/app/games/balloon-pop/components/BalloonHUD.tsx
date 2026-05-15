@@ -1,10 +1,11 @@
 'use client';
 import { useBalloonPopGame } from '../useBalloonPopGame';
 import { GAME_DURATION } from '../balloonPopStore';
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 
 export default function BalloonHUD() {
   const { score, lives, timeLeft } = useBalloonPopGame();
-  const pct      = (timeLeft / GAME_DURATION) * 100;
+  const pct = (timeLeft / GAME_DURATION) * 100;
 
   return (
     <div className="flex items-center gap-4 p-4 w-full max-w-sm">
@@ -13,14 +14,7 @@ export default function BalloonHUD() {
         <p className="text-xs text-white/70">ניקוד</p>
       </div>
       <div className="flex-1 space-y-1">
-        <div className="h-3 bg-white/30 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${
-              pct > 50 ? 'bg-green-400' : pct > 25 ? 'bg-yellow-300' : 'bg-red-400'
-            }`}
-            style={{ width: `${pct}%` }}
-          />
-        </div>
+        <TimerProgressBar pct={pct} trackClass="h-3 bg-white/30" />
         <p className="text-center text-xs text-white/80">{timeLeft}s</p>
       </div>
       <div className="text-center">

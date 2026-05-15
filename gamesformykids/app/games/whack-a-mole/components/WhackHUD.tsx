@@ -1,6 +1,6 @@
 'use client';
-
 import { useWhackAMoleStore, GAME_DURATION } from '../whackAMoleStore';
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 
 export default function WhackHUD() {
   const { score, timeLeft, combo } = useWhackAMoleStore();
@@ -13,12 +13,7 @@ export default function WhackHUD() {
         <p className="text-xs text-amber-500">ניקוד</p>
       </div>
       <div className="flex-1">
-        <div className="h-4 bg-white/50 rounded-full overflow-hidden shadow-inner">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${pct > 50 ? 'bg-green-400' : pct > 25 ? 'bg-yellow-400' : 'bg-red-400'}`}
-            style={{ width: `${pct}%` }}
-          />
-        </div>
+        <TimerProgressBar pct={pct} trackClass="h-4 bg-white/50 shadow-inner" />
         <p className="text-center text-xs text-amber-600 mt-0.5">{timeLeft}s</p>
       </div>
       {combo >= 3 && (
