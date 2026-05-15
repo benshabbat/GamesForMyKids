@@ -1,5 +1,4 @@
 import { BaseGameItem, GameType } from '../../core/base';
-import type { GameUIConfig } from '../../contexts/game-config';
 
 interface GameConstants {
   readonly BASE_COUNT: number;
