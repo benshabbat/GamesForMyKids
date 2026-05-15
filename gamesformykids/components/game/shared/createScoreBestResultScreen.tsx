@@ -14,15 +14,19 @@ export interface ScoreBestResultScreenConfig {
   shareTextFn: (score: number) => string;
 }
 
-export function createScoreBestResultScreen(
+export function createScoreBestResultScreen<S extends { score: number; best: number; startGame: () => void }>(
   config: ScoreBestResultScreenConfig,
-  useGameHook: () => { score: number; best: number; startGame: () => void },
+  useGameHook: () => S,
+  getConfig?: (state: S) => Partial<Pick<ScoreBestResultScreenConfig, 'emoji' | 'title'>>,
 ) {
   function ScoreBestResultScreen() {
-    const { score, best, startGame } = useGameHook();
+    const state = useGameHook();
+    const { score, best, startGame } = state;
+    const dynamic = getConfig ? getConfig(state) : {};
     return (
       <ScoreBestResultCard
         {...config}
+        {...dynamic}
         score={score}
         best={best}
         onRestart={startGame}
