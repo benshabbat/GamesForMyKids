@@ -1,6 +1,7 @@
 'use client';
 import { useEmojiMathGame, TIME_PER_Q } from '../useEmojiMathGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
 import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
 
@@ -61,12 +62,11 @@ export default function EmojiMathPlayArea() {
           {renderEmojis(q.b, q.emojiB)}
         </div>
         <p className="text-center text-4xl font-black text-gray-700">= ?</p>
-        <div className="mt-3 bg-gray-100 rounded-full h-1.5">
-          <div
-            className="bg-gradient-to-r from-yellow-400 to-orange-500 h-1.5 rounded-full transition-all duration-1000"
-            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
-          />
-        </div>
+        <TimerProgressBar
+          pct={(timeLeft / TIME_PER_Q) * 100}
+          trackClass="mt-3 h-1.5 bg-gray-100"
+          barClass="bg-gradient-to-r from-yellow-400 to-orange-500"
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-3 w-full max-w-sm">

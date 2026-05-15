@@ -1,7 +1,7 @@
 'use client';
-
 import { useReflexGame } from '../useReflexGame';
 import { GAME_DURATION } from '../data/targets';
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 
 export default function ReflexPlayScreen() {
   const { score, timeLeft, targets, hitTarget } = useReflexGame();
@@ -10,12 +10,7 @@ export default function ReflexPlayScreen() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 select-none" dir="rtl">
       <div className="absolute top-0 left-0 right-0 p-3 flex items-center gap-3 z-10">
-        <div className="flex-1 h-3 bg-white/20 rounded-full overflow-hidden">
-          <div
-            className={`h-full rounded-full transition-all duration-1000 ${timePct > 50 ? 'bg-green-400' : timePct > 25 ? 'bg-yellow-400' : 'bg-red-400'}`}
-            style={{ width: `${timePct}%` }}
-          />
-        </div>
+        <TimerProgressBar pct={timePct} trackClass="flex-1 h-3 bg-white/20" />
         <span className="text-white font-bold shrink-0">⏱️ {timeLeft}</span>
         <span className="text-yellow-300 font-bold shrink-0">⭐ {score}</span>
       </div>
