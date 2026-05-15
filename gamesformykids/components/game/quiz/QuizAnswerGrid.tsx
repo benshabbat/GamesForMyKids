@@ -3,6 +3,7 @@
 import { type ReactNode } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
+import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
   choices: string[];
@@ -29,28 +30,21 @@ export function QuizAnswerGrid({
 
   return (
     <div className={gridClass}>
-      {choices.map((choice) => {
-        let cls = 'p-4 rounded-2xl border-2 font-bold text-base transition-all text-center ';
-        if (selected === null) {
-          cls += `${t.answerIdle} cursor-pointer`;
-        } else if (choice === correctValue) {
-          cls += 'border-green-500 bg-green-100 text-green-800';
-        } else if (choice === selected) {
-          cls += 'border-red-400 bg-red-100 text-red-700';
-        } else {
-          cls += 'border-gray-200 bg-gray-50 text-gray-400';
-        }
-        return (
-          <button
-            key={choice}
-            onClick={() => onSelect(choice)}
-            disabled={selected !== null}
-            className={cls}
-          >
-            {renderChoice ? renderChoice(choice) : choice}
-          </button>
-        );
-      })}
+      {choices.map((choice) => (
+        <button
+          key={choice}
+          onClick={() => onSelect(choice)}
+          disabled={selected !== null}
+          className={`p-4 rounded-2xl border-2 font-bold text-base transition-all text-center ${answerButtonClass(
+            choice === correctValue,
+            choice === selected,
+            selected !== null,
+            `${t.answerIdle} cursor-pointer`,
+          )}`}
+        >
+          {renderChoice ? renderChoice(choice) : choice}
+        </button>
+      ))}
     </div>
   );
 }
