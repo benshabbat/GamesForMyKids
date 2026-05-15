@@ -18,11 +18,29 @@ export default function GeographyQuestion({ current, onSelect }: Props) {
       correctLabel={country.id}
       onSelect={onSelect}
       cols={2}
-      renderChoice={(id) => getChoiceLabel(choices.find(c => c.id === id)!, mode)}
+      renderChoice={(id) => {
+        const c = choices.find(ch => ch.id === id)!;
+        if (mode === 'flag') {
+          return (
+            <div className="flex flex-col items-center gap-1 py-1">
+              <span className="text-5xl leading-none">{c.flag}</span>
+              <span className="text-sm font-bold">{c.name}</span>
+            </div>
+          );
+        }
+        return getChoiceLabel(c, mode);
+      }}
       correctMsg={`✅ נכון! ${country.flag} ${country.name} — ${country.capital}`}
       wrongMsg={`💙 ${country.flag} ${country.name} — ${country.capital}, ${country.continent}`}
     >
-      <p className="text-xl font-bold text-gray-800">{getGeoPrompt(country, mode)}</p>
+      {mode === 'flag' ? (
+        <div className="flex flex-col items-center gap-3 py-2">
+          <span className="text-8xl leading-none">{country.flag}</span>
+          <p className="text-lg font-bold text-gray-700">לאיזו מדינה שייך הדגל?</p>
+        </div>
+      ) : (
+        <p className="text-xl font-bold text-gray-800">{getGeoPrompt(country, mode)}</p>
+      )}
     </QuizQuestionShell>
   );
 }
