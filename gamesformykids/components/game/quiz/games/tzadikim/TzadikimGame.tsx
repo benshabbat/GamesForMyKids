@@ -14,8 +14,8 @@ export default function TzadikimGame() {
     questionIndex,
     score,
     maxScore,
-    selectedAnswer,
-    feedback,
+    selected,
+    isCorrect,
     currentStory,
     currentQuestion,
     totalStories,
@@ -61,8 +61,8 @@ export default function TzadikimGame() {
         question={currentQuestion}
         questionIndex={questionIndex}
         totalQuestions={totalQuestions}
-        selectedAnswer={selectedAnswer}
-        feedback={feedback}
+        selected={selected}
+        isCorrect={isCorrect}
         score={score}
         onSelectAnswer={selectAnswer}
         onNext={nextQuestion}
