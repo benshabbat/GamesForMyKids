@@ -1,5 +1,6 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { StatCell, StatGrid } from '@/components/game/shared/StatGrid';
 import { useMathRaceStore } from '../mathRaceStore';
 
 export default function MathRaceResultScreen() {
@@ -16,24 +17,12 @@ export default function MathRaceResultScreen() {
       restartLabel="🔄 שוב!"
       shareText={`🏁 קיבלתי ${score} נקודות במרוץ מתמטיקה!`}
     >
-      <div className="grid grid-cols-2 gap-3">
-        <div className="bg-blue-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-blue-600">{score}</p>
-          <p className="text-xs text-blue-400">ניקוד</p>
-        </div>
-        <div className="bg-yellow-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-yellow-500">{best}</p>
-          <p className="text-xs text-yellow-400">שיא</p>
-        </div>
-        <div className="bg-green-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-green-600">{correct}/{total}</p>
-          <p className="text-xs text-green-400">נכון/סה&quot;כ</p>
-        </div>
-        <div className="bg-purple-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-purple-600">{accuracy}%</p>
-          <p className="text-xs text-purple-400">דיוק</p>
-        </div>
-      </div>
+      <StatGrid>
+        <StatCell label="ניקוד" value={score} bgClass="bg-blue-50" textClass="text-blue-600" labelClass="text-blue-400" />
+        <StatCell label="שיא" value={best} bgClass="bg-yellow-50" textClass="text-yellow-500" labelClass="text-yellow-400" />
+        <StatCell label='נכון/סה"כ' value={`${correct}/${total}`} bgClass="bg-green-50" textClass="text-green-600" labelClass="text-green-400" />
+        <StatCell label="דיוק" value={`${accuracy}%`} bgClass="bg-purple-50" textClass="text-purple-600" labelClass="text-purple-400" />
+      </StatGrid>
     </GameResultCard>
   );
 }

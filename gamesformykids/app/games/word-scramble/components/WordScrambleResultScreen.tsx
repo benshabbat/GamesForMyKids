@@ -1,5 +1,6 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { StatCell, StatGrid } from '@/components/game/shared/StatGrid';
 import { useWordScrambleStore } from '../wordScrambleStore';
 
 export default function WordScrambleResultScreen() {
@@ -16,16 +17,10 @@ export default function WordScrambleResultScreen() {
       restartLabel="🔄 שחק שוב"
       shareText={`📝 קיבלתי ${score} נקודות בחילופי מילים!`}
     >
-      <div className="grid grid-cols-2 gap-4">
-        <div className="bg-green-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-green-600">{score}</p>
-          <p className="text-xs text-green-400">ניקוד</p>
-        </div>
-        <div className="bg-red-50 rounded-2xl p-3">
-          <p className="text-3xl font-black text-red-500">{3 - lives}</p>
-          <p className="text-xs text-red-400">טעויות</p>
-        </div>
-      </div>
+      <StatGrid>
+        <StatCell label="ניקוד" value={score} bgClass="bg-green-50" textClass="text-green-600" labelClass="text-green-400" />
+        <StatCell label="טעויות" value={3 - lives} bgClass="bg-red-50" textClass="text-red-500" labelClass="text-red-400" />
+      </StatGrid>
     </GameResultCard>
   );
 }
