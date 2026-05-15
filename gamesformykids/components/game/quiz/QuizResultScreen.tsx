@@ -1,5 +1,6 @@
 'use client';
 
+import { type ReactNode } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 
@@ -7,13 +8,15 @@ interface Props {
   onRestart: () => void;
   theme: QuizTheme;
   title?: string;
+  /** Replaces the default emoji header when provided */
+  headerContent?: ReactNode;
   subtitle?: string;
   /** Override store values for games that don't use quizGameStore */
   correctCount?: number;
   total?: number;
 }
 
-export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', subtitle, correctCount: correctCountProp, total: totalProp }: Props) {
+export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', headerContent, subtitle, correctCount: correctCountProp, total: totalProp }: Props) {
   const storeScore = useQuizGameStore(s => s.score);
   const storeTotal = useQuizGameStore(s => s.total);
   const correctCount = correctCountProp ?? storeScore;
@@ -29,7 +32,7 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
       dir="rtl"
     >
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
-        <div className="text-8xl mb-4">{emoji}</div>
+        {headerContent ?? <div className="text-8xl mb-4">{emoji}</div>}
         <h2 className={`text-2xl font-bold ${t.text} mb-2`}>{title}</h2>
         <p className="text-gray-600 mb-4">
           {subtitle ?? `ענית נכון על ${correctCount} מתוך ${total} שאלות`}
