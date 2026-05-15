@@ -10,7 +10,7 @@ interface Props {
   totalQuestions: number;
   score: number;
   selected: number | null;
-  isCorrect: boolean;
+  isCorrect: boolean | null;
   onSelect: (i: number) => void;
   onNext: () => void;
 }
