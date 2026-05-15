@@ -1,12 +1,11 @@
+import type { QuizQuestion } from '@/lib/types';
+
 export type ScienceTopic = 'גוף' | 'חלל' | 'טבע' | 'פיזיקה' | 'כימיה';
 
-export interface ScienceQuestion {
+export interface ScienceQuestion extends QuizQuestion {
   id: string;
   topic: ScienceTopic;
   emoji: string;
-  question: string;
-  answers: string[];
-  correctIndex: number;
   explanation: string;
 }
 
@@ -37,4 +36,4 @@ export const SCIENCE_QUESTIONS: ScienceQuestion[] = [
 export const TOPICS: ScienceTopic[] = ['גוף', 'חלל', 'טבע', 'פיזיקה', 'כימיה'];
 export const TOPIC_EMOJIS: Record<ScienceTopic, string> = {
   'גוף': '🫀', 'חלל': '🚀', 'טבע': '🌿', 'פיזיקה': '⚡', 'כימיה': '🔬'
-};
+};
