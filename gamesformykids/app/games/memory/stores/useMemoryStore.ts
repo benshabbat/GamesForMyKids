@@ -289,6 +289,7 @@ export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
       resetToMenu: () => set({ ...initialState }, false, 'memory/resetToMenu'),
 
       setDifficulty: (difficulty) => {
+        if (get().difficulty === difficulty) return;
         set({ difficulty }, false, 'memory/setDifficulty');
         get().initializeGame(difficulty);
       },
