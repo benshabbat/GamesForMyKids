@@ -18,6 +18,8 @@ interface Props {
   hint?: string | undefined;
   /** Optional best score to display */
   best?: number;
+  /** Optional secondary action button rendered below the start button */
+  secondaryAction?: { label: string; onClick: () => void };
   /** Optional extra content rendered below the description (e.g. level/category grid) */
   children?: ReactNode;
 }
@@ -39,6 +41,7 @@ export default function GameMenuCard({
   animateEmoji = false,
   hint,
   best,
+  secondaryAction,
   children,
 }: Props) {
   const router = useRouter();
@@ -65,6 +68,14 @@ export default function GameMenuCard({
             className={`w-full py-4 rounded-2xl bg-gradient-to-r ${buttonClass ?? ''} text-white font-black text-xl hover:opacity-90 active:scale-95 transition-all`}
           >
             {startLabel ?? `${emoji} התחל!`}
+          </button>
+        )}
+        {secondaryAction && (
+          <button
+            onClick={secondaryAction.onClick}
+            className="w-full mt-3 py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold text-base hover:bg-gray-50 active:scale-95 transition-all"
+          >
+            {secondaryAction.label}
           </button>
         )}
       </div>
