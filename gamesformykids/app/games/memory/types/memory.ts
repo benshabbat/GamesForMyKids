@@ -5,9 +5,9 @@
  */
 
 import { AnimalData } from "@/lib/types/games";
+import type { DifficultyLevel } from '@/lib/types/games/base';
 
-// Types
-export type DifficultyLevel = 'EASY' | 'MEDIUM' | 'HARD';
+export type { DifficultyLevel };
 
 export interface MemoryCard {
   id: number;
