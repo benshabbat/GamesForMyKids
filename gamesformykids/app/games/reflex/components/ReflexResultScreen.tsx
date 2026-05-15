@@ -1,5 +1,6 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
+import { StatCell, StatGrid } from '@/components/game/shared/StatGrid';
 import { useReflexStore } from '../reflexStore';
 
 export default function ReflexResultScreen() {
@@ -16,20 +17,11 @@ export default function ReflexResultScreen() {
       animateEmoji
       shareText={`⚡ קיבלתי ${score} לחיצות ברפלקס!`}
     >
-      <div className="grid grid-cols-3 gap-3">
-        <div className="bg-yellow-50 rounded-2xl p-4">
-          <p className="text-3xl font-black text-yellow-600">{score}</p>
-          <p className="text-xs text-yellow-500">לחיצות</p>
-        </div>
-        <div className="bg-red-50 rounded-2xl p-4">
-          <p className="text-3xl font-black text-red-500">{missed}</p>
-          <p className="text-xs text-red-400">פספוסים</p>
-        </div>
-        <div className="bg-blue-50 rounded-2xl p-4">
-          <p className="text-3xl font-black text-blue-600">{accuracy}%</p>
-          <p className="text-xs text-blue-400">דיוק</p>
-        </div>
-      </div>
+      <StatGrid cols={3}>
+        <StatCell label="לחיצות" value={score} bgClass="bg-yellow-50" textClass="text-yellow-600" labelClass="text-yellow-500" />
+        <StatCell label="פספוסים" value={missed} bgClass="bg-red-50" textClass="text-red-500" labelClass="text-red-400" />
+        <StatCell label="דיוק" value={`${accuracy}%`} bgClass="bg-blue-50" textClass="text-blue-600" labelClass="text-blue-400" />
+      </StatGrid>
     </GameResultCard>
   );
 }
