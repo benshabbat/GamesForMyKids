@@ -1,7 +1,7 @@
 'use client';
 
 import type { Holiday, HolidayQuestion } from '../data/holidays';
-import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
+import QuizQuestionCard from '@/components/game/quiz/QuizQuestionCard';
 
 interface Props {
   current: Holiday;
@@ -10,7 +10,7 @@ interface Props {
   totalQuestions: number;
   score: number;
   selected: number | null;
-  isCorrect: boolean;
+  isCorrect: boolean | null;
   onSelect: (i: number) => void;
   onNext: () => void;
 }
@@ -32,33 +32,19 @@ export default function HolidaysQuizScreen({ current, currentQuestion, questionI
           <div className={`h-full rounded-full bg-gradient-to-l ${current.color} transition-all`}
             style={{ width: `${(questionIndex / totalQuestions) * 100}%` }} />
         </div>
-        <div className="bg-white rounded-2xl shadow p-5 mb-4 text-center">
-          <p className="text-xl font-bold text-gray-800">{currentQuestion.question}</p>
-        </div>
-        <div className="space-y-3 mb-4">
-          {currentQuestion.answers.map((ans, i) => (
-            <button key={i} onClick={() => onSelect(i)} disabled={selected !== null}
-              className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all active:scale-95 ${answerButtonClass(
-                i === currentQuestion.correctIndex,
-                i === selected,
-                selected !== null,
-                'bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400',
-              )}`}>
-              {selected !== null && i === currentQuestion.correctIndex ? '✅ ' : selected === i && !isCorrect ? '❌ ' : ''}{ans}
-            </button>
-          ))}
-        </div>
-        {selected !== null && (
-          <>
-            <div className={`rounded-2xl p-3 mb-4 text-center font-bold ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-              {isCorrect ? '🌟 נכון מאוד!' : `💙 התשובה הנכונה: "${currentQuestion.answers[currentQuestion.correctIndex]}"`}
-            </div>
-            <button onClick={onNext}
-              className={`w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l ${current.color} shadow-lg hover:opacity-90 active:scale-95 transition-all`}>
-              {questionIndex < totalQuestions - 1 ? 'שאלה הבאה ←' : 'לתוצאות! 🎉'}
-            </button>
-          </>
-        )}
+        <QuizQuestionCard
+          question={currentQuestion.question}
+          answers={currentQuestion.answers}
+          correctIndex={currentQuestion.correctIndex}
+          selected={selected}
+          isCorrect={isCorrect}
+          onSelect={onSelect}
+          onNext={onNext}
+          isLast={questionIndex >= totalQuestions - 1}
+          accentGradient={current.color}
+          correctMessage="🌟 נכון מאוד!"
+          idleButtonClass="bg-white border-2 border-gray-200 text-gray-700 hover:border-indigo-400"
+        />
       </div>
     </div>
   );
