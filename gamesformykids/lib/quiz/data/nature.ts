@@ -1,9 +1,9 @@
 // עולם הטבע - שאלות מדעי הטבע לילדים
-export type NatureQuestion = {
+import type { QuizQuestion } from '@/lib/types';
+
+export type NatureQuestion = QuizQuestion & {
   id: number;
-  question: string;
   answers: [string, string, string, string];
-  correctIndex: number;
   emoji: string;
   category: 'בעלי חיים' | 'צמחים' | 'מזג אוויר' | 'חלל' | 'מים';
   funFact: string;
@@ -28,7 +28,7 @@ export const NATURE_QUESTIONS: NatureQuestion[] = [
 ];
 
 export const CATEGORIES = ['הכל', 'בעלי חיים', 'צמחים', 'מזג אוויר', 'חלל', 'מים'] as const;
-export type NatureCategory = typeof CATEGORIES[number];
+export type NatureCategory = (typeof CATEGORIES)[number];
 
 export const CATEGORY_COLORS: Record<NatureCategory, string> = {
   'הכל':       'bg-green-600 text-white',
