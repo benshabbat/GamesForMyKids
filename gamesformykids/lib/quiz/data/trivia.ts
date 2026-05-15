@@ -1,11 +1,10 @@
+import type { QuizQuestion } from '@/lib/types';
+
 export type TriviaCategory = 'טבע' | 'מדע' | 'היסטוריה' | 'חלל' | 'בעלי חיים' | 'גוף האדם';
 
-export interface TriviaQuestion {
+export interface TriviaQuestion extends QuizQuestion {
   id: string;
   category: TriviaCategory;
-  question: string;
-  answers: string[];
-  correctIndex: number;
   funFact: string;
 }
 
@@ -44,4 +43,4 @@ export const TRIVIA_QUESTIONS: TriviaQuestion[] = [
 export const CATEGORIES: TriviaCategory[] = ['טבע', 'מדע', 'היסטוריה', 'חלל', 'בעלי חיים', 'גוף האדם'];
 export const CATEGORY_EMOJIS: Record<TriviaCategory, string> = {
   'טבע': '🌿', 'מדע': '🔬', 'היסטוריה': '📜', 'חלל': '🚀', 'בעלי חיים': '🐘', 'גוף האדם': '🫀'
-};
+};
