@@ -1,6 +1,7 @@
 'use client';
 import { useColorTapGame, TIME_PER_Q } from '../useColorTapGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
 import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
 
@@ -43,12 +44,11 @@ export default function ColorTapPlayArea() {
           <div className={`w-16 h-16 rounded-full ${question.target.bg} shadow-lg`} />
           <p className="text-4xl font-black text-gray-700">{question.target.name}</p>
         </div>
-        <div className="bg-gray-100 rounded-full h-2 w-full mx-auto">
-          <div
-            className="bg-gradient-to-r from-pink-400 to-purple-500 h-2 rounded-full transition-all duration-1000"
-            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
-          />
-        </div>
+        <TimerProgressBar
+          pct={(timeLeft / TIME_PER_Q) * 100}
+          trackClass="h-2 bg-gray-100 w-full mx-auto"
+          barClass="bg-gradient-to-r from-pink-400 to-purple-500"
+        />
       </div>
 
       <div className="grid grid-cols-2 gap-4 w-full max-w-xs">
