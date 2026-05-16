@@ -2,7 +2,7 @@
 
 import { QuizQuestionShell } from '@/components/game/quiz';
 import type { GeoQuestion } from '@/lib/quiz/useGeographyGame';
-import { getGeoPrompt, getChoiceLabel } from '@/lib/quiz/data/geography';
+import { getGeoPrompt, getChoiceLabel, getFlagUrl } from '@/lib/quiz/data/geography';
 
 interface Props {
   current: GeoQuestion;
@@ -23,7 +23,8 @@ export default function GeographyQuestion({ current, onSelect }: Props) {
         if (mode === 'flag') {
           return (
             <div className="flex flex-col items-center gap-1 py-1">
-              <span className="text-5xl leading-none">{c.flag}</span>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={getFlagUrl(c.iso2, 80)} alt={c.name} width={60} height={40} className="rounded shadow-sm object-cover" />
               <span className="text-sm font-bold">{c.name}</span>
             </div>
           );
@@ -35,7 +36,8 @@ export default function GeographyQuestion({ current, onSelect }: Props) {
     >
       {mode === 'flag' ? (
         <div className="flex flex-col items-center gap-3 py-2">
-          <span className="text-8xl leading-none">{country.flag}</span>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={getFlagUrl(country.iso2, 160)} alt={country.name} width={160} height={107} className="rounded-lg shadow-md object-cover" />
           <p className="text-lg font-bold text-gray-700">לאיזו מדינה שייך הדגל?</p>
         </div>
       ) : (
