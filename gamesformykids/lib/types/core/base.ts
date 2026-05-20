@@ -156,10 +156,11 @@ export type GameType =
   | 'nba-teams' | 'exotic-birds' | 'butterflies' | 'soccer-logos'
   // Quiz & educational
   | 'riddles' | 'capitals' | 'fractions' | 'spelling' | 'world-languages'
-  | 'opposites' | 'sports-quiz' | 'geography' | 'trivia' | 'science'
+  | 'opposites' | 'sports-quiz' | 'trivia' | 'science'
   | 'continents' | 'israel' | 'nature' | 'healthy-food' | 'human-body'
   | 'sequences' | 'color-mix' | 'clock' | 'english-words' | 'shapes-3d'
   | 'holidays' | 'tzadikim'
+  | 'geography-capitals' | 'geography-flags' | 'geography-continents'
   // Arcade & action games
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
   | 'dino-runner' | 'brick-breaker' | 'balloon-pop' | 'catch-fruit'

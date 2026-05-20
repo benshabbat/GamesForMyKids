@@ -5,7 +5,6 @@ import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 import { useGameStore } from '@/lib/stores/gameStore';
 import { useQuizSession } from '@/lib/quiz/useQuizSession';
-import { useGeographyGame } from '@/lib/quiz/useGeographyGame';
 import { useSequencesGame } from '@/lib/quiz/useSequencesGame';
 import { useGenericQuizGame } from '@/lib/quiz/useGenericQuizGame';
 import type { QuizGameConfig } from '@/lib/quiz/quizGameConfigs';
@@ -151,61 +150,6 @@ describe('useGenericQuizGame', () => {
     act(() => result.current.restart());
     expect(useQuizGameStore.getState().score).toBe(0);
     expect(useQuizGameStore.getState().index).toBe(0);
-  });
-});
-
-// ── useGeographyGame ──────────────────────────────────────────────────────────
-describe('useGeographyGame', () => {
-  beforeEach(resetStores);
-
-  it('starts with phase=menu', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    expect(result.current.phase).toBe('menu');
-  });
-
-  it('startGame() sets phase=playing', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame());
-    expect(result.current.phase).toBe('playing');
-  });
-
-  it('provides a current question with country, mode, and 4 choices', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame());
-    const q = result.current.current!;
-    expect(q).not.toBeNull();
-    expect(q.country).toBeDefined();
-    expect(q.choices).toHaveLength(4);
-    expect(q.choices.map(c => c.id)).toContain(q.country.id);
-  });
-
-  it('selectAnswer() with correct country id registers correct=true', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame());
-    const correctId = result.current.current!.country.id;
-    act(() => result.current.selectAnswer(correctId));
-    expect(useQuizGameStore.getState().isCorrect).toBe(true);
-  });
-
-  it('selectAnswer() with wrong id registers correct=false', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame());
-    const q = result.current.current!;
-    const wrongId = q.choices.find(c => c.id !== q.country.id)!.id;
-    act(() => result.current.selectAnswer(wrongId));
-    expect(useQuizGameStore.getState().isCorrect).toBe(false);
-  });
-
-  it('startGame("flag") sets mode to flag', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame('flag'));
-    expect(result.current.current!.mode).toBe('flag');
-  });
-
-  it('startGame("continent") sets mode to continent', () => {
-    const { result } = renderHook(() => useGeographyGame());
-    act(() => result.current.startGame('continent'));
-    expect(result.current.current!.mode).toBe('continent');
   });
 });
 

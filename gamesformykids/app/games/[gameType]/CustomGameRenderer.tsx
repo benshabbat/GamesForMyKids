@@ -19,7 +19,6 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'emoji-math':      dynamic(() => import('../emoji-math/EmojiMathClient')),
   'flappy-bird':     dynamic(() => import('../flappy-bird/FlappyBirdClient')),
   frogger:           dynamic(() => import('../frogger/FroggerClient')),
-  geography:         dynamic(() => import('../geography/GeographyClient')),
   'hebrew-letters':  dynamic(() => import('../hebrew-letters/components/hub/HebrewLettersHub')),
   jumper:            dynamic(() => import('../jumper/JumperClient')),
   'math-race':       dynamic(() => import('../math-race/MathRaceClient')),
