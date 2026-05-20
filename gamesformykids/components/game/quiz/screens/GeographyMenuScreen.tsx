@@ -14,9 +14,8 @@ export default function GeographyMenuScreen({ onStart }: Props) {
       title="גאוגרפיה"
       description="בחר סוג שאלות"
       items={MODES}
-      buttonClassName="bg-gradient-to-l from-teal-500 to-cyan-600"
-      layout="flex"
-      sideIcon
+      buttonClassName="bg-gradient-to-br from-teal-500 to-cyan-600"
+      layout="grid-3"
       onStart={item => onStart(item.mode)}
     />
   );
