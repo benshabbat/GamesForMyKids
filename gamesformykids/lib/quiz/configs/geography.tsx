@@ -2,6 +2,7 @@ import Image from 'next/image';
 import { shuffle } from '@/lib/utils';
 import { GEO_QUESTIONS_PER_GAME, COUNTRIES, CONTINENTS, getFlagUrl } from '@/lib/quiz/data/geography';
 import type { Country, Continent } from '@/lib/quiz/data/geography';
+import GeographyStartScreen from '@/components/game/quiz/screens/GeographyStartScreen';
 import { defineConfig } from './types';
 
 function randomCapitals(exclude: Country): string[] {
@@ -32,6 +33,9 @@ export const geographyCapitalsConfig = defineConfig<Country>({
   title: 'בירות העולם',
   description: 'מה הבירה של כל מדינה?',
   theme: 'teal',
+  menuScreen: (onStart) => (
+    <GeographyStartScreen mode="capital" title="בירות העולם" subtitle="מה הבירה של כל מדינה?" emoji="🏛️" onStart={onStart} />
+  ),
   questions: COUNTRIES,
   questionsPerGame: GEO_QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.capital, ...randomCapitals(q)]),
@@ -52,6 +56,9 @@ export const geographyFlagsConfig = defineConfig<Country>({
   title: 'דגלי העולם',
   description: 'לאיזו מדינה שייך הדגל?',
   theme: 'teal',
+  menuScreen: (onStart) => (
+    <GeographyStartScreen mode="flag" title="דגלי העולם" subtitle="לאיזו מדינה שייך הדגל?" emoji="🚩" onStart={onStart} />
+  ),
   questions: COUNTRIES,
   questionsPerGame: GEO_QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.name, ...randomNames(q)]),
@@ -72,6 +79,9 @@ export const geographyContinentsConfig = defineConfig<Country>({
   title: 'יבשות העולם',
   description: 'באיזו יבשת נמצאת המדינה?',
   theme: 'teal',
+  menuScreen: (onStart) => (
+    <GeographyStartScreen mode="continent" title="יבשות העולם" subtitle="באיזו יבשת נמצאת המדינה?" emoji="🌍" onStart={onStart} />
+  ),
   questions: COUNTRIES,
   questionsPerGame: GEO_QUESTIONS_PER_GAME,
   getChoices: (q) => shuffle([q.continent, ...randomContinents(q.continent)]),

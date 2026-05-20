@@ -14,6 +14,8 @@ export interface QuizGameConfig<Q = unknown> {
   theme: QuizTheme;
   buttonLabel?: string;
   preview?: ReactNode;
+  /** Full-page override for the menu screen. Receives startGame and must render the entire menu. */
+  menuScreen?: (onStart: () => void) => ReactNode;
   questions: Q[];
   questionsPerGame: number;
   getChoices: (q: Q) => string[];

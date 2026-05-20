@@ -21,11 +21,13 @@ function GenericQuizGameContent({ config }: { config: QuizGameConfig }) {
   return (
     <QuizGameShell
       menu={
-        <QuizMenuScreen
-          emoji={config.emoji} title={config.title} description={config.description}
-          theme={config.theme} preview={config.preview} buttonLabel={config.buttonLabel}
-          onStart={startGame}
-        />
+        config.menuScreen
+          ? config.menuScreen(startGame)
+          : <QuizMenuScreen
+              emoji={config.emoji} title={config.title} description={config.description}
+              theme={config.theme} preview={config.preview} buttonLabel={config.buttonLabel}
+              onStart={startGame}
+            />
       }
       question={current && (
         <QuizQuestionShell
