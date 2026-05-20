@@ -52,13 +52,13 @@ export const MODES: { mode: QuestionMode; label: string; desc: string; emoji: st
 ];
 
 export function getGeoPrompt(country: Country, mode: QuestionMode): string {
-  if (mode === 'capital') return `🏙️ מה הבירה של ${country.name} ${country.flag}?`;
-  if (mode === 'flag')    return `🚩 לאיזו מדינה שייך הדגל ${country.flag}?`;
-  return `🌍 באיזו יבשת נמצאת ${country.name} ${country.flag}?`;
+  if (mode === 'capital') return `🏙️ מה הבירה של ${country.name}?`;
+  if (mode === 'flag')    return 'לאיזו מדינה שייך הדגל?';
+  return `🌍 באיזו יבשת נמצאת ${country.name}?`;
 }
 
 export function getChoiceLabel(c: Country, mode: QuestionMode): string {
   if (mode === 'capital') return c.capital;
-  if (mode === 'flag')    return `${c.flag} ${c.name}`;
+  if (mode === 'flag')    return c.name;
   return c.continent;
 }
