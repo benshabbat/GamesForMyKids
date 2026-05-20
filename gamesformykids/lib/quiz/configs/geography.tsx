@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { shuffle } from '@/lib/utils';
 import { GEO_QUESTIONS_PER_GAME, COUNTRIES, CONTINENTS, getFlagUrl } from '@/lib/quiz/data/geography';
 import type { Country, Continent } from '@/lib/quiz/data/geography';
@@ -16,7 +17,7 @@ function randomContinents(exclude: Continent): string[] {
 }
 
 const flagImg = (iso2: string, size: 80 | 160) => (
-  <img
+  <Image
     src={getFlagUrl(iso2, size)}
     alt=""
     width={size}
