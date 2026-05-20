@@ -22,7 +22,7 @@ export const SUPPORTED_GAMES = [
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
-  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
+  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'geography', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
@@ -31,7 +31,7 @@ export const SUPPORTED_GAMES = [
   // ── משחקי חידון (QuizGameRouter) ──────────────────────────────────────────
   'riddles', 'capitals', 'fractions', 'spelling',
   'emotions', 'instruments', 'world-languages', 'opposites', 'sports-quiz',
-  'geography', 'trivia', 'science', 'continents',
+  'trivia', 'science', 'continents',
   'israel', 'nature', 'healthy-food', 'family', 'human-body',
   'sequences', 'color-mix', 'clock', 'english-words', 'shapes-3d',
   'transport', 'holidays', 'tzadikim',
@@ -42,7 +42,7 @@ export type SupportedGameType = typeof SUPPORTED_GAMES[number];
 export const CUSTOM_GAME_TYPES = new Set([
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
-  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
+  'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'geography', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',

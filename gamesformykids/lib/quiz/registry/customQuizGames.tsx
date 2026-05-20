@@ -6,7 +6,6 @@ import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
 import { useClockGame } from '@/lib/quiz/useClockGame';
 import { useColorMixGame } from '@/lib/quiz/useColorMixGame';
 import { useSequencesGame } from '@/lib/quiz/useSequencesGame';
-import { useGeographyGame } from '@/lib/quiz/useGeographyGame';
 import { useHumanBodyGame } from '@/lib/quiz/useHumanBodyGame';
 import { useTriviaGame } from '@/lib/quiz/useTriviaGame';
 import { useScienceGame } from '@/lib/quiz/useScienceGame';
@@ -19,8 +18,6 @@ import ClockResultScreen from '@/components/game/quiz/screens/ClockResultScreen'
 import ColorMixQuestion from '@/components/game/quiz/screens/ColorMixQuestion';
 import SequencesMenuScreen from '@/components/game/quiz/screens/SequencesMenuScreen';
 import SequencesQuestion from '@/components/game/quiz/screens/SequencesQuestion';
-import GeographyMenuScreen from '@/components/game/quiz/screens/GeographyMenuScreen';
-import GeographyQuestion from '@/components/game/quiz/screens/GeographyQuestion';
 import HumanBodyMenuScreen from '@/components/game/quiz/screens/HumanBodyMenuScreen';
 import HumanBodyQuestion from '@/components/game/quiz/screens/HumanBodyQuestion';
 import TriviaMenuScreen from '@/components/game/quiz/screens/TriviaMenuScreen';
@@ -63,15 +60,6 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <SequencesMenuScreen levels={levels} onStart={startGame} />,
       question: current ? <SequencesQuestion level={level} current={current} choices={choices as number[]} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="sky" />,
-    }),
-  ),
-
-  'geography': makeQuizGame(
-    useGeographyGame,
-    ({ current, startGame, selectAnswer, restart }) => ({
-      menu:     <GeographyMenuScreen onStart={startGame} />,
-      question: current ? <GeographyQuestion current={current} onSelect={selectAnswer} /> : null,
-      result:   <QuizResultScreen onRestart={restart} theme="teal" />,
     }),
   ),
 
