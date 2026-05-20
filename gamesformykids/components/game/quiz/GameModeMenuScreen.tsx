@@ -15,7 +15,7 @@ interface Props<T extends ModeItem> {
   description: string;
   items: readonly T[];
   buttonClassName: string;
-  layout?: 'flex' | 'grid-2';
+  layout?: 'flex' | 'grid-2' | 'grid-3';
   /** When true, renders emoji as a large side icon; otherwise inline with label */
   sideIcon?: boolean;
   onStart: (item: T) => void;
@@ -36,6 +36,8 @@ export default function GameModeMenuScreen<T extends ModeItem>({
 }: Props<T>) {
   const listClass = layout === 'grid-2'
     ? 'grid grid-cols-2 gap-4'
+    : layout === 'grid-3'
+    ? 'grid grid-cols-3 gap-4'
     : 'flex flex-col gap-4';
 
   return (
