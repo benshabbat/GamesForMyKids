@@ -3,6 +3,7 @@ import { spellingConfig, oppositesConfig, englishWordsConfig, worldLanguagesConf
 import { riddlesConfig, capitalsConfig, instrumentsConfig, sportsQuizConfig, continentsConfig } from './configs/knowledge';
 import { emotionsConfig, familyConfig, healthyFoodConfig } from './configs/social';
 import { fractionsConfig, shapes3dConfig } from './configs/math';
+import { geographyCapitalsConfig, geographyFlagsConfig, geographyContinentsConfig } from './configs/geography';
 
 export type { QuizGameConfig } from './configs/types';
 import type { QuizGameConfig } from './configs/types';
@@ -23,4 +24,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> =
   family: familyConfig,
   'english-words': englishWordsConfig,
   'shapes-3d': shapes3dConfig,
+  'geography-capitals': geographyCapitalsConfig,
+  'geography-flags': geographyFlagsConfig,
+  'geography-continents': geographyContinentsConfig,
 };
