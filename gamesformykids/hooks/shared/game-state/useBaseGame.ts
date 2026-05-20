@@ -25,7 +25,7 @@ import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
  * מכיל את כל הלוגיקה הבסיסית המשותפת + שיפורים
  */
 export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBaseGameConfig) {
-  const { gameType, items, pronunciations, gameConstants, customAudio } = config;
+  const { gameType, items, pronunciations, gameConstants, customAudio, uniqueByField } = config;
 
   // ── Zustand store reads (score / level / isPlaying) ─────
   const score          = useGameProgressStore((s) => s.score);
@@ -93,6 +93,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     baseCount: gameConstants.BASE_COUNT,
     increment: gameConstants.INCREMENT,
     levelThreshold: gameConstants.LEVEL_THRESHOLD,
+    ...(uniqueByField ? { uniqueByField } : {}),
   });
 
   // פונקציות דיבור

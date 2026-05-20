@@ -18,6 +18,7 @@ export const SUPPORTED_GAMES = [
   'flags', 'soccer-logos', 'car-brands', 'world-landmarks', 'solar-system', 'famous-paintings',
   'tech-logos', 'dog-breeds', 'cat-breeds', 'nba-teams', 'exotic-birds', 'butterflies',
   'counting',
+  'geography-flags', 'geography-capitals', 'geography-continents',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
@@ -35,7 +36,6 @@ export const SUPPORTED_GAMES = [
   'israel', 'nature', 'healthy-food', 'family', 'human-body',
   'sequences', 'color-mix', 'clock', 'english-words', 'shapes-3d',
   'transport', 'holidays', 'tzadikim',
-  'geography-capitals', 'geography-flags', 'geography-continents',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

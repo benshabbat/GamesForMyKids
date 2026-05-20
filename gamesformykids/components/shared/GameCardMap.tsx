@@ -12,6 +12,7 @@ import { GameItemCardProps } from '@/lib/types/components/cards';
 import UnifiedCard from './cards/UnifiedCard';
 import MathGameCard from './cards/MathGameCard';
 import FlagsGameCard from './cards/FlagsGameCard';
+import GeographyGameCard from './cards/GeographyGameCard';
 import { createPhotoCard } from './cards/PhotoGameCard';
 
 // Generic card component that works for all game types.
@@ -102,6 +103,9 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'fairy-tale-chars': DefaultGameCard,
   // משחקי גיאוגרפיה
   'flags': FlagsGameCard,
+  'geography-flags':      GeographyGameCard,
+  'geography-capitals':   GeographyGameCard,
+  'geography-continents': GeographyGameCard,
   // משחקי תמונות / לוגואים — נוצרים דינמית מ-createPhotoCard
   'soccer-logos': createPhotoCard('soccer-logos'),
   'car-brands': createPhotoCard('car-brands'),

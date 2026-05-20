@@ -12,6 +12,8 @@ export interface UseGameOptionsProps {
   readonly baseCount?: number;
   readonly increment?: number;
   readonly levelThreshold?: number;
+  /** When set, options are deduplicated so each wrong answer has a unique value for this field. */
+  readonly uniqueByField?: keyof BaseGameItem;
 }
 
 export interface UseBaseGameConfig {
@@ -20,4 +22,6 @@ export interface UseBaseGameConfig {
   readonly pronunciations: Readonly<Record<string, string>>;
   readonly gameConstants: GameConstants;
   readonly customAudio?: (itemName: string) => Promise<void>;
+  /** When set, options are deduplicated by this field (passed to useGameOptions). */
+  readonly uniqueByField?: keyof BaseGameItem;
 }

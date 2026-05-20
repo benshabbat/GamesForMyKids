@@ -22,7 +22,4 @@ export const GENERIC_QUIZ_GAMES: Record<string, ComponentType> = {
   'family':                GenericQuizGame,
   'english-words':         GenericQuizGame,
   'shapes-3d':             GenericQuizGame,
-  'geography-capitals':    GenericQuizGame,
-  'geography-flags':       GenericQuizGame,
-  'geography-continents':  GenericQuizGame,
 };

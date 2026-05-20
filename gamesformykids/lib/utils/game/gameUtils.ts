@@ -63,6 +63,30 @@ export function generateOptions<T>(
 }
 
 /**
+ * Like generateOptions but guarantees one item per unique groupField value among wrong answers.
+ * Used by geography-continents to ensure 4 options each from a different continent.
+ */
+export function generateUniqueGroupOptions<T>(
+  correctItem: T,
+  allItems: T[],
+  count: number = 4,
+  groupField: keyof T = 'name' as keyof T
+): T[] {
+  const correctGroup = correctItem[groupField];
+  const seen = new Set<unknown>([correctGroup]);
+  const uniqueWrong: T[] = [];
+  for (const item of shuffleArray([...allItems])) {
+    const group = item[groupField];
+    if (!seen.has(group)) {
+      seen.add(group);
+      uniqueWrong.push(item);
+      if (uniqueWrong.length >= count - 1) break;
+    }
+  }
+  return shuffleArray([correctItem, ...uniqueWrong]);
+}
+
+/**
  * פונקציה גנרית לטיפול בתשובה נכונה
  */
 export async function handleCorrectGameAnswer(

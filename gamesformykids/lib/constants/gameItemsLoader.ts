@@ -110,7 +110,10 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'body-parts': return (await import('./gameData/body')).BODY_PARTS_ITEMS as BaseGameItem[];
     case 'family':     return (await import('./gameData/family')).FAMILY_ITEMS as BaseGameItem[];
     case 'dinosaurs':  return (await import('./gameData/dinosaurs')).DINOSAURS_ITEMS as BaseGameItem[];
-    case 'flags':      return (await import('./gameData/flags')).FLAGS_ITEMS as BaseGameItem[];
+    case 'flags':               return (await import('./gameData/flags')).FLAGS_ITEMS as BaseGameItem[];
+    case 'geography-flags':     return (await import('./gameData/geographyItems')).GEOGRAPHY_FLAGS_ITEMS as BaseGameItem[];
+    case 'geography-capitals':  return (await import('./gameData/geographyItems')).GEOGRAPHY_CAPITALS_ITEMS as BaseGameItem[];
+    case 'geography-continents':return (await import('./gameData/geographyItems')).GEOGRAPHY_CONTINENTS_ITEMS as BaseGameItem[];
     case 'soccer-logos':     return (await import('./gameData/soccerLogos')).SOCCER_LOGOS_ITEMS as BaseGameItem[];
     case 'car-brands':       return (await import('./gameData/carBrands')).CAR_BRANDS_ITEMS as BaseGameItem[];
     case 'world-landmarks':  return (await import('./gameData/worldLandmarks')).WORLD_LANDMARKS_ITEMS as BaseGameItem[];
