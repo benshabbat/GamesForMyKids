@@ -54,7 +54,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel"],
+    gameIds: ["transport","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel","geography-flags","geography-capitals","geography-continents"],
   },
   home: {
     title: "בית וחיים",
@@ -131,6 +131,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","geography","trivia","clock","spelling","opposites","world-languages","riddles","english-words"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","trivia","clock","spelling","opposites","world-languages","riddles","english-words"],
   },
 };
