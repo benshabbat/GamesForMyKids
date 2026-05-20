@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { BaseGameItem } from "@/lib/types/core/base";
 import { UseGameOptionsProps } from "@/lib/types/hooks/game-state";
-import { generateOptions as generateGameOptions, getRandomItem } from "@/lib/utils/game/gameUtils";
+import { generateOptions as generateGameOptions, generateUniqueGroupOptions, getRandomItem } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
 
 /**
@@ -16,6 +16,7 @@ export function useGameOptions({
   baseCount = 4,
   increment = 1,
   levelThreshold = 3,
+  uniqueByField,
 }: UseGameOptionsProps) {
   
   const availableItems = useMemo(() => {
@@ -29,6 +30,9 @@ export function useGameOptions({
   };
 
   const getOptionsForChallenge = (challenge: BaseGameItem) => {
+    if (uniqueByField) {
+      return generateUniqueGroupOptions(challenge, availableItems, GAME_CONSTANTS.OPTIONS_COUNT, uniqueByField);
+    }
     return generateGameOptions(challenge, availableItems, GAME_CONSTANTS.OPTIONS_COUNT, 'name');
   };
 

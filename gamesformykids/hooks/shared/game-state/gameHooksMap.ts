@@ -9,6 +9,7 @@ import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 import { useCountingGame } from "@/app/games/counting/useCountingGame";
 import { useNatureSoundsGame } from "@/app/games/nature-sounds/useNatureSoundsGame";
+import { useBaseGame } from "@/hooks/shared/game-state/useBaseGame";
 import type { BaseGameItem } from "@/lib/types/core/base";
 
 type AnyGameHookFn = () => {
@@ -22,6 +23,18 @@ type AnyGameHookFn = () => {
   currentAccuracy?: number;
   progressStats?: unknown;
   [key: string]: unknown;
+};
+
+// geography-continents needs unique-by-continent option generation
+const useGeographyContinentsGame = (): ReturnType<typeof useBaseGame> => {
+  const items = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
+  return useBaseGame({
+    gameType: 'geography-continents',
+    items: items ?? [],
+    pronunciations: {},
+    gameConstants: { BASE_COUNT: 4, INCREMENT: 0, LEVEL_THRESHOLD: 99 },
+    uniqueByField: 'color',
+  });
 };
 
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד
@@ -53,7 +66,10 @@ export type AutoGameType =
   | 'nba-teams'
   | 'exotic-birds'
   | 'butterflies'
-  | 'counting';
+  | 'counting'
+  | 'geography-flags'
+  | 'geography-capitals'
+  | 'geography-continents';
 
 // Reads items from the store at hook-call time — no static game data imported here.
 const g = (type: AutoGameType): AnyGameHookFn =>
@@ -130,9 +146,12 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'cat-breeds':       g('cat-breeds'),
   'nba-teams':        g('nba-teams'),
   'exotic-birds':     g('exotic-birds'),
-  butterflies:        g('butterflies'),
-  counting:           useCountingGame,
-  math:               useMathGame,
+  butterflies:            g('butterflies'),
+  counting:               useCountingGame,
+  math:                   useMathGame,
+  'geography-flags':      g('geography-flags'),
+  'geography-capitals':   g('geography-capitals'),
+  'geography-continents': useGeographyContinentsGame,
 };
 
 export type GameHookType = AnyGameHookFn;

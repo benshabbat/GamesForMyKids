@@ -5,6 +5,9 @@ import ChallengeBox from "./feedback/ChallengeBox";
 import CelebrationBox from "./feedback/CelebrationBox";
 import MathChallengeBox from "./feedback/MathChallengeBox";
 import CountingChallengeBox from "./feedback/CountingChallengeBox";
+import GeographyChallengeBox from "./feedback/GeographyChallengeBox";
+
+const GEOGRAPHY_TYPES = new Set(['geography-flags', 'geography-capitals', 'geography-continents']);
 
 export default function GameChallengeSection() {
   const { currentChallenge, showCelebration, gameType } = useUniversalGame();
@@ -19,6 +22,8 @@ export default function GameChallengeSection() {
         <MathChallengeBox />
       ) : gameType === 'counting' ? (
         <CountingChallengeBox />
+      ) : GEOGRAPHY_TYPES.has(gameType) ? (
+        <GeographyChallengeBox />
       ) : (
         <ChallengeBox />
       )}
