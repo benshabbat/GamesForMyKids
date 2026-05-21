@@ -13,6 +13,7 @@ import UnifiedCard from './cards/UnifiedCard';
 import MathGameCard from './cards/MathGameCard';
 import FlagsGameCard from './cards/FlagsGameCard';
 import GeographyGameCard from './cards/GeographyGameCard';
+import GeographyTextCard from './cards/GeographyTextCard';
 import { createPhotoCard } from './cards/PhotoGameCard';
 
 // Generic card component that works for all game types.
@@ -104,8 +105,8 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   // משחקי גיאוגרפיה
   'flags': FlagsGameCard,
   'geography-flags':      GeographyGameCard,
-  'geography-capitals':   GeographyGameCard,
-  'geography-continents': GeographyGameCard,
+  'geography-capitals':   GeographyTextCard,
+  'geography-continents': GeographyTextCard,
   // משחקי תמונות / לוגואים — נוצרים דינמית מ-createPhotoCard
   'soccer-logos': createPhotoCard('soccer-logos'),
   'car-brands': createPhotoCard('car-brands'),
