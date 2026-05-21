@@ -12,17 +12,21 @@ export default function GeographyChallengeBox() {
   const flagUrl = `https://flagcdn.com/w160/${iso2}.png`;
   const countryName = currentChallenge.plural ?? currentChallenge.hebrew;
 
+  let title: string;
   let questionText: string;
   if (gameType === 'geography-flags') {
+    title = 'זהה את הדגל!';
     questionText = 'לאיזו מדינה שייך הדגל?';
   } else if (gameType === 'geography-capitals') {
-    questionText = `🏙️ מה הבירה של ${countryName}?`;
+    title = `מה הבירה של ${countryName}?`;
+    questionText = '🏙️ בחר את הבירה הנכונה!';
   } else {
-    questionText = `🌍 באיזו יבשת נמצאת ${countryName}?`;
+    title = `באיזו יבשת נמצאת ${countryName}?`;
+    questionText = '🌍 בחר את היבשת הנכונה!';
   }
 
   return (
-    <GenericBox title="זהה את הדגל!" variant="challenge" size="large">
+    <GenericBox title={title} variant="challenge" size="large">
       <div className="flex flex-col items-center gap-4">
         <div className="relative w-48 h-32 rounded-xl overflow-hidden shadow-lg">
           <Image
@@ -33,7 +37,7 @@ export default function GeographyChallengeBox() {
             unoptimized
           />
         </div>
-        <p className="text-2xl font-bold text-blue-800 text-center">{questionText}</p>
+        <p className="text-xl font-bold text-blue-700 text-center">{questionText}</p>
       </div>
     </GenericBox>
   );

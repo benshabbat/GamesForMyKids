@@ -25,13 +25,32 @@ type AnyGameHookFn = () => {
   [key: string]: unknown;
 };
 
-// geography-continents needs unique-by-continent option generation
+// geography-capitals: speak country name (plural), not capital name (hebrew = answer)
+const useGeographyCapitalsGame = (): ReturnType<typeof useBaseGame> => {
+  const items = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
+  const pronunciations = (items ?? []).reduce<Record<string, string>>((acc, item) => {
+    acc[item.name] = item.plural ?? item.hebrew;
+    return acc;
+  }, {});
+  return useBaseGame({
+    gameType: 'geography-capitals',
+    items: items ?? [],
+    pronunciations,
+    gameConstants: { BASE_COUNT: 4, INCREMENT: 0, LEVEL_THRESHOLD: 99 },
+  });
+};
+
+// geography-continents: speak country name (plural); unique-by-continent option generation
 const useGeographyContinentsGame = (): ReturnType<typeof useBaseGame> => {
   const items = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
+  const pronunciations = (items ?? []).reduce<Record<string, string>>((acc, item) => {
+    acc[item.name] = item.plural ?? item.hebrew;
+    return acc;
+  }, {});
   return useBaseGame({
     gameType: 'geography-continents',
     items: items ?? [],
-    pronunciations: {},
+    pronunciations,
     gameConstants: { BASE_COUNT: 4, INCREMENT: 0, LEVEL_THRESHOLD: 99 },
     uniqueByField: 'color',
   });
@@ -150,7 +169,7 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   counting:               useCountingGame,
   math:                   useMathGame,
   'geography-flags':      g('geography-flags'),
-  'geography-capitals':   g('geography-capitals'),
+  'geography-capitals':   useGeographyCapitalsGame,
   'geography-continents': useGeographyContinentsGame,
 };
 
