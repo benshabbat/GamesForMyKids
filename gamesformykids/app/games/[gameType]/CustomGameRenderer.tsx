@@ -32,7 +32,6 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'shesh-besh':      dynamic(() => import('../shesh-besh/SheshBeshClient')),
   simon:             dynamic(() => import('../simon/SimonClient')),
   snake:             dynamic(() => import('../snake/SnakeClient')),
-  soccer:            dynamic(() => import('../soccer/SoccerGameClient')),
   'space-defender':  dynamic(() => import('../space-defender/SpaceDefenderClient')),
   stack:             dynamic(() => import('../stack/StackClient')),
   taki:              dynamic(() => import('../taki/TakiClient')),
