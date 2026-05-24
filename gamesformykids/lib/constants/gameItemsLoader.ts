@@ -69,7 +69,7 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'numbers':        return fromBasic('ALL_NUMBERS');
     case 'colored-shapes': return fromBasic('ALL_COLORED_SHAPES');
     case 'advanced-colors':return fromBasic('ADVANCED_COLORS_ITEMS');
-    case 'counting':       return fromBasic('ALL_NUMBERS');
+    case 'counting':       return (await import('./gameData/counting')).COUNTING_ITEMS;
     case 'math':           return fromBasic('ALL_NUMBERS');
     case 'bubbles':        return fromBasic('ALL_COLORS');
     case 'puzzles':        return fromBasic('ALL_SHAPES');
