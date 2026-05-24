@@ -3,7 +3,7 @@
 import { useSoccerQuestion } from '../hooks/useSoccerQuestion';
 
 export default function SoccerAnswerGrid() {
-  const { phase, currentQuestion, answerClass, selectAnswer } = useSoccerQuestion();
+  const { isAnswered, currentQuestion, answerClass, selectAnswer } = useSoccerQuestion();
   if (!currentQuestion) return null;
 
   return (
@@ -12,7 +12,7 @@ export default function SoccerAnswerGrid() {
         <button
           key={idx}
           onClick={() => selectAnswer(idx)}
-          disabled={phase === 'answered'}
+          disabled={isAnswered}
           className={answerClass(idx)}
         >
           {ans}

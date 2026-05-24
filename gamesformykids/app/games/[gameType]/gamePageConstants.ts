@@ -25,7 +25,7 @@ export const SUPPORTED_GAMES = [
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
-  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
+  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
   'word-builder', 'word-scramble',
 
@@ -36,6 +36,7 @@ export const SUPPORTED_GAMES = [
   'israel', 'nature', 'healthy-food', 'family', 'human-body',
   'sequences', 'color-mix', 'clock', 'english-words', 'shapes-3d',
   'transport', 'holidays', 'tzadikim',
+  'soccer',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -45,7 +46,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
-  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'soccer', 'space-defender',
+  'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
   'word-builder', 'word-scramble',
 ]);

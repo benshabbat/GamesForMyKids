@@ -3,8 +3,8 @@
 import { useSoccerQuestion } from '../hooks/useSoccerQuestion';
 
 export default function SoccerNextButton() {
-  const { phase, nextLabel, nextQuestion } = useSoccerQuestion();
-  if (phase !== 'answered') return null;
+  const { isAnswered, nextLabel, nextQuestion } = useSoccerQuestion();
+  if (!isAnswered) return null;
 
   return (
     <button
