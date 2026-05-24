@@ -5,8 +5,8 @@ import {
   getRandomItem,
   generateOptions,
   delay,
-  getRandomFeedbackMessage,
 } from '@/lib/utils/game/gameUtils';
+import { getRandomFeedbackMessage } from '@/lib/utils/game/feedbackUtils';
 
 // ── shuffleArray ──────────────────────────────────────────────────────────────
 
