@@ -80,12 +80,11 @@ Read the issue body. Identify:
 
 ### 2b. Check if the work is safe to automate
 
-Only proceed automatically if ALL of these are true:
-- The issue is in the categories: `refactor`, `types`, `dead-code`, `architecture`
-- The change is isolated to ≤ 3 files
-- The file(s) exist at the stated path
+Only **skip** an issue if one of these is true:
+- The label is `bug` or `performance` and there is no clear mechanical fix described in the issue body
+- The file(s) mentioned in the issue do not exist at the stated path
 
-If the issue requires broader changes or involves `performance`/`bug` labels without a clear mechanical fix, **skip it** and note "requires human review" in the report.
+For all other issues (`refactor`, `types`, `dead-code`, `architecture`) — proceed regardless of how many files are affected. Read the issue body carefully and implement exactly what it asks.
 
 ### 2c. Create branch
 
