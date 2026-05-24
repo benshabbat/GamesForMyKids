@@ -1,6 +1,6 @@
 'use client';
 
-import { create } from 'zustand';
+import { makeStore } from '@/lib/stores/createStore';
 import { makeInitialBoard, applyMove, isInCheck, pieceColor, INIT_CASTLING, INIT } from '../logic/chessBoardUtils';
 import { getAllValidMoves, getValidMoves } from '../logic/chessMoveGen';
 import { bestComputerMove } from '../logic/chessAI';
@@ -98,7 +98,7 @@ function scheduleComputerMove() {
   }, 600);
 }
 
-export const useChessStore = create<ChessStore>((set, get) => ({
+export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => ({
   ...INIT,
 
   startGame: () => {
