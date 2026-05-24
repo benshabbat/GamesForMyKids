@@ -7,7 +7,7 @@ import { shuffleArray } from './cardUtils';
 import { speakPositiveFeedback, speakNegativeFeedback, speakStartMessage } from './feedbackUtils';
 
 // ── Re-exports from domain files (backward compat) ──────────────────────────
-export { playSuccessSound, playCustomSound, playAnimalSound, playMemorySuccessSound } from './audioUtils';
+export { playSuccessSound, playMemorySuccessSound } from './audioUtils';
 export { shuffleArray, shuffle, createShuffledMemoryCards } from './cardUtils';
 export {
   getRandomFeedbackMessage,
