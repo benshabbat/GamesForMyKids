@@ -9,7 +9,8 @@ import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { useMathGame } from "@/app/games/math/hooks/useMathGame";
 import { useCountingGame } from "@/app/games/counting/useCountingGame";
 import { useNatureSoundsGame } from "@/app/games/nature-sounds/useNatureSoundsGame";
-import { useBaseGame } from "@/hooks/shared/game-state/useBaseGame";
+import { useGeographyCapitalsGame } from "@/hooks/games/useGeographyCapitalsGame";
+import { useGeographyContinentsGame } from "@/hooks/games/useGeographyContinentsGame";
 import type { BaseGameItem } from "@/lib/types/core/base";
 
 type AnyGameHookFn = () => {
@@ -23,37 +24,6 @@ type AnyGameHookFn = () => {
   currentAccuracy?: number;
   progressStats?: unknown;
   [key: string]: unknown;
-};
-
-// geography-capitals: speak country name (plural), not capital name (hebrew = answer)
-const useGeographyCapitalsGame = (): ReturnType<typeof useBaseGame> => {
-  const items = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
-  const pronunciations = (items ?? []).reduce<Record<string, string>>((acc, item) => {
-    acc[item.name] = item.plural ?? item.hebrew;
-    return acc;
-  }, {});
-  return useBaseGame({
-    gameType: 'geography-capitals',
-    items: items ?? [],
-    pronunciations,
-    gameConstants: { BASE_COUNT: 4, INCREMENT: 0, LEVEL_THRESHOLD: 99 },
-  });
-};
-
-// geography-continents: speak country name (plural); unique-by-continent option generation
-const useGeographyContinentsGame = (): ReturnType<typeof useBaseGame> => {
-  const items = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
-  const pronunciations = (items ?? []).reduce<Record<string, string>>((acc, item) => {
-    acc[item.name] = item.plural ?? item.hebrew;
-    return acc;
-  }, {});
-  return useBaseGame({
-    gameType: 'geography-continents',
-    items: items ?? [],
-    pronunciations,
-    gameConstants: { BASE_COUNT: 4, INCREMENT: 0, LEVEL_THRESHOLD: 99 },
-    uniqueByField: 'color',
-  });
 };
 
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד
