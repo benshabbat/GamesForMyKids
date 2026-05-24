@@ -3,8 +3,7 @@
  * מנהל את כל מצב משחק הצביעה: תמונה נוכחית, צבע נבחר, מילויים.
  * לחיצה על אזור → מצבע מיד בצבע הנבחר.
  */
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from '@/lib/stores/createStore';
 import { PALETTE_COLORS, IMAGES, type ImageId } from '../constants';
 
 export type { ImageId };
@@ -44,9 +43,9 @@ interface ColoringActions {
   fillGroup: (memberIds: string[], colorableIds: string[]) => void;  clearImage: () => void;
 }
 
-export const useColoringStore = create<ColoringState & ColoringActions>()(
-  devtools(
-    (set, get) => ({
+export const useColoringStore = makeStore<ColoringState & ColoringActions>(
+  'ColoringStore',
+  (set, get) => ({
       currentImage: 'cat',
       selectedColor: PALETTE_COLORS[0].hex,
       allFills: EMPTY_FILLS,
@@ -104,7 +103,5 @@ export const useColoringStore = create<ColoringState & ColoringActions>()(
           'clearImage',
         );
       },
-    }),
-    { name: 'ColoringStore' },
-  ),
+  }),
 );

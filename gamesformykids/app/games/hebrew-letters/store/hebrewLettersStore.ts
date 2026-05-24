@@ -1,5 +1,4 @@
-﻿import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+﻿import { makeStore } from '@/lib/stores/createStore';
 import { TOTAL_HEBREW_LETTERS } from '../constants/hebrewLetters';
 import { PRACTICE_STEPS, STEP_MESSAGES } from '../constants/hebrewLettersConstants';
 import type { PracticeState } from '../types/hebrew-letters';
@@ -17,17 +16,15 @@ export type { HebrewLettersState, HebrewLettersStore };
 export type { HebrewLettersStoreActions } from './types';
 
 // ── Store ──────────────────────────────────────────────────
-export const useHebrewLettersStore = create<HebrewLettersStore>()(
-  devtools(
-    (...a) => ({
-      ...createLetterSlice(...a),
-      ...createAudioSlice(...a),
-      ...createDrawingSlice(...a),
-      ...createPracticeSlice(...a),
-      ...createStatsSlice(...a),
-    }),
-    { name: 'hebrewLettersStore' },
-  ),
+export const useHebrewLettersStore = makeStore<HebrewLettersStore>(
+  'hebrewLettersStore',
+  (...a) => ({
+    ...createLetterSlice(...a),
+    ...createAudioSlice(...a),
+    ...createDrawingSlice(...a),
+    ...createPracticeSlice(...a),
+    ...createStatsSlice(...a),
+  }),
 );
 
 // ── Pure utility functions ─────────────────────────────────
