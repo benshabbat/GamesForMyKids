@@ -5,6 +5,7 @@
  */
 
 import { ALL_COLORS, ALL_LETTERS, ALL_SHAPES, ALL_NUMBERS, ALL_COLORED_SHAPES, ADVANCED_COLORS_ITEMS } from "@/lib/constants/gameData/basic";
+import { COUNTING_ITEMS } from "@/lib/constants/gameData/counting";
 import { ALL_ANIMALS, ALL_FRUITS, ALL_VEGETABLES, ALL_SMELLS_TASTES, OCEAN_LIFE_ITEMS, GARDEN_PLANTS_ITEMS } from "@/lib/constants/gameData/nature";
 import { ALL_TRANSPORTS, ALL_VEHICLES, ALL_TOOLS, ALL_SPACE_OBJECTS, ALL_WEATHERS, ADVANCED_WEATHER_ITEMS } from "@/lib/constants/gameData/world";
 import { ALL_HOUSE_ITEMS, ALL_CLOTHING, ALL_INSTRUMENTS, ALL_PROFESSIONS, ALL_EMOTIONS } from "@/lib/constants/gameData/lifestyle";
@@ -87,7 +88,7 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   professions: ALL_PROFESSIONS, // ✅ עודכן!
   emotions: ALL_EMOTIONS, // ✅ עודכן!
   memory: ALL_ANIMALS, // נשאר בעלי חיים - יש לוגיקה מיוחדת במשחק
-  counting: ALL_NUMBERS, // ✅ עודכן!
+  counting: COUNTING_ITEMS, // ✅ emoji items from gameData/counting.ts
   math: ALL_NUMBERS, // ✅ עודכן!
   bubbles: ALL_COLORS, // ✅ עודכן!
   puzzles: ALL_SHAPES, // ✅ עודכן! (זמני - צריך נתוני פאזלים ייעודיים)
