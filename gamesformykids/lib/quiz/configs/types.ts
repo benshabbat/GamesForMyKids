@@ -18,10 +18,12 @@ export interface QuizGameConfig<Q = unknown> {
   menuScreen?: (onStart: () => void) => ReactNode;
   questions: Q[];
   questionsPerGame: number;
-  getChoices: (q: Q) => string[];
-  isCorrect: (choice: string, q: Q) => boolean;
-  getCorrectLabel: (q: Q) => string;
-  renderQuestion: (q: Q) => ReactNode;
+  // Method-syntax declarations are bivariant in TypeScript, allowing concrete
+  // QuizGameConfig<Q> values to be stored in a QuizGameConfig<unknown> map.
+  getChoices(q: Q): string[];
+  isCorrect(choice: string, q: Q): boolean;
+  getCorrectLabel(q: Q): string;
+  renderQuestion(q: Q): ReactNode;
   correctMsg?: string;
-  wrongMsg?: (q: Q) => string;
+  wrongMsg?(q: Q): string;
 }

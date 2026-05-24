@@ -8,47 +8,45 @@
 
 import type { GameType, BaseGameItem } from '@/lib/types/core/base';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type DataModule = Record<string, any>;
+/** Each data module exports named `BaseGameItem[]` arrays alongside non-array constants.
+ *  We type-narrow at the boundary instead of using `any`. */
+type DataModule = Record<string, unknown>;
+
+function extractItems(m: DataModule, key: string): BaseGameItem[] {
+  const val = m[key];
+  return Array.isArray(val) ? (val as BaseGameItem[]) : [];
+}
 
 async function fromNature(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/nature');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/nature'), key);
 }
 
 async function fromBasic(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/basic');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/basic'), key);
 }
 
 async function fromWorld(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/world');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/world'), key);
 }
 
 async function fromLifestyle(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/lifestyle');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/lifestyle'), key);
 }
 
 async function fromAdditional(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/additionalGames');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/additionalGames'), key);
 }
 
 async function fromInnovative(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/innovative');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/innovative'), key);
 }
 
 async function fromTechnology(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/technology');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/technology'), key);
 }
 
 async function fromFunGames(key: string): Promise<BaseGameItem[]> {
-  const m: DataModule = await import('./gameData/funGames');
-  return (m[key] ?? []) as BaseGameItem[];
+  return extractItems(await import('./gameData/funGames'), key);
 }
 
 export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]> {
@@ -92,49 +90,37 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'professions':  return fromLifestyle('ALL_PROFESSIONS');
     case 'emotions':     return fromLifestyle('ALL_EMOTIONS');
 
-    // special.ts
-    case 'magic-fairy-tales': {
-      const m: DataModule = await import('./gameData/special');
-      return m['MAGIC_FAIRY_TALES_ITEMS'] as BaseGameItem[];
-    }
-    case 'circus-show': {
-      const m: DataModule = await import('./gameData/special');
-      return m['CIRCUS_SHOW_ITEMS'] as BaseGameItem[];
-    }
+    // special.ts (mixed exports — use extractItems boundary)
+    case 'magic-fairy-tales': return extractItems(await import('./gameData/special'), 'MAGIC_FAIRY_TALES_ITEMS');
+    case 'circus-show':       return extractItems(await import('./gameData/special'), 'CIRCUS_SHOW_ITEMS');
 
-    // single-export files
-    case 'sports':     return (await import('./gameData/sports')).SPORTS_ITEMS as BaseGameItem[];
+    // single-export files (each module exports exactly one BaseGameItem[] constant)
+    case 'sports':     return (await import('./gameData/sports')).SPORTS_ITEMS;
     case 'kitchen':
     case 'cooking-kitchen':
-                       return (await import('./gameData/cooking')).KITCHEN_ITEMS as BaseGameItem[];
-    case 'body-parts': return (await import('./gameData/body')).BODY_PARTS_ITEMS as BaseGameItem[];
-    case 'family':     return (await import('./gameData/family')).FAMILY_ITEMS as BaseGameItem[];
-    case 'dinosaurs':  return (await import('./gameData/dinosaurs')).DINOSAURS_ITEMS as BaseGameItem[];
-    case 'flags':               return (await import('./gameData/flags')).FLAGS_ITEMS as BaseGameItem[];
-    case 'geography-flags':     return (await import('./gameData/geographyItems')).GEOGRAPHY_FLAGS_ITEMS as BaseGameItem[];
-    case 'geography-capitals':  return (await import('./gameData/geographyItems')).GEOGRAPHY_CAPITALS_ITEMS as BaseGameItem[];
-    case 'geography-continents':return (await import('./gameData/geographyItems')).GEOGRAPHY_CONTINENTS_ITEMS as BaseGameItem[];
-    case 'soccer-logos':     return (await import('./gameData/soccerLogos')).SOCCER_LOGOS_ITEMS as BaseGameItem[];
-    case 'car-brands':       return (await import('./gameData/carBrands')).CAR_BRANDS_ITEMS as BaseGameItem[];
-    case 'world-landmarks':  return (await import('./gameData/worldLandmarks')).WORLD_LANDMARKS_ITEMS as BaseGameItem[];
-    case 'solar-system':     return (await import('./gameData/solarSystem')).SOLAR_SYSTEM_ITEMS as BaseGameItem[];
-    case 'famous-paintings': return (await import('./gameData/famousPaintings')).FAMOUS_PAINTINGS_ITEMS as BaseGameItem[];
-    case 'tech-logos':       return (await import('./gameData/techLogos')).TECH_LOGOS_ITEMS as BaseGameItem[];
-    case 'dog-breeds':       return (await import('./gameData/dogBreeds')).DOG_BREEDS_ITEMS as BaseGameItem[];
-    case 'cat-breeds':       return (await import('./gameData/catBreeds')).CAT_BREEDS_ITEMS as BaseGameItem[];
-    case 'nba-teams':        return (await import('./gameData/nbaTeams')).NBA_TEAMS_ITEMS as BaseGameItem[];
-    case 'exotic-birds':     return (await import('./gameData/exoticBirds')).EXOTIC_BIRDS_ITEMS as BaseGameItem[];
-    case 'butterflies':      return (await import('./gameData/butterflies')).BUTTERFLIES_ITEMS as BaseGameItem[];
+                       return (await import('./gameData/cooking')).KITCHEN_ITEMS;
+    case 'body-parts': return (await import('./gameData/body')).BODY_PARTS_ITEMS;
+    case 'family':     return (await import('./gameData/family')).FAMILY_ITEMS;
+    case 'dinosaurs':  return (await import('./gameData/dinosaurs')).DINOSAURS_ITEMS;
+    case 'flags':               return (await import('./gameData/flags')).FLAGS_ITEMS;
+    case 'geography-flags':     return (await import('./gameData/geographyItems')).GEOGRAPHY_FLAGS_ITEMS;
+    case 'geography-capitals':  return (await import('./gameData/geographyItems')).GEOGRAPHY_CAPITALS_ITEMS;
+    case 'geography-continents':return (await import('./gameData/geographyItems')).GEOGRAPHY_CONTINENTS_ITEMS;
+    case 'soccer-logos':     return (await import('./gameData/soccerLogos')).SOCCER_LOGOS_ITEMS;
+    case 'car-brands':       return (await import('./gameData/carBrands')).CAR_BRANDS_ITEMS;
+    case 'world-landmarks':  return (await import('./gameData/worldLandmarks')).WORLD_LANDMARKS_ITEMS;
+    case 'solar-system':     return (await import('./gameData/solarSystem')).SOLAR_SYSTEM_ITEMS;
+    case 'famous-paintings': return (await import('./gameData/famousPaintings')).FAMOUS_PAINTINGS_ITEMS;
+    case 'tech-logos':       return (await import('./gameData/techLogos')).TECH_LOGOS_ITEMS;
+    case 'dog-breeds':       return (await import('./gameData/dogBreeds')).DOG_BREEDS_ITEMS;
+    case 'cat-breeds':       return (await import('./gameData/catBreeds')).CAT_BREEDS_ITEMS;
+    case 'nba-teams':        return (await import('./gameData/nbaTeams')).NBA_TEAMS_ITEMS;
+    case 'exotic-birds':     return (await import('./gameData/exoticBirds')).EXOTIC_BIRDS_ITEMS;
+    case 'butterflies':      return (await import('./gameData/butterflies')).BUTTERFLIES_ITEMS;
 
-    // newGames.ts
-    case 'world-food': {
-      const m: DataModule = await import('./gameData/newGames');
-      return m['WORLD_FOOD_ITEMS'] as BaseGameItem[];
-    }
-    case 'recycling': {
-      const m: DataModule = await import('./gameData/newGames');
-      return m['RECYCLING_ITEMS'] as BaseGameItem[];
-    }
+    // newGames.ts (mixed exports — use extractItems boundary)
+    case 'world-food': return extractItems(await import('./gameData/newGames'), 'WORLD_FOOD_ITEMS');
+    case 'recycling':  return extractItems(await import('./gameData/newGames'), 'RECYCLING_ITEMS');
 
     // additionalGames.ts
     case 'medicine':          return fromAdditional('MEDICINE_ITEMS');
