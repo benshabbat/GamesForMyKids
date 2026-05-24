@@ -11,6 +11,11 @@ import { useTriviaGame } from '@/lib/quiz/useTriviaGame';
 import { useScienceGame } from '@/lib/quiz/useScienceGame';
 import { useNatureGame } from '@/lib/quiz/useNatureGame';
 import { useIsraelGame } from '@/lib/quiz/useIsraelGame';
+import { useSoccerGame } from '@/lib/quiz/useSoccerGame';
+
+import SoccerMenuScreen from '@/app/games/soccer/components/SoccerMenuScreen';
+import SoccerQuestion from '@/app/games/soccer/components/SoccerQuestion';
+import SoccerResultScreen from '@/app/games/soccer/components/SoccerResultScreen';
 
 import ClockMenuScreen from '@/components/game/quiz/screens/ClockMenuScreen';
 import ClockQuestion from '@/components/game/quiz/screens/ClockQuestion';
@@ -105,6 +110,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <IsraelMenuScreen onStart={startGame as (cat: IsraelCategory) => void} />,
       question: current ? <CategoryIndexedQuestion current={current} choices={choices} correctLabel={correctLabel} onSelect={selectAnswer} theme="blue" categoryColors={ISRAEL_COLORS} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="blue" />,
+    }),
+  ),
+
+  'soccer': makeQuizGame(
+    useSoccerGame,
+    ({ current }) => ({
+      menu:     <SoccerMenuScreen />,
+      question: current ? <SoccerQuestion /> : null,
+      result:   <SoccerResultScreen />,
     }),
   ),
 };
