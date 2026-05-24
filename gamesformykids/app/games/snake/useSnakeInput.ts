@@ -47,14 +47,14 @@ export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
     if (adx > ady) newDir = dx > 0 ? 'R' : 'L';
     else newDir = dy > 0 ? 'D' : 'U';
     if (newDir !== OPPOSITE_DIR[s.dir]) s.nextDir = newDir;
-  }, []);
+  }, [st]);
 
   // On-screen D-pad
   const controlDir = useCallback((dir: Dir) => {
     const s = st.current;
     if (s.phase !== 'playing') return;
     if (dir !== OPPOSITE_DIR[s.dir]) s.nextDir = dir;
-  }, []);
+  }, [st]);
 
   return { handleTouchStart, handleTouchEnd, controlDir };
 }
