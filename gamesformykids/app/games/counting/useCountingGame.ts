@@ -8,25 +8,8 @@ import { getRandomItem } from "@/lib/utils/game/gameUtils";
 import { COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 import { useCountingChallengeStore } from "@/lib/stores/countingChallengeStore";
 import { useNumericQuizRuntime } from "@/hooks/games/useNumericQuizRuntime";
-
-// ---------------------------------------------------------------------------
-// Items
-// ---------------------------------------------------------------------------
-
-const COUNTING_ITEMS = [
-  { emoji: "🐶", name: "כלב", plural: "כלבים" },
-  { emoji: "🐱", name: "חתול", plural: "חתולים" },
-  { emoji: "🍎", name: "תפוח", plural: "תפוחים" },
-  { emoji: "🌟", name: "כוכב", plural: "כוכבים" },
-  { emoji: "⚽", name: "כדור", plural: "כדורים" },
-  { emoji: "🌸", name: "פרח", plural: "פרחים" },
-  { emoji: "🎈", name: "בלון", plural: "בלונים" },
-  { emoji: "🦋", name: "פרפר", plural: "פרפרים" },
-  { emoji: "🍊", name: "תפוז", plural: "תפוזים" },
-  { emoji: "🧸", name: "דובי", plural: "דובים" },
-  { emoji: "🏀", name: "כדורסל", plural: "כדורי סל" },
-  { emoji: "🎀", name: "סרט", plural: "סרטים" },
-];
+import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
+import { COUNTING_ITEMS as FALLBACK_ITEMS } from "@/lib/constants/gameData/counting";
 
 // ---------------------------------------------------------------------------
 // Pure helpers (defined outside hook — stable references, no closures)
@@ -41,16 +24,16 @@ function getMaxCount(level: number): number {
   );
 }
 
-function generateCountingChallenge(level: number): CountingChallenge {
+function generateCountingChallenge(level: number, items: BaseGameItem[]): CountingChallenge {
   const maxCount = getMaxCount(level);
   const count = Math.floor(Math.random() * maxCount) + 1;
-  const item = getRandomItem(COUNTING_ITEMS);
+  const item = getRandomItem(items.length > 0 ? items : FALLBACK_ITEMS);
   return {
-    emojis: item.emoji.repeat(count),
+    emojis: (item.emoji ?? '⭐').repeat(count),
     answer: count,
-    itemName: item.name,
-    itemPlural: item.plural,
-    emoji: item.emoji,
+    itemName: item.hebrew,
+    itemPlural: item.plural ?? item.hebrew,
+    emoji: item.emoji ?? '⭐',
   };
 }
 
@@ -84,6 +67,9 @@ function toOptionItem(n: number): BaseGameItem {
 
 export function useCountingGame() {
   const { speechEnabled } = useGameAudio();
+  const storeItems = useGameTypeStore((s) => s.gameItems) as BaseGameItem[];
+  // Use store items loaded server-side; fall back to the constant if store is empty.
+  const items = storeItems.length > 0 ? storeItems : FALLBACK_ITEMS;
 
   const speakCountingQuestion = async (challenge: CountingChallenge): Promise<void> => {
     if (!speechEnabled) return;
@@ -96,7 +82,7 @@ export function useCountingGame() {
 
   const { gameState, startGame, handleNumberClick, handleItemClick, speakItemName, resetGame } =
     useNumericQuizRuntime<CountingChallenge>({
-      generateChallenge: generateCountingChallenge,
+      generateChallenge: (level) => generateCountingChallenge(level, items),
       generateOptions: generateCountingOptions,
       speakQuestion: speakCountingQuestion,
       toChallengeItem,
