@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 const CELL = 40;
 const COLS = 9;
@@ -34,18 +35,19 @@ function makeLanes() {
 }
 
 export function useFroggerGame() {
+  const { saveGameResultRef } = useGameCompletion('frogger');
   const st = useRef({
     phase: 'menu' as Phase,
     fCol: 4, fRow: 8,
     lives: 3, score: 0, best: 0, level: 1,
-    frame: 0, dead: false, deadTimer: 0,
+    frame: 0, dead: false, deadTimer: 0, startTime: 0,
     lanes: makeLanes(),
   });
   const startGame = useCallback(() => {
     const s = st.current;
     s.phase = 'playing'; s.fCol = 4; s.fRow = 8;
     s.lives = 3; s.score = 0; s.level = 1; s.frame = 0; s.dead = false; s.deadTimer = 0;
-    s.lanes = makeLanes();
+    s.lanes = makeLanes(); s.startTime = Date.now();
     useFroggerStore.getState().startPlaying();
   }, []);
 
@@ -100,7 +102,7 @@ export function useFroggerGame() {
             const cx = car.x + CAR_W / 2;
             if (Math.abs(fx - cx) < CAR_W / 2 - 4) {
               s.lives--; s.dead = true; s.deadTimer = 55; s.fCol = 4; s.fRow = 8;
-              if (s.lives <= 0) { s.phase = 'dead'; useFroggerStore.getState().endGame(s.score); }
+              if (s.lives <= 0) { s.phase = 'dead'; saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useFroggerStore.getState().endGame(s.score); }
             }
           }
         }
