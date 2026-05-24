@@ -65,9 +65,6 @@ export { useAchievementsStore } from './achievementsStore';
 // Game Progress Data (progress[] / loading / error — Supabase)
 export { useGameProgressDataStore } from './gameProgressDataStore';
 
-// Game Data (gameItems / gameTypes / loading / error — Supabase, deduplicated)
-export { useGameDataStore } from './gameDataStore';
-
 // Featured Game (daily featured game / ageGroups — shared across marketing components)
 export { useFeaturedGameStore } from './featuredGameStore';
 
