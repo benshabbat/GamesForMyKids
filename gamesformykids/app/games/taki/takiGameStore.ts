@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+﻿import { makeStore } from '@/lib/stores/createStore';
 import type { TakiGameState, TakiCard, CardColor } from './takiTypes';
 import { INITIAL_STATE } from './takiTypes';
 import { buildDeck } from './takiDeck';
@@ -21,7 +21,7 @@ interface TakiGameActions {
   computerTurn: () => void;
 }
 
-export const useTakiStore = create<TakiGameState & TakiGameActions>()((set, get) => ({
+export const useTakiStore = makeStore<TakiGameState & TakiGameActions>('TakiStore', (set, get) => ({
   ...INITIAL_STATE,
 
   startGame: () => {

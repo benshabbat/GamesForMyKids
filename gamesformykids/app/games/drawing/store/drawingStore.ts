@@ -1,6 +1,6 @@
 'use client';
 
-import { create } from 'zustand';
+import { makeStore } from '@/lib/stores/createStore';
 
 interface DrawingStore {
   // Tool state
@@ -36,7 +36,7 @@ interface DrawingStore {
   stopGame: (defaultTimeLimit?: number) => void;
 }
 
-export const useDrawingStore = create<DrawingStore>((set) => ({
+export const useDrawingStore = makeStore<DrawingStore>('DrawingStore', (set) => ({
   // Tool state
   currentColor: '#000000',
   brushSize: 5,

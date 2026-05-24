@@ -1,4 +1,4 @@
-﻿import { create } from 'zustand';
+﻿import { makeStore } from '@/lib/stores/createStore';
 import type { PuzzleState } from '../types/puzzle';
 import { initialTouchState } from './puzzleStoreConstants';
 import { type FeedbackSlice, createFeedbackSlice } from './slices/feedbackSlice';
@@ -9,7 +9,7 @@ import { type ControlsSlice, createControlsSlice } from './slices/controlsSlice'
 
 export type PuzzleStore = PuzzleState & FeedbackSlice & GameSlice & DropSlice & DragSlice & ControlsSlice;
 
-export const usePuzzleStore = create<PuzzleStore>()((...a) => ({
+export const usePuzzleStore = makeStore<PuzzleStore>('PuzzleStore', (...a) => ({
   // --- Base PuzzleState ---
   gameStarted: false,
   isCompleted: false,

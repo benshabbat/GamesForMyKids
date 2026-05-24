@@ -1,6 +1,6 @@
 'use client';
 
-import { create } from 'zustand';
+import { makeStore } from '@/lib/stores/createStore';
 import type { PhaseQuiz as Phase } from '@/lib/types';
 import { shuffle } from '@/lib/utils';
 import {
@@ -34,7 +34,7 @@ interface TransportStore {
   goToMenu: () => void;
 }
 
-export const useTransportStore = create<TransportStore>((set, get) => ({
+export const useTransportStore = makeStore<TransportStore>('TransportStore', (set, get) => ({
   // Base quiz state
   phase: 'menu',
   questions: [],
