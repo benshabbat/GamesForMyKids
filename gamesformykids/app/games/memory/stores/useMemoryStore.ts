@@ -1,7 +1,6 @@
 'use client';
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from '@/lib/stores/createStore';
 import {
   playMemorySuccessSound,
   createShuffledMemoryCards,
@@ -15,285 +14,245 @@ import {
   initialState,
   initialGameStats,
 } from './memoryStoreTypes';
+import { formatTime, getTimeColor, getGridCols, getAnimationDelay } from './memoryPureHelpers';
+import { resolveCardMatch } from './memoryMatchLogic';
 
 export type { MemoryStoreState, MemoryStoreActions } from './memoryStoreTypes';
 export type { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
 
 // ─── Store ────────────────────────────────────────────────────────────────────
 
-export const useMemoryStore = create<MemoryStoreState & MemoryStoreActions>()(
-  devtools(
-    (set, get) => ({
-      ...initialState,
+export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
+  'MemoryStore',
+  (set, get) => ({
+    ...initialState,
 
-      // ─── Computed helpers ──────────────────────────────────────────────────
+    // ─── Computed helpers ────────────────────────────────────────────────────
 
-      getDifficultyConfig: () =>
-        MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty],
+    getDifficultyConfig: () =>
+      MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[get().difficulty],
 
-      getDifficultyOptions: () => getDifficultyOptions(get().difficulty),
+    getDifficultyOptions: () => getDifficultyOptions(get().difficulty),
 
-      getGridCols: () => {
-        const count = get().cards.length;
-        if (count === 8) return 'grid-cols-2 md:grid-cols-4';
-        if (count === 12) return 'grid-cols-3 md:grid-cols-4';
-        if (count === 16) return 'grid-cols-4 md:grid-cols-4';
-        return 'grid-cols-3 md:grid-cols-4';
-      },
+    getGridCols: () => getGridCols(get().cards.length),
 
-      getCardDisplayData: (index) => {
-        const card = get().cards[index];
-        if (!card) return { id: index, emoji: '', isFlipped: false, isMatched: false };
-        return {
-          id: index,
-          emoji: card.animal.emoji,
-          isFlipped: card.isFlipped,
-          isMatched: card.isMatched,
-        };
-      },
+    getCardDisplayData: (index) => {
+      const card = get().cards[index];
+      if (!card) return { id: index, emoji: '', isFlipped: false, isMatched: false };
+      return {
+        id: index,
+        emoji: card.animal.emoji,
+        isFlipped: card.isFlipped,
+        isMatched: card.isMatched,
+      };
+    },
 
-      getAnimationDelay: (index) => `${index * 0.1}s`,
+    getAnimationDelay: (index) => getAnimationDelay(index),
 
-      getGameProgress: () => {
-        const { gameStats, getDifficultyConfig } = get();
-        const totalPairs = getDifficultyConfig().pairs;
-        const completedPairs = gameStats.matches;
-        return {
-          totalPairs,
-          completedPairs,
-          remainingPairs: totalPairs - completedPairs,
-          progressPercentage: totalPairs > 0 ? Math.round((completedPairs / totalPairs) * 100) : 0,
-        };
-      },
+    getGameProgress: () => {
+      const { gameStats, getDifficultyConfig } = get();
+      const totalPairs = getDifficultyConfig().pairs;
+      const completedPairs = gameStats.matches;
+      return {
+        totalPairs,
+        completedPairs,
+        remainingPairs: totalPairs - completedPairs,
+        progressPercentage: totalPairs > 0 ? Math.round((completedPairs / totalPairs) * 100) : 0,
+      };
+    },
 
-      canClickCard: (cardIndex) => {
-        const { isGamePaused, isCompleted, timeLeft, cards, flippedCards } = get();
-        if (isGamePaused || isCompleted || timeLeft <= 0) return false;
-        const card = cards[cardIndex];
-        if (!card || card.isFlipped || card.isMatched) return false;
-        if (flippedCards.includes(cardIndex)) return false;
-        if (flippedCards.length >= 2) return false;
-        return true;
-      },
+    canClickCard: (cardIndex) => {
+      const { isGamePaused, isCompleted, timeLeft, cards, flippedCards } = get();
+      if (isGamePaused || isCompleted || timeLeft <= 0) return false;
+      const card = cards[cardIndex];
+      if (!card || card.isFlipped || card.isMatched) return false;
+      if (flippedCards.includes(cardIndex)) return false;
+      if (flippedCards.length >= 2) return false;
+      return true;
+    },
 
-      getGameStateDescription: () => {
-        const { gameStarted, isGamePaused, isGameWon, isCompleted, timeLeft } = get();
-        if (!gameStarted) return 'לא התחיל';
-        if (isGamePaused) return 'מושהה';
-        if (isGameWon) return 'ניצחת!';
-        if (isCompleted || timeLeft <= 0) return 'נגמר הזמן';
-        return 'פעיל';
-      },
+    getGameStateDescription: () => {
+      const { gameStarted, isGamePaused, isGameWon, isCompleted, timeLeft } = get();
+      if (!gameStarted) return 'לא התחיל';
+      if (isGamePaused) return 'מושהה';
+      if (isGameWon) return 'ניצחת!';
+      if (isCompleted || timeLeft <= 0) return 'נגמר הזמן';
+      return 'פעיל';
+    },
 
-      formatTime: (seconds) => {
-        const mins = Math.floor(seconds / 60);
-        const secs = seconds % 60;
-        return `${mins}:${secs.toString().padStart(2, '0')}`;
-      },
+    formatTime: (seconds) => formatTime(seconds),
 
-      getFormattedTimeLeft: () => {
-        const { timeLeft, formatTime } = get();
-        return formatTime(timeLeft);
-      },
+    getFormattedTimeLeft: () => formatTime(get().timeLeft),
 
-      getTimeColor: () => {
-        const { timeLeft } = get();
-        if (timeLeft <= 10) return 'text-red-500';
-        if (timeLeft <= 30) return 'text-orange-500';
-        return 'text-green-600';
-      },
+    getTimeColor: () => getTimeColor(get().timeLeft),
 
-      getPerformanceLevel: () => {
-        const { gameStats, timeLeft, formatTime } = get();
-        return getPerformanceLevel(gameStats.score, gameStats.moves, timeLeft, formatTime);
-      },
+    getPerformanceLevel: () => {
+      const { gameStats, timeLeft } = get();
+      return getPerformanceLevel(gameStats.score, gameStats.moves, timeLeft, formatTime);
+    },
 
-      getWinAchievements: () => {
-        const { gameStats, timeLeft, getGameProgress } = get();
-        const { totalPairs } = getGameProgress();
-        return getWinAchievements(gameStats.score, gameStats.moves, gameStats.streak, gameStats.perfectMatches, timeLeft, totalPairs);
-      },
+    getWinAchievements: () => {
+      const { gameStats, timeLeft, getGameProgress } = get();
+      const { totalPairs } = getGameProgress();
+      return getWinAchievements(gameStats.score, gameStats.moves, gameStats.streak, gameStats.perfectMatches, timeLeft, totalPairs);
+    },
 
-      // ─── Timer actions (driven by useEffect in useMemoryGameContent) ───────
+    // ─── Timer actions ───────────────────────────────────────────────────────
 
-      incrementTimer: () =>
-        set(
-          (s) => ({
-            timer: s.timer + 1,
-            gameStats: { ...s.gameStats, timeElapsed: s.timer + 1 },
-          }),
-          false,
-          'memory/incrementTimer',
-        ),
+    incrementTimer: () =>
+      set(
+        (s) => ({
+          timer: s.timer + 1,
+          gameStats: { ...s.gameStats, timeElapsed: s.timer + 1 },
+        }),
+        false,
+        'memory/incrementTimer',
+      ),
 
-      decrementTimeLeft: () =>
-        set(
-          (s) => ({ timeLeft: Math.max(0, s.timeLeft - 1) }),
-          false,
-          'memory/decrementTimeLeft',
-        ),
+    decrementTimeLeft: () =>
+      set(
+        (s) => ({ timeLeft: Math.max(0, s.timeLeft - 1) }),
+        false,
+        'memory/decrementTimeLeft',
+      ),
 
-      setCompleted: (value) => set({ isCompleted: value }, false, 'memory/setCompleted'),
-      setGameWon: (value) => set({ isGameWon: value }, false, 'memory/setGameWon'),
+    setCompleted: (value) => set({ isCompleted: value }, false, 'memory/setCompleted'),
+    setGameWon: (value) => set({ isGameWon: value }, false, 'memory/setGameWon'),
 
-      // ─── Game lifecycle ───────────────────────────────────────────────────
+    // ─── Game lifecycle ──────────────────────────────────────────────────────
 
-      initializeGame: (targetDifficulty) => {
-        if (typeof window !== 'undefined' && window.speechSynthesis) {
-          window.speechSynthesis.cancel();
-        }
+    initializeGame: (targetDifficulty) => {
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
 
-        const state = get();
-        const currentDifficulty = targetDifficulty ?? state.difficulty;
-        const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[currentDifficulty];
+      const state = get();
+      const currentDifficulty = targetDifficulty ?? state.difficulty;
+      const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[currentDifficulty];
 
-        // Init audio on first interaction
-        let audioContext = state.audioContext;
-        if (!audioContext && typeof window !== 'undefined') {
-          try {
-            const AudioContextClass =
-              window.AudioContext ||
-              (window as typeof window & { webkitAudioContext?: typeof AudioContext })
-                .webkitAudioContext;
-            if (AudioContextClass) {
-              audioContext = new AudioContextClass();
-            }
-          } catch (error) {
-            console.warn('Failed to initialize audio context:', error);
+      let audioContext = state.audioContext;
+      if (!audioContext && typeof window !== 'undefined') {
+        try {
+          const AudioContextClass =
+            window.AudioContext ||
+            (window as typeof window & { webkitAudioContext?: typeof AudioContext })
+              .webkitAudioContext;
+          if (AudioContextClass) {
+            audioContext = new AudioContextClass();
           }
+        } catch (error) {
+          console.warn('Failed to initialize audio context:', error);
         }
+      }
 
-        const shuffled = [...MEMORY_GAME_ANIMALS].sort(() => Math.random() - 0.5);
-        const animals = shuffled.slice(0, config.pairs);
-        const genericCards = createShuffledMemoryCards(animals);
-        const cards: MemoryCard[] = genericCards.map((card) => ({
-          id: card.id,
-          animal: card.item,
-          isFlipped: card.isFlipped,
-          isMatched: card.isMatched,
-        }));
+      const shuffled = [...MEMORY_GAME_ANIMALS].sort(() => Math.random() - 0.5);
+      const animals = shuffled.slice(0, config.pairs);
+      const genericCards = createShuffledMemoryCards(animals);
+      const cards: MemoryCard[] = genericCards.map((card) => ({
+        id: card.id,
+        animal: card.item,
+        isFlipped: card.isFlipped,
+        isMatched: card.isMatched,
+      }));
 
-        set(
-          {
-            ...(targetDifficulty ? { difficulty: currentDifficulty } : {}),
-            animals,
-            cards,
-            timeLeft: config.timeLimit,
-            gameStarted: true,
-            isCompleted: false,
-            isGameWon: false,
-            timer: 0,
-            flippedCards: [],
-            matchedPairs: [],
-            gameStats: initialGameStats,
-            ...(audioContext !== state.audioContext ? { audioContext } : {}),
-          },
-          false,
-          'memory/initializeGame',
-        );
-      },
+      set(
+        {
+          ...(targetDifficulty ? { difficulty: currentDifficulty } : {}),
+          animals,
+          cards,
+          timeLeft: config.timeLimit,
+          gameStarted: true,
+          isCompleted: false,
+          isGameWon: false,
+          timer: 0,
+          flippedCards: [],
+          matchedPairs: [],
+          gameStats: initialGameStats,
+          ...(audioContext !== state.audioContext ? { audioContext } : {}),
+        },
+        false,
+        'memory/initializeGame',
+      );
+    },
 
-      handleCardClick: (cardIndex) => {
-        const { canClickCard, cards, flippedCards, gameStats } = get();
-        if (!canClickCard(cardIndex)) return;
+    handleCardClick: (cardIndex) => {
+      const { canClickCard, cards, flippedCards, gameStats } = get();
+      if (!canClickCard(cardIndex)) return;
 
-        const card = cards[cardIndex];
+      const card = cards[cardIndex];
 
-        // Count move when first card of a pair is flipped
-        const updatedStats =
-          flippedCards.length === 0
-            ? { ...gameStats, moves: gameStats.moves + 1 }
-            : gameStats;
+      const updatedStats =
+        flippedCards.length === 0
+          ? { ...gameStats, moves: gameStats.moves + 1 }
+          : gameStats;
 
-        const updatedCards = [...cards];
-        updatedCards[cardIndex] = { ...card, isFlipped: true };
+      const updatedCards = [...cards];
+      updatedCards[cardIndex] = { ...card, isFlipped: true };
 
-        set(
-          { flippedCards: [...flippedCards, cardIndex], cards: updatedCards, gameStats: updatedStats },
-          false,
-          'memory/flipCard',
-        );
+      set(
+        { flippedCards: [...flippedCards, cardIndex], cards: updatedCards, gameStats: updatedStats },
+        false,
+        'memory/flipCard',
+      );
 
-        if (flippedCards.length === 1) {
-          const firstCardIndex = flippedCards[0];
-          const firstCard = cards[firstCardIndex];
+      if (flippedCards.length === 1) {
+        const firstCardIndex = flippedCards[0];
 
-          setTimeout(() => {
-            const s = get();
-            if (firstCard.animal.name === card.animal.name) {
-              // ── Match ──
-              const matched = [...s.cards];
-              matched[firstCardIndex] = { ...matched[firstCardIndex], isMatched: true };
-              matched[cardIndex] = { ...matched[cardIndex], isMatched: true };
+        setTimeout(() => {
+          const s = get();
+          const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
+          const outcome = resolveCardMatch(s, firstCardIndex, cardIndex, config.pairs);
 
-              const newMatches = s.gameStats.matches + 1;
-              const newStreak = s.gameStats.streak + 1;
-              const newScore = s.gameStats.score + 100 * newStreak;
+          set(
+            {
+              cards: outcome.cards,
+              matchedPairs: outcome.matchedPairs,
+              flippedCards: outcome.flippedCards,
+              gameStats: outcome.gameStats,
+            },
+            false,
+            outcome.isMatch ? 'memory/successMatch' : 'memory/failedMatch',
+          );
 
-              set(
-                {
-                  cards: matched,
-                  matchedPairs: [...s.matchedPairs, card.animal.name],
-                  flippedCards: [],
-                  gameStats: { ...s.gameStats, matches: newMatches, streak: newStreak, score: newScore },
-                },
-                false,
-                'memory/successMatch',
-              );
-
-              playMemorySuccessSound(s.audioContext);
-
-              const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
-              if (newMatches === config.pairs) {
-                set({ isGameWon: true, isCompleted: true }, false, 'memory/gameWon');
-              }
-            } else {
-              // ── No match ──
-              const reset = [...s.cards];
-              reset[firstCardIndex] = { ...reset[firstCardIndex], isFlipped: false };
-              reset[cardIndex] = { ...reset[cardIndex], isFlipped: false };
-
-              set(
-                { cards: reset, flippedCards: [], gameStats: { ...s.gameStats, streak: 0 } },
-                false,
-                'memory/failedMatch',
-              );
+          if (outcome.isMatch) {
+            playMemorySuccessSound(s.audioContext);
+            if (outcome.isWon) {
+              set({ isGameWon: true, isCompleted: true }, false, 'memory/gameWon');
             }
-          }, MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6);
-        }
-      },
+          }
+        }, MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6);
+      }
+    },
 
-      pauseGame: () => set({ isGamePaused: true }, false, 'memory/pause'),
-      resumeGame: () => set({ isGamePaused: false }, false, 'memory/resume'),
+    pauseGame: () => set({ isGamePaused: true }, false, 'memory/pause'),
+    resumeGame: () => set({ isGamePaused: false }, false, 'memory/resume'),
 
-      resetGame: () =>
-        set(
-          {
-            gameStarted: false,
-            isCompleted: false,
-            isGameWon: false,
-            timer: 0,
-            timeLeft: 0,
-            isGamePaused: false,
-            gameStats: initialGameStats,
-            cards: [],
-            flippedCards: [],
-            matchedPairs: [],
-            showHints: false,
-            showDebug: false,
-          },
-          false,
-          'memory/resetGame',
-        ),
+    resetGame: () =>
+      set(
+        {
+          gameStarted: false,
+          isCompleted: false,
+          isGameWon: false,
+          timer: 0,
+          timeLeft: 0,
+          isGamePaused: false,
+          gameStats: initialGameStats,
+          cards: [],
+          flippedCards: [],
+          matchedPairs: [],
+          showHints: false,
+          showDebug: false,
+        },
+        false,
+        'memory/resetGame',
+      ),
 
-      resetToMenu: () => set({ ...initialState }, false, 'memory/resetToMenu'),
+    resetToMenu: () => set({ ...initialState }, false, 'memory/resetToMenu'),
 
-      setDifficulty: (difficulty) => {
-        if (get().difficulty === difficulty) return;
-        set({ difficulty }, false, 'memory/setDifficulty');
-        get().initializeGame(difficulty);
-      },
-    }),
-    { name: 'MemoryStore' },
-  ),
+    setDifficulty: (difficulty) => {
+      if (get().difficulty === difficulty) return;
+      set({ difficulty }, false, 'memory/setDifficulty');
+      get().initializeGame(difficulty);
+    },
+  }),
 );
