@@ -7,8 +7,9 @@ import { fractionsConfig, shapes3dConfig } from './configs/math';
 export type { QuizGameConfig } from './configs/types';
 import type { QuizGameConfig } from './configs/types';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<any>>> = {
+// QuizGameConfig<unknown> is the erased form; individual configs retain their Q via defineConfig.
+// Bivariant method declarations in QuizGameConfig allow heterogeneous storage here.
+export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<unknown>>> = {
   riddles: riddlesConfig,
   capitals: capitalsConfig,
   spelling: spellingConfig,
