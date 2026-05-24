@@ -1,21 +1,15 @@
 /**
  * אוסף פונקציות עזר גנריות למשחקים
  */
-import { GAME_CONSTANTS, LETTER_HEBREW_PRONUNCIATIONS } from "../../constants";
+import { GAME_CONSTANTS } from "../../constants";
 import { useGameProgressStore } from '@/lib/stores';
 import { shuffleArray } from './cardUtils';
-import { speakPositiveFeedback, speakNegativeFeedback, speakStartMessage } from './feedbackUtils';
+import { speakPositiveFeedback, speakNegativeFeedback } from './feedbackUtils';
 
 // ── Re-exports from domain files (backward compat) ──────────────────────────
 export { playSuccessSound, playMemorySuccessSound } from './audioUtils';
 export { shuffleArray, shuffle, createShuffledMemoryCards } from './cardUtils';
-export {
-  getRandomFeedbackMessage,
-  speakPositiveFeedback,
-  speakNegativeFeedback,
-  speakStartMessage,
-  speakItemName,
-} from './feedbackUtils';
+export { speakStartMessage, speakItemName } from './feedbackUtils';
 
 /**
  * פונקציית עזר להשהייה
@@ -29,13 +23,6 @@ export function delay(ms: number): Promise<void> {
  */
 export function randInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
-/**
- * מחזיר את ההגייה העברית של שם האות
- */
-export function getHebrewPronunciation(letterName: string): string {
-  return LETTER_HEBREW_PRONUNCIATIONS[letterName] || letterName;
 }
 
 /**
@@ -105,20 +92,6 @@ export async function handleCorrectGameAnswer(
   setShowCelebration(false);
 
   await onLevelComplete();
-}
-
-/**
- * פונקציה גנרית להתחלת משחק חדש
- */
-export async function startNewGame<T>(
-  initialState: T,
-  setGameState: React.Dispatch<React.SetStateAction<T>>,
-  onGameStart: () => Promise<void>
-): Promise<void> {
-  setGameState(initialState);
-  await speakStartMessage();
-  await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-  await onGameStart();
 }
 
 /**
