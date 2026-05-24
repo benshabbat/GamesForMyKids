@@ -4,6 +4,7 @@ import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 import { useCanvasLoop } from '@/hooks/canvas';
+import { useGameCompletion } from '@/hooks/shared/progress';
 
 export const W = 360;
 export const H = 560;
@@ -19,12 +20,13 @@ interface Asteroid { id: number; x: number; y: number; speed: number; r: number;
 let uid = 0;
 
 export function useSpaceDefenderGame() {
+  const { saveGameResultRef } = useGameCompletion('space-defender');
   const st = useRef({
     phase: 'menu' as Phase,
     shipX: W / 2,
     bullets: [] as Bullet[],
     asteroids: [] as Asteroid[],
-    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, nextAsteroid: 60,
+    score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, nextAsteroid: 60, startTime: 0,
     stars: Array.from({ length: 40 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 2, twinkle: Math.random() * Math.PI * 2 })),
     lastShot: 0,
   });
@@ -41,7 +43,7 @@ export function useSpaceDefenderGame() {
     const s = st.current;
     s.phase = 'playing';
     s.shipX = W / 2; s.bullets = []; s.asteroids = [];
-    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0;
+    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0; s.startTime = Date.now();
     useSpaceDefenderStore.getState().startGame();
   }, []);
 
@@ -54,6 +56,7 @@ export function useSpaceDefenderGame() {
       if (s.timeLeft <= 0) {
         s.timeLeft = 0;
         s.phase = 'result';
+        saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) });
         useSpaceDefenderStore.getState().setGameResult(s.score, s.lives, 0);
       }
       s.nextAsteroid--;
@@ -78,8 +81,8 @@ export function useSpaceDefenderGame() {
 
       const shipY = H - 80;
       s.asteroids = s.asteroids.filter(a => {
-        if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
-        if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
+        if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
+        if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
         return true;
       });
       if (s.frame % 20 === 0 && st.current.phase === 'playing') useSpaceDefenderStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
