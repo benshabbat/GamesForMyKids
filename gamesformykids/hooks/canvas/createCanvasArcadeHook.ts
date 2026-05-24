@@ -110,7 +110,6 @@ export function createCanvasArcadeHook<S extends { phase: string }>(
         const canvasX = (e.clientX - rect.left) * (config.width / rect.width);
         config.onPointerX(st.current, canvasX);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [],
     );
 
@@ -123,7 +122,6 @@ export function createCanvasArcadeHook<S extends { phase: string }>(
           (e.touches[0].clientX - rect.left) * (config.width / rect.width);
         config.onPointerX(st.current, canvasX);
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [],
     );
 
