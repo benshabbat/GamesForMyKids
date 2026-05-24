@@ -41,7 +41,7 @@ export function useAutoGame(): GameLogicState {
 
   // Actions from the hook result (freshest closures)
   const { startGame, handleItemClick, resetGame, speakItemName,
-          hints, hasMoreHints, showNextHint, currentAccuracy, progressStats } = gameHookResult;
+          hints, hasMoreHints, showNextHint, currentAccuracy } = gameHookResult;
 
   // UI state from Zustand
   const showProgressModal    = useUIStore((s) => s.showProgressModal);
@@ -88,7 +88,6 @@ export function useAutoGame(): GameLogicState {
     }),
     hasMoreHints,
     showNextHint,
-    progressStats: progressStats ? (progressStats as unknown as Record<string, unknown>) : undefined,
 
     // UI State
     showProgressModal,

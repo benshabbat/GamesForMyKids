@@ -22,7 +22,6 @@ type AnyGameHookFn = () => {
   hasMoreHints?: boolean;
   showNextHint?: () => void;
   currentAccuracy?: number;
-  progressStats?: unknown;
 };
 
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד

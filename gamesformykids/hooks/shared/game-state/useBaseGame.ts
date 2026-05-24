@@ -221,7 +221,6 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     hasMoreHints: hintsHooks.hasMoreHints || false,
     showNextHint: hintsHooks.showNextHint || (() => {}),
     currentAccuracy: progressHooks.getCurrentAccuracy() || 0,
-    progressStats: progressHooks.progressStats || null,
     performanceHooks, // לשימוש בקומפוננטים
   };
 }
