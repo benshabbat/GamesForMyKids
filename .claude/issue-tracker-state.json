@@ -1,0 +1,28 @@
+{
+  "lastRun": "2026-05-24T00:00:00.000Z",
+  "issues": {
+    "568": { "title": "refactor: Split useMemoryStore.ts — extract pure helpers and match logic", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "569": { "title": "refactor: Split sheshBeshGameStore.ts — separate AI logic, player move execution, and timer utilities", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "570": { "title": "refactor: Split useSnakeGame.ts — separate constants, canvas renderer, and input handlers", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "571": { "title": "refactor: Split blockSlice.ts — extract drag handlers into a dedicated slice", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "572": { "title": "refactor: Extract createCanvasArcadeHook factory — 8 canvas games share the same ref+loop pattern", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "573": { "title": "refactor: Move COUNTING_ITEMS inline data in useCountingGame.ts to lib/constants/gameData/", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "574": { "title": "types: Replace QuizGameConfig<any> in quizGameConfigs.tsx with a concrete type", "hasPR": false, "prNumber": null, "prState": null, "label": "types" },
+    "575": { "title": "types: Replace Record<string, any> DataModule type in gameItemsLoader.ts", "hasPR": false, "prNumber": null, "prState": null, "label": "types" },
+    "576": { "title": "types: AnyGameHookFn index signature [key: string]: unknown in gameHooksMap.ts is too permissive", "hasPR": false, "prNumber": null, "prState": null, "label": "types" },
+    "577": { "title": "refactor: Extract useGeographyCapitalsGame and useGeographyContinentsGame from gameHooksMap.ts", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" },
+    "578": { "title": "refactor: Migrate soccer game from manual Zustand quiz store to makeQuizGame factory", "hasPR": false, "prNumber": null, "prState": null, "label": "refactor" }
+  },
+  "prs": {
+    "567": { "title": "fix: use text-only cards for geography-capitals and geography-continents", "state": "MERGED", "linkedIssue": 566 },
+    "565": { "title": "refactor: move geography games to CardGamePage path", "state": "MERGED", "linkedIssue": 564 },
+    "563": { "title": "feat: refactor GeographyStartScreen to use GenericStartScreen + add back navigation", "state": "MERGED", "linkedIssue": 562 },
+    "561": { "title": "refactor: split geography into 3 separate GenericQuizGame games", "state": "MERGED", "linkedIssue": 560 },
+    "559": { "title": "refactor: move geography from QuizGameRouter to CustomGameRenderer", "state": "MERGED", "linkedIssue": 558 },
+    "557": { "title": "fix: use real flag images from flagcdn.com in geography flag mode", "state": "MERGED", "linkedIssue": 556 },
+    "555": { "title": "fix: enlarge flag emojis in geography flag-mode question", "state": "MERGED", "linkedIssue": 554 },
+    "553": { "title": "refactor: extract StatBox from memory game stat components", "state": "MERGED", "linkedIssue": 521 },
+    "552": { "title": "refactor: align memory difficulty to shared DifficultyLevel, replace DifficultySelector", "state": "MERGED", "linkedIssue": 518 },
+    "551": { "title": "refactor: extract GameErrorScreen from duplicate error.tsx files", "state": "MERGED", "linkedIssue": 513 }
+  }
+}

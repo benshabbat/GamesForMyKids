@@ -10,8 +10,9 @@ Desktop.ini
 *.swo
 *~
 
-# Claude Code local memory
-.claude/
+# Claude Code — ignore per-user local memory but track shared project files
+.claude/memory/
+.claude/settings.local.json
 
 # Logs
 *.log
