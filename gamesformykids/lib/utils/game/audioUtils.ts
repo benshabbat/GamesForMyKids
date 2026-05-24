@@ -34,9 +34,9 @@ export function playSuccessSound(audioContext: AudioContext | null): void {
 }
 
 /**
- * פונקציה גנרית ליצירת צליל מותאם אישית
+ * פונקציה גנרית ליצירת צליל מותאם אישית (internal helper — not exported)
  */
-export function playCustomSound(
+function playCustomSound(
   audioContext: AudioContext | null,
   frequencies: number[],
   type: OscillatorType = 'sine',
@@ -63,18 +63,6 @@ export function playCustomSound(
     osc.start(t);
     osc.stop(t + durationMs / 1000);
   });
-}
-
-/**
- * פונקציה להשמעת צליל של חיה
- */
-export function playAnimalSound(
-  audioContext: AudioContext | null,
-  emoji: string,
-  frequencies: Record<string, number[]>,
-): void {
-  const animalFreqs = frequencies[emoji] || frequencies['default'];
-  playCustomSound(audioContext, animalFreqs);
 }
 
 /**
