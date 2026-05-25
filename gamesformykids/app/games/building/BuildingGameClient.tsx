@@ -1,6 +1,5 @@
 'use client';
 
-import { useEffect } from 'react';
 import {
   ColorPicker,
   ShapeCreator,
@@ -13,30 +12,11 @@ import {
 } from './components';
 import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 import BuildingStartScreen from './BuildingStartScreen';
+import { useBuildingGameLoop } from './useBuildingGameLoop';
 
 export default function BuildingGameClient() {
   const isPlaying = useBuildingStore((s) => s.isPlaying);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      const { particles, tickParticles } = useBuildingStore.getState();
-      if (particles.length > 0) tickParticles();
-    }, 50);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (!useBuildingStore.getState().animationMode) return;
-      useBuildingStore.setState((s) => ({
-        blocks: s.blocks.map((block) => ({
-          ...block,
-          rotation: (block.rotation + 2) % 360,
-        })),
-      }));
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+  useBuildingGameLoop();
 
   if (!isPlaying) {
     return <BuildingStartScreen />;
