@@ -16,9 +16,6 @@ export * from './games';
 // Progress & Achievements
 export * from './shared/progress';
 
-// Analytics & Performance  
-export * from './shared/analytics';
-
 // User & Profile
 export * from './shared/user';
 
