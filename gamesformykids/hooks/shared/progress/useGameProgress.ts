@@ -2,7 +2,7 @@
 
 import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/shared/auth/useAuth'
-import { supabase } from '@/lib/supabase/client'
+import { fetchGameProgress, updateGameProgress } from '@/lib/supabase/gameProgress'
 import { useGameProgressDataStore } from '@/lib/stores/gameProgressDataStore'
 
 export interface GameProgress {
@@ -33,20 +33,8 @@ export function useGameProgress(gameType?: string) {
 
     try {
       setLoading(true)
-      let query = supabase
-        .from('game_progress')
-        .select('*')
-        .eq('user_id', user.id)
-
-      if (gameType) {
-        query = query.eq('game_type', gameType)
-      }
-
-      const { data, error } = await query
-
-      if (error) throw error
-
-      setProgress(data || [])
+      const data = await fetchGameProgress(user.id, gameType)
+      setProgress(data)
       setLoadedForUserId(user.id)
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בטעינת ההתקדמות')
@@ -64,26 +52,12 @@ export function useGameProgress(gameType?: string) {
     fetchProgress()
   }, [user, gameType, loadedForUserId, fetchProgress, setLoading])
 
-  async function updateProgress(gameType: string, updates: Partial<GameProgress>) {
+  async function handleUpdateProgress(gt: string, updates: Partial<GameProgress>) {
     if (!user) return null
 
     try {
-      const { data, error } = await supabase
-        .from('game_progress')
-        .upsert({
-          user_id: user.id,
-          game_type: gameType,
-          ...updates,
-          updated_at: new Date().toISOString()
-        }, { onConflict: 'user_id,game_type' })
-        .select()
-        .single()
-
-      if (error) throw error
-
-      // Update store
+      const data = await updateGameProgress(user.id, gt, updates)
       upsertProgressItem(data)
-
       return data
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בעדכון ההתקדמות')
@@ -91,21 +65,21 @@ export function useGameProgress(gameType?: string) {
     }
   }
 
-  async function addPlayTime(gameType: string, playTimeSeconds: number) {
-    const currentProgress = progress.find(p => p.game_type === gameType)
+  async function addPlayTime(gt: string, playTimeSeconds: number) {
+    const currentProgress = progress.find(p => p.game_type === gt)
     const newTotalTime = (currentProgress?.total_play_time || 0) + playTimeSeconds
 
-    return updateProgress(gameType, {
+    return handleUpdateProgress(gt, {
       total_play_time: newTotalTime,
       last_played_at: new Date().toISOString()
     })
   }
 
-  async function updateScore(gameType: string, newScore: number) {
-    const currentProgress = progress.find(p => p.game_type === gameType)
+  async function updateScore(gt: string, newScore: number) {
+    const currentProgress = progress.find(p => p.game_type === gt)
     const bestScore = Math.max(currentProgress?.best_score || 0, newScore)
 
-    return updateProgress(gameType, {
+    return handleUpdateProgress(gt, {
       score: newScore,
       last_score: newScore,
       best_score: bestScore,
@@ -113,11 +87,11 @@ export function useGameProgress(gameType?: string) {
     })
   }
 
-  async function updateLevel(gameType: string, newLevel: number) {
-    const currentProgress = progress.find(p => p.game_type === gameType)
+  async function updateLevel(gt: string, newLevel: number) {
+    const currentProgress = progress.find(p => p.game_type === gt)
     const completedLevels = Math.max(currentProgress?.completed_levels || 0, newLevel - 1)
 
-    return updateProgress(gameType, {
+    return handleUpdateProgress(gt, {
       level: newLevel,
       completed_levels: completedLevels,
       last_played_at: new Date().toISOString()
@@ -128,7 +102,7 @@ export function useGameProgress(gameType?: string) {
     progress,
     loading,
     error,
-    updateProgress,
+    updateProgress: handleUpdateProgress,
     addPlayTime,
     updateScore,
     updateLevel,

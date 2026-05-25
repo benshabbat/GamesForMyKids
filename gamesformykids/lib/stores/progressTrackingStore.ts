@@ -7,11 +7,14 @@
  * מחליף את useState + localStorage ב-useProgressTracking.ts.
  * ה-key הישן: 'gameProgress'  ← שומרים את אותו המפתח ב-persist.
  *
- * currentSession + progressStats נשארים מחושבים מקומית (derived state).
+ * currentSession נשאר מחושב מקומית ב-useSessionStats (derived state).
  */
 
 import { makePersistStore } from './createStore';
 import type { GameSession } from '@/lib/types/hooks/progress';
+
+/** Cap localStorage growth — keep only the most recent N sessions. */
+const MAX_SESSIONS = 200;
 
 // ── State ──────────────────────────────────────────────────
 export interface ProgressTrackingState {
@@ -21,39 +24,23 @@ export interface ProgressTrackingState {
 // ── Actions ────────────────────────────────────────────────
 export interface ProgressTrackingActions {
   addSession: (session: GameSession) => void;
-  updateCurrentSession: (id: string, updates: Partial<GameSession>) => void;
-  clearProgress: () => void;
-  getSessionsByGameType: (gameType: string) => GameSession[];
 }
 
 // ── Store ──────────────────────────────────────────────────
 export const useProgressTrackingStore = makePersistStore<ProgressTrackingState & ProgressTrackingActions>(
   'ProgressTrackingStore',
   'gameProgress',
-  (set, get) => ({
+  (set) => ({
     allSessions: [],
 
     addSession: (session) =>
       set(
-        (state) => ({ allSessions: [...state.allSessions, session] }),
+        (state) => {
+          const next = [...state.allSessions, session];
+          return { allSessions: next.length > MAX_SESSIONS ? next.slice(-MAX_SESSIONS) : next };
+        },
         false,
         'progress/addSession',
       ),
-
-    updateCurrentSession: (id, updates) =>
-      set(
-        (state) => ({
-          allSessions: state.allSessions.map((s) =>
-            s.id === id ? { ...s, ...updates } : s,
-          ),
-        }),
-        false,
-        'progress/updateSession',
-      ),
-
-    clearProgress: () => set({ allSessions: [] }, false, 'progress/clear'),
-
-    getSessionsByGameType: (gameType) =>
-      get().allSessions.filter((s) => s.gameType === gameType),
   }),
 );
