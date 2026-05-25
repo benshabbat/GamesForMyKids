@@ -2,11 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useUserProfile } from './useUserProfile'
+import { useUserMenu } from './useUserMenu'
 import { buildAvatarUrl, USER_PROFILE_LABELS as L, USER_PROFILE_ROUTES as R } from './userProfileConstants'
 
 export function UserProfile() {
-  const { user, loading, isGuest, isMenuOpen, toggleMenu, closeMenu, handleSignOut } = useUserProfile()
+  const { user, loading, isGuest, isMenuOpen, toggleMenu, closeMenu, handleSignOut } = useUserMenu()
 
   if (loading) {
     return <div className="w-8 h-8 bg-gray-200 rounded-full animate-pulse" />
