@@ -17,5 +17,4 @@ export {
   isSpeechEnabled,
   isCurrentlySpeaking,
   initSpeechAndAudio,
-  useSpeech,
 } from "./speaker";

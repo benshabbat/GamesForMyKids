@@ -186,27 +186,3 @@ export function initSpeechAndAudio(
     setAudioContext(new AudioContextClass());
   }
 }
-
-// Hook לשימוש ב-React
-export function useSpeech() {
-  return {
-    // פונקציות דיבור בסיסיות
-    speak,
-    speakHebrew,
-    speakEnglish,
-
-    // שליטה ובדיקות
-    cancel: cancelSpeech,
-    testSpeech,
-
-    // בדיקות מצב
-    isCurrentlySpeaking: isCurrentlySpeaking(),
-    isEnabled: isSpeechEnabled(),
-
-    // פונקציות עזר
-    findHebrewVoice,
-
-    // אתחול
-    initSpeechAndAudio,
-  };
-}
