@@ -59,24 +59,4 @@ export interface UseGameEventsReturn {
   readonly triggerEvent: (event: ExtendedGameEvent, data?: Record<string, unknown>) => void;
 }
 
-/**
- * Props עבור ביצועי משחק - עקרון Single Responsibility
- */
-export interface UseGamePerformanceProps {
-  readonly items: readonly BaseGameItem[];
-  readonly currentChallenge: BaseGameItem | null;
-}
-
-/**
- * החזרת Hook לביצועי משחק - עקרון Interface Segregation
- */
-export interface UseGamePerformanceReturn {
-  readonly getPreloadedAudio: (itemName: string) => HTMLAudioElement | null;
-  readonly getPreloadedImage: (itemName: string) => HTMLImageElement | null;
-  readonly requestAnimationFrame: (callback: () => void) => void;
-  readonly cleanup: () => void;
-  readonly isAudioPreloaded: (itemName: string) => boolean;
-  readonly isImagePreloaded: (itemName: string) => boolean;
-}
-
 

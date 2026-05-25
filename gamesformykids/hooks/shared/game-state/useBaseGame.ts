@@ -5,7 +5,6 @@ import { BaseGameItem, BaseGameState } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
-import { useGamePerformance } from "../analytics/useGamePerformance";
 import { useGameHints } from "../ui/useGameHints";
 import { useSessionStats } from "../progress/useSessionStats";
 import { useGameProgress } from "../progress/useGameProgress";
@@ -51,12 +50,6 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   // Hooks משותפים
   const { speechEnabled, playSuccessSound } = useGameAudio();
   
-  // Performance optimizations
-  const performanceHooks = useGamePerformance({
-    items,
-    currentChallenge,
-  });
-
   // Hints system
   const hintsHooks = useGameHints({
     currentChallenge,
@@ -221,6 +214,5 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     hasMoreHints: hintsHooks.hasMoreHints || false,
     showNextHint: hintsHooks.showNextHint || (() => {}),
     currentAccuracy: progressHooks.getCurrentAccuracy() || 0,
-    performanceHooks, // לשימוש בקומפוננטים
   };
 }
