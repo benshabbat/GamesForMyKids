@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 560;
@@ -19,9 +18,11 @@ interface Asteroid { id: number; x: number; y: number; speed: number; r: number;
 
 let uid = 0;
 
-export function useSpaceDefenderGame() {
-  const { saveGameResultRef } = useGameCompletion('space-defender');
-  const st = useRef({
+const _useSpaceDefender = createCanvasArcadeHook({
+  gameType: 'space-defender',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     shipX: W / 2,
     bullets: [] as Bullet[],
@@ -29,34 +30,15 @@ export function useSpaceDefenderGame() {
     score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, nextAsteroid: 60, startTime: 0,
     stars: Array.from({ length: 40 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 2, twinkle: Math.random() * Math.PI * 2 })),
     lastShot: 0,
-  });
-  const shoot = useCallback(() => {
-    const s = st.current;
-    if (s.phase !== 'playing') return;
-    const now = s.frame;
-    if (now - s.lastShot < 12) return;
-    s.lastShot = now;
-    s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
-  }, []);
-
-  const startGame = useCallback(() => {
-    const s = st.current;
-    s.phase = 'playing';
-    s.shipX = W / 2; s.bullets = []; s.asteroids = [];
-    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0; s.startTime = Date.now();
-    useSpaceDefenderStore.getState().startGame();
-  }, []);
-
-  const canvasRef = useCanvasLoop((ctx, dt) => {
-    const s = st.current;
-
+  }),
+  draw: (ctx, s, dt, saveRef) => {
     if (s.phase === 'playing') {
       s.frame++;
       s.timeLeft -= dt / 1000;
       if (s.timeLeft <= 0) {
         s.timeLeft = 0;
         s.phase = 'result';
-        saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) });
+        saveRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) });
         useSpaceDefenderStore.getState().setGameResult(s.score, s.lives, 0);
       }
       s.nextAsteroid--;
@@ -81,11 +63,11 @@ export function useSpaceDefenderGame() {
 
       const shipY = H - 80;
       s.asteroids = s.asteroids.filter(a => {
-        if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
-        if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
+        if (a.y + a.r > H) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
+        if (Math.abs(a.x - s.shipX) < SHIP_W / 2 + a.r && Math.abs(a.y - shipY) < SHIP_H / 2 + a.r) { s.lives--; if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useSpaceDefenderStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); } else { useSpaceDefenderStore.getState().setLives(s.lives); } return false; }
         return true;
       });
-      if (s.frame % 20 === 0 && st.current.phase === 'playing') useSpaceDefenderStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
+      if (s.frame % 20 === 0 && s.phase === 'playing') useSpaceDefenderStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
     }
 
     ctx.fillStyle = '#050514';
@@ -97,7 +79,7 @@ export function useSpaceDefenderGame() {
       ctx.fillStyle = `rgba(255,255,220,${alpha})`; ctx.fill();
     }
 
-    const curr = st.current;
+    const curr = s;
     for (const b of curr.bullets) {
       const grad = ctx.createLinearGradient(b.x, b.y - 14, b.x, b.y + 4);
       grad.addColorStop(0, '#FFD700'); grad.addColorStop(1, 'rgba(255,215,0,0)');
@@ -131,7 +113,30 @@ export function useSpaceDefenderGame() {
 
     ctx.fillStyle = 'rgba(30,100,50,0.3)'; ctx.fillRect(0, H - 18, W, 18);
     ctx.fillStyle = 'rgba(50,150,80,0.5)'; ctx.fillRect(0, H - 10, W, 10);
-  });
+  },
+});
+
+export function useSpaceDefenderGame() {
+  const { st, canvasRef } = _useSpaceDefender();
+
+
+  const shoot = useCallback(() => {
+    const s = st.current;
+    if (s.phase !== 'playing') return;
+    const now = s.frame;
+    if (now - s.lastShot < 12) return;
+    s.lastShot = now;
+    s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
+  }, []);
+
+  const startGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.shipX = W / 2; s.bullets = []; s.asteroids = [];
+    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0; s.startTime = Date.now();
+    useSpaceDefenderStore.getState().startGame();
+  }, []);
+
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;

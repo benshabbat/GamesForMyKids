@@ -3,8 +3,7 @@
 import { useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 520;
@@ -19,42 +18,25 @@ const GOOD_FRUITS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝', '�
 const BAD_ITEMS = ['💣', '☠️', '🪨'];
 let idCounter = 0;
 
-export function useCatchFruitGame() {
-  const { saveGameResultRef } = useGameCompletion('catch-fruit');
-  const st = useRef({
+const _useCatchFruit = createCanvasArcadeHook({
+  gameType: 'catch-fruit',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     basketX: W / 2 - BASKET_W / 2,
     items: [] as FallingItem[],
     score: 0, lives: 3, timeLeft: GAME_DURATION, frame: 0, nextItem: 40, startTime: 0,
     bgStars: Array.from({ length: 8 }, () => ({ x: Math.random() * W, y: Math.random() * H * 0.7, r: 2 + Math.random() * 3 })),
-  });
-  const dragging = useRef(false);
-  const pointerDown = useRef(false);
-
-  const startGame = useCallback(() => {
-    const s = st.current;
-    s.phase = 'playing';
-    s.basketX = W / 2 - BASKET_W / 2;
-    s.items = [];
-    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextItem = 40; s.startTime = Date.now();
-    useCatchFruitStore.getState().startGame();
-  }, []);
-
-  const handleMouseUp = useCallback(() => {
-    pointerDown.current = false;
-    dragging.current = false;
-  }, []);
-
-  const canvasRef = useCanvasLoop((ctx, dt) => {
-    const s = st.current;
-
+  }),
+  draw: (ctx, s, dt, saveRef) => {
     if (s.phase === 'playing') {
       s.frame++;
       s.timeLeft -= dt / 1000;
       if (s.timeLeft <= 0) {
         s.timeLeft = 0;
         s.phase = 'result';
-        saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) });
+        saveRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) });
         useCatchFruitStore.getState().setGameResult(s.score, s.lives, 0);
       }
       s.nextItem--;
@@ -70,7 +52,7 @@ export function useCatchFruitGame() {
         if (item.y + FRUIT_R >= BASKET_Y && item.y - FRUIT_R <= BASKET_Y + BASKET_H && item.x + FRUIT_R > bx && item.x - FRUIT_R < bx + BASKET_W) {
           if (item.isBad) {
             s.lives--;
-            if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useCatchFruitStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); }
+            if (s.lives <= 0) { s.lives = 0; s.phase = 'result'; saveRef.current({ score: s.score, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useCatchFruitStore.getState().setGameResult(s.score, 0, Math.ceil(s.timeLeft)); }
             else { useCatchFruitStore.getState().setLives(s.lives); }
           } else { s.score += 10; useCatchFruitStore.getState().setScore(s.score); }
           return false;
@@ -78,7 +60,7 @@ export function useCatchFruitGame() {
         if (item.y - FRUIT_R > H) return false;
         return true;
       });
-      if (s.frame % 20 === 0 && st.current.phase === 'playing') useCatchFruitStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
+      if (s.frame % 20 === 0 && s.phase === 'playing') useCatchFruitStore.getState().setTimeLeft(Math.ceil(s.timeLeft));
     }
 
     const grad = ctx.createLinearGradient(0, 0, 0, H);
@@ -94,7 +76,7 @@ export function useCatchFruitGame() {
       ctx.fill();
     }
 
-    const curr = st.current;
+    const curr = s;
     ctx.font = `${FRUIT_R * 1.8}px serif`;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -122,7 +104,30 @@ export function useCatchFruitGame() {
     ctx.beginPath();
     ctx.arc(bxD + BASKET_W / 2, BASKET_Y - 2, BASKET_W / 3, Math.PI, Math.PI * 2);
     ctx.stroke();
-  });
+  },
+});
+
+export function useCatchFruitGame() {
+  const { st, canvasRef } = _useCatchFruit();
+
+
+  const dragging = useRef(false);
+  const pointerDown = useRef(false);
+
+  const startGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.basketX = W / 2 - BASKET_W / 2;
+    s.items = [];
+    s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextItem = 40; s.startTime = Date.now();
+    useCatchFruitStore.getState().startGame();
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    pointerDown.current = false;
+    dragging.current = false;
+  }, []);
+
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!pointerDown.current) return;

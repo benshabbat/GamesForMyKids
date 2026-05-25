@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 400;
 export const H = 220;
@@ -21,10 +20,11 @@ interface Obstacle { x: number; w: number; h: number; emoji: string; }
 
 const OBSTACLE_EMOJIS = ['🌵', '🪨', '🌴', '🌿', '🍄'];
 
-export function useDinoRunnerGame() {
-  const { saveGameResultRef } = useGameCompletion('dino-runner');
-
-  const st = useRef({
+const _useDinoRunner = createCanvasArcadeHook({
+  gameType: 'dino-runner',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     dinoY: GROUND_Y - DINO_H,
     dinoVY: 0,
@@ -36,33 +36,8 @@ export function useDinoRunnerGame() {
     speed: BASE_SPEED,
     nextObstacle: 80,
     startTime: 0,
-  });
-  const jump = useCallback(() => {
-    const s = st.current;
-    if (s.phase === 'playing' && s.onGround) {
-      s.dinoVY = JUMP_V;
-      s.onGround = false;
-    } else if (s.phase === 'menu') {
-      s.phase = 'playing';
-      s.dinoY = GROUND_Y - DINO_H;
-      s.dinoVY = JUMP_V;
-      s.onGround = false;
-      s.obstacles = [];
-      s.score = 0;
-      s.frame = 0;
-      s.speed = BASE_SPEED;
-      s.nextObstacle = 80;
-      s.startTime = Date.now();
-      useDinoRunnerStore.getState().startGame();
-    } else if (s.phase === 'dead') {
-      s.phase = 'menu';
-      useDinoRunnerStore.getState().resetToMenu();
-    }
-  }, []);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const s = st.current;
-
+  }),
+  draw: (ctx, s, _dt, saveRef) => {
     if (s.phase === 'playing') {
       s.frame++;
       s.score = Math.floor(s.frame / 6);
@@ -107,7 +82,7 @@ export function useDinoRunnerGame() {
         ) {
           s.phase = 'dead';
           const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-          saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
+          saveRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
           useDinoRunnerStore.getState().setGameOver(s.score);
         }
       }
@@ -117,7 +92,7 @@ export function useDinoRunnerGame() {
     ctx.fillRect(0, 0, W, H);
 
     ctx.fillStyle = 'rgba(200,230,255,0.6)';
-    for (const c of st.current.clouds) {
+    for (const c of s.clouds) {
       ctx.beginPath();
       ctx.ellipse(c.x, c.y, 30, 16, 0, 0, Math.PI * 2);
       ctx.fill();
@@ -134,8 +109,8 @@ export function useDinoRunnerGame() {
     ctx.fillStyle = '#b45309';
     ctx.fillRect(0, GROUND_Y, W, 3);
 
-    if (st.current.phase !== 'menu') {
-      const s2 = st.current;
+    if (s.phase !== 'menu') {
+      const s2 = s;
       ctx.font = `${DINO_W}px serif`;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'bottom';
@@ -152,8 +127,37 @@ export function useDinoRunnerGame() {
     ctx.font = 'bold 18px Arial';
     ctx.textAlign = 'right';
     ctx.textBaseline = 'top';
-    ctx.fillText(`${st.current.score}`, W - 12, 10);
-  });
+    ctx.fillText(`${s.score}`, W - 12, 10);
+  },
+});
+
+export function useDinoRunnerGame() {
+  const { st, canvasRef } = _useDinoRunner();
+
+
+  const jump = useCallback(() => {
+    const s = st.current;
+    if (s.phase === 'playing' && s.onGround) {
+      s.dinoVY = JUMP_V;
+      s.onGround = false;
+    } else if (s.phase === 'menu') {
+      s.phase = 'playing';
+      s.dinoY = GROUND_Y - DINO_H;
+      s.dinoVY = JUMP_V;
+      s.onGround = false;
+      s.obstacles = [];
+      s.score = 0;
+      s.frame = 0;
+      s.speed = BASE_SPEED;
+      s.nextObstacle = 80;
+      s.startTime = Date.now();
+      useDinoRunnerStore.getState().startGame();
+    } else if (s.phase === 'dead') {
+      s.phase = 'menu';
+      useDinoRunnerStore.getState().resetToMenu();
+    }
+  }, []);
+
 
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {

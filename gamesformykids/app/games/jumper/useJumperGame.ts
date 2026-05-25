@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 300;
 export const H = 500;
@@ -32,10 +31,11 @@ function generateInitial(): Array<Platform & { id: number }> {
   return plats;
 }
 
-export function useJumperGame() {
-  const { saveGameResultRef } = useGameCompletion('jumper');
-
-  const st = useRef({
+const _useJumper = createCanvasArcadeHook({
+  gameType: 'jumper',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     px: W / 2, py: H - 100,
     pvx: 0, pvy: 0,
@@ -47,32 +47,8 @@ export function useJumperGame() {
     leftDown: false, rightDown: false,
     nextPlatY: H - 60 - INIT_PLATS * (PLAT_GAP * 0.75),
     startTime: 0,
-  });
-  const startGame = useCallback(() => {
-    const s = st.current;
-    s.phase = 'playing';
-    s.px = W / 2; s.py = H - 100;
-    s.pvx = 0; s.pvy = JUMP_VY;
-    s.camY = 0; s.maxCamY = 0;
-    s.score = 0; s.frame = 0;
-    s.platforms = generateInitial();
-    s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
-    s.startTime = Date.now();
-    useJumperStore.getState().startPlaying();
-  }, []);
-
-  const handleCanvasClick = useCallback(() => {
-    if (st.current.phase === 'menu') startGame();
-  }, [startGame]);
-
-  const pressLeft = useCallback(() => { st.current.leftDown = true; }, []);
-  const releaseLeft = useCallback(() => { st.current.leftDown = false; }, []);
-  const pressRight = useCallback(() => { st.current.rightDown = true; }, []);
-  const releaseRight = useCallback(() => { st.current.rightDown = false; }, []);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const s = st.current;
-    s.frame++;
+  }),
+  draw: (ctx, s, _dt, saveRef) => {    s.frame++;
 
     if (s.phase === 'playing') {
       const HSPEED = 4.5;
@@ -124,7 +100,7 @@ export function useJumperGame() {
       if (s.py > H + 60) {
         s.phase = 'dead';
         const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-        saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
+        saveRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
         useJumperStore.getState().endGame(s.score);
       }
     }
@@ -137,14 +113,14 @@ export function useJumperGame() {
 
     ctx.fillStyle = 'rgba(255,255,255,0.6)';
     for (let i = 0; i < 30; i++) {
-      const sx = ((i * 97 + st.current.camY * 0.05) % W + W) % W;
+      const sx = ((i * 97 + s.camY * 0.05) % W + W) % W;
       const sy = ((i * 137) % H);
       ctx.beginPath();
       ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
       ctx.fill();
     }
 
-    const s2 = st.current;
+    const s2 = s;
     for (const p of s2.platforms) {
       const drawY = p.y + s2.camY;
       if (drawY > H + 10 || drawY < -PLAT_H - 5) continue;
@@ -167,7 +143,35 @@ export function useJumperGame() {
     ctx.fillStyle = 'rgba(255,255,255,0.85)';
     ctx.textAlign = 'left';
     ctx.fillText(`${s2.score}m`, 10, 30);
-  });
+  },
+});
+
+export function useJumperGame() {
+  const { st, canvasRef } = _useJumper();
+
+
+  const startGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.px = W / 2; s.py = H - 100;
+    s.pvx = 0; s.pvy = JUMP_VY;
+    s.camY = 0; s.maxCamY = 0;
+    s.score = 0; s.frame = 0;
+    s.platforms = generateInitial();
+    s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
+    s.startTime = Date.now();
+    useJumperStore.getState().startPlaying();
+  }, []);
+
+  const handleCanvasClick = useCallback(() => {
+    if (st.current.phase === 'menu') startGame();
+  }, [startGame]);
+
+  const pressLeft = useCallback(() => { st.current.leftDown = true; }, []);
+  const releaseLeft = useCallback(() => { st.current.leftDown = false; }, []);
+  const pressRight = useCallback(() => { st.current.rightDown = true; }, []);
+  const releaseRight = useCallback(() => { st.current.rightDown = false; }, []);
+
 
   useEffect(() => {
     const kd = (e: KeyboardEvent) => {
