@@ -1,7 +1,6 @@
 'use client';
-import { useEffect } from 'react';
 import { useBalloonPopGame } from './useBalloonPopGame';
-import { stopBalloonPopGame } from './balloonPopStore';
+import { useBalloonPopLoop } from './useBalloonPopLoop';
 import BalloonPopMenuScreen from './components/BalloonPopMenuScreen';
 import BalloonResultScreen from './components/BalloonResultScreen';
 import BalloonHUD from './components/BalloonHUD';
@@ -9,8 +8,7 @@ import BalloonGameArea from './components/BalloonGameArea';
 
 export default function BalloonPopGame() {
   const { phase } = useBalloonPopGame();
-
-  useEffect(() => stopBalloonPopGame, []);
+  useBalloonPopLoop();
 
   if (phase === 'menu') return <BalloonPopMenuScreen />;
   if (phase === 'result') return <BalloonResultScreen />;
