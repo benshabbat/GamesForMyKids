@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-05-25T15:00:00.000Z",
+  "lastRun": "2026-05-25T16:30:00.000Z",
   "issues": {
     "568": { "title": "refactor: Split useMemoryStore.ts — extract pure helpers and match logic", "hasPR": true, "prNumber": 592, "prState": "merged", "label": "refactor" },
     "569": { "title": "refactor: Split sheshBeshGameStore.ts — separate AI logic, player move execution, and timer utilities", "hasPR": true, "prNumber": 593, "prState": "merged", "label": "refactor" },
@@ -15,18 +15,19 @@
     "603": { "title": "dead-code: Remove unused progressStats from useDashboard", "hasPR": true, "prNumber": 608, "prState": "merged", "label": "dead-code" },
     "604": { "title": "refactor: Extract building game loop to useBuildingGameLoop hook", "hasPR": true, "prNumber": 612, "prState": "merged", "label": "refactor" },
     "605": { "title": "bug: Dual-registry quiz games missing GameLogicSync guard", "hasPR": true, "prNumber": 613, "prState": "merged", "label": "bug" },
-    "615": { "title": "refactor: balloonPopStore, soccerGameStore, useProfileStore bypass makeStore/makePersistStore factory", "hasPR": true, "prNumber": 622, "prState": "open", "label": "refactor" },
-    "616": { "title": "architecture: balloonPopStore animation loop runs in module-level closure — no React lifecycle cleanup", "hasPR": true, "prNumber": 623, "prState": "open", "label": "architecture" },
-    "617": { "title": "architecture: useAchievements and useGameCompletion embed raw Supabase table queries — no data-access layer in lib/supabase/", "hasPR": true, "prNumber": 624, "prState": "open", "label": "architecture" },
-    "618": { "title": "dead-code: checkPlayTimeAchievements, refreshAchievements, unlockAchievement never consumed by any caller", "hasPR": true, "prNumber": 621, "prState": "open", "label": "dead-code" },
-    "619": { "title": "dead-code: useSpeech React hook defined in lib/utils/speech/speaker.ts — wrong layer and never called", "hasPR": true, "prNumber": 620, "prState": "open", "label": "dead-code" }
+    "615": { "title": "refactor: balloonPopStore, soccerGameStore, useProfileStore bypass makeStore/makePersistStore factory", "hasPR": true, "prNumber": 622, "prState": "merged", "label": "refactor" },
+    "616": { "title": "architecture: balloonPopStore animation loop runs in module-level closure — no React lifecycle cleanup", "hasPR": true, "prNumber": 623, "prState": "merged", "label": "architecture" },
+    "617": { "title": "architecture: useAchievements and useGameCompletion embed raw Supabase table queries — no data-access layer in lib/supabase/", "hasPR": true, "prNumber": 624, "prState": "merged", "label": "architecture" },
+    "618": { "title": "dead-code: checkPlayTimeAchievements, refreshAchievements, unlockAchievement never consumed by any caller", "hasPR": true, "prNumber": 621, "prState": "closed", "label": "dead-code", "note": "PR #621 closed as superseded; fix applied via #624; issue closed manually" },
+    "619": { "title": "dead-code: useSpeech React hook defined in lib/utils/speech/speaker.ts — wrong layer and never called", "hasPR": true, "prNumber": 620, "prState": "merged", "label": "dead-code" }
   },
   "prs": {
-    "624": { "title": "architecture: extract Supabase queries into service layer", "state": "OPEN", "linkedIssue": 617 },
-    "623": { "title": "refactor: extract balloon-pop animation loop into useBalloonPopLoop hook", "state": "OPEN", "linkedIssue": 616 },
-    "622": { "title": "refactor: migrate balloonPopStore, soccerGameStore, useProfileStore to makeStore/makePersistStore", "state": "OPEN", "linkedIssue": 615 },
-    "621": { "title": "chore: remove dead exports from useAchievements — checkPlayTimeAchievements, refreshAchievements, unlockAchievement", "state": "OPEN", "linkedIssue": 618 },
-    "620": { "title": "chore: remove useSpeech dead hook from lib/utils/speech/speaker.ts", "state": "OPEN", "linkedIssue": 619 },
+    "625": { "title": "fix: add st to useCallback/useEffect deps in canvas arcade game hooks", "state": "MERGED", "linkedIssue": null },
+    "624": { "title": "architecture: extract Supabase queries into service layer", "state": "MERGED", "linkedIssue": 617 },
+    "623": { "title": "refactor: extract balloon-pop animation loop into useBalloonPopLoop hook", "state": "MERGED", "linkedIssue": 616 },
+    "622": { "title": "refactor: migrate balloonPopStore, soccerGameStore, useProfileStore to makeStore/makePersistStore", "state": "MERGED", "linkedIssue": 615 },
+    "621": { "title": "chore: remove dead exports from useAchievements — checkPlayTimeAchievements, refreshAchievements, unlockAchievement", "state": "CLOSED", "linkedIssue": 618 },
+    "620": { "title": "chore: remove useSpeech dead hook from lib/utils/speech/speaker.ts", "state": "MERGED", "linkedIssue": 619 },
     "614": { "title": "refactor: migrate 10 canvas arcade games to createCanvasArcadeHook factory", "state": "MERGED", "linkedIssue": 601 },
     "613": { "title": "architecture: guard GameLogicSync against dual-registry quiz games", "state": "MERGED", "linkedIssue": 605 },
     "612": { "title": "architecture: extract setInterval game loops from BuildingGameClient into useBuildingGameLoop", "state": "MERGED", "linkedIssue": 604 },
