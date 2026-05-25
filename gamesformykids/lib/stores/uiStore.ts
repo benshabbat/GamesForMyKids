@@ -31,8 +31,6 @@ export interface Notification {
 
 export interface UIState {
   notifications: Notification[];
-  /** האם ה-sidebar/drawer פתוח (שמישה עתידית) */
-  sidebarOpen: boolean;
   /** האם מודל ההתקדמות פתוח */
   showProgressModal: boolean;
   /** האם תפריט המשתמש פתוח */
@@ -47,8 +45,6 @@ export interface UIActions {
   ) => string; // מחזיר את ה-id למי שרוצה לבטל ידנית
   removeNotification: (id: string) => void;
   clearAllNotifications: () => void;
-  setSidebarOpen: (open: boolean) => void;
-  toggleSidebar: () => void;
   setShowProgressModal: (show: boolean) => void;
   openUserMenu: () => void;
   closeUserMenu: () => void;
@@ -61,7 +57,6 @@ const genId = () => `notif_${Date.now()}_${++_counter}`;
 // ── Store ──────────────────────────────────────────────────
 export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) => ({
       notifications: [],
-      sidebarOpen: false,
       showProgressModal: false,
       isUserMenuOpen: false,
 
@@ -95,12 +90,6 @@ export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) =
 
       clearAllNotifications: () =>
         set({ notifications: [] }, false, 'ui/clearAll'),
-
-      setSidebarOpen: (open) =>
-        set({ sidebarOpen: open }, false, 'ui/setSidebarOpen'),
-
-      toggleSidebar: () =>
-        set((s) => ({ sidebarOpen: !s.sidebarOpen }), false, 'ui/toggleSidebar'),
 
       setShowProgressModal: (show) =>
         set({ showProgressModal: show }, false, 'ui/setShowProgressModal'),

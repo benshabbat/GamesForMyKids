@@ -4,7 +4,6 @@ import { useUIStore } from '@/lib/stores/uiStore';
 beforeEach(() => {
   useUIStore.setState({
     notifications: [],
-    sidebarOpen: false,
     showProgressModal: false,
     isUserMenuOpen: false,
   });
@@ -73,20 +72,6 @@ describe('uiStore', () => {
       useUIStore.getState().addNotification('b');
       useUIStore.getState().clearAllNotifications();
       expect(useUIStore.getState().notifications).toHaveLength(0);
-    });
-  });
-
-  describe('sidebar', () => {
-    it('setSidebarOpen sets the value', () => {
-      useUIStore.getState().setSidebarOpen(true);
-      expect(useUIStore.getState().sidebarOpen).toBe(true);
-    });
-
-    it('toggleSidebar flips the value', () => {
-      useUIStore.getState().toggleSidebar();
-      expect(useUIStore.getState().sidebarOpen).toBe(true);
-      useUIStore.getState().toggleSidebar();
-      expect(useUIStore.getState().sidebarOpen).toBe(false);
     });
   });
 
