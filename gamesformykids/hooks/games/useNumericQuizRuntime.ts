@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { BaseGameItem } from "@/lib/types/core/base";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
@@ -84,7 +84,7 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
   // ---------------------------------------------------------------------------
 
   /** Apply a new challenge: update local state + sync Zustand session store. */
-  const _applyChallenge = (challenge: TChallenge, level: number) => {
+  const _applyChallenge = useCallback((challenge: TChallenge, level: number) => {
     const options = generateOptions(challenge.answer, level);
     setGameState(prev => ({ ...prev, currentChallenge: challenge, options }));
     useGameSessionStore.getState().setChallengeAndOptions(
@@ -92,13 +92,13 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
       options.map(toOptionItem),
     );
     onChallengeChange?.(challenge);
-  };
+  }, [generateOptions, toChallengeItem, toOptionItem, onChallengeChange]);
 
   // ---------------------------------------------------------------------------
   // Public API
   // ---------------------------------------------------------------------------
 
-  const startGame = async () => {
+  const startGame = useCallback(async () => {
     try {
       setGameState({
         currentChallenge: null,
@@ -125,9 +125,9 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
     } catch (error) {
       console.error("Error in startGame:", error);
     }
-  };
+  }, [_applyChallenge, generateChallenge, speakQuestion]);
 
-  const handleNumberClick = async (selectedNumber: number) => {
+  const handleNumberClick = useCallback(async (selectedNumber: number) => {
     if (!gameState.currentChallenge) return;
 
     if (selectedNumber === gameState.currentChallenge.answer) {
@@ -164,22 +164,22 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
         }
       });
     }
-  };
+  }, [gameState, generateChallenge, generateOptions, toChallengeItem, toOptionItem, onChallengeChange, speakQuestion, audioContext]);
 
   /** Bridge for the universal card-click system (UltimateGamePage). */
-  const handleItemClick = async (item: BaseGameItem) => {
+  const handleItemClick = useCallback(async (item: BaseGameItem) => {
     await handleNumberClick(Number(item.name));
-  };
+  }, [handleNumberClick]);
 
   /** Speak an arbitrary item name — used by GameLogicSync. */
-  const speakItemName = async (itemName: string): Promise<void> => {
+  const speakItemName = useCallback(async (itemName: string): Promise<void> => {
     if (!speechEnabled) return;
     try {
       await speakHebrew(itemName);
     } catch {
       // ignore speech errors
     }
-  };
+  }, [speechEnabled]);
 
   const resetGame = () =>
     setGameState({
