@@ -5,6 +5,7 @@ import { useAutoGameConfig } from '@/hooks/shared/game-state/useGameConfig';
 import { useGameActionsStore } from '@/lib/stores/gameActionsStore';
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 import { GAME_HOOKS_MAP } from '@/hooks/shared/game-state/gameHooksMap';
+import { getQuizGameComponent } from '@/lib/quiz/quizGameRegistry';
 
 /**
  * Inner component — only rendered once the game type is in the store.
@@ -49,5 +50,9 @@ export function GameLogicSync() {
   if (!gameType) return null;
   // Skip for game types without a registered hook (quiz games, etc.)
   if (!(gameType in GAME_HOOKS_MAP)) return null;
+  // Skip for game types that have a dedicated quiz component — these games
+  // are rendered by the quiz pipeline and must not also run a card-game hook
+  // (e.g. emotions, instruments, family, transport appear in both registries).
+  if (getQuizGameComponent(gameType) !== null) return null;
   return <GameLogicSyncInner key={gameType} />;
 }
