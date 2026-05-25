@@ -179,45 +179,11 @@ export function useAchievements(gameType?: string) {
     }
   }
 
-  async function checkPlayTimeAchievements(gameType: string, totalPlayTimeMinutes: number) {
-    const achievements = []
-
-    if (totalPlayTimeMinutes >= 10) {
-      achievements.push({
-        achievement_type: 'playtime_10min',
-        achievement_name: '10 דקות משחק',
-        description: 'שיחקת 10 דקות!',
-        icon: '⏰',
-        game_type: gameType,
-        metadata: { playtime_minutes: totalPlayTimeMinutes }
-      })
-    }
-
-    if (totalPlayTimeMinutes >= 60) {
-      achievements.push({
-        achievement_type: 'playtime_1hour',
-        achievement_name: 'שעה של משחק',
-        description: 'שיחקת שעה שלמה!',
-        icon: '🎮',
-        game_type: gameType,
-        metadata: { playtime_minutes: totalPlayTimeMinutes }
-      })
-    }
-
-    // Unlock achievements
-    for (const achievement of achievements) {
-      await unlockAchievement(achievement)
-    }
-  }
-
   return {
     achievements,
     loading,
     error,
-    unlockAchievement,
     checkScoreAchievements,
     checkLevelAchievements,
-    checkPlayTimeAchievements,
-    refreshAchievements: fetchAchievements
   }
 }
