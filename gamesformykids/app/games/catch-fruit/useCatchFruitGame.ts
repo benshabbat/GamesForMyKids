@@ -121,7 +121,7 @@ export function useCatchFruitGame() {
     s.items = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextItem = 40; s.startTime = Date.now();
     useCatchFruitStore.getState().startGame();
-  }, []);
+  }, [st]);
 
   const handleMouseUp = useCallback(() => {
     pointerDown.current = false;
@@ -137,7 +137,7 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef]);
+  }, [canvasRef, st]);
 
   const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
     pointerDown.current = true;
@@ -147,7 +147,7 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef]);
+  }, [canvasRef, st]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -157,7 +157,7 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.touches[0].clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef]);
+  }, [canvasRef, st]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -168,7 +168,7 @@ export function useCatchFruitGame() {
     const mx = (e.touches[0].clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
     if (st.current.phase !== 'playing') startGame();
-  }, [canvasRef, startGame]);
+  }, [canvasRef, st, startGame]);
 
   const { phase, best, score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 

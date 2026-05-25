@@ -105,11 +105,11 @@ export function usePongGame() {
     s.ballVX = Math.sin(angle) * spd; s.ballVY = (Math.random() < 0.5 ? 1 : -1) * Math.cos(angle) * spd;
     s.playerScore = 0; s.aiScore = 0; s.frame = 0; s.particles = []; s.startTime = Date.now();
     usePongStore.getState().startGame();
-  }, []);
+  }, [st]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'menu') startGame();
-  }, [startGame]);
+  }, [st, startGame]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -137,7 +137,7 @@ export function usePongGame() {
     window.addEventListener('keydown', kd);
     window.addEventListener('keyup', ku);
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, []);
+  }, [st]);
 
   const { phase, playerScore, aiScore } = usePongStore(useShallow(s => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })));
 

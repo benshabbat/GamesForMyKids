@@ -161,16 +161,16 @@ export function useJumperGame() {
     s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
     s.startTime = Date.now();
     useJumperStore.getState().startPlaying();
-  }, []);
+  }, [st]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'menu') startGame();
-  }, [startGame]);
+  }, [st, startGame]);
 
-  const pressLeft = useCallback(() => { st.current.leftDown = true; }, []);
-  const releaseLeft = useCallback(() => { st.current.leftDown = false; }, []);
-  const pressRight = useCallback(() => { st.current.rightDown = true; }, []);
-  const releaseRight = useCallback(() => { st.current.rightDown = false; }, []);
+  const pressLeft = useCallback(() => { st.current.leftDown = true; }, [st]);
+  const releaseLeft = useCallback(() => { st.current.leftDown = false; }, [st]);
+  const pressRight = useCallback(() => { st.current.rightDown = true; }, [st]);
+  const releaseRight = useCallback(() => { st.current.rightDown = false; }, [st]);
 
 
   useEffect(() => {
@@ -185,7 +185,7 @@ export function useJumperGame() {
     window.addEventListener('keydown', kd);
     window.addEventListener('keyup', ku);
     return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, []);
+  }, [st]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -195,12 +195,12 @@ export function useJumperGame() {
     if (s.phase !== 'playing') return;
     if (tx < W / 2) { s.leftDown = true; s.rightDown = false; }
     else             { s.rightDown = true; s.leftDown = false; }
-  }, []);
+  }, [st]);
 
   const handleTouchEnd = useCallback(() => {
     st.current.leftDown = false;
     st.current.rightDown = false;
-  }, []);
+  }, [st]);
 
   const { phase, score, best } = useJumperStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 

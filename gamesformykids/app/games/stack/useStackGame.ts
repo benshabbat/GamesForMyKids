@@ -96,7 +96,7 @@ export function useStackGame() {
     s.blocks = [{ x: (W - INIT_W) / 2, y: FLOOR_Y, w: INIT_W, color: '#6b7280' }];
     s.startTime = Date.now();
     useStackStore.getState().startPlaying();
-  }, []);
+  }, [st]);
 
   const drop = useCallback(() => {
     const s = st.current;
@@ -127,12 +127,12 @@ export function useStackGame() {
     const topWorldY = sliderWorldY;
     s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
     useStackStore.getState().setScore(s.score);
-  }, [saveGameResultRef]);
+  }, [st, saveGameResultRef]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'playing') drop();
     else if (st.current.phase === 'menu') startGame();
-  }, [drop, startGame]);
+  }, [st, drop, startGame]);
 
 
   useEffect(() => {
