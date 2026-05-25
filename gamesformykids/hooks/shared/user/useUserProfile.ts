@@ -2,7 +2,13 @@
 
 import { useEffect, useCallback } from 'react'
 import { useAuth } from '@/hooks/shared/auth/useAuth'
-import { supabase } from '@/lib/supabase/client'
+import {
+  fetchUserProfile,
+  fetchUserSettings,
+  updateUserProfile as updateUserProfileService,
+  updateUserSettings as updateUserSettingsService,
+  uploadAvatar as uploadAvatarService,
+} from '@/lib/supabase/userProfile'
 import { useUserProfileStore } from '@/lib/stores/userProfileStore'
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore'
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore'
@@ -59,28 +65,11 @@ export function useUserProfile() {
 
     try {
       setLoading(true)
-      
-      // Fetch profile
-      const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('id', user.id)
-        .single()
 
-      if (profileError && profileError.code !== 'PGRST116') {
-        throw profileError
-      }
-
-      // Fetch settings
-      const { data: settingsData, error: settingsError } = await supabase
-        .from('user_settings')
-        .select('*')
-        .eq('id', user.id)
-        .single()
-
-      if (settingsError && settingsError.code !== 'PGRST116') {
-        throw settingsError
-      }
+      const [profileData, settingsData] = await Promise.all([
+        fetchUserProfile(user.id),
+        fetchUserSettings(user.id),
+      ])
 
       setProfile(profileData)
       setSettings(settingsData)
@@ -98,9 +87,7 @@ export function useUserProfile() {
       setLoading(false)
       return
     }
-    // Skip if already loaded for this user
     if (loadedForUserId === user.id) return
-
     fetchProfile()
   }, [user, loadedForUserId, fetchProfile, setLoading])
 
@@ -108,18 +95,7 @@ export function useUserProfile() {
     if (!user) return null
 
     try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .upsert({
-          id: user.id,
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .select()
-        .single()
-
-      if (error) throw error
-
+      const data = await updateUserProfileService(user.id, updates)
       setProfile(data)
       return data
     } catch (err) {
@@ -132,18 +108,7 @@ export function useUserProfile() {
     if (!user) return null
 
     try {
-      const { data, error } = await supabase
-        .from('user_settings')
-        .upsert({
-          id: user.id,
-          ...updates,
-          updated_at: new Date().toISOString()
-        })
-        .select()
-        .single()
-
-      if (error) throw error
-
+      const data = await updateUserSettingsService(user.id, updates)
       setSettings(data)
       syncSettingsToLocalStores(data)
       return data
@@ -157,23 +122,7 @@ export function useUserProfile() {
     if (!user) return null
 
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${user.id}.${fileExt}`
-      const filePath = `avatars/${fileName}`
-
-      // Upload file to Supabase storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file, { upsert: true })
-
-      if (uploadError) throw uploadError
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath)
-
-      // Update profile with new avatar URL
+      const publicUrl = await uploadAvatarService(user.id, file)
       return updateProfile({ avatar_url: publicUrl })
     } catch (err) {
       setError(err instanceof Error ? err.message : 'שגיאה בהעלאת התמונה')
