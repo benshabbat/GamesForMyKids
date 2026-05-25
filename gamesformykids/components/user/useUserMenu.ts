@@ -4,7 +4,7 @@ import { useCallback } from "react";
 import { useAuthStore } from "@/lib/stores/authStore";
 import { useUIStore } from "@/lib/stores/uiStore";
 
-export function useUserProfile() {
+export function useUserMenu() {
   const user     = useAuthStore((s) => s.user);
   const loading  = useAuthStore((s) => s.loading);
   const isGuest  = useAuthStore((s) => s.isGuest);
