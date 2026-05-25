@@ -6,8 +6,7 @@
  * Timer / rAF lifecycle is managed by useBalloonPopLoop.ts.
  */
 
-import { create } from 'zustand';
-import { devtools, persist } from 'zustand/middleware';
+import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseResult as Phase } from '@/lib/types';
 
 // ── Constants ──────────────────────────────────────────────
@@ -62,54 +61,51 @@ export interface BalloonPopActions {
 }
 
 // ── Store ──────────────────────────────────────────────────
-export const useBalloonPopStore = create<BalloonPopState & BalloonPopActions>()(
-  devtools(
-    persist(
-      (set, get) => ({
-        phase: 'menu',
-        score: 0,
-        best: 0,
-        lives: 5,
-        timeLeft: GAME_DURATION,
-        balloons: [],
-        W: 350,
-        H: 560,
+export const useBalloonPopStore = makePersistStore<BalloonPopState & BalloonPopActions>(
+  'BalloonPopStore',
+  'balloon-pop-best',
+  (set, get) => ({
+    phase: 'menu',
+    score: 0,
+    best: 0,
+    lives: 5,
+    timeLeft: GAME_DURATION,
+    balloons: [],
+    W: 350,
+    H: 560,
 
-        setDimensions: (W, H) => set({ W, H }, false, 'balloon/setDimensions'),
+    setDimensions: (W, H) => set({ W, H }, false, 'balloon/setDimensions'),
 
-        startGame: () =>
-          set(
-            { phase: 'playing', score: 0, lives: 5, timeLeft: GAME_DURATION, balloons: [] },
-            false,
-            'balloon/startGame',
-          ),
+    startGame: () =>
+      set(
+        { phase: 'playing', score: 0, lives: 5, timeLeft: GAME_DURATION, balloons: [] },
+        false,
+        'balloon/startGame',
+      ),
 
-        endGame: () => {
-          const { score, best } = get();
-          set({ phase: 'result', best: Math.max(best, score) }, false, 'balloon/endGame');
-        },
+    endGame: () => {
+      const { score, best } = get();
+      set({ phase: 'result', best: Math.max(best, score) }, false, 'balloon/endGame');
+    },
 
-        pop: (id) => {
-          const { phase, balloons, lives, score } = get();
-          if (phase !== 'playing') return;
-          const b = balloons.find(b => b.id === id);
-          if (!b || b.popped) return;
+    pop: (id) => {
+      const { phase, balloons, lives, score } = get();
+      if (phase !== 'playing') return;
+      const b = balloons.find(b => b.id === id);
+      if (!b || b.popped) return;
 
-          if (b.isBomb) {
-            const newLives = Math.max(0, lives - 2);
-            const newBalloons = balloons.map(x => x.id === id ? { ...x, popped: true } : x);
-            set({ balloons: newBalloons, lives: newLives }, false, 'balloon/bomb');
-            if (newLives <= 0) get().endGame();
-          } else {
-            set({
-              balloons: balloons.map(x => x.id === id ? { ...x, popped: true } : x),
-              score: score + 10,
-            }, false, 'balloon/pop');
-          }
-        },
-      }),
-      { name: 'balloon-pop-best', partialize: (s) => ({ best: s.best }) },
-    ),
-    { name: 'BalloonPopStore' },
-  ),
+      if (b.isBomb) {
+        const newLives = Math.max(0, lives - 2);
+        const newBalloons = balloons.map(x => x.id === id ? { ...x, popped: true } : x);
+        set({ balloons: newBalloons, lives: newLives }, false, 'balloon/bomb');
+        if (newLives <= 0) get().endGame();
+      } else {
+        set({
+          balloons: balloons.map(x => x.id === id ? { ...x, popped: true } : x),
+          score: score + 10,
+        }, false, 'balloon/pop');
+      }
+    },
+  }),
+  { partialize: (s) => ({ best: s.best }) },
 );
