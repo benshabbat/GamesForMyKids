@@ -1,6 +1,6 @@
 'use client';
 
-import { create } from 'zustand';
+import { makeStore } from '@/lib/stores/createStore';
 import type { SoccerQuestion, SoccerCategory } from './data/soccer';
 
 interface SoccerGameState {
@@ -21,9 +21,12 @@ const INITIAL: SoccerGameState = {
   showGoal: false,
 };
 
-export const useSoccerGameStore = create<SoccerGameState & SoccerGameActions>((set) => ({
-  ...INITIAL,
-  setQuestions: (questions, category) => set({ questions, category }),
-  setShowGoal:  (showGoal) => set({ showGoal }),
-  reset:        () => set(INITIAL),
-}));
+export const useSoccerGameStore = makeStore<SoccerGameState & SoccerGameActions>(
+  'SoccerGameStore',
+  (set) => ({
+    ...INITIAL,
+    setQuestions: (questions, category) => set({ questions, category }),
+    setShowGoal:  (showGoal) => set({ showGoal }),
+    reset:        () => set(INITIAL),
+  }),
+);

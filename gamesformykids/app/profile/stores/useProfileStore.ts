@@ -6,8 +6,7 @@
  * קומפוננטות קוראות ישירות לסטור — אין props drilling.
  */
 
-import { create } from 'zustand';
-import { devtools } from 'zustand/middleware';
+import { makeStore } from '@/lib/stores/createStore';
 import { useUserProfileStore } from '@/lib/stores/userProfileStore';
 import { useGameProgressDataStore } from '@/lib/stores/gameProgressDataStore';
 import { useAchievementsStore } from '@/lib/stores/achievementsStore';
@@ -54,9 +53,9 @@ export function useProfileComputedStats() {
 
 // ── Store ─────────────────────────────────────────────────
 
-export const useProfileStore = create<ProfileState & ProfileActions>()(
-  devtools(
-    (set, get) => ({
+export const useProfileStore = makeStore<ProfileState & ProfileActions>(
+  'ProfileStore',
+  (set, get) => ({
       isEditing: false,
       uploadingAvatar: false,
       editingName: '',
@@ -83,7 +82,5 @@ export const useProfileStore = create<ProfileState & ProfileActions>()(
         await updateFn({ full_name: editingName });
         set({ isEditing: false }, false, 'profile/updateDone');
       },
-    }),
-    { name: 'ProfileStore' }
-  )
+  }),
 );
