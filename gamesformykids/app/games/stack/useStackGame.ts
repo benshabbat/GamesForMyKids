@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStackStore } from './stackStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 300;
 export const H = 480;
@@ -17,10 +16,11 @@ const TARGET_TOP = 90;
 import type { PhaseDead as Phase } from '@/lib/types';
 interface Block { x: number; y: number; w: number; color: string; }
 
-export function useStackGame() {
-  const { saveGameResultRef } = useGameCompletion('stack');
-
-  const st = useRef({
+const _useStack = createCanvasArcadeHook({
+  gameType: 'stack',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     blocks: [] as Block[],
     curX: 0, curW: INIT_W,
@@ -31,57 +31,8 @@ export function useStackGame() {
     colorIdx: 0,
     frame: 0,
     startTime: 0,
-  });
-  const startGame = useCallback(() => {
-    const s = st.current;
-    s.phase = 'playing';
-    s.score = 0; s.frame = 0; s.camOffset = 0;
-    s.curW = INIT_W; s.curX = (W - INIT_W) / 2;
-    s.curDir = 1; s.curSpeed = 2.5; s.colorIdx = 0;
-    s.blocks = [{ x: (W - INIT_W) / 2, y: FLOOR_Y, w: INIT_W, color: '#6b7280' }];
-    s.startTime = Date.now();
-    useStackStore.getState().startPlaying();
-  }, []);
-
-  const drop = useCallback(() => {
-    const s = st.current;
-    if (s.phase !== 'playing') return;
-
-    const top = s.blocks[s.blocks.length - 1];
-    const sliderWorldY = top.y - BH;
-    const left = Math.max(s.curX, top.x);
-    const right = Math.min(s.curX + s.curW, top.x + top.w);
-    const overlap = right - left;
-
-    if (overlap <= 2) {
-      s.phase = 'dead';
-      const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-      saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
-      useStackStore.getState().endGame(s.score);
-      return;
-    }
-
-    s.colorIdx = (s.colorIdx + 1) % COLORS.length;
-    s.blocks.push({ x: left, y: sliderWorldY, w: overlap, color: COLORS[s.colorIdx] });
-    s.score++;
-    s.curW = overlap;
-    s.curDir = (Math.random() < 0.5 ? 1 : -1) as 1 | -1;
-    s.curX = s.curDir > 0 ? -s.curW - 10 : W + 10;
-    s.curSpeed = Math.min(7, 2.5 + s.score * 0.09);
-
-    const topWorldY = sliderWorldY;
-    s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
-    useStackStore.getState().setScore(s.score);
-  }, [saveGameResultRef]);
-
-  const handleCanvasClick = useCallback(() => {
-    if (st.current.phase === 'playing') drop();
-    else if (st.current.phase === 'menu') startGame();
-  }, [drop, startGame]);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const s = st.current;
-    s.frame++;
+  }),
+  draw: (ctx, s, _dt, _saveRef) => {    s.frame++;
 
     if (s.phase === 'playing') {
       s.curX += s.curDir * s.curSpeed;
@@ -129,7 +80,60 @@ export function useStackGame() {
     ctx.font = '13px Arial';
     ctx.fillStyle = 'rgba(255,255,255,0.35)';
     ctx.fillText('TAP to drop!', W / 2, 74);
-  });
+  },
+});
+
+export function useStackGame() {
+  const { st, canvasRef, saveGameResultRef } = _useStack();
+
+
+  const startGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.score = 0; s.frame = 0; s.camOffset = 0;
+    s.curW = INIT_W; s.curX = (W - INIT_W) / 2;
+    s.curDir = 1; s.curSpeed = 2.5; s.colorIdx = 0;
+    s.blocks = [{ x: (W - INIT_W) / 2, y: FLOOR_Y, w: INIT_W, color: '#6b7280' }];
+    s.startTime = Date.now();
+    useStackStore.getState().startPlaying();
+  }, []);
+
+  const drop = useCallback(() => {
+    const s = st.current;
+    if (s.phase !== 'playing') return;
+
+    const top = s.blocks[s.blocks.length - 1];
+    const sliderWorldY = top.y - BH;
+    const left = Math.max(s.curX, top.x);
+    const right = Math.min(s.curX + s.curW, top.x + top.w);
+    const overlap = right - left;
+
+    if (overlap <= 2) {
+      s.phase = 'dead';
+      const elapsed = Math.round((Date.now() - s.startTime) / 1000);
+      saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
+      useStackStore.getState().endGame(s.score);
+      return;
+    }
+
+    s.colorIdx = (s.colorIdx + 1) % COLORS.length;
+    s.blocks.push({ x: left, y: sliderWorldY, w: overlap, color: COLORS[s.colorIdx] });
+    s.score++;
+    s.curW = overlap;
+    s.curDir = (Math.random() < 0.5 ? 1 : -1) as 1 | -1;
+    s.curX = s.curDir > 0 ? -s.curW - 10 : W + 10;
+    s.curSpeed = Math.min(7, 2.5 + s.score * 0.09);
+
+    const topWorldY = sliderWorldY;
+    s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
+    useStackStore.getState().setScore(s.score);
+  }, [saveGameResultRef]);
+
+  const handleCanvasClick = useCallback(() => {
+    if (st.current.phase === 'playing') drop();
+    else if (st.current.phase === 'menu') startGame();
+  }, [drop, startGame]);
+
 
   useEffect(() => {
     const kd = (e: KeyboardEvent) => {

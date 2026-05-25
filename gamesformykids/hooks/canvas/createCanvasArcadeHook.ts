@@ -61,8 +61,9 @@ export interface CanvasArcadeConfig<S extends { phase: string }> {
    * @param ctx  2D canvas context
    * @param state  mutable game state (mutate directly — no setState)
    * @param dt   milliseconds since the previous frame
+   * @param saveRef  ref from useGameCompletion — call `.current({score,level,durationSeconds})` on game-over
    */
-  draw: (ctx: CanvasRenderingContext2D, state: S, dt: number) => void;
+  draw: (ctx: CanvasRenderingContext2D, state: S, dt: number, saveRef: ReturnType<typeof useGameCompletion>['saveGameResultRef']) => void;
   /**
    * Optional pointer-X handler — called on mouse/touch move while playing.
    * Receives the x position in *game* coordinates (already scaled + biased).
@@ -98,7 +99,7 @@ export function createCanvasArcadeHook<S extends { phase: string }>(
     // `tick` is a stable arrow so the ref-based tickRef inside useCanvasLoop
     // picks up changes to `config.draw` on every render without re-running the effect.
     const canvasRef = useCanvasLoop((ctx, dt) => {
-      config.draw(ctx, st.current, dt);
+      config.draw(ctx, st.current, dt, saveGameResultRef);
     });
 
     // ── Pointer handlers ───────────────────────────────────────────────────────

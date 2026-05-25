@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerStore } from './brickBreakerStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 560;
@@ -41,64 +40,24 @@ function brickRect(i: number) {
   return { x, y, w: BRICK_W - BRICK_PAD, h: BRICK_H };
 }
 
-export function useBrickBreakerGame() {
-  const { saveGameResultRef } = useGameCompletion('brick-breaker');
+// Module-level ref so the draw config can trigger level progression
+// (brick-breaker advances levels from inside the canvas loop).
+let _brickStartNextLevel: (level: number) => void = () => {};
 
-  const st = useRef({
+const _useBrickBreaker = createCanvasArcadeHook({
+  gameType: 'brick-breaker',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     padX: W / 2 - PAD_W / 2,
     ballX: W / 2, ballY: PAD_Y - BALL_R - 2, ballVX: 3, ballVY: -4, launched: false,
     bricks: makeBricks(), score: 0, lives: 3, level: 1, frame: 0,
     startTime: 0,
     particles: [] as { x: number; y: number; vx: number; vy: number; life: number; color: string }[],
-  });
-  const startGame = useCallback((level = 1) => {
-    const s = st.current;
-    s.phase = 'playing';
-    s.padX = W / 2 - PAD_W / 2; s.ballX = W / 2; s.ballY = PAD_Y - BALL_R - 2;
-    const spd = 3.5 + (level - 1) * 0.5;
-    s.ballVX = spd; s.ballVY = -(spd + 0.5); s.launched = false;
-    s.bricks = makeBricks();
-    if (level === 1) s.startTime = Date.now();
-    s.score = level === 1 ? 0 : s.score;
-    s.lives = level === 1 ? 3 : s.lives;
-    s.level = level; s.particles = [];
-    useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
-  }, []);
-
-  const handleClick = useCallback(() => {
-    const s = st.current;
-    if (s.phase === 'playing' && !s.launched) { s.launched = true; }
-    else if (s.phase === 'menu') { startGame(1); }
-  }, [startGame]);
-
-  const movePaddle = useCallback((clientX: number, rect: DOMRect) => {
-    const scaleX = W / rect.width;
-    const mx = (clientX - rect.left) * scaleX;
-    st.current.padX = Math.max(0, Math.min(W - PAD_W, mx - PAD_W / 2));
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    movePaddle(e.clientX, e.currentTarget.getBoundingClientRect());
-  }, [movePaddle]);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    movePaddle(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
-  }, [movePaddle]);
-
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    handleClick();
-    movePaddle(e.touches[0].clientX, e.currentTarget.getBoundingClientRect());
-  }, [handleClick, movePaddle]);
-
-  const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, []);
-  const nudgeRight = useCallback(() => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); }, []);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const s = st.current;
-    s.frame++;
+  }),
+  onPointerX: (s, x) => { s.padX = Math.max(0, Math.min(W - PAD_W, x - PAD_W / 2)); },
+  draw: (ctx, s, _dt, saveRef) => {    s.frame++;
 
     if (s.phase === 'playing') {
       if (!s.launched) { s.ballX = s.padX + PAD_W / 2; s.ballY = PAD_Y - BALL_R - 2; }
@@ -118,7 +77,7 @@ export function useBrickBreakerGame() {
           if (s.lives <= 0) {
             s.lives = 0; s.phase = 'dead';
             const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-            saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
+            saveRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
             useBrickBreakerStore.getState().setGameOver(s.score, s.level);
           } else { useBrickBreakerStore.getState().setLives(s.lives); }
         }
@@ -140,10 +99,10 @@ export function useBrickBreakerGame() {
           if (nextLevel > 5) {
             s.phase = 'won';
             const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-            saveGameResultRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
+            saveRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
             useBrickBreakerStore.getState().setWon(s.score, s.lives, s.level);
           }
-          else { startGame(nextLevel); }
+          else { _brickStartNextLevel(nextLevel); }
         }
       }
       s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.04; return p.life > 0; });
@@ -176,7 +135,44 @@ export function useBrickBreakerGame() {
     ctx.fillStyle = padGrad; ctx.beginPath(); ctx.roundRect(s.padX, PAD_Y, PAD_W, PAD_H, 6); ctx.fill();
 
     if (s.phase === 'playing' && !s.launched) { ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '14px Arial'; ctx.textAlign = 'center'; ctx.fillText('הקש להשיק! 🏏', W / 2, PAD_Y - 20); }
-  });
+  },
+});
+
+export function useBrickBreakerGame() {
+  const { st, canvasRef, handlers } = _useBrickBreaker();
+
+
+  const startGame = useCallback((level = 1) => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.padX = W / 2 - PAD_W / 2; s.ballX = W / 2; s.ballY = PAD_Y - BALL_R - 2;
+    const spd = 3.5 + (level - 1) * 0.5;
+    s.ballVX = spd; s.ballVY = -(spd + 0.5); s.launched = false;
+    s.bricks = makeBricks();
+    if (level === 1) s.startTime = Date.now();
+    s.score = level === 1 ? 0 : s.score;
+    s.lives = level === 1 ? 3 : s.lives;
+    s.level = level; s.particles = [];
+    useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
+  }, []);
+  // Wire level-progression callback so draw config can call it
+  _brickStartNextLevel = startGame;
+
+  const handleClick = useCallback(() => {
+    const s = st.current;
+    if (s.phase === 'playing' && !s.launched) { s.launched = true; }
+    else if (s.phase === 'menu') { startGame(1); }
+  }, [startGame]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    handleClick();
+    handlers.onTouchMove(e);
+  }, [handleClick, handlers]);
+
+  const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, []);
+  const nudgeRight = useCallback(() => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); }, []);
+
 
   useEffect(() => {
     let left = false, right = false;
@@ -202,5 +198,5 @@ export function useBrickBreakerGame() {
 
   const { phase, score, best, lives, level } = useBrickBreakerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, level: s.level })));
 
-  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight, phase, score, best, lives, level };
+  return { canvasRef, startGame, handleMouseMove: handlers.onMouseMove, handleTouchMove: handlers.onTouchMove, handleTouchStart, handleClick, nudgeLeft, nudgeRight, phase, score, best, lives, level };
 }

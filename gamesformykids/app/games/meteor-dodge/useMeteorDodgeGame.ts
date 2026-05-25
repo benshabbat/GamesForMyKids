@@ -1,10 +1,9 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 560;
@@ -19,51 +18,20 @@ interface StarPick { id: number; x: number; y: number; vy: number; emoji: string
 
 let uid = 0;
 
-export function useMeteorDodgeGame() {
-  const { saveGameResultRef } = useGameCompletion('meteor-dodge');
-
-  const st = useRef({
+const _useMeteorDodge = createCanvasArcadeHook({
+  gameType: 'meteor-dodge',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     playerX: W / 2,
     meteors: [] as Meteor[], stars: [] as StarPick[],
     score: 0, best: 0, frame: 0, nextMeteor: 50, nextStar: 120,
     bgStars: Array.from({ length: 50 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 1.5, twinkle: Math.random() * Math.PI * 2 })),
     invincible: 0, startTime: 0,
-  });
-  const startGame = useCallback(() => {
-    const s = st.current;
-    s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
-    s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
-    s.startTime = Date.now();
-    useMeteorDodgeStore.getState().startPlaying();
-  }, []);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (st.current.phase !== 'playing') return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    st.current.playerX = Math.max(PLAYER_R, Math.min(W - PLAYER_R, (e.clientX - rect.left) * (W / rect.width)));
-  }, []);
-
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    if (st.current.phase !== 'playing') return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    st.current.playerX = Math.max(PLAYER_R, Math.min(W - PLAYER_R, (e.touches[0].clientX - rect.left) * (W / rect.width)));
-  }, []);
-
-  const handleCanvasClick = useCallback(() => {
-    if (st.current.phase === 'menu') startGame();
-  }, [startGame]);
-
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault();
-    if (st.current.phase === 'menu') startGame();
-    handleTouchMove(e);
-  }, [startGame, handleTouchMove]);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const s = st.current;
-
+  }),
+  onPointerX: (s, x) => { s.playerX = Math.max(PLAYER_R, Math.min(W - PLAYER_R, x)); },
+  draw: (ctx, s, _dt, saveRef) => {
     if (s.phase === 'playing') {
       s.frame++;
       s.score = Math.floor(s.frame / 4);
@@ -98,7 +66,7 @@ export function useMeteorDodgeGame() {
           const dx = m.x - s.playerX, dy = m.y - PLAYER_Y;
           if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + m.r - 8) {
             const elapsed = Math.round((Date.now() - s.startTime) / 1000);
-            saveGameResultRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
+            saveRef.current({ score: s.score, level: 1, durationSeconds: elapsed });
             s.phase = 'dead'; useMeteorDodgeStore.getState().endGame(s.score); break;
           }
         }
@@ -108,7 +76,7 @@ export function useMeteorDodgeGame() {
     }
 
     ctx.fillStyle = '#030712'; ctx.fillRect(0, 0, W, H);
-    const curr = st.current;
+    const curr = s;
     for (const star of curr.bgStars) {
       const alpha = 0.3 + Math.sin(curr.frame * 0.02 + star.twinkle) * 0.3;
       ctx.beginPath(); ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
@@ -144,7 +112,32 @@ export function useMeteorDodgeGame() {
 
     ctx.font = 'bold 20px Arial'; ctx.fillStyle = 'rgba(255,255,255,0.8)'; ctx.textAlign = 'right';
     ctx.fillText(`${curr.score}`, W - 12, 28);
-  });
+  },
+});
+
+export function useMeteorDodgeGame() {
+  const { st, canvasRef, handlers } = _useMeteorDodge();
+
+
+
+  const startGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
+    s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
+    s.startTime = Date.now();
+    useMeteorDodgeStore.getState().startPlaying();
+  }, []);
+
+  const handleCanvasClick = useCallback(() => {
+    if (st.current.phase === 'menu') startGame();
+  }, [startGame]);
+
+  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+    e.preventDefault();
+    if (st.current.phase === 'menu') startGame();
+    handlers.onTouchMove(e);
+  }, [startGame, handlers, st]);
+
 
   useEffect(() => {
     let left = false, right = false;
@@ -159,7 +152,7 @@ export function useMeteorDodgeGame() {
     window.addEventListener('keydown', kd);
     window.addEventListener('keyup', ku);
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, []);
+  }, [st]);
 
   const nudgeLeft = useCallback(() => {
     const s = st.current;
@@ -173,5 +166,5 @@ export function useMeteorDodgeGame() {
 
   const { phase, score, best } = useMeteorDodgeStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 
-  return { canvasRef, startGame, handleMouseMove, handleTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight, phase, score, best };
+  return { canvasRef, startGame, handleMouseMove: handlers.onMouseMove, handleTouchMove: handlers.onTouchMove, handleCanvasClick, handleTouchStart, nudgeLeft, nudgeRight, phase, score, best };
 }

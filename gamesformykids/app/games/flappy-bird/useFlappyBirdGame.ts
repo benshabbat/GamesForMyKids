@@ -1,10 +1,9 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFlappyBirdStore } from './flappyBirdStore';
-import { useCanvasLoop } from '@/hooks/canvas';
-import { useGameCompletion } from '@/hooks/shared/progress';
+import { createCanvasArcadeHook } from '@/hooks/canvas';
 
 export const W = 360;
 export const H = 560;
@@ -36,10 +35,11 @@ function drawRoundRect(ctx: CanvasRenderingContext2D, x: number, y: number, w: n
   ctx.closePath();
 }
 
-export function useFlappyBirdGame() {
-  const { saveGameResultRef } = useGameCompletion('flappy-bird');
-
-  const s = useRef({
+const _useFlappyBird = createCanvasArcadeHook({
+  gameType: 'flappy-bird',
+  width: W,
+  height: H,
+  initialState: () => ({
     phase: 'menu' as Phase,
     birdY: H / 2,
     birdVY: 0,
@@ -48,34 +48,9 @@ export function useFlappyBirdGame() {
     frame: 0,
     bgOffset: 0,
     startTime: 0,
-  });
-  const resetGame = useCallback(() => {
-    const st = s.current;
-    st.phase = 'playing';
-    st.birdY = H / 2;
-    st.birdVY = FLAP_STRENGTH;
-    st.pipes = [];
-    st.score = 0;
-    st.frame = 0;
-    st.startTime = Date.now();
-    useFlappyBirdStore.getState().setPhase('playing');
-    useFlappyBirdStore.getState().setScore(0);
-  }, []);
-
-  const flap = useCallback(() => {
-    const st = s.current;
-    if (st.phase === 'playing') {
-      st.birdVY = FLAP_STRENGTH;
-    } else if (st.phase === 'menu') {
-      resetGame();
-    } else if (st.phase === 'dead') {
-      st.phase = 'menu';
-      useFlappyBirdStore.getState().setPhase('menu');
-    }
-  }, [resetGame]);
-
-  const canvasRef = useCanvasLoop((ctx) => {
-    const st = s.current;
+  }),
+  draw: (ctx, s, _dt, saveRef) => {
+    const st = s;
     if (st.phase === 'playing') {
       st.frame++;
       st.birdVY += GRAVITY;
@@ -99,7 +74,7 @@ export function useFlappyBirdGame() {
       if (st.birdY + BIRD_R >= H - GROUND_H || st.birdY - BIRD_R <= 0) {
         if (st.phase === 'playing') {
           const elapsed = Math.round((Date.now() - st.startTime) / 1000);
-          saveGameResultRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
+          saveRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
           st.phase = 'dead';
           useFlappyBirdStore.getState().endGame(st.score);
         }
@@ -113,7 +88,7 @@ export function useFlappyBirdGame() {
         if (bR > p.x && bL < p.x + PIPE_W) {
           if ((bT < p.gapY || bB > p.gapY + PIPE_GAP) && st.phase === 'playing') {
             const elapsed = Math.round((Date.now() - st.startTime) / 1000);
-            saveGameResultRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
+            saveRef.current({ score: st.score, level: 1, durationSeconds: elapsed });
             st.phase = 'dead';
             useFlappyBirdStore.getState().endGame(st.score);
           }
@@ -201,7 +176,38 @@ export function useFlappyBirdGame() {
     ctx.strokeText(String(st.score), W / 2, 52);
     ctx.fillStyle = 'white';
     ctx.fillText(String(st.score), W / 2, 52);
-  });
+  },
+});
+
+export function useFlappyBirdGame() {
+  const { st, canvasRef } = _useFlappyBird();
+
+
+  const resetGame = useCallback(() => {
+    const s = st.current;
+    s.phase = 'playing';
+    s.birdY = H / 2;
+    s.birdVY = FLAP_STRENGTH;
+    s.pipes = [];
+    s.score = 0;
+    s.frame = 0;
+    s.startTime = Date.now();
+    useFlappyBirdStore.getState().setPhase('playing');
+    useFlappyBirdStore.getState().setScore(0);
+  }, []);
+
+  const flap = useCallback(() => {
+    const s = st.current;
+    if (s.phase === 'playing') {
+      s.birdVY = FLAP_STRENGTH;
+    } else if (s.phase === 'menu') {
+      resetGame();
+    } else if (s.phase === 'dead') {
+      s.phase = 'menu';
+      useFlappyBirdStore.getState().setPhase('menu');
+    }
+  }, [resetGame]);
+
 
   const handleInput = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
     e?.preventDefault();
