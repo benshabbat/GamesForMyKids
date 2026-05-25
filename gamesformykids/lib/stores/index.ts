@@ -19,7 +19,6 @@ export type { GameStats } from './gameStore';
 export {
   useUIStore,
   useNotifications,
-  useAddNotification,
 } from './uiStore';
 export type { Notification, NotificationType } from './uiStore';
 
