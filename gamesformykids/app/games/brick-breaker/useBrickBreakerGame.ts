@@ -154,7 +154,7 @@ export function useBrickBreakerGame() {
     s.lives = level === 1 ? 3 : s.lives;
     s.level = level; s.particles = [];
     useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
-  }, []);
+  }, [st]);
   // Wire level-progression callback so draw config can call it
   _brickStartNextLevel = startGame;
 
@@ -162,7 +162,7 @@ export function useBrickBreakerGame() {
     const s = st.current;
     if (s.phase === 'playing' && !s.launched) { s.launched = true; }
     else if (s.phase === 'menu') { startGame(1); }
-  }, [startGame]);
+  }, [st, startGame]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -170,8 +170,8 @@ export function useBrickBreakerGame() {
     handlers.onTouchMove(e);
   }, [handleClick, handlers]);
 
-  const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, []);
-  const nudgeRight = useCallback(() => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); }, []);
+  const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, [st]);
+  const nudgeRight = useCallback(() => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); }, [st]);
 
 
   useEffect(() => {
@@ -194,7 +194,7 @@ export function useBrickBreakerGame() {
     window.addEventListener('keydown', kd);
     window.addEventListener('keyup', ku);
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, [handleClick]);
+  }, [handleClick, st]);
 
   const { phase, score, best, lives, level } = useBrickBreakerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, level: s.level })));
 

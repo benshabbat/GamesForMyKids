@@ -194,7 +194,7 @@ export function useFlappyBirdGame() {
     s.startTime = Date.now();
     useFlappyBirdStore.getState().setPhase('playing');
     useFlappyBirdStore.getState().setScore(0);
-  }, []);
+  }, [st]);
 
   const flap = useCallback(() => {
     const s = st.current;
@@ -206,7 +206,7 @@ export function useFlappyBirdGame() {
       s.phase = 'menu';
       useFlappyBirdStore.getState().setPhase('menu');
     }
-  }, [resetGame]);
+  }, [st, resetGame]);
 
 
   const handleInput = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
