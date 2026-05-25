@@ -10,7 +10,7 @@
     "586": { "title": "refactor: 7 game stores bypass makeStore/makePersistStore factory and call create+devtools directly", "hasPR": true, "prNumber": 590, "prState": "merged", "label": "refactor" },
     "587": { "title": "bug: catch-fruit, frogger, pong, space-defender missing useGameCompletion — scores never saved to Supabase", "hasPR": true, "prNumber": 610, "prState": "merged", "label": "bug" },
     "597": { "title": "bug: vehicles game missing from GAMES_REGISTRY — game page broken", "hasPR": true, "prNumber": 609, "prState": "merged", "label": "bug" },
-    "601": { "title": "refactor: Migrate canvas arcade games to createCanvasArcadeHook factory", "hasPR": true, "prNumber": 614, "prState": "open", "label": "refactor" },
+    "601": { "title": "refactor: Migrate canvas arcade games to createCanvasArcadeHook factory", "hasPR": true, "prNumber": 614, "prState": "merged", "label": "refactor" },
     "602": { "title": "perf: Wrap handler callbacks in useNumericQuizRuntime with useCallback", "hasPR": true, "prNumber": 611, "prState": "merged", "label": "perf" },
     "603": { "title": "dead-code: Remove unused progressStats from useDashboard", "hasPR": true, "prNumber": 608, "prState": "merged", "label": "dead-code" },
     "604": { "title": "refactor: Extract building game loop to useBuildingGameLoop hook", "hasPR": true, "prNumber": 612, "prState": "merged", "label": "refactor" },
@@ -38,6 +38,6 @@
     "611": { "title": "perf: Wrap handler callbacks in useNumericQuizRuntime with useCallback", "state": "MERGED", "linkedIssue": 602 },
     "612": { "title": "refactor: Extract building game loop to useBuildingGameLoop hook", "state": "MERGED", "linkedIssue": 604 },
     "613": { "title": "bug: Dual-registry quiz games missing GameLogicSync guard", "state": "MERGED", "linkedIssue": 605 },
-    "614": { "title": "refactor: migrate 10 canvas arcade games to createCanvasArcadeHook factory", "state": "OPEN", "linkedIssue": 601 }
+    "614": { "title": "refactor: migrate 10 canvas arcade games to createCanvasArcadeHook factory", "state": "MERGED", "linkedIssue": 601 }
   }
 }
