@@ -1,6 +1,7 @@
 'use client';
 
 import { useChessGame } from '../useChessGame';
+import { useChessAI } from '../store/useChessAI';
 import ChessMenu from './ChessMenu';
 import ChessGameOver from './ChessGameOver';
 import ChessBoard from './ChessBoard';
@@ -10,6 +11,8 @@ import ChessMoveHistory from './ChessMoveHistory';
 
 export default function ChessGame() {
   const { phase, message } = useChessGame();
+  // Mounts the AI scheduler — cleans up setTimeout on unmount
+  useChessAI();
   const isPlaying = phase === 'playing' || phase === 'check';
 
   return (
