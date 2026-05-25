@@ -1,7 +1,6 @@
 "use client";
 
 import styles from '../drawing.module.css';
-import { useDrawingCanvas } from '../hooks/useDrawingCanvas';
 import { useDrawingStore } from '../store/drawingStore';
 import DrawingStartScreen from './DrawingStartScreen';
 import DrawingHeader from './DrawingHeader';
@@ -11,9 +10,6 @@ import DrawingCanvas from './DrawingCanvas';
 import DrawingActions from './DrawingActions';
 
 export default function DrawingGameClient() {
-  // רישום canvas ops לסטור
-  useDrawingCanvas();
-
   const { isGameStarted } = useDrawingStore();
 
   if (!isGameStarted) {
