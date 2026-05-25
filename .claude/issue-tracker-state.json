@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-05-25T16:30:00.000Z",
+  "lastRun": "2026-05-25T18:00:00.000Z",
   "issues": {
     "568": { "title": "refactor: Split useMemoryStore.ts — extract pure helpers and match logic", "hasPR": true, "prNumber": 592, "prState": "merged", "label": "refactor" },
     "569": { "title": "refactor: Split sheshBeshGameStore.ts — separate AI logic, player move execution, and timer utilities", "hasPR": true, "prNumber": 593, "prState": "merged", "label": "refactor" },
@@ -19,9 +19,25 @@
     "616": { "title": "architecture: balloonPopStore animation loop runs in module-level closure — no React lifecycle cleanup", "hasPR": true, "prNumber": 623, "prState": "merged", "label": "architecture" },
     "617": { "title": "architecture: useAchievements and useGameCompletion embed raw Supabase table queries — no data-access layer in lib/supabase/", "hasPR": true, "prNumber": 624, "prState": "merged", "label": "architecture" },
     "618": { "title": "dead-code: checkPlayTimeAchievements, refreshAchievements, unlockAchievement never consumed by any caller", "hasPR": true, "prNumber": 621, "prState": "closed", "label": "dead-code", "note": "PR #621 closed as superseded; fix applied via #624; issue closed manually" },
-    "619": { "title": "dead-code: useSpeech React hook defined in lib/utils/speech/speaker.ts — wrong layer and never called", "hasPR": true, "prNumber": 620, "prState": "merged", "label": "dead-code" }
+    "619": { "title": "dead-code: useSpeech React hook defined in lib/utils/speech/speaker.ts — wrong layer and never called", "hasPR": true, "prNumber": 620, "prState": "merged", "label": "dead-code" },
+    "626": { "title": "dead-code: useGamePerformance is a no-op stub — performanceHooks never consumed by any caller", "hasPR": true, "prNumber": 634, "prState": "merged", "label": "dead-code" },
+    "627": { "title": "performance: calculateProgressStats in useSessionStats runs O(n) on every session change but result is never read", "hasPR": true, "prNumber": 635, "prState": "merged", "label": "performance" },
+    "628": { "title": "dead-code: lib/types/events/game-events.ts and UseGameEventsReturn have zero consumers", "hasPR": true, "prNumber": 636, "prState": "open", "label": "dead-code" },
+    "629": { "title": "dead-code: updateCurrentSession, getSessionsByGameType, clearProgress in progressTrackingStore never called", "hasPR": true, "prNumber": 637, "prState": "merged", "label": "dead-code" },
+    "630": { "title": "architecture: useGameProgress and useUserProfile still embed raw supabase.from() queries — not extracted to lib/supabase/", "hasPR": true, "prNumber": 638, "prState": "open", "label": "architecture" },
+    "631": { "title": "architecture: useChessStore uses module-level _timer setTimeout — no cleanup on unmount", "hasPR": true, "prNumber": 639, "prState": "open", "label": "architecture" },
+    "632": { "title": "architecture: two hooks named useUserProfile with different purposes cause silent naming collision", "hasPR": true, "prNumber": 640, "prState": "open", "label": "architecture" },
+    "633": { "title": "architecture: _brickStartNextLevel module-level ref in useBrickBreakerGame assumes single mount", "hasPR": true, "prNumber": 641, "prState": "open", "label": "architecture" }
   },
   "prs": {
+    "641": { "title": "architecture: store _brickStartNextLevel in st.current instead of module-level ref", "state": "OPEN", "linkedIssue": 633 },
+    "640": { "title": "architecture: rename components/user/useUserProfile to useUserMenu", "state": "OPEN", "linkedIssue": 632 },
+    "639": { "title": "architecture: move chess AI timer from module-level _timer to useChessAI hook", "state": "OPEN", "linkedIssue": 631 },
+    "638": { "title": "architecture: extract Supabase queries from useGameProgress and useUserProfile into service layer", "state": "OPEN", "linkedIssue": 630 },
+    "637": { "title": "chore: remove dead actions from progressTrackingStore; cap sessions at 200", "state": "MERGED", "linkedIssue": 629 },
+    "636": { "title": "chore: remove game-events dead types — UseGameEventsReturn and ExtendedGameEvent", "state": "OPEN", "linkedIssue": 628 },
+    "635": { "title": "perf: remove calculateProgressStats O(n) dead computation from useSessionStats", "state": "MERGED", "linkedIssue": 627 },
+    "634": { "title": "chore: remove useGamePerformance no-op stub", "state": "MERGED", "linkedIssue": 626 },
     "625": { "title": "fix: add st to useCallback/useEffect deps in canvas arcade game hooks", "state": "MERGED", "linkedIssue": null },
     "624": { "title": "architecture: extract Supabase queries into service layer", "state": "MERGED", "linkedIssue": 617 },
     "623": { "title": "refactor: extract balloon-pop animation loop into useBalloonPopLoop hook", "state": "MERGED", "linkedIssue": 616 },
