@@ -126,11 +126,11 @@ export function useMeteorDodgeGame() {
     s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
     s.startTime = Date.now();
     useMeteorDodgeStore.getState().startPlaying();
-  }, []);
+  }, [st]);
 
   const handleCanvasClick = useCallback(() => {
     if (st.current.phase === 'menu') startGame();
-  }, [startGame]);
+  }, [st, startGame]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -157,12 +157,12 @@ export function useMeteorDodgeGame() {
   const nudgeLeft = useCallback(() => {
     const s = st.current;
     s.playerX = Math.max(PLAYER_R, s.playerX - 45);
-  }, []);
+  }, [st]);
 
   const nudgeRight = useCallback(() => {
     const s = st.current;
     s.playerX = Math.min(W - PLAYER_R, s.playerX + 45);
-  }, []);
+  }, [st]);
 
   const { phase, score, best } = useMeteorDodgeStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 

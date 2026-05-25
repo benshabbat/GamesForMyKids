@@ -118,7 +118,7 @@ export function useFroggerGame() {
     s.lives = 3; s.score = 0; s.level = 1; s.frame = 0; s.dead = false; s.deadTimer = 0;
     s.lanes = makeLanes(); s.startTime = Date.now();
     useFroggerStore.getState().startPlaying();
-  }, []);
+  }, [st]);
 
   const moveFrog = useCallback((dc: number, dr: number) => {
     const s = st.current;
@@ -128,7 +128,7 @@ export function useFroggerGame() {
     if (dr < 0) s.score += 2;
     s.fCol = nc; s.fRow = nr;
     if (nr === 0) { s.score += 30; s.level++; s.fCol = 4; s.fRow = 8; useFroggerStore.getState().setScore(s.score); }
-  }, []);
+  }, [st]);
 
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 

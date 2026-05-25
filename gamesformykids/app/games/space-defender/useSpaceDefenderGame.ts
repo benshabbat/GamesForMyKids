@@ -127,7 +127,7 @@ export function useSpaceDefenderGame() {
     if (now - s.lastShot < 12) return;
     s.lastShot = now;
     s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
-  }, []);
+  }, [st]);
 
   const startGame = useCallback(() => {
     const s = st.current;
@@ -135,7 +135,7 @@ export function useSpaceDefenderGame() {
     s.shipX = W / 2; s.bullets = []; s.asteroids = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0; s.startTime = Date.now();
     useSpaceDefenderStore.getState().startGame();
-  }, []);
+  }, [st]);
 
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
@@ -144,13 +144,13 @@ export function useSpaceDefenderGame() {
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.clientX - rect.left) * scaleX));
-  }, [canvasRef]);
+  }, [st, canvasRef]);
 
   const handleCanvasClick = useCallback(() => {
     const s = st.current;
     if (s.phase === 'playing') { shoot(); return; }
     if (s.phase === 'menu') startGame();
-  }, [shoot, startGame]);
+  }, [st, shoot, startGame]);
 
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
@@ -160,12 +160,12 @@ export function useSpaceDefenderGame() {
     const scaleX = W / rect.width;
     st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.touches[0].clientX - rect.left) * scaleX));
     shoot();
-  }, [canvasRef, shoot]);
+  }, [st, canvasRef, shoot]);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (st.current.phase !== 'playing') startGame();
-  }, [startGame]);
+  }, [st, startGame]);
 
   useEffect(() => {
     let leftDown = false, rightDown = false;
@@ -187,7 +187,7 @@ export function useSpaceDefenderGame() {
     window.addEventListener('keydown', kd);
     window.addEventListener('keyup', ku);
     return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); clearInterval(moveInterval); };
-  }, [shoot]);
+  }, [st, shoot]);
 
   const { phase, best, score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 
