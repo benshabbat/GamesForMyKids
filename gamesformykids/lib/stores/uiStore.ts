@@ -115,5 +115,3 @@ export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) =
 /** שמישה ישירות בתוך קומפוננט הצגת Toasts */
 export const useNotifications = () => useUIStore((s) => s.notifications);
 
-/** helper hooks נוחים */
-export const useAddNotification = () => useUIStore((s) => s.addNotification);
