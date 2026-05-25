@@ -3,44 +3,10 @@
 import { makeStore } from '@/lib/stores/createStore';
 import { makeInitialBoard, applyMove, isInCheck, pieceColor, INIT_CASTLING, INIT } from '../logic/chessBoardUtils';
 import { getAllValidMoves, getValidMoves } from '../logic/chessMoveGen';
-import { bestComputerMove } from '../logic/chessAI';
+import { buildRecord } from './chessRecordUtils';
 import {
-  type ChessState, type Pos, type GamePhase, type Piece, type ChessMove,
-  type MoveRating, type MoveRecord, PIECE_SYMBOLS,
+  type ChessState, type Pos, type GamePhase,
 } from '../logic/chessTypes';
-
-// ─────────────────────── Helpers ─────────────────────────────
-const FILES_HEB = ['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח'];
-
-function toNotation(move: ChessMove, piece: string): string {
-  const sym = PIECE_SYMBOLS[piece] ?? '?';
-  if (move.castle) return move.castle === 'K' ? '🏰 הצלחה קצרה' : '🏰 הצלחה ארוכה';
-  const from = `${FILES_HEB[move.from.col]}${8 - move.from.row}`;
-  const to = `${FILES_HEB[move.to.col]}${8 - move.to.row}`;
-  return `${sym} ${from}→${to}`;
-}
-
-function rateMove(captured: Piece, gaveCheck: boolean, castle: 'K' | 'Q' | null): MoveRating {
-  if (castle) return 'castle';
-  if (!captured && !gaveCheck) return 'normal';
-  if (!captured) return 'good'; // gave check without capture
-  const pt = captured[1];
-  if (pt === 'Q') return 'excellent';
-  if (pt === 'R') return 'great';
-  if (pt === 'B' || pt === 'N') return 'good';
-  return 'normal'; // pawn capture
-}
-
-function buildRecord(
-  move: ChessMove, piece: string, by: 'w' | 'b',
-  captured: Piece, gaveCheck: boolean, moveNumber: number,
-): MoveRecord {
-  const castle = move.castle ?? null;
-  return { by, piece, captured, gaveCheck, castle, moveNumber,
-    rating: rateMove(captured, gaveCheck, castle),
-    notation: toNotation(move, piece),
-  };
-}
 
 // ─────────────────────── Store ───────────────────────────────
 export interface ChessStore extends ChessState {
@@ -48,61 +14,10 @@ export interface ChessStore extends ChessState {
   selectSquare: (pos: Pos) => void;
 }
 
-let _timer: ReturnType<typeof setTimeout> | null = null;
-
-function scheduleComputerMove() {
-  if (_timer) clearTimeout(_timer);
-  _timer = setTimeout(() => {
-    const s = useChessStore.getState();
-    if (s.turn !== 'b') return;
-
-    const move = bestComputerMove(s.board, s.castling, s.enPassant);
-    if (!move) {
-      const phrase = isInCheck(s.board, 'b') ? 'שחמט! ניצחת!' : 'פאט!';
-      useChessStore.setState({
-        phase: 'checkmate',
-        playerScore: s.playerScore + (isInCheck(s.board, 'b') ? 1 : 0),
-        message: `🏆 ${phrase}`,
-      });
-      return;
-    }
-
-    const pieceMoved = s.board[move.from.row][move.from.col]!;
-    const { board: nb, castling: nc, enPassant: nep, captured } = applyMove(s.board, move, s.castling, s.enPassant);
-    const playerMoves = getAllValidMoves(nb, 'w', nc, nep);
-
-    if (playerMoves.length === 0) {
-      const phrase = isInCheck(nb, 'w') ? 'שחמט' : 'פאט';
-      const record = buildRecord(move, pieceMoved, 'b', captured, false, Math.floor(s.moveHistory.length / 2) + 1);
-      useChessStore.setState({
-        board: nb, castling: nc, enPassant: nep, lastMove: move,
-        phase: 'checkmate',
-        computerScore: s.computerScore + (isInCheck(nb, 'w') ? 1 : 0),
-        message: `😢 ${phrase}! המחשב ניצח.`,
-        capturedByComputer: captured ? [...s.capturedByComputer, captured] : s.capturedByComputer,
-        moveHistory: [...s.moveHistory, record],
-      });
-      return;
-    }
-
-    const gaveCheck = isInCheck(nb, 'w');
-    const phase: GamePhase = gaveCheck ? 'check' : 'playing';
-    const record = buildRecord(move, pieceMoved, 'b', captured, gaveCheck, Math.floor(s.moveHistory.length / 2) + 1);
-    useChessStore.setState({
-      board: nb, castling: nc, enPassant: nep, lastMove: move,
-      selected: null, validMoves: [], turn: 'w', phase,
-      message: phase === 'check' ? '⚠️ אתה בשח! תורך' : 'תורך!',
-      capturedByComputer: captured ? [...s.capturedByComputer, captured] : s.capturedByComputer,
-      moveHistory: [...s.moveHistory, record],
-    });
-  }, 600);
-}
-
 export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => ({
   ...INIT,
 
   startGame: () => {
-    if (_timer) clearTimeout(_timer);
     const { playerScore, computerScore } = get();
     set({
       ...INIT,
@@ -152,7 +67,7 @@ export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => (
         capturedByPlayer: captured ? [...prev.capturedByPlayer, captured] : prev.capturedByPlayer,
         moveHistory: [...prev.moveHistory, record],
       });
-      scheduleComputerMove();
+      // AI move is now triggered by useChessAI hook watching turn === 'b'
       return;
     }
 
