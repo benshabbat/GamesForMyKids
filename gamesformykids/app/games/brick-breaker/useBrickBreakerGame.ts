@@ -29,6 +29,7 @@ const ROW_COLORS = [
 
 import type { PhaseWonDead as Phase } from '@/lib/types';
 interface Brick { alive: boolean; row: number; }
+type BrickParticle = { x: number; y: number; vx: number; vy: number; life: number; color: string };
 
 function makeBricks(): Brick[] {
   return Array.from({ length: ROWS * COLS }, (_, i) => ({ alive: true, row: Math.floor(i / COLS) }));
@@ -50,7 +51,7 @@ const _useBrickBreaker = createCanvasArcadeHook({
     ballX: W / 2, ballY: PAD_Y - BALL_R - 2, ballVX: 3, ballVY: -4, launched: false,
     bricks: makeBricks(), score: 0, lives: 3, level: 1, frame: 0,
     startTime: 0,
-    particles: [] as { x: number; y: number; vx: number; vy: number; life: number; color: string }[],
+    particles: [] as BrickParticle[],
     /** Wired by useBrickBreakerGame via useEffect — stored here so draw can call it without a module-level ref. */
     startNextLevel: undefined as ((level: number) => void) | undefined,
   }),
