@@ -38,6 +38,32 @@ type BrickParticle = { x: number; y: number; vx: number; vy: number; life: numbe
  */
 const _nextLevelRef: { current: ((level: number) => void) | null } = { current: null };
 
+// ── Gradient caches ──────────────────────────────────────────────────────────
+// Canvas gradients are tied to a specific rendering context — re-create them if
+// the context ever changes (canvas remount), but reuse across frames otherwise.
+let _gradCtx: CanvasRenderingContext2D | null = null;
+let _bgGradient: CanvasGradient | null = null;
+const _rowGradients: (CanvasGradient | null)[] = new Array(ROWS).fill(null);
+
+function ensureGradients(ctx: CanvasRenderingContext2D) {
+  if (ctx === _gradCtx) return; // already cached for this context
+  _gradCtx = ctx;
+
+  // Background
+  const bg = ctx.createLinearGradient(0, 0, 0, H);
+  bg.addColorStop(0, '#0f0c29'); bg.addColorStop(1, '#302b63');
+  _bgGradient = bg;
+
+  // Per-row brick gradients (vertical, normalised to x=0)
+  for (let row = 0; row < ROWS; row++) {
+    const y = BRICK_TOP + row * (BRICK_H + BRICK_PAD);
+    const [c1, c2] = ROW_COLORS[row];
+    const g = ctx.createLinearGradient(0, y, 0, y + BRICK_H);
+    g.addColorStop(0, c1); g.addColorStop(1, c2);
+    _rowGradients[row] = g;
+  }
+}
+
 function makeBricks(): Brick[] {
   return Array.from({ length: ROWS * COLS }, (_, i) => ({ alive: true, row: Math.floor(i / COLS) }));
 }
@@ -112,17 +138,14 @@ const _useBrickBreaker = createCanvasArcadeHook({
       s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.04; return p.life > 0; });
     }
 
-    const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#0f0c29'); bg.addColorStop(1, '#302b63');
-    ctx.fillStyle = bg; ctx.fillRect(0, 0, W, H);
+    ensureGradients(ctx);
+    ctx.fillStyle = _bgGradient!; ctx.fillRect(0, 0, W, H);
 
     for (let i = 0; i < s.bricks.length; i++) {
       if (!s.bricks[i].alive) continue;
       const { x, y, w, h } = brickRect(i);
-      const [c1, c2] = ROW_COLORS[s.bricks[i].row];
-      const g = ctx.createLinearGradient(x, y, x, y + h);
-      g.addColorStop(0, c1); g.addColorStop(1, c2);
-      ctx.fillStyle = g; ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill();
+      ctx.fillStyle = _rowGradients[s.bricks[i].row]!;
+      ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill();
       ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, w - 4, 5, 3); ctx.fill();
     }
 
