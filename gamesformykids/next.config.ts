@@ -37,21 +37,13 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-      // Cache busting for HTML pages to avoid caching issues
+      // Static pages — allow CDN to cache; stale-while-revalidate serves cached version while revalidating
       {
         source: '/',
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate, proxy-revalidate',
-          },
-          {
-            key: 'Pragma',
-            value: 'no-cache',
-          },
-          {
-            key: 'Expires',
-            value: '0',
+            value: 'public, s-maxage=86400, stale-while-revalidate=3600',
           },
         ],
       },
@@ -60,11 +52,7 @@ const nextConfig: NextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'no-cache, no-store, must-revalidate, proxy-revalidate',
-          },
-          {
-            key: 'Pragma',
-            value: 'no-cache',
+            value: 'public, s-maxage=31536000, stale-while-revalidate=86400',
           },
         ],
       },
