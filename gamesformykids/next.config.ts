@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     reactCompiler: true,
   },
   images: {
-    unoptimized: true,
+    formats: ['image/avif', 'image/webp'],
   },
   async headers() {
     return [
