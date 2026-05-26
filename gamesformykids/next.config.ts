@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
     authInterrupts: true,
-    dynamicIO: true,
+    useCache: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
