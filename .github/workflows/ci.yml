@@ -5,6 +5,12 @@ on:
     branches: [main]
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: 'Branch, tag, or SHA to run CI on'
+        required: false
+        default: ''
 
 jobs:
   ci:
@@ -17,6 +23,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.ref || github.ref }}
 
       - uses: actions/setup-node@v4
         with:
