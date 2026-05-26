@@ -1,3 +1,4 @@
+import Form from 'next/form';
 import { LOGIN_LABELS } from '../loginConstants';
 
 interface EmailAuthFormProps {
@@ -10,17 +11,17 @@ interface EmailAuthFormProps {
   setEmail:    (v: string) => void;
   setPassword: (v: string) => void;
   setName:     (v: string) => void;
-  onSubmit:    (e: React.FormEvent) => Promise<void>;
+  action:      (formData: FormData) => void;
 }
 
 export default function EmailAuthForm({
   isRegistering,
   email, password, name, error, isSubmitting,
   setEmail, setPassword, setName,
-  onSubmit,
+  action,
 }: EmailAuthFormProps) {
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <Form action={action} className="space-y-4">
       {isRegistering && (
         <div>
           <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
@@ -28,6 +29,7 @@ export default function EmailAuthForm({
           </label>
           <input
             id="name"
+            name="name"
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
@@ -43,6 +45,7 @@ export default function EmailAuthForm({
         </label>
         <input
           id="email"
+          name="email"
           type="email"
           required
           value={email}
@@ -58,6 +61,7 @@ export default function EmailAuthForm({
         </label>
         <input
           id="password"
+          name="password"
           type="password"
           required
           value={password}
@@ -85,6 +89,6 @@ export default function EmailAuthForm({
             ? LOGIN_LABELS.createAccount
             : LOGIN_LABELS.signInBtn}
       </button>
-    </form>
+    </Form>
   );
 }

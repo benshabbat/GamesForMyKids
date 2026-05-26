@@ -43,7 +43,7 @@ export interface LoginPageViewModel {
   setEmail:      (v: string) => void;
   setPassword:   (v: string) => void;
   setName:       (v: string) => void;
-  handleEmailAuth: (e: React.FormEvent) => Promise<void>;
+  loginAction: (formData: FormData) => void;
   toggleMode:      () => void;
   continueAsGuest: () => void;
   signInWithGoogle: () => void;
