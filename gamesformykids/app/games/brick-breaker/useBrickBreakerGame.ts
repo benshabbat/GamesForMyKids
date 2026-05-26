@@ -31,6 +31,13 @@ import type { PhaseWonDead as Phase } from '@/lib/types';
 interface Brick { alive: boolean; row: number; }
 type BrickParticle = { x: number; y: number; vx: number; vy: number; life: number; color: string };
 
+/**
+ * Bridge ref: populated by useBrickBreakerGame on mount, read by the draw callback.
+ * Using a plain object rather than React.useRef because the draw function is defined
+ * outside the component render cycle.
+ */
+const _nextLevelRef: { current: ((level: number) => void) | null } = { current: null };
+
 function makeBricks(): Brick[] {
   return Array.from({ length: ROWS * COLS }, (_, i) => ({ alive: true, row: Math.floor(i / COLS) }));
 }
@@ -52,8 +59,6 @@ const _useBrickBreaker = createCanvasArcadeHook({
     bricks: makeBricks(), score: 0, lives: 3, level: 1, frame: 0,
     startTime: 0,
     particles: [] as BrickParticle[],
-    /** Wired by useBrickBreakerGame via useEffect — stored here so draw can call it without a module-level ref. */
-    startNextLevel: undefined as ((level: number) => void) | undefined,
   }),
   onPointerX: (s, x) => { s.padX = Math.max(0, Math.min(W - PAD_W, x - PAD_W / 2)); },
   draw: (ctx, s, _dt, saveRef) => {    s.frame++;
@@ -101,7 +106,7 @@ const _useBrickBreaker = createCanvasArcadeHook({
             saveRef.current({ score: s.score, level: s.level, durationSeconds: elapsed });
             useBrickBreakerStore.getState().setWon(s.score, s.lives, s.level);
           }
-          else { s.startNextLevel?.(nextLevel); }
+          else { _nextLevelRef.current?.(nextLevel); }
         }
       }
       s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.04; return p.life > 0; });
@@ -155,11 +160,12 @@ export function useBrickBreakerGame() {
     useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
   }, [st]);
 
-  // Wire level-progression callback into st.current so the draw loop can call it
-  // without a module-level ref. React owns the lifecycle; st is always up-to-date.
+  // Wire startGame into the module-level ref so the draw loop can trigger level
+  // progression. Clean up on unmount so a stale callback is never called.
   useEffect(() => {
-    st.current.startNextLevel = startGame;
-  }, [st, startGame]);
+    _nextLevelRef.current = startGame;
+    return () => { _nextLevelRef.current = null; };
+  }, [startGame]);
 
   const handleClick = useCallback(() => {
     const s = st.current;
