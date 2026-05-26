@@ -47,7 +47,7 @@ export const useWordBuilderStore = makeStore<WordBuilderState & WordBuilderActio
     startGame: () => {
       const puzzles = makePuzzles();
       set(
-        { ...INITIAL, phase: 'playing', puzzles, available: loadLetters(puzzles[0].word) },
+        { ...INITIAL, phase: 'playing', puzzles, available: loadLetters(puzzles[0]!.word) },
         false, 'wordBuilder/startGame',
       );
     },
@@ -60,7 +60,7 @@ export const useWordBuilderStore = makeStore<WordBuilderState & WordBuilderActio
 
       const newTyped  = [...typed, letter.letter];
       const newAvail  = available.map((l, i) => i === idx ? { ...l, used: true } : l);
-      const wordLen   = puzzles[index].word.length;
+      const wordLen   = puzzles[index]!.word.length;
 
       if (newTyped.length < wordLen) {
         set({ typed: newTyped, available: newAvail }, false, 'wordBuilder/press');
@@ -68,7 +68,7 @@ export const useWordBuilderStore = makeStore<WordBuilderState & WordBuilderActio
       }
 
       const attempt = newTyped.join('');
-      const correct = attempt === puzzles[index].word;
+      const correct = attempt === puzzles[index]!.word;
       set(
         { typed: newTyped, available: newAvail, status: correct ? 'correct' : 'wrong', score: correct ? score + 1 : score },
         false, `wordBuilder/${correct ? 'correct' : 'wrong'}`,
@@ -88,7 +88,7 @@ export const useWordBuilderStore = makeStore<WordBuilderState & WordBuilderActio
       if (index < puzzles.length - 1) {
         const nextIdx = index + 1;
         set(
-          { index: nextIdx, available: loadLetters(puzzles[nextIdx].word), typed: [], status: 'idle' },
+          { index: nextIdx, available: loadLetters(puzzles[nextIdx]!.word), typed: [], status: 'idle' },
           false, 'wordBuilder/next',
         );
       } else {

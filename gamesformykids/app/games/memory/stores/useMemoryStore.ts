@@ -179,7 +179,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
       const { canClickCard, cards, flippedCards, gameStats } = get();
       if (!canClickCard(cardIndex)) return;
 
-      const card = cards[cardIndex];
+      const card = cards[cardIndex]!;
 
       const updatedStats =
         flippedCards.length === 0
@@ -196,7 +196,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
       );
 
       if (flippedCards.length === 1) {
-        const firstCardIndex = flippedCards[0];
+        const firstCardIndex = flippedCards[0]!;
 
         setTimeout(() => {
           const s = get();

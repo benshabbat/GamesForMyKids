@@ -39,7 +39,7 @@ export function useSimonGame() {
     useSimonStore.getState().setActiveColor(id as typeof BUTTONS[number]['id']);
     setTimeout(() => useSimonStore.getState().setActiveColor(null), 180);
 
-    if (id !== seq[idx]) {
+    if (id !== seq[idx]!) {
       useSimonStore.getState().setPhase('dead');
       useSimonStore.getState().updateBest(seq.length - 1);
       useSimonStore.getState().setRoundScore(seq.length - 1);
@@ -51,7 +51,7 @@ export function useSimonGame() {
 
     if (next >= seq.length) {
       useSimonStore.getState().setRoundScore(seq.length);
-      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)].id;
+      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
       const newSeq = [...seq, nextBtn];
       useSimonStore.getState().setSequence(newSeq);
       setTimeout(() => showSequence(newSeq), 900);

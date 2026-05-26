@@ -78,7 +78,7 @@ export const useDamkaStore = makeStore<DamkaState & DamkaActions>(
         const { phase, currentTurn, board, selected, validMoves, playerScore } = get();
         if (phase !== 'playing' || currentTurn !== 'player') return;
 
-        const cell = board[pos.row][pos.col];
+        const cell = board[pos.row]![pos.col]!;
 
         const move = validMoves.find(m => m.to.row === pos.row && m.to.col === pos.col);
         if (move) {
