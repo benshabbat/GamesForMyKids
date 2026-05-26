@@ -18,6 +18,19 @@ interface Asteroid { id: number; x: number; y: number; speed: number; r: number;
 
 let uid = 0;
 
+// ── Cached bullet gradient ───────────────────────────────────────────────────
+// One gradient object reused across all bullets each frame via ctx.translate.
+let _bulletGradCtx: CanvasRenderingContext2D | null = null;
+let _bulletGrad: CanvasGradient | null = null;
+
+function ensureBulletGrad(ctx: CanvasRenderingContext2D) {
+  if (ctx === _bulletGradCtx) return;
+  _bulletGradCtx = ctx;
+  const g = ctx.createLinearGradient(0, -14, 0, 4);
+  g.addColorStop(0, '#FFD700'); g.addColorStop(1, 'rgba(255,215,0,0)');
+  _bulletGrad = g;
+}
+
 const _useSpaceDefender = createCanvasArcadeHook({
   gameType: 'space-defender',
   width: W,
@@ -80,11 +93,12 @@ const _useSpaceDefender = createCanvasArcadeHook({
     }
 
     const curr = s;
+    ensureBulletGrad(ctx);
+    ctx.fillStyle = _bulletGrad!;
     for (const b of curr.bullets) {
-      const grad = ctx.createLinearGradient(b.x, b.y - 14, b.x, b.y + 4);
-      grad.addColorStop(0, '#FFD700'); grad.addColorStop(1, 'rgba(255,215,0,0)');
-      ctx.fillStyle = grad;
-      ctx.beginPath(); ctx.ellipse(b.x, b.y - 7, BULLET_R, 14, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.save(); ctx.translate(b.x, b.y);
+      ctx.beginPath(); ctx.ellipse(0, -7, BULLET_R, 14, 0, 0, Math.PI * 2); ctx.fill();
+      ctx.restore();
     }
 
     ctx.font = 'serif'; ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
