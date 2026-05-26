@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useActionState, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { ROUTES } from '@/lib/constants/routes';
@@ -12,32 +12,37 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
   const [email,         setEmail]         = useState('');
   const [password,      setPassword]      = useState('');
   const [name,          setName]          = useState('');
-  const [error,         setError]         = useState('');
-  const [isSubmitting,  setIsSubmitting]  = useState(false);
 
   useEffect(() => {
     if (user && !loading) router.push(ROUTES.HOME);
   }, [user, loading, router]);
 
+  // useActionState replaces manual isSubmitting + error useState.
+  // The action reads from closure (controlled inputs) — no FormData needed.
+  // Payload 'reset' clears the error when toggling between login/register.
+  const [error, loginAction, isPending] = useActionState(
+    async (_prev: string | null, payload: 'reset' | undefined): Promise<string | null> => {
+      if (payload === 'reset') return null;
+      try {
+        const result = isRegistering
+          ? await signUpWithEmail(email, password, name)
+          : await signInWithEmail(email, password);
+        return result.error ?? null;
+      } catch {
+        return LOGIN_LABELS.genericError;
+      }
+    },
+    null
+  );
+
   const handleEmailAuth = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setIsSubmitting(true);
-    try {
-      const result = isRegistering
-        ? await signUpWithEmail(email, password, name)
-        : await signInWithEmail(email, password);
-      if (result.error) setError(result.error);
-    } catch {
-      setError(LOGIN_LABELS.genericError);
-    } finally {
-      setIsSubmitting(false);
-    }
+    loginAction(undefined);
   };
 
   const toggleMode = () => {
     setIsRegistering((prev) => !prev);
-    setError('');
+    loginAction('reset');
   };
 
   const vm: LoginPageViewModel = {
@@ -45,8 +50,8 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
     email,
     password,
     name,
-    error,
-    isSubmitting,
+    error: error ?? '',
+    isSubmitting: isPending,
     setEmail,
     setPassword,
     setName,
