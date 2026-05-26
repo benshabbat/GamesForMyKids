@@ -5,6 +5,7 @@ import { withSentryConfig } from "@sentry/nextjs";
 const nextConfig: NextConfig = {
   experimental: {
     reactCompiler: true,
+    authInterrupts: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
