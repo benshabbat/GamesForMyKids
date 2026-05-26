@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import { GenericStartScreen } from '@/components/shared';
 import { useTetrisGame } from '../hooks/useTetrisGame';
 import { useTetrisState } from '../hooks/useTetrisState';
@@ -13,7 +14,16 @@ function TetrisGame(){
   // רישום side-effects (game loop, מקלדת, טעינה)
   useTetrisGame();
 
-  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece } = useTetrisState();
+  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece,
+          board, currentPiece, position } = useTetrisState();
+
+  // useMemo with explicit reactive deps so the React Compiler never
+  // memoizes this across position/board changes.
+  const displayBoard = useMemo(
+    () => getBoardWithCurrentPiece(),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [board, currentPiece, position],
+  );
 
   if (isLoading) {
     return <LoadingScreen />;
@@ -49,8 +59,6 @@ function TetrisGame(){
       </div>
     );
   }
-
-  const displayBoard = getBoardWithCurrentPiece();
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-blue-900 to-indigo-800 relative overflow-hidden">
