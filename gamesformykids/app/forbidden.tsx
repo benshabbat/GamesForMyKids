@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 /**
  * Rendered by Next.js when forbidden() is called from a Server Component.
  * Returns HTTP 403 — used when a user is authenticated but lacks permission.
@@ -11,12 +13,12 @@ export default function ForbiddenPage() {
         <p className="text-gray-600 mb-6">
           אין לך הרשאה לצפות בדף זה.
         </p>
-        <a
+        <Link
           href="/"
           className="inline-block bg-gray-800 text-white px-6 py-3 rounded-lg hover:bg-gray-900 transition-colors font-medium"
         >
           חזרה לדף הבית
-        </a>
+        </Link>
       </div>
     </div>
   );
