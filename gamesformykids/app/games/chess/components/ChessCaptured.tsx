@@ -8,12 +8,12 @@ const PIECE_VALUE: Record<string, number> = { Q: 9, R: 5, B: 3, N: 3, P: 1 };
 
 function sortPieces(pieces: (string | null)[]) {
   return [...pieces].filter(Boolean).sort((a, b) =>
-    ORDER.indexOf(a![1]) - ORDER.indexOf(b![1])
+    ORDER.indexOf(a![1]!) - ORDER.indexOf(b![1]!)
   ) as string[];
 }
 
 function materialSum(pieces: string[]) {
-  return pieces.reduce((sum, p) => sum + (PIECE_VALUE[p[1]] ?? 0), 0);
+  return pieces.reduce((sum, p) => sum + (PIECE_VALUE[p[1]!] ?? 0), 0);
 }
 
 export default function ChessCaptured() {

@@ -57,9 +57,9 @@ function ensureGradients(ctx: CanvasRenderingContext2D) {
   // Per-row brick gradients (vertical, normalised to x=0)
   for (let row = 0; row < ROWS; row++) {
     const y = BRICK_TOP + row * (BRICK_H + BRICK_PAD);
-    const [c1, c2] = ROW_COLORS[row];
+    const rowColors = ROW_COLORS[row]!;
     const g = ctx.createLinearGradient(0, y, 0, y + BRICK_H);
-    g.addColorStop(0, c1); g.addColorStop(1, c2);
+    g.addColorStop(0, rowColors[0]!); g.addColorStop(1, rowColors[1]!);
     _rowGradients[row] = g;
   }
 }
@@ -112,15 +112,15 @@ const _useBrickBreaker = createCanvasArcadeHook({
           } else { useBrickBreakerStore.getState().setLives(s.lives); }
         }
         for (let i = 0; i < s.bricks.length; i++) {
-          if (!s.bricks[i].alive) continue;
+          if (!s.bricks[i]!.alive) continue;
           const { x, y, w, h } = brickRect(i);
           if (s.ballX + BALL_R > x && s.ballX - BALL_R < x + w && s.ballY + BALL_R > y && s.ballY - BALL_R < y + h) {
-            s.bricks[i].alive = false; s.score += 10;
+            s.bricks[i]!.alive = false; s.score += 10;
             const overlapLeft = s.ballX + BALL_R - x, overlapRight = x + w - (s.ballX - BALL_R);
             const overlapTop = s.ballY + BALL_R - y, overlapBottom = y + h - (s.ballY - BALL_R);
             if (Math.min(overlapLeft, overlapRight) < Math.min(overlapTop, overlapBottom)) s.ballVX *= -1; else s.ballVY *= -1;
-            const colors = ROW_COLORS[s.bricks[i].row];
-            for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)] });
+            const colors = ROW_COLORS[s.bricks[i]!.row]!;
+            for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)]! });
             useBrickBreakerStore.getState().setScore(s.score);
           }
         }
@@ -142,9 +142,9 @@ const _useBrickBreaker = createCanvasArcadeHook({
     ctx.fillStyle = _bgGradient!; ctx.fillRect(0, 0, W, H);
 
     for (let i = 0; i < s.bricks.length; i++) {
-      if (!s.bricks[i].alive) continue;
+      if (!s.bricks[i]!.alive) continue;
       const { x, y, w, h } = brickRect(i);
-      ctx.fillStyle = _rowGradients[s.bricks[i].row]!;
+      ctx.fillStyle = _rowGradients[s.bricks[i]!.row]!;
       ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill();
       ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, w - 4, 5, 3); ctx.fill();
     }

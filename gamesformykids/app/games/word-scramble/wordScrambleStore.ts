@@ -83,7 +83,7 @@ export const useWordScrambleStore = makeStore<WordScrambleState & WordScrambleAc
         clearTimer();
         const words = shuffle(WORD_LIST).slice(0, 8);
         set(
-          { ...INITIAL, phase: 'playing', words, letters: makeLetters(words[0].word) },
+          { ...INITIAL, phase: 'playing', words, letters: makeLetters(words[0]!.word) },
           false, 'wordScramble/startGame',
         );
       },
@@ -99,7 +99,7 @@ export const useWordScrambleStore = makeStore<WordScrambleState & WordScrambleAc
         const newPicked  = [...picked, { ch: letter.ch, srcIdx }];
         set({ letters: newLetters, picked: newPicked }, false, 'wordScramble/pick');
 
-        const currentWord = words[wIdx].word;
+        const currentWord = words[wIdx]!.word;
         if (newPicked.length < currentWord.length) return;
 
         const attempt = newPicked.map(p => p.ch).join('');
@@ -112,7 +112,7 @@ export const useWordScrambleStore = makeStore<WordScrambleState & WordScrambleAc
               set({ phase: 'results' }, false, 'wordScramble/results');
             } else {
               set(
-                { wIdx: nextIdx, letters: makeLetters(ws[nextIdx].word), picked: [], correct: false, shake: false },
+                { wIdx: nextIdx, letters: makeLetters(ws[nextIdx]!.word), picked: [], correct: false, shake: false },
                 false, 'wordScramble/nextWord',
               );
             }

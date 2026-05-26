@@ -31,7 +31,7 @@ export const useTakiStore = makeStore<TakiGameState & TakiGameActions>('TakiStor
     const computerHand = deck.splice(0, 8);
     let idx = deck.findIndex(c => c.color !== 'wild');
     if (idx === -1) idx = 0;
-    const [topCard] = deck.splice(idx, 1);
+    const topCard = deck.splice(idx, 1)[0]!;
     set({ ...INITIAL_STATE, phase: 'playing', deck, playerHand, computerHand, topCard, currentTurn: 'player', message: 'תורך! בחר קלף לשחק', playerScore, computerScore, turnId: 0 });
   },
 

@@ -30,7 +30,7 @@ export function executePlayerMove(
   const newDice = s.dice.filter((_, i) => i !== diceIdx);
 
   // Win
-  if (np[0].player === 15) {
+  if (np[0]!.player === 15) {
     return {
       kind: 'won',
       next: {
