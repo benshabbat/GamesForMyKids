@@ -17,16 +17,17 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
     if (user && !loading) router.push(ROUTES.HOME);
   }, [user, loading, router]);
 
-  // useActionState replaces manual isSubmitting + error useState.
-  // The action reads from closure (controlled inputs) — no FormData needed.
-  // Payload 'reset' clears the error when toggling between login/register.
+  // useActionState + <Form action={loginAction}> replaces manual isSubmitting + error useState.
+  // FormData values are read from the named inputs; isRegistering read from closure.
   const [error, loginAction, isPending] = useActionState(
-    async (_prev: string | null, payload: 'reset' | undefined): Promise<string | null> => {
-      if (payload === 'reset') return null;
+    async (_prev: string | null, formData: FormData): Promise<string | null> => {
+      const emailVal    = formData.get('email')    as string;
+      const passwordVal = formData.get('password') as string;
+      const nameVal     = (formData.get('name') as string) ?? '';
       try {
         const result = isRegistering
-          ? await signUpWithEmail(email, password, name)
-          : await signInWithEmail(email, password);
+          ? await signUpWithEmail(emailVal, passwordVal, nameVal)
+          : await signInWithEmail(emailVal, passwordVal);
         return result.error ?? null;
       } catch {
         return LOGIN_LABELS.genericError;
@@ -35,14 +36,8 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
     null
   );
 
-  const handleEmailAuth = async (e: React.FormEvent) => {
-    e.preventDefault();
-    loginAction(undefined);
-  };
-
   const toggleMode = () => {
     setIsRegistering((prev) => !prev);
-    loginAction('reset');
   };
 
   const vm: LoginPageViewModel = {
@@ -55,7 +50,7 @@ export function useLoginPage(): { vm: LoginPageViewModel; isLoading: boolean; is
     setEmail,
     setPassword,
     setName,
-    handleEmailAuth,
+    loginAction,
     toggleMode,
     continueAsGuest,
     signInWithGoogle,

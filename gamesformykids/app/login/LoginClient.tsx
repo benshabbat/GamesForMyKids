@@ -39,7 +39,7 @@ export default function LoginClient() {
             setEmail={vm.setEmail}
             setPassword={vm.setPassword}
             setName={vm.setName}
-            onSubmit={vm.handleEmailAuth}
+            action={vm.loginAction}
           />
 
           <AuthToggle isRegistering={vm.isRegistering} onToggle={vm.toggleMode} />
