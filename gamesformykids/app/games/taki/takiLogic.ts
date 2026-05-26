@@ -33,7 +33,7 @@ export function pickBestCard(
     const found = playable.find(c => c.value === v);
     if (found) return found;
   }
-  return playable[0] ?? null;
+  return playable[0];
 }
 
 export function computerBestColor(hand: TakiCard[]): CardColor {

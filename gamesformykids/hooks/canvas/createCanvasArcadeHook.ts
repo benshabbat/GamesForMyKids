@@ -120,7 +120,7 @@ export function createCanvasArcadeHook<S extends { phase: string }>(
         if (st.current.phase !== 'playing' || !config.onPointerX) return;
         const rect = e.currentTarget.getBoundingClientRect();
         const canvasX =
-          (e.touches[0]!.clientX - rect.left) * (config.width / rect.width);
+          (e.touches[0].clientX - rect.left) * (config.width / rect.width);
         config.onPointerX(st.current, canvasX);
       },
       [],

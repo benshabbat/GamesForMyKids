@@ -86,7 +86,7 @@ export const useTrueFalseStore = makePersistStore<TrueFalseState & TrueFalseActi
       answer: (choice: boolean) => {
         const { phase, feedback, deck, idx } = get();
         if (phase !== 'playing' || feedback !== null) return;
-        if (choice === deck[idx]!.answer) timer.correct(10);
+        if (choice === deck[idx].answer) timer.correct(10);
         else timer.wrong();
       },
     };

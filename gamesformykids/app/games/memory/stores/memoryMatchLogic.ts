@@ -25,14 +25,14 @@ export function resolveCardMatch(
   secondIdx: number,
   totalPairs: number,
 ): MatchOutcome {
-  const firstCard = state.cards[firstIdx]!;
-  const secondCard = state.cards[secondIdx]!;
+  const firstCard = state.cards[firstIdx];
+  const secondCard = state.cards[secondIdx];
 
   if (firstCard.animal.name === secondCard.animal.name) {
     // ── Match ──────────────────────────────────────────────────────────────
     const matched = [...state.cards];
-    matched[firstIdx]  = { ...matched[firstIdx]!,  isMatched: true };
-    matched[secondIdx] = { ...matched[secondIdx]!, isMatched: true };
+    matched[firstIdx]  = { ...matched[firstIdx],  isMatched: true };
+    matched[secondIdx] = { ...matched[secondIdx], isMatched: true };
 
     const newMatches = state.gameStats.matches + 1;
     const newStreak  = state.gameStats.streak  + 1;
@@ -50,8 +50,8 @@ export function resolveCardMatch(
 
   // ── No match ────────────────────────────────────────────────────────────
   const reset = [...state.cards];
-  reset[firstIdx]  = { ...reset[firstIdx]!,  isFlipped: false };
-  reset[secondIdx] = { ...reset[secondIdx]!, isFlipped: false };
+  reset[firstIdx]  = { ...reset[firstIdx],  isFlipped: false };
+  reset[secondIdx] = { ...reset[secondIdx], isFlipped: false };
 
   return {
     isMatch: false,

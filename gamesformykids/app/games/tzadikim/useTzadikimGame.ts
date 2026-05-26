@@ -11,7 +11,7 @@ export function useTzadikimGame() {
   const [storyIndex, setStoryIndex] = useState(0);
   const [score, setScore] = useState(0);
 
-  const currentStory: TzaddikStory = TZADIKIM_STORIES[storyIndex]!;
+  const currentStory: TzaddikStory = TZADIKIM_STORIES[storyIndex];
   const totalStories = TZADIKIM_STORIES.length;
   const maxScore = totalStories * 3;
 

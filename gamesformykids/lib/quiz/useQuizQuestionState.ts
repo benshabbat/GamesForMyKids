@@ -17,7 +17,7 @@ export function useQuizQuestionState<Q extends { correctIndex: number }>({
   const [selected, setSelected] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
 
-  const currentQuestion = questions[questionIndex]!;
+  const currentQuestion = questions[questionIndex];
   const totalQuestions = questions.length;
 
   const selectAnswer = useCallback((idx: number) => {

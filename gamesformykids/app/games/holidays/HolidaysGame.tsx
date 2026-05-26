@@ -36,7 +36,7 @@ export default function HolidaysGame() {
   }
 
   if (phase === 'result') {
-    const nextHolidayInfo = holidayIndex < totalHolidays - 1 ? HOLIDAYS[holidayIndex + 1]! : null;
+    const nextHolidayInfo = holidayIndex < totalHolidays - 1 ? HOLIDAYS[holidayIndex + 1] : null;
     return (
       <HolidaysResultScreen
         current={current}

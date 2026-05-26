@@ -11,10 +11,10 @@ export default function ColorTapPlayArea() {
 
   useKeyboardControls(
     {
-      '1': () => handleTap(question.options[0]!),
-      '2': () => handleTap(question.options[1]!),
-      '3': () => handleTap(question.options[2]!),
-      '4': () => handleTap(question.options[3]!),
+      '1': () => handleTap(question.options[0]),
+      '2': () => handleTap(question.options[1]),
+      '3': () => handleTap(question.options[2]),
+      '4': () => handleTap(question.options[3]),
     },
     !feedback,
   );

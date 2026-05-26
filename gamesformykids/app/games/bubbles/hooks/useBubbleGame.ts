@@ -27,7 +27,7 @@ export function useBubbleGame() {
     if (!gameContainerRef.current) return;
     const currentLevel = useBubblesStore.getState().level;
     const containerWidth = gameContainerRef.current.offsetWidth;
-    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)]!;
+    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)];
     const size = 40 + Math.random() * 60;
 
     const newBubble: BubbleData = {

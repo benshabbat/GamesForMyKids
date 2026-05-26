@@ -31,13 +31,13 @@ export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const handleTouchStart = useCallback((e: React.TouchEvent) => {
-    touchStart.current = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY };
+    touchStart.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   }, []);
 
   const handleTouchEnd = useCallback((e: React.TouchEvent) => {
     if (!touchStart.current) return;
-    const dx = e.changedTouches[0]!.clientX - touchStart.current.x;
-    const dy = e.changedTouches[0]!.clientY - touchStart.current.y;
+    const dx = e.changedTouches[0].clientX - touchStart.current.x;
+    const dy = e.changedTouches[0].clientY - touchStart.current.y;
     touchStart.current = null;
     const s = st.current;
     if (s.phase !== 'playing') return;

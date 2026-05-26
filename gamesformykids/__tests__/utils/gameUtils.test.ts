@@ -111,19 +111,19 @@ describe('generateOptions', () => {
   ];
 
   it('always includes the correct item', () => {
-    const correct = allItems[0]!;
+    const correct = allItems[0];
     const options = generateOptions(correct, allItems, 4);
     expect(options).toContainEqual(correct);
   });
 
   it('returns exactly `count` items', () => {
-    const correct = allItems[0]!;
+    const correct = allItems[0];
     const options = generateOptions(correct, allItems, 3);
     expect(options).toHaveLength(3);
   });
 
   it('returns no duplicate items', () => {
-    const correct = allItems[0]!;
+    const correct = allItems[0];
     const options = generateOptions(correct, allItems, 4);
     const names = options.map((o) => o.name);
     expect(new Set(names).size).toBe(names.length);
@@ -135,13 +135,13 @@ describe('generateOptions', () => {
       { id: 'b', label: 'B' },
       { id: 'c', label: 'C' },
     ];
-    const correct = customItems[0]!;
+    const correct = customItems[0];
     const options = generateOptions(correct, customItems, 2, 'id' as keyof typeof correct);
     expect(options).toContainEqual(correct);
   });
 
   it('returns all items when count equals total items', () => {
-    const correct = allItems[0]!;
+    const correct = allItems[0];
     const options = generateOptions(correct, allItems, allItems.length);
     expect(options).toHaveLength(allItems.length);
   });

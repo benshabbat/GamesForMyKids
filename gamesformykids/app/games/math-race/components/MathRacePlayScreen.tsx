@@ -10,10 +10,10 @@ export default function MathRacePlayScreen() {
 
   useKeyboardControls(
     {
-      '1': () => tap(q.choices[0]!),
-      '2': () => tap(q.choices[1]!),
-      '3': () => tap(q.choices[2]!),
-      '4': () => tap(q.choices[3]!),
+      '1': () => tap(q.choices[0]),
+      '2': () => tap(q.choices[1]),
+      '3': () => tap(q.choices[2]),
+      '4': () => tap(q.choices[3]),
     },
     !feedback,
   );
@@ -25,10 +25,10 @@ export default function MathRacePlayScreen() {
       <p className="mt-4 text-xs text-indigo-400">{correct}/{total} נכון · {accuracy}% דיוק</p>
       <KeyboardHint
         hints={[
-          { key: '1', label: String(q.choices[0]!) },
-          { key: '2', label: String(q.choices[1]!) },
-          { key: '3', label: String(q.choices[2]!) },
-          { key: '4', label: String(q.choices[3]!) },
+          { key: '1', label: String(q.choices[0]) },
+          { key: '2', label: String(q.choices[1]) },
+          { key: '3', label: String(q.choices[2]) },
+          { key: '4', label: String(q.choices[3]) },
         ]}
         className="mt-1"
       />

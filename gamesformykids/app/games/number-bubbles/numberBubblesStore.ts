@@ -20,7 +20,7 @@ export function makeBubbles(count: number): Bubble[] {
     num:    n,
     x:      5 + Math.random() * 75,
     y:      5 + Math.random() * 80,
-    color:  BUBBLE_COLORS[n % BUBBLE_COLORS.length]!,
+    color:  BUBBLE_COLORS[n % BUBBLE_COLORS.length],
     popped: false,
   }));
 }

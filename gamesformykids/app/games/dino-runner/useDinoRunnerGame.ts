@@ -59,7 +59,7 @@ const _useDinoRunner = createCanvasArcadeHook({
           x: W + 20,
           w,
           h,
-          emoji: OBSTACLE_EMOJIS[Math.floor(Math.random() * OBSTACLE_EMOJIS.length)]!,
+          emoji: OBSTACLE_EMOJIS[Math.floor(Math.random() * OBSTACLE_EMOJIS.length)],
         });
         s.nextObstacle = 60 + Math.random() * 80;
       }

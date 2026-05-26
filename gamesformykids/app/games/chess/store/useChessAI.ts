@@ -39,7 +39,7 @@ export function useChessAI() {
         return;
       }
 
-      const pieceMoved = s.board[move.from.row]![move.from.col]!;
+      const pieceMoved = s.board[move.from.row][move.from.col]!;
       const { board: nb, castling: nc, enPassant: nep, captured } = applyMove(s.board, move, s.castling, s.enPassant);
       const playerMoves = getAllValidMoves(nb, 'w', nc, nep);
 

@@ -78,7 +78,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
             dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
             message: `הטלת ${d1}-${d2}. מהלך יחיד — מבצע אוטומטית...`,
           } as Partial<SheshState & SheshActions>);
-          timer.schedule(() => execPlayerMove(moves[0]!), 700);
+          timer.schedule(() => execPlayerMove(moves[0]), 700);
           return;
         }
         set({
@@ -130,7 +130,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
             // Only one destination — execute automatically
             const uniqueDests = new Set(fromHere.map(m => m.to));
             if (uniqueDests.size === 1) {
-              execPlayerMove(fromHere[0]!);
+              execPlayerMove(fromHere[0]);
               return;
             }
             set({ selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' } as Partial<SheshState & SheshActions>);

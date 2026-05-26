@@ -133,14 +133,14 @@ export function useFroggerGame() {
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 
   const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
-    touchRef.current = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY };
+    touchRef.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
   }, []);
 
   const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (!touchRef.current) return;
-    const dx = e.changedTouches[0]!.clientX - touchRef.current.x;
-    const dy = e.changedTouches[0]!.clientY - touchRef.current.y;
+    const dx = e.changedTouches[0].clientX - touchRef.current.x;
+    const dy = e.changedTouches[0].clientY - touchRef.current.y;
     touchRef.current = null;
     if (Math.abs(dx) < 12 && Math.abs(dy) < 12) { moveFrog(0, -1); return; }
     if (Math.abs(dx) > Math.abs(dy)) moveFrog(dx > 0 ? 1 : -1, 0);

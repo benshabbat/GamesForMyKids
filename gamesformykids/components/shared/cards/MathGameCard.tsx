@@ -19,7 +19,7 @@ export default function MathGameCard({ item, onClick }: GameItemCardProps) {
   const emoji = currentChallenge?.emoji || "⭐";
   const count = Number(item.name);
   const colorIndex = Math.abs(count) % COLORS.length;
-  const { bg, hover, border } = COLORS[colorIndex]!;
+  const { bg, hover, border } = COLORS[colorIndex];
 
   // Clamp emoji repetitions to avoid huge grids
   const clampedCount = Math.min(count, 10);

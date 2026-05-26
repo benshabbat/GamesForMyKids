@@ -57,7 +57,7 @@ const _useSpaceDefender = createCanvasArcadeHook({
       s.nextAsteroid--;
       if (s.nextAsteroid <= 0) {
         const r = 16 + Math.random() * 20;
-        s.asteroids.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, speed: 1.5 + Math.random() * 2 + s.score / 500, r, emoji: ASTEROID_EMOJIS[Math.floor(Math.random() * ASTEROID_EMOJIS.length)]!, angle: 0, spin: (Math.random() - 0.5) * 0.06 });
+        s.asteroids.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, speed: 1.5 + Math.random() * 2 + s.score / 500, r, emoji: ASTEROID_EMOJIS[Math.floor(Math.random() * ASTEROID_EMOJIS.length)], angle: 0, spin: (Math.random() - 0.5) * 0.06 });
         s.nextAsteroid = Math.max(20, 55 - Math.floor(s.score / 100) * 3);
       }
       s.bullets = s.bullets.filter(b => { b.y -= BULLET_SPEED; return b.y > -10; });
@@ -172,7 +172,7 @@ export function useSpaceDefenderGame() {
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
-    st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.touches[0]!.clientX - rect.left) * scaleX));
+    st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.touches[0].clientX - rect.left) * scaleX));
     shoot();
   }, [st, canvasRef, shoot]);
 

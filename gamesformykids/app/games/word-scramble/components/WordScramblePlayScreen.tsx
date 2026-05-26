@@ -5,7 +5,7 @@ import LivesDisplay from '@/components/game/shared/LivesDisplay';
 export default function WordScramblePlayScreen() {
   const { words, wIdx, letters, picked, score, lives, shake, correct, pickLetter, unpick } =
     useWordScrambleGame();
-  const entry  = words[wIdx]!;
+  const entry  = words[wIdx];
   const target = entry.word;
 
   return (

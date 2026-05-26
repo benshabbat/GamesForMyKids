@@ -14,7 +14,7 @@ const RATING_BADGE: Record<string, { label: string; cls: string }> = {
 
 function MoveCell({ record, isLastRow }: { record: MoveRecord | undefined; isLastRow: boolean }) {
   if (!record) return <td className="px-2 py-1.5" />;
-  const badge = RATING_BADGE[record.rating] ?? RATING_BADGE.normal!;
+  const badge = RATING_BADGE[record.rating];
   const isWhite = record.by === 'w';
   return (
     <td className={`px-2 py-1.5 text-xs ${
@@ -41,8 +41,8 @@ export default function ChessMoveHistory() {
 
   const pairs: [MoveRecord, MoveRecord | undefined][] = [];
   for (let i = 0; i < moveHistory.length; i += 2) {
-    const white = moveHistory[i]!.by === 'w' ? moveHistory[i]! : moveHistory[i + 1]!;
-    const black = moveHistory[i]!.by === 'b' ? moveHistory[i]! : moveHistory[i + 1];
+    const white = moveHistory[i].by === 'w' ? moveHistory[i] : moveHistory[i + 1];
+    const black = moveHistory[i].by === 'b' ? moveHistory[i] : moveHistory[i + 1];
     pairs.push([white, black]);
   }
   const totalPairs = pairs.length;

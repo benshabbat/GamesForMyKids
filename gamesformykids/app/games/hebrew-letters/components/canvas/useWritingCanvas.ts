@@ -124,7 +124,7 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
   const undoLastStroke = () => {
     const ctx = contextRef.current;
     if (!ctx || drawingState.paths.length === 0) return;
-    const lastState = drawingState.paths[drawingState.paths.length - 1]!;
+    const lastState = drawingState.paths[drawingState.paths.length - 1];
     ctx.putImageData(lastState, 0, 0);
     undoLastAction();
   };

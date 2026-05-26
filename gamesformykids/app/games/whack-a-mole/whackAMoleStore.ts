@@ -71,9 +71,9 @@ export const useWhackAMoleStore = makePersistStore<WhackAMoleState & WhackAMoleA
         .map(({ i }) => i);
 
       if (emptyIdxs.length > 0) {
-        const idx    = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)]!;
+        const idx    = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)];
         const isBad  = Math.random() < 0.15;
-        const val    = isBad ? BAD : MOLES[Math.floor(Math.random() * MOLES.length)]!;
+        const val    = isBad ? BAD : MOLES[Math.floor(Math.random() * MOLES.length)];
         const newH   = [...holes] as HoleState[];
         const newV   = [...holeValues];
         newH[idx]    = isBad ? 'bad' : 'mole';
