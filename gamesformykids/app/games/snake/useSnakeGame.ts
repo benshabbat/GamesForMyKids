@@ -38,7 +38,7 @@ export function useSnakeGame() {
 
   function scheduleStep() {
     const s = st.current;
-    const speed = SPEEDS[Math.min(s.level - 1, SPEEDS.length - 1)];
+    const speed = SPEEDS[Math.min(s.level - 1, SPEEDS.length - 1)]!;
     s.timer = setTimeout(step, speed);
   }
 
@@ -57,7 +57,7 @@ export function useSnakeGame() {
     if (s.phase !== 'playing') return;
 
     s.dir = s.nextDir;
-    const head = s.snake[0];
+    const head = s.snake[0]!;
     let nx = head.x, ny = head.y;
     if (s.dir === 'R') nx++;
     else if (s.dir === 'L') nx--;
@@ -78,7 +78,7 @@ export function useSnakeGame() {
       s.score += 10;
       s.level = Math.min(7, 1 + Math.floor(s.score / 50));
       s.food = placeFood(newSnake);
-      s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
+      s.foodEmoji = EMOJIS[rnd(EMOJIS.length)]!;
       useGameProgressStore.getState().updateProgress({ score: s.score, level: s.level });
     }
 
@@ -95,7 +95,7 @@ export function useSnakeGame() {
     s.dir = 'R';
     s.nextDir = 'R';
     s.food = placeFood(s.snake);
-    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)];
+    s.foodEmoji = EMOJIS[rnd(EMOJIS.length)]!;
     s.score = 0;
     s.level = 1;
     s.startTime = Date.now();

@@ -34,7 +34,7 @@ export function useCharityCoinGame() {
   const availableGames = GamesRegistry.getAllGameRegistrations()
     .filter(g => g.available).sort((a, b) => a.order - b.order);
   const idx      = availableGames.findIndex(g => g.id === 'tzedakah');
-  const nextGame = idx < availableGames.length - 1 ? availableGames[idx + 1] : availableGames[0];
+  const nextGame = idx < availableGames.length - 1 ? availableGames[idx + 1]! : availableGames[0]!;
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -44,7 +44,7 @@ export function useCharityCoinGame() {
   const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
-    moveBasket(e.touches[0].clientX - rect.left - basketWidth / 2);
+    moveBasket(e.touches[0]!.clientX - rect.left - basketWidth / 2);
   };
 
   return { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,

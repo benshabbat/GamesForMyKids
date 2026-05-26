@@ -6,7 +6,7 @@ import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 export const metadata = generateGameMetadata('educational');
 
 export default function EducationalPage() {
-  const category = GAME_CATEGORIES.educational;
+  const category = GAME_CATEGORIES.educational!;
   const games = category.gameIds
     .map((id) => GamesRegistry.getGameById(id))
     .filter((g): g is NonNullable<typeof g> => g !== undefined && g.available);

@@ -26,7 +26,7 @@ export interface Question {
 
 function makeQuestion(): Question {
   const shuffled = [...COLORS].sort(() => Math.random() - 0.5) as ColorItem[];
-  return { target: shuffled[0], options: shuffled.slice(0, 4).sort(() => Math.random() - 0.5) };
+  return { target: shuffled[0]!, options: shuffled.slice(0, 4).sort(() => Math.random() - 0.5) };
 }
 
 // ── Store ───────────────────────────────────────────────────────────────────

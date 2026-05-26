@@ -36,7 +36,7 @@ const _useStack = createCanvasArcadeHook({
 
     if (s.phase === 'playing') {
       s.curX += s.curDir * s.curSpeed;
-      const top = s.blocks[s.blocks.length - 1];
+      const top = s.blocks[s.blocks.length - 1]!;
       if (s.curDir > 0 && s.curX > W + 20) s.curDir = -1;
       if (s.curDir < 0 && s.curX + s.curW < -20) s.curDir = 1;
       if (s.curX < -W * 0.4) { s.curDir = 1; s.curX = -W * 0.4; }
@@ -62,9 +62,9 @@ const _useStack = createCanvasArcadeHook({
     }
 
     if (s.phase === 'playing' && s.blocks.length > 0) {
-      const top = s.blocks[s.blocks.length - 1];
+      const top = s.blocks[s.blocks.length - 1]!;
       const sliderScreenY = top.y - BH + s.camOffset;
-      const nextColor = COLORS[(s.colorIdx + 1) % COLORS.length];
+      const nextColor = COLORS[(s.colorIdx + 1) % COLORS.length]!;
       ctx.fillStyle = 'rgba(255,255,255,0.05)';
       ctx.fillRect(top.x, sliderScreenY, top.w, BH - 2);
       ctx.fillStyle = nextColor;
@@ -102,7 +102,7 @@ export function useStackGame() {
     const s = st.current;
     if (s.phase !== 'playing') return;
 
-    const top = s.blocks[s.blocks.length - 1];
+    const top = s.blocks[s.blocks.length - 1]!;
     const sliderWorldY = top.y - BH;
     const left = Math.max(s.curX, top.x);
     const right = Math.min(s.curX + s.curW, top.x + top.w);
@@ -117,7 +117,7 @@ export function useStackGame() {
     }
 
     s.colorIdx = (s.colorIdx + 1) % COLORS.length;
-    s.blocks.push({ x: left, y: sliderWorldY, w: overlap, color: COLORS[s.colorIdx] });
+    s.blocks.push({ x: left, y: sliderWorldY, w: overlap, color: COLORS[s.colorIdx]! });
     s.score++;
     s.curW = overlap;
     s.curDir = (Math.random() < 0.5 ? 1 : -1) as 1 | -1;

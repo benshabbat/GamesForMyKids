@@ -49,7 +49,7 @@ export function runComputerTurn(
 
       const msg = parts.length ? `המחשב: ${parts.join(', ')}. תורך!` : 'המחשב לא יכול לזוז. תורך!';
 
-      if (pts[25].computer === 15) {
+      if (pts[25]!.computer === 15) {
         setState({
           points: pts, barPlayer: barP, barComputer: barC, dice: [], phase: 'lost',
           computerScore: cur.computerScore + 1, message: '😢 המחשב ניצח!',
