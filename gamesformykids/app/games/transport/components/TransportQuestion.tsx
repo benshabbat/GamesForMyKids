@@ -1,22 +1,24 @@
 'use client';
 
-import { useTransportStore } from '../store/transportStore';
-import type { TransportQuestion } from '../data/transport';
+import type { TransportQuestion as TQ } from '../data/transport';
 import { answerButtonClass } from '@/lib/quiz/answerButtonClass';
 
 interface Props {
-  currentQuestion: TransportQuestion;
+  currentQuestion: TQ;
   onSelect: (idx: number) => void;
+  index: number;
+  total: number;
+  score: number;
+  selected: number | null;
+  isCorrect: boolean;
+  phase: 'playing' | 'answered';
+  onNext: () => void;
 }
 
-export default function TransportQuestion({ currentQuestion, onSelect }: Props) {
-  const index     = useTransportStore(s => s.currentIndex);
-  const total     = useTransportStore(s => s.questions.length);
-  const score     = useTransportStore(s => s.score);
-  const selected  = useTransportStore(s => s.selected);
-  const isCorrect = useTransportStore(s => s.isCorrect);
-  const phase     = useTransportStore(s => s.phase);
-  const next      = useTransportStore(s => s.nextQuestion);
+export default function TransportQuestion({
+  currentQuestion, onSelect, index, total, score, selected, isCorrect, phase, onNext,
+}: Props) {
+  const answered = phase === 'answered' || selected !== null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col p-4" dir="rtl">
@@ -28,7 +30,7 @@ export default function TransportQuestion({ currentQuestion, onSelect }: Props) 
           <div className="text-7xl mb-3">{currentQuestion.emoji}</div>
           <div className="inline-block px-3 py-1 rounded-full text-sm font-bold text-white bg-blue-400 mb-3">{currentQuestion.type}</div>
           <p className="text-lg font-bold text-gray-800">{currentQuestion.question}</p>
-          {phase === 'answered' && (
+          {answered && (
             <div className={`mt-4 p-3 rounded-xl text-sm ${isCorrect ? 'bg-green-100 text-green-700 font-bold' : 'bg-orange-100 text-orange-700'}`}>
               {isCorrect ? '✅ מעולה!' : `❌ התשובה: ${currentQuestion.answers[currentQuestion.correctIndex]}`}
               <br /><span className="text-xs font-normal">💡 {currentQuestion.funFact}</span>
@@ -37,19 +39,19 @@ export default function TransportQuestion({ currentQuestion, onSelect }: Props) 
         </div>
         <div className="grid grid-cols-2 gap-3 w-full max-w-md">
           {currentQuestion.answers.map((ans, idx) => (
-            <button key={idx} onClick={() => onSelect(idx)} disabled={phase === 'answered'}
+            <button key={idx} onClick={() => onSelect(idx)} disabled={answered}
               className={`py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition-all ${answerButtonClass(
                 idx === currentQuestion.correctIndex,
                 idx === selected,
-                phase === 'answered',
+                answered,
                 'bg-white text-gray-800 border-2 border-blue-200 hover:border-blue-400',
               )}`}>
               {ans}
             </button>
           ))}
         </div>
-        {phase === 'answered' && (
-          <button onClick={next} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
+        {answered && (
+          <button onClick={onNext} className="mt-6 px-8 py-3 bg-blue-500 text-white rounded-xl font-bold shadow-lg active:scale-95">
             {index + 1 < total ? 'הבא ←' : 'סיום 🏁'}
           </button>
         )}
