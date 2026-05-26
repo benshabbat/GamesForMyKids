@@ -1,4 +1,17 @@
+import type { Metadata } from 'next';
 import HomePageClient from './HomePageClient';
+
+export const metadata: Metadata = {
+  title: 'משחקים לילדים 2-5 | GamesForMyKids',
+  description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2–5 שנים — צבעים, מספרים, עברית ועוד',
+  openGraph: {
+    title: 'משחקים לילדים 2–5',
+    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2–5 שנים',
+    type: 'website',
+    locale: 'he_IL',
+  },
+  keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות',
+};
 
 // הוספת מידע מובנה נוסף לדף הבית
 const homePageStructuredData = {
