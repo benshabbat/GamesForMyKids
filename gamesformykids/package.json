@@ -2,6 +2,7 @@
   "name": "gamesformykids",
   "version": "0.1.0",
   "private": true,
+  "engines": { "node": ">=20.0.0" },
   "sideEffects": false,
   "scripts": {
     "dev": "next dev --turbopack",

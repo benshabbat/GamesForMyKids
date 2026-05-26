@@ -67,15 +67,28 @@ export function useGameSearch() {
       const ids = new Set(GAME_CATEGORIES[activeCat].gameIds);
       games = games.filter((g) => ids.has(g.id));
     }
-    if (query.trim()) {
-      const q = query.trim().toLowerCase();
-      games = games.filter(
-        (g) =>
-          g.title.toLowerCase().includes(q) ||
-          g.description.toLowerCase().includes(q),
-      );
-    }
-    return games;
+    if (!query.trim()) return games;
+
+    const q = query.trim().toLowerCase();
+
+    type Scored = { game: GameRegistration; score: number };
+    const scored = games.reduce<Scored[]>((acc, g) => {
+      const title = g.title.toLowerCase();
+      const desc  = g.description.toLowerCase();
+      const id    = g.id.toLowerCase();
+
+      let score = 0;
+      if (g.emoji === q)              score = 5; // emoji exact
+      else if (title === q || id === q) score = 4; // exact title / id
+      else if (title.startsWith(q))    score = 3; // title starts with
+      else if (title.includes(q) || id.includes(q)) score = 2; // title / id contains
+      else if (desc.includes(q))       score = 1; // description contains
+
+      if (score > 0) acc.push({ game: g, score });
+      return acc;
+    }, []);
+
+    return scored.sort((a, b) => b.score - a.score).map(({ game }) => game);
   }, [allGames, query, activeCat]);
 
   return {
