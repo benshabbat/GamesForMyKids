@@ -1,4 +1,6 @@
 import { Metadata } from 'next';
+import { unauthorized } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 import DashboardClient from './DashboardClient';
 
 export const metadata: Metadata = {
@@ -7,6 +9,9 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function DashboardPage() {
+export default async function DashboardPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) unauthorized();
   return <DashboardClient />;
 }
