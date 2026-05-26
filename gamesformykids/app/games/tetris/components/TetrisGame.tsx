@@ -1,6 +1,5 @@
 'use client';
 
-import { useMemo } from 'react';
 import { GenericStartScreen } from '@/components/shared';
 import { useTetrisGame } from '../hooks/useTetrisGame';
 import { useTetrisState } from '../hooks/useTetrisState';
@@ -11,19 +10,15 @@ import AnimatedBackground from './AnimatedBackground';
 import LoadingScreen from '@/components/layout/LoadingScreen';
 
 function TetrisGame(){
+  'use no memo'; // opt-out of React Compiler — known memoization freeze on displayBoard
+
   // רישום side-effects (game loop, מקלדת, טעינה)
   useTetrisGame();
 
-  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece,
-          board, currentPiece, position } = useTetrisState();
+  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece } = useTetrisState();
 
-  // useMemo with explicit reactive deps so the React Compiler never
-  // memoizes this across position/board changes.
-  const displayBoard = useMemo(
-    () => getBoardWithCurrentPiece(),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [board, currentPiece, position],
-  );
+  // Computed directly — React Compiler is opted out via 'use no memo' above
+  const displayBoard = getBoardWithCurrentPiece();
 
   if (isLoading) {
     return <LoadingScreen />;
