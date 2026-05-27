@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-05-27T08:00:00.000Z",
+  "lastRun": "2026-05-27T16:10:00.000Z",
   "issues": {
     "568": { "title": "refactor: Split useMemoryStore.ts", "hasPR": true, "prNumber": 592, "prState": "merged", "label": "refactor" },
     "569": { "title": "refactor: Split sheshBeshGameStore.ts", "hasPR": true, "prNumber": 593, "prState": "merged", "label": "refactor" },
@@ -54,14 +54,20 @@
     "677": { "title": "architecture: migrate login form to <Form> from next/form + useActionState (Next.js 16+)", "hasPR": true, "prNumber": 693, "prState": "merged", "label": "architecture" },
     "678": { "title": "architecture: add 'use cache' + cacheLife to loadGameItems server loader (Next.js 16)", "hasPR": false, "prNumber": null, "prState": null, "label": "architecture", "skipped": true, "skipReason": "Requires experimental.dynamicIO: true (Next.js 16 experimental API not yet stable)" },
     "679": { "title": "architecture: add unauthorized/forbidden route segments for auth-protected pages (Next.js 15)", "hasPR": true, "prNumber": 691, "prState": "merged", "label": "architecture" },
-    "696": { "title": "fix: re-add noUncheckedIndexedAccess: true to tsconfig.json (reverted after #695)", "hasPR": true, "prNumber": 701, "prState": "open", "label": "fix" },
-    "697": { "title": "fix: remove unoptimized prop from PuzzleCard — /images/*.png are static, not canvas data-URLs", "hasPR": true, "prNumber": 699, "prState": "open", "label": "fix" },
-    "698": { "title": "fix: add flagcdn.com to next.config remotePatterns — flag images fail Next.js optimisation", "hasPR": true, "prNumber": 700, "prState": "open", "label": "fix" }
+    "696": { "title": "fix: re-add noUncheckedIndexedAccess: true to tsconfig.json (reverted after #695)", "hasPR": true, "prNumber": 701, "prState": "merged", "label": "fix" },
+    "697": { "title": "fix: remove unoptimized prop from PuzzleCard — /images/*.png are static, not canvas data-URLs", "hasPR": true, "prNumber": 699, "prState": "merged", "label": "fix" },
+    "698": { "title": "fix: add flagcdn.com to next.config remotePatterns — flag images fail Next.js optimisation", "hasPR": true, "prNumber": 700, "prState": "merged", "label": "fix" },
+    "702": { "title": "fix(seo): remove hardcoded canonical from HeadLinks.tsx — conflicts with per-page Metadata API", "hasPR": true, "prNumber": 705, "prState": "open", "label": "fix" },
+    "703": { "title": "types: GAME_UI_CONFIGS — replace string keys + as-cast with GameType keys + satisfies", "hasPR": true, "prNumber": 706, "prState": "open", "label": "types" },
+    "704": { "title": "cleanup: HeadLinks.tsx — remove obsolete cache-control metas + Google Fonts preconnects; migrate viewport to Viewport object", "hasPR": true, "prNumber": 707, "prState": "open", "label": "chore" }
   },
   "prs": {
-    "701": { "title": "fix: re-enable noUncheckedIndexedAccess and fix all type errors", "state": "OPEN", "linkedIssue": 696 },
-    "700": { "title": "fix: add flagcdn.com to next.config remotePatterns", "state": "OPEN", "linkedIssue": 698 },
-    "699": { "title": "fix: remove unoptimized prop from PuzzleCard", "state": "OPEN", "linkedIssue": 697 },
+    "707": { "title": "chore: HeadLinks cleanup — remove dead meta tags + migrate viewport to Viewport object", "state": "OPEN", "linkedIssue": 704 },
+    "706": { "title": "types: GAME_UI_CONFIGS — replace string keys + as-cast with GameType keys + satisfies", "state": "OPEN", "linkedIssue": 703 },
+    "705": { "title": "fix(seo): remove hardcoded canonical from HeadLinks.tsx", "state": "OPEN", "linkedIssue": 702 },
+    "701": { "title": "fix: re-enable noUncheckedIndexedAccess and fix all type errors", "state": "MERGED", "linkedIssue": 696 },
+    "700": { "title": "perf(image): use remotePatterns for flagcdn.com instead of unoptimized", "state": "MERGED", "linkedIssue": 698 },
+    "699": { "title": "fix(image): remove unoptimized from PuzzleCard static /images/*.png", "state": "MERGED", "linkedIssue": 697 },
     "695": { "title": "types: add noUncheckedIndexedAccess to tsconfig and fix all errors", "state": "MERGED", "linkedIssue": 673 },
     "694": { "title": "fix: add tetris board direction", "state": "MERGED", "linkedIssue": null },
     "693": { "title": "architecture: migrate login form to <Form> from next/form + useActionState", "state": "MERGED", "linkedIssue": 677 },
