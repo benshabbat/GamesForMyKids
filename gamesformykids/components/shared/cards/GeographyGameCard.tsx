@@ -24,7 +24,6 @@ export default function GeographyGameCard({ item, onClick, isSelected }: GameIte
           height={53}
           className="w-full h-auto object-cover rounded-xl"
           loading="lazy"
-          unoptimized
         />
       </div>
       <span className="text-sm md:text-base font-bold text-gray-800 text-center leading-tight">
