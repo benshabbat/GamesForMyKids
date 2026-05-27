@@ -1,13 +1,18 @@
 'use client';
-import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
+import { createPhaseGameHook } from '@/hooks/shared/progress/createPhaseGameHook';
 import { useWordBuilderStore } from './wordBuilderStore';
 
 export type { WordPuzzle, AvailableLetter } from './wordBuilderStore';
 
-const _useStore = createShallowHook(useWordBuilderStore);
+const _useBase = createPhaseGameHook(
+  useWordBuilderStore,
+  'word-builder',
+  (s) => ({ score: s.score, level: 1 }),
+  ['result'],
+);
 
 export function useWordBuilderGame() {
-  const state = _useStore();
+  const state = _useBase();
   return {
     ...state,
     current: state.puzzles[state.index],
