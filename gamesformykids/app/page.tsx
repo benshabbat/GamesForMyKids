@@ -9,6 +9,8 @@ export const metadata: Metadata = {
     description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2–5 שנים',
     type: 'website',
     locale: 'he_IL',
+    siteName: 'GamesForMyKids',
+    url: 'https://games-for-my-kids.vercel.app',
   },
   keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות',
 };

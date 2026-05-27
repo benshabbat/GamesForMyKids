@@ -11,7 +11,7 @@ import {
   HeartIcon,
   DiamondIcon,
   OvalIcon,
-} from "@/public/icons/ShapeIcons";
+} from "@/components/icons/ShapeIcons";
 
 /**
  * מיפוי שמות צורות לקומפוננטות אייקון
