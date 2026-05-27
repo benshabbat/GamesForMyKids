@@ -44,20 +44,20 @@ describe('trueFalseStore', () => {
   describe('answer — correct', () => {
     it('adds 10 points', () => {
       store.getState().startGame();
-      const correctAnswer = store.getState().deck[store.getState().idx].answer;
+      const correctAnswer = store.getState().deck[store.getState().idx]!.answer;
       store.getState().answer(correctAnswer);
       expect(store.getState().score).toBe(10);
     });
 
     it('sets feedback to correct', () => {
       store.getState().startGame();
-      store.getState().answer(store.getState().deck[0].answer);
+      store.getState().answer(store.getState().deck[0]!.answer);
       expect(store.getState().feedback).toBe('correct');
     });
 
     it('does not change lives', () => {
       store.getState().startGame();
-      store.getState().answer(store.getState().deck[0].answer);
+      store.getState().answer(store.getState().deck[0]!.answer);
       expect(store.getState().lives).toBe(3);
     });
   });
@@ -65,27 +65,27 @@ describe('trueFalseStore', () => {
   describe('answer — wrong', () => {
     it('decrements lives', () => {
       store.getState().startGame();
-      store.getState().answer(!store.getState().deck[0].answer);
+      store.getState().answer(!store.getState().deck[0]!.answer);
       expect(store.getState().lives).toBe(2);
     });
 
     it('sets feedback to wrong', () => {
       store.getState().startGame();
-      store.getState().answer(!store.getState().deck[0].answer);
+      store.getState().answer(!store.getState().deck[0]!.answer);
       expect(store.getState().feedback).toBe('wrong');
     });
 
     it('ends game when last life lost', () => {
       store.getState().startGame();
       store.setState({ lives: 1 } as Parameters<typeof store.setState>[0]);
-      store.getState().answer(!store.getState().deck[0].answer);
+      store.getState().answer(!store.getState().deck[0]!.answer);
       expect(store.getState().phase).toBe('dead');
     });
 
     it('saves best on game over', () => {
       store.getState().startGame();
       store.setState({ lives: 1, score: 30 } as Parameters<typeof store.setState>[0]);
-      store.getState().answer(!store.getState().deck[0].answer);
+      store.getState().answer(!store.getState().deck[0]!.answer);
       expect(store.getState().best).toBe(30);
     });
   });
@@ -108,7 +108,7 @@ describe('trueFalseStore', () => {
   describe('question advancement', () => {
     it('advances to next question after feedback delay', () => {
       store.getState().startGame();
-      store.getState().answer(store.getState().deck[0].answer);
+      store.getState().answer(store.getState().deck[0]!.answer);
       vi.advanceTimersByTime(800);
       expect(store.getState().idx).toBe(1);
       expect(store.getState().feedback).toBeNull();

@@ -43,7 +43,7 @@ export function useSnakeDraw(
 
         // Snake
         for (let i = 0; i < s.snake.length; i++) {
-          const p = s.snake[i];
+          const p = s.snake[i]!;
           const isHead = i === 0;
           const t = 1 - i / s.snake.length;
           const r = Math.round(50 + t * 100);
@@ -55,7 +55,7 @@ export function useSnakeDraw(
           ctx.fill();
 
           if (isHead) {
-            const eyeOff = { R: [1, -1], L: [-1, -1], U: [-1, -1], D: [1, 1] }[s.dir];
+            const eyeOff = ({ R: [1, -1], L: [-1, -1], U: [-1, -1], D: [1, 1] } as Record<string, [number, number]>)[s.dir]!;
             ctx.fillStyle = 'white';
             ctx.beginPath(); ctx.arc(p.x * CELL + CELL * 0.65 + eyeOff[0] * 2, p.y * CELL + CELL * 0.3 + eyeOff[1] * 2, 3, 0, Math.PI * 2); ctx.fill();
             ctx.fillStyle = '#111';

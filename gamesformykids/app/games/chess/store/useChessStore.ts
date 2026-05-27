@@ -37,7 +37,7 @@ export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => (
 
     const move = prev.validMoves.find(m => m.to.row === pos.row && m.to.col === pos.col);
     if (move) {
-      const pieceMoved = prev.board[move.from.row][move.from.col]!;
+      const pieceMoved = prev.board[move.from.row]![move.from.col]!;
       const { board: nb, castling: nc, enPassant: nep, captured } = applyMove(prev.board, move, prev.castling, prev.enPassant);
       const compMoves = getAllValidMoves(nb, 'b', nc, nep);
 
@@ -71,7 +71,7 @@ export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => (
       return;
     }
 
-    if (pieceColor(prev.board[pos.row][pos.col]) !== 'w') {
+    if (pieceColor(prev.board[pos.row]![pos.col]) !== 'w') {
       set({ selected: null, validMoves: [], message: 'בחר כלי לבן שלך!' });
       return;
     }

@@ -22,7 +22,7 @@ export function GameBoard() {
         <div className="flex flex-col">
           <div className="flex">
             {TOP_POINTS.slice(0, 6).map(i => (
-              <BoardPoint key={i} idx={i} pt={points[i]} isTop
+              <BoardPoint key={i} idx={i} pt={points[i]!} isTop
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} />
             ))}
@@ -32,7 +32,7 @@ export function GameBoard() {
           </div>
           <div className="flex">
             {BOT_POINTS.slice(0, 6).map(i => (
-              <BoardPoint key={i} idx={i} pt={points[i]} isTop={false}
+              <BoardPoint key={i} idx={i} pt={points[i]!} isTop={false}
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} />
             ))}
@@ -50,7 +50,7 @@ export function GameBoard() {
         <div className="flex flex-col">
           <div className="flex">
             {TOP_POINTS.slice(6).map(i => (
-              <BoardPoint key={i} idx={i} pt={points[i]} isTop
+              <BoardPoint key={i} idx={i} pt={points[i]!} isTop
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} />
             ))}
@@ -60,7 +60,7 @@ export function GameBoard() {
           </div>
           <div className="flex">
             {BOT_POINTS.slice(6).map(i => (
-              <BoardPoint key={i} idx={i} pt={points[i]} isTop={false}
+              <BoardPoint key={i} idx={i} pt={points[i]!} isTop={false}
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} />
             ))}
@@ -69,8 +69,8 @@ export function GameBoard() {
 
         {/* Borne-off tray */}
         <BorneOff
-          playerCount={points[0].player}
-          compCount={points[25].computer}
+          playerCount={points[0]!.player}
+          compCount={points[25]!.computer}
           onBearOff={() => selectPoint(0)}
           isBearOffTarget={validTargets.has(0) && selected !== null}
         />

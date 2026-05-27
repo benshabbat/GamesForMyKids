@@ -19,15 +19,15 @@ export function makeInitialBoard(): Board {
 
 // ─────────────────────── Helpers ─────────────────────────────
 export const inB = (r: number, c: number) => r >= 0 && r < 8 && c >= 0 && c < 8;
-export const pieceColor = (p: Piece): Color | null => p ? p[0] as Color : null;
-export const isOpp = (p: Piece, myColor: Color) => { const c = pieceColor(p); return c !== null && c !== myColor; };
-export const isFriend = (p: Piece, myColor: Color) => pieceColor(p) === myColor;
+export const pieceColor = (p: Piece | null | undefined): Color | null => p ? p[0] as Color : null;
+export const isOpp = (p: Piece | null | undefined, myColor: Color) => { const c = pieceColor(p); return c !== null && c !== myColor; };
+export const isFriend = (p: Piece | null | undefined, myColor: Color) => pieceColor(p) === myColor;
 export function cloneBoard(b: Board): Board { return b.map(r => [...r]); }
 
 function findKing(b: Board, color: Color): Pos | null {
   for (let r = 0; r < 8; r++)
     for (let c = 0; c < 8; c++)
-      if (b[r][c] === `${color}K`) return { row: r, col: c };
+      if (b[r]![c] === `${color}K`) return { row: r, col: c };
   return null;
 }
 
@@ -36,29 +36,29 @@ export function isAttackedBy(b: Board, pos: Pos, attacker: Color): boolean {
   const { row: r, col: c } = pos;
   const pd = attacker === 'w' ? 1 : -1;
   const pr = r + pd;
-  if (inB(pr, c - 1) && b[pr][c - 1] === `${attacker}P`) return true;
-  if (inB(pr, c + 1) && b[pr][c + 1] === `${attacker}P`) return true;
-  for (const [dr, dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]]) {
+  if (inB(pr, c - 1) && b[pr]![c - 1] === `${attacker}P`) return true;
+  if (inB(pr, c + 1) && b[pr]![c + 1] === `${attacker}P`) return true;
+  for (const [dr, dc] of [[-2,-1],[-2,1],[-1,-2],[-1,2],[1,-2],[1,2],[2,-1],[2,1]] as [number, number][]) {
     const nr = r+dr, nc = c+dc;
-    if (inB(nr, nc) && b[nr][nc] === `${attacker}N`) return true;
+    if (inB(nr, nc) && b[nr]![nc] === `${attacker}N`) return true;
   }
-  for (const [dr, dc] of [[-1,-1],[-1,1],[1,-1],[1,1]]) {
+  for (const [dr, dc] of [[-1,-1],[-1,1],[1,-1],[1,1]] as [number, number][]) {
     let nr = r+dr, nc = c+dc;
     while (inB(nr, nc)) {
-      if (b[nr][nc]) { if (b[nr][nc] === `${attacker}B` || b[nr][nc] === `${attacker}Q`) return true; break; }
+      if (b[nr]![nc]) { if (b[nr]![nc] === `${attacker}B` || b[nr]![nc] === `${attacker}Q`) return true; break; }
       nr += dr; nc += dc;
     }
   }
-  for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]]) {
+  for (const [dr, dc] of [[-1,0],[1,0],[0,-1],[0,1]] as [number, number][]) {
     let nr = r+dr, nc = c+dc;
     while (inB(nr, nc)) {
-      if (b[nr][nc]) { if (b[nr][nc] === `${attacker}R` || b[nr][nc] === `${attacker}Q`) return true; break; }
+      if (b[nr]![nc]) { if (b[nr]![nc] === `${attacker}R` || b[nr]![nc] === `${attacker}Q`) return true; break; }
       nr += dr; nc += dc;
     }
   }
-  for (const [dr, dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]]) {
+  for (const [dr, dc] of [[-1,-1],[-1,0],[-1,1],[0,-1],[0,1],[1,-1],[1,0],[1,1]] as [number, number][]) {
     const nr = r+dr, nc = c+dc;
-    if (inB(nr, nc) && b[nr][nc] === `${attacker}K`) return true;
+    if (inB(nr, nc) && b[nr]![nc] === `${attacker}K`) return true;
   }
   return false;
 }
@@ -75,7 +75,7 @@ export type MoveResult = { board: Board; castling: CastleRights; enPassant: Pos 
 
 export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _enPassant: Pos | null): MoveResult {
   const nb = cloneBoard(b);
-  const piece = nb[move.from.row][move.from.col]!;
+  const piece = nb[move.from.row]![move.from.col]!;
   const color = pieceColor(piece)!;
   const nc: CastleRights = { ...castling };
   let nep: Pos | null = null;
@@ -83,20 +83,20 @@ export function applyMove(b: Board, move: ChessMove, castling: CastleRights, _en
 
   if (move.castle) {
     const row = move.from.row;
-    nb[row][move.to.col] = piece;
-    nb[row][move.from.col] = null;
-    if (move.castle === 'K') { nb[row][5] = nb[row][7]; nb[row][7] = null; }
-    else                     { nb[row][3] = nb[row][0]; nb[row][0] = null; }
+    nb[row]![move.to.col] = piece;
+    nb[row]![move.from.col] = null;
+    if (move.castle === 'K') { nb[row]![5] = nb[row]![7]!; nb[row]![7] = null; }
+    else                     { nb[row]![3] = nb[row]![0]!; nb[row]![0] = null; }
   } else if (move.enPassant) {
-    nb[move.to.row][move.to.col] = piece;
-    nb[move.from.row][move.from.col] = null;
+    nb[move.to.row]![move.to.col] = piece;
+    nb[move.from.row]![move.from.col] = null;
     const capturedRow = color === 'w' ? move.to.row + 1 : move.to.row - 1;
-    captured = nb[capturedRow][move.to.col];
-    nb[capturedRow][move.to.col] = null;
+    captured = nb[capturedRow]![move.to.col] ?? null;
+    nb[capturedRow]![move.to.col] = null;
   } else {
-    captured = nb[move.to.row][move.to.col];
-    nb[move.to.row][move.to.col] = move.promotion ?? piece;
-    nb[move.from.row][move.from.col] = null;
+    captured = nb[move.to.row]![move.to.col] ?? null;
+    nb[move.to.row]![move.to.col] = move.promotion ?? piece;
+    nb[move.from.row]![move.from.col] = null;
     if ((piece === 'wP' || piece === 'bP') && Math.abs(move.to.row - move.from.row) === 2)
       nep = { row: (move.from.row + move.to.row) / 2, col: move.from.col };
   }

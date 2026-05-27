@@ -44,7 +44,7 @@ export function useCharityCoinGame() {
   const handleTouchMove = (e: React.TouchEvent) => {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
-    moveBasket(e.touches[0].clientX - rect.left - basketWidth / 2);
+    moveBasket(e.touches[0]!.clientX - rect.left - basketWidth / 2);
   };
 
   return { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
