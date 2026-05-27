@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-05-27T16:20:00.000Z",
+  "lastRun": "2026-05-27T18:10:00.000Z",
   "issues": {
     "568": { "title": "refactor: Split useMemoryStore.ts", "hasPR": true, "prNumber": 592, "prState": "merged", "label": "refactor" },
     "569": { "title": "refactor: Split sheshBeshGameStore.ts", "hasPR": true, "prNumber": 593, "prState": "merged", "label": "refactor" },
@@ -59,9 +59,15 @@
     "698": { "title": "fix: add flagcdn.com to next.config remotePatterns — flag images fail Next.js optimisation", "hasPR": true, "prNumber": 700, "prState": "merged", "label": "fix" },
     "702": { "title": "fix(seo): remove hardcoded canonical from HeadLinks.tsx — conflicts with per-page Metadata API", "hasPR": true, "prNumber": 705, "prState": "merged", "label": "fix" },
     "703": { "title": "types: GAME_UI_CONFIGS — replace string keys + as-cast with GameType keys + satisfies", "hasPR": true, "prNumber": 706, "prState": "merged", "label": "types" },
-    "704": { "title": "cleanup: HeadLinks.tsx — remove obsolete cache-control metas + Google Fonts preconnects; migrate viewport to Viewport object", "hasPR": true, "prNumber": 707, "prState": "merged", "label": "chore" }
+    "704": { "title": "cleanup: HeadLinks.tsx — remove obsolete cache-control metas + Google Fonts preconnects; migrate viewport to Viewport object", "hasPR": true, "prNumber": 707, "prState": "merged", "label": "chore" },
+    "708": { "title": "fix(seo): generateGameMetadata returns 'Game Not Found' title for arcade/board/quiz games", "hasPR": true, "prNumber": 712, "prState": "merged", "label": "fix" },
+    "709": { "title": "fix(seo): sitemap.ts only includes card games — arcade/board/quiz games missing (~62 URLs)", "hasPR": true, "prNumber": 713, "prState": "merged", "label": "fix" },
+    "710": { "title": "fix(seo): OG/Twitter images in generateGameMetadata point to non-existent /images/games/ directory", "hasPR": true, "prNumber": 712, "prState": "merged", "label": "fix" },
+    "711": { "title": "fix(seo): sitemap lastModified uses new Date() — all entries claim modified right now", "hasPR": true, "prNumber": 713, "prState": "merged", "label": "fix" }
   },
   "prs": {
+    "713": { "title": "fix(seo): sitemap — use SUPPORTED_GAMES for all game routes + remove lastModified", "state": "MERGED", "linkedIssue": 709 },
+    "712": { "title": "fix(seo): fix generateGameMetadata for arcade/board/quiz games + remove broken OG image fallbacks", "state": "MERGED", "linkedIssue": 708 },
     "707": { "title": "chore: HeadLinks cleanup — remove dead meta tags + migrate viewport to Viewport object", "state": "MERGED", "linkedIssue": 704 },
     "706": { "title": "types: GAME_UI_CONFIGS — replace string keys + as-cast with GameType keys + satisfies", "state": "MERGED", "linkedIssue": 703 },
     "705": { "title": "fix(seo): remove hardcoded canonical from HeadLinks.tsx", "state": "MERGED", "linkedIssue": 702 },
