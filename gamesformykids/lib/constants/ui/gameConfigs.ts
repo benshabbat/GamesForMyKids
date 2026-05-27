@@ -6,7 +6,7 @@
  * ׳™׳‘׳•׳ ׳׳”׳§׳•׳‘׳¥ ׳”׳–׳” ׳׳׳©׳™׳ ׳׳¢׳‘׳•׳“ ׳׳׳ ׳©׳™׳ ׳•׳™.
  */
 
-import { GameType } from "@/lib/types/core/base";
+import type { GameType } from "@/lib/types/core/base";
 import type { GameUIConfig } from './gameUIConfig.types';
 export type { GameUIConfig } from './gameUIConfig.types';
 
@@ -17,11 +17,11 @@ import { activitiesConfigs }   from './gameConfigs.activities';
 import { advancedConfigs }     from './gameConfigs.advanced';
 import { photoQuizConfigs }    from './gameConfigs.photo-quiz';
 
-export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
+export const GAME_UI_CONFIGS = {
   ...educationalConfigs,
   ...natureConfigs,
   ...homeLifeConfigs,
   ...activitiesConfigs,
   ...advancedConfigs,
   ...photoQuizConfigs,
-} as Record<GameType, GameUIConfig>;
+} satisfies Partial<Record<GameType, GameUIConfig>>;
