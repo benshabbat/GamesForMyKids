@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 export const siteMetadata: Metadata = {
   title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
@@ -39,7 +39,12 @@ export const siteMetadata: Metadata = {
   },
 };
 
-export const siteViewport = 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no';
+export const siteViewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
 export const structuredData = {
   "@context": "https://schema.org",
