@@ -36,7 +36,7 @@ function buildGameConfigValue(
   }
 
   try {
-    const config = GAME_UI_CONFIGS[gameType]
+    const config = GAME_UI_CONFIGS[gameType] ?? null
     const useGameHook = GAME_HOOKS_MAP[gameType as AutoGameType]
     const items = storeItems
     const CardComponent = GameCardMap[gameType] ?? null
