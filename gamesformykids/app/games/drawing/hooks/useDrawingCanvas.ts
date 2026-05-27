@@ -43,11 +43,11 @@ export const useDrawingCanvas = () => {
     if ('touches' in e) {
       // Touch event
       if (e.touches.length > 0) {
-        clientX = e.touches[0].clientX;
-        clientY = e.touches[0].clientY;
+        clientX = e.touches[0]!.clientX;
+        clientY = e.touches[0]!.clientY;
       } else if (e.changedTouches && e.changedTouches.length > 0) {
-        clientX = e.changedTouches[0].clientX;
-        clientY = e.changedTouches[0].clientY;
+        clientX = e.changedTouches[0]!.clientX;
+        clientY = e.changedTouches[0]!.clientY;
       } else {
         return { x: 0, y: 0 };
       }

@@ -34,7 +34,7 @@ export function makeQuestion(level: number): Question {
     if (w !== answer && w >= 0 && w <= 20) wrong.add(w);
   }
   const choices = [...wrong, answer].sort(() => Math.random() - 0.5);
-  const e1 = pickEmoji(), e2 = op === '+' ? pickEmoji() : e1;
+  const e1 = pickEmoji()!, e2 = op === '+' ? pickEmoji()! : e1;
   return { a, b, op, answer, choices, emojiA: e1, emojiB: e2 };
 }
 

@@ -73,7 +73,7 @@ export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonS
   setSequence:    (seq)   => set({ sequence: seq }, false, 'simon/setSequence'),
 
   startGame: () => {
-    const first = BUTTONS[Math.floor(Math.random() * BUTTONS.length)].id;
+    const first = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
     const seq: ButtonId[] = [first];
     useSimonStore.getState().setSequence(seq);
     useSimonStore.getState().setRoundScore(0);

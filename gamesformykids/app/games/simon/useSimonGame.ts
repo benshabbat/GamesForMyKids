@@ -51,7 +51,7 @@ export function useSimonGame() {
 
     if (next >= seq.length) {
       useSimonStore.getState().setRoundScore(seq.length);
-      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)].id;
+      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
       const newSeq = [...seq, nextBtn];
       useSimonStore.getState().setSequence(newSeq);
       setTimeout(() => showSequence(newSeq), 900);

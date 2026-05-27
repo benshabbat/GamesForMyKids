@@ -11,7 +11,7 @@ export function useHolidaysGame() {
   const [holidayIndex, setHolidayIndex] = useState(0);
   const [score, setScore] = useState(0);
 
-  const current: Holiday = HOLIDAYS[holidayIndex];
+  const current: Holiday = HOLIDAYS[holidayIndex]!;
   const totalHolidays = HOLIDAYS.length;
   const maxScore = HOLIDAYS.reduce((s, h) => s + h.questions.length, 0);
 

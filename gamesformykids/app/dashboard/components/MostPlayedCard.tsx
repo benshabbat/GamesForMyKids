@@ -39,7 +39,7 @@ export function MostPlayedCard() {
         <ul className="space-y-3">
           {recent.map((p) => {
             const { name, emoji } = getGameLabel(p.game_type);
-            const maxTime = recent[0].total_play_time || 1;
+            const maxTime = recent[0]!.total_play_time || 1;
             const pct = Math.round((p.total_play_time / maxTime) * 100);
             return (
               <li key={p.game_type}>

@@ -10,10 +10,10 @@ export default function MathRacePlayScreen() {
 
   useKeyboardControls(
     {
-      '1': () => tap(q.choices[0]),
-      '2': () => tap(q.choices[1]),
-      '3': () => tap(q.choices[2]),
-      '4': () => tap(q.choices[3]),
+      '1': () => tap(q.choices[0]!),
+      '2': () => tap(q.choices[1]!),
+      '3': () => tap(q.choices[2]!),
+      '4': () => tap(q.choices[3]!),
     },
     !feedback,
   );

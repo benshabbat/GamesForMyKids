@@ -190,7 +190,7 @@ export function useJumperGame() {
   const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
-    const tx = (e.touches[0].clientX - rect.left) * (W / rect.width);
+    const tx = (e.touches[0]!.clientX - rect.left) * (W / rect.width);
     const s = st.current;
     if (s.phase !== 'playing') return;
     if (tx < W / 2) { s.leftDown = true; s.rightDown = false; }

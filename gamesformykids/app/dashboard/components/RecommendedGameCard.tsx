@@ -16,7 +16,7 @@ function getRecommended(progress: GameProgress[]): GameProgress | null {
     (p) => now - new Date(p.last_played_at).getTime() < SEVEN_DAYS_MS,
   );
   const pool = recent.length > 0 ? recent : progress;
-  return pool.reduce((worst, p) => (p.best_score < worst.best_score ? p : worst), pool[0]);
+  return pool.reduce((worst, p) => (p.best_score < worst.best_score ? p : worst), pool[0]!);
 }
 
 export function RecommendedGameCard() {
