@@ -41,7 +41,7 @@ import {
   Rainbow,
   Star,
 } from "lucide-react";
-import { HebrewLettersIcon } from "@/public/icons/HebrewIcons";
+import { HebrewLettersIcon } from "@/components/icons/HebrewIcons";
 import type { GameRegistration } from "@/lib/types/games/base";
 
 export const gamesRegistryBatch1: GameRegistration[] = [
