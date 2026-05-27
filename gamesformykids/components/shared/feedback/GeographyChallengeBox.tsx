@@ -34,7 +34,6 @@ export default function GeographyChallengeBox() {
             alt="דגל"
             fill
             className="object-cover"
-            unoptimized
           />
         </div>
         <p className="text-xl font-bold text-blue-700 text-center">{questionText}</p>
