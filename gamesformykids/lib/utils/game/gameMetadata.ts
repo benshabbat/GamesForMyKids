@@ -8,7 +8,6 @@ import { GAME_UI_CONFIGS } from "@/lib/constants/ui/gameConfigs";
 export function generateGameMetadata(
   gameType: string,
   gameUrlType?: string,
-  baseUrl: string = 'https://gamesformykids.vercel.app'
 ): Metadata {
   const config = GAME_UI_CONFIGS[gameType as keyof typeof GAME_UI_CONFIGS];
   const urlGameType = gameUrlType || gameType;
@@ -46,7 +45,7 @@ export function generateGameMetadata(
       title: config.title,
       description,
       type: 'article',
-      url: `${baseUrl}/games/${urlGameType}`,
+      url: `/games/${urlGameType}`,
       ...(ogImagePath
         ? { images: [{ url: ogImagePath, width: 1200, height: 630, alt: config.title }] }
         : {}),
