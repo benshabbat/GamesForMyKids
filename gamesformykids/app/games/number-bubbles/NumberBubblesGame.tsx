@@ -12,9 +12,11 @@ export default function NumberBubblesGame() {
   if (phase === 'results') return <NumberBubblesResultScreen />;
 
   return (
-    <div className={`min-h-screen flex flex-col items-center p-3 select-none transition-all ${wrong ? 'bg-red-100' : 'bg-gradient-to-br from-sky-100 to-blue-200'}`} dir="rtl">
+    <div className="min-h-screen flex flex-col items-center p-3 select-none bg-gradient-to-br from-sky-100 to-blue-200" dir="rtl">
       <NumberBubblesHUD />
-      <NumberBubbleGrid />
+      <div className={`w-full flex-1 ${wrong ? 'ring-4 ring-amber-400 ring-inset rounded-3xl' : ''}`}>
+        <NumberBubbleGrid />
+      </div>
     </div>
   );
 }
