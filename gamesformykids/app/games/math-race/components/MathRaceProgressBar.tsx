@@ -18,7 +18,7 @@ export default function MathRaceProgressBar({ timeLeft, score, streak, gameTime 
       <div className="bg-white rounded-full h-3 shadow-inner">
         <div
           className={`h-3 rounded-full transition-all duration-1000 ${
-            timeLeft > 10 ? 'bg-blue-500' : timeLeft > 5 ? 'bg-yellow-500' : 'bg-red-500 animate-pulse'
+            timeLeft > 10 ? 'bg-blue-500' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-orange-400'
           }`}
           style={{ width: `${(timeLeft / gameTime) * 100}%` }}
         />
