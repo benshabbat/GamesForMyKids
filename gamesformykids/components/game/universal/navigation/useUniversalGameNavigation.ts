@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { getGameNavigation } from "@/lib/utils/game/gameNavigation";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
@@ -37,7 +37,7 @@ export function useUniversalGameNavigation({
   const gamesIndex = pathSegments.indexOf("games");
   const gameId = gamesIndex >= 0 ? pathSegments[gamesIndex + 1] || "" : "";
   const currentGame = GamesRegistry.getGameById(gameId);
-  const navigation = getGameNavigation(gameId);
+  const navigation = useMemo(() => getGameNavigation(gameId), [gameId]);
 
   const shouldRender = Boolean(gameId && currentGame && gameId !== "games");
 
