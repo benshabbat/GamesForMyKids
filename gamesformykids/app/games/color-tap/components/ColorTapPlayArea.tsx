@@ -30,7 +30,7 @@ export default function ColorTapPlayArea() {
           <LivesDisplay lives={lives} />
         </div>
         <div>
-          <p className={`text-2xl font-black ${timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-purple-600'}`}>{timeLeft}</p>
+          <p className={`font-black transition-all ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-purple-600 text-2xl'}`}>{timeLeft}</p>
           <p className="text-xs text-purple-400">שניות</p>
         </div>
       </div>

@@ -36,7 +36,7 @@ export default function EmojiMathPlayArea() {
           <LivesDisplay lives={lives} size="text-xl" />
         </div>
         <div>
-          <p className={`text-2xl font-black ${timeLeft <= 2 ? 'text-red-500 animate-pulse' : 'text-orange-700'}`}>{timeLeft}</p>
+          <p className={`font-black transition-all ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-orange-700 text-2xl'}`}>{timeLeft}</p>
           <p className="text-xs text-orange-400">שניות</p>
         </div>
         {streak >= 2 && (

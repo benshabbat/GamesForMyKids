@@ -12,7 +12,7 @@ export default function ScoreTimeLivesHUD({ score, lives, timeLeft, mb = 'mb-3' 
   return (
     <div className={`flex gap-5 ${mb} text-white text-center`}>
       <div>
-        <p className="text-2xl font-black text-yellow-300">{score}</p>
+        <p className="text-2xl font-black text-yellow-300" role="status" aria-live="polite" aria-label={`ניקוד: ${score}`}>{score}</p>
         <p className="text-xs text-yellow-500">ניקוד</p>
       </div>
       <div>
