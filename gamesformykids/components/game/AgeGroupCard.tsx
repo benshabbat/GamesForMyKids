@@ -24,7 +24,7 @@ export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
           ageGroup.recommendedGames.map((game) => (
             <Link key={game.id} href={game.href} prefetch={false}>
               <div className="flex items-center p-2.5 md:p-3 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl hover:from-purple-50 hover:to-blue-50 transition-all duration-300 cursor-pointer shadow-sm hover:shadow-md border border-gray-100">
-                <div className="flex-shrink-0 ml-3">
+                <div className="flex-shrink-0 ms-3">
                   <div className="bg-gradient-to-br from-purple-100 to-blue-100 p-1.5 rounded-lg">
                     <game.icon className="w-6 h-6 md:w-7 md:h-7 text-purple-600" />
                   </div>
@@ -47,11 +47,11 @@ export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
       <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-200">
         <div className="flex items-center justify-center gap-3 text-xs text-gray-500">
           <div className="flex items-center">
-            <Users className="w-3.5 h-3.5 ml-1" />
+            <Users className="w-3.5 h-3.5 ms-1" />
             <span>מותאם לגיל</span>
           </div>
           <div className="flex items-center">
-            <Award className="w-3.5 h-3.5 ml-1" />
+            <Award className="w-3.5 h-3.5 ms-1" />
             <span>מומלץ</span>
           </div>
         </div>

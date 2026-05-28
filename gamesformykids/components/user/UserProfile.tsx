@@ -16,7 +16,7 @@ export function UserProfile() {
     return (
       <div className="flex items-center space-x-2 space-x-reverse">
         <div className="bg-green-500 text-white px-3 py-1 rounded-lg text-sm flex items-center">
-          <span className="mr-1">{L.guestEmoji}</span>
+          <span className="me-1">{L.guestEmoji}</span>
           {L.guest}
         </div>
         <Link href={R.login} prefetch={false}

@@ -32,7 +32,7 @@ export function GameSearchBar({
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder="חפש משחק..."
           aria-label="חיפוש משחקים"
-          className="w-full pr-10 pl-10 py-2.5 rounded-full border border-gray-200 bg-white shadow-sm text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+          className="w-full pe-10 ps-10 py-2.5 rounded-full border border-gray-200 bg-white shadow-sm text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
         />
         {hasFilter && (
           <button
