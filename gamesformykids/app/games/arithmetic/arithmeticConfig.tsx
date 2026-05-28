@@ -29,7 +29,7 @@ export const ARITHMETIC_CONFIG: TimedMathConfig<ArithmeticLevel, ArithmeticQuest
   ),
   levelColumns: 2,
   levelGap: 4,
-  levelButtonClass: 'p-5 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-br from-indigo-500 to-blue-600 text-right',
+  levelButtonClass: 'p-5 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-br from-indigo-500 to-blue-600 text-start',
 
   renderLevelLabel: (lv) => lv.label,
   renderEquation: (q) => `${q.a} ${q.op} ${q.b} = ?`,
