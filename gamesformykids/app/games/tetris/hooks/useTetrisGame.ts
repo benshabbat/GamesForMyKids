@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTetrisStore } from '../store/tetrisStore';
+import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 
 /**
  * הוק דק שמנהל רק את ה-side-effects של המשחק:
@@ -11,8 +12,13 @@ import { useTetrisStore } from '../store/tetrisStore';
 export const useTetrisGame = () => {
   const setLoaded = useTetrisStore(s => s.setLoaded);
   const isGameRunning = useTetrisStore(s => s.isGameRunning);
+  const gameOver = useTetrisStore(s => s.gameOver);
   const level = useTetrisStore(s => s.level);
   const movePiece = useTetrisStore(s => s.movePiece);
+
+  const { saveGameResultRef } = useGameCompletion('tetris');
+  const startTimeRef = useRef(0);
+  const prevGameOverRef = useRef(false);
 
   // אופטימיזציה למובייל — התחלה לאחר טעינה מלאה
   useEffect(() => {
@@ -20,6 +26,24 @@ export const useTetrisGame = () => {
     return () => clearTimeout(timer);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // מעקב אחר זמן תחילת המשחק
+  useEffect(() => {
+    if (isGameRunning) {
+      startTimeRef.current = Date.now();
+      prevGameOverRef.current = false;
+    }
+  }, [isGameRunning]);
+
+  // שמירת ניקוד בסיום המשחק
+  useEffect(() => {
+    if (gameOver && !prevGameOverRef.current) {
+      const { score, level: finalLevel } = useTetrisStore.getState();
+      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
+      saveGameResultRef.current({ score, level: finalLevel, durationSeconds });
+    }
+    prevGameOverRef.current = gameOver;
+  }, [gameOver, saveGameResultRef]);
 
   // לולאת נפילה — תלויה ברמה כדי לעדכן מהירות
   useEffect(() => {
