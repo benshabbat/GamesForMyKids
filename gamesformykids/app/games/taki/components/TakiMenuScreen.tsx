@@ -22,7 +22,7 @@ export default function TakiMenuScreen() {
           <span>🤖 מחשב: {computerScore}</span>
         </div>
       )}
-      <div className="bg-green-50 rounded-xl p-4 text-gray-600 text-sm text-right space-y-1">
+      <div className="bg-green-50 rounded-xl p-4 text-gray-600 text-sm space-y-1">
         <p className="font-bold text-gray-700 mb-2">כללים בקצרה:</p>
         <p>🃏 <strong>טאקי</strong> — שחק קלפים באותו צבע ולחץ &ldquo;סגור&rdquo;</p>
         <p>✋ <strong>עצור</strong> — המתנגד מדלג תור</p>

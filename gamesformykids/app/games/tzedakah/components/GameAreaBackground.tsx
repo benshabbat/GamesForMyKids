@@ -39,7 +39,7 @@ export default function GameAreaBackground() {
       {[...Array(6)].map((_, i) => (
         <div
           key={i}
-          className="absolute text-yellow-300 opacity-70 animate-twinkle"
+          className="absolute text-yellow-300 opacity-70"
           style={{ left: `${15 + i * 15}%`, top: `${10 + (i % 2) * 20}%`, animationDelay: `${i * 0.5}s`, fontSize: isMobile ? '8px' : '12px' }}
         >
           ✨

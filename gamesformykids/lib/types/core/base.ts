@@ -161,6 +161,7 @@ export type GameType =
   | 'sequences' | 'color-mix' | 'clock' | 'english-words' | 'shapes-3d'
   | 'holidays' | 'tzadikim'
   | 'geography-capitals' | 'geography-flags' | 'geography-continents'
+  | 'singular-plural' | 'morning-routine'
   // Arcade & action games
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
   | 'dino-runner' | 'brick-breaker' | 'balloon-pop' | 'catch-fruit'

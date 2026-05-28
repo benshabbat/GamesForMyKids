@@ -27,10 +27,13 @@ export default function SimonBoard({ onTap }: Props) {
             key={btn.id}
             onClick={() => onTap(btn.id)}
             disabled={phase === 'showing'}
-            className={`w-32 h-32 rounded-3xl shadow-2xl transition-all duration-100 ${
+            aria-label={btn.id}
+            className={`w-32 h-32 rounded-3xl shadow-2xl transition-all duration-100 flex items-center justify-center text-white/70 text-4xl font-black ${
               activeColor === btn.id ? btn.active + ' scale-90' : btn.bg
             } ${phase === 'input' ? 'hover:brightness-110 active:scale-90 cursor-pointer' : 'cursor-default opacity-60'}`}
-          />
+          >
+            {btn.label}
+          </button>
         ))}
       </div>
     </div>
