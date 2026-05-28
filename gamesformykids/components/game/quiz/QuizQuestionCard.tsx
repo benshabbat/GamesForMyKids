@@ -43,7 +43,7 @@ export default function QuizQuestionCard({
             key={idx}
             onClick={() => onSelect(idx)}
             disabled={answered}
-            className={`w-full text-right py-4 px-5 rounded-2xl font-semibold text-lg transition-all duration-200 active:scale-95 ${answerButtonClass(
+            className={`w-full text-start py-4 px-5 rounded-2xl font-semibold text-lg transition-all duration-200 active:scale-95 ${answerButtonClass(
               idx === correctIndex,
               idx === selected,
               answered,

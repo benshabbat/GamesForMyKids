@@ -61,7 +61,7 @@ export default function CategoryNavigation() {
           {favCount > 0 && (
             <span
               aria-label={`${favCount} משחקים מועדפים`}
-              className={`mr-1 md:mr-2 inline-flex items-center justify-center w-5 h-5 text-xs rounded-full font-bold ${
+              className={`me-1 md:me-2 inline-flex items-center justify-center w-5 h-5 text-xs rounded-full font-bold ${
                 showFavorites ? "bg-white text-yellow-500" : "bg-yellow-400 text-white"
               }`}
             >

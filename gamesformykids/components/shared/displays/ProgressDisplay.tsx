@@ -16,19 +16,19 @@ export default function ProgressDisplay({
         <div className="grid grid-cols-2 gap-4 text-sm">
           <div>
             <span className="text-blue-600">הושלמו:</span>
-            <span className="font-bold ml-1">{stats.completedItems}/{stats.totalItems}</span>
+            <span className="font-bold ms-1">{stats.completedItems}/{stats.totalItems}</span>
           </div>
           <div>
             <span className="text-blue-600">דיוק:</span>
-            <span className="font-bold ml-1">{stats.accuracy}%</span>
+            <span className="font-bold ms-1">{stats.accuracy}%</span>
           </div>
           <div>
             <span className="text-blue-600">זמן ממוצע:</span>
-            <span className="font-bold ml-1">{stats.averageTime}s</span>
+            <span className="font-bold ms-1">{stats.averageTime}s</span>
           </div>
           <div>
             <span className="text-blue-600">רצף:</span>
-            <span className="font-bold ml-1">{stats.streak}</span>
+            <span className="font-bold ms-1">{stats.streak}</span>
           </div>
         </div>
       </div>

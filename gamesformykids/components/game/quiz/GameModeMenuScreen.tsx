@@ -53,7 +53,7 @@ export default function GameModeMenuScreen<T extends ModeItem>({
             <button
               key={i}
               onClick={() => onStart(item)}
-              className={`p-5 rounded-2xl text-white shadow-lg hover:scale-105 active:scale-95 transition-all text-right ${sideIcon ? 'flex items-center gap-4' : ''} ${buttonClassName}`}
+              className={`p-5 rounded-2xl text-white shadow-lg hover:scale-105 active:scale-95 transition-all text-start ${sideIcon ? 'flex items-center gap-4' : ''} ${buttonClassName}`}
             >
               {sideIcon ? (
                 <>
