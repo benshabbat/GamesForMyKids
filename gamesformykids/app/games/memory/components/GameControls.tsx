@@ -15,8 +15,8 @@ export default function GameControls() {
           className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 transition-all duration-300"
         >
           {isGamePaused
-            ? <Play className="inline w-5 h-5 ml-2" />
-            : <Pause className="inline w-5 h-5 ml-2" />}
+            ? <Play className="inline w-5 h-5 ms-2" />
+            : <Pause className="inline w-5 h-5 ms-2" />}
           {isGamePaused ? 'המשך' : 'השהה'}
         </button>
 
@@ -24,7 +24,7 @@ export default function GameControls() {
           onClick={resetGame}
           className="px-4 py-2 bg-white rounded-full shadow-lg text-lg font-bold text-gray-600 hover:bg-gray-50 transition-all duration-300"
         >
-          <RotateCcw className="inline w-5 h-5 ml-2" /> מחדש
+          <RotateCcw className="inline w-5 h-5 ms-2" /> מחדש
         </button>
       </div>
 

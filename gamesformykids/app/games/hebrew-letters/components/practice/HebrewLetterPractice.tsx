@@ -52,10 +52,10 @@ export default function HebrewLetterPractice({ letterData }: Props) {
                 onClick={() => goToStep(index)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${getStepTabStyle(index)}`}
               >
-                <span className="ml-1">{index + 1}</span>
+                <span className="ms-1">{index + 1}</span>
                 {step}
                 {getStepTabIcon(index) && (
-                  <span className="mr-1">{getStepTabIcon(index)}</span>
+                  <span className="me-1">{getStepTabIcon(index)}</span>
                 )}
               </button>
             ))}
@@ -65,7 +65,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
             onClick={toggleAudio}
             variant="outline"
             size="sm"
-            className={`ml-2 ${isAudioEnabled ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}
+            className={`ms-2 ${isAudioEnabled ? 'bg-green-100 border-green-400' : 'bg-red-100 border-red-400'}`}
           >
             {isAudioEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
           </Button>

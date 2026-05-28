@@ -22,7 +22,7 @@ export default function FileUploadButton() {
         onClick={() => inputRef.current?.click()}
         className="inline-flex items-center justify-center rounded-xl font-bold transition-all duration-200 bg-gradient-to-r from-blue-500 to-purple-500 hover:from-blue-600 hover:to-purple-600 text-white px-8 py-4 text-lg shadow-lg hover:shadow-xl transform hover:scale-105"
       >
-        <Upload className="w-6 h-6 mr-3" />
+        <Upload className="w-6 h-6 me-3" />
         העלה תמונה מהמחשב
       </button>
       <p className="text-sm sm:text-base text-gray-600 mt-4 font-medium">

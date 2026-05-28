@@ -15,7 +15,7 @@ export default function DrawingStatusBadge() {
         }`}
       >
         {isErasing ? '🧹 מצב מחיקה' : '🖌️ מצב ציור'}
-        <span className="mr-2 font-bold">
+        <span className="me-2 font-bold">
           {isErasing ? ` ${eraserSize}px` : ` ${brushSize}px`}
         </span>
       </div>

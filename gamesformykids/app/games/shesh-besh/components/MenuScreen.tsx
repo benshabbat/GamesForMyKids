@@ -47,7 +47,7 @@ export function MenuScreen() {
       </button>
 
       {/* Rules */}
-      <div className="bg-black/30 border border-amber-800/30 rounded-2xl p-4 text-sm text-right w-full space-y-1.5">
+      <div className="bg-black/30 border border-amber-800/30 rounded-2xl p-4 text-sm w-full space-y-1.5">
         <p className="font-bold text-amber-300 mb-2.5 text-center text-base">כיצד לשחק</p>
         {([
           ['🔴', 'אתה = אדום · זזים מ-24 ל-1'],

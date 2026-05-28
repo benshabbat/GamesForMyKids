@@ -23,8 +23,8 @@ function MoveCell({ record, isLastRow }: { record: MoveRecord | undefined; isLas
         : isWhite ? 'text-slate-300' : 'text-slate-500'
     }`}>
       <span>{record.notation}</span>
-      {record.gaveCheck && <span className="text-red-400 mr-0.5 text-[9px] font-bold">+</span>}
-      {badge.label && <span className={`mr-0.5 ${badge.cls}`}>{badge.label}</span>}
+      {record.gaveCheck && <span className="text-red-400 me-0.5 text-[9px] font-bold">+</span>}
+      {badge.label && <span className={`me-0.5 ${badge.cls}`}>{badge.label}</span>}
     </td>
   );
 }
@@ -68,7 +68,7 @@ export default function ChessMoveHistory() {
 
       {/* Table */}
       <div className="max-h-44 overflow-y-auto">
-        <table className="w-full text-right border-collapse">
+        <table className="w-full border-collapse">
           <thead
             className="sticky top-0"
             style={{ background: 'rgba(8,8,16,0.95)' }}
