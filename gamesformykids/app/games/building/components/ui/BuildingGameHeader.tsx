@@ -8,7 +8,7 @@ export default function BuildingGameHeader() {
 
   return (
     <div className="text-center mb-4 md:mb-6">
-      <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-xl animate-pulse">
+      <h1 className="text-3xl md:text-5xl font-bold text-white mb-2 md:mb-4 drop-shadow-xl">
         🏗️ סטודיו הבנייה הקסום 🏗️
       </h1>
       <div className="flex flex-col sm:flex-row justify-center items-center gap-2 md:gap-6 mb-2 md:mb-4">
