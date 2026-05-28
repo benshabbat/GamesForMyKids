@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { GAME_UI_CONFIGS } from '@/lib/constants/ui/gameConfigs';
+import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 export const metadata: Metadata = {
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 export default function SitemapPage() {
-  const games = Object.entries(GAME_UI_CONFIGS);
+  const games = GamesRegistry.getAllGameRegistrations().filter(g => g.available);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4">
@@ -53,19 +53,19 @@ export default function SitemapPage() {
             </ul>
           </div>
 
-          {/* משחקים רגילים */}
+          {/* כל המשחקים */}
           <div className="bg-white/70 backdrop-blur-sm rounded-2xl p-6 shadow-lg">
             <h2 className="text-2xl font-bold text-purple-800 mb-4 flex items-center gap-2">
-              🎮 משחקי זיהוי
+              🎮 כל המשחקים ({games.length})
             </h2>
             <div className="grid grid-cols-2 gap-2 max-h-80 overflow-y-auto">
-              {games.map(([gameType, config]) => (
-                <Link 
-                  key={gameType}
-                  href={`/games/${gameType}`}
+              {games.map((game) => (
+                <Link
+                  key={game.id}
+                  href={game.href}
                   className="text-blue-600 hover:text-blue-800 transition-colors text-sm p-2 rounded hover:bg-blue-50"
                 >
-                  {config.title}
+                  {game.title}
                 </Link>
               ))}
             </div>
