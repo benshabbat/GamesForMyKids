@@ -30,7 +30,7 @@ export default function WordBuilderQuestion() {
             <div key={i} className={`
               w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl font-black
               ${status === 'correct' ? 'bg-green-500 border-green-600 text-white' :
-                status === 'wrong' ? 'bg-red-400 border-red-500 text-white' :
+                status === 'wrong' ? 'bg-amber-400 border-amber-500 text-white' :
                 typed[i] ? 'bg-amber-100 border-amber-400 text-amber-800' :
                 'bg-gray-100 border-dashed border-gray-300 text-transparent'}
             `}>
@@ -44,8 +44,8 @@ export default function WordBuilderQuestion() {
           </div>
         )}
         {status === 'wrong' && (
-          <div className="bg-red-100 text-red-700 rounded-2xl p-3 mb-4 text-center font-bold">
-            ❌ לא נכון! נסה שוב — המילה: {current.word}
+          <div className="bg-amber-50 text-amber-700 rounded-2xl p-3 mb-4 text-center font-bold">
+            💛 נסה שוב! המילה: {current.word}
           </div>
         )}
         {status === 'idle' && (

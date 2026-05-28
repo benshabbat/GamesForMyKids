@@ -20,7 +20,7 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
         ${card.isFlipped || card.isMatched
           ? "bg-gradient-to-br from-white to-gray-50 border-8 border-white"
           : "bg-gradient-to-br from-purple-400 via-pink-400 to-indigo-400 hover:from-purple-500 hover:via-pink-500 hover:to-indigo-500 border-8 border-white"}
-        ${card.isMatched ? "ring-4 ring-green-400 ring-offset-4 animate-glow" : ""}
+        ${card.isMatched ? "ring-4 ring-green-400 ring-offset-4 scale-105" : ""}
         ${card.isFlipped && !card.isMatched ? "animate-bounce-gentle" : ""}
       `}
     >
@@ -29,10 +29,6 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
         <div className="absolute inset-4 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl opacity-50"></div>
       )}
 
-      {/* Glow effect when card is matched */}
-      {card.isMatched && (
-        <div className="absolute inset-0 animate-ping bg-gradient-to-r from-yellow-400 to-orange-400 opacity-30 rounded-2xl"></div>
-      )}
       
       {/* Card content */}
       <div className="w-full h-full flex items-center justify-center relative z-10">

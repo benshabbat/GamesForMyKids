@@ -44,6 +44,7 @@ export const siteViewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  themeColor: '#8b5cf6',
 };
 
 export const structuredData = {
