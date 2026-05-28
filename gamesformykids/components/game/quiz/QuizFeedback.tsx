@@ -32,18 +32,20 @@ export function QuizFeedback({
   return (
     <div>
       <div
+        role="status"
+        aria-live="polite"
         className={`rounded-2xl p-3 mb-4 text-center ${
-          isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+          isCorrect ? 'bg-green-50 text-green-700' : 'bg-amber-50 text-amber-700'
         }`}
       >
         <p className="font-bold text-lg">{message}</p>
-        {funFact && <p className="text-xs mt-1 opacity-80">{funFact}</p>}
+        {funFact && <p className="text-sm mt-1 opacity-80">{funFact}</p>}
       </div>
       <button
         onClick={next}
         className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}
       >
-        {isLast ? 'סיום' : 'הבא ←'}
+        {isLast ? 'סיום' : 'הבא →'}
       </button>
     </div>
   );
