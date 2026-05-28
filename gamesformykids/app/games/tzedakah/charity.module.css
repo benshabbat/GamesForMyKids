@@ -29,18 +29,6 @@
   }
 }
 
-@keyframes shake {
-  0%, 100% {
-    transform: translateX(0);
-  }
-  25% {
-    transform: translateX(-2px);
-  }
-  75% {
-    transform: translateX(2px);
-  }
-}
-
 .animate-twinkle {
   animation: twinkle 2s ease-in-out infinite;
 }
@@ -51,10 +39,6 @@
 
 .animate-glow {
   animation: glow 2s ease-in-out infinite;
-}
-
-.animate-shake {
-  animation: shake 0.5s ease-in-out;
 }
 
 /* אפקט הקבעה של הסל */
