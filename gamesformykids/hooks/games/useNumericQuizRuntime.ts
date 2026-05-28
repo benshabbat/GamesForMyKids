@@ -88,11 +88,14 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
 
   // Save score to Supabase on unmount (user navigates away from the game).
   useEffect(() => {
+    // Capture ref value at effect setup time so the cleanup closure doesn't
+    // read a potentially-changed ref (satisfies react-hooks/exhaustive-deps).
+    const save = saveGameResultRef.current;
     return () => {
       const { score, level } = useGameProgressStore.getState();
       if (score > 0) {
         const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-        saveGameResultRef.current({ score, level, durationSeconds });
+        save({ score, level, durationSeconds });
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
