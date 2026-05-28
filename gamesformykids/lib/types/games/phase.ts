@@ -12,9 +12,6 @@ export type PhaseResult = 'menu' | 'playing' | 'result';
 /** שלבי משחק ארקייד: תפריט → משחק → מוות */
 export type PhaseDead = 'menu' | 'playing' | 'dead';
 
-/** שלבי משחק חידון: תפריט → משחק → תשובה → סיום */
-export type PhaseQuiz = 'menu' | 'playing' | 'answered' | 'finished';
-
 /** שלבי משחק עם ניצחון ומוות (brick-breaker) */
 export type PhaseWonDead = 'menu' | 'playing' | 'won' | 'dead';
 
