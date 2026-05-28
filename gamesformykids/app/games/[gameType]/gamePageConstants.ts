@@ -36,6 +36,7 @@ export const SUPPORTED_GAMES = [
   'israel', 'nature', 'healthy-food', 'family', 'human-body',
   'sequences', 'color-mix', 'clock', 'english-words', 'shapes-3d',
   'transport', 'holidays', 'tzadikim',
+  'singular-plural', 'morning-routine',
   'soccer',
 ] as const;
 
