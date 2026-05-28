@@ -82,6 +82,7 @@ export function useCountingGame() {
 
   const { gameState, startGame, handleNumberClick, handleItemClick, speakItemName, resetGame } =
     useNumericQuizRuntime<CountingChallenge>({
+      gameType: 'counting',
       generateChallenge: (level) => generateCountingChallenge(level, items),
       generateOptions: generateCountingOptions,
       speakQuestion: speakCountingQuestion,

@@ -1,7 +1,8 @@
 'use client';
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { BaseGameItem } from "@/lib/types/core/base";
+import type { GameType } from "@/lib/types";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 import {
@@ -14,6 +15,7 @@ import {
 import { GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgressStore } from "@/lib/stores/gameProgressStore";
 import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+import { useGameCompletion } from "@/hooks/shared/progress/useGameCompletion";
 
 // ---------------------------------------------------------------------------
 // Types
@@ -29,6 +31,8 @@ export interface NumericQuizState<TChallenge> {
 }
 
 export interface NumericQuizCallbacks<TChallenge extends { answer: number }> {
+  /** The GameType identifier used to persist the score to Supabase on unmount. */
+  gameType: GameType;
   /** Generate a new challenge. Receives current level for difficulty scaling. */
   generateChallenge: (level: number) => TChallenge;
   /** Generate numeric answer options. Receives the correct answer and current level. */
@@ -60,6 +64,7 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
   callbacks: NumericQuizCallbacks<TChallenge>,
 ) {
   const {
+    gameType,
     generateChallenge,
     generateOptions,
     speakQuestion,
@@ -78,6 +83,20 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
   });
 
   const { audioContext, speechEnabled } = useGameAudio();
+  const { saveGameResultRef } = useGameCompletion(gameType);
+  const startTimeRef = useRef(0);
+
+  // Save score to Supabase on unmount (user navigates away from the game).
+  useEffect(() => {
+    return () => {
+      const { score, level } = useGameProgressStore.getState();
+      if (score > 0) {
+        const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
+        saveGameResultRef.current({ score, level, durationSeconds });
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // ---------------------------------------------------------------------------
   // Internal helpers
@@ -100,6 +119,7 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
 
   const startGame = useCallback(async () => {
     try {
+      startTimeRef.current = Date.now();
       setGameState({
         currentChallenge: null,
         score: 0,
