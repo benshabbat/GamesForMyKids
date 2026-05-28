@@ -30,7 +30,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d"],
+    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics"],
   },
   creative: {
     title: "יצירתיות ואומנות",

@@ -4,6 +4,8 @@ import { makeQuizGame } from '../makeQuizGame';
 import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
 
 import { useClockGame } from '@/lib/quiz/useClockGame';
+import { usePhonicsGame } from '@/lib/quiz/usePhonicsGame';
+import PhonicsQuestion from '@/components/game/quiz/screens/PhonicsQuestion';
 import { useColorMixGame } from '@/lib/quiz/useColorMixGame';
 import { useSequencesGame } from '@/lib/quiz/useSequencesGame';
 import { useHumanBodyGame } from '@/lib/quiz/useHumanBodyGame';
@@ -119,6 +121,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <SoccerMenuScreen />,
       question: current ? <SoccerQuestion /> : null,
       result:   <SoccerResultScreen />,
+    }),
+  ),
+
+  'phonics': makeQuizGame(
+    usePhonicsGame,
+    ({ current, choices, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🔊" title="פוניקה עברית" description="שמע צליל ובחר את האות הנכונה!" theme="violet" buttonLabel="🔊 בואו נתחיל!" onStart={startGame} />,
+      question: current ? <PhonicsQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="violet" />,
     }),
   ),
 };
