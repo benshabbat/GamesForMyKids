@@ -25,19 +25,4 @@ export interface GameSession {
   completed: boolean;
 }
 
-export interface ProgressStats {
-  totalSessions: number;
-  totalTime: number;
-  averageScore: number;
-  bestScore: number;
-  totalGamesPlayed: number;
-  gamesCompleted: number;
-  averageAccuracy: number;
-  mostDifficultItems: string[];
-  strongestAreas: GameType[];
-  weakestAreas: GameType[];
-  improvementTrend: 'up' | 'down' | 'stable';
-  recommendedPractice: string[];
-}
-
 
