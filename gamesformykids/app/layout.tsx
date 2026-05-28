@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Rubik } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
@@ -10,11 +10,11 @@ import HeadLinks from '@/components/layout/HeadLinks';
 import StructuredData from '@/components/layout/StructuredData';
 import { siteMetadata, siteViewport } from '@/lib/constants/siteMetadata';
 
-const inter = Inter({
-  subsets: ['latin'],
+const rubik = Rubik({
+  subsets: ['latin', 'hebrew'],
   display: 'swap',
   preload: true,
-  variable: '--font-inter'
+  variable: '--font-rubik',
 });
 
 export const metadata: Metadata = siteMetadata;
@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <HeadLinks />
         <StructuredData />
       </head>
-      <body className={inter.className}>
+      <body className={rubik.className}>
         {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
         )}
