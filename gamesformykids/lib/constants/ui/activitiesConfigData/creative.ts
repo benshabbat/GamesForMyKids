@@ -68,7 +68,7 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
       { icon: "🏆", title: "5. ניקוד", description: "השג ניקוד גבוה!" },
     ],
     colors: {
-      background: "bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700",
+      background: "linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #4338ca 100%)",
       header: "text-yellow-300",
       subHeader: "text-white/90",
       itemsDescription: "text-blue-100",
