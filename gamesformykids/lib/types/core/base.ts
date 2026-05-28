@@ -160,6 +160,7 @@ export type GameType =
   | 'continents' | 'israel' | 'nature' | 'healthy-food' | 'human-body'
   | 'sequences' | 'color-mix' | 'clock' | 'english-words' | 'shapes-3d'
   | 'holidays' | 'tzadikim'
+  | 'days-of-week' | 'months-of-year'
   | 'geography-capitals' | 'geography-flags' | 'geography-continents'
   // Arcade & action games
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'

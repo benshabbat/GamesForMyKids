@@ -126,6 +126,8 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'nba-teams':        return (await import('./gameData/nbaTeams')).NBA_TEAMS_ITEMS;
     case 'exotic-birds':     return (await import('./gameData/exoticBirds')).EXOTIC_BIRDS_ITEMS;
     case 'butterflies':      return (await import('./gameData/butterflies')).BUTTERFLIES_ITEMS;
+    case 'days-of-week':     return (await import('./gameData/daysMonths')).DAYS_OF_WEEK;
+    case 'months-of-year':   return (await import('./gameData/daysMonths')).MONTHS_OF_YEAR;
 
     // newGames.ts (mixed exports — use extractItems boundary)
     case 'world-food': return extractItems(await import('./gameData/newGames'), 'WORLD_FOOD_ITEMS');

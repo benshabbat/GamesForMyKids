@@ -18,6 +18,7 @@ export const SUPPORTED_GAMES = [
   'flags', 'soccer-logos', 'car-brands', 'world-landmarks', 'solar-system', 'famous-paintings',
   'tech-logos', 'dog-breeds', 'cat-breeds', 'nba-teams', 'exotic-birds', 'butterflies',
   'counting',
+  'days-of-week', 'months-of-year',
   'geography-flags', 'geography-capitals', 'geography-continents',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
