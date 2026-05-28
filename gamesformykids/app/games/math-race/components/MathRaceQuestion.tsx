@@ -20,7 +20,7 @@ export default function MathRaceQuestion({ q, feedback, streak, onTap }: Props) 
         feedback === 'correct' ? 'bg-green-50 ring-4 ring-green-400 scale-105' :
         feedback === 'wrong' ? 'bg-red-50 ring-4 ring-red-400' : ''
       }`}>
-        <p className="text-4xl font-black text-gray-700 tracking-wide">{q.text}</p>
+        <p className="text-4xl font-black text-gray-700">{q.text}</p>
         {feedback && (
           <p className={`text-2xl mt-3 font-bold ${feedback === 'correct' ? 'text-green-500' : 'text-red-500'}`}>
             {feedback === 'correct' ? `✅ ${streak >= 3 ? 'בום! +20' : 'נכון! +10'}` : `❌ התשובה: ${q.answer}`}
