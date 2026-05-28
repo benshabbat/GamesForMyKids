@@ -5,6 +5,7 @@
  */
 
 import { ALL_COLORS, ALL_LETTERS, ALL_SHAPES, ALL_NUMBERS, ALL_COLORED_SHAPES, ADVANCED_COLORS_ITEMS } from "@/lib/constants/gameData/basic";
+import { DAYS_OF_WEEK, MONTHS_OF_YEAR } from "@/lib/constants/gameData/daysMonths";
 import { COUNTING_ITEMS } from "@/lib/constants/gameData/counting";
 import { ALL_ANIMALS, ALL_FRUITS, ALL_VEGETABLES, ALL_SMELLS_TASTES, OCEAN_LIFE_ITEMS, GARDEN_PLANTS_ITEMS } from "@/lib/constants/gameData/nature";
 import { ALL_TRANSPORTS, ALL_VEHICLES, ALL_TOOLS, ALL_SPACE_OBJECTS, ALL_WEATHERS, ADVANCED_WEATHER_ITEMS } from "@/lib/constants/gameData/world";
@@ -155,4 +156,7 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   // משחקי טבע וחרקים
   "exotic-birds": EXOTIC_BIRDS_ITEMS, // ✅ משחק ציפורים אקזוטיות
   "butterflies": BUTTERFLIES_ITEMS, // ✅ משחק פרפרים
+  // משחקי זמן ולוח שנה
+  "days-of-week": DAYS_OF_WEEK, // ✅ משחק ימות השבוע
+  "months-of-year": MONTHS_OF_YEAR, // ✅ משחק חודשי השנה
 } as const;
