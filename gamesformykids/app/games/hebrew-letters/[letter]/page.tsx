@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: `תרגול האות ${letterData.letter} - ${letterData.name}`,
       description: `דף תרגול אינטראקטיבי לכתיבת האות ${letterData.letter} בעברית`,
       type: 'article',
-      url: `https://gamesformykids.vercel.app/games/hebrew-letters/${letter}`,
+      url: `/games/hebrew-letters/${letter}`,
     },
     twitter: {
       card: 'summary',
