@@ -12,7 +12,7 @@ export function GameOverScreen() {
     <div className="flex flex-col items-center gap-6 text-center mt-12">
       <div className="text-8xl drop-shadow-2xl">{won ? '🎉' : '😢'}</div>
       <div className={[
-        'text-5xl font-extrabold tracking-wide bg-clip-text text-transparent',
+        'text-5xl font-extrabold bg-clip-text text-transparent',
         won
           ? 'bg-gradient-to-b from-yellow-200 to-amber-400'
           : 'bg-gradient-to-b from-slate-300 to-slate-500',

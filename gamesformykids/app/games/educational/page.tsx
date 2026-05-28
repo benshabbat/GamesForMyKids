@@ -1,9 +1,19 @@
+import { type Metadata } from 'next';
 import Link from 'next/link';
-import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 
-export const metadata = generateGameMetadata('educational');
+export const metadata: Metadata = {
+  title: 'משחקים חינוכיים | GamesForMyKids',
+  description: 'אוסף המשחקים החינוכיים שלנו לילדים — צבעים, מספרים, עברית ועוד',
+  openGraph: {
+    title: 'משחקים חינוכיים',
+    description: 'אוסף המשחקים החינוכיים שלנו לילדים — צבעים, מספרים, עברית ועוד',
+    type: 'website',
+    url: '/games/educational',
+  },
+  alternates: { canonical: '/games/educational' },
+};
 
 export default function EducationalPage() {
   const category = GAME_CATEGORIES.educational!;
