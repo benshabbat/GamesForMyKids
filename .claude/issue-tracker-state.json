@@ -1,5 +1,5 @@
 {
-  "lastRun": "2026-05-28T09:00:00.000Z",
+  "lastRun": "2026-05-28T10:00:00.000Z",
   "issues": {
     "568": { "title": "refactor: Split useMemoryStore.ts", "hasPR": true, "prNumber": 592, "prState": "merged", "label": "refactor" },
     "569": { "title": "refactor: Split sheshBeshGameStore.ts", "hasPR": true, "prNumber": 593, "prState": "merged", "label": "refactor" },
@@ -75,14 +75,22 @@
     "725": { "title": "refactor: useQuizSession still calls legacy useGameStore.startGame() and useGameProgressStore — should be unified via useGameCompletion", "hasPR": true, "prNumber": 736, "prState": "merged", "label": "refactor" },
     "729": { "title": "perf: memoize GamesRegistry.getAllGameRegistrations() in navigation hooks", "hasPR": true, "prNumber": 738, "prState": "merged", "label": "perf" },
     "730": { "title": "dead-code: delete PhaseQuiz type and ProgressStats interface — zero consumers", "hasPR": true, "prNumber": 737, "prState": "merged", "label": "dead-code" },
-    "731": { "title": "bug: counting and math games use useNumericQuizRuntime which never persists scores to Supabase", "hasPR": true, "prNumber": 739, "prState": "open", "label": "bug" },
+    "731": { "title": "bug: counting and math games use useNumericQuizRuntime which never persists scores to Supabase", "hasPR": true, "prNumber": 739, "prState": "merged", "label": "bug" },
     "733": { "title": "bug: chess and checkers games have terminal phases but never call useGameCompletion", "hasPR": true, "prNumber": 740, "prState": "merged", "label": "bug" },
-    "734": { "title": "bug: puzzles game uses isCompleted boolean instead of phase string — score never saved to Supabase", "hasPR": true, "prNumber": 741, "prState": "open", "label": "bug" }
+    "734": { "title": "bug: puzzles game uses isCompleted boolean instead of phase string — score never saved to Supabase", "hasPR": true, "prNumber": 741, "prState": "merged", "label": "bug" },
+    "742": { "title": "fix(seo): OG url uses wrong domain in generateGameMetadata and hebrew-letters page", "hasPR": true, "prNumber": 746, "prState": "merged", "label": "bug" },
+    "743": { "title": "fix: sitemap-page uses GAME_UI_CONFIGS — missing ~50 arcade/quiz/board games", "hasPR": true, "prNumber": 747, "prState": "merged", "label": "bug" },
+    "744": { "title": "fix: building/drawing/memory/puzzles game clients missing ssr:false in dynamic() chain", "hasPR": true, "prNumber": 748, "prState": "open", "label": "bug" },
+    "745": { "title": "fix: analytics page missing page-level unauthorized() — only middleware-guarded", "hasPR": true, "prNumber": 749, "prState": "open", "label": "enhancement" }
   },
   "prs": {
-    "741": { "title": "fix: save puzzle score on completion via CompletionBanner", "state": "OPEN", "linkedIssue": 734 },
+    "749": { "title": "fix: add page-level unauthorized() guard to analytics page", "state": "OPEN", "linkedIssue": 745 },
+    "748": { "title": "fix: add ssr:false to building/drawing/memory/puzzles in CustomGameRenderer", "state": "OPEN", "linkedIssue": 744 },
+    "747": { "title": "fix: sitemap-page — switch from GAME_UI_CONFIGS to GamesRegistry", "state": "MERGED", "linkedIssue": 743 },
+    "746": { "title": "fix(seo): use relative OG url in generateGameMetadata and hebrew-letters page", "state": "MERGED", "linkedIssue": 742 },
+    "741": { "title": "fix: save puzzle score on completion via CompletionBanner", "state": "MERGED", "linkedIssue": 734 },
     "740": { "title": "fix: add useGameCompletion to chess and checkers games", "state": "MERGED", "linkedIssue": 733 },
-    "739": { "title": "fix: add useGameCompletion to useNumericQuizRuntime (counting + math)", "state": "OPEN", "linkedIssue": 731 },
+    "739": { "title": "fix: add useGameCompletion to useNumericQuizRuntime (counting + math)", "state": "MERGED", "linkedIssue": 731 },
     "738": { "title": "perf: memoize GamesRegistry.getAllGameRegistrations() in navigation hooks", "state": "MERGED", "linkedIssue": 729 },
     "737": { "title": "dead-code: delete PhaseQuiz type and ProgressStats interface — zero consumers", "state": "MERGED", "linkedIssue": 730 },
     "736": { "title": "refactor: useQuizSession adds useGameCompletion — quiz scores now saved to Supabase", "state": "MERGED", "linkedIssue": 725 },
