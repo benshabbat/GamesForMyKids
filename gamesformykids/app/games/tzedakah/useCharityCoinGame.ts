@@ -1,5 +1,5 @@
 'use client';
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useTzedakahStore } from './tzedakahStore';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
@@ -31,10 +31,12 @@ export function useCharityCoinGame() {
     return () => window.removeEventListener('keydown', onKey);
   }, [gameStarted, isMobile, stepBasket]);
 
-  const availableGames = GamesRegistry.getAllGameRegistrations()
-    .filter(g => g.available).sort((a, b) => a.order - b.order);
-  const idx      = availableGames.findIndex(g => g.id === 'tzedakah');
-  const nextGame = idx < availableGames.length - 1 ? availableGames[idx + 1] : availableGames[0];
+  const nextGame = useMemo(() => {
+    const all = GamesRegistry.getAllGameRegistrations()
+      .filter(g => g.available).sort((a, b) => a.order - b.order);
+    const idx = all.findIndex(g => g.id === 'tzedakah');
+    return idx < all.length - 1 ? all[idx + 1] : all[0];
+  }, []);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const rect = e.currentTarget.getBoundingClientRect();
