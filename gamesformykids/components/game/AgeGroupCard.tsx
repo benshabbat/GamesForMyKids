@@ -30,8 +30,8 @@ export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-800 text-sm truncate">{game.title}</h4>
-                  <p className="text-xs text-gray-500 truncate sm:hidden md:block">{game.description}</p>
+                  <h4 className="font-semibold text-gray-800 text-base">{game.title}</h4>
+                  <p className="text-sm text-gray-500 sm:hidden md:block">{game.description}</p>
                 </div>
               </div>
             </Link>

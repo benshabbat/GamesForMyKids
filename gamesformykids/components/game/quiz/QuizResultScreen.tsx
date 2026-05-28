@@ -3,6 +3,7 @@
 import { type ReactNode } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
+import { GameCompletionCelebration } from '@/components/game/shared/GameCompletionCelebration';
 
 interface Props {
   onRestart: () => void;
@@ -31,6 +32,7 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
       className={`min-h-screen bg-gradient-to-br ${t.gradient} flex flex-col items-center justify-center p-4`}
       dir="rtl"
     >
+      {pct >= 60 && <GameCompletionCelebration />}
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
         {headerContent ?? <div className="text-8xl mb-4">{emoji}</div>}
         <h2 className={`text-2xl font-bold ${t.text} mb-2`}>{title}</h2>

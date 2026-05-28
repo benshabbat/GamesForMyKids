@@ -4,13 +4,13 @@ import { ReactNode } from 'react';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
 
 // Tailwind safe-list (full strings so JIT doesn't purge):
-// grid-cols-2 grid-cols-3 grid-cols-4 grid-cols-5
+// sm:grid-cols-2 sm:grid-cols-3 sm:grid-cols-4 sm:grid-cols-5
 // gap-2 gap-3 gap-4 gap-6
 const COLS_MAP = {
-  2: 'grid-cols-2',
-  3: 'grid-cols-3',
-  4: 'grid-cols-4',
-  5: 'grid-cols-5',
+  2: 'sm:grid-cols-2',
+  3: 'sm:grid-cols-3',
+  4: 'sm:grid-cols-4',
+  5: 'sm:grid-cols-5',
 } as const;
 
 const GAP_MAP = {
@@ -66,7 +66,7 @@ export default function GameMenuGrid<T>({
       animateEmoji={card.animateEmoji}
       hint={card.hint}
     >
-      <div className={`grid ${COLS_MAP[columns]} ${GAP_MAP[gap]}`}>
+      <div className={`grid grid-cols-2 ${COLS_MAP[columns]} ${GAP_MAP[gap]}`}>
         {items.map((item) => (
           <button
             key={getKey(item)}

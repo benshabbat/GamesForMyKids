@@ -45,6 +45,14 @@ body {
   font-family: var(--font-rubik), sans-serif;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 /* Puzzle Touch/Drag Support */
 .drop-zone-highlight {
   background-color: rgba(59, 130, 246, 0.3) !important;
