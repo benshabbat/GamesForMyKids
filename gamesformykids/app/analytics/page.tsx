@@ -1,5 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
+import { unauthorized } from 'next/navigation';
+import { createClient } from '@/lib/supabase/server';
 import { AnalyticsPageHeader } from './components/AnalyticsPageHeader';
 import { GoogleAnalyticsCard } from './components/GoogleAnalyticsCard';
 import { PerformanceCard } from './components/PerformanceCard';
@@ -16,7 +18,11 @@ export const metadata: Metadata = {
   },
 };
 
-export default function AnalyticsPage() {
+export default async function AnalyticsPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) unauthorized();
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 p-4">
       <div className="max-w-4xl mx-auto">
