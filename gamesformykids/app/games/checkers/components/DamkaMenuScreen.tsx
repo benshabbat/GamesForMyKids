@@ -22,7 +22,7 @@ export default function DamkaMenuScreen() {
           <span>⚪ מחשב: {computerScore}</span>
         </div>
       )}
-      <div className="bg-amber-50 rounded-xl p-4 text-gray-600 text-sm text-right space-y-1">
+      <div className="bg-amber-50 rounded-xl p-4 text-gray-600 text-sm space-y-1">
         <p className="font-bold text-gray-700 mb-2">כללים:</p>
         <p>🔴 האסימונים שלך = אדום (מלמטה↑)</p>
         <p>⚪ המחשב = לבן (מלמעלה↓)</p>

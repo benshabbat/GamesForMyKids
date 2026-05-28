@@ -62,7 +62,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Home,
     color: "bg-pink-500",
     gradient: "from-pink-400 to-pink-600",
-    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","cooking-kitchen","family","body-parts","new-professions"],
+    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","cooking-kitchen","family","body-parts","new-professions","morning-routine"],
   },
   math: {
     title: "מתמטיקה וחשיבה",
@@ -131,6 +131,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","trivia","clock","spelling","opposites","world-languages","riddles","english-words"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","trivia","clock","spelling","opposites","world-languages","riddles","english-words","singular-plural"],
   },
 };

@@ -2,10 +2,10 @@ import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseSimon as Phase } from '@/lib/types';
 
 export const BUTTONS = [
-  { id: 'red',    bg: 'bg-red-500',    active: 'bg-red-200',    label: '' },
-  { id: 'blue',   bg: 'bg-blue-500',   active: 'bg-blue-200',   label: '' },
-  { id: 'green',  bg: 'bg-green-500',  active: 'bg-green-200',  label: '' },
-  { id: 'yellow', bg: 'bg-yellow-400', active: 'bg-yellow-100', label: '' },
+  { id: 'red',    bg: 'bg-red-500',    active: 'bg-red-200',    label: '▲' },
+  { id: 'blue',   bg: 'bg-blue-500',   active: 'bg-blue-200',   label: '●' },
+  { id: 'green',  bg: 'bg-green-500',  active: 'bg-green-200',  label: '■' },
+  { id: 'yellow', bg: 'bg-yellow-400', active: 'bg-yellow-100', label: '◆' },
 ] as const;
 
 export type ButtonId = typeof BUTTONS[number]['id'];
