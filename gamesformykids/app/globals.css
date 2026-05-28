@@ -42,7 +42,7 @@
 }
 
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: var(--font-rubik), sans-serif;
 }
 
 @media (prefers-reduced-motion: reduce) {
