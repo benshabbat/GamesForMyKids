@@ -94,4 +94,34 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "flex flex-wrap justify-center gap-4",
     },
   },
+
+  ordinals: {
+    title: "🥇 מספרים סודריים",
+    subTitle: "ראשון, שני, שלישי — למד מספרים סודריים!",
+    itemsTitle: "המספרים הסודריים:",
+    itemsDescription: "לחץ על מספר סודרי כדי לשמוע אותו!",
+    steps: [
+      { icon: "👂", title: "1. תשמע", description: "איזה מספר סודרי אני אומר" },
+      { icon: "🤔", title: "2. תחשוב", description: "מה הסדר?" },
+      { icon: "👆", title: "3. תלחץ", description: "על המספר הנכון" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #ffd89b 0%, #19547b 100%)",
+      header: "text-white",
+      subHeader: "text-yellow-100",
+      itemsDescription: "text-yellow-100",
+      button: { from: "yellow", to: "amber" },
+      stepsBg: "bg-white bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-2 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
+      showSpeaker: false,
+    },
+    challengeTitle: "איזה מספר סודרי שמעת?",
+    challengeIcon: "🥇🥈🥉🏆",
+    challengeDescription: "בחר את המספר הסודרי הנכון!",
+    itemLabel: "מספר סודרי",
+    tip: "💡 טיפ: ראשון = 1, שני = 2, שלישי = 3",
+    tipDescription: "מספרים סודריים מתארים סדר — מי ראשון, מי שני...",
+  },
 };

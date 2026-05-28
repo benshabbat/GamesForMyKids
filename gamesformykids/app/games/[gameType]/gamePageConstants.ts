@@ -20,6 +20,7 @@ export const SUPPORTED_GAMES = [
   'counting',
   'days-of-week', 'months-of-year',
   'geography-flags', 'geography-capitals', 'geography-continents',
+  'ordinals',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
