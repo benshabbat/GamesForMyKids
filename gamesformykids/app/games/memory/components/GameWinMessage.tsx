@@ -1,13 +1,29 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useMemoryStore } from "../stores/useMemoryStore";
+import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import WinStatsGrid from "./WinStatsGrid";
 import WinAchievements from "./WinAchievements";
+
+const DIFFICULTY_LEVEL = { easy: 1, medium: 2, hard: 3 } as const;
 
 export default function GameWinMessage() {
   const { gameStats, difficulty, getDifficultyConfig, getPerformanceLevel, initializeGame, resetToMenu } = useMemoryStore();
   const difficultyConfig = getDifficultyConfig();
   const performance = getPerformanceLevel();
+
+  const { saveGameResultRef } = useGameCompletion('memory');
+
+  // Fires once on mount — this component only renders when the game is won.
+  useEffect(() => {
+    saveGameResultRef.current({
+      score: gameStats.score,
+      level: DIFFICULTY_LEVEL[difficulty],
+      durationSeconds: Math.round(gameStats.timeElapsed / 1000),
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4 flex items-center justify-center">
