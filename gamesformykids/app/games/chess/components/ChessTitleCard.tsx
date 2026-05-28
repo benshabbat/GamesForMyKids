@@ -28,7 +28,7 @@ export default function ChessTitleCard() {
           ♟
         </div>
         <h1
-          className="text-5xl font-extrabold mb-2 tracking-wide"
+          className="text-5xl font-extrabold mb-2"
           style={{
             background: 'linear-gradient(180deg, #fde68a 0%, #f59e0b 50%, #d97706 100%)',
             WebkitBackgroundClip: 'text',
