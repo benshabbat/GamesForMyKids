@@ -20,19 +20,19 @@ export function LetterSpecificStats({ letterName, letterStats, formatTime }: Let
       <div className="grid grid-cols-2 gap-4 text-sm">
         <div>
           <span className="text-gray-600">פעמים שהתחלתי:</span>
-          <span className="font-bold mr-2">{letterStats.timesStarted}</span>
+          <span className="font-bold me-2">{letterStats.timesStarted}</span>
         </div>
         <div>
           <span className="text-gray-600">פעמים שהשלמתי:</span>
-          <span className="font-bold mr-2">{letterStats.timesCompleted}</span>
+          <span className="font-bold me-2">{letterStats.timesCompleted}</span>
         </div>
         <div>
           <span className="text-gray-600">זמן כולל:</span>
-          <span className="font-bold mr-2">{formatTime(letterStats.totalTimeSpent)}</span>
+          <span className="font-bold me-2">{formatTime(letterStats.totalTimeSpent)}</span>
         </div>
         <div>
           <span className="text-gray-600">ממוצע לשלב:</span>
-          <span className="font-bold mr-2">{formatTime(letterStats.averageTimePerStep)}</span>
+          <span className="font-bold me-2">{formatTime(letterStats.averageTimePerStep)}</span>
         </div>
       </div>
     </div>
