@@ -105,6 +105,7 @@ export function useMathGame() {
 
   const { gameState, startGame, handleNumberClick, handleItemClick, speakItemName, resetGame } =
     useNumericQuizRuntime<MathChallenge>({
+      gameType: 'math',
       generateChallenge: generateMathChallenge,
       generateOptions: generateMathOptions,
       speakQuestion: speakMathQuestion,
