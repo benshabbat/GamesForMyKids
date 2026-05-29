@@ -7,7 +7,7 @@ import WhackHUD from './components/WhackHUD';
 import WhackGrid from './components/WhackGrid';
 
 export default function WhackAMoleGame() {
-  const { phase, bgColor } = useWhackAMoleGame();
+  const { phase, bgColor, whack } = useWhackAMoleGame();
 
   if (phase === 'menu') return <WhackAMoleMenuScreen />;
   if (phase === 'result') return <WhackAMoleResultScreen />;
@@ -15,7 +15,7 @@ export default function WhackAMoleGame() {
   return (
     <div className={`min-h-screen bg-gradient-to-br ${bgColor} flex flex-col items-center justify-center p-4 select-none`} dir="rtl">
       <WhackHUD />
-      <WhackGrid />
+      <WhackGrid onWhack={whack} />
     </div>
   );
 }
