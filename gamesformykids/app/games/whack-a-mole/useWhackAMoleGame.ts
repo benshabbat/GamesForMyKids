@@ -65,10 +65,11 @@ export function useWhackAMoleGame() {
     }
 
     spawnRef.current = setTimeout(spawnNext, 400);
+    const moleTimers = moleTimersRef.current;
 
     return () => {
       if (spawnRef.current) { clearTimeout(spawnRef.current); spawnRef.current = null; }
-      moleTimersRef.current.forEach((t, i) => { if (t) { clearTimeout(t); moleTimersRef.current[i] = null; } });
+      moleTimers.forEach((t, i) => { if (t) { clearTimeout(t); moleTimers[i] = null; } });
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.phase]);
