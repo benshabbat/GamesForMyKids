@@ -74,10 +74,6 @@ export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) =
           false,
           'ui/addNotification'
         );
-        // הסרה אוטומטית
-        if (duration > 0) {
-          setTimeout(() => get().removeNotification(id), duration);
-        }
         return id;
       },
 
