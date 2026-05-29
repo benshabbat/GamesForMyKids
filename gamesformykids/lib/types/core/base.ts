@@ -164,6 +164,7 @@ export type GameType =
   | 'geography-capitals' | 'geography-flags' | 'geography-continents'
   | 'singular-plural' | 'morning-routine'
   | 'ordinals'
+  | 'phonics'
   // Arcade & action games
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
   | 'dino-runner' | 'brick-breaker' | 'balloon-pop' | 'catch-fruit'
