@@ -30,7 +30,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics"],
+    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics","rhyming"],
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -70,7 +70,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calculator,
     color: "bg-indigo-500",
     gradient: "from-indigo-400 to-indigo-600",
-    gameIds: ["counting","math","shopping-money","multiplication","fractions","sequences","arithmetic","ordinals"],
+    gameIds: ["counting","math","shopping-money","multiplication","fractions","sequences","arithmetic","ordinals","number-words","spatial-concepts"],
   },
   games: {
     title: "משחקים מיוחדים",
@@ -131,6 +131,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","trivia","clock","spelling","opposites","world-languages","riddles","english-words","singular-plural"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","trivia","clock","spelling","opposites","world-languages","riddles","english-words","singular-plural","adjectives"],
   },
 };

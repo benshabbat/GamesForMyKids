@@ -4,6 +4,8 @@ import { SPELLING_WORDS } from '@/lib/quiz/data/spelling';
 import { OPPOSITE_WORDS } from '@/lib/quiz/data/opposites';
 import { ENGLISH_WORDS } from '@/lib/quiz/data/english-words';
 import { LANGUAGE_QUESTIONS } from '@/lib/quiz/data/world-languages';
+import { RHYMING_QUESTIONS } from '@/lib/quiz/data/rhyming';
+import { ADJECTIVE_QUESTIONS } from '@/lib/quiz/data/adjectives';
 import { defineConfig } from './types';
 
 export const spellingConfig = defineConfig({
@@ -62,6 +64,49 @@ export const englishWordsConfig = defineConfig({
     <><div className="text-6xl mb-3">{q.emoji}</div>
       <p className="text-3xl font-black text-gray-800">{q.hebrew}</p>
       <p className="text-gray-500 text-sm mt-2">כיצד אומרים באנגלית?</p></>
+  ),
+});
+
+export const rhymingConfig = defineConfig({
+  gameType: 'rhyming', emoji: '🎵', title: 'חרוזים',
+  description: 'מצא את המילה שמתחרזת!', theme: 'violet',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['🐕 כלב ↔ גנב', '🏠 בית ↔ שיט', '☀️ שמש ↔ חמש', '👦 ילד ↔ גדל'].map(s => (
+        <div key={s} className="bg-violet-50 rounded-xl px-2 py-1.5 text-xs font-medium text-violet-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🎵 בואו נתחרז!',
+  questions: RHYMING_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-6xl mb-3">{q.emoji}</div>
+      <p className="text-gray-500 text-sm mb-1">מה מתחרז עם...</p>
+      <p className="text-4xl font-black text-gray-800">{q.word}</p></>
+  ),
+});
+
+export const adjectivesConfig = defineConfig({
+  gameType: 'adjectives', emoji: '🎨', title: 'שמות תואר',
+  description: 'בחר את שם התואר הנכון!', theme: 'rose',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['🐘 גדול', '🐜 קטן', '😄 שמח', '😢 עצוב'].map(s => (
+        <div key={s} className="bg-rose-50 rounded-xl px-2 py-1.5 text-xs font-medium text-rose-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🎨 בואו נתאר!',
+  questions: ADJECTIVE_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-6xl mb-3">{q.emoji}</div>
+      <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
   ),
 });
 

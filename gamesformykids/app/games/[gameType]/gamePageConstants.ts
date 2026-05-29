@@ -21,6 +21,7 @@ export const SUPPORTED_GAMES = [
   'days-of-week', 'months-of-year',
   'geography-flags', 'geography-capitals', 'geography-continents',
   'ordinals',
+  'spatial-concepts', 'number-words',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
@@ -41,6 +42,7 @@ export const SUPPORTED_GAMES = [
   'singular-plural', 'morning-routine',
   'ordinals',
   'phonics',
+  'rhyming', 'adjectives',
   'soccer',
 ] as const;
 
