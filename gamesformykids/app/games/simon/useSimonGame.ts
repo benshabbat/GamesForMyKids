@@ -10,8 +10,14 @@ export { BUTTONS };
 import type { PhaseSimon as Phase } from '@/lib/types';
 
 export function useSimonGame() {
-  const { phase, activeColor, playerIdx, best, roundScore, sequence, startGame } =
+  const { phase, activeColor, playerIdx, best, roundScore, sequence, initGame } =
     useSimonStore(useShallow((s) => s));
+
+  const startGame = useCallback(() => {
+    initGame();
+    const { sequence: seq } = useSimonStore.getState();
+    showSequence(seq);
+  }, [initGame]);
 
   const { saveGameResultRef } = useGameCompletion('simon');
   const startTimeRef = useRef<number>(0);
