@@ -8,9 +8,10 @@ export function useBubbleGame() {
   const nextBubbleId = useRef(0);
   const gameContainerRef = useRef<HTMLDivElement>(null);
 
-  const { isPlaying, level, score, poppedCount, bubbles } = useBubblesStore(
-    useShallow((s) => ({ isPlaying: s.isPlaying, level: s.level, score: s.score, poppedCount: s.poppedCount, bubbles: s.bubbles })),
+  const { isPlaying, score, poppedCount, bubbles } = useBubblesStore(
+    useShallow((s) => ({ isPlaying: s.isPlaying, score: s.score, poppedCount: s.poppedCount, bubbles: s.bubbles })),
   );
+  const level = Math.floor(poppedCount / 15) + 1;
 
   const bubbleTypes = useMemo(() => [
     { color: '#FF6B6B', frequency: 261.63 },
@@ -25,7 +26,7 @@ export function useBubbleGame() {
 
   const createBubble = useCallback(() => {
     if (!gameContainerRef.current) return;
-    const currentLevel = useBubblesStore.getState().level;
+    const currentLevel = Math.floor(useBubblesStore.getState().poppedCount / 15) + 1;
     const containerWidth = gameContainerRef.current.offsetWidth;
     const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)]!;
     const size = 40 + Math.random() * 60;
