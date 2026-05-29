@@ -9,7 +9,8 @@ export type { Coin } from './tzedakahStore';
 
 export function useCharityCoinGame() {
   const { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
-          score, gameTime, collectedCoins, coins, startGame, moveBasket, stepBasket, setIsMobile } =
+          score, gameTime, collectedCoins, coins, startGame, moveBasket, stepBasket, setIsMobile,
+          tickCoins, spawnCoin, timerTick } =
     useTzedakahStore(useShallow((s) => s));
 
   const router = useRouter();
@@ -20,6 +21,24 @@ export function useCharityCoinGame() {
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, [setIsMobile]);
+
+  useEffect(() => {
+    if (!gameStarted) return;
+    const id = setInterval(tickCoins, 16);
+    return () => clearInterval(id);
+  }, [gameStarted, tickCoins]);
+
+  useEffect(() => {
+    if (!gameStarted) return;
+    const id = setInterval(spawnCoin, 800);
+    return () => clearInterval(id);
+  }, [gameStarted, spawnCoin]);
+
+  useEffect(() => {
+    if (!gameStarted) return;
+    const id = setInterval(timerTick, 1000);
+    return () => clearInterval(id);
+  }, [gameStarted, timerTick]);
 
   useEffect(() => {
     if (!gameStarted || isMobile) return;
