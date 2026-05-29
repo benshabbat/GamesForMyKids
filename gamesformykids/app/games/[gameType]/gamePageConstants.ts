@@ -40,7 +40,6 @@ export const SUPPORTED_GAMES = [
   'sequences', 'color-mix', 'clock', 'english-words', 'shapes-3d',
   'transport', 'holidays', 'tzadikim',
   'singular-plural', 'morning-routine',
-  'ordinals',
   'phonics',
   'rhyming', 'adjectives',
   'soccer',
