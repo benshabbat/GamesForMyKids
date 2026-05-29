@@ -65,7 +65,6 @@ export function useReflexGame() {
     return () => {
       if (spawnIdRef.current) { clearTimeout(spawnIdRef.current); spawnIdRef.current = null; }
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.phase]);
 
   return state;
