@@ -2,8 +2,10 @@
 
 import { useWhackAMoleStore } from '../whackAMoleStore';
 
-export default function WhackGrid() {
-  const { holes, holeValues, whack: onWhack } = useWhackAMoleStore();
+interface Props { onWhack: (idx: number) => void; }
+
+export default function WhackGrid({ onWhack }: Props) {
+  const { holes, holeValues } = useWhackAMoleStore();
 
   return (
     <>
