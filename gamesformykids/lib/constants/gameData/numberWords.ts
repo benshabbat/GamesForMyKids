@@ -1,0 +1,25 @@
+import type { BaseGameItem } from "@/lib/types/core/base";
+
+export const NUMBER_WORDS: BaseGameItem[] = [
+  { name: "zero",      hebrew: "אפס",        english: "Zero",      emoji: "0️⃣", digit: "0",  color: "bg-gradient-to-br from-slate-400 to-slate-600" },
+  { name: "one",       hebrew: "אחד",        english: "One",       emoji: "1️⃣", digit: "1",  color: "bg-gradient-to-br from-blue-400 to-blue-600" },
+  { name: "two",       hebrew: "שתיים",      english: "Two",       emoji: "2️⃣", digit: "2",  color: "bg-gradient-to-br from-green-400 to-green-600" },
+  { name: "three",     hebrew: "שלוש",       english: "Three",     emoji: "3️⃣", digit: "3",  color: "bg-gradient-to-br from-yellow-400 to-yellow-600" },
+  { name: "four",      hebrew: "ארבע",       english: "Four",      emoji: "4️⃣", digit: "4",  color: "bg-gradient-to-br from-orange-400 to-orange-600" },
+  { name: "five",      hebrew: "חמש",        english: "Five",      emoji: "5️⃣", digit: "5",  color: "bg-gradient-to-br from-red-400 to-red-600" },
+  { name: "six",       hebrew: "שש",         english: "Six",       emoji: "6️⃣", digit: "6",  color: "bg-gradient-to-br from-purple-400 to-purple-600" },
+  { name: "seven",     hebrew: "שבע",        english: "Seven",     emoji: "7️⃣", digit: "7",  color: "bg-gradient-to-br from-pink-400 to-pink-600" },
+  { name: "eight",     hebrew: "שמונה",      english: "Eight",     emoji: "8️⃣", digit: "8",  color: "bg-gradient-to-br from-cyan-400 to-cyan-600" },
+  { name: "nine",      hebrew: "תשע",        english: "Nine",      emoji: "9️⃣", digit: "9",  color: "bg-gradient-to-br from-teal-400 to-teal-600" },
+  { name: "ten",       hebrew: "עשר",        english: "Ten",       emoji: "🔟", digit: "10", color: "bg-gradient-to-br from-indigo-400 to-indigo-600" },
+  { name: "eleven",    hebrew: "אחד עשר",    english: "Eleven",    emoji: "1️⃣1️⃣", digit: "11", color: "bg-gradient-to-br from-violet-400 to-violet-600" },
+  { name: "twelve",    hebrew: "שנים עשר",   english: "Twelve",    emoji: "1️⃣2️⃣", digit: "12", color: "bg-gradient-to-br from-fuchsia-400 to-fuchsia-600" },
+  { name: "thirteen",  hebrew: "שלושה עשר",  english: "Thirteen",  emoji: "1️⃣3️⃣", digit: "13", color: "bg-gradient-to-br from-rose-400 to-rose-600" },
+  { name: "fourteen",  hebrew: "ארבעה עשר",  english: "Fourteen",  emoji: "1️⃣4️⃣", digit: "14", color: "bg-gradient-to-br from-amber-400 to-amber-600" },
+  { name: "fifteen",   hebrew: "חמישה עשר",  english: "Fifteen",   emoji: "1️⃣5️⃣", digit: "15", color: "bg-gradient-to-br from-lime-400 to-lime-600" },
+  { name: "sixteen",   hebrew: "שישה עשר",   english: "Sixteen",   emoji: "1️⃣6️⃣", digit: "16", color: "bg-gradient-to-br from-emerald-400 to-emerald-600" },
+  { name: "seventeen", hebrew: "שבעה עשר",   english: "Seventeen", emoji: "1️⃣7️⃣", digit: "17", color: "bg-gradient-to-br from-sky-400 to-sky-600" },
+  { name: "eighteen",  hebrew: "שמונה עשר",  english: "Eighteen",  emoji: "1️⃣8️⃣", digit: "18", color: "bg-gradient-to-br from-blue-500 to-blue-700" },
+  { name: "nineteen",  hebrew: "תשעה עשר",   english: "Nineteen",  emoji: "1️⃣9️⃣", digit: "19", color: "bg-gradient-to-br from-green-500 to-green-700" },
+  { name: "twenty",    hebrew: "עשרים",      english: "Twenty",    emoji: "2️⃣0️⃣", digit: "20", color: "bg-gradient-to-br from-purple-500 to-purple-700" },
+];

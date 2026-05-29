@@ -7,9 +7,7 @@ import { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/mem
 
 export const initialGameStats: GameStats = {
   moves: 0,
-  matches: 0,
   score: 0,
-  timeElapsed: 0,
   perfectMatches: 0,
   streak: 0,
 };
