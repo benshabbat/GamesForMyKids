@@ -129,6 +129,8 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'days-of-week':     return (await import('./gameData/daysMonths')).DAYS_OF_WEEK;
     case 'months-of-year':   return (await import('./gameData/daysMonths')).MONTHS_OF_YEAR;
     case 'ordinals':         return (await import('./gameData/ordinals')).ORDINAL_NUMBERS;
+    case 'spatial-concepts': return (await import('./gameData/spatialConcepts')).SPATIAL_CONCEPTS;
+    case 'number-words':     return (await import('./gameData/numberWords')).NUMBER_WORDS;
 
     // newGames.ts (mixed exports — use extractItems boundary)
     case 'world-food': return extractItems(await import('./gameData/newGames'), 'WORLD_FOOD_ITEMS');

@@ -54,6 +54,11 @@ export type AutoGameType =
   | 'exotic-birds'
   | 'butterflies'
   | 'counting'
+  | 'days-of-week'
+  | 'months-of-year'
+  | 'ordinals'
+  | 'spatial-concepts'
+  | 'number-words'
   | 'geography-flags'
   | 'geography-capitals'
   | 'geography-continents';
@@ -135,6 +140,11 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'exotic-birds':     g('exotic-birds'),
   butterflies:            g('butterflies'),
   counting:               useCountingGame,
+  'days-of-week':         g('days-of-week'),
+  'months-of-year':       g('months-of-year'),
+  ordinals:               g('ordinals'),
+  'spatial-concepts':     g('spatial-concepts'),
+  'number-words':         g('number-words'),
   math:                   useMathGame,
   'geography-flags':      g('geography-flags'),
   'geography-capitals':   useGeographyCapitalsGame,
