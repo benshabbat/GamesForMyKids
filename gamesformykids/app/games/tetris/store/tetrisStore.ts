@@ -158,7 +158,7 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
     }
   },
 
-  goToStartScreen: () => set({ showStartScreen: true, isGameRunning: false }),
+  goToStartScreen: () => set({ showStartScreen: true, isGameRunning: false, gameOver: false }),
 
   getBoardWithCurrentPiece: () => {
     const { board, currentPiece, position } = get();
