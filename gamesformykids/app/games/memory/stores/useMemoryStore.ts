@@ -50,9 +50,9 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     getAnimationDelay: (index) => getAnimationDelay(index),
 
     getGameProgress: () => {
-      const { gameStats, getDifficultyConfig } = get();
+      const { matchedPairs, getDifficultyConfig } = get();
       const totalPairs = getDifficultyConfig().pairs;
-      const completedPairs = gameStats.matches;
+      const completedPairs = matchedPairs.length;
       return {
         totalPairs,
         completedPairs,
