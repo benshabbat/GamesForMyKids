@@ -9,7 +9,7 @@ export function MenuScreen() {
       {/* Title */}
       <div className="flex flex-col items-center gap-2">
         <div className="text-6xl drop-shadow-2xl">🎲</div>
-        <h1 className="text-6xl font-extrabold bg-gradient-to-b from-yellow-200 via-amber-300 to-amber-500 bg-clip-text text-transparent drop-shadow-lg">
+        <h1 className="text-6xl font-extrabold text-amber-300 bg-gradient-to-b from-yellow-200 via-amber-300 to-amber-500 bg-clip-text text-transparent drop-shadow-lg">
           שש-בש
         </h1>
         <p className="text-amber-200/70 text-sm">

@@ -9,7 +9,7 @@ export default function PuzzleHeader({ title, subtitle }: { title: string; subti
     <div className="text-center mb-6 sm:mb-8">
       <div className="flex flex-col sm:flex-row justify-between items-center gap-3 sm:gap-4 mb-6">
         <div className="order-first sm:order-none">
-          <h1 className="text-3xl sm:text-5xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">{title}</h1>
+          <h1 className="text-3xl sm:text-5xl font-bold text-purple-700 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-2">{title}</h1>
           <p className="text-lg sm:text-xl text-gray-600 font-medium">{subtitle}</p>
         </div>
         <button
