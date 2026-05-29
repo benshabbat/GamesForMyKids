@@ -10,18 +10,17 @@ export interface Piece {
 
 export type Board = (string | number)[][];
 
+export type TetrisPhase = 'loading' | 'menu' | 'playing' | 'gameover';
+
 export interface TetrisGameState {
   board: Board;
   currentPiece: Piece | null;
   position: Position;
   score: number;
   level: number;
-  isGameRunning: boolean;
-  gameOver: boolean;
+  phase: TetrisPhase;
   nextPiece: Piece | null;
   linesCleared: number;
-  showStartScreen: boolean;
-  isLoading: boolean;
 }
 
 export interface GameBoardProps {

@@ -4,7 +4,7 @@ import { useCallback } from 'react';
 import { useTetrisStore } from '../store/tetrisStore';
 
 export function useTouchControls() {
-  const isGameRunning = useTetrisStore(s => s.isGameRunning);
+  const isGameRunning = useTetrisStore(s => s.phase === 'playing');
   const movePiece = useTetrisStore(s => s.movePiece);
   const handleRotateAction = useTetrisStore(s => s.handleRotate);
 

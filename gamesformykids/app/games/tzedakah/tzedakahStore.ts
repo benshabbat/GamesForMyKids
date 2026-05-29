@@ -40,6 +40,9 @@ interface TzedakahActions {
   moveBasket:  (rawX: number) => void;
   stepBasket:  (dir: -1 | 1) => void;
   setIsMobile: (v: boolean) => void;
+  tickCoins:   () => void;
+  spawnCoin:   () => void;
+  timerTick:   () => void;
 }
 
 const INITIAL: TzedakahState = {
@@ -47,21 +50,37 @@ const INITIAL: TzedakahState = {
   collectedCoins: 0, isMobile: false, ...getDims(false),
 };
 
+let coinId = 0;
+
 export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
   'TzedakahStore',
-  (set, get) => {
-    let coinId  = 0;
-    let moveId:  ReturnType<typeof setInterval> | null = null;
-    let spawnId: ReturnType<typeof setInterval> | null = null;
-    let timerId: ReturnType<typeof setInterval> | null = null;
+  (set, get) => ({
+    ...INITIAL,
 
-    function stopAll() {
-      if (moveId)  { clearInterval(moveId);  moveId  = null; }
-      if (spawnId) { clearInterval(spawnId); spawnId = null; }
-      if (timerId) { clearInterval(timerId); timerId = null; }
-    }
+    setIsMobile: (v: boolean) => set({ isMobile: v, ...getDims(v) }, false, 'tzedakah/resize'),
 
-    function tickCoins() {
+    moveBasket: (rawX: number) => {
+      const { gameStarted, gameWidth, basketWidth } = get();
+      if (!gameStarted) return;
+      set({ basketX: Math.max(0, Math.min(gameWidth - basketWidth, rawX)) }, false, 'tzedakah/moveBasket');
+    },
+
+    stepBasket: (dir: -1 | 1) => {
+      const { gameStarted, basketX, gameWidth, basketWidth } = get();
+      if (!gameStarted) return;
+      set({ basketX: Math.max(0, Math.min(gameWidth - basketWidth, basketX + dir * 20)) }, false, 'tzedakah/stepBasket');
+    },
+
+    startGame: () => {
+      coinId = 0;
+      const { isMobile } = get();
+      set({
+        coins: [], score: 0, gameStarted: true, gameTime: 60, collectedCoins: 0,
+        basketX: isMobile ? 135 : 340, ...getDims(isMobile),
+      }, false, 'tzedakah/start');
+    },
+
+    tickCoins: () => {
       const { isMobile, coins, basketX, gameHeight, basketWidth, basketHeight, score, collectedCoins } = get();
       const coinSize = isMobile ? 32 : 48;
       let s = score, c = collectedCoins;
@@ -77,9 +96,9 @@ export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
           return coin.y < gameHeight + coinSize;
         });
       set({ coins: updated, score: s, collectedCoins: c }, false, 'tzedakah/tick');
-    }
+    },
 
-    function spawnCoin() {
+    spawnCoin: () => {
       const { isMobile, gameWidth, coins } = get();
       const coinSize = isMobile ? 32 : 48;
       set({
@@ -88,41 +107,12 @@ export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
           y: -coinSize, speed: 2 + Math.random() * 3, rotation: 0,
         }],
       }, false, 'tzedakah/spawn');
-    }
+    },
 
-    return {
-      ...INITIAL,
-
-      setIsMobile: (v: boolean) => set({ isMobile: v, ...getDims(v) }, false, 'tzedakah/resize'),
-
-      moveBasket: (rawX: number) => {
-        const { gameStarted, gameWidth, basketWidth } = get();
-        if (!gameStarted) return;
-        set({ basketX: Math.max(0, Math.min(gameWidth - basketWidth, rawX)) }, false, 'tzedakah/moveBasket');
-      },
-
-      stepBasket: (dir: -1 | 1) => {
-        const { gameStarted, basketX, gameWidth, basketWidth } = get();
-        if (!gameStarted) return;
-        set({ basketX: Math.max(0, Math.min(gameWidth - basketWidth, basketX + dir * 20)) }, false, 'tzedakah/stepBasket');
-      },
-
-      startGame: () => {
-        stopAll();
-        coinId = 0;
-        const { isMobile } = get();
-        set({
-          coins: [], score: 0, gameStarted: true, gameTime: 60, collectedCoins: 0,
-          basketX: isMobile ? 135 : 340, ...getDims(isMobile),
-        }, false, 'tzedakah/start');
-        moveId  = setInterval(tickCoins, 16);
-        spawnId = setInterval(spawnCoin, 800);
-        timerId = setInterval(() => {
-          const t = get().gameTime;
-          if (t <= 1) { stopAll(); set({ gameTime: 0, gameStarted: false }, false, 'tzedakah/end'); }
-          else        { set({ gameTime: t - 1 }, false, 'tzedakah/timerTick'); }
-        }, 1000);
-      },
-    };
-  },
+    timerTick: () => {
+      const t = get().gameTime;
+      if (t <= 1) { set({ gameTime: 0, gameStarted: false }, false, 'tzedakah/end'); }
+      else        { set({ gameTime: t - 1 }, false, 'tzedakah/timerTick'); }
+    },
+  }),
 );

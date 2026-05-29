@@ -15,16 +15,16 @@ function TetrisGame(){
   // רישום side-effects (game loop, מקלדת, טעינה)
   useTetrisGame();
 
-  const { isLoading, showStartScreen, startNewGame, getBoardWithCurrentPiece } = useTetrisState();
+  const { phase, startNewGame, getBoardWithCurrentPiece } = useTetrisState();
 
   // Computed directly — React Compiler is opted out via 'use no memo' above
   const displayBoard = getBoardWithCurrentPiece();
 
-  if (isLoading) {
+  if (phase === 'loading') {
     return <LoadingScreen />;
   }
 
-  if (showStartScreen) {
+  if (phase === 'menu') {
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-600 via-blue-600 to-indigo-700">
         <GenericStartScreen

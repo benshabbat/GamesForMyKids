@@ -77,12 +77,9 @@ const INITIAL_STATE: TetrisGameState = {
   position: { x: 4, y: 0 },
   score: 0,
   level: 1,
-  isGameRunning: false,
-  gameOver: false,
+  phase: 'loading',
   nextPiece: null,
   linesCleared: 0,
-  showStartScreen: true,
-  isLoading: true,
 };
 
 // ── Store ──────────────────────────────────────────────────────────────────────
@@ -90,7 +87,7 @@ const INITIAL_STATE: TetrisGameState = {
 export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('TetrisStore', (set, get) => ({
   ...INITIAL_STATE,
 
-  setLoaded: () => set({ isLoading: false }),
+  setLoaded: () => set({ phase: 'menu' }),
 
   startNewGame: () => {
     set({
@@ -99,18 +96,15 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
       position: { x: 4, y: 0 },
       score: 0,
       level: 1,
-      isGameRunning: true,
-      gameOver: false,
+      phase: 'playing',
       nextPiece: getRandomPiece(),
       linesCleared: 0,
-      showStartScreen: false,
-      isLoading: false,
     });
   },
 
   movePiece: (dx, dy) => {
-    const { currentPiece, gameOver, position, board, score, level, nextPiece, linesCleared } = get();
-    if (!currentPiece || gameOver) return;
+    const { currentPiece, phase, position, board, score, level, nextPiece, linesCleared } = get();
+    if (!currentPiece || phase !== 'playing') return;
 
     const newPos = { x: position.x + dx, y: position.y + dy };
 
@@ -139,8 +133,7 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
       } else {
         set({
           board: clearedBoard,
-          gameOver: true,
-          isGameRunning: false,
+          phase: 'gameover',
           score: newScore,
           level: newLevel,
           linesCleared: linesCleared + newLines,
@@ -150,15 +143,15 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
   },
 
   handleRotate: () => {
-    const { currentPiece, gameOver, position, board } = get();
-    if (!currentPiece || gameOver) return;
+    const { currentPiece, phase, position, board } = get();
+    if (!currentPiece || phase !== 'playing') return;
     const rotated = rotatePiece(currentPiece);
     if (checkValidPosition(rotated, position, board)) {
       set({ currentPiece: rotated });
     }
   },
 
-  goToStartScreen: () => set({ showStartScreen: true, isGameRunning: false, gameOver: false }),
+  goToStartScreen: () => set({ phase: 'menu' }),
 
   getBoardWithCurrentPiece: () => {
     const { board, currentPiece, position } = get();
