@@ -18,7 +18,7 @@ function Footer() {
           </div>
           
           <div className="text-center bg-white rounded-2xl p-3 md:p-6 shadow-lg">
-            <div className="text-2xl md:text-4xl font-bold text-pink-600 mb-1 md:mb-2">2-5</div>
+            <div className="text-2xl md:text-4xl font-bold text-pink-600 mb-1 md:mb-2">3-10</div>
             <div className="text-xs md:text-lg font-semibold text-gray-700">גילאי מטרה</div>
             <div className="text-xs text-gray-500 hidden sm:block">שנים</div>
           </div>
@@ -35,7 +35,7 @@ function Footer() {
         {/* Main footer content */}
         <div className="text-center">
           <div className="text-3xl md:text-4xl mb-2 md:mb-4">💜</div>
-          <p className="text-base md:text-xl font-semibold text-purple-700 mb-1 md:mb-2">נוצר במיוחד לילדים בגיל 2-5</p>
+          <p className="text-base md:text-xl font-semibold text-purple-700 mb-1 md:mb-2">נוצר במיוחד לילדים בגיל 3-10</p>
           <p className="text-sm text-gray-600 mb-3 md:mb-4 hidden sm:block">משחקים בטוחים, חינוכיים ומהנים לכל המשפחה</p>
           
           {/* Features list */}

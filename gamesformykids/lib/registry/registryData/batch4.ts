@@ -13,6 +13,10 @@ import {
   Bug,
   Gamepad2,
   Crown,
+  Music,
+  PenLine,
+  MapPin,
+  Hash,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -39,4 +43,8 @@ export const gamesRegistryBatch4: GameRegistration[] = [
   { id: "days-of-week",    title: "ימות השבוע",                    description: "למד את ימות השבוע בעברית!",                      icon: Star,           emoji: "📅", color: "bg-blue-400 hover:bg-blue-500",                                                                         href: "/games/days-of-week",    available: true, order: 141 },
   { id: "months-of-year",  title: "חודשי השנה",                    description: "למד את חודשי השנה בעברית!",                      icon: Star,           emoji: "🗓️", color: "bg-purple-400 hover:bg-purple-500",                                                                     href: "/games/months-of-year",  available: true, order: 142 },
   { id: "ordinals",         title: "מספרים סודריים",                description: "ראשון, שני, שלישי — למד מספרים סודריים!",         icon: Star,           emoji: "🥇", color: "bg-amber-500 hover:bg-amber-600",                                                                       href: "/games/ordinals",        available: true, order: 143 },
+  { id: "rhyming",          title: "חרוזים",                         description: "מה מתחרז עם X? — מצא את המילה החרוזית!",           icon: Music,          emoji: "🎵", color: "bg-violet-500 hover:bg-violet-600",                                                                     href: "/games/rhyming",         available: true, order: 144 },
+  { id: "adjectives",       title: "שמות תואר",                      description: "גדול, קטן, שמח, עצוב — למד לתאר עצמים!",           icon: PenLine,        emoji: "🎨", color: "bg-pink-500 hover:bg-pink-600",                                                                         href: "/games/adjectives",      available: true, order: 145 },
+  { id: "spatial-concepts", title: "מושגי מרחב",                     description: "מעל, מתחת, בתוך — למד מושגי מיקום!",               icon: MapPin,         emoji: "🗺️", color: "bg-green-500 hover:bg-green-600",                                                                       href: "/games/spatial-concepts",available: true, order: 146 },
+  { id: "number-words",     title: "מספרים כמילים",                  description: "אחד, שתיים, שלוש — קרא מספרים בעברית!",            icon: Hash,           emoji: "🔢", color: "bg-orange-500 hover:bg-orange-600",                                                                     href: "/games/number-words",    available: true, order: 147 },
 ];
