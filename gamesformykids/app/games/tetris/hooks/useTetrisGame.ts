@@ -11,8 +11,7 @@ import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
  */
 export const useTetrisGame = () => {
   const setLoaded = useTetrisStore(s => s.setLoaded);
-  const isGameRunning = useTetrisStore(s => s.isGameRunning);
-  const gameOver = useTetrisStore(s => s.gameOver);
+  const phase = useTetrisStore(s => s.phase);
   const level = useTetrisStore(s => s.level);
   const movePiece = useTetrisStore(s => s.movePiece);
 
@@ -27,38 +26,41 @@ export const useTetrisGame = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const isPlaying = phase === 'playing';
+  const isGameOver = phase === 'gameover';
+
   // מעקב אחר זמן תחילת המשחק
   useEffect(() => {
-    if (isGameRunning) {
+    if (isPlaying) {
       startTimeRef.current = Date.now();
       prevGameOverRef.current = false;
     }
-  }, [isGameRunning]);
+  }, [isPlaying]);
 
   // שמירת ניקוד בסיום המשחק
   useEffect(() => {
-    if (gameOver && !prevGameOverRef.current) {
+    if (isGameOver && !prevGameOverRef.current) {
       const { score, level: finalLevel } = useTetrisStore.getState();
       const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
       saveGameResultRef.current({ score, level: finalLevel, durationSeconds });
     }
-    prevGameOverRef.current = gameOver;
-  }, [gameOver, saveGameResultRef]);
+    prevGameOverRef.current = isGameOver;
+  }, [isGameOver, saveGameResultRef]);
 
   // לולאת נפילה — תלויה ברמה כדי לעדכן מהירות
   useEffect(() => {
-    if (!isGameRunning) return;
+    if (!isPlaying) return;
     const dropSpeed = Math.max(200, 1000 - (level - 1) * 100);
     const gameLoop = setInterval(() => {
       movePiece(0, 1);
     }, dropSpeed);
     return () => clearInterval(gameLoop);
-  }, [isGameRunning, level, movePiece]);
+  }, [isPlaying, level, movePiece]);
 
   // פקדי מקלדת — משתמש ב-getState() כדי להמנע מ-stale closures
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!useTetrisStore.getState().isGameRunning) return;
+      if (useTetrisStore.getState().phase !== 'playing') return;
 
       // מנע גלילת מסך במהלך המשחק
       if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' '].includes(e.key)) {
