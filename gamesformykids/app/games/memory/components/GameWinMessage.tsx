@@ -9,7 +9,7 @@ import WinAchievements from "./WinAchievements";
 const DIFFICULTY_LEVEL = { easy: 1, medium: 2, hard: 3 } as const;
 
 export default function GameWinMessage() {
-  const { gameStats, difficulty, getDifficultyConfig, getPerformanceLevel, initializeGame, resetToMenu } = useMemoryStore();
+  const { gameStats, timer, difficulty, getDifficultyConfig, getPerformanceLevel, initializeGame, resetToMenu } = useMemoryStore();
   const difficultyConfig = getDifficultyConfig();
   const performance = getPerformanceLevel();
 
@@ -20,7 +20,7 @@ export default function GameWinMessage() {
     saveGameResultRef.current({
       score: gameStats.score,
       level: DIFFICULTY_LEVEL[difficulty],
-      durationSeconds: Math.round(gameStats.timeElapsed / 1000),
+      durationSeconds: timer,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

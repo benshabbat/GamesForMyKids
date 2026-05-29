@@ -12,8 +12,9 @@ export default function WhackGrid() {
           <button
             key={i}
             onClick={() => onWhack(i)}
-            className="relative aspect-square rounded-2xl overflow-hidden shadow-lg active:scale-90 transition-transform"
-            style={{ background: state === 'hit' ? '#FDE68A' : state === 'miss' ? '#FCA5A5' : '#92400e' }}
+            className={`relative aspect-square rounded-2xl overflow-hidden shadow-lg active:scale-90 transition-transform ${
+              state === 'hit' ? 'bg-yellow-200' : state === 'miss' ? 'bg-amber-200' : 'bg-amber-900'
+            }`}
           >
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="w-[80%] h-[55%] bg-black/60 rounded-full absolute bottom-0" />

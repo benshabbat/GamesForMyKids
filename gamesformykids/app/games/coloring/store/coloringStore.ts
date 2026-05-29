@@ -17,15 +17,6 @@ const EMPTY_FILLS: AllFills = {
   cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
 };
 
-function speakHebrew(text: string) {
-  if (typeof window === 'undefined') return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'he-IL';
-  utterance.rate = 0.9;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
-}
-
 // ── Store ─────────────────────────────────────────────────────────────────────
 
 interface ColoringState {
@@ -37,7 +28,7 @@ interface ColoringState {
 
 interface ColoringActions {
   selectImage: (id: ImageId) => void;
-  selectColor: (hex: string, hebrew: string) => void;
+  selectColor: (hex: string) => void;
   /** מצבע אזור מיד בצבע הנבחר */
   selectRegion: (id: string, colorableIds: string[]) => void;  /** מצבע קבוצת אזורים בצבע הנבחר */
   fillGroup: (memberIds: string[], colorableIds: string[]) => void;  clearImage: () => void;
@@ -54,10 +45,7 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       selectImage: (id) =>
         set({ currentImage: id }, false, 'selectImage'),
 
-      selectColor: (hex, hebrew) => {
-        speakHebrew(hebrew);
-        set({ selectedColor: hex }, false, 'selectColor');
-      },
+      selectColor: (hex) => set({ selectedColor: hex }, false, 'selectColor'),
 
       selectRegion: (id, colorableIds) => {
         const { selectedColor, currentImage, allFills } = get();

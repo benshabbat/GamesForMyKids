@@ -101,10 +101,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
 
     incrementTimer: () =>
       set(
-        (s) => ({
-          timer: s.timer + 1,
-          gameStats: { ...s.gameStats, timeElapsed: s.timer + 1 },
-        }),
+        (s) => ({ timer: s.timer + 1 }),
         false,
         'memory/incrementTimer',
       ),

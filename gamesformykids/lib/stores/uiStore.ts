@@ -55,7 +55,7 @@ let _counter = 0;
 const genId = () => `notif_${Date.now()}_${++_counter}`;
 
 // ── Store ──────────────────────────────────────────────────
-export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) => ({
+export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set) => ({
       notifications: [],
       showProgressModal: false,
       isUserMenuOpen: false,
@@ -74,10 +74,6 @@ export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) =
           false,
           'ui/addNotification'
         );
-        // הסרה אוטומטית
-        if (duration > 0) {
-          setTimeout(() => get().removeNotification(id), duration);
-        }
         return id;
       },
 

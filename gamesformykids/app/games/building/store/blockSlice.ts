@@ -1,6 +1,7 @@
 import type { StateCreator } from 'zustand';
 import type { BuildingStore } from './buildingStore';
 import type { Block, ShapeType } from '../types';
+import { useUIStore } from '@/lib/stores/uiStore';
 import {
   generateBlockId,
   getRandomPosition,
@@ -122,7 +123,7 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockGameSlic
 
   saveCreation: () => {
     get();
-    alert('יצירה נשמרה! 🎉');
+    useUIStore.getState().addNotification('יצירה נשמרה! 🎉', 'success');
   },
 
   setCanvasElement: (el) => set({ canvasEl: el }),

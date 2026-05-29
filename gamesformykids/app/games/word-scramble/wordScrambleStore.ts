@@ -57,9 +57,12 @@ interface WordScrambleState {
 }
 
 interface WordScrambleActions {
-  startGame:  () => void;
-  pickLetter: (srcIdx: number) => void;
-  unpick:     (pIdx: number) => void;
+  startGame:   () => void;
+  pickLetter:  (srcIdx: number) => void;
+  unpick:      (pIdx: number) => void;
+  advanceWord: () => void;
+  resetPick:   () => void;
+  goToResults: () => void;
 }
 
 const INITIAL: WordScrambleState = {
@@ -69,82 +72,73 @@ const INITIAL: WordScrambleState = {
 
 export const useWordScrambleStore = makeStore<WordScrambleState & WordScrambleActions>(
   'WordScrambleStore',
-  (set, get) => {
-    let timerId: ReturnType<typeof setTimeout> | null = null;
+  (set, get) => ({
+    ...INITIAL,
 
-    function clearTimer() {
-      if (timerId) { clearTimeout(timerId); timerId = null; }
-    }
+    startGame: () => {
+      const words = shuffle(WORD_LIST).slice(0, 8);
+      set(
+        { ...INITIAL, phase: 'playing', words, letters: makeLetters(words[0]!.word) },
+        false, 'wordScramble/startGame',
+      );
+    },
 
-    return {
-      ...INITIAL,
+    pickLetter: (srcIdx: number) => {
+      const { phase, letters, picked, words, wIdx, score, lives } = get();
+      if (phase !== 'playing') return;
 
-      startGame: () => {
-        clearTimer();
-        const words = shuffle(WORD_LIST).slice(0, 8);
+      const letter = letters[srcIdx];
+      if (!letter || letter.picked) return;
+
+      const newLetters = letters.map((l, i) => i === srcIdx ? { ...l, picked: true } : l);
+      const newPicked  = [...picked, { ch: letter.ch, srcIdx }];
+      set({ letters: newLetters, picked: newPicked }, false, 'wordScramble/pick');
+
+      const currentWord = words[wIdx]!.word;
+      if (newPicked.length < currentWord.length) return;
+
+      const attempt = newPicked.map(p => p.ch).join('');
+      if (attempt === currentWord) {
+        set({ correct: true, score: score + 20 }, false, 'wordScramble/correct');
+      } else {
+        set({ shake: true, lives: lives - 1 }, false, 'wordScramble/wrong');
+      }
+    },
+
+    advanceWord: () => {
+      const { words, wIdx } = get();
+      const nextIdx = wIdx + 1;
+      if (nextIdx >= words.length) {
+        set({ phase: 'results' }, false, 'wordScramble/results');
+      } else {
         set(
-          { ...INITIAL, phase: 'playing', words, letters: makeLetters(words[0]!.word) },
-          false, 'wordScramble/startGame',
+          { wIdx: nextIdx, letters: makeLetters(words[nextIdx]!.word), picked: [], correct: false, shake: false },
+          false, 'wordScramble/nextWord',
         );
-      },
+      }
+    },
 
-      pickLetter: (srcIdx: number) => {
-        const { phase, letters, picked, words, wIdx, score, lives } = get();
-        if (phase !== 'playing') return;
+    resetPick: () => {
+      const { letters } = get();
+      set(
+        { shake: false, picked: [], letters: letters.map(l => ({ ...l, picked: false })) },
+        false, 'wordScramble/resetPick',
+      );
+    },
 
-        const letter = letters[srcIdx];
-        if (!letter || letter.picked) return;
+    goToResults: () => set({ phase: 'results' }, false, 'wordScramble/results'),
 
-        const newLetters = letters.map((l, i) => i === srcIdx ? { ...l, picked: true } : l);
-        const newPicked  = [...picked, { ch: letter.ch, srcIdx }];
-        set({ letters: newLetters, picked: newPicked }, false, 'wordScramble/pick');
-
-        const currentWord = words[wIdx]!.word;
-        if (newPicked.length < currentWord.length) return;
-
-        const attempt = newPicked.map(p => p.ch).join('');
-        if (attempt === currentWord) {
-          set({ correct: true, score: score + 20 }, false, 'wordScramble/correct');
-          timerId = setTimeout(() => {
-            const { words: ws, wIdx: idx } = get();
-            const nextIdx = idx + 1;
-            if (nextIdx >= ws.length) {
-              set({ phase: 'results' }, false, 'wordScramble/results');
-            } else {
-              set(
-                { wIdx: nextIdx, letters: makeLetters(ws[nextIdx]!.word), picked: [], correct: false, shake: false },
-                false, 'wordScramble/nextWord',
-              );
-            }
-          }, 900);
-        } else {
-          const newLives = lives - 1;
-          set({ shake: true, lives: newLives }, false, 'wordScramble/wrong');
-          if (newLives <= 0) {
-            timerId = setTimeout(() => set({ phase: 'results' }, false, 'wordScramble/results'), 1000);
-          }
-          setTimeout(() => {
-            const { letters: cur } = get();
-            set(
-              { shake: false, picked: [], letters: cur.map(l => ({ ...l, picked: false })) },
-              false, 'wordScramble/resetPick',
-            );
-          }, 600);
-        }
-      },
-
-      unpick: (pIdx: number) => {
-        const { picked, letters } = get();
-        const p = picked[pIdx];
-        if (!p) return;
-        set(
-          {
-            letters: letters.map(l => l.idx === p.srcIdx ? { ...l, picked: false } : l),
-            picked:  picked.filter((_, i) => i !== pIdx),
-          },
-          false, 'wordScramble/unpick',
-        );
-      },
-    };
-  },
+    unpick: (pIdx: number) => {
+      const { picked, letters } = get();
+      const p = picked[pIdx];
+      if (!p) return;
+      set(
+        {
+          letters: letters.map(l => l.idx === p.srcIdx ? { ...l, picked: false } : l),
+          picked:  picked.filter((_, i) => i !== pIdx),
+        },
+        false, 'wordScramble/unpick',
+      );
+    },
+  }),
 );
