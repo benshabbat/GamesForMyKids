@@ -2,8 +2,10 @@
 import ScoreBestResultCard from '@/components/game/shared/ScoreBestResultCard';
 import { useSimonStore } from '../simonStore';
 
-export default function SimonGameOverScreen() {
-  const { roundScore, best, startGame } = useSimonStore();
+interface Props { onRestart: () => void; }
+
+export default function SimonGameOverScreen({ onRestart }: Props) {
+  const { roundScore, best } = useSimonStore();
   return (
     <ScoreBestResultCard
       emoji="😵"
@@ -13,7 +15,7 @@ export default function SimonGameOverScreen() {
       score={roundScore}
       best={best}
       scoreLabel="סיבובים"
-      onRestart={startGame}
+      onRestart={onRestart}
       restartLabel="🔄 שוב!"
       shareText={`🎮 הגעתי לרצף ${roundScore} צבעים בסימון!`}
     />

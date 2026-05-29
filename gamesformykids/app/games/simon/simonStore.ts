@@ -26,7 +26,7 @@ interface SimonActions {
   updateBest:    (score: number) => void;
   setRoundScore: (score: number) => void;
   setSequence:   (seq: ButtonId[]) => void;
-  startGame:     () => void;
+  initGame:      () => void;
 }
 
 const INITIAL: SimonState = {
@@ -72,11 +72,9 @@ export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonS
   setRoundScore:  (score) => set({ roundScore: score }, false, 'simon/setRoundScore'),
   setSequence:    (seq)   => set({ sequence: seq }, false, 'simon/setSequence'),
 
-  startGame: () => {
+  initGame: () => {
     const first = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
     const seq: ButtonId[] = [first];
-    useSimonStore.getState().setSequence(seq);
-    useSimonStore.getState().setRoundScore(0);
-    showSequence(seq);
+    set({ ...INITIAL, sequence: seq, roundScore: 0 }, false, 'simon/initGame');
   },
 }), { partialize: (s) => ({ best: s.best }) });

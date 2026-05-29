@@ -84,21 +84,21 @@ describe('simonStore', () => {
     });
   });
 
-  describe('startGame', () => {
+  describe('initGame', () => {
     it('creates a sequence with one button', () => {
-      store.getState().startGame();
+      store.getState().initGame();
       expect(store.getState().sequence).toHaveLength(1);
     });
 
     it('sequence contains a valid button id', () => {
-      store.getState().startGame();
+      store.getState().initGame();
       const validIds = BUTTONS.map(b => b.id);
       expect(validIds).toContain(store.getState().sequence[0]);
     });
 
     it('resets round score to 0', () => {
       store.setState({ roundScore: 5 } as unknown as Parameters<typeof store.setState>[0]);
-      store.getState().startGame();
+      store.getState().initGame();
       expect(store.getState().roundScore).toBe(0);
     });
   });
