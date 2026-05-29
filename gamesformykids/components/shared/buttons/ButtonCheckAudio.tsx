@@ -1,11 +1,15 @@
+'use client';
+
+import { useState } from "react";
 import { testSpeech } from "@/lib/utils/speech/enhancedSpeechUtils";
 
 export default function ButtonCheckAudio() {
+  const [audioError, setAudioError] = useState(false);
+
   const handleTestSpeech = async () => {
+    setAudioError(false);
     const success = await testSpeech();
-    if (!success) {
-      alert("❌ בעיה בהפעלת שמע. נסה דפדפן אחר");
-    }
+    if (!success) setAudioError(true);
   };
 
   return (
@@ -19,6 +23,11 @@ export default function ButtonCheckAudio() {
       <p className="text-sm text-gray-600 mt-2">
         לחץ לבדיקה אם אתה שומע &quot;בדיקה&quot;
       </p>
+      {audioError && (
+        <p className="text-amber-700 text-sm mt-2 text-center font-medium">
+          ⚠️ בעיה בשמע — נסה לרענן את הדף או דפדפן אחר
+        </p>
+      )}
     </div>
   );
 }

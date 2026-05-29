@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import type { PhonicsQuestion } from '@/lib/quiz/data/phonics';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 
@@ -15,14 +15,20 @@ export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
     speakHebrew(current.sound).catch(() => {});
   }, [current.sound]);
 
+  // Auto-play sound on each new question so pre-readers don't need to tap first
+  useEffect(() => {
+    speakHebrew(current.sound).catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [current.sound]);
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-100 to-purple-200 flex flex-col items-center justify-center p-4" dir="rtl">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
+      <div className="bg-white rounded-3xl shadow-2xl p-5 sm:p-8 max-w-md w-full text-center">
         <div className="text-6xl mb-3">{current.emoji}</div>
 
         <button
           onClick={speak}
-          className="w-full py-5 mb-6 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-lg hover:opacity-90 active:scale-95 transition-all text-2xl font-black"
+          className="w-full py-5 mb-6 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-lg hover:opacity-90 active:scale-95 transition-all text-lg sm:text-2xl font-black"
           aria-label="לחץ לשמוע את הצליל"
         >
           🔊 שמע את הצליל
@@ -36,7 +42,6 @@ export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
               key={letter}
               onClick={() => onSelect(letter)}
               className="py-6 rounded-2xl bg-violet-50 border-2 border-violet-200 text-violet-800 font-black text-6xl hover:bg-violet-100 hover:border-violet-400 active:scale-95 transition-all"
-              style={{ fontFamily: 'serif' }}
             >
               {letter}
             </button>
