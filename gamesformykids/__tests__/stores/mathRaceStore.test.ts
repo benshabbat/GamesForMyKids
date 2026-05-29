@@ -125,20 +125,21 @@ describe('mathRaceStore', () => {
   });
 
   describe('feedback transition', () => {
-    it('clears feedback after 500ms', () => {
+    it('tap sets feedback; nextQuestion clears it', () => {
       store.getState().startGame();
       store.getState().tap(store.getState().q.answer);
-      vi.advanceTimersByTime(500);
+      expect(store.getState().feedback).toBe('correct');
+      store.getState().nextQuestion();
       expect(store.getState().feedback).toBeNull();
     });
 
-    it('generates new question after feedback clears', () => {
+    it('nextQuestion generates a new question', () => {
       store.getState().startGame();
-      const firstQ = store.getState().q;
-      store.getState().tap(firstQ.answer);
-      vi.advanceTimersByTime(500);
-      // New question is generated — may or may not be the same, but feedback is gone
-      expect(store.getState().feedback).toBeNull();
+      store.setState({ score: 0 } as Parameters<typeof store.setState>[0]);
+      store.getState().tap(store.getState().q.answer);
+      store.getState().nextQuestion();
+      expect(store.getState().q).toBeDefined();
+      expect(store.getState().q.choices).toHaveLength(4);
     });
   });
 

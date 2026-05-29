@@ -1,4 +1,5 @@
 'use client';
+import { useEffect } from 'react';
 import { useMathRaceGame, GAME_TIME } from '../useMathRaceGame';
 import MathRaceProgressBar from './MathRaceProgressBar';
 import MathRaceQuestion from './MathRaceQuestion';
@@ -6,7 +7,13 @@ import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardCon
 import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
 
 export default function MathRacePlayScreen() {
-  const { q, score, timeLeft, feedback, streak, correct, total, tap, accuracy } = useMathRaceGame();
+  const { q, score, timeLeft, feedback, streak, correct, total, tap, nextQuestion, accuracy } = useMathRaceGame();
+
+  useEffect(() => {
+    if (!feedback) return;
+    const id = setTimeout(nextQuestion, 500);
+    return () => clearTimeout(id);
+  }, [feedback, nextQuestion]);
 
   useKeyboardControls(
     {
