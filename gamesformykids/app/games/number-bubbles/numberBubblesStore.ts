@@ -42,6 +42,8 @@ interface NumberBubblesActions {
   startRound: (lvl: number) => void;
   nextLevel:  () => void;
   tap:        (bubble: Bubble) => void;
+  tick:       (elapsed: number) => void;
+  clearWrong: () => void;
 }
 
 const INITIAL: NumberBubblesState = {
@@ -51,55 +53,49 @@ const INITIAL: NumberBubblesState = {
 
 export const useNumberBubblesStore = makeStore<NumberBubblesState & NumberBubblesActions>(
   'NumberBubblesStore',
-  (set, get) => {
-    let intervalId: ReturnType<typeof setInterval> | null = null;
-    let startTime  = 0;
+  (set, get) => ({
+    ...INITIAL,
 
-    function stopTimer() {
-      if (intervalId) { clearInterval(intervalId); intervalId = null; }
-    }
+    startGame:  () => set(
+      { phase: 'playing', level: 1, bubbles: makeBubbles(5 + 3), next: 1, elapsed: 0, wrong: false },
+      false, 'bubbles/startRound',
+    ),
 
-    function beginRound(lvl: number) {
+    startRound: (lvl: number) => set(
+      { phase: 'playing', level: lvl, bubbles: makeBubbles(5 + lvl * 3), next: 1, elapsed: 0, wrong: false },
+      false, 'bubbles/startRound',
+    ),
+
+    nextLevel: () => {
+      const lvl = get().level + 1;
       set(
         { phase: 'playing', level: lvl, bubbles: makeBubbles(5 + lvl * 3), next: 1, elapsed: 0, wrong: false },
         false, 'bubbles/startRound',
       );
-      stopTimer();
-      startTime = Date.now();
-      intervalId = setInterval(() => {
-        set({ elapsed: Math.floor((Date.now() - startTime) / 100) / 10 }, false, 'bubbles/tick');
-      }, 100);
-    }
+    },
 
-    return {
-      ...INITIAL,
+    tick: (elapsed) => set({ elapsed }, false, 'bubbles/tick'),
 
-      startGame:  () => beginRound(1),
-      startRound: (lvl: number) => beginRound(lvl),
-      nextLevel:  () => beginRound(get().level + 1),
+    clearWrong: () => set({ wrong: false }, false, 'bubbles/clearWrong'),
 
-      tap: (bubble: Bubble) => {
-        const { phase, bubbles, next, level, best } = get();
-        if (phase !== 'playing' || bubble.popped) return;
+    tap: (bubble: Bubble) => {
+      const { phase, bubbles, next, level, best, elapsed } = get();
+      if (phase !== 'playing' || bubble.popped) return;
 
-        if (bubble.num !== next) {
-          set({ wrong: true }, false, 'bubbles/wrong');
-          setTimeout(() => set({ wrong: false }, false, 'bubbles/clearWrong'), 600);
-          return;
-        }
+      if (bubble.num !== next) {
+        set({ wrong: true }, false, 'bubbles/wrong');
+        return;
+      }
 
-        const updated  = bubbles.map(b => b.id === bubble.id ? { ...b, popped: true } : b);
-        const allPopped = updated.every(b => b.popped);
+      const updated   = bubbles.map(b => b.id === bubble.id ? { ...b, popped: true } : b);
+      const allPopped = updated.every(b => b.popped);
 
-        if (allPopped) {
-          stopTimer();
-          const t      = Math.floor((Date.now() - startTime) / 100) / 10;
-          const newBest = best && best.time <= t && best.level >= level ? best : { level, time: t };
-          set({ bubbles: updated, next: next + 1, elapsed: t, phase: 'results', best: newBest }, false, 'bubbles/complete');
-        } else {
-          set({ bubbles: updated, next: next + 1 }, false, 'bubbles/pop');
-        }
-      },
-    };
-  },
+      if (allPopped) {
+        const newBest = best && best.time <= elapsed && best.level >= level ? best : { level, time: elapsed };
+        set({ bubbles: updated, next: next + 1, phase: 'results', best: newBest }, false, 'bubbles/complete');
+      } else {
+        set({ bubbles: updated, next: next + 1 }, false, 'bubbles/pop');
+      }
+    },
+  }),
 );
