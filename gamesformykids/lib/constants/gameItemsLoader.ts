@@ -67,7 +67,6 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'smells-tastes': return fromNature('ALL_SMELLS_TASTES');
     case 'ocean-life':    return fromNature('OCEAN_LIFE_ITEMS');
     case 'garden-plants': return fromNature('GARDEN_PLANTS_ITEMS');
-    case 'memory':        return fromNature('ALL_ANIMALS');
 
     // basic.ts
     case 'colors':         return fromBasic('ALL_COLORS');
@@ -78,10 +77,6 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'advanced-colors':return fromBasic('ADVANCED_COLORS_ITEMS');
     case 'counting':       return (await import('./gameData/counting')).COUNTING_ITEMS;
     case 'math':           return fromBasic('ALL_NUMBERS');
-    case 'bubbles':        return fromBasic('ALL_COLORS');
-    case 'puzzles':        return fromBasic('ALL_SHAPES');
-    case 'building':       return fromBasic('ALL_SHAPES');
-    case 'tetris':         return fromBasic('ALL_SHAPES');
 
     // world.ts
     case 'transport':        return fromWorld('ALL_TRANSPORTS');
