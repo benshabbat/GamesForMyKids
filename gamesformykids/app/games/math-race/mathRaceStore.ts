@@ -1,4 +1,5 @@
 import { makePersistStore } from '@/lib/stores/createStore';
+import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import type { ArithOp as Op, PhaseDead as Phase } from '@/lib/types';
 import { randInt as rnd } from '@/lib/utils';
@@ -51,8 +52,9 @@ interface MathRaceState {
 }
 
 interface MathRaceActions {
-  startGame: () => void;
-  tap:       (choice: number) => void;
+  startGame:    () => void;
+  tap:          (choice: number) => void;
+  nextQuestion: () => void;
 }
 
 const INITIAL: MathRaceState = {
@@ -64,35 +66,24 @@ export const useMathRaceStore = makePersistStore<MathRaceState & MathRaceActions
   'MathRaceStore',
   'math-race-best',
   (set, get) => {
-    let gameTimerId:  ReturnType<typeof setInterval> | null = null;
-    let feedbackId:   ReturnType<typeof setTimeout>  | null = null;
-
-    function clearTimers() {
-      if (gameTimerId) { clearInterval(gameTimerId); gameTimerId = null; }
-      if (feedbackId)  { clearTimeout(feedbackId);   feedbackId  = null; }
-    }
-
-    function startGameTimer() {
-      if (typeof window === 'undefined') return;
-      gameTimerId = setInterval(() => {
-        const { timeLeft, score, best } = get();
-        if (timeLeft <= 1) {
-          clearTimers();
-          set({ timeLeft: 0, phase: 'dead', best: Math.max(best, score) }, false, 'mathRace/gameOver');
-        } else {
-          set({ timeLeft: timeLeft - 1 }, false, 'mathRace/tick');
-        }
-      }, 1000);
-    }
+    const timer = setupGameTimer({
+      name: 'mathRace',
+      set,
+      get,
+      onEnd: () => {
+        const { score, best } = get();
+        set({ timeLeft: 0, phase: 'dead', best: Math.max(best, score) }, false, 'mathRace/gameOver');
+      },
+    });
 
     return {
       ...INITIAL,
 
       startGame: () => {
         const diff = useGameDifficulty.getState().difficulty;
-        clearTimers();
+        timer.stop();
         set({ ...INITIAL, phase: 'playing', best: get().best, q: makeQ(0), timeLeft: DIFFICULTY_TIME[diff] }, false, 'mathRace/startGame');
-        startGameTimer();
+        timer.start();
       },
 
       tap: (choice: number) => {
@@ -103,18 +94,14 @@ export const useMathRaceStore = makePersistStore<MathRaceState & MathRaceActions
         if (choice === q.answer) {
           const newStreak  = streak + 1;
           const pts        = newStreak >= 3 ? 20 : 10;
-          const newScore   = score + pts;
-          const newCorrect = correct + 1;
-          set({ score: newScore, streak: newStreak, total: newTotal, correct: newCorrect, feedback: 'correct' }, false, 'mathRace/correct');
-          feedbackId = setTimeout(() => {
-            set({ feedback: null, q: makeQ(get().score) }, false, 'mathRace/nextQ');
-          }, 500);
+          set({ score: score + pts, streak: newStreak, total: newTotal, correct: correct + 1, feedback: 'correct' }, false, 'mathRace/correct');
         } else {
           set({ streak: 0, total: newTotal, feedback: 'wrong' }, false, 'mathRace/wrong');
-          feedbackId = setTimeout(() => {
-            set({ feedback: null, q: makeQ(get().score) }, false, 'mathRace/nextQ');
-          }, 500);
         }
+      },
+
+      nextQuestion: () => {
+        set({ feedback: null, q: makeQ(get().score) }, false, 'mathRace/nextQ');
       },
     };
   },
