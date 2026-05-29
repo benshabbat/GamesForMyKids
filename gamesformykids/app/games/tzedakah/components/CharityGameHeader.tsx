@@ -9,7 +9,7 @@ export default function CharityGameHeader() {
     <>
       {/* כותרת מעוצבת */}
       <div className="text-center mb-6">
-        <h1 className={`font-black text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 mb-2 drop-shadow-lg ${
+        <h1 className={`font-black text-orange-500 text-transparent bg-clip-text bg-gradient-to-r from-yellow-500 via-orange-500 to-red-500 mb-2 drop-shadow-lg ${
           isMobile ? 'text-3xl' : 'text-5xl'
         }`}>
           🪙 משחק קופת הצדקה 🪙
