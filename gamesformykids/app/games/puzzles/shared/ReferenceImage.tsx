@@ -8,7 +8,7 @@ export default function ReferenceImage() {
   if (!displayImage) return null;
   return (
     <div className="bg-white/90 backdrop-blur-sm rounded-2xl border border-gray-200 shadow-xl p-4 lg:p-6">
-      <h3 className="text-lg lg:text-xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-3 lg:mb-4 text-center">
+      <h3 className="text-lg lg:text-xl font-bold text-purple-700 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent mb-3 lg:mb-4 text-center">
         🖼️ תמונת עזר
       </h3>
       <div className="aspect-square relative rounded-xl overflow-hidden max-w-48 mx-auto lg:max-w-none shadow-lg">
