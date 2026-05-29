@@ -6,7 +6,9 @@ interface TouchControlsProps {
 }
 
 const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
-  const { isGameRunning, gameOver, score, startNewGame: onStartGame } = useTetrisState();
+  const { phase, score, startNewGame: onStartGame } = useTetrisState();
+  const isGameRunning = phase === 'playing';
+  const gameOver = phase === 'gameover';
   const { handleMove, handleRotate } = useTouchControls();
 
   // פריסה למחשב
