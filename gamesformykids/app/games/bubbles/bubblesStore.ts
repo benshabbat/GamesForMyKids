@@ -13,7 +13,6 @@ export interface BubbleData {
 interface BubblesState {
   isPlaying: boolean;
   score: number;
-  level: number;
   poppedCount: number;
   bubbles: BubbleData[];
 }
@@ -31,23 +30,20 @@ export const useBubblesStore = makeStore<BubblesState & BubblesActions>(
   (set, get) => ({
     isPlaying: false,
     score: 0,
-    level: 1,
     poppedCount: 0,
     bubbles: [],
-    startGame: () => set({ isPlaying: true, score: 0, level: 1, poppedCount: 0, bubbles: [] }, false, 'bubbles/startGame'),
+    startGame: () => set({ isPlaying: true, score: 0, poppedCount: 0, bubbles: [] }, false, 'bubbles/startGame'),
     stopGame: () => set({ isPlaying: false }, false, 'bubbles/stopGame'),
-    resetGame: () => set({ isPlaying: false, score: 0, level: 1, poppedCount: 0, bubbles: [] }, false, 'bubbles/resetGame'),
+    resetGame: () => set({ isPlaying: false, score: 0, poppedCount: 0, bubbles: [] }, false, 'bubbles/resetGame'),
     addBubble: (bubble) => set({ bubbles: [...get().bubbles, bubble] }, false, 'bubbles/addBubble'),
     popBubble: (bubbleId, scored) => {
-      const { bubbles, score, poppedCount, level } = get();
+      const { bubbles, score, poppedCount } = get();
       const newPoppedCount = scored ? poppedCount + 1 : poppedCount;
-      const newLevel = newPoppedCount > 0 && newPoppedCount % 15 === 0 ? level + 1 : level;
       set(
         {
           bubbles: bubbles.filter((b) => b.id !== bubbleId),
           score: scored ? score + 10 : score,
           poppedCount: newPoppedCount,
-          level: newLevel,
         },
         false,
         'bubbles/popBubble',
