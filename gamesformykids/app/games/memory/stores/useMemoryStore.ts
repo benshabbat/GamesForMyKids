@@ -119,28 +119,9 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     // ─── Game lifecycle ──────────────────────────────────────────────────────
 
     initializeGame: (targetDifficulty) => {
-      if (typeof window !== 'undefined' && window.speechSynthesis) {
-        window.speechSynthesis.cancel();
-      }
-
       const state = get();
       const currentDifficulty = targetDifficulty ?? state.difficulty;
       const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[currentDifficulty];
-
-      let audioContext = state.audioContext;
-      if (!audioContext && typeof window !== 'undefined') {
-        try {
-          const AudioContextClass =
-            window.AudioContext ||
-            (window as typeof window & { webkitAudioContext?: typeof AudioContext })
-              .webkitAudioContext;
-          if (AudioContextClass) {
-            audioContext = new AudioContextClass();
-          }
-        } catch (error) {
-          console.warn('Failed to initialize audio context:', error);
-        }
-      }
 
       const shuffled = [...MEMORY_GAME_ANIMALS].sort(() => Math.random() - 0.5);
       const animals = shuffled.slice(0, config.pairs);
@@ -165,7 +146,6 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           flippedCards: [],
           matchedPairs: [],
           gameStats: initialGameStats,
-          ...(audioContext !== state.audioContext ? { audioContext } : {}),
         },
         false,
         'memory/initializeGame',
@@ -192,32 +172,29 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
         'memory/flipCard',
       );
 
-      if (flippedCards.length === 1) {
-        const firstCardIndex = flippedCards[0]!;
+    },
 
-        setTimeout(() => {
-          const s = get();
-          const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
-          const outcome = resolveCardMatch(s, firstCardIndex, cardIndex, config.pairs);
+    resolveMatch: (firstCardIndex, secondCardIndex, audioContext) => {
+      const s = get();
+      const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
+      const outcome = resolveCardMatch(s, firstCardIndex, secondCardIndex, config.pairs);
 
-          set(
-            {
-              cards: outcome.cards,
-              matchedPairs: outcome.matchedPairs,
-              flippedCards: outcome.flippedCards,
-              gameStats: outcome.gameStats,
-            },
-            false,
-            outcome.isMatch ? 'memory/successMatch' : 'memory/failedMatch',
-          );
+      set(
+        {
+          cards: outcome.cards,
+          matchedPairs: outcome.matchedPairs,
+          flippedCards: outcome.flippedCards,
+          gameStats: outcome.gameStats,
+        },
+        false,
+        outcome.isMatch ? 'memory/successMatch' : 'memory/failedMatch',
+      );
 
-          if (outcome.isMatch) {
-            playMemorySuccessSound(s.audioContext);
-            if (outcome.isWon) {
-              set({ isGameWon: true, isCompleted: true }, false, 'memory/gameWon');
-            }
-          }
-        }, MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6);
+      if (outcome.isMatch) {
+        playMemorySuccessSound(audioContext);
+        if (outcome.isWon) {
+          set({ isGameWon: true, isCompleted: true }, false, 'memory/gameWon');
+        }
       }
     },
 

@@ -1,7 +1,8 @@
 'use client';
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useMemoryStore } from "./stores/useMemoryStore";
+import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/hooks/shared/auth/useAuth";
 
@@ -25,11 +26,47 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
     isGamePaused,
     isCompleted,
     timeLeft,
+    flippedCards,
     incrementTimer,
     decrementTimeLeft,
     setCompleted,
     setGameWon,
+    resolveMatch,
   } = useMemoryStore();
+
+  const audioContextRef = useRef<AudioContext | null>(null);
+
+  // Create AudioContext once on first user interaction (browser policy requires this)
+  useEffect(() => {
+    if (audioContextRef.current || typeof window === 'undefined') return;
+    try {
+      const AC = window.AudioContext ||
+        (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+      if (AC) audioContextRef.current = new AC();
+    } catch {
+      // AudioContext unavailable — sounds will be silent
+    }
+  }, []);
+
+  // Cancel speech on new game so old utterances don't play into the new game
+  useEffect(() => {
+    if (gameStarted && typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+  }, [gameStarted]);
+
+  // Resolve card match after flip animation delay
+  useEffect(() => {
+    if (flippedCards.length !== 2) return;
+    const [first, second] = flippedCards;
+    const id = setTimeout(
+      () => resolveMatch(first!, second!, audioContextRef.current),
+      MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6,
+    );
+    return () => clearTimeout(id);
+  // flippedCards reference changes on every flip; we only want to re-run when length reaches 2
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [flippedCards.length, resolveMatch]);
 
   // ── Timer ────────────────────────────────────────────────────────────────
   useEffect(() => {
