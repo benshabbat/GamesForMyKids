@@ -31,9 +31,6 @@ export interface MemoryStoreState {
   flippedCards: number[];
   matchedPairs: string[];
 
-  // Audio
-  audioContext: AudioContext | null;
-
   // UI
   showHints: boolean;
   showDebug: boolean;
@@ -44,6 +41,7 @@ export interface MemoryStoreState {
 export interface MemoryStoreActions {
   initializeGame: (targetDifficulty?: DifficultyLevel) => void;
   handleCardClick: (cardIndex: number) => void;
+  resolveMatch: (firstCardIndex: number, secondCardIndex: number, audioContext: AudioContext | null) => void;
   pauseGame: () => void;
   resumeGame: () => void;
   resetGame: () => void;
@@ -97,7 +95,6 @@ export const initialState: MemoryStoreState = {
   animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.medium.pairs),
   flippedCards: [],
   matchedPairs: [],
-  audioContext: null,
   showHints: false,
   showDebug: false,
 };

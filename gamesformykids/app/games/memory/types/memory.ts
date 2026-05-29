@@ -40,9 +40,6 @@ export interface MemoryState {
   flippedCards: number[];
   matchedPairs: string[];
   
-  // Audio
-  audioContext: AudioContext | null;
-  
   // UI State
   showHints: boolean;
   showDebug: boolean;
