@@ -18,7 +18,6 @@ export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
   // Auto-play sound on each new question so pre-readers don't need to tap first
   useEffect(() => {
     speakHebrew(current.sound).catch(() => {});
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [current.sound]);
 
   return (
