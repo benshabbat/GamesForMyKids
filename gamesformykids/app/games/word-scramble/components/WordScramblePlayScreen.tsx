@@ -1,10 +1,29 @@
 'use client';
+import { useEffect } from 'react';
 import { useWordScrambleGame } from '../useWordScrambleGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function WordScramblePlayScreen() {
-  const { words, wIdx, letters, picked, score, lives, shake, correct, pickLetter, unpick } =
-    useWordScrambleGame();
+  const { words, wIdx, letters, picked, score, lives, shake, correct, phase, pickLetter, unpick,
+          advanceWord, resetPick, goToResults } = useWordScrambleGame();
+
+  useEffect(() => {
+    if (!correct) return;
+    const id = setTimeout(advanceWord, 900);
+    return () => clearTimeout(id);
+  }, [correct, advanceWord]);
+
+  useEffect(() => {
+    if (!shake) return;
+    const id = setTimeout(resetPick, 600);
+    return () => clearTimeout(id);
+  }, [shake, resetPick]);
+
+  useEffect(() => {
+    if (lives > 0 || phase !== 'playing') return;
+    const id = setTimeout(goToResults, 1000);
+    return () => clearTimeout(id);
+  }, [lives, phase, goToResults]);
   const entry  = words[wIdx]!;
   const target = entry.word;
 

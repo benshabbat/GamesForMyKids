@@ -41,11 +41,15 @@ describe('uiStore', () => {
       expect(useUIStore.getState().notifications).toHaveLength(2);
     });
 
-    it('auto-removes after duration', () => {
+    it('stores duration on the notification for component-managed auto-dismiss', () => {
       useUIStore.getState().addNotification('auto', 'info', 1000);
+      expect(useUIStore.getState().notifications[0]!.duration).toBe(1000);
+    });
+
+    it('does not auto-remove from the store (dismissal is component responsibility)', () => {
+      useUIStore.getState().addNotification('auto', 'info', 1000);
+      vi.advanceTimersByTime(2000);
       expect(useUIStore.getState().notifications).toHaveLength(1);
-      vi.advanceTimersByTime(1001);
-      expect(useUIStore.getState().notifications).toHaveLength(0);
     });
   });
 

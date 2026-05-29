@@ -1,6 +1,16 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useColoringStore, PALETTE_COLORS } from '../store/coloringStore';
+
+function speakHebrew(text: string) {
+  if (typeof window === 'undefined') return;
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = 'he-IL';
+  utterance.rate = 0.9;
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(utterance);
+}
 
 export function ColoringPalette() {
   const selectedColor = useColoringStore((s) => s.selectedColor);
@@ -8,13 +18,17 @@ export function ColoringPalette() {
 
   const selectedColorName = PALETTE_COLORS.find((c) => c.hex === selectedColor)?.hebrew ?? '';
 
+  useEffect(() => {
+    if (selectedColorName) speakHebrew(selectedColorName);
+  }, [selectedColorName]);
+
   return (
     <div className="bg-white rounded-2xl shadow-lg p-3 mb-4 border-2 border-purple-100">
       <div className="flex flex-wrap gap-2 justify-center">
         {PALETTE_COLORS.map((color) => (
           <button
             key={color.hex}
-            onClick={() => selectColor(color.hex, color.hebrew)}
+            onClick={() => selectColor(color.hex)}
             title={color.hebrew}
             aria-label={`צבע ${color.hebrew}`}
             className={`w-10 h-10 rounded-full border-4 transition-all hover:scale-110 active:scale-95 ${
