@@ -17,7 +17,6 @@ export interface GameProgressState {
   level: number;
   attempts: number;
   correctAnswers: number;
-  totalQuestions: number;
   timeSpent: number;
   startTime: number;
   streakCount: number;
@@ -43,7 +42,6 @@ const INITIAL_STATE: GameProgressState = {
   level: 1,
   attempts: 0,
   correctAnswers: 0,
-  totalQuestions: 0,
   timeSpent: 0,
   startTime: 0,
   streakCount: 0,
@@ -72,7 +70,6 @@ export const useGameProgressStore = makeStore<GameProgressState & GameProgressAc
             return {
               attempts: s.attempts + 1,
               correctAnswers: s.correctAnswers + (isCorrect ? 1 : 0),
-              totalQuestions: s.totalQuestions + 1,
               streakCount: newStreakCount,
               bestStreak: Math.max(newStreakCount, s.bestStreak),
               score: isCorrect ? s.score + pointsPerCorrect : s.score,

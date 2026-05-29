@@ -25,12 +25,12 @@ import { AutoGameBody } from "./AutoGameBody";
  */
 export function AutoGamePage() {
   const { gameState, isPlaying, config } = useAutoGame();
-  const totalQuestions = useGameProgressStore((s) => s.totalQuestions);
+  const attempts       = useGameProgressStore((s) => s.attempts);
   const correctAnswers = useGameProgressStore((s) => s.correctAnswers);
   const streakCount    = useGameProgressStore((s) => s.streakCount);
   const timeSpent      = useGameProgressStore((s) => s.timeSpent);
 
-  const accuracy     = totalQuestions > 0 ? Math.round((correctAnswers / totalQuestions) * 100) : 0;
+  const accuracy     = attempts > 0 ? Math.round((correctAnswers / attempts) * 100) : 0;
   const averageTime  = correctAnswers > 0 ? Math.round(timeSpent / correctAnswers) : 0;
 
   // 🖥️ אם לא במשחק או gameState לא קיים, הראה StartScreen
@@ -50,7 +50,7 @@ export function AutoGamePage() {
         {/* מודל סטטיסטיקות */}
         <ProgressDisplay
           stats={{
-            totalItems: totalQuestions,
+            totalItems: attempts,
             completedItems: correctAnswers,
             averageTime,
             accuracy,

@@ -49,7 +49,6 @@ describe('gameProgressStore', () => {
       const s = useGameProgressStore.getState();
       expect(s.correctAnswers).toBe(1);
       expect(s.attempts).toBe(1);
-      expect(s.totalQuestions).toBe(1);
       expect(s.streakCount).toBe(1);
       expect(s.score).toBe(10);
     });
