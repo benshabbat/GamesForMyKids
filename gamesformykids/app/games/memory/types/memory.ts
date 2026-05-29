@@ -19,7 +19,6 @@ export interface MemoryCard {
 export interface GameStats {
   moves: number;
   score: number;
-  timeElapsed: number;
   perfectMatches: number;
   streak: number;
 }

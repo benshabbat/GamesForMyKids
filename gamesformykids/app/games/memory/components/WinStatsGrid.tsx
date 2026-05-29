@@ -3,14 +3,14 @@ import { useMemoryStore } from '../stores/useMemoryStore';
 import { StatBox } from '@/components/game/shared/StatBox';
 
 export default function WinStatsGrid() {
-  const { gameStats, formatTime, getFormattedTimeLeft } = useMemoryStore();
+  const { gameStats, timer, formatTime, getFormattedTimeLeft } = useMemoryStore();
 
   return (
     <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
       <StatBox
         bgClass="bg-white/80"
         icon={<Clock className="w-6 h-6 mx-auto mb-1 text-green-600" />}
-        value={formatTime(gameStats.timeElapsed)}
+        value={formatTime(timer)}
         label="זמן שהושקע"
         textClass="text-lg font-bold text-green-600"
       />
