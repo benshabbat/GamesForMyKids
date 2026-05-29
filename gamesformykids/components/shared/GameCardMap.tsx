@@ -119,6 +119,11 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'nba-teams': createPhotoCard('nba-teams'),
   'exotic-birds': createPhotoCard('exotic-birds'),
   'butterflies': createPhotoCard('butterflies'),
+  'days-of-week': DefaultGameCard,
+  'months-of-year': DefaultGameCard,
+  'ordinals': DefaultGameCard,
+  'spatial-concepts': DefaultGameCard,
+  'number-words': DefaultGameCard,
 };
 
 export default GameCardMap;
