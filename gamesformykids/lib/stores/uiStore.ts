@@ -55,7 +55,7 @@ let _counter = 0;
 const genId = () => `notif_${Date.now()}_${++_counter}`;
 
 // ── Store ──────────────────────────────────────────────────
-export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set, get) => ({
+export const useUIStore = makeStore<UIState & UIActions>('UIStore', (set) => ({
       notifications: [],
       showProgressModal: false,
       isUserMenuOpen: false,
