@@ -5,7 +5,7 @@ export function HeaderHero() {
         🎮 משחקים לילדים 🎮
       </h1>
       <p className="text-base md:text-lg lg:text-2xl text-purple-600 font-semibold mb-4 md:mb-6">
-        משחקים מהנים לגיל 2-5!
+        משחקים מהנים לגיל 3-10!
       </p>
     </>
   );
