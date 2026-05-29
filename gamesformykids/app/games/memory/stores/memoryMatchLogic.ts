@@ -34,17 +34,17 @@ export function resolveCardMatch(
     matched[firstIdx]  = { ...matched[firstIdx]!,  isMatched: true };
     matched[secondIdx] = { ...matched[secondIdx]!, isMatched: true };
 
-    const newMatches = state.gameStats.matches + 1;
-    const newStreak  = state.gameStats.streak  + 1;
-    const newScore   = state.gameStats.score   + 100 * newStreak;
+    const newMatchedPairs = [...state.matchedPairs, firstCard.animal.name];
+    const newStreak  = state.gameStats.streak + 1;
+    const newScore   = state.gameStats.score  + 100 * newStreak;
 
     return {
       isMatch: true,
       cards: matched,
-      matchedPairs: [...state.matchedPairs, firstCard.animal.name],
+      matchedPairs: newMatchedPairs,
       flippedCards: [],
-      gameStats: { ...state.gameStats, matches: newMatches, streak: newStreak, score: newScore },
-      isWon: newMatches === totalPairs,
+      gameStats: { ...state.gameStats, streak: newStreak, score: newScore },
+      isWon: newMatchedPairs.length === totalPairs,
     };
   }
 

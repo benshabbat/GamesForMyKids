@@ -3,7 +3,7 @@
 import { useMemoryStore } from "../stores/useMemoryStore";
 
 export default function GameTimeoutScreen() {
-  const { gameStats, difficulty, getDifficultyConfig, initializeGame, resetToMenu } = useMemoryStore();
+  const { gameStats, matchedPairs, difficulty, getDifficultyConfig, initializeGame, resetToMenu } = useMemoryStore();
   const difficultyConfig = getDifficultyConfig();
 
   return (
@@ -16,7 +16,7 @@ export default function GameTimeoutScreen() {
         </p>
         <div className="bg-purple-100 rounded-xl p-4 mb-8">
           <div className="text-3xl font-bold text-purple-700">{gameStats.score} נקודות</div>
-          <div className="text-gray-600 mt-1">זוגות שנמצאו: {gameStats.matches}</div>
+          <div className="text-gray-600 mt-1">זוגות שנמצאו: {matchedPairs.length}</div>
         </div>
         <div className="flex gap-4 justify-center flex-wrap">
           <button
