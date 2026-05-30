@@ -66,8 +66,8 @@ export default function BlockRenderer({ blockId }: BlockRendererProps) {
       
       {block.sparkles && (
         <div className="absolute inset-0 pointer-events-none">
-          <Sparkles className="w-4 h-4 text-yellow-300 animate-ping absolute top-0 left-0" />
-          <Sparkles className="w-3 h-3 text-pink-300 animate-ping absolute bottom-0 right-0" style={{ animationDelay: '0.5s' }} />
+          <Sparkles className="w-4 h-4 text-yellow-300 absolute top-0 left-0" />
+          <Sparkles className="w-3 h-3 text-pink-300 absolute bottom-0 right-0" />
         </div>
       )}
       

@@ -24,11 +24,11 @@ export function CanvasDPadControls({
   return (
     <div className={`${mt} grid grid-cols-3 gap-2`} style={style}>
       <div />
-      <button onPointerDown={onUp} className={buttonClass}>▲</button>
+      <button onPointerDown={onUp} className={buttonClass} aria-label="למעלה">▲</button>
       <div />
-      <button onPointerDown={onLeft} className={buttonClass}>◀</button>
-      <button onPointerDown={onDown} className={buttonClass}>▼</button>
-      <button onPointerDown={onRight} className={buttonClass}>▶</button>
+      <button onPointerDown={onLeft} className={buttonClass} aria-label="שמאלה">◀</button>
+      <button onPointerDown={onDown} className={buttonClass} aria-label="למטה">▼</button>
+      <button onPointerDown={onRight} className={buttonClass} aria-label="ימינה">▶</button>
     </div>
   );
 }
