@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useReflexStore } from './reflexStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 import { TARGET_EMOJIS, getLifetime, getSpawnInterval } from './data/targets';
 
 export type { Target } from './reflexStore';
@@ -12,23 +13,10 @@ const _useStore = createShallowHook(useReflexStore);
 export function useReflexGame() {
   const state = _useStore();
   const { saveGameResultRef } = useGameCompletion('reflex');
-  const startTimeRef = useRef<number>(0);
-  const nextIdRef    = useRef(0);
-  const spawnIdRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const nextIdRef  = useRef(0);
+  const spawnIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Record start time when game begins
-  useEffect(() => {
-    if (state.phase === 'playing') startTimeRef.current = Date.now();
-  }, [state.phase]);
-
-  // Persist result when game ends
-  useEffect(() => {
-    if (state.phase === 'result') {
-      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-      saveGameResultRef.current({ score: state.score, level: 1, durationSeconds });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase]);
+  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }));
 
   // Target spawner — runs while phase === 'playing'
   useEffect(() => {
