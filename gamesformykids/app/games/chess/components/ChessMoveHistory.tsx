@@ -7,7 +7,7 @@ import { useChessGame } from '../useChessGame';
 const RATING_BADGE: Record<string, { label: string; cls: string }> = {
   excellent: { label: '⭐', cls: 'text-yellow-300' },
   great:     { label: '💥', cls: 'text-orange-400' },
-  good:      { label: '✓',  cls: 'text-emerald-400 text-[10px]' },
+  good:      { label: '✓',  cls: 'text-emerald-400 text-xs' },
   castle:    { label: '🏰', cls: 'text-blue-300' },
   normal:    { label: '',   cls: '' },
 };
@@ -23,7 +23,7 @@ function MoveCell({ record, isLastRow }: { record: MoveRecord | undefined; isLas
         : isWhite ? 'text-slate-300' : 'text-slate-500'
     }`}>
       <span>{record.notation}</span>
-      {record.gaveCheck && <span className="text-red-400 me-0.5 text-[9px] font-bold">+</span>}
+      {record.gaveCheck && <span className="text-red-400 me-0.5 text-xs font-bold">+</span>}
       {badge.label && <span className={`me-0.5 ${badge.cls}`}>{badge.label}</span>}
     </td>
   );
@@ -57,9 +57,9 @@ export default function ChessMoveHistory() {
         className="flex items-center justify-between px-3 py-2"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.025)' }}
       >
-        <span className="text-[10px] text-slate-400 tracking-wider font-semibold uppercase">היסטוריית מהלכים</span>
+        <span className="text-xs text-slate-400 tracking-wider font-semibold uppercase">היסטוריית מהלכים</span>
         <span
-          className="text-[9px] font-mono px-1.5 py-0.5 rounded-md"
+          className="text-xs font-mono px-1.5 py-0.5 rounded-md"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.3)' }}
         >
           {moveHistory.length}
@@ -74,9 +74,9 @@ export default function ChessMoveHistory() {
             style={{ background: 'rgba(8,8,16,0.95)' }}
           >
             <tr>
-              <th className="px-2 py-1 text-[9px] text-slate-700 w-5 text-center">#</th>
-              <th className="px-2 py-1 text-[9px] text-slate-600">♙ לבן</th>
-              <th className="px-2 py-1 text-[9px] text-slate-600">♟ שחור</th>
+              <th className="px-2 py-1 text-xs text-slate-700 w-5 text-center">#</th>
+              <th className="px-2 py-1 text-xs text-slate-600">♙ לבן</th>
+              <th className="px-2 py-1 text-xs text-slate-600">♟ שחור</th>
             </tr>
           </thead>
           <tbody>
@@ -93,7 +93,7 @@ export default function ChessMoveHistory() {
                         : {}
                   }
                 >
-                  <td className="px-2 py-1.5 text-[9px] text-slate-700 text-center font-mono">{i + 1}</td>
+                  <td className="px-2 py-1.5 text-xs text-slate-700 text-center font-mono">{i + 1}</td>
                   <MoveCell record={white} isLastRow={isLastRow} />
                   <MoveCell record={black} isLastRow={isLastRow && !!black} />
                 </tr>

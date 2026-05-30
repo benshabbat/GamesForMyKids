@@ -12,7 +12,7 @@ export default function ChessStatusBar() {
 
       <div className="flex flex-col items-center justify-between gap-1 py-0.5">
         <div className={[
-          'text-[11px] font-extrabold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all duration-300 leading-none',
+          'text-xs font-extrabold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all duration-300 leading-none',
           turn === 'w'
             ? 'bg-[#f0d9b5] text-[#3d1f0a] shadow-md shadow-amber-900/40'
             : 'bg-slate-700/80 text-slate-400',
@@ -21,7 +21,7 @@ export default function ChessStatusBar() {
         </div>
         <button
           onClick={startGame}
-          className="text-[9px] font-semibold text-slate-600 hover:text-slate-300 transition-colors leading-none"
+          className="text-xs font-semibold text-slate-600 hover:text-slate-300 transition-colors leading-none"
         >
           🔄 חדש
         </button>

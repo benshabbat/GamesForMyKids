@@ -15,7 +15,7 @@ export default function ChessBoard() {
       <div className="flex flex-col">
         {RANKS.map(rank => (
           <div key={rank} className="w-4 h-10 sm:h-12 flex items-center justify-center">
-            <span className="text-amber-800/60 text-[10px] font-semibold">{rank}</span>
+            <span className="text-amber-800/60 text-xs font-semibold">{rank}</span>
           </div>
         ))}
       </div>
@@ -45,7 +45,7 @@ export default function ChessBoard() {
         <div className="flex mt-1 px-1.5">
           {FILES.map(f => (
             <div key={f} className="w-10 sm:w-12 flex items-center justify-center">
-              <span className="text-amber-800/60 text-[10px] font-semibold">{f}</span>
+              <span className="text-amber-800/60 text-xs font-semibold">{f}</span>
             </div>
           ))}
         </div>
