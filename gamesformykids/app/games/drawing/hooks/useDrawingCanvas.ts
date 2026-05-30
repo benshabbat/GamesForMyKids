@@ -21,6 +21,7 @@ export interface DrawingState {
 
 export const useDrawingCanvas = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const ctxRef   = useRef<CanvasRenderingContext2D | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
   const colors = [
@@ -73,8 +74,9 @@ export const useDrawingCanvas = () => {
     const { x, y } = getEventPosition(e);
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
+
+    ctxRef.current ??= canvas.getContext('2d');
+    const ctx = ctxRef.current;
     if (!ctx) return;
 
     const { isErasing, eraserSize, brushSize, currentColor } = useDrawingStore.getState();
@@ -99,10 +101,7 @@ export const useDrawingCanvas = () => {
     e.preventDefault();
     
     const { x, y } = getEventPosition(e);
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
+    const ctx = ctxRef.current;
     if (!ctx) return;
 
     const { isErasing, eraserSize, currentColor, brushSize } = useDrawingStore.getState();
@@ -126,22 +125,14 @@ export const useDrawingCanvas = () => {
   // סיום ציור
   const stopDrawing = useCallback(() => {
     setIsDrawing(false);
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
-      ctx.beginPath();
-    }
+    ctxRef.current?.beginPath();
   }, []);
 
   // ניקוי הקנבס
   const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
-    
-    const ctx = canvas.getContext('2d');
-    if (ctx) {
+    const ctx = ctxRef.current;
+    if (canvas && ctx) {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   }, []);
