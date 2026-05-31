@@ -11,7 +11,7 @@ export function DashboardHeader() {
         href="/"
         className="inline-block mt-4 text-purple-600 hover:text-purple-800 text-sm font-medium transition-colors"
       >
-        ← חזרה לעמוד הראשי
+        → חזרה לעמוד הראשי
       </Link>
     </div>
   );

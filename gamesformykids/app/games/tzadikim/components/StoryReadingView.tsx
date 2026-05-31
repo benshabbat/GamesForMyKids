@@ -32,7 +32,7 @@ export default function StoryReadingView({
             onClick={onBack}
             className="absolute top-4 right-4 text-white/80 hover:text-white text-sm font-medium bg-white/20 rounded-full px-3 py-1"
           >
-            ← חזור
+            → חזור
           </button>
           <div className="text-6xl mb-2">{story.emoji}</div>
           <h1 className="text-3xl font-bold mb-1">{story.name}</h1>

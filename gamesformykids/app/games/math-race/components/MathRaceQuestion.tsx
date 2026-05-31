@@ -18,11 +18,11 @@ export default function MathRaceQuestion({ q, feedback, streak, onTap }: Props) 
     <>
       <div className={`w-full max-w-sm bg-white rounded-3xl p-8 text-center shadow-2xl mb-5 transition-all duration-150 ${
         feedback === 'correct' ? 'bg-green-50 ring-4 ring-green-400 scale-105' :
-        feedback === 'wrong' ? 'bg-red-50 ring-4 ring-red-400' : ''
+        feedback === 'wrong' ? 'bg-amber-50 ring-4 ring-amber-400' : ''
       }`}>
         <p className="text-4xl font-black text-gray-700">{q.text}</p>
         {feedback && (
-          <p className={`text-2xl mt-3 font-bold ${feedback === 'correct' ? 'text-green-500' : 'text-red-500'}`}>
+          <p className={`text-2xl mt-3 font-bold ${feedback === 'correct' ? 'text-green-500' : 'text-amber-600'}`}>
             {feedback === 'correct' ? `✅ ${streak >= 3 ? 'בום! +20' : 'נכון! +10'}` : `❌ התשובה: ${q.answer}`}
           </p>
         )}

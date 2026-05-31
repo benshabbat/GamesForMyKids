@@ -37,7 +37,7 @@ export default function ColorTapPlayArea() {
 
       <div className={`mb-6 rounded-3xl p-6 text-center shadow-xl w-full max-w-xs transition-all duration-200 ${
         feedback === 'correct' ? 'bg-green-100 ring-4 ring-green-400' :
-        feedback === 'wrong' ? 'bg-red-100 ring-4 ring-red-400' : 'bg-white'
+        feedback === 'wrong' ? 'bg-amber-50 ring-4 ring-amber-400' : 'bg-white'
       }`}>
         <p className="text-gray-400 text-sm mb-3">בחר את הצבע:</p>
         <div className="flex items-center gap-4 justify-center mb-3">
