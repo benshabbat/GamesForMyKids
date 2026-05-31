@@ -26,12 +26,12 @@ export default function TrueFalsePlayScreen() {
       </div>
       <div className={`w-full max-w-sm bg-white rounded-3xl p-6 text-center shadow-2xl mb-6 transition-all duration-200 ${
         feedback === 'correct' ? 'ring-4 ring-green-400 bg-green-50' :
-        feedback === 'wrong'   ? 'ring-4 ring-red-400 bg-red-50' : ''
+        feedback === 'wrong'   ? 'ring-4 ring-amber-400 bg-amber-50' : ''
       }`}>
         <div className="text-5xl mb-4">{q?.emoji}</div>
         <p className="text-xl font-bold text-gray-700 leading-relaxed">{q?.fact}</p>
         {feedback && (
-          <p className={`text-3xl mt-3 ${feedback === 'correct' ? 'text-green-500' : 'text-red-500'}`}>
+          <p className={`text-3xl mt-3 ${feedback === 'correct' ? 'text-green-500' : 'text-amber-600'}`}>
             {feedback === 'correct' ? '✅ נכון!' : q?.answer ? '❌ אוי! זה נכון' : '❌ אוי! זה לא נכון'}
           </p>
         )}

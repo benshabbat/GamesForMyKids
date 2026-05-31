@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { AudioSection } from '@/components/settings/AudioSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { AccountSection } from '@/components/settings/AccountSection';
+import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 export default function SettingsClient() {
   const { user, loading: authLoading, signOut } = useAuth();
@@ -14,11 +15,7 @@ export default function SettingsClient() {
   const [saving, setSaving] = useState(false);
 
   if (authLoading || settingsLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
-        <div className="text-xl">טוען...</div>
-      </div>
-    );
+    return <GameSpinnerScreen />;
   }
 
   if (!user) {
@@ -53,7 +50,7 @@ export default function SettingsClient() {
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center text-purple-600 hover:text-purple-800 mb-4">
-            ← חזור לדף הבית
+            → חזור לדף הבית
           </Link>
           <h1 className="text-3xl font-bold text-purple-800">הגדרות</h1>
         </div>
@@ -77,7 +74,7 @@ export default function SettingsClient() {
         </div>
 
         {saving && (
-          <div className="fixed bottom-4 right-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg">
+          <div role="status" aria-live="polite" className="fixed bottom-4 end-4 bg-purple-600 text-white px-4 py-2 rounded-lg shadow-lg">
             שומר...
           </div>
         )}

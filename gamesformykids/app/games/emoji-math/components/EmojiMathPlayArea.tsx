@@ -49,7 +49,7 @@ export default function EmojiMathPlayArea() {
 
       <div className={`w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl mb-5 transition-all duration-200 ${
         feedback === 'correct' ? 'ring-4 ring-green-400 bg-green-50' :
-        feedback === 'wrong' ? 'ring-4 ring-red-400 bg-red-50' : ''
+        feedback === 'wrong' ? 'ring-4 ring-amber-400 bg-amber-50' : ''
       }`}>
         <p className="text-center text-gray-400 text-xs mb-3">רמה {level}</p>
         <div className="flex flex-wrap gap-1 justify-center mb-3 min-h-12 p-2 bg-orange-50 rounded-2xl">
