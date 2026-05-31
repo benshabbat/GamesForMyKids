@@ -13,6 +13,7 @@ import {
   MemoryStoreActions,
   initialState,
   initialGameStats,
+  type MemoryPhase,
 } from './memoryStoreTypes';
 import { formatTime, getTimeColor, getGridCols, getAnimationDelay } from './memoryPureHelpers';
 import { resolveCardMatch } from './memoryMatchLogic';
@@ -62,8 +63,8 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     },
 
     canClickCard: (cardIndex) => {
-      const { isGamePaused, isCompleted, timeLeft, cards, flippedCards } = get();
-      if (isGamePaused || isCompleted || timeLeft <= 0) return false;
+      const { isGamePaused, phase, timeLeft, cards, flippedCards } = get();
+      if (isGamePaused || phase !== 'playing' || timeLeft <= 0) return false;
       const card = cards[cardIndex];
       if (!card || card.isFlipped || card.isMatched) return false;
       if (flippedCards.includes(cardIndex)) return false;
@@ -72,11 +73,11 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     },
 
     getGameStateDescription: () => {
-      const { gameStarted, isGamePaused, isGameWon, isCompleted, timeLeft } = get();
-      if (!gameStarted) return 'לא התחיל';
+      const { phase, isGamePaused, timeLeft } = get();
+      if (phase === 'menu') return 'לא התחיל';
       if (isGamePaused) return 'מושהה';
-      if (isGameWon) return 'ניצחת!';
-      if (isCompleted || timeLeft <= 0) return 'נגמר הזמן';
+      if (phase === 'won') return 'ניצחת!';
+      if (phase === 'timeout' || timeLeft <= 0) return 'נגמר הזמן';
       return 'פעיל';
     },
 
@@ -113,8 +114,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
         'memory/decrementTimeLeft',
       ),
 
-    setCompleted: (value) => set({ isCompleted: value }, false, 'memory/setCompleted'),
-    setGameWon: (value) => set({ isGameWon: value }, false, 'memory/setGameWon'),
+    setPhase: (p: MemoryPhase) => set({ phase: p }, false, 'memory/setPhase'),
 
     // ─── Game lifecycle ──────────────────────────────────────────────────────
 
@@ -139,9 +139,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           animals,
           cards,
           timeLeft: config.timeLimit,
-          gameStarted: true,
-          isCompleted: false,
-          isGameWon: false,
+          phase: 'playing' as MemoryPhase,
           timer: 0,
           flippedCards: [],
           matchedPairs: [],
@@ -193,7 +191,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
       if (outcome.isMatch) {
         playMemorySuccessSound(audioContext);
         if (outcome.isWon) {
-          set({ isGameWon: true, isCompleted: true }, false, 'memory/gameWon');
+          set({ phase: 'won' as MemoryPhase }, false, 'memory/gameWon');
         }
       }
     },
@@ -204,9 +202,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     resetGame: () =>
       set(
         {
-          gameStarted: false,
-          isCompleted: false,
-          isGameWon: false,
+          phase: 'menu' as MemoryPhase,
           timer: 0,
           timeLeft: 0,
           isGamePaused: false,
