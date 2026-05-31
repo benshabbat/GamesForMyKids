@@ -124,6 +124,8 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'ordinals': DefaultGameCard,
   'spatial-concepts': DefaultGameCard,
   'number-words': DefaultGameCard,
+  'visual-opposites': DefaultGameCard,
+  'english-cards': DefaultGameCard,
 };
 
 export default GameCardMap;
