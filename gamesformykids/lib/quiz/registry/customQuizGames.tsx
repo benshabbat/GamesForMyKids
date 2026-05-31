@@ -2,6 +2,10 @@
 import type { ComponentType } from 'react';
 import { makeQuizGame } from '../makeQuizGame';
 import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
+import { useSortingGame } from '@/lib/quiz/useSortingGame';
+import SortingQuestion from '@/components/game/quiz/screens/SortingQuestion';
+import { usePatternsGame } from '@/lib/quiz/usePatternsGame';
+import PatternQuestion from '@/components/game/quiz/screens/PatternQuestion';
 
 import { useClockGame } from '@/lib/quiz/useClockGame';
 import { usePhonicsGame } from '@/lib/quiz/usePhonicsGame';
@@ -130,6 +134,24 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="🔊" title="פוניקה עברית" description="שמע צליל ובחר את האות הנכונה!" theme="violet" buttonLabel="🔊 בואו נתחיל!" onStart={startGame} />,
       question: current ? <PhonicsQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="violet" />,
+    }),
+  ),
+
+  'sorting': makeQuizGame(
+    useSortingGame,
+    ({ current, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🗂️" title="מיון לקטגוריות" description="כלב או כסא? — מיין כל פריט לקטגוריה שלו!" theme="emerald" buttonLabel="🗂️ בואו נמיין!" onStart={startGame} />,
+      question: current ? <SortingQuestion current={current} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="emerald" />,
+    }),
+  ),
+
+  'patterns': makeQuizGame(
+    usePatternsGame,
+    ({ current, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🔵🔴" title="זיהוי דפוסים" description="🔴🔵🔴🔵🔴❓ — מה בא הלאה?" theme="sky" buttonLabel="🔵 בואו נגלה!" onStart={startGame} />,
+      question: current ? <PatternQuestion current={current} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="sky" />,
     }),
   ),
 };

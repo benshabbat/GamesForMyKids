@@ -17,6 +17,8 @@ import {
   PenLine,
   MapPin,
   Hash,
+  Layers,
+  Repeat,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -47,4 +49,6 @@ export const gamesRegistryBatch4: GameRegistration[] = [
   { id: "adjectives",       title: "שמות תואר",                      description: "גדול, קטן, שמח, עצוב — למד לתאר עצמים!",           icon: PenLine,        emoji: "🎨", color: "bg-pink-500 hover:bg-pink-600",                                                                         href: "/games/adjectives",      available: true, order: 145 },
   { id: "spatial-concepts", title: "מושגי מרחב",                     description: "מעל, מתחת, בתוך — למד מושגי מיקום!",               icon: MapPin,         emoji: "🗺️", color: "bg-green-500 hover:bg-green-600",                                                                       href: "/games/spatial-concepts",available: true, order: 146 },
   { id: "number-words",     title: "מספרים כמילים",                  description: "אחד, שתיים, שלוש — קרא מספרים בעברית!",            icon: Hash,           emoji: "🔢", color: "bg-orange-500 hover:bg-orange-600",                                                                     href: "/games/number-words",    available: true, order: 147 },
+  { id: "sorting",          title: "מיון לקטגוריות",                  description: "כלב או כסא? — מיין פריטים לקטגוריות!",              icon: Layers,         emoji: "🗂️", color: "bg-emerald-500 hover:bg-emerald-600",                                                                   href: "/games/sorting",         available: true, order: 151 },
+  { id: "patterns",         title: "זיהוי דפוסים",                    description: "🔴🔵🔴❓ — מה בא הלאה בדפוס?",                       icon: Repeat,         emoji: "🔵", color: "bg-sky-500 hover:bg-sky-600",                                                                           href: "/games/patterns",        available: true, order: 152 },
 ];
