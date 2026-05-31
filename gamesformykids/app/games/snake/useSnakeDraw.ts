@@ -66,7 +66,7 @@ export function useSnakeDraw(st: MutableRefObject<SnakeRefs>) {
         ctx.fill();
 
         if (isHead) {
-          const eyeOff = EYE_OFFSETS[s.dir]!;
+          const eyeOff = EYE_OFFSETS[s.dir] ?? [1, -1];
           ctx.fillStyle = 'white';
           ctx.beginPath(); ctx.arc(p.x * CELL + CELL * 0.65 + eyeOff[0] * 2, p.y * CELL + CELL * 0.3 + eyeOff[1] * 2, 3, 0, Math.PI * 2); ctx.fill();
           ctx.fillStyle = '#111';
