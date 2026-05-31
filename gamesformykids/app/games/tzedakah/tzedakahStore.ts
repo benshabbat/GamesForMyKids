@@ -33,6 +33,7 @@ interface TzedakahState {
   gameHeight:     number;
   basketWidth:    number;
   basketHeight:   number;
+  nextCoinId:     number;
 }
 
 interface TzedakahActions {
@@ -47,10 +48,8 @@ interface TzedakahActions {
 
 const INITIAL: TzedakahState = {
   coins: [], score: 0, gameStarted: false, basketX: 400, gameTime: 60,
-  collectedCoins: 0, isMobile: false, ...getDims(false),
+  collectedCoins: 0, isMobile: false, ...getDims(false), nextCoinId: 0,
 };
-
-let coinId = 0;
 
 export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
   'TzedakahStore',
@@ -72,11 +71,10 @@ export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
     },
 
     startGame: () => {
-      coinId = 0;
       const { isMobile } = get();
       set({
         coins: [], score: 0, gameStarted: true, gameTime: 60, collectedCoins: 0,
-        basketX: isMobile ? 135 : 340, ...getDims(isMobile),
+        basketX: isMobile ? 135 : 340, ...getDims(isMobile), nextCoinId: 0,
       }, false, 'tzedakah/start');
     },
 
@@ -99,13 +97,14 @@ export const useTzedakahStore = makeStore<TzedakahState & TzedakahActions>(
     },
 
     spawnCoin: () => {
-      const { isMobile, gameWidth, coins } = get();
+      const { isMobile, gameWidth, coins, nextCoinId } = get();
       const coinSize = isMobile ? 32 : 48;
       set({
         coins: [...coins, {
-          id: coinId++, x: Math.random() * (gameWidth - coinSize),
+          id: nextCoinId, x: Math.random() * (gameWidth - coinSize),
           y: -coinSize, speed: 2 + Math.random() * 3, rotation: 0,
         }],
+        nextCoinId: nextCoinId + 1,
       }, false, 'tzedakah/spawn');
     },
 
