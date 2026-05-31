@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
+import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 
 describe('GamesRegistry — structural integrity', () => {
   const registrations = GamesRegistry.getAllGameRegistrations();
@@ -46,5 +47,20 @@ describe('GamesRegistry — structural integrity', () => {
 
   it('total count matches getTotalGamesCount()', () => {
     expect(GamesRegistry.getTotalGamesCount()).toBe(registrations.length);
+  });
+
+  it('keeps holidays, transport and tzadikim visible in registry and categories', () => {
+    const requiredIds = ['holidays', 'transport', 'tzadikim'];
+    const availableIds = new Set(GamesRegistry.getAvailableGames().map((g) => g.id));
+    const categoryIds = new Set(Object.values(GAME_CATEGORIES).flatMap((cat) => cat.gameIds));
+
+    for (const id of requiredIds) {
+      expect(
+        registrations.some((g) => g.id === id),
+        `${id} must exist in GAMES_REGISTRY`
+      ).toBe(true);
+      expect(availableIds.has(id), `${id} must be available in GamesRegistry`).toBe(true);
+      expect(categoryIds.has(id), `${id} must be present in GAME_CATEGORIES`).toBe(true);
+    }
   });
 });
