@@ -12,11 +12,9 @@ export const BUBBLE_COLORS = [
 
 export interface Bubble { id: number; num: number; x: number; y: number; color: string; popped: boolean; }
 
-let uid = 0;
-
-export function makeBubbles(count: number): Bubble[] {
-  return Array.from({ length: count }, (_, i) => i + 1).map(n => ({
-    id:     uid++,
+export function makeBubbles(count: number, startId: number): Bubble[] {
+  return Array.from({ length: count }, (_, i) => i + 1).map((n, i) => ({
+    id:     startId + i,
     num:    n,
     x:      5 + Math.random() * 75,
     y:      5 + Math.random() * 80,
@@ -28,13 +26,14 @@ export function makeBubbles(count: number): Bubble[] {
 // ── Store ──────────────────────────────────────────────────────────────────
 
 interface NumberBubblesState {
-  phase:   Phase;
-  level:   number;
-  bubbles: Bubble[];
-  next:    number;
-  elapsed: number;
-  best:    { level: number; time: number } | null;
-  wrong:   boolean;
+  phase:         Phase;
+  level:         number;
+  bubbles:       Bubble[];
+  next:          number;
+  elapsed:       number;
+  best:          { level: number; time: number } | null;
+  wrong:         boolean;
+  nextBubbleId:  number;
 }
 
 interface NumberBubblesActions {
@@ -48,7 +47,7 @@ interface NumberBubblesActions {
 
 const INITIAL: NumberBubblesState = {
   phase: 'menu', level: 1, bubbles: [], next: 1,
-  elapsed: 0, best: null, wrong: false,
+  elapsed: 0, best: null, wrong: false, nextBubbleId: 0,
 };
 
 export const useNumberBubblesStore = makeStore<NumberBubblesState & NumberBubblesActions>(
@@ -56,20 +55,30 @@ export const useNumberBubblesStore = makeStore<NumberBubblesState & NumberBubble
   (set, get) => ({
     ...INITIAL,
 
-    startGame:  () => set(
-      { phase: 'playing', level: 1, bubbles: makeBubbles(5 + 3), next: 1, elapsed: 0, wrong: false },
-      false, 'bubbles/startRound',
-    ),
+    startGame: () => {
+      const id = get().nextBubbleId;
+      const count = 5 + 3;
+      set(
+        { phase: 'playing', level: 1, bubbles: makeBubbles(count, id), next: 1, elapsed: 0, wrong: false, nextBubbleId: id + count },
+        false, 'bubbles/startRound',
+      );
+    },
 
-    startRound: (lvl: number) => set(
-      { phase: 'playing', level: lvl, bubbles: makeBubbles(5 + lvl * 3), next: 1, elapsed: 0, wrong: false },
-      false, 'bubbles/startRound',
-    ),
+    startRound: (lvl: number) => {
+      const id = get().nextBubbleId;
+      const count = 5 + lvl * 3;
+      set(
+        { phase: 'playing', level: lvl, bubbles: makeBubbles(count, id), next: 1, elapsed: 0, wrong: false, nextBubbleId: id + count },
+        false, 'bubbles/startRound',
+      );
+    },
 
     nextLevel: () => {
-      const lvl = get().level + 1;
+      const { level, nextBubbleId } = get();
+      const lvl = level + 1;
+      const count = 5 + lvl * 3;
       set(
-        { phase: 'playing', level: lvl, bubbles: makeBubbles(5 + lvl * 3), next: 1, elapsed: 0, wrong: false },
+        { phase: 'playing', level: lvl, bubbles: makeBubbles(count, nextBubbleId), next: 1, elapsed: 0, wrong: false, nextBubbleId: nextBubbleId + count },
         false, 'bubbles/startRound',
       );
     },
