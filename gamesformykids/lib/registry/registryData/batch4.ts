@@ -17,6 +17,9 @@ import {
   PenLine,
   MapPin,
   Hash,
+  Zap,
+  ArrowLeftRight,
+  BookOpen,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -47,4 +50,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
   { id: "adjectives",       title: "שמות תואר",                      description: "גדול, קטן, שמח, עצוב — למד לתאר עצמים!",           icon: PenLine,        emoji: "🎨", color: "bg-pink-500 hover:bg-pink-600",                                                                         href: "/games/adjectives",      available: true, order: 145 },
   { id: "spatial-concepts", title: "מושגי מרחב",                     description: "מעל, מתחת, בתוך — למד מושגי מיקום!",               icon: MapPin,         emoji: "🗺️", color: "bg-green-500 hover:bg-green-600",                                                                       href: "/games/spatial-concepts",available: true, order: 146 },
   { id: "number-words",     title: "מספרים כמילים",                  description: "אחד, שתיים, שלוש — קרא מספרים בעברית!",            icon: Hash,           emoji: "🔢", color: "bg-orange-500 hover:bg-orange-600",                                                                     href: "/games/number-words",    available: true, order: 147 },
+  { id: "verbs",            title: "פעלים",                           description: "מה הוא עושה? — רץ, ישן, שר — למד פעלים בעברית!",  icon: Zap,            emoji: "🏃", color: "bg-teal-500 hover:bg-teal-600",                                                                         href: "/games/verbs",           available: true, order: 148 },
+  { id: "visual-opposites", title: "ניגודים",                         description: "גדול ↔ קטן, חם ↔ קר — למד מושגי ניגוד!",           icon: ArrowLeftRight, emoji: "🔄", color: "bg-purple-500 hover:bg-purple-600",                                                                     href: "/games/visual-opposites",available: true, order: 149 },
+  { id: "english-cards",    title: "אנגלית ראשונה",                   description: "שמע מילה אנגלית ובחר את התמונה הנכונה!",            icon: BookOpen,       emoji: "🔤", color: "bg-indigo-600 hover:bg-indigo-700",                                                                     href: "/games/english-cards",   available: true, order: 150 },
 ];

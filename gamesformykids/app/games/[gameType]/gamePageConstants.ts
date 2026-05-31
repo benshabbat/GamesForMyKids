@@ -22,6 +22,7 @@ export const SUPPORTED_GAMES = [
   'geography-flags', 'geography-capitals', 'geography-continents',
   'ordinals',
   'spatial-concepts', 'number-words',
+  'visual-opposites', 'english-cards',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
@@ -42,6 +43,7 @@ export const SUPPORTED_GAMES = [
   'singular-plural', 'morning-routine',
   'phonics',
   'rhyming', 'adjectives',
+  'verbs',
   'soccer',
 ] as const;
 

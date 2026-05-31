@@ -6,6 +6,7 @@ import { ENGLISH_WORDS } from '@/lib/quiz/data/english-words';
 import { LANGUAGE_QUESTIONS } from '@/lib/quiz/data/world-languages';
 import { RHYMING_QUESTIONS } from '@/lib/quiz/data/rhyming';
 import { ADJECTIVE_QUESTIONS } from '@/lib/quiz/data/adjectives';
+import { VERBS_QUESTIONS } from '@/lib/quiz/data/verbs';
 import { defineConfig } from './types';
 
 export const spellingConfig = defineConfig({
@@ -107,6 +108,27 @@ export const adjectivesConfig = defineConfig({
   renderQuestion: (q) => (
     <><div className="text-6xl mb-3">{q.emoji}</div>
       <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
+  ),
+});
+
+export const verbsConfig = defineConfig({
+  gameType: 'verbs', emoji: '🏃', title: 'פעלים',
+  description: 'מה הוא עושה? — בחר את הפועל הנכון!', theme: 'teal',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['🏃 רץ', '😴 ישן', '🎵 שר', '📚 קורא'].map(s => (
+        <div key={s} className="bg-teal-50 rounded-xl px-2 py-1.5 text-xs font-medium text-teal-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🏃 בואו נלמד פעלים!',
+  questions: VERBS_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-6xl mb-3">{q.emoji}</div>
+      <p className="text-gray-700 text-xl font-medium leading-relaxed">{q.question}</p></>
   ),
 });
 

@@ -10,6 +10,8 @@ import { ORDINAL_NUMBERS } from "@/lib/constants/gameData/ordinals";
 import { SPATIAL_CONCEPTS } from "@/lib/constants/gameData/spatialConcepts";
 import { NUMBER_WORDS } from "@/lib/constants/gameData/numberWords";
 import { GEOGRAPHY_FLAGS_ITEMS, GEOGRAPHY_CAPITALS_ITEMS, GEOGRAPHY_CONTINENTS_ITEMS } from "@/lib/constants/gameData/geographyItems";
+import { OPPOSITES_ITEMS } from "@/lib/constants/gameData/oppositeItems";
+import { ENGLISH_FIRST_ITEMS } from "@/lib/constants/gameData/englishFirst";
 import { COUNTING_ITEMS } from "@/lib/constants/gameData/counting";
 import { ALL_ANIMALS, ALL_FRUITS, ALL_VEGETABLES, ALL_SMELLS_TASTES, OCEAN_LIFE_ITEMS, GARDEN_PLANTS_ITEMS } from "@/lib/constants/gameData/nature";
 import { ALL_TRANSPORTS, ALL_VEHICLES, ALL_TOOLS, ALL_SPACE_OBJECTS, ALL_WEATHERS, ADVANCED_WEATHER_ITEMS } from "@/lib/constants/gameData/world";
@@ -165,4 +167,6 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   "geography-flags": GEOGRAPHY_FLAGS_ITEMS, // ✅ משחק גיאוגרפיה — דגלים
   "geography-capitals": GEOGRAPHY_CAPITALS_ITEMS, // ✅ משחק גיאוגרפיה — בירות
   "geography-continents": GEOGRAPHY_CONTINENTS_ITEMS, // ✅ משחק גיאוגרפיה — יבשות
+  "visual-opposites": OPPOSITES_ITEMS, // ✅ משחק ניגודים ויזואלי
+  "english-cards": ENGLISH_FIRST_ITEMS, // ✅ משחק אנגלית ראשונה
 } as const;

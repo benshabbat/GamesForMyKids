@@ -165,8 +165,9 @@ export type GameType =
   | 'singular-plural' | 'morning-routine'
   | 'ordinals'
   | 'phonics'
-  | 'rhyming' | 'adjectives'
+  | 'rhyming' | 'adjectives' | 'verbs'
   | 'spatial-concepts' | 'number-words'
+  | 'visual-opposites' | 'english-cards'
   // Arcade & action games
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
   | 'dino-runner' | 'brick-breaker' | 'balloon-pop' | 'catch-fruit'
