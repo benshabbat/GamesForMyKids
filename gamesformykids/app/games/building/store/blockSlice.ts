@@ -45,7 +45,7 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockGameSlic
   startGame: () => set({ isPlaying: true }),
 
   createBlock: (shape) => {
-    const { blocks, selectedTool, selectedColor, selectedSize, soundEnabled } = get();
+    const { blocks, selectedTool, selectedColor, selectedSize } = get();
     const position = getRandomPosition();
     const color = getBlockColor(selectedTool, selectedColor);
     const properties = getBlockProperties(selectedTool);
