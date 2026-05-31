@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, MutableRefObject } from 'react';
+import { useEffect, useRef, MutableRefObject } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { ROWS, COLS, CELL, type SnakeRefs } from './snakeConstants';
 
@@ -12,7 +12,23 @@ const EYE_OFFSETS: Record<string, [number, number]> = { R: [1, -1], L: [-1, -1],
  * Pure rendering concern — no game-state writes.
  */
 export function useSnakeDraw(st: MutableRefObject<SnakeRefs>) {
+  const dprRef = useRef<number | null>(null);
+
   const canvasRef = useCanvasLoop((ctx) => {
+    // Apply DPR on first frame; use setTransform every frame so scale is always correct
+    if (dprRef.current === null) {
+      const dpr = window.devicePixelRatio || 1;
+      dprRef.current = dpr;
+      if (dpr !== 1) {
+        const c = ctx.canvas;
+        c.width  = COLS * CELL * dpr;
+        c.height = ROWS * CELL * dpr;
+        c.style.width  = `${COLS * CELL}px`;
+        c.style.height = `${ROWS * CELL}px`;
+      }
+    }
+    ctx.setTransform(dprRef.current, 0, 0, dprRef.current, 0, 0);
+
     const s = st.current;
     s.animFrame++;
 
