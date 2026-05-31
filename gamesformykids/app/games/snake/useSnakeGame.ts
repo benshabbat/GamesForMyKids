@@ -16,7 +16,6 @@ import { useSnakeInput } from './useSnakeInput';
 export { W, H } from './snakeConstants';
 
 export function useSnakeGame() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const { saveGameResultRef } = useGameCompletion('snake');
 
   const st = useRef<SnakeRefs>({
@@ -109,7 +108,7 @@ export function useSnakeGame() {
 
   // ─── Sub-hooks ───────────────────────────────────────────────────────────────
 
-  useSnakeDraw(canvasRef, st);
+  const canvasRef = useSnakeDraw(st);
   const { handleTouchStart, handleTouchEnd, controlDir } = useSnakeInput(st);
 
   // ─── Store selectors ─────────────────────────────────────────────────────────

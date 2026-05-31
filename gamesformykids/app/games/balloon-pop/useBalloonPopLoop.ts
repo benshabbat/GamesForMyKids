@@ -76,21 +76,24 @@ export function useBalloonPopLoop() {
       frameRef.current++;
       let needsUpdate = false;
       const escaped: number[] = [];
+      const kept: typeof st.current.balloons = [];
 
-      st.current.balloons = st.current.balloons.map(b => {
+      for (let i = 0; i < st.current.balloons.length; i++) {
+        const b = st.current.balloons[i]!;
         if (b.popped) {
-          if (b.popAnim < 1) { needsUpdate = true; return { ...b, popAnim: b.popAnim + 0.1 }; }
-          return b;
+          if (b.popAnim >= 1) continue;
+          b.popAnim += 0.1;
+          needsUpdate = true;
+          kept.push(b);
+        } else {
+          const ny = b.y + b.vy;
+          if (ny + b.r < 0 && !b.isBomb) { escaped.push(b.id); needsUpdate = true; continue; }
+          b.y = ny;
+          needsUpdate = true;
+          kept.push(b);
         }
-        const ny = b.y + b.vy;
-        if (ny + b.r < 0 && !b.isBomb) { escaped.push(b.id); needsUpdate = true; }
-        needsUpdate = true;
-        return { ...b, y: ny };
-      }).filter(b => {
-        if (b.popped && b.popAnim >= 1) return false;
-        if (escaped.includes(b.id)) return false;
-        return true;
-      });
+      }
+      st.current.balloons = kept;
 
       if (escaped.length > 0) {
         st.current.lives = Math.max(0, st.current.lives - escaped.length);

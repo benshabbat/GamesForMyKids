@@ -22,13 +22,13 @@ export default function GameError({ error, reset }: ErrorProps) {
         <div className="flex gap-3 justify-center">
           <button
             onClick={reset}
-            className="px-6 py-3 bg-purple-500 text-white font-bold rounded-2xl hover:bg-purple-600 transition-colors"
+            className="px-6 py-3 bg-purple-500 text-white font-bold rounded-2xl hover:bg-purple-600 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-purple-500"
           >
             נסה שוב
           </button>
           <Link
             href="/"
-            className="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors"
+            className="px-6 py-3 bg-gray-100 text-gray-700 font-bold rounded-2xl hover:bg-gray-200 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-gray-400"
           >
             בחר משחק אחר
           </Link>
