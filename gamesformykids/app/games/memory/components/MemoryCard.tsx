@@ -42,7 +42,7 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
           </span>
         ) : (
           <div className="text-center text-white">
-            <span className="text-4xl md:text-5xl animate-pulse filter drop-shadow-lg">❓</span>
+            <span className="text-4xl md:text-5xl filter drop-shadow-lg">❓</span>
             <div className="text-sm mt-2 opacity-90 font-bold">לחץ</div>
           </div>
         )}

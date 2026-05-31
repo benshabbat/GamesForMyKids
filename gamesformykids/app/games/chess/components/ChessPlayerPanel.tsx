@@ -22,7 +22,7 @@ export default function ChessPlayerPanel({ symbol, label, score, isActive, rever
         {symbol}
       </span>
       <div className={`${reversed ? 'text-right' : ''} flex-1`}>
-        <div className="text-slate-400 text-[10px] uppercase tracking-wider leading-none">{label}</div>
+        <div className="text-slate-400 text-xs uppercase tracking-wider leading-none">{label}</div>
         <div className={`text-sm font-extrabold leading-tight mt-0.5 transition-all duration-300 ${isActive ? 'text-amber-300' : 'text-slate-500'}`}>
           {score > 0 ? `${score} ✓` : '0'}
         </div>

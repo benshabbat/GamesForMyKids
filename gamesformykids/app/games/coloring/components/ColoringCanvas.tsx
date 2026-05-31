@@ -17,7 +17,7 @@ export function ColoringCanvas() {
     <div className="relative bg-white rounded-3xl shadow-xl p-4 mb-4 border-4 border-purple-200">
       {showDone && (
         <div className="absolute inset-0 bg-white/90 rounded-3xl flex flex-col items-center justify-center z-10">
-          <div className="text-6xl mb-2 animate-bounce">🌟</div>
+          <div className="text-6xl mb-2">🌟</div>
           <p className="text-2xl font-bold text-purple-700">כל הכבוד! צוין!</p>
           <button
             onClick={clearImage}
