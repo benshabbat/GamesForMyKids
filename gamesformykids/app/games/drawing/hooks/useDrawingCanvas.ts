@@ -40,7 +40,6 @@ export const useDrawingCanvas = () => {
     canvas.style.height = `${logicalH}px`;
     ctx.scale(dpr, dpr);
     ctxRef.current = ctx;
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const colors = [
