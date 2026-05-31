@@ -44,7 +44,7 @@ export default function TakiCardView({ card, onClick, disabled, small, canPlay =
         ) : (
           <>
             <span className={small ? 'text-base leading-none' : 'text-xl leading-none'}>{emoji}</span>
-            <span className={small ? 'text-[9px] mt-0.5 leading-tight' : 'text-[10px] mt-1 leading-tight text-center px-0.5'}>
+            <span className={small ? 'text-xs mt-0.5 leading-tight' : 'text-xs mt-1 leading-tight text-center px-0.5'}>
               {label}
             </span>
           </>

@@ -21,7 +21,7 @@ export default function TakiTable() {
           title="משוך קלף"
         >
           <FaceDownCard />
-          <span className="absolute -bottom-5 left-0 right-0 text-center text-gray-300 text-[10px]">משוך</span>
+          <span className="absolute -bottom-5 inset-x-0 text-center text-gray-300 text-xs">משוך</span>
         </button>
       </div>
 

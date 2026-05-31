@@ -81,7 +81,7 @@ export default function NotificationToast() {
   return (
     <div
       aria-live="assertive"
-      className="fixed bottom-6 left-6 z-[9999] flex flex-col gap-2 pointer-events-none"
+      className="fixed bottom-6 start-6 z-[9999] flex flex-col gap-2 pointer-events-none"
     >
       {notifications.map((n) => (
         <div key={n.id} className="pointer-events-auto animate-slide-in-up">

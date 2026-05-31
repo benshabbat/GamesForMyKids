@@ -64,7 +64,7 @@ export default function EducationalPage() {
             href="/"
             className="inline-flex items-center gap-2 text-teal-700 hover:text-teal-900 font-semibold transition-colors"
           >
-            ← חזרה לדף הבית
+            → חזרה לדף הבית
           </Link>
         </div>
       </div>
