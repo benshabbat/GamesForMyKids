@@ -76,8 +76,8 @@ export const useDrawingCanvas = () => {
       clientY = e.clientY;
     }
     
-    const x = (clientX - rect.left) * (canvas.width / rect.width);
-    const y = (clientY - rect.top) * (canvas.height / rect.height);
+    const x = clientX - rect.left;
+    const y = clientY - rect.top;
     
     return { x, y };
   }, []);
