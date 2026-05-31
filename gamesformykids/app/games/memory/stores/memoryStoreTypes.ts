@@ -28,6 +28,7 @@ export interface MemoryStoreState {
   gameStats: GameStats;
 
   // Cards
+  lastMatchWasSuccess: boolean;
   cards: MemoryCard[];
   animals: AnimalData[];
   flippedCards: number[];
@@ -43,7 +44,7 @@ export interface MemoryStoreState {
 export interface MemoryStoreActions {
   initializeGame: (targetDifficulty?: DifficultyLevel) => void;
   handleCardClick: (cardIndex: number) => void;
-  resolveMatch: (firstCardIndex: number, secondCardIndex: number, audioContext: AudioContext | null) => void;
+  resolveMatch: (firstCardIndex: number, secondCardIndex: number) => void;
   pauseGame: () => void;
   resumeGame: () => void;
   resetGame: () => void;
@@ -90,6 +91,7 @@ export const initialState: MemoryStoreState = {
   isGamePaused: false,
   difficulty: 'medium',
   gameStats: initialGameStats,
+  lastMatchWasSuccess: false,
   cards: [],
   animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.medium.pairs),
   flippedCards: [],

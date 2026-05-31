@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { useMemoryStore } from "./stores/useMemoryStore";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
+import { playMemorySuccessSound } from "@/lib/utils/game/gameUtils";
 import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/hooks/shared/auth/useAuth";
 
@@ -24,6 +25,7 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
     isGamePaused,
     timeLeft,
     flippedCards,
+    lastMatchWasSuccess,
     incrementTimer,
     decrementTimeLeft,
     setPhase,
@@ -56,13 +58,19 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
     if (flippedCards.length !== 2) return;
     const [first, second] = flippedCards;
     const id = setTimeout(
-      () => resolveMatch(first!, second!, audioContextRef.current),
+      () => resolveMatch(first!, second!),
       MEMORY_GAME_CONSTANTS.FLIP_DURATION * 0.6,
     );
     return () => clearTimeout(id);
   // flippedCards reference changes on every flip; we only want to re-run when length reaches 2
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flippedCards.length, resolveMatch]);
+
+  // Play success sound when a match is confirmed — audio stays out of the store
+  useEffect(() => {
+    if (!lastMatchWasSuccess) return;
+    playMemorySuccessSound(audioContextRef.current);
+  }, [lastMatchWasSuccess]);
 
   // ── Timer ────────────────────────────────────────────────────────────────
   useEffect(() => {
