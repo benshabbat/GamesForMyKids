@@ -2,6 +2,8 @@
 
 import { useEffect } from 'react';
 import { useBuildingStore } from '@/app/games/building/store/buildingStore';
+import { playSound } from '@/app/games/building/utils';
+import { useUIStore } from '@/lib/stores/uiStore';
 
 /**
  * Drives the two time-based loops that were previously inlined inside
@@ -31,5 +33,23 @@ export function useBuildingGameLoop() {
       }));
     }, 100);
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    return useBuildingStore.subscribe((state, prev) => {
+      if (state.pendingSound && state.pendingSound !== prev.pendingSound) {
+        playSound(state.soundEnabled, state.pendingSound);
+        useBuildingStore.setState({ pendingSound: null });
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    return useBuildingStore.subscribe((state, prev) => {
+      if (state.saveSuccess && !prev.saveSuccess) {
+        useUIStore.getState().addNotification('יצירה נשמרה! 🎉', 'success');
+        useBuildingStore.setState({ saveSuccess: false });
+      }
+    });
   }, []);
 }

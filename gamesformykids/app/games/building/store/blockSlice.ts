@@ -1,7 +1,6 @@
 import type { StateCreator } from 'zustand';
 import type { BuildingStore } from './buildingStore';
 import type { Block, ShapeType } from '../types';
-import { useUIStore } from '@/lib/stores/uiStore';
 import {
   generateBlockId,
   getRandomPosition,
@@ -9,7 +8,6 @@ import {
   getBlockProperties,
   rotateBlock,
   shuffleBlocks,
-  playSound,
 } from '../utils';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -19,6 +17,8 @@ export type BlockGameSlice = {
   blocks: Block[];
   selectedBlock: Block | null;
   canvasEl: HTMLDivElement | null;
+  pendingSound: 'create' | 'rotate' | 'magic' | null;
+  saveSuccess: boolean;
   startGame: () => void;
   createBlock: (shape: ShapeType) => void;
   handleDoubleClick: (block: Block) => void;
@@ -39,11 +39,13 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockGameSlic
   blocks: [],
   selectedBlock: null,
   canvasEl: null,
+  pendingSound: null,
+  saveSuccess: false,
 
   startGame: () => set({ isPlaying: true }),
 
   createBlock: (shape) => {
-    const { blocks, selectedTool, selectedColor, selectedSize, soundEnabled } = get();
+    const { blocks, selectedTool, selectedColor, selectedSize } = get();
     const position = getRandomPosition();
     const color = getBlockColor(selectedTool, selectedColor);
     const properties = getBlockProperties(selectedTool);
@@ -59,18 +61,15 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockGameSlic
 
     const newBlocks = [...blocks, newBlock];
     get().addToHistory(newBlocks);
-    set({ blocks: newBlocks });
+    set({ blocks: newBlocks, pendingSound: 'create' });
     get().addScore(10);
-    playSound(soundEnabled, 'create');
     get().createParticles(newBlock.x, newBlock.y, newBlock.color);
     get().checkAchievements(newBlocks);
   },
 
   handleDoubleClick: (block) => {
-    const { soundEnabled } = get();
     const rotatedBlock = rotateBlock(block);
-    set((s) => ({ blocks: s.blocks.map((b) => (b.id === block.id ? rotatedBlock : b)) }));
-    playSound(soundEnabled, 'rotate');
+    set((s) => ({ blocks: s.blocks.map((b) => (b.id === block.id ? rotatedBlock : b)), pendingSound: 'rotate' }));
     get().createParticles(block.x, block.y, block.color);
   },
 
@@ -104,26 +103,22 @@ export const createBlockSlice: StateCreator<BuildingStore, [], [], BlockGameSlic
   deselectBlock: () => set({ selectedBlock: null }),
 
   clearAll: () => {
-    const { soundEnabled } = get();
     get().addToHistory([]);
     get().clearParticles();
-    playSound(soundEnabled, 'create');
-    set({ blocks: [], selectedBlock: null });
+    set({ blocks: [], selectedBlock: null, pendingSound: 'create' });
   },
 
   magicShuffle: () => {
-    const { blocks, soundEnabled } = get();
+    const { blocks } = get();
     const shuffledBlocks = shuffleBlocks(blocks);
     get().addToHistory(shuffledBlocks);
-    set({ blocks: shuffledBlocks });
-    playSound(soundEnabled, 'magic');
+    set({ blocks: shuffledBlocks, pendingSound: 'magic' });
     blocks.forEach((block) => get().createParticles(block.x, block.y, block.color));
     get().addScore(blocks.length * 5);
   },
 
   saveCreation: () => {
-    get();
-    useUIStore.getState().addNotification('יצירה נשמרה! 🎉', 'success');
+    set({ saveSuccess: true });
   },
 
   setCanvasElement: (el) => set({ canvasEl: el }),

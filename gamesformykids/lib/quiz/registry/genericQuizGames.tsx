@@ -26,4 +26,5 @@ export const GENERIC_QUIZ_GAMES: Record<string, ComponentType> = {
   'morning-routine':       GenericQuizGame,
   'rhyming':               GenericQuizGame,
   'adjectives':            GenericQuizGame,
+  'verbs':                 GenericQuizGame,
 };
