@@ -1,7 +1,9 @@
 'use client';
 
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
+import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 const GAME_CLIENTS: Record<string, ComponentType> = {
   arithmetic:        dynamic(() => import('../arithmetic/ArithmeticGameClient')),
@@ -48,5 +50,9 @@ interface Props { gameType: string; }
 export default function CustomGameRenderer({ gameType }: Props) {
   const Component = GAME_CLIENTS[gameType];
   if (!Component) return null;
-  return <Component />;
+  return (
+    <Suspense fallback={<GameSpinnerScreen />}>
+      <Component />
+    </Suspense>
+  );
 }
