@@ -43,6 +43,7 @@ export const SUPPORTED_GAMES = [
   'phonics',
   'rhyming', 'adjectives',
   'soccer',
+  'sorting', 'patterns',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

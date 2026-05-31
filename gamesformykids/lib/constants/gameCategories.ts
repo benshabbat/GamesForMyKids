@@ -70,7 +70,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calculator,
     color: "bg-indigo-500",
     gradient: "from-indigo-400 to-indigo-600",
-    gameIds: ["counting","math","shopping-money","multiplication","fractions","sequences","arithmetic","ordinals","number-words","spatial-concepts"],
+    gameIds: ["counting","math","shopping-money","multiplication","fractions","sequences","arithmetic","ordinals","number-words","spatial-concepts","sorting","patterns"],
   },
   games: {
     title: "משחקים מיוחדים",

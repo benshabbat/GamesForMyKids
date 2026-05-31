@@ -177,4 +177,6 @@ export type GameType =
   // Word games
   | 'word-builder' | 'word-scramble'
   // Special games
-  | 'hebrew-letters' | 'tzedakah';
+  | 'hebrew-letters' | 'tzedakah'
+  // Logic & patterns
+  | 'sorting' | 'patterns';
