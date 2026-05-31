@@ -3,10 +3,9 @@ import withBundleAnalyzer from "@next/bundle-analyzer";
 import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
+  reactCompiler: true,
   experimental: {
-    reactCompiler: true,
     authInterrupts: true,
-    useCache: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],
