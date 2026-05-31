@@ -24,6 +24,25 @@ export const useDrawingCanvas = () => {
   const ctxRef   = useRef<CanvasRenderingContext2D | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
+  // Apply DPR scaling on mount so strokes are crisp on retina/hi-DPI screens
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+    const dpr = window.devicePixelRatio || 1;
+    if (dpr === 1) { ctxRef.current = ctx; return; }
+    const logicalW = canvas.width;
+    const logicalH = canvas.height;
+    canvas.width  = logicalW * dpr;
+    canvas.height = logicalH * dpr;
+    canvas.style.width  = `${logicalW}px`;
+    canvas.style.height = `${logicalH}px`;
+    ctx.scale(dpr, dpr);
+    ctxRef.current = ctx;
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const colors = [
     '#000000', '#FF0000', '#00FF00', '#0000FF', 
     '#FFFF00', '#FF00FF', '#00FFFF', '#FFA500',
@@ -72,10 +91,7 @@ export const useDrawingCanvas = () => {
     setIsDrawing(true);
     
     const { x, y } = getEventPosition(e);
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-
-    ctxRef.current ??= canvas.getContext('2d');
+    ctxRef.current ??= canvasRef.current?.getContext('2d') ?? null;
     const ctx = ctxRef.current;
     if (!ctx) return;
 
@@ -133,7 +149,8 @@ export const useDrawingCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (canvas && ctx) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const dpr = window.devicePixelRatio || 1;
+      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
     }
   }, []);
 
