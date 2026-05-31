@@ -57,9 +57,6 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     ctx.fillRect(0, 0, width, height);
 
     contextRef.current = ctx;
-  // Stroke style deps intentionally excluded — handled by the effect below.
-  // Including them here would reset canvas.width (clearing drawings) on every brush change.
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [width, height, backgroundColor]);
 
   // עדכון צבע/עובי על שינוי state
