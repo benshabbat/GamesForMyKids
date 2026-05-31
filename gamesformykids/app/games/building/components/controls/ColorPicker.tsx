@@ -10,7 +10,7 @@ export default function ColorPicker() {
   return (
     <div className="bg-white/20 backdrop-blur-sm rounded-2xl p-3 md:p-4">
       <h3 className="text-white font-bold text-base md:text-lg mb-2 md:mb-3 text-center flex items-center justify-center gap-1 md:gap-2">
-        <Palette className="w-4 h-4 md:w-5 md:h-5 animate-pulse" />
+        <Palette className="w-4 h-4 md:w-5 md:h-5" />
         בחירת צבע
       </h3>
       <div className="grid grid-cols-4 md:grid-cols-5 gap-1 md:gap-2 mb-2 md:mb-3">
