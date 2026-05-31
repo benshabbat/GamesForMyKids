@@ -38,31 +38,6 @@ const INITIAL: SimonState = {
   sequence: [],
 };
 
-function flash(id: ButtonId, ms: number): Promise<void> {
-  return new Promise(resolve => {
-    useSimonStore.getState().setActiveColor(id);
-    setTimeout(() => {
-      useSimonStore.getState().setActiveColor(null);
-      setTimeout(resolve, 120);
-    }, ms);
-  });
-}
-
-export async function showSequence(seq: ButtonId[]) {
-  const store = useSimonStore.getState();
-  store.setPhase('showing');
-  store.setPlayerIdx(0);
-  await new Promise(r => setTimeout(r, 500));
-  const speed = Math.max(280, 650 - seq.length * 25);
-  for (const id of seq) {
-    if (useSimonStore.getState().phase !== 'showing') return;
-    await flash(id, speed);
-  }
-  if (useSimonStore.getState().phase !== 'showing') return;
-  useSimonStore.getState().setPhase('input');
-  useSimonStore.getState().setPlayerIdx(0);
-}
-
 export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonStore', 'simon-best', (set) => ({
   ...INITIAL,
   setPhase:       (phase) => set({ phase }, false, 'simon/setPhase'),
