@@ -23,11 +23,11 @@ export interface GameStats {
   streak: number;
 }
 
+export type MemoryPhase = 'menu' | 'playing' | 'won' | 'timeout';
+
 export interface MemoryState {
   // Game State
-  gameStarted: boolean;
-  isCompleted: boolean;
-  isGameWon: boolean;
+  phase: MemoryPhase;
   timer: number;
   timeLeft: number;
   isGamePaused: boolean;
@@ -91,7 +91,7 @@ export interface MemoryContextType {
     emoji: string;
     timeLimit: number;
   };
-  isGameWon: boolean;
+  phase: MemoryPhase;
   gridCols: string;
   
   // Game Logic
