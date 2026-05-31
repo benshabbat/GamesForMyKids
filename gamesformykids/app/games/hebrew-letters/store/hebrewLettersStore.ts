@@ -100,8 +100,11 @@ export function getCanvasPosition(
   canvas: HTMLCanvasElement,
 ): { x: number; y: number } {
   const rect = canvas.getBoundingClientRect();
-  const scaleX = canvas.width / rect.width;
-  const scaleY = canvas.height / rect.height;
+  // canvas.width is the physical pixel buffer; divide out DPR so we return logical coords.
+  // ctx.scale(dpr, dpr) is already applied — passing physical coords would double-scale.
+  const dpr = window.devicePixelRatio || 1;
+  const scaleX = (canvas.width / rect.width) / dpr;
+  const scaleY = (canvas.height / rect.height) / dpr;
   let clientX: number, clientY: number;
   if (event instanceof MouseEvent) {
     clientX = event.clientX;

@@ -36,7 +36,7 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     initializeCanvas(width, height, backgroundColor);
   }, [initializeCanvas, width, height, backgroundColor]);
 
-  // אתחול DOM של הקנבס
+  // אתחול DOM של הקנבס — runs only when canvas dimensions or background change
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -52,14 +52,15 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
 
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    ctx.strokeStyle = drawingState.currentStrokeColor;
-    ctx.lineWidth = drawingState.currentStrokeWidth;
 
     ctx.fillStyle = backgroundColor;
     ctx.fillRect(0, 0, width, height);
 
     contextRef.current = ctx;
-  }, [width, height, backgroundColor, drawingState.currentStrokeColor, drawingState.currentStrokeWidth]);
+  // Stroke style deps intentionally excluded — handled by the effect below.
+  // Including them here would reset canvas.width (clearing drawings) on every brush change.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [width, height, backgroundColor]);
 
   // עדכון צבע/עובי על שינוי state
   useEffect(() => {
@@ -91,7 +92,8 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     (x: number, y: number) => {
       const ctx = contextRef.current;
       if (!ctx) return;
-      const imageData = ctx.getImageData(0, 0, width, height);
+      const dpr = window.devicePixelRatio || 1;
+      const imageData = ctx.getImageData(0, 0, width * dpr, height * dpr);
       saveCanvasState(imageData);
       startDrawingStore(x, y);
       ctx.beginPath();
