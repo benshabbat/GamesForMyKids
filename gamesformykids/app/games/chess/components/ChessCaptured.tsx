@@ -36,7 +36,7 @@ export default function ChessCaptured() {
       {/* Computer's captures (white pieces eaten by computer) */}
       <div className="flex flex-wrap gap-px min-w-0 flex-1">
         {byComputer.length === 0
-          ? <span className="text-[10px] text-slate-700">—</span>
+          ? <span className="text-xs text-slate-700">—</span>
           : byComputer.map((p, i) => (
               <span key={i} className="text-base leading-none" style={{ opacity: 0.65 }}>{PIECE_SYMBOLS[p]}</span>
             ))}
@@ -44,8 +44,8 @@ export default function ChessCaptured() {
 
       {/* Material advantage badge */}
       <div className="flex flex-col items-center gap-0.5 shrink-0">
-        <span className="text-[9px] text-slate-600 uppercase tracking-wider">יתרון</span>
-        <span className={`text-[11px] font-bold px-1.5 py-0.5 rounded-md ${
+        <span className="text-xs text-slate-600 uppercase tracking-wider">יתרון</span>
+        <span className={`text-xs font-bold px-1.5 py-0.5 rounded-md ${
           diff > 0 ? 'text-emerald-400 bg-emerald-400/10' :
           diff < 0 ? 'text-red-400 bg-red-400/10' :
           'text-slate-600 bg-white/5'
@@ -57,7 +57,7 @@ export default function ChessCaptured() {
       {/* Player's captures (black pieces eaten by player) */}
       <div className="flex flex-wrap gap-px min-w-0 flex-1 justify-end">
         {byPlayer.length === 0
-          ? <span className="text-[10px] text-slate-700">—</span>
+          ? <span className="text-xs text-slate-700">—</span>
           : byPlayer.map((p, i) => (
               <span key={i} className="text-base leading-none" style={{ opacity: 0.85 }}>{PIECE_SYMBOLS[p]}</span>
             ))}
