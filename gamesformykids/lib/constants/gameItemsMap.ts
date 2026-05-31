@@ -92,13 +92,8 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   instruments: ALL_INSTRUMENTS, // ✅ עודכן!
   professions: ALL_PROFESSIONS, // ✅ עודכן!
   emotions: ALL_EMOTIONS, // ✅ עודכן!
-  memory: ALL_ANIMALS, // נשאר בעלי חיים - יש לוגיקה מיוחדת במשחק
   counting: COUNTING_ITEMS, // ✅ emoji items from gameData/counting.ts
   math: ALL_NUMBERS, // ✅ עודכן!
-  bubbles: ALL_COLORS, // ✅ עודכן!
-  puzzles: ALL_SHAPES, // ✅ עודכן! (זמני - צריך נתוני פאזלים ייעודיים)
-  building: ALL_SHAPES, // ✅ עודכן! משחק בנייה יצירתי
-  tetris: ALL_SHAPES, // ✅ טטריס עם צורות
   // משחקים חדשים
   sports: SPORTS_ITEMS, // ✅ משחק ספורט
   kitchen: KITCHEN_ITEMS, // ✅ משחק כלי מטבח
