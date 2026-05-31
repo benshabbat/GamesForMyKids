@@ -1,0 +1,26 @@
+import type { BaseGameItem } from "@/lib/types/core/base";
+
+export const OPPOSITES_ITEMS: BaseGameItem[] = [
+  { name: "big",    hebrew: "גדול",    english: "Big",    emoji: "🐘",  color: "bg-gradient-to-br from-blue-400 to-blue-600" },
+  { name: "small",  hebrew: "קטן",     english: "Small",  emoji: "🐜",  color: "bg-gradient-to-br from-cyan-400 to-cyan-600" },
+  { name: "hot",    hebrew: "חם",      english: "Hot",    emoji: "🔥",  color: "bg-gradient-to-br from-red-400 to-red-600" },
+  { name: "cold",   hebrew: "קר",      english: "Cold",   emoji: "❄️",  color: "bg-gradient-to-br from-blue-300 to-blue-500" },
+  { name: "happy",  hebrew: "שמח",     english: "Happy",  emoji: "😊",  color: "bg-gradient-to-br from-yellow-400 to-yellow-600" },
+  { name: "sad",    hebrew: "עצוב",    english: "Sad",    emoji: "😢",  color: "bg-gradient-to-br from-indigo-400 to-indigo-600" },
+  { name: "fast",   hebrew: "מהיר",    english: "Fast",   emoji: "🐆",  color: "bg-gradient-to-br from-orange-400 to-orange-600" },
+  { name: "slow",   hebrew: "איטי",    english: "Slow",   emoji: "🐢",  color: "bg-gradient-to-br from-green-400 to-green-600" },
+  { name: "day",    hebrew: "יום",     english: "Day",    emoji: "☀️",  color: "bg-gradient-to-br from-amber-400 to-amber-600" },
+  { name: "night",  hebrew: "לילה",    english: "Night",  emoji: "🌙",  color: "bg-gradient-to-br from-purple-700 to-purple-900" },
+  { name: "new",    hebrew: "חדש",     english: "New",    emoji: "✨",  color: "bg-gradient-to-br from-teal-400 to-teal-600" },
+  { name: "old",    hebrew: "ישן",     english: "Old",    emoji: "🏚️", color: "bg-gradient-to-br from-stone-400 to-stone-600" },
+  { name: "up",     hebrew: "למעלה",   english: "Up",     emoji: "⬆️",  color: "bg-gradient-to-br from-sky-400 to-sky-600" },
+  { name: "down",   hebrew: "למטה",    english: "Down",   emoji: "⬇️",  color: "bg-gradient-to-br from-slate-400 to-slate-600" },
+  { name: "open",   hebrew: "פתוח",    english: "Open",   emoji: "🚪",  color: "bg-gradient-to-br from-emerald-400 to-emerald-600" },
+  { name: "closed", hebrew: "סגור",    english: "Closed", emoji: "🔒",  color: "bg-gradient-to-br from-rose-400 to-rose-600" },
+  { name: "clean",  hebrew: "נקי",     english: "Clean",  emoji: "✅",  color: "bg-gradient-to-br from-lime-400 to-lime-600" },
+  { name: "dirty",  hebrew: "מלוכלך",  english: "Dirty",  emoji: "🫧",  color: "bg-gradient-to-br from-brown-400 to-stone-600" },
+  { name: "heavy",  hebrew: "כבד",     english: "Heavy",  emoji: "🏋️", color: "bg-gradient-to-br from-gray-500 to-gray-700" },
+  { name: "light",  hebrew: "קל",      english: "Light",  emoji: "🪶",  color: "bg-gradient-to-br from-pink-300 to-pink-500" },
+  { name: "full",   hebrew: "מלא",     english: "Full",   emoji: "🥣",  color: "bg-gradient-to-br from-violet-400 to-violet-600" },
+  { name: "empty",  hebrew: "ריק",     english: "Empty",  emoji: "🪣",  color: "bg-gradient-to-br from-gray-300 to-gray-500" },
+];
