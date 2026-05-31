@@ -9,6 +9,7 @@ import { DAYS_OF_WEEK, MONTHS_OF_YEAR } from "@/lib/constants/gameData/daysMonth
 import { ORDINAL_NUMBERS } from "@/lib/constants/gameData/ordinals";
 import { SPATIAL_CONCEPTS } from "@/lib/constants/gameData/spatialConcepts";
 import { NUMBER_WORDS } from "@/lib/constants/gameData/numberWords";
+import { GEOGRAPHY_FLAGS_ITEMS, GEOGRAPHY_CAPITALS_ITEMS, GEOGRAPHY_CONTINENTS_ITEMS } from "@/lib/constants/gameData/geographyItems";
 import { COUNTING_ITEMS } from "@/lib/constants/gameData/counting";
 import { ALL_ANIMALS, ALL_FRUITS, ALL_VEGETABLES, ALL_SMELLS_TASTES, OCEAN_LIFE_ITEMS, GARDEN_PLANTS_ITEMS } from "@/lib/constants/gameData/nature";
 import { ALL_TRANSPORTS, ALL_VEHICLES, ALL_TOOLS, ALL_SPACE_OBJECTS, ALL_WEATHERS, ADVANCED_WEATHER_ITEMS } from "@/lib/constants/gameData/world";
@@ -91,13 +92,8 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   instruments: ALL_INSTRUMENTS, // ✅ עודכן!
   professions: ALL_PROFESSIONS, // ✅ עודכן!
   emotions: ALL_EMOTIONS, // ✅ עודכן!
-  memory: ALL_ANIMALS, // נשאר בעלי חיים - יש לוגיקה מיוחדת במשחק
   counting: COUNTING_ITEMS, // ✅ emoji items from gameData/counting.ts
   math: ALL_NUMBERS, // ✅ עודכן!
-  bubbles: ALL_COLORS, // ✅ עודכן!
-  puzzles: ALL_SHAPES, // ✅ עודכן! (זמני - צריך נתוני פאזלים ייעודיים)
-  building: ALL_SHAPES, // ✅ עודכן! משחק בנייה יצירתי
-  tetris: ALL_SHAPES, // ✅ טטריס עם צורות
   // משחקים חדשים
   sports: SPORTS_ITEMS, // ✅ משחק ספורט
   kitchen: KITCHEN_ITEMS, // ✅ משחק כלי מטבח
@@ -165,4 +161,8 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   "ordinals": ORDINAL_NUMBERS, // ✅ משחק מספרים סודריים
   "spatial-concepts": SPATIAL_CONCEPTS, // ✅ משחק מושגי מרחב
   "number-words": NUMBER_WORDS, // ✅ משחק מספרים כמילים
+  // משחקי גיאוגרפיה (card-game mode)
+  "geography-flags": GEOGRAPHY_FLAGS_ITEMS, // ✅ משחק גיאוגרפיה — דגלים
+  "geography-capitals": GEOGRAPHY_CAPITALS_ITEMS, // ✅ משחק גיאוגרפיה — בירות
+  "geography-continents": GEOGRAPHY_CONTINENTS_ITEMS, // ✅ משחק גיאוגרפיה — יבשות
 } as const;
