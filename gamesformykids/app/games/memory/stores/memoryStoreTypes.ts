@@ -12,13 +12,15 @@ export const initialGameStats: GameStats = {
   streak: 0,
 };
 
+// ─── Phase type ───────────────────────────────────────────────────────────────
+
+export type MemoryPhase = 'menu' | 'playing' | 'won' | 'timeout';
+
 // ─── State shape ──────────────────────────────────────────────────────────────
 
 export interface MemoryStoreState {
   // Game flow
-  gameStarted: boolean;
-  isCompleted: boolean;
-  isGameWon: boolean;
+  phase: MemoryPhase;
   timer: number;
   timeLeft: number;
   isGamePaused: boolean;
@@ -51,8 +53,7 @@ export interface MemoryStoreActions {
   // Called from timer useEffect in useMemoryGameContent
   incrementTimer: () => void;
   decrementTimeLeft: () => void;
-  setCompleted: (value: boolean) => void;
-  setGameWon: (value: boolean) => void;
+  setPhase: (phase: MemoryPhase) => void;
 
   // Computed helpers
   getDifficultyConfig: () => { pairs: number; name: string; emoji: string; timeLimit: number };
@@ -83,9 +84,7 @@ export interface MemoryStoreActions {
 // ─── Initial store state ──────────────────────────────────────────────────────
 
 export const initialState: MemoryStoreState = {
-  gameStarted: false,
-  isCompleted: false,
-  isGameWon: false,
+  phase: 'menu',
   timer: 0,
   timeLeft: 0,
   isGamePaused: false,

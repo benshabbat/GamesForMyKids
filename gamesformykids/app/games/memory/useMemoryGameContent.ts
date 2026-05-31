@@ -7,8 +7,7 @@ import { useGameProgress, useAchievements } from "@/hooks";
 import { useAuth } from "@/hooks/shared/auth/useAuth";
 
 export interface UseMemoryGameContentReturn {
-  gameStarted: boolean;
-  isGameWon: boolean;
+  phase: import('./stores/memoryStoreTypes').MemoryPhase;
 }
 
 /**
@@ -18,19 +17,16 @@ export interface UseMemoryGameContentReturn {
  */
 export function useMemoryGameContent(): UseMemoryGameContentReturn {
   const {
-    gameStarted,
-    isGameWon,
+    phase,
     gameStats,
     timer,
     difficulty,
     isGamePaused,
-    isCompleted,
     timeLeft,
     flippedCards,
     incrementTimer,
     decrementTimeLeft,
-    setCompleted,
-    setGameWon,
+    setPhase,
     resolveMatch,
   } = useMemoryStore();
 
@@ -50,10 +46,10 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
 
   // Cancel speech on new game so old utterances don't play into the new game
   useEffect(() => {
-    if (gameStarted && typeof window !== 'undefined' && window.speechSynthesis) {
+    if (phase === 'playing' && typeof window !== 'undefined' && window.speechSynthesis) {
       window.speechSynthesis.cancel();
     }
-  }, [gameStarted]);
+  }, [phase]);
 
   // Resolve card match after flip animation delay
   useEffect(() => {
@@ -70,28 +66,27 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
 
   // ── Timer ────────────────────────────────────────────────────────────────
   useEffect(() => {
-    if (!gameStarted || isGamePaused || isCompleted) return;
+    if (phase !== 'playing' || isGamePaused) return;
     const id = setInterval(() => {
       incrementTimer();
       decrementTimeLeft();
     }, 1000);
     return () => clearInterval(id);
-  }, [gameStarted, isGamePaused, isCompleted, incrementTimer, decrementTimeLeft]);
+  }, [phase, isGamePaused, incrementTimer, decrementTimeLeft]);
 
   // ── Time-up check ────────────────────────────────────────────────────────
   useEffect(() => {
-    if (timeLeft <= 0 && gameStarted && !isCompleted) {
-      setCompleted(true);
-      setGameWon(false);
+    if (timeLeft <= 0 && phase === 'playing') {
+      setPhase('timeout');
     }
-  }, [timeLeft, gameStarted, isCompleted, setCompleted, setGameWon]);
+  }, [timeLeft, phase, setPhase]);
 
   const { user } = useAuth();
   const { updateScore, updateLevel, addPlayTime } = useGameProgress("memory");
   const { checkScoreAchievements, checkLevelAchievements } = useAchievements("memory");
 
   useEffect(() => {
-    if (!isGameWon || !user || gameStats.score <= 0) return;
+    if (phase !== 'won' || !user || gameStats.score <= 0) return;
 
     updateScore("memory", gameStats.score);
 
@@ -106,7 +101,7 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
     checkScoreAchievements("memory", gameStats.score);
     checkLevelAchievements("memory", currentLevel);
   }, [
-    isGameWon,
+    phase,
     user,
     gameStats.score,
     timer,
@@ -118,5 +113,5 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
     checkLevelAchievements,
   ]);
 
-  return { gameStarted, isGameWon };
+  return { phase };
 }

@@ -10,11 +10,11 @@ import { useMemoryGame } from './useMemoryGame';
 
 export default function MemoryClient() {
   useMemoryGameContent();
-  const { gameStarted, isGameWon, isCompleted } = useMemoryGame();
+  const { phase } = useMemoryGame();
 
-  if (!gameStarted) return <MemoryStartScreen />;
-  if (isGameWon)    return <GameWinMessage />;
-  if (isCompleted)  return <GameTimeoutScreen />;
+  if (phase === 'menu')    return <MemoryStartScreen />;
+  if (phase === 'won')     return <GameWinMessage />;
+  if (phase === 'timeout') return <GameTimeoutScreen />;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-100 to-indigo-200 p-4">
