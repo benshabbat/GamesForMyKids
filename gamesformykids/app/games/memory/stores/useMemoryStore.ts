@@ -2,7 +2,6 @@
 
 import { makeStore } from '@/lib/stores/createStore';
 import {
-  playMemorySuccessSound,
   createShuffledMemoryCards,
 } from '@/lib/utils/game/gameUtils';
 import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
@@ -172,7 +171,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
 
     },
 
-    resolveMatch: (firstCardIndex, secondCardIndex, audioContext) => {
+    resolveMatch: (firstCardIndex, secondCardIndex) => {
       const s = get();
       const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
       const outcome = resolveCardMatch(s, firstCardIndex, secondCardIndex, config.pairs);
@@ -183,16 +182,14 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           matchedPairs: outcome.matchedPairs,
           flippedCards: outcome.flippedCards,
           gameStats: outcome.gameStats,
+          lastMatchWasSuccess: outcome.isMatch,
         },
         false,
         outcome.isMatch ? 'memory/successMatch' : 'memory/failedMatch',
       );
 
-      if (outcome.isMatch) {
-        playMemorySuccessSound(audioContext);
-        if (outcome.isWon) {
-          set({ phase: 'won' as MemoryPhase }, false, 'memory/gameWon');
-        }
+      if (outcome.isMatch && outcome.isWon) {
+        set({ phase: 'won' as MemoryPhase }, false, 'memory/gameWon');
       }
     },
 
