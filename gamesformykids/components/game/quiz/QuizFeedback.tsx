@@ -26,7 +26,7 @@ export function QuizFeedback({
   if (isCorrect === null) return null;
 
   const t = QUIZ_THEMES[theme];
-  const message = isCorrect ? correctMsg : (wrongMsg ?? `❌ הנכון: ${correctLabel}`);
+  const message = isCorrect ? correctMsg : (wrongMsg ?? `כמעט! 💙 הנכון: ${correctLabel}`);
   const isLast = index + 1 >= total;
 
   return (
@@ -45,7 +45,7 @@ export function QuizFeedback({
         onClick={next}
         className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}
       >
-        {isLast ? 'סיום' : 'הבא →'}
+        {isLast ? 'סיום' : '← הבא'}
       </button>
     </div>
   );

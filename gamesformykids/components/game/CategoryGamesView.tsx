@@ -28,7 +28,7 @@ export default function CategoryGamesView() {
           onClick={backToCategories}
           className="mb-3 md:mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-medium transition-colors text-sm md:text-base"
         >
-          → חזור לקטגוריות
+          חזור לקטגוריות ←
         </button>
         <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">
           {category.title}
