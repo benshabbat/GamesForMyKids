@@ -48,7 +48,7 @@ export function UserProfile() {
       </button>
 
       {isMenuOpen && (
-        <div className="absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute start-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
           <div className="py-1">
             <div className="px-4 py-2 text-sm text-gray-700 border-b">
               <div className="font-medium">{user.user_metadata?.full_name || L.defaultName}</div>
@@ -63,7 +63,7 @@ export function UserProfile() {
               {L.settings}
             </Link>
             <button onClick={handleSignOut}
-              className="block w-full text-right px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+              className="block w-full text-start px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
               {L.signOut}
             </button>
           </div>
