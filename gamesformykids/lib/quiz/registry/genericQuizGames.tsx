@@ -1,8 +1,11 @@
 'use client';
 import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
+import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
-const GenericQuizGame = dynamic(() => import('@/components/game/quiz/GenericQuizGame'));
+const GenericQuizGame = dynamic(() => import('@/components/game/quiz/GenericQuizGame'), {
+  loading: () => <GameSpinnerScreen />,
+});
 
 /**
  * Games that use the config-driven GenericQuizGame component.
