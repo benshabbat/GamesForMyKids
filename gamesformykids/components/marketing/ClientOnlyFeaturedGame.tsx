@@ -19,7 +19,7 @@ const FeaturedGameContent = dynamic(() => import('./FeaturedGameContent'), {
               <div className="w-16 h-16 bg-gray-400 rounded-lg animate-pulse"></div>
             </div>
             
-            <div className="flex-1 text-center md:text-right">
+            <div className="flex-1 text-center md:text-start">
               <div className="h-8 bg-gray-400 rounded mb-4 animate-pulse"></div>
               <div className="h-4 bg-gray-400 rounded mb-6 animate-pulse"></div>
               
