@@ -43,7 +43,7 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
             <button
               onClick={(e) => { e.preventDefault(); toggleFavorite(game.id); }}
               aria-label={isFav ? 'הסר ממועדפים' : 'הוסף למועדפים'}
-              className={`absolute top-2 right-2 md:top-4 md:right-4 p-0.5 rounded-full transition-all duration-200 z-10 ${
+              className={`absolute top-2 start-2 md:top-4 md:start-4 p-0.5 rounded-full transition-all duration-200 z-10 ${
                 isFav ? 'scale-125' : 'opacity-60 hover:opacity-100 hover:scale-110'
               }`}
             >
