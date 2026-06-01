@@ -44,7 +44,7 @@ export default function GameHints({
             disabled={currentHintIndex === hints.length - 1}
             className="px-3 py-1 bg-blue-200 text-blue-800 rounded disabled:opacity-50"
           >
-            הבא →
+            ← הבא
           </button>
         </div>
       )}

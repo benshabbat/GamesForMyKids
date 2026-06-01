@@ -23,7 +23,7 @@ export function GameSearchBar({
   return (
     <div dir="rtl" className="mb-4 md:mb-6 space-y-3">
       <div className="relative max-w-md mx-auto">
-        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
+        <span className="absolute start-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
           <Search className="w-4 h-4" />
         </span>
         <input
@@ -38,7 +38,7 @@ export function GameSearchBar({
           <button
             onClick={onClear}
             aria-label="נקה חיפוש"
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>

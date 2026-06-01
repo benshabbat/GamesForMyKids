@@ -32,7 +32,7 @@ export default function UnifiedHeader({
               aria-label="חזור לעמוד הקודם"
               className="flex items-center gap-1 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 active:scale-95 transition-all duration-200 font-bold text-sm md:text-base shadow-md"
             >
-              → חזור
+              חזור ←
             </button>
           )}
 
