@@ -26,7 +26,7 @@ export function QuizFeedback({
   if (isCorrect === null) return null;
 
   const t = QUIZ_THEMES[theme];
-  const message = isCorrect ? correctMsg : (wrongMsg ?? `❌ הנכון: ${correctLabel}`);
+  const message = isCorrect ? correctMsg : (wrongMsg ?? `כמעט! 💙 הנכון: ${correctLabel}`);
   const isLast = index + 1 >= total;
 
   return (
