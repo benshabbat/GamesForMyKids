@@ -56,7 +56,7 @@ export default function GameMenuCard({
         <div className={`text-6xl mb-4 ${animateEmoji ? 'animate-bounce' : ''}`}>{emoji}</div>
         <h1 className="text-3xl font-black text-gray-700 mb-2">{title}</h1>
         <p className="text-gray-500 text-base mb-2">{description}</p>
-        {hint && <p className="text-gray-400 text-xs mb-4">{hint}</p>}
+        {hint && <p className="text-gray-400 text-sm mb-4">{hint}</p>}
         {best !== undefined && best > 0 && (
           <p className="text-yellow-600 font-bold mb-4">🏆 שיא: {best}</p>
         )}

@@ -27,6 +27,10 @@ export function GameCompletionCelebration() {
 
   useEffect(() => {
     playSuccessSound();
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setVisible(false);
+      return;
+    }
     const id = setTimeout(() => setVisible(false), 2500);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -41,8 +41,10 @@ export default function ChessMoveHistory() {
 
   const pairs: [MoveRecord, MoveRecord | undefined][] = [];
   for (let i = 0; i < moveHistory.length; i += 2) {
-    const white = (moveHistory[i]!.by === 'w' ? moveHistory[i]! : moveHistory[i + 1]) as MoveRecord;
-    const black = moveHistory[i]!.by === 'b' ? moveHistory[i]! : moveHistory[i + 1];
+    const current = moveHistory[i];
+    if (!current) continue;
+    const white = (current.by === 'w' ? current : moveHistory[i + 1]) as MoveRecord;
+    const black = current.by === 'b' ? current : moveHistory[i + 1];
     pairs.push([white, black]);
   }
   const totalPairs = pairs.length;

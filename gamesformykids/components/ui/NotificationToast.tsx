@@ -66,7 +66,7 @@ function Toast({ notif }: { notif: Notification }) {
       {notif.duration > 0 && (
         <div
           ref={barRef}
-          className="absolute bottom-0 left-0 h-0.5 bg-white/40 rounded-full"
+          className="absolute bottom-0 start-0 h-0.5 bg-white/40 rounded-full"
           style={{ width: '100%' }}
         />
       )}
