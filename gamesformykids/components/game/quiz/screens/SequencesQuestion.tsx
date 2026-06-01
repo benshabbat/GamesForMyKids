@@ -22,7 +22,7 @@ export default function SequencesQuestion({ level, current, choices, onSelect }:
       wrongMsg={`💙 הנכון: ${current.next}`}
       funFact={`כלל: ${current.rule}`}
     >
-      <p className="text-sm font-semibold text-gray-400 text-center mb-4">מה המספר הבא? <span className="text-xs text-indigo-400">{level.label}</span></p>
+      <p className="text-sm font-semibold text-gray-400 text-center mb-4">מה המספר הבא? <span className="text-sm text-indigo-400">{level.label}</span></p>
       <div className="flex flex-wrap justify-center gap-3 items-center">
         {current.sequence.map((n, i) => (
           <div key={i} className="flex items-center gap-2">

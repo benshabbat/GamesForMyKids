@@ -47,11 +47,11 @@ export default function CanvasGameOverOverlay({
         <div className={`grid grid-cols-2 gap-3 ${gridMb}`}>
           <div className={`${scoreBgClass} rounded-2xl p-3`}>
             <p className={`${scoreSize} font-black ${scoreTextClass}`}>{score}{scoreSuffix}</p>
-            <p className={`text-xs ${scoreLabelClass}`}>{scoreLabel}</p>
+            <p className={`text-sm ${scoreLabelClass}`}>{scoreLabel}</p>
           </div>
           <div className="bg-yellow-50 rounded-2xl p-3">
             <p className={`${scoreSize} font-black text-yellow-500`}>{best}{bestSuffix}</p>
-            <p className="text-xs text-yellow-400">שיא</p>
+            <p className="text-sm text-yellow-400">שיא</p>
           </div>
         </div>
         <button
