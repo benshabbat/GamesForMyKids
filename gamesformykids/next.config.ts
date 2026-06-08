@@ -4,6 +4,8 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
+  // Required for 'use cache' directive in gameItemsLoader.ts (Next.js 16 feature)
+  cacheComponents: true,
   experimental: {
     authInterrupts: true,
   },
