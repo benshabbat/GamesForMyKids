@@ -55,14 +55,14 @@ export default function GameResultCard({
         <div className="flex gap-3">
           <button
             onClick={onRestart}
-            className={`flex-1 py-4 rounded-2xl bg-gradient-to-l ${buttonClass} text-white font-bold hover:opacity-90 active:scale-95 transition-all`}
+            className={`flex-1 py-4 rounded-2xl bg-gradient-to-l ${buttonClass} text-white font-bold hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
           >
             {restartLabel}
           </button>
           {secondaryAction && (
             <button
               onClick={secondaryAction.onClick}
-              className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all"
+              className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-colors"
             >
               {secondaryAction.label}
             </button>
@@ -71,7 +71,7 @@ export default function GameResultCard({
         {shareText && (
           <button
             onClick={() => share(shareText)}
-            className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-all"
+            className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
           >
             {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
           </button>

@@ -44,7 +44,7 @@ export function CanvasMenuOverlay({
         )}
         <button
           onClick={onStart}
-          className={`w-full py-4 rounded-2xl text-white font-black text-xl active:scale-95 transition-all ${buttonClass}`}
+          className={`w-full py-4 rounded-2xl text-white font-black text-xl active:scale-95 transition-transform ${buttonClass}`}
         >
           {startLabel}
         </button>

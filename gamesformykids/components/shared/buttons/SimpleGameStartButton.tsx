@@ -33,7 +33,7 @@ export default function SimpleGameStartButton({
         className={`
           px-12 py-4 bg-gradient-to-r ${fromColor} ${toColor} text-white text-2xl font-bold
           rounded-2xl shadow-2xl hover:shadow-3xl transform hover:scale-105
-          transition-all duration-300 border-4 border-white
+          transition-[transform,shadow] duration-300 border-4 border-white
           focus-visible:ring-4 focus-visible:ring-white focus-visible:ring-offset-4 focus-visible:outline-none
         `}
       >

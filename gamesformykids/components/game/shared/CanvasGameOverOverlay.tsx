@@ -56,7 +56,7 @@ export default function CanvasGameOverOverlay({
         </div>
         <button
           onClick={onRestart}
-          className={`w-full ${buttonSizeClass} rounded-2xl ${buttonClass} text-white font-black shadow-lg hover:opacity-90 active:scale-95 transition-all`}
+          className={`w-full ${buttonSizeClass} rounded-2xl ${buttonClass} text-white font-black shadow-lg hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
         >
           🔄 שוב!
         </button>

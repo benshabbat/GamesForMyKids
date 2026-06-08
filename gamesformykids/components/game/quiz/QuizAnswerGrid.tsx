@@ -35,7 +35,7 @@ export function QuizAnswerGrid({
           key={choice}
           onClick={() => onSelect(choice)}
           disabled={selected !== null}
-          className={`p-4 rounded-2xl border-2 font-bold text-base transition-all text-center ${answerButtonClass(
+          className={`p-4 rounded-2xl border-2 font-bold text-base transition-colors text-center ${answerButtonClass(
             choice === correctValue,
             choice === selected,
             selected !== null,
