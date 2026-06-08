@@ -49,6 +49,7 @@ export const SUPPORTED_GAMES = [
   'skip-counting',
   'life-cycles',
   'maze',
+  'nikud',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
