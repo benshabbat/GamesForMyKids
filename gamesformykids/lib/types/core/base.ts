@@ -169,6 +169,7 @@ export type GameType =
   | 'spatial-concepts' | 'number-words'
   | 'visual-opposites' | 'english-cards'
   // Arcade & action games
+  | 'maze'
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
   | 'dino-runner' | 'brick-breaker' | 'balloon-pop' | 'catch-fruit'
   | 'whack-a-mole' | 'meteor-dodge' | 'space-defender' | 'reflex'
