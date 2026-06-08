@@ -3,7 +3,7 @@
 import { createDifficultyMenuScreen } from '@/components/game/shared/createDifficultyMenuScreen';
 import { useMemoryStore } from '../stores/useMemoryStore';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
-import { MEMORY_GAME_CONSTANTS } from '@/lib/constants';
+import { MEMORY_GAME_CONSTANTS } from '@/lib/constants/gameData/special';
 import type { DifficultyLevel } from '@/lib/types/games/base';
 
 function useMemoryStartGame() {

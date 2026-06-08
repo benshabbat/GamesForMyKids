@@ -1,6 +1,6 @@
 'use client';
 
-import { GenericStartScreen } from '@/components/shared';
+import GenericStartScreen from '@/components/shared/screens/GenericStartScreen';
 import { useTetrisGame } from '../hooks/useTetrisGame';
 import { useTetrisState } from '../hooks/useTetrisState';
 import GameBoard from './GameBoard';

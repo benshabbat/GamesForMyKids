@@ -1,7 +1,9 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useUserProfile, useGameProgress, useAchievements } from '@/hooks';
+import { useUserProfile } from '@/hooks/shared/user/useUserProfile';
+import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { useAchievements } from '@/hooks/shared/progress/useAchievements';
 import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { ProfileLoadingScreen } from './components/ProfileLoadingScreen';
 import { ProfileUnauthenticated } from './components/ProfileUnauthenticated';

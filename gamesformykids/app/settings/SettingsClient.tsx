@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { useUserProfile } from '@/hooks';
+import { useUserProfile } from '@/hooks/shared/user/useUserProfile';
 import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { AudioSection } from '@/components/settings/AudioSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';

@@ -4,7 +4,8 @@ import { makeStore } from '@/lib/stores/createStore';
 import {
   createShuffledMemoryCards,
 } from '@/lib/utils/game/gameUtils';
-import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
+import { MEMORY_GAME_ANIMALS } from '@/lib/constants/gameData/natureData/animals';
+import { MEMORY_GAME_CONSTANTS } from '@/lib/constants/gameData/special';
 import { MemoryCard } from '../types/memory';
 import { getDifficultyOptions, getPerformanceLevel, getWinAchievements } from './memoryDisplayHelpers';
 import {

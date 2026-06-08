@@ -1,4 +1,4 @@
-import { UniversalGameNavigation } from '@/components/shared';
+import UniversalGameNavigation from '@/components/game/universal/navigation/UniversalGameNavigation';
 import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
