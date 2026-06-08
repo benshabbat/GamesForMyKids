@@ -9,6 +9,7 @@
  *
  * Keep this file SERVER-ONLY (no 'use client').
  */
+import 'server-only';
 
 import { cacheLife, cacheTag } from 'next/cache';
 import type { GameType, BaseGameItem } from '@/lib/types/core/base';
