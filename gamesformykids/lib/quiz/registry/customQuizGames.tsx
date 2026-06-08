@@ -1,17 +1,12 @@
 'use client';
 import type { ComponentType } from 'react';
+import dynamic from 'next/dynamic';
 import { makeQuizGame } from '../makeQuizGame';
-import { QuizMenuScreen, QuizResultScreen } from '@/components/game/quiz';
-import { useSortingGame } from '@/lib/quiz/useSortingGame';
-import SortingQuestion from '@/components/game/quiz/screens/SortingQuestion';
-import { usePatternsGame } from '@/lib/quiz/usePatternsGame';
-import PatternQuestion from '@/components/game/quiz/screens/PatternQuestion';
-import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
-import LifeCyclesQuestion from '@/components/game/quiz/screens/LifeCyclesQuestion';
+import { QuizMenuScreen, QuizResultScreen, CategoryIndexedQuestion } from '@/components/game/quiz';
 
+// Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
 import { usePhonicsGame } from '@/lib/quiz/usePhonicsGame';
-import PhonicsQuestion from '@/components/game/quiz/screens/PhonicsQuestion';
 import { useColorMixGame } from '@/lib/quiz/useColorMixGame';
 import { useSequencesGame } from '@/lib/quiz/useSequencesGame';
 import { useHumanBodyGame } from '@/lib/quiz/useHumanBodyGame';
@@ -20,33 +15,42 @@ import { useScienceGame } from '@/lib/quiz/useScienceGame';
 import { useNatureGame } from '@/lib/quiz/useNatureGame';
 import { useIsraelGame } from '@/lib/quiz/useIsraelGame';
 import { useSoccerGame } from '@/lib/quiz/useSoccerGame';
+import { useSortingGame } from '@/lib/quiz/useSortingGame';
+import { usePatternsGame } from '@/lib/quiz/usePatternsGame';
+import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
 
-import SoccerMenuScreen from '@/app/games/soccer/components/SoccerMenuScreen';
-import SoccerQuestion from '@/app/games/soccer/components/SoccerQuestion';
-import SoccerResultScreen from '@/app/games/soccer/components/SoccerResultScreen';
-
-import ClockMenuScreen from '@/components/game/quiz/screens/ClockMenuScreen';
-import ClockQuestion from '@/components/game/quiz/screens/ClockQuestion';
-import ClockResultScreen from '@/components/game/quiz/screens/ClockResultScreen';
-import ColorMixQuestion from '@/components/game/quiz/screens/ColorMixQuestion';
-import SequencesMenuScreen from '@/components/game/quiz/screens/SequencesMenuScreen';
-import SequencesQuestion from '@/components/game/quiz/screens/SequencesQuestion';
-import HumanBodyMenuScreen from '@/components/game/quiz/screens/HumanBodyMenuScreen';
-import HumanBodyQuestion from '@/components/game/quiz/screens/HumanBodyQuestion';
-import TriviaMenuScreen from '@/components/game/quiz/screens/TriviaMenuScreen';
-import TriviaQuestion from '@/components/game/quiz/screens/TriviaQuestion';
-import ScienceMenuScreen from '@/components/game/quiz/screens/ScienceMenuScreen';
-import ScienceQuestion from '@/components/game/quiz/screens/ScienceQuestion';
-import NatureMenuScreen from '@/components/game/quiz/screens/NatureMenuScreen';
-import IsraelMenuScreen from '@/components/game/quiz/screens/IsraelMenuScreen';
-import { CategoryIndexedQuestion } from '@/components/game/quiz';
+// Category data constants needed synchronously in render props
 import type { NatureCategory } from '@/lib/quiz/data/nature';
 import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
 import { CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
+// Screen components — lazy-loaded so each game page only downloads its own screens
+const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'));
+const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'));
+const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'));
+const ColorMixQuestion   = dynamic(() => import('@/components/game/quiz/screens/ColorMixQuestion'));
+const SequencesMenuScreen = dynamic(() => import('@/components/game/quiz/screens/SequencesMenuScreen'));
+const SequencesQuestion  = dynamic(() => import('@/components/game/quiz/screens/SequencesQuestion'));
+const HumanBodyMenuScreen = dynamic(() => import('@/components/game/quiz/screens/HumanBodyMenuScreen'));
+const HumanBodyQuestion  = dynamic(() => import('@/components/game/quiz/screens/HumanBodyQuestion'));
+const TriviaMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/TriviaMenuScreen'));
+const TriviaQuestion     = dynamic(() => import('@/components/game/quiz/screens/TriviaQuestion'));
+const ScienceMenuScreen  = dynamic(() => import('@/components/game/quiz/screens/ScienceMenuScreen'));
+const ScienceQuestion    = dynamic(() => import('@/components/game/quiz/screens/ScienceQuestion'));
+const NatureMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/NatureMenuScreen'));
+const IsraelMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/IsraelMenuScreen'));
+const SoccerMenuScreen   = dynamic(() => import('@/app/games/soccer/components/SoccerMenuScreen'));
+const SoccerQuestion     = dynamic(() => import('@/app/games/soccer/components/SoccerQuestion'));
+const SoccerResultScreen = dynamic(() => import('@/app/games/soccer/components/SoccerResultScreen'));
+const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/PhonicsQuestion'));
+const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'));
+const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'));
+const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'));
+
 /**
- * Games built with makeQuizGame — custom hooks + custom screen components.
+ * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
+ * Opening /games/clock does NOT download soccer/phonics/nature screens (and vice versa).
  */
 export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
   'clock': makeQuizGame(
