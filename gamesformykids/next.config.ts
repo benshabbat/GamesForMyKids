@@ -4,8 +4,6 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   reactCompiler: true,
-
-  cacheComponents: true,
   experimental: {
     authInterrupts: true,
   },
