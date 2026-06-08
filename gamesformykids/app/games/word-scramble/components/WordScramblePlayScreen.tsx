@@ -28,7 +28,7 @@ export default function WordScramblePlayScreen() {
   const target = entry.word;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-100 to-emerald-200 flex flex-col items-center justify-center p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-green-100 to-emerald-200 flex flex-col items-center justify-center p-4">
       <div className="flex items-center gap-6 mb-4 text-center">
         <div><p className="text-2xl font-black text-green-600">{score}</p><p className="text-xs text-green-400">ניקוד</p></div>
         <div><p className="text-lg font-bold text-gray-500">{wIdx + 1}/{words.length}</p></div>

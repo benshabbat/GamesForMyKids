@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { unauthorized } from 'next/navigation';
+import { connection } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { AnalyticsPageHeader } from './components/AnalyticsPageHeader';
 import { GoogleAnalyticsCard } from './components/GoogleAnalyticsCard';
@@ -19,6 +20,7 @@ export const metadata: Metadata = {
 };
 
 export default async function AnalyticsPage() {
+  await connection();
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) unauthorized();

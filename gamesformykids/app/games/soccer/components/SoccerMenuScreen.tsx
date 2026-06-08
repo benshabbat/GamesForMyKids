@@ -6,7 +6,7 @@ import SoccerCategoryGrid from './SoccerCategoryGrid';
 export default function SoccerMenuScreen() {
   return (
     <PitchBackground>
-      <div className="flex flex-col items-center justify-center min-h-screen p-6" dir="rtl">
+      <div className="flex flex-col items-center justify-center min-h-screen p-6">
         <div className="text-8xl mb-2 drop-shadow-xl">⚽</div>
         <h1 className="text-5xl font-black text-white mb-1 drop-shadow-lg">כדורגל</h1>
         <p className="text-green-200 mb-8 text-center text-lg">שאלות על ספורט המלכים!</p>
