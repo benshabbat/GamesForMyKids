@@ -11,7 +11,7 @@ interface Props {
 
 export default function HolidaysMenuScreen({ holidays, score, maxScore, onStart }: Props) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-100 p-4">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <div className="text-6xl mb-3">🕍</div>

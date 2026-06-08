@@ -13,7 +13,7 @@ export default function WhackAMoleGame() {
   if (phase === 'result') return <WhackAMoleResultScreen />;
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${bgColor} flex flex-col items-center justify-center p-4 select-none`} dir="rtl">
+    <div className={`min-h-screen bg-gradient-to-br ${bgColor} flex flex-col items-center justify-center p-4 select-none`}>
       <WhackHUD />
       <WhackGrid onWhack={whack} />
     </div>

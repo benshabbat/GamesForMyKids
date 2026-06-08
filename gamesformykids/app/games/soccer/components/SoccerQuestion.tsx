@@ -14,7 +14,7 @@ export default function SoccerQuestion() {
   return (
     <PitchBackground>
       {showGoal && <GoalAnimation />}
-      <div className="flex flex-col min-h-screen p-4" dir="rtl">
+      <div className="flex flex-col min-h-screen p-4">
         <SoccerGameHeader />
         <SoccerProgressBar />
         <div className="flex-1 flex flex-col items-center justify-center">

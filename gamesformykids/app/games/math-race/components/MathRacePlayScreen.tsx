@@ -26,7 +26,7 @@ export default function MathRacePlayScreen() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 to-indigo-200 flex flex-col items-center justify-center p-4 select-none">
       <MathRaceProgressBar timeLeft={timeLeft} score={score} streak={streak} gameTime={GAME_TIME} />
       <MathRaceQuestion q={q} feedback={feedback} streak={streak} onTap={tap} />
       <p className="mt-4 text-xs text-indigo-400">{correct}/{total} נכון · {accuracy}% דיוק</p>

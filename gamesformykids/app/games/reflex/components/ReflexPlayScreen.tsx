@@ -8,7 +8,7 @@ export default function ReflexPlayScreen() {
   const timePct = (timeLeft / GAME_DURATION) * 100;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-800 to-slate-900 select-none">
       <div className="absolute top-0 left-0 right-0 p-3 flex items-center gap-3 z-10">
         <TimerProgressBar pct={timePct} trackClass="flex-1 h-3 bg-white/20" />
         <span className="text-white font-bold shrink-0">⏱️ {timeLeft}</span>

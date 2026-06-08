@@ -13,7 +13,7 @@ export default function TrueFalsePlayScreen() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-100 to-cyan-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-teal-100 to-cyan-200 flex flex-col items-center justify-center p-4 select-none">
       <div className="flex gap-6 mb-5 text-center">
         <div><p className="text-2xl font-black text-teal-600">{score}</p><p className="text-xs text-teal-400">ניקוד</p></div>
         <div className="flex gap-1 items-center">
