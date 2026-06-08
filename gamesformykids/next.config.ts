@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   experimental: {
     authInterrupts: true,
+    ppr: true,
   },
   images: {
     formats: ['image/avif', 'image/webp'],

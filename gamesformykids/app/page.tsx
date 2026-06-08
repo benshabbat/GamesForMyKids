@@ -1,5 +1,9 @@
 import type { Metadata } from 'next';
+import { Suspense } from 'react';
 import HomePageClient from './HomePageClient';
+import HomePageSkeleton from './HomePageSkeleton';
+
+export const experimental_ppr = true;
 
 export const metadata: Metadata = {
   title: 'משחקים לילדים 3-10 | GamesForMyKids',
@@ -47,7 +51,9 @@ export default function HomePage() {
           __html: JSON.stringify(homePageStructuredData),
         }}
       />
-      <HomePageClient />
+      <Suspense fallback={<HomePageSkeleton />}>
+        <HomePageClient />
+      </Suspense>
     </>
   );
 }
