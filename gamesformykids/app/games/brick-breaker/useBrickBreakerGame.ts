@@ -196,14 +196,14 @@ export function useBrickBreakerGame() {
     else if (s.phase === 'menu') { startGame(1); }
   }, [st, startGame]);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     handleClick();
     handlers.onTouchMove(e);
-  }, [handleClick, handlers]);
+  };
 
-  const nudgeLeft = useCallback(() => { st.current.padX = Math.max(0, st.current.padX - 40); }, [st]);
-  const nudgeRight = useCallback(() => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); }, [st]);
+  const nudgeLeft = () => { st.current.padX = Math.max(0, st.current.padX - 40); };
+  const nudgeRight = () => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); };
 
 
   useEffect(() => {
