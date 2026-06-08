@@ -1,7 +1,18 @@
-import { useEffect, useRef, useCallback, useMemo } from 'react';
+import { useEffect, useRef, useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { useBubblesStore, type BubbleData } from '../bubblesStore';
+
+const BUBBLE_TYPES = [
+  { color: '#FF6B6B', frequency: 261.63 },
+  { color: '#4ECDC4', frequency: 293.66 },
+  { color: '#45B7D1', frequency: 329.63 },
+  { color: '#96CEB4', frequency: 349.23 },
+  { color: '#FECA57', frequency: 392.00 },
+  { color: '#FF9FF3', frequency: 440.00 },
+  { color: '#54A0FF', frequency: 493.88 },
+  { color: '#5F27CD', frequency: 523.25 },
+];
 
 export function useBubbleGame() {
   const { audioContext } = useGameAudio();
@@ -13,22 +24,11 @@ export function useBubbleGame() {
   );
   const level = Math.floor(poppedCount / 15) + 1;
 
-  const bubbleTypes = useMemo(() => [
-    { color: '#FF6B6B', frequency: 261.63 },
-    { color: '#4ECDC4', frequency: 293.66 },
-    { color: '#45B7D1', frequency: 329.63 },
-    { color: '#96CEB4', frequency: 349.23 },
-    { color: '#FECA57', frequency: 392.00 },
-    { color: '#FF9FF3', frequency: 440.00 },
-    { color: '#54A0FF', frequency: 493.88 },
-    { color: '#5F27CD', frequency: 523.25 },
-  ], []);
-
   const createBubble = useCallback(() => {
     if (!gameContainerRef.current) return;
     const currentLevel = Math.floor(useBubblesStore.getState().poppedCount / 15) + 1;
     const containerWidth = gameContainerRef.current.offsetWidth;
-    const bubbleType = bubbleTypes[Math.floor(Math.random() * bubbleTypes.length)]!;
+    const bubbleType = BUBBLE_TYPES[Math.floor(Math.random() * BUBBLE_TYPES.length)]!;
     const size = 40 + Math.random() * 60;
 
     const newBubble: BubbleData = {
@@ -42,7 +42,7 @@ export function useBubbleGame() {
     };
 
     useBubblesStore.getState().addBubble(newBubble);
-  }, [bubbleTypes]);
+  }, []);
 
   const playBubbleSound = useCallback((frequency: number) => {
     if (!audioContext || frequency === 0) return;
@@ -81,13 +81,8 @@ export function useBubbleGame() {
     setTimeout(createBubble, 200);
   }, [createBubble]);
 
-  const stopGame = useCallback(() => {
-    useBubblesStore.getState().stopGame();
-  }, []);
-
-  const resetGame = useCallback(() => {
-    useBubblesStore.getState().resetGame();
-  }, []);
+  const stopGame = () => { useBubblesStore.getState().stopGame(); };
+  const resetGame = () => { useBubblesStore.getState().resetGame(); };
 
   return { gameContainerRef, startGame, stopGame, resetGame, handleBubblePop, isPlaying, score, level, poppedCount, bubbles };
 }

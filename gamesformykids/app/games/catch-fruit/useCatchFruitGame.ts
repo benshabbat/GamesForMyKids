@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -114,22 +114,21 @@ export function useCatchFruitGame() {
   const dragging = useRef(false);
   const pointerDown = useRef(false);
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing';
     s.basketX = W / 2 - BASKET_W / 2;
     s.items = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextItem = 40; s.startTime = Date.now();
     useCatchFruitStore.getState().startGame();
-  }, [st]);
+  };
 
-  const handleMouseUp = useCallback(() => {
+  const handleMouseUp = () => {
     pointerDown.current = false;
     dragging.current = false;
-  }, []);
+  };
 
-
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (!pointerDown.current) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -137,9 +136,9 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef, st]);
+  };
 
-  const handleMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     pointerDown.current = true;
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -147,9 +146,9 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef, st]);
+  };
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -157,9 +156,9 @@ export function useCatchFruitGame() {
     const scaleX = W / rect.width;
     const mx = (e.touches[0]!.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
-  }, [canvasRef, st]);
+  };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -168,7 +167,7 @@ export function useCatchFruitGame() {
     const mx = (e.touches[0]!.clientX - rect.left) * scaleX;
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
     if (st.current.phase !== 'playing') startGame();
-  }, [canvasRef, st, startGame]);
+  };
 
   const { phase, best, score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 
