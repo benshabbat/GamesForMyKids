@@ -350,6 +350,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 153,
   },
   {
+    id: "maze",
+    title: "מבוך",
+    description: "נווט דרך המבוך, אסוף כוכבים והגע לדלת — 5 רמות מאתגרות!",
+    icon: Gamepad2,
+    emoji: "🧩",
+    color: "bg-indigo-600 hover:bg-indigo-700",
+    href: "/games/maze",
+    available: true,
+    order: 155,
+  },
+  {
     id: "life-cycles",
     title: "מחזור חיים",
     description: "סדר את שלבי מחזור החיים — פרפר, צפרדע ועוד!",
@@ -358,6 +369,6 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     color: "bg-green-500 hover:bg-green-600",
     href: "/games/life-cycles",
     available: true,
-    order: 154,
+    order: 156,
   },
 ];
