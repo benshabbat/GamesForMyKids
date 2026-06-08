@@ -94,7 +94,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Microscope,
     color: "bg-cyan-500",
     gradient: "from-cyan-400 to-cyan-600",
-    gameIds: ["recycling","dinosaurs","space-adventure","virtual-reality","new-professions","climate-planet","science"],
+    gameIds: ["recycling","dinosaurs","space-adventure","virtual-reality","new-professions","climate-planet","science","life-cycles"],
   },
   holidays: {
     title: "חגים ועונות",

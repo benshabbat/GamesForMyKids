@@ -22,6 +22,7 @@ import {
   Zap,
   ArrowLeftRight,
   BookOpen,
+  Leaf,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -347,5 +348,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/skip-counting",
     available: true,
     order: 153,
+  },
+  {
+    id: "life-cycles",
+    title: "מחזור חיים",
+    description: "סדר את שלבי מחזור החיים — פרפר, צפרדע ועוד!",
+    icon: Leaf,
+    emoji: "🦋",
+    color: "bg-green-500 hover:bg-green-600",
+    href: "/games/life-cycles",
+    available: true,
+    order: 154,
   },
 ];
