@@ -46,7 +46,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Apple,
     color: "bg-green-500",
     gradient: "from-green-400 to-green-600",
-    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smelltaste","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds","cat-breeds","exotic-birds","butterflies","nature","healthy-food"],
+    gameIds: ["animals","fruits","vegetables","ocean-life","garden-plants","smells-tastes","nature-sounds","dinosaurs","birds","bugs-insects","dog-breeds","cat-breeds","exotic-birds","butterflies","nature","healthy-food"],
   },
   world: {
     title: "עולם ותחבורה",
