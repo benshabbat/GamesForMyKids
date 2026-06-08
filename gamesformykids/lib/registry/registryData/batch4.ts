@@ -337,4 +337,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 152,
   },
+  {
+    id: "skip-counting",
+    title: "ספירה לפי קפיצות",
+    description: "ספור לפי 2, 5 ו-10 — מלא את המספר החסר!",
+    icon: Hash,
+    emoji: "🔢",
+    color: "bg-teal-500 hover:bg-teal-600",
+    href: "/games/skip-counting",
+    available: true,
+    order: 153,
+  },
 ];

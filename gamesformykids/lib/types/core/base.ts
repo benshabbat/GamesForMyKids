@@ -134,7 +134,7 @@ export type GameType =
   | 'tools' | 'professions' | 'emotions' | 'vehicles'
   // Math & counting
   | 'counting' | 'math' | 'arithmetic' | 'multiplication' | 'emoji-math'
-  | 'math-race' | 'number-bubbles'
+  | 'math-race' | 'number-bubbles' | 'skip-counting'
   // Memory & puzzle
   | 'memory' | 'bubbles' | 'puzzles' | 'building' | 'tetris'
   | 'drawing' | 'coloring'

@@ -46,6 +46,7 @@ export const SUPPORTED_GAMES = [
   'verbs',
   'soccer',
   'sorting', 'patterns',
+  'skip-counting',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
