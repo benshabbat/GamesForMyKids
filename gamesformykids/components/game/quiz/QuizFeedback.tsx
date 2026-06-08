@@ -43,7 +43,7 @@ export function QuizFeedback({
       </div>
       <button
         onClick={next}
-        className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}
+        className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-opacity`}
       >
         {isLast ? 'סיום' : '← הבא'}
       </button>

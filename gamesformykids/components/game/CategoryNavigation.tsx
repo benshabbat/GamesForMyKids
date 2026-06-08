@@ -5,11 +5,11 @@ import { useHomePageStore } from "@/lib/stores";
 import { useFavoritesStore } from "@/lib/stores";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-const TAB_BASE = "px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105";
+const TAB_BASE = "px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-[transform,colors] duration-300 hover:scale-105";
 const TAB_ACTIVE = "bg-purple-600 text-white shadow-lg";
-const TAB_INACTIVE = "bg-white text-purple-600 hover:bg-purple-50 shadow-md";
+const TAB_INACTIVE = "bg-white dark:bg-gray-700 text-purple-600 dark:text-purple-300 hover:bg-purple-50 dark:hover:bg-gray-600 shadow-md";
 const FAV_ACTIVE = "bg-yellow-400 text-white shadow-lg";
-const FAV_INACTIVE = "bg-white text-yellow-500 hover:bg-yellow-50 shadow-md";
+const FAV_INACTIVE = "bg-white dark:bg-gray-700 text-yellow-500 dark:text-yellow-300 hover:bg-yellow-50 dark:hover:bg-gray-600 shadow-md";
 
 export default function CategoryNavigation() {
   const selectedCategory = useHomePageStore((s) => s.selectedCategory);

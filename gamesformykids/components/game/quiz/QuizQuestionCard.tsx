@@ -43,7 +43,7 @@ export default function QuizQuestionCard({
             key={idx}
             onClick={() => onSelect(idx)}
             disabled={answered}
-            className={`w-full text-start py-4 px-5 rounded-2xl font-semibold text-lg transition-all duration-200 active:scale-95 ${answerButtonClass(
+            className={`w-full text-start py-4 px-5 rounded-2xl font-semibold text-lg transition-[transform,colors] duration-200 active:scale-95 ${answerButtonClass(
               idx === correctIndex,
               idx === selected,
               answered,
@@ -65,7 +65,7 @@ export default function QuizQuestionCard({
       {answered && (
         <button
           onClick={onNext}
-          className={`w-full py-4 rounded-2xl text-white font-bold text-xl shadow-lg bg-gradient-to-l ${accentGradient} hover:opacity-90 active:scale-95 transition-all duration-200`}
+          className={`w-full py-4 rounded-2xl text-white font-bold text-xl shadow-lg bg-gradient-to-l ${accentGradient} hover:opacity-90 active:scale-95 transition-[transform,opacity] duration-200`}
         >
           {isLast ? 'לתוצאות! 🎉' : 'שאלה הבאה ←'}
         </button>

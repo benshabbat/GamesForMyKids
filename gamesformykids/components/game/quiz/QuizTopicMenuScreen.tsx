@@ -39,7 +39,7 @@ export default function QuizTopicMenuScreen<T extends string>({
         </div>
         <button
           onClick={() => onStart('all')}
-          className={`w-full mb-5 p-5 rounded-2xl text-white font-bold text-xl shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-l ${allButtonClassName}`}
+          className={`w-full mb-5 p-5 rounded-2xl text-white font-bold text-xl shadow-lg hover:scale-105 active:scale-95 transition-transform bg-gradient-to-l ${allButtonClassName}`}
         >
           {allLabel}
         </button>
@@ -48,7 +48,7 @@ export default function QuizTopicMenuScreen<T extends string>({
             <button
               key={t}
               onClick={() => onStart(t)}
-              className={`p-4 rounded-2xl font-bold text-start shadow-md hover:scale-105 active:scale-95 transition-all ${topicClassName}`}
+              className={`p-4 rounded-2xl font-bold text-start shadow-md hover:scale-105 active:scale-95 transition-transform ${topicClassName}`}
             >
               <div className="text-3xl mb-1">{topicEmoji(t)}</div>
               <div>{t}</div>

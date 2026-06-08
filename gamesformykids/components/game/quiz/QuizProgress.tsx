@@ -16,7 +16,7 @@ export function QuizProgress({ theme }: { theme: QuizTheme }) {
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2 mb-5">
         <div
-          className={`${t.progress} h-2 rounded-full transition-all`}
+          className={`${t.progress} h-2 rounded-full transition-[width]`}
           style={{ width: `${((index + 1) / total) * 100}%` }}
         />
       </div>

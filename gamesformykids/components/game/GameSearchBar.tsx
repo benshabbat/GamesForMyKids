@@ -32,7 +32,7 @@ export function GameSearchBar({
           onChange={(e) => onQueryChange(e.target.value)}
           placeholder="חפש משחק..."
           aria-label="חיפוש משחקים"
-          className="w-full pe-10 ps-10 py-2.5 rounded-full border border-gray-200 bg-white shadow-sm text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
+          className="w-full pe-10 ps-10 py-2.5 rounded-full border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-700 shadow-sm text-sm text-gray-800 dark:text-gray-100 placeholder:text-gray-400 dark:placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 focus:border-transparent"
         />
         {hasFilter && (
           <button
@@ -56,10 +56,10 @@ export function GameSearchBar({
             key={key}
             onClick={() => onCatChange(activeCat === key ? null : key)}
             aria-pressed={activeCat === key}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 ${
               activeCat === key
                 ? 'bg-purple-600 text-white shadow-md'
-                : 'bg-white text-gray-600 hover:bg-purple-50 shadow-sm border border-gray-200'
+                : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-purple-50 dark:hover:bg-gray-600 shadow-sm border border-gray-200 dark:border-gray-600'
             }`}
           >
             {cat.title}

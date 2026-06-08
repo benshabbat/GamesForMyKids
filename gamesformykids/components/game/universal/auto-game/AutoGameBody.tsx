@@ -60,8 +60,8 @@ export function AutoGameBody({ renderCard }: AutoGameBodyProps) {
           onClick={() => setShowProgressModal(true)}
           className="
             px-4 py-2 bg-blue-500 text-white rounded-lg shadow-lg
-            hover:bg-blue-600 transform hover:scale-105 
-            transition-all duration-200 font-bold
+            hover:bg-blue-600 hover:scale-105
+            transition-[transform,colors] duration-200 font-bold
           "
         >
           📊 דיוק: {currentAccuracy || 0}%
