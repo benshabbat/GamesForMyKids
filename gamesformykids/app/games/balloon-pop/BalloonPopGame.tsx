@@ -14,7 +14,7 @@ export default function BalloonPopGame() {
   if (phase === 'result') return <BalloonResultScreen />;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky-200 to-blue-400 flex flex-col items-center select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-b from-sky-200 to-blue-400 flex flex-col items-center select-none">
       <BalloonHUD />
       <BalloonGameArea />
     </div>

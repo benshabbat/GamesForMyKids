@@ -17,7 +17,7 @@ interface Props {
 
 export default function HolidaysQuizScreen({ current, currentQuestion, questionIndex, totalQuestions, score, selected, isCorrect, onSelect, onNext }: Props) {
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${current.bg} p-4`} dir="rtl">
+    <div className={`min-h-screen bg-gradient-to-br ${current.bg} p-4`}>
       <div className="max-w-xl mx-auto">
         <div className={`rounded-3xl p-5 mb-5 text-center text-white bg-gradient-to-br ${current.color} shadow-xl relative`}>
           <div className="text-5xl mb-1">{current.emoji}</div>

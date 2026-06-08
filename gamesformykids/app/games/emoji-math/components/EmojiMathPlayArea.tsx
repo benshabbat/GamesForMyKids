@@ -26,7 +26,7 @@ export default function EmojiMathPlayArea() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-orange-200 flex flex-col items-center justify-center p-4 select-none">
       <div className="flex gap-5 mb-4 text-center">
         <div>
           <p className="text-2xl font-black text-orange-600">{score}</p>

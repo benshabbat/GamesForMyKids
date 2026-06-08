@@ -14,7 +14,6 @@ export default function SheshBeshGame() {
   return (
     <div
       className="min-h-screen bg-gradient-to-br from-stone-950 via-amber-950 to-stone-950 flex flex-col items-center justify-start pt-4 pb-6 px-2 select-none"
-      dir="rtl"
     >
       {phase === 'menu' && <MenuScreen />}
 

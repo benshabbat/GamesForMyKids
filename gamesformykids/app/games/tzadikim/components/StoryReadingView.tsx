@@ -20,7 +20,7 @@ export default function StoryReadingView({
   const paragraphs = story.story.split('\n\n').filter(Boolean);
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${story.bgGradient} p-4`} dir="rtl">
+    <div className={`min-h-screen bg-gradient-to-br ${story.bgGradient} p-4`}>
       <div className="max-w-2xl mx-auto">
 
         {/* כותרת סיפור */}

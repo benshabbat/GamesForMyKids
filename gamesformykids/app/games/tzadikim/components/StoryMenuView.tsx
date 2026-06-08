@@ -18,7 +18,7 @@ export default function StoryMenuView({
   onSelectStory,
 }: StoryMenuViewProps) {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-100 p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-yellow-50 to-orange-100 p-4">
       <div className="max-w-3xl mx-auto">
         {/* כותרת */}
         <div className="text-center mb-8">

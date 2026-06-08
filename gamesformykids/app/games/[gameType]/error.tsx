@@ -14,7 +14,7 @@ export default function GameError({ error, reset }: ErrorProps) {
   }, [error]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100" dir="rtl">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100">
       <div className="text-center p-8 bg-white/80 rounded-3xl shadow-xl max-w-md mx-4 space-y-4">
         <div className="text-7xl">🎮</div>
         <h1 className="text-2xl font-bold text-purple-700">המשחק נתקע!</h1>

@@ -22,7 +22,7 @@ export default function EducationalPage() {
     .filter((g): g is NonNullable<typeof g> => g !== undefined && g.available);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100">
       <div className="container mx-auto px-4 py-8 max-w-6xl">
         <header className="text-center mb-10">
           <div className="text-6xl mb-4">📚</div>

@@ -27,7 +27,7 @@ export default function QuizView({
   onNext,
 }: QuizViewProps) {
   return (
-    <div className={`min-h-screen bg-gradient-to-br ${story.bgGradient} p-4`} dir="rtl">
+    <div className={`min-h-screen bg-gradient-to-br ${story.bgGradient} p-4`}>
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-6">
           <div className="text-4xl mb-2">{story.emoji}</div>

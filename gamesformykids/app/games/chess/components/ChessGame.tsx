@@ -18,7 +18,6 @@ export default function ChessGame() {
   return (
     <div
       className="min-h-screen flex flex-col items-center justify-center p-4 select-none"
-      dir="rtl"
       style={{
         background: 'radial-gradient(ellipse 120% 80% at 50% 10%, #1e1208 0%, #0d0d12 55%, #060608 100%)',
       }}
