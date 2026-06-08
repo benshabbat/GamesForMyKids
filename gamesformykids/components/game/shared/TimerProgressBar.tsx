@@ -16,7 +16,7 @@ export default function TimerProgressBar({ pct, trackClass = 'h-3 bg-white/30', 
   return (
     <div className={`${trackClass} rounded-full overflow-hidden`}>
       <div
-        className={`h-full rounded-full transition-all duration-1000 ${fillClass}`}
+        className={`h-full rounded-full transition-[width] duration-1000 ${fillClass}`}
         style={{ width: `${pct}%` }}
       />
     </div>

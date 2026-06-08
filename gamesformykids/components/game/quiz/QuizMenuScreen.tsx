@@ -33,7 +33,7 @@ export function QuizMenuScreen({
         {preview && <div className={`${t.card} rounded-2xl p-4 mb-6`}>{preview}</div>}
         <button
           onClick={onStart}
-          className={`w-full py-4 rounded-2xl ${t.button} text-white text-xl font-bold transition-all shadow-lg`}
+          className={`w-full py-4 rounded-2xl ${t.button} text-white text-xl font-bold transition-opacity shadow-lg`}
         >
           {emoji} {buttonLabel}
         </button>

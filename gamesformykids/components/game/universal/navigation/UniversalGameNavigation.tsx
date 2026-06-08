@@ -45,7 +45,7 @@ export default function UniversalGameNavigation({
         {navigation.previous && (
           <Link
             href={navigation.previous.href}
-            className="bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300"
+            className="bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300"
             title={`${navigation.previous.title} (←)`}
             aria-label={`משחק קודם: ${navigation.previous.title}`}
           >
@@ -63,7 +63,7 @@ export default function UniversalGameNavigation({
         {showHomeButton && (
           <Link
             href={ROUTES.HOME}
-            className="bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-gray-200 hover:border-purple-300"
+            className="bg-white/90 backdrop-blur-sm hover:bg-white text-gray-800 font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-gray-200 hover:border-purple-300"
             title="חזרה לעמוד הראשי (ESC)"
             aria-label="חזרה לעמוד הראשי"
           >
@@ -87,7 +87,7 @@ export default function UniversalGameNavigation({
         {navigation.next && (
           <Link
             href={navigation.next.href}
-            className="bg-green-500/90 backdrop-blur-sm hover:bg-green-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-all duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-green-400 hover:border-green-300"
+            className="bg-green-500/90 backdrop-blur-sm hover:bg-green-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-green-400 hover:border-green-300"
             title={`${navigation.next.title} (→)`}
             aria-label={`משחק הבא: ${navigation.next.title}`}
           >
