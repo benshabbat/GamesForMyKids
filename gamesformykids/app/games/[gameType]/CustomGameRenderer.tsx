@@ -43,6 +43,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'whack-a-mole':    dynamic(() => import('../whack-a-mole/WhackAMoleClient'),               { ssr: false }),
   'word-builder':    dynamic(() => import('../word-builder/WordBuilderGameClient')),
   'word-scramble':   dynamic(() => import('../word-scramble/WordScrambleClient')),
+  'maze':            dynamic(() => import('../maze/MazeClient'),                                  { ssr: false }),
 };
 
 interface Props { gameType: string; }
