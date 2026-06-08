@@ -20,7 +20,7 @@ export default function CompleteView({ score, maxScore, onRestart }: CompleteVie
   const stars = Math.ceil((score / maxScore) * 5);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 p-4 flex items-center" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-amber-100 via-yellow-50 to-orange-100 p-4 flex items-center">
       <div className="max-w-lg mx-auto w-full">
         <div className="bg-white rounded-3xl shadow-2xl p-8 text-center">
 

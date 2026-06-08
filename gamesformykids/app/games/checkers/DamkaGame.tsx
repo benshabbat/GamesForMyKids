@@ -7,7 +7,7 @@ export default function DamkaGame() {
   const phase = useDamkaStore((s) => s.phase);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-900 via-amber-950 to-stone-950 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-amber-900 via-amber-950 to-stone-950 flex flex-col items-center justify-center p-4 select-none">
 
       {phase === 'menu' && <DamkaMenuScreen />}
 

@@ -20,7 +20,7 @@ export default function ColorTapPlayArea() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-pink-100 to-purple-200 flex flex-col items-center justify-center p-4 select-none">
       <div className="flex gap-8 mb-5 text-center">
         <div>
           <p className="text-2xl font-black text-pink-600">{score}</p>

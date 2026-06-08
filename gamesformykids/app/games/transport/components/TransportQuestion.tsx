@@ -21,7 +21,7 @@ export default function TransportQuestion({
   const answered = phase === 'answered' || selected !== null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-blue-100 flex flex-col p-4">
       <div className="flex justify-between items-center mb-4">
         <span className="font-bold text-blue-600">✈️ {score * 10} | שאלה {index + 1}/{total}</span>
       </div>

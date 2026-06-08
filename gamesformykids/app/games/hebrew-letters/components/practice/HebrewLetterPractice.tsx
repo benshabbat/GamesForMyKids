@@ -29,7 +29,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
   } = useHebrewLetterPractice(letterData);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-blue-100 to-blue-200 p-4">
       <div className="max-w-4xl mx-auto">
         {/* Navigation */}
         <motion.div

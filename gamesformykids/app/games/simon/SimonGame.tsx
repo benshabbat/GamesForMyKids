@@ -8,7 +8,7 @@ export default function SimonGame() {
   const { phase, handleTap, startGame } = useSimonGame();
 
   return (
-    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4 select-none" dir="rtl">
+    <div className="min-h-screen bg-gray-900 flex flex-col items-center justify-center p-4 select-none">
       {phase === 'menu' && <SimonMenuScreen />}
       {(phase === 'showing' || phase === 'input') && <SimonBoard onTap={handleTap} />}
       {phase === 'dead' && <SimonGameOverScreen onRestart={startGame} />}

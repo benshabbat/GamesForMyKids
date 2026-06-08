@@ -11,7 +11,7 @@ export default function WordBuilderQuestion() {
   if (!current) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 p-4" dir="rtl">
+    <div className="min-h-screen bg-gradient-to-br from-orange-50 to-amber-100 p-4">
       <div className="max-w-xl mx-auto">
         <div className="flex justify-between items-center mb-4">
           <span className="text-orange-700 font-bold">מילה {index + 1} / {total}</span>
