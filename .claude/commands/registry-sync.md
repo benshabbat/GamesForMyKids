@@ -46,15 +46,16 @@ grep -n "id:" gamesformykids/lib/registry/registryData/batch2.ts | head -30
 grep -n "id:" gamesformykids/lib/registry/registryData/batch3.ts | head -30
 grep -n "id:" gamesformykids/lib/registry/registryData/batch4.ts | head -30
 
-# 6. Home page category grid
-grep -n "'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx | head -80
+# 6. Home page category grid (gameCategories.ts, not CategorizedGamesGrid.tsx)
+grep -n "'<id>'" gamesformykids/lib/constants/gameCategories.ts
 
 # 7. Custom game renderer (only for Style D games)
 grep -n "'" gamesformykids/app/games/\[gameType\]/CustomGameRenderer.tsx | head -40
 
-# 8. Quiz registries (only for Style B/C games)
+# 8. Quiz registries (only for Style B/C/E games)
 grep -n "'" gamesformykids/lib/quiz/registry/genericQuizGames.tsx | head -30
 grep -n "'" gamesformykids/lib/quiz/registry/customQuizGames.tsx | head -30
+grep -n "'" gamesformykids/lib/quiz/registry/complexQuizGames.tsx | head -30
 ```
 
 ---
@@ -65,10 +66,11 @@ Before checking registration, determine the game's style so you know which locat
 
 | Style | Required locations |
 |-------|--------------------|
-| A (Card game) | GameType + SUPPORTED_GAMES + GAME_ITEMS_MAP + UI config + registry batch + category grid |
-| B (Generic Quiz) | GameType + SUPPORTED_GAMES + genericQuizGames + registry batch + category grid |
-| C (Custom Quiz) | GameType + SUPPORTED_GAMES + customQuizGames + registry batch + category grid |
-| D (Custom) | GameType + SUPPORTED_GAMES + CUSTOM_GAME_TYPES + CustomGameRenderer + registry batch + category grid |
+| A (Card game) | GameType + SUPPORTED_GAMES + GAME_ITEMS_MAP + UI config + registry batch + gameCategories |
+| B (Generic Quiz) | GameType + SUPPORTED_GAMES + genericQuizGames + registry batch + gameCategories |
+| C (Custom Quiz) | GameType + SUPPORTED_GAMES + customQuizGames + registry batch + gameCategories |
+| D (Custom) | GameType + SUPPORTED_GAMES + CUSTOM_GAME_TYPES + CustomGameRenderer + registry batch + gameCategories |
+| E (Complex Quiz) | GameType + SUPPORTED_GAMES + complexQuizGames + registry batch + gameCategories |
 
 Determine style by checking:
 
@@ -84,6 +86,9 @@ grep "'<id>'" gamesformykids/lib/quiz/registry/genericQuizGames.tsx
 
 # Is it in customQuizGames? → Style C
 grep "'<id>'" gamesformykids/lib/quiz/registry/customQuizGames.tsx
+
+# Is it in complexQuizGames? → Style E
+grep "'<id>'" gamesformykids/lib/quiz/registry/complexQuizGames.tsx
 ```
 
 ---
@@ -108,8 +113,9 @@ Style: <A / B / C / D>
 | CustomGameRenderer | app/games/[gameType]/CustomGameRenderer.tsx | ✅ / ❌ (Style D only) | Add dynamic import |
 | genericQuizGames | lib/quiz/registry/genericQuizGames.tsx | ✅ / ❌ (Style B only) | Add entry |
 | customQuizGames | lib/quiz/registry/customQuizGames.tsx | ✅ / ❌ (Style C only) | Add makeQuizGame call |
+| complexQuizGames | lib/quiz/registry/complexQuizGames.tsx | ✅ / ❌ (Style E only) | Add dynamic import |
 | Registry batch | lib/registry/registryData/batch<N>.ts | ✅ / ❌ | Add registry entry |
-| Category grid | components/marketing/CategorizedGamesGrid.tsx | ✅ / ❌ | Add to category array |
+| Category grid | lib/constants/gameCategories.ts | ✅ / ❌ | Add to `gameIds` of correct category |
 ```
 
 ---
@@ -191,9 +197,15 @@ For each ❌ location, output the exact code snippet to add. Do NOT modify files
 },
 ```
 
-**Category grid** (`CategorizedGamesGrid.tsx`):
+**complexQuizGames** (`lib/quiz/registry/complexQuizGames.tsx`):
 ```typescript
-// Add '<id>' to the appropriate category array
+'<id>': dynamic(() => import('@/app/games/<id>/<Game>Game'), { loading: () => <GameSpinnerScreen /> }),
+```
+
+**Category grid** (`lib/constants/gameCategories.ts`):
+```typescript
+// Add '<id>' to the gameIds array of the appropriate category object
+gameIds: [...existing, '<id>'],
 ```
 
 ---
@@ -217,7 +229,7 @@ grep "'<id>'" gamesformykids/lib/types/core/base.ts
 grep "'<id>'" gamesformykids/app/games/\[gameType\]/gamePageConstants.ts
 grep "'<id>'" gamesformykids/lib/constants/gameItemsMap.ts
 grep "'<id>'" gamesformykids/lib/registry/registryData/batch*.ts
-grep "'<id>'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx
+grep "'<id>'" gamesformykids/lib/constants/gameCategories.ts
 ```
 
 ---

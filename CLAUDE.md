@@ -3,7 +3,7 @@
 This file is loaded automatically by Claude Code in every conversation for this project.
 It contains two sections:
 1. **Anti-duplicate-code rules** — what to grep/read before writing anything new
-2. **Game creation guides** — exact checklist for each of the 3 game styles
+2. **Game creation guides** — exact checklist for each of the 5 game styles
 
 ---
 
@@ -142,9 +142,9 @@ Add `'my-game'` to `SUPPORTED_GAMES` (card games section only — **not** `CUSTO
 { id: "my-game", title: "המשחק שלי", description: "למד על...", icon: SomeIcon, emoji: "🎮", color: "bg-blue-400 hover:bg-blue-500", href: "/games/my-game", available: true, order: 99 },
 ```
 
-#### 7. Category grid — `components/marketing/CategorizedGamesGrid.tsx`
+#### 7. Category grid — `lib/constants/gameCategories.ts`
 
-Add `'my-game'` to the appropriate category array so it appears on the home page.
+Add `'my-game'` to the `gameIds` array of the appropriate category object so it appears on the home page.
 
 **Total new files: 1** (`gameData/<category>.ts` if the category is new — otherwise 0). Everything else is an addition to existing files.
 
@@ -187,6 +187,10 @@ export const GENERIC_QUIZ_GAMES: Record<string, ComponentType> = {
 Look at how existing games like `riddles` or `capitals` pass data. Usually you add a case to the data-selector inside `GenericQuizGame` or its hook.
 
 #### 4. GameType, SUPPORTED_GAMES, Registry — same as Style A steps 4-6.
+
+#### 5. Category grid — `lib/constants/gameCategories.ts`
+
+Add `'my-quiz'` to the `gameIds` array of the appropriate category.
 
 **Total new files: 1** (`lib/quiz/data/<game>.ts`).
 
@@ -276,6 +280,10 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
 ```
 
 #### 5. GameType, SUPPORTED_GAMES, Registry — same as Style A steps 4-6.
+
+#### 6. Category grid — `lib/constants/gameCategories.ts`
+
+Add `'my-quiz'` to the `gameIds` array of the appropriate category.
 
 **Total new files: 3-4** (hook, data, 1-2 screen components).
 
@@ -380,7 +388,54 @@ Add `'my-game'` to **both** `SUPPORTED_GAMES` and `CUSTOM_GAME_TYPES`.
 
 #### 6. GameType, Registry — same as Style A steps 4 and 6.
 
+#### 7. Category grid — `lib/constants/gameCategories.ts`
+
+Add `'my-game'` to the `gameIds` array of the appropriate category.
+
 **Total new files: 3-5** (store, hook, client, 1-2 screen components).
+
+---
+
+### Style E — Complex Quiz Game (standalone component, COMPLEX_QUIZ_GAMES)
+
+**When to use:** The quiz is complex enough to need its own top-level component with a custom store, multi-phase rendering, or deeply interlinked screens that don't fit the `makeQuizGame` factory signature. Examples: `transport`, `holidays`, `tzadikim`.
+
+**Folder structure:**
+
+```
+app/games/my-game/
+├── MyGame.tsx          # Top-level 'use client' component (renders menu/question/result)
+├── myGameStore.ts      # Zustand store for the game state
+└── components/
+    ├── MyGameMenu.tsx
+    ├── MyGameQuestion.tsx
+    └── MyGameResult.tsx
+```
+
+#### 1. Build the game component — `app/games/my-game/MyGame.tsx`
+
+The component handles all phases internally (menu → question → result).
+
+#### 2. Register in complexQuizGames — `lib/quiz/registry/complexQuizGames.tsx`
+
+```typescript
+import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
+
+export const COMPLEX_QUIZ_GAMES: Record<string, ComponentType> = {
+  // ...existing
+  'my-game': dynamic(() => import('@/app/games/my-game/MyGame'), { loading: () => <GameSpinnerScreen /> }),
+};
+```
+
+#### 3. GameType, SUPPORTED_GAMES, Registry — same as Style A steps 4-6.
+
+#### 4. Category grid — `lib/constants/gameCategories.ts`
+
+Add `'my-game'` to the `gameIds` array of the appropriate category.
+
+**Total new files: 3-5** (game component, store, 2-3 screen components).
+
+**Note:** `COMPLEX_QUIZ_GAMES` is merged into the quiz router automatically via `lib/quiz/quizGameRegistry.tsx` — do not add the game to `customQuizGames` or `genericQuizGames`.
 
 ---
 
@@ -396,9 +451,12 @@ New game idea
 │   └─ YES → Style B (GenericQuizGame) — 1 new file (data)
 │
 ├─ Is it a quiz needing a custom visual question screen?
-│   └─ YES → Style C (makeQuizGame) — 3-4 new files
+│   ├─ Fits the makeQuizGame factory (hook + phases)?
+│   │   └─ YES → Style C (makeQuizGame) — 3-4 new files
+│   └─ Needs its own store / deeply complex rendering?
+│       └─ YES → Style E (Complex Quiz, standalone component) — 3-5 new files
 │
-└─ Is it arcade / board / canvas / drawing / unique logic?
+└─ Is it arcade / board / canvas / drawing / unique logic (not a quiz)?
     └─ YES → Style D (Custom) — 3-5 new files
 ```
 

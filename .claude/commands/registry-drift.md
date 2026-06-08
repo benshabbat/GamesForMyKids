@@ -40,8 +40,8 @@ grep -o "^\s*'[^']*':" gamesformykids/lib/constants/ui/gameConfigs.*.ts | \
 # 6. Registry batches
 grep "id:" gamesformykids/lib/registry/registryData/batch*.ts | grep -o '"[^"]*"' | tr -d '"'
 
-# 7. Category grid
-grep -o "'[^']*'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx | tr -d "'"
+# 7. Category grid — gameCategories.ts (NOT CategorizedGamesGrid.tsx)
+grep -o '"[^"]*"' gamesformykids/lib/constants/gameCategories.ts | tr -d '"'
 
 # 8. genericQuizGames (Style B)
 grep -o "'[^']*'" gamesformykids/lib/quiz/registry/genericQuizGames.tsx | tr -d "'"
@@ -49,7 +49,10 @@ grep -o "'[^']*'" gamesformykids/lib/quiz/registry/genericQuizGames.tsx | tr -d 
 # 9. customQuizGames (Style C)
 grep -o "'[^']*'" gamesformykids/lib/quiz/registry/customQuizGames.tsx | tr -d "'"
 
-# 10. CustomGameRenderer (Style D)
+# 10. complexQuizGames (Style E)
+grep -o "'[^']*'" gamesformykids/lib/quiz/registry/complexQuizGames.tsx | tr -d "'"
+
+# 11. CustomGameRenderer (Style D)
 grep -o "'[^']*'" gamesformykids/app/games/\[gameType\]/CustomGameRenderer.tsx | tr -d "'"
 ```
 
@@ -67,10 +70,10 @@ For each game ID in the master set, check which locations it appears in:
 
 Build a matrix:
 
-| Game ID | GameType | SUPPORTED | CUSTOM_GAME | ITEMS_MAP | UI_CONFIG | Registry | Grid | quizReg | CustomRen |
-|---------|----------|-----------|-------------|-----------|-----------|----------|------|---------|-----------|
-| <id> | ✅ | ✅ | - | ✅ | ✅ | ✅ | ✅ | - | - |
-| <id2> | ✅ | ✅ | - | ❌ | ✅ | ✅ | ❌ | - | - |
+| Game ID | GameType | SUPPORTED | CUSTOM_GAME | ITEMS_MAP | UI_CONFIG | Registry | Categories | genericQ | customQ | complexQ | CustomRen |
+|---------|----------|-----------|-------------|-----------|-----------|----------|------------|----------|---------|----------|-----------|
+| <id> | ✅ | ✅ | - | ✅ | ✅ | ✅ | ✅ | - | - | - | - |
+| <id2> | ✅ | ✅ | - | ❌ | ✅ | ✅ | ❌ | - | - | - | - |
 
 Mark `-` for locations that are not required for that game's style. Mark `❌` for missing required entries.
 
@@ -92,6 +95,9 @@ grep "'<id>'" gamesformykids/lib/quiz/registry/genericQuizGames.tsx
 
 # Style C: in customQuizGames?
 grep "'<id>'" gamesformykids/lib/quiz/registry/customQuizGames.tsx
+
+# Style E: in complexQuizGames?
+grep "'<id>'" gamesformykids/lib/quiz/registry/complexQuizGames.tsx
 ```
 
 ---

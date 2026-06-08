@@ -2,7 +2,7 @@
 
 You are the **New Game Scaffolder** for GamesForMyKids.
 
-Your job: create a complete, working game skeleton for a new game, including all required files and registry connections, based on the chosen style (A/B/C/D) and the game spec provided by the user.
+Your job: create a complete, working game skeleton for a new game, including all required files and registry connections, based on the chosen style (A/B/C/D/E) and the game spec provided by the user.
 
 ---
 
@@ -21,10 +21,10 @@ space-objects A "חפצי חלל" "🚀" "nature"
 
 If `$ARGUMENTS` is missing or incomplete, ask the user for:
 1. Game ID (kebab-case, e.g. `space-objects`)
-2. Style (A / B / C / D)
+2. Style (A / B / C / D / E)
 3. Hebrew title
 4. Emoji
-5. Category for the home grid (educational / nature / home-life / activities / advanced / photo-quiz)
+5. Category for the home grid (basic / creative / nature / world / home / math / games / health / science / holidays / innovative / arcade / educational)
 
 ---
 
@@ -86,7 +86,7 @@ export const <GAME_ID_UPPER>_PRONUNCIATIONS: Record<string, string> = {};
 - `lib/types/core/base.ts`: add `| '<game-id>'` to GameType
 - `app/games/[gameType]/gamePageConstants.ts`: add `'<game-id>'` to SUPPORTED_GAMES array
 - `lib/registry/registryData/batch<N>.ts`: add registry entry
-- `components/marketing/CategorizedGamesGrid.tsx`: add `'<game-id>'` to category array
+- `lib/constants/gameCategories.ts`: add `'<game-id>'` to `gameIds` of the correct category object
 
 **UI config template:**
 ```typescript
@@ -146,7 +146,7 @@ export const <GAME_ID_UPPER>_QUESTIONS: <GameId>Question[] = [
 - `lib/types/core/base.ts`: add to GameType
 - `app/games/[gameType]/gamePageConstants.ts`: add to SUPPORTED_GAMES
 - `lib/registry/registryData/batch<N>.ts`: add registry entry
-- `components/marketing/CategorizedGamesGrid.tsx`: add to category
+- `lib/constants/gameCategories.ts`: add `'<game-id>'` to `gameIds` of the correct category object
 
 ---
 
@@ -206,7 +206,7 @@ export function use<GameId>Game() {
 - `lib/types/core/base.ts`: add to GameType
 - `app/games/[gameType]/gamePageConstants.ts`: add to SUPPORTED_GAMES
 - `lib/registry/registryData/batch<N>.ts`: add registry entry
-- `components/marketing/CategorizedGamesGrid.tsx`: add to category
+- `lib/constants/gameCategories.ts`: add `'<game-id>'` to `gameIds` of the correct category object
 
 ---
 
@@ -265,11 +265,56 @@ export const use<GameId>Store = create<State & Actions>((set) => ({
 - `app/games/[gameType]/gamePageConstants.ts`: add to SUPPORTED_GAMES **and** CUSTOM_GAME_TYPES
 - `lib/types/core/base.ts`: add to GameType
 - `lib/registry/registryData/batch<N>.ts`: add registry entry
-- `components/marketing/CategorizedGamesGrid.tsx`: add to category
+- `lib/constants/gameCategories.ts`: add `'<game-id>'` to `gameIds` of the correct category object
 
 ---
 
-## Phase 7 — Confirm and apply
+## Phase 7 — Style E scaffold
+
+Only if style = E (Complex Quiz — own standalone component).
+
+**When to choose E over C:** The game needs its own Zustand store, deeply custom multi-phase rendering that doesn't map cleanly to `makeQuizGame`'s `{ menu, question, result }` signature, or category-indexed question sets with complex state.
+
+**New files to create:**
+- `gamesformykids/app/games/<game-id>/<GameId>Game.tsx` — top-level 'use client' component that manages all phases
+- `gamesformykids/app/games/<game-id>/<gameId>Store.ts` — Zustand store (optional; may use hook-only state)
+- `gamesformykids/app/games/<game-id>/components/<GameId>MenuScreen.tsx`
+- `gamesformykids/app/games/<game-id>/components/<GameId>Question.tsx`
+- `gamesformykids/app/games/<game-id>/components/<GameId>ResultScreen.tsx`
+
+**Top-level component template** (`<GameId>Game.tsx`):
+```typescript
+'use client';
+import { useState } from 'react';
+import <GameId>MenuScreen from './components/<GameId>MenuScreen';
+import <GameId>Question from './components/<GameId>Question';
+import <GameId>ResultScreen from './components/<GameId>ResultScreen';
+
+type Phase = 'menu' | 'playing' | 'result';
+
+export default function <GameId>Game() {
+  const [phase, setPhase] = useState<Phase>('menu');
+  // game state...
+
+  if (phase === 'menu')   return <<GameId>MenuScreen onStart={() => setPhase('playing')} />;
+  if (phase === 'result') return <<GameId>ResultScreen onRestart={() => setPhase('menu')} />;
+  return <<GameId>Question onFinish={() => setPhase('result')} />;
+}
+```
+
+**Additions:**
+- `lib/quiz/registry/complexQuizGames.tsx`: add dynamic import entry:
+  ```typescript
+  '<game-id>': dynamic(() => import('@/app/games/<game-id>/<GameId>Game'), { loading: () => <GameSpinnerScreen /> }),
+  ```
+- `lib/types/core/base.ts`: add to GameType
+- `app/games/[gameType]/gamePageConstants.ts`: add to SUPPORTED_GAMES (NOT to CUSTOM_GAME_TYPES)
+- `lib/registry/registryData/batch<N>.ts`: add registry entry
+- `lib/constants/gameCategories.ts`: add `'<game-id>'` to `gameIds` of the correct category object
+
+---
+
+## Phase 8 — Confirm and apply
 
 After generating all file contents and snippets, present a summary:
 
@@ -306,6 +351,6 @@ Report any TypeScript errors and offer to fix them.
 - **Never overwrite existing files** — only create truly new files or add to existing ones.
 - **Check for ID conflicts** before writing anything.
 - **Always confirm before applying** — show the plan first.
-- **Minimum 8 items for Style A**, minimum 10 questions for Style B/C.
+- **Minimum 8 items for Style A**, minimum 10 questions for Style B/C/E.
 - **Replace all placeholder text** (`<Hebrew title>`, `פריט א`, etc.) with the actual content where known, and mark `// TODO: fill in` where the user must provide content.
 - **Run `tsc --noEmit` after scaffolding** and report errors.

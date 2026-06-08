@@ -33,6 +33,7 @@ cat gamesformykids/app/games/\[gameType\]/gamePageConstants.ts
 # Existing quiz games
 cat gamesformykids/lib/quiz/registry/genericQuizGames.tsx
 cat gamesformykids/lib/quiz/registry/customQuizGames.tsx
+cat gamesformykids/lib/quiz/registry/complexQuizGames.tsx
 ```
 
 ---
@@ -54,14 +55,17 @@ New game idea
 │
 ├─ Is it a quiz that needs a CUSTOM question screen?
 │   (clock face, color picker, grid sequence, image-based question…)
-│   └─ YES → Style C (makeQuizGame) — 3-4 new files
+│   ├─ Fits makeQuizGame factory (hook returns { phase, current, choices, startGame, selectAnswer, restart })?
+│   │   └─ YES → Style C (makeQuizGame) — 3-4 new files
+│   └─ Needs its own store / complex multi-phase rendering / category-indexed questions?
+│       └─ YES → Style E (Complex Quiz, standalone component) — 3-5 new files
 │
-└─ Is it arcade / board / canvas / drawing / unique logic?
+└─ Is it arcade / board / canvas / drawing / unique logic (NOT quiz-based)?
     (catch-the-falling, puzzle, memory match, drawing, typing…)
     └─ YES → Style D (Fully Custom) — 3-5 new files
 ```
 
-**Tie-break rule:** when in doubt, prefer the simpler style. A quiz with slightly special UI can often be Style B with emoji in the question text.
+**Tie-break rule:** when in doubt, prefer the simpler style. A quiz with slightly special UI can often be Style B with emoji in the question text. Prefer C over E unless the `makeQuizGame` factory genuinely can't express the game's state.
 
 ---
 
@@ -92,8 +96,8 @@ Game type ID: `<kebab-case-id>`
   - Add `'<id>'` to `SUPPORTED_GAMES` (card games section only — NOT `CUSTOM_GAME_TYPES`)
 - [ ] `gamesformykids/lib/registry/registryData/batch<N>.ts`
   - Add registry entry (id, title, description, icon, emoji, color, href, available, order)
-- [ ] `gamesformykids/components/marketing/CategorizedGamesGrid.tsx`
-  - Add `'<id>'` to the correct category array
+- [ ] `gamesformykids/lib/constants/gameCategories.ts`
+  - Add `'<id>'` to the `gameIds` array of the correct category
 
 Total new files: 1 (0 if data category already exists)
 ```
@@ -121,8 +125,8 @@ Game type ID: `<kebab-case-id>`
   - Add `'<id>'` to `SUPPORTED_GAMES`
 - [ ] `gamesformykids/lib/registry/registryData/batch<N>.ts`
   - Add registry entry
-- [ ] `gamesformykids/components/marketing/CategorizedGamesGrid.tsx`
-  - Add `'<id>'` to the correct category array
+- [ ] `gamesformykids/lib/constants/gameCategories.ts`
+  - Add `'<id>'` to the `gameIds` array of the correct category
 
 Total new files: 1
 ```
@@ -154,8 +158,8 @@ Game type ID: `<kebab-case-id>`
   - Add `'<id>'` to `SUPPORTED_GAMES`
 - [ ] `gamesformykids/lib/registry/registryData/batch<N>.ts`
   - Add registry entry
-- [ ] `gamesformykids/components/marketing/CategorizedGamesGrid.tsx`
-  - Add `'<id>'` to the correct category array
+- [ ] `gamesformykids/lib/constants/gameCategories.ts`
+  - Add `'<id>'` to the `gameIds` array of the correct category
 
 Total new files: 3-4
 ```
@@ -187,8 +191,42 @@ Game type ID: `<kebab-case-id>`
   - Add `| '<id>'` to `GameType` union
 - [ ] `gamesformykids/lib/registry/registryData/batch<N>.ts`
   - Add registry entry
-- [ ] `gamesformykids/components/marketing/CategorizedGamesGrid.tsx`
-  - Add `'<id>'` to the correct category array
+- [ ] `gamesformykids/lib/constants/gameCategories.ts`
+  - Add `'<id>'` to the `gameIds` array of the correct category
+
+Total new files: 3-5
+```
+
+### Style E checklist
+
+```
+## Style E — Complex Quiz Game (standalone component)
+
+Game type ID: `<kebab-case-id>`
+
+Use when: the quiz needs its own Zustand store, category-indexed questions with complex state,
+or rendering that doesn't map to makeQuizGame's { menu, question, result } phases.
+
+### Files to create
+- [ ] `gamesformykids/app/games/<id>/<Game>Game.tsx`
+  - Top-level 'use client' component, manages all phases internally
+- [ ] `gamesformykids/app/games/<id>/<game>Store.ts` (if using Zustand)
+  - Game state store
+- [ ] `gamesformykids/app/games/<id>/components/<Game>MenuScreen.tsx`
+- [ ] `gamesformykids/app/games/<id>/components/<Game>Question.tsx`
+- [ ] `gamesformykids/app/games/<id>/components/<Game>ResultScreen.tsx` (optional)
+
+### Files to modify
+- [ ] `gamesformykids/lib/quiz/registry/complexQuizGames.tsx`
+  - Add: `'<id>': dynamic(() => import('@/app/games/<id>/<Game>Game'), { loading: () => <GameSpinnerScreen /> })`
+- [ ] `gamesformykids/app/games/[gameType]/gamePageConstants.ts`
+  - Add `'<id>'` to `SUPPORTED_GAMES` only (NOT to `CUSTOM_GAME_TYPES`)
+- [ ] `gamesformykids/lib/types/core/base.ts`
+  - Add `| '<id>'` to `GameType` union
+- [ ] `gamesformykids/lib/registry/registryData/batch<N>.ts`
+  - Add registry entry
+- [ ] `gamesformykids/lib/constants/gameCategories.ts`
+  - Add `'<id>'` to the `gameIds` array of the correct category
 
 Total new files: 3-5
 ```
@@ -224,7 +262,7 @@ Print a clean summary:
 ## Game Strategy Decision
 
 **Game:** <name>
-**Chosen style:** <A / B / C / D> — <one-line reason>
+**Chosen style:** <A / B / C / D / E> — <one-line reason>
 **New files:** <N>
 **Estimated effort:** <S = <2h / M = half-day / L = full day+>
 
