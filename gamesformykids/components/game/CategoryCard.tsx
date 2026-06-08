@@ -14,7 +14,7 @@ export default function CategoryCard({
       type="button"
       onClick={onClick}
       aria-label={`${category.title} — ${gamesCount} משחקים`}
-      className={`w-full relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl bg-gradient-to-br ${category.gradient}`}
+      className={`w-full relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-[transform,box-shadow] duration-300 hover:scale-105 cursor-pointer hover:shadow-2xl bg-gradient-to-br ${category.gradient}`}
     >
       <div className="text-center text-white">
         <div className="mb-2 md:mb-4 flex justify-center">

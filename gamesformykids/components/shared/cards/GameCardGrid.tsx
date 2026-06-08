@@ -67,8 +67,8 @@ export function GameCardGrid<T extends GameItemType>({
               <div
                 onClick={() => handleItemClick(item)}
                 className={`
-                  aspect-square rounded-3xl cursor-pointer transition-all 
-                  duration-300 transform hover:scale-110 shadow-xl hover:shadow-2xl
+                  aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow]
+                  duration-300 hover:scale-110 shadow-xl hover:shadow-2xl
                   bg-gradient-to-br from-gray-400 to-gray-600 
                   border-8 border-white
                   ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}

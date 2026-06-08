@@ -48,7 +48,7 @@ export default function StoryInterludeCard({
         {scoreLine && <p className="text-gray-500 mb-6">{scoreLine}</p>}
         <button
           onClick={onNext}
-          className={`w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l ${buttonGradient} shadow-lg hover:opacity-90 active:scale-95 transition-all`}
+          className={`w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l ${buttonGradient} shadow-lg hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
         >
           {nextLabel}
         </button>

@@ -56,7 +56,7 @@ export function GameSearchBar({
             key={key}
             onClick={() => onCatChange(activeCat === key ? null : key)}
             aria-pressed={activeCat === key}
-            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-all duration-200 ${
+            className={`flex-shrink-0 px-3 py-1.5 rounded-full text-xs font-semibold transition-colors duration-200 ${
               activeCat === key
                 ? 'bg-purple-600 text-white shadow-md'
                 : 'bg-white text-gray-600 hover:bg-purple-50 shadow-sm border border-gray-200'

@@ -15,7 +15,7 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
         <Link href={game.href} aria-label={game.title}>
           <div
             className={`
-              relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-all duration-300 transform hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
+              relative p-3 md:p-4 lg:p-6 rounded-2xl md:rounded-3xl shadow-lg md:shadow-xl transition-[transform,box-shadow] duration-300 hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
               ${game.color}
             `}
           >
@@ -43,7 +43,7 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
             <button
               onClick={(e) => { e.preventDefault(); toggleFavorite(game.id); }}
               aria-label={isFav ? 'הסר ממועדפים' : 'הוסף למועדפים'}
-              className={`absolute top-2 start-2 md:top-4 md:start-4 p-0.5 rounded-full transition-all duration-200 z-10 ${
+              className={`absolute top-2 start-2 md:top-4 md:start-4 p-0.5 rounded-full transition-[transform,opacity] duration-200 z-10 ${
                 isFav ? 'scale-125' : 'opacity-60 hover:opacity-100 hover:scale-110'
               }`}
             >

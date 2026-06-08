@@ -5,7 +5,7 @@ import { useHomePageStore } from "@/lib/stores";
 import { useFavoritesStore } from "@/lib/stores";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
-const TAB_BASE = "px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105";
+const TAB_BASE = "px-4 py-2 md:px-6 md:py-3 rounded-full font-bold text-sm md:text-base transition-[transform,colors] duration-300 hover:scale-105";
 const TAB_ACTIVE = "bg-purple-600 text-white shadow-lg";
 const TAB_INACTIVE = "bg-white text-purple-600 hover:bg-purple-50 shadow-md";
 const FAV_ACTIVE = "bg-yellow-400 text-white shadow-lg";

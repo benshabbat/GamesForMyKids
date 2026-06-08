@@ -43,7 +43,7 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
         <p className="text-gray-400 text-sm mb-6">נקודות</p>
         <button
           onClick={onRestart}
-          className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-all`}
+          className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-opacity`}
         >
           שחק שוב
         </button>

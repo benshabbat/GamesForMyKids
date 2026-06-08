@@ -65,7 +65,7 @@ export default function GameMenuCard({
         {onStart && (
           <button
             onClick={onStart}
-            className={`w-full py-4 rounded-2xl bg-gradient-to-r ${buttonClass ?? ''} text-white font-black text-xl hover:opacity-90 active:scale-95 transition-all`}
+            className={`w-full py-4 rounded-2xl bg-gradient-to-r ${buttonClass ?? ''} text-white font-black text-xl hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
           >
             {startLabel ?? `${emoji} התחל!`}
           </button>
@@ -73,7 +73,7 @@ export default function GameMenuCard({
         {secondaryAction && (
           <button
             onClick={secondaryAction.onClick}
-            className="w-full mt-3 py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold text-base hover:bg-gray-50 active:scale-95 transition-all"
+            className="w-full mt-3 py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold text-base hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
           >
             {secondaryAction.label}
           </button>
