@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
 import { makeQuizGame } from '../makeQuizGame';
 import { QuizMenuScreen, QuizResultScreen, CategoryIndexedQuestion } from '@/components/game/quiz';
+import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -47,6 +48,7 @@ const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/
 const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'));
 const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'));
 const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'));
+const DivisionQuestion   = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'));
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
@@ -167,6 +169,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="🦋" title="מחזור חיים" description="סדר את שלבי מחזור החיים בסדר הנכון!" theme="green" buttonLabel="🌱 בואו נסדר!" onStart={startGame} />,
       question: current ? <LifeCyclesQuestion current={current} onComplete={completeLifeCycle as () => void} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="green" />,
+    }),
+  ),
+
+  'division': makeQuizGame(
+    useDivisionGame,
+    ({ current, choices, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="➗" title="חילוק" description="12 ÷ 3 = ? — חלק פריטים לקבוצות שוות!" theme="blue" buttonLabel="➗ בואו נחלק!" onStart={startGame} />,
+      question: current ? <DivisionQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="blue" />,
     }),
   ),
 };
