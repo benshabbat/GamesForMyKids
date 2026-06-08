@@ -6,6 +6,8 @@ import { useSortingGame } from '@/lib/quiz/useSortingGame';
 import SortingQuestion from '@/components/game/quiz/screens/SortingQuestion';
 import { usePatternsGame } from '@/lib/quiz/usePatternsGame';
 import PatternQuestion from '@/components/game/quiz/screens/PatternQuestion';
+import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
+import LifeCyclesQuestion from '@/components/game/quiz/screens/LifeCyclesQuestion';
 
 import { useClockGame } from '@/lib/quiz/useClockGame';
 import { usePhonicsGame } from '@/lib/quiz/usePhonicsGame';
@@ -152,6 +154,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="🔵🔴" title="זיהוי דפוסים" description="🔴🔵🔴🔵🔴❓ — מה בא הלאה?" theme="sky" buttonLabel="🔵 בואו נגלה!" onStart={startGame} />,
       question: current ? <PatternQuestion current={current} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="sky" />,
+    }),
+  ),
+
+  'life-cycles': makeQuizGame(
+    useLifeCyclesGame,
+    ({ current, startGame, completeLifeCycle, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🦋" title="מחזור חיים" description="סדר את שלבי מחזור החיים בסדר הנכון!" theme="green" buttonLabel="🌱 בואו נסדר!" onStart={startGame} />,
+      question: current ? <LifeCyclesQuestion current={current} onComplete={completeLifeCycle as () => void} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="green" />,
     }),
   ),
 };
