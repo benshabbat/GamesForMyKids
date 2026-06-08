@@ -5,13 +5,12 @@
  *
  * 'use cache' + cacheLife('max') — game data is deploy-immutable (comes from
  * static TypeScript files); Next.js will never revalidate until the next deploy.
- * cacheTag allows on-demand purging per game type if needed.
  *
  * Keep this file SERVER-ONLY (no 'use client').
  */
 import 'server-only';
 
-import { cacheLife, cacheTag } from 'next/cache';
+import { cacheLife } from 'next/cache';
 import type { GameType, BaseGameItem } from '@/lib/types/core/base';
 
 /** Each data module exports named `BaseGameItem[]` arrays alongside non-array constants.
@@ -57,7 +56,6 @@ async function fromFunGames(key: string): Promise<BaseGameItem[]> {
 
 export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]> {
   'use cache';
-  cacheTag(`game-items-${gameType}`);
   cacheLife('max'); // deploy-immutable — static TS files, never changes between deploys
 
   switch (gameType) {
