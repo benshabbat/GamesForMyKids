@@ -27,7 +27,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <HeadLinks />
         <StructuredData />
       </head>
-      <body className={rubik.className}>
+      <body className={`${rubik.className} dark:bg-gray-900 dark:text-white`}>
         {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GA_ID && (
           <GoogleAnalytics GA_MEASUREMENT_ID={process.env.NEXT_PUBLIC_GA_ID} />
         )}
