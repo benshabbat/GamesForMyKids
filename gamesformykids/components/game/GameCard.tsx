@@ -32,10 +32,10 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
                   )}
                 </div>
               </div>
-              <h3 className="text-sm md:text-base lg:text-xl font-bold mb-1 md:mb-2 drop-shadow-sm leading-tight">
+              <h3 className="text-base md:text-lg lg:text-xl font-bold mb-1 md:mb-2 drop-shadow-sm leading-tight">
                 {game.title}
               </h3>
-              <p className="text-xs md:text-sm lg:text-base opacity-90 drop-shadow-sm hidden sm:block">
+              <p className="text-sm md:text-base opacity-90 drop-shadow-sm hidden sm:block">
                 {game.description}
               </p>
             </div>
