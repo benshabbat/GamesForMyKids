@@ -7,7 +7,7 @@ import { useGameAudio } from "../audio/useGameAudio";
 import { useGameOptions } from "./useGameOptions";
 import { useGameHints } from "../ui/useGameHints";
 import { useSessionStats } from "../progress/useSessionStats";
-import { useGameProgress } from "../progress/useGameProgress";
+import { useGameCompletion } from "../progress/useGameCompletion";
 import { 
   delay, 
   speakItemName as speakItemNameUtil,
@@ -59,23 +59,19 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   // Progress tracking
   const progressHooks = useSessionStats(gameType);
 
-  // Supabase progress persistence
-  const { updateScore, updateLevel } = useGameProgress(gameType);
+  // Supabase progress persistence — single atomic upsert per session
+  const { saveGameResultRef } = useGameCompletion(gameType);
+  const sessionStartRef = useRef(Date.now());
 
-  // Keep a ref to always-fresh save functions (avoids stale closures in cleanup)
-  const saveProgressRef = useRef({ updateScore, updateLevel, gameType });
+  // Save on unmount (user navigates away mid-game)
   useEffect(() => {
-    saveProgressRef.current = { updateScore, updateLevel, gameType };
-  });
-
-  // Save progress to Supabase when the component unmounts (user navigates away)
-  useEffect(() => {
+    sessionStartRef.current = Date.now();
+    const save = saveGameResultRef.current;
     return () => {
       const { score: s, level: l, isGameActive } = useGameProgressStore.getState();
       if (isGameActive && (s > 0 || l > 1)) {
-        const { updateScore: save, updateLevel: saveLevel, gameType: gt } = saveProgressRef.current;
-        // Sequential to avoid race condition on the same upsert row
-        save(gt, s).then(() => saveLevel(gt, l));
+        const durationSeconds = Math.round((Date.now() - sessionStartRef.current) / 1000);
+        save({ score: s, level: l, durationSeconds });
       }
     };
   }, []); // empty deps — run cleanup only on unmount
@@ -194,12 +190,10 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     useGameProgressStore.getState().resetProgress();
     useGameSessionStore.getState().resetSession();
 
-    // Persist progress to Supabase (single upsert to avoid race condition)
+    // Persist progress to Supabase — single atomic upsert
     if (finalScore > 0 || finalLevel > 1) {
-      const currentProgress = saveProgressRef.current;
-      currentProgress.updateScore(gameType, finalScore).then(() =>
-        currentProgress.updateLevel(gameType, finalLevel)
-      );
+      const durationSeconds = Math.round((Date.now() - sessionStartRef.current) / 1000);
+      saveGameResultRef.current({ score: finalScore, level: finalLevel, durationSeconds });
     }
   };
 
