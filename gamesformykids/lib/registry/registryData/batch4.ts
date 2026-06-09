@@ -382,4 +382,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 156,
   },
+  {
+    id: "nikud",
+    title: "ניקוד עברי",
+    description: "זהה את הניקוד — פַּתַח, חִירִיק, חוֹלֵם ועוד!",
+    icon: BookOpen,
+    emoji: "🔤",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/nikud",
+    available: true,
+    order: 157,
+  },
 ];

@@ -159,7 +159,7 @@ export type GameType =
   | 'opposites' | 'sports-quiz' | 'trivia' | 'science'
   | 'continents' | 'israel' | 'nature' | 'healthy-food' | 'human-body'
   | 'sequences' | 'color-mix' | 'clock' | 'english-words' | 'shapes-3d'
-  | 'holidays' | 'tzadikim' | 'life-cycles'
+  | 'holidays' | 'tzadikim' | 'life-cycles' | 'nikud'
   | 'days-of-week' | 'months-of-year'
   | 'geography-capitals' | 'geography-flags' | 'geography-continents'
   | 'singular-plural' | 'morning-routine'

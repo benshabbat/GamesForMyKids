@@ -49,6 +49,7 @@ export const SUPPORTED_GAMES = [
   'skip-counting',
   'life-cycles',
   'maze',
+  'nikud',
   'division',
 ] as const;
 

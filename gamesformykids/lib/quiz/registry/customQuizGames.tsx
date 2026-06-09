@@ -3,6 +3,7 @@ import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
 import { makeQuizGame } from '../makeQuizGame';
 import { QuizMenuScreen, QuizResultScreen, CategoryIndexedQuestion } from '@/components/game/quiz';
+import { useNikudGame } from '@/lib/quiz/useNikudGame';
 import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
@@ -48,6 +49,7 @@ const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/
 const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'));
 const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'));
 const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'));
+const NikudQuestion      = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'));
 const DivisionQuestion   = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'));
 
 /**
@@ -169,6 +171,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="🦋" title="מחזור חיים" description="סדר את שלבי מחזור החיים בסדר הנכון!" theme="green" buttonLabel="🌱 בואו נסדר!" onStart={startGame} />,
       question: current ? <LifeCyclesQuestion current={current} onComplete={completeLifeCycle as () => void} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="green" />,
+    }),
+  ),
+
+  'nikud': makeQuizGame(
+    useNikudGame,
+    ({ current, choices, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🔤" title="ניקוד עברי" description="זהה את הניקוד — פַּתַח, חִירִיק, חוֹלֵם ועוד!" theme="violet" buttonLabel="🔤 בואו נלמד!" onStart={startGame} />,
+      question: current ? <NikudQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="violet" />,
     }),
   ),
 
