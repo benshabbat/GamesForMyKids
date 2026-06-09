@@ -176,6 +176,7 @@ export interface GameCardGridProps<T extends GameItemType> {
   compareKey?: keyof T;
   renderCustomCard?: (item: T, isCorrect: boolean) => React.ReactNode;
   cardClassName?: string;
+  focusedIdx?: number;
   
   // Context usage
   useContext?: boolean;
