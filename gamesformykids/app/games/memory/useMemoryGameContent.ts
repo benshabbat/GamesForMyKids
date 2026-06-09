@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { useMemoryStore } from "./stores/useMemoryStore";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 import { playMemorySuccessSound } from "@/lib/utils/game/gameUtils";
-import { useGameProgress, useAchievements } from "@/hooks";
+import { useGameCompletion } from "@/hooks/shared/progress/useGameCompletion";
 import { useAuth } from "@/hooks/shared/auth/useAuth";
 
 export interface UseMemoryGameContentReturn {
@@ -90,35 +90,26 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
   }, [timeLeft, phase, setPhase]);
 
   const { user } = useAuth();
-  const { updateScore, updateLevel, addPlayTime } = useGameProgress("memory");
-  const { checkScoreAchievements, checkLevelAchievements } = useAchievements("memory");
+  const { saveGameResultRef } = useGameCompletion("memory");
 
   useEffect(() => {
     if (phase !== 'won' || !user || gameStats.score <= 0) return;
 
-    updateScore("memory", gameStats.score);
-
     const levelMap: Record<string, number> = { EASY: 1, MEDIUM: 2, HARD: 3 };
     const currentLevel = levelMap[difficulty] ?? 1;
-    updateLevel("memory", currentLevel);
 
-    if (timer > 0) {
-      addPlayTime("memory", timer);
-    }
-
-    checkScoreAchievements("memory", gameStats.score);
-    checkLevelAchievements("memory", currentLevel);
+    saveGameResultRef.current({
+      score: gameStats.score,
+      level: currentLevel,
+      durationSeconds: timer,
+    });
   }, [
     phase,
     user,
     gameStats.score,
     timer,
     difficulty,
-    updateScore,
-    updateLevel,
-    addPlayTime,
-    checkScoreAchievements,
-    checkLevelAchievements,
+    saveGameResultRef,
   ]);
 
   return { phase };

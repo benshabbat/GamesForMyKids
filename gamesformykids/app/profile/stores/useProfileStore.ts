@@ -47,8 +47,9 @@ export function useProfileComputedStats() {
   const totalPlayTime = useGameProgressDataStore((s) =>
     Math.floor(s.progress.reduce((sum, p) => sum + p.total_play_time, 0) / 60)
   );
+  const gamesPlayed = useGameProgressDataStore((s) => s.progress.length);
   const achievementsCount = useAchievementsStore((s) => s.achievements.length);
-  return { totalScore, totalPlayTime, achievementsCount };
+  return { totalScore, totalPlayTime, achievementsCount, gamesPlayed };
 }
 
 // ── Store ─────────────────────────────────────────────────

@@ -4,7 +4,7 @@ import { useCallback, useRef, useEffect } from 'react';
 import type { GameType } from '@/lib/types';
 import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { useGameProgressDataStore } from '@/lib/stores/gameProgressDataStore';
-import { upsertGameProgress } from '@/lib/supabase/gameProgress';
+import { fetchGameProgress, upsertGameProgress } from '@/lib/supabase/gameProgress';
 import { useAchievements } from './useAchievements';
 
 export interface GameResult {
@@ -22,8 +22,20 @@ export function useGameCompletion(gameType: GameType) {
       if (!user) return;
 
       const gt = gameType as string;
-      const progress = useGameProgressDataStore.getState().progress;
-      const cur = progress.find((p) => p.game_type === gt);
+      let cur = useGameProgressDataStore.getState().progress.find((p) => p.game_type === gt);
+
+      // If not yet cached, fetch from DB so best_score / total_play_time are correct
+      if (!cur) {
+        try {
+          const rows = await fetchGameProgress(user.id, gt);
+          if (rows.length > 0) {
+            cur = rows[0];
+            useGameProgressDataStore.getState().upsertProgressItem(cur!);
+          }
+        } catch {
+          // non-fatal — proceed with 0 as baseline
+        }
+      }
 
       try {
         const data = await upsertGameProgress(user.id, {

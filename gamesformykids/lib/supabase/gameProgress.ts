@@ -35,7 +35,10 @@ export async function upsertGameProgress(
 ): Promise<GameProgress> {
   const { data: row, error } = await supabase
     .from('game_progress')
-    .upsert({ user_id: userId, ...data })
+    .upsert(
+      { user_id: userId, ...data },
+      { onConflict: 'user_id,game_type' },
+    )
     .select()
     .single();
 
