@@ -3,8 +3,6 @@ import { Suspense } from 'react';
 import HomePageClient from './HomePageClient';
 import HomePageSkeleton from './HomePageSkeleton';
 
-export const experimental_ppr = true;
-
 export const metadata: Metadata = {
   title: 'משחקים לילדים 3-10 | GamesForMyKids',
   description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 3–10 שנים — צבעים, מספרים, עברית ועוד',
