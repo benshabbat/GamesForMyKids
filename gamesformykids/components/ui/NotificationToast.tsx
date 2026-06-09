@@ -17,7 +17,6 @@
  *   useUIStore.getState().addNotification('שמרת!', 'success');
  */
 
-import { useEffect } from 'react'
 import { useNotifications, useUIStore } from '@/lib/stores'
 import type { Notification, NotificationType } from '@/lib/stores'
 import { useToastTimer } from './useToastTimer'
@@ -32,13 +31,10 @@ const typeStyles: Record<NotificationType, { bg: string; icon: string }> = {
 
 function Toast({ notif }: { notif: Notification }) {
   const remove = useUIStore((s) => s.removeNotification)
-  const { barRef } = useToastTimer(notif.duration)
-
-  useEffect(() => {
-    if (notif.duration <= 0) return;
-    const id = setTimeout(() => remove(notif.id), notif.duration);
-    return () => clearTimeout(id);
-  }, [notif.id, notif.duration, remove])
+  const { barRef } = useToastTimer(
+    notif.duration,
+    notif.duration > 0 ? () => remove(notif.id) : undefined,
+  )
   const { bg, icon } = typeStyles[notif.type]
 
   return (
