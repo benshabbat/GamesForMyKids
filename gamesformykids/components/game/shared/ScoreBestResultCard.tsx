@@ -25,6 +25,7 @@ interface Props {
 /**
  * Shared result screen for games that display only score + best.
  * Renders the standard 2-column grid inside GameResultCard.
+ * Shows a "🏆 שיא חדש!" banner when score equals best (new or tied record).
  * Use GameResultCard directly when you need a custom children layout.
  */
 export default function ScoreBestResultCard({
@@ -37,6 +38,9 @@ export default function ScoreBestResultCard({
   ...cardProps
 }: Props) {
   const [displayed, setDisplayed] = useState(0);
+  const [showBanner, setShowBanner] = useState(false);
+
+  const isNewRecord = score > 0 && score === best;
 
   useEffect(() => {
     if (score === 0) return;
@@ -48,15 +52,21 @@ export default function ScoreBestResultCard({
       if (current >= score) {
         setDisplayed(score);
         clearInterval(id);
+        if (isNewRecord) setShowBanner(true);
       } else {
         setDisplayed(Math.round(current));
       }
     }, 600 / steps);
     return () => clearInterval(id);
-  }, [score]);
+  }, [score, isNewRecord]);
 
   return (
     <GameResultCard {...cardProps}>
+      {showBanner && (
+        <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg animate-bounce shadow-md">
+          🏆 שיא חדש!
+        </div>
+      )}
       <div className="grid grid-cols-2 gap-4">
         <div className={`${scoreBgClass} rounded-2xl p-3`}>
           <p className={`text-3xl font-black ${scoreTextClass} tabular-nums`}>{displayed}</p>
