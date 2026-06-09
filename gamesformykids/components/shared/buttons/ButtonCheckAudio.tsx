@@ -16,7 +16,7 @@ export default function ButtonCheckAudio() {
     <div className="mb-8">
       <button
         onClick={handleTestSpeech}
-        className="block w-full max-w-sm mx-auto px-8 py-4 cursor-pointer bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 transition-all duration-300 shadow-lg"
+        className="block w-full max-w-sm mx-auto px-8 py-4 cursor-pointer bg-blue-500 text-white rounded-full text-xl font-bold hover:bg-blue-600 transition-colors duration-300 shadow-lg"
       >
         🎤 בדיקת שמע
       </button>

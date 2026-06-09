@@ -98,7 +98,7 @@ export function ContextProgressDisplay() {
         <div className="mt-6 text-center">
           <button
             onClick={() => setShowProgressModal(false)}
-            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-all duration-200 transform hover:scale-105 font-bold"
+            className="px-8 py-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white rounded-lg hover:from-blue-600 hover:to-purple-600 transition-transform duration-200 transform hover:scale-105 font-bold"
           >
             סגור
           </button>

@@ -16,7 +16,7 @@ export default function NatureMenuScreen({ onStart }: Props) {
       title="עולם הטבע"
       description="בחר קטגוריה ולמד על הטבע!"
       categories={CATEGORIES}
-      categoryClassName={cat => `py-3 rounded-xl font-bold text-sm transition-all shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
+      categoryClassName={cat => `py-3 rounded-xl font-bold text-sm transition-opacity shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
       onStart={onStart}
     />
   );

@@ -33,7 +33,7 @@ export default function MathGameCard({ item, onClick }: GameItemCardProps) {
         flex flex-col items-center justify-center gap-2
         shadow-lg hover:shadow-xl
         transform hover:scale-105 active:scale-95
-        transition-all duration-200 cursor-pointer
+        transition-[transform,box-shadow] duration-200 cursor-pointer
       `}
     >
       {/* Number */}

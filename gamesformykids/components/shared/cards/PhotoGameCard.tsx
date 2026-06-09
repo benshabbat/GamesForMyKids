@@ -25,7 +25,7 @@ function PhotoGameCard({ item, onClick, isSelected, config }: PhotoGameCardProps
     <button
       onClick={() => onClick(item)}
       className={`
-        w-full aspect-square rounded-3xl cursor-pointer transition-all duration-300
+        w-full aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow] duration-300
         transform hover:scale-110 shadow-xl hover:shadow-2xl
         ${cardBg} flex flex-col items-center justify-center overflow-hidden
         border-8 ${border}
