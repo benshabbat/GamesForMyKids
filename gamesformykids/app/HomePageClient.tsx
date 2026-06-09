@@ -4,6 +4,7 @@ import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FeaturedGame from "@/components/marketing/ClientOnlyFeaturedGame";
 import GameRecommendations from "@/components/marketing/GameRecommendations";
+import SurpriseMeButton from "@/components/marketing/SurpriseMeButton";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import { useHomePage } from "./useHomePage";
@@ -16,11 +17,12 @@ export default function HomePageClient() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
+    <div className="min-h-screen bg-linear-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <Header />
       <main>
         <FeaturedGame />
         <GameRecommendations />
+        <SurpriseMeButton />
         <CategorizedGamesGrid />
       </main>
       <Footer />

@@ -2,6 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
+import { speakHebrew } from '@/lib/utils/speech/speaker';
+
+const CELEBRATION_PHRASES = [
+  'כל הכבוד! עשית עבודה מדהימה!',
+  'וואו! אתה פשוט מדהים!',
+  'יופי! הצלחת!',
+  'כל הכבוד! המשך כך!',
+] as const;
 
 function getSeasonalEmojis(): string[] {
   const m = new Date().getMonth(); // 0-11
@@ -36,6 +44,8 @@ export function GameCompletionCelebration() {
 
   useEffect(() => {
     playSuccessSound();
+    const phrase = CELEBRATION_PHRASES[Math.floor(Math.random() * CELEBRATION_PHRASES.length)]!;
+    speakHebrew(phrase);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setVisible(false);
       return;
