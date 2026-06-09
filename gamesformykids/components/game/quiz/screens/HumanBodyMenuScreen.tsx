@@ -17,7 +17,7 @@ export default function HumanBodyMenuScreen({ onStart }: Props) {
       title="גוף האדם"
       description="גלה את הפלאות של גוף האדם!"
       categories={BODY_CATEGORIES}
-      categoryClassName={cat => `py-3 px-4 rounded-xl font-bold text-white shadow-md active:scale-95 transition-all bg-gradient-to-r ${CATEGORY_GRADIENT_COLORS[cat] ?? 'from-gray-400 to-gray-600'} ${cat === 'הכל' ? 'col-span-2' : ''}`}
+      categoryClassName={cat => `py-3 px-4 rounded-xl font-bold text-white shadow-md active:scale-95 transition-transform bg-gradient-to-r ${CATEGORY_GRADIENT_COLORS[cat] ?? 'from-gray-400 to-gray-600'} ${cat === 'הכל' ? 'col-span-2' : ''}`}
       categoryLabel={cat => CATEGORY_LABELS[cat]}
       gridCols={2}
       onStart={onStart}

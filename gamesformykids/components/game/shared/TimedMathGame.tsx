@@ -106,7 +106,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
             <span className={`font-bold ${config.accentText700}`}>⭐ {score}</span>
           </div>
           <div className="h-3 bg-gray-200 rounded-full mb-5 overflow-hidden">
-            <div className={`h-full rounded-full transition-all duration-1000 ${timerColor}`} style={{ width: `${timePct}%` }} />
+            <div className={`h-full rounded-full transition-[width,background-color] duration-1000 ${timerColor}`} style={{ width: `${timePct}%` }} />
           </div>
           <div className="bg-white rounded-3xl shadow-xl p-10 mb-6 text-center">
             <p className={`text-5xl font-black ${config.accentText700}`}>{config.renderEquation(question)}</p>
@@ -122,7 +122,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
               }
               return (
                 <button key={i} onClick={() => selectAnswer(choice)} disabled={selected !== null}
-                  className={`py-5 rounded-2xl text-3xl font-black transition-all active:scale-95 ${style}`}>
+                  className={`py-5 rounded-2xl text-3xl font-black transition-transform active:scale-95 ${style}`}>
                   {choice}
                 </button>
               );
@@ -133,7 +133,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
               <div className={`rounded-2xl p-3 mb-3 text-center font-bold text-lg ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                 {config.renderFeedbackText(question, isCorrect ?? false)}
               </div>
-              <button onClick={advance} className={`w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l ${config.advanceBtn} shadow-lg hover:opacity-90 active:scale-95 transition-all`}>
+              <button onClick={advance} className={`w-full py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l ${config.advanceBtn} shadow-lg hover:opacity-90 active:scale-95 transition-[transform,opacity]`}>
                 {questionNum < config.totalQuestions - 1 ? 'שאלה הבאה ←' : 'תוצאות! 🎉'}
               </button>
             </div>

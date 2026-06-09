@@ -35,7 +35,7 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
               return (
                 <div
                   key={pos}
-                  className={`flex flex-col items-center gap-0.5 w-16 h-20 rounded-xl border-2 transition-all duration-300 ${
+                  className={`flex flex-col items-center gap-0.5 w-16 h-20 rounded-xl border-2 transition-colors duration-300 ${
                     stage
                       ? 'border-green-400 bg-green-50'
                       : 'border-dashed border-green-200 bg-gray-50'
@@ -69,7 +69,7 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
                   <button
                     key={stageIndex}
                     onClick={() => tapStage(stageIndex)}
-                    className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-all duration-200 active:scale-95 ${
+                    className={`p-3 rounded-xl border-2 flex flex-col items-center gap-1 transition-[transform,background-color,border-color] duration-200 active:scale-95 ${
                       wrongIdx === stageIndex
                         ? 'border-red-400 bg-red-50 scale-95'
                         : 'border-gray-200 bg-gray-50 hover:bg-green-50 hover:border-green-300'

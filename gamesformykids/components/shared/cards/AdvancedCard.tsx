@@ -99,7 +99,7 @@ export function AdvancedCard({
         w-full
         ${aspectClasses[aspectRatio]}
         ${borderRadiusClasses[borderRadius] ?? "rounded-xl"}
-        cursor-pointer transition-all duration-300 transform
+        cursor-pointer transition-[transform,box-shadow] duration-300 transform
         ${hoverClasses[hoverEffect]}
         ${shadowClasses[shadow]} hover:shadow-2xl
         ${backgroundClass}

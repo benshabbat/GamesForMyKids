@@ -19,7 +19,7 @@ export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
 
         <button
           onClick={speak}
-          className="w-full py-5 mb-6 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-lg hover:opacity-90 active:scale-95 transition-all text-lg sm:text-2xl font-black"
+          className="w-full py-5 mb-6 rounded-2xl bg-gradient-to-r from-violet-500 to-purple-600 text-white shadow-lg hover:opacity-90 active:scale-95 transition-[transform,opacity] text-lg sm:text-2xl font-black"
           aria-label="לחץ לשמוע את הצליל"
         >
           🔊 שמע את הצליל
@@ -32,7 +32,7 @@ export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
             <button
               key={letter}
               onClick={() => onSelect(letter)}
-              className="py-6 rounded-2xl bg-violet-50 border-2 border-violet-200 text-violet-800 font-black text-6xl hover:bg-violet-100 hover:border-violet-400 active:scale-95 transition-all"
+              className="py-6 rounded-2xl bg-violet-50 border-2 border-violet-200 text-violet-800 font-black text-6xl hover:bg-violet-100 hover:border-violet-400 active:scale-95 transition-[transform,background-color,border-color]"
             >
               {letter}
             </button>

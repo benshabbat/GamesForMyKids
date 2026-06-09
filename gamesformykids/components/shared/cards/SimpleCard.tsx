@@ -61,7 +61,7 @@ export function SimpleCard({
         ${sizeClasses[size]} ${shapeClasses[shape]}
         shadow-${shadow} ${color} ${textColor} border-${borderWidth} ${borderColor}
         transform ${hoverEffect === "scale" ? "hover:scale-110" : ""}
-        transition-all duration-300 cursor-pointer
+        transition-[transform,box-shadow] duration-300 cursor-pointer
         flex flex-col items-center justify-center p-2
         ${className}
       `}
