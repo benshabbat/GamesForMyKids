@@ -39,11 +39,19 @@ export default function CanvasGameOverOverlay({
   gridMb = 'mb-5',
   buttonSizeClass = 'py-4 text-xl',
 }: Props) {
+  const isNewRecord =
+    typeof score === 'number' && typeof best === 'number' && score > 0 && score === best;
+
   return (
     <div className={`absolute inset-0 flex items-center justify-center rounded-3xl ${backdropClass}`}>
       <div className={`bg-white rounded-3xl text-center shadow-2xl ${cardClass}`}>
         <div className="text-5xl mb-2">{emoji}</div>
         <h2 className="text-2xl font-black text-gray-800 mb-3">{title}</h2>
+        {isNewRecord && (
+          <div className="mb-3 px-3 py-1.5 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-base animate-bounce shadow-md">
+            🏆 שיא חדש!
+          </div>
+        )}
         <div className={`grid grid-cols-2 gap-3 ${gridMb}`}>
           <div className={`${scoreBgClass} rounded-2xl p-3`}>
             <p className={`${scoreSize} font-black ${scoreTextClass}`}>{score}{scoreSuffix}</p>

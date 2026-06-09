@@ -21,6 +21,9 @@ interface Props {
   animateEmoji?: boolean;
   /** Share text passed to Web Share API / clipboard. Omit to hide share button. */
   shareText?: string;
+  /** Pass score + best to surface a "🏆 שיא חדש!" banner when score equals best. */
+  score?: number;
+  best?: number;
   children: ReactNode;
 }
 
@@ -28,6 +31,7 @@ interface Props {
  * Shared shell for game result screens.
  * Provides the outer gradient background, white card, emoji, title, and restart button.
  * Pass game-specific metrics as `children`.
+ * When both `score` and `best` are provided, shows a "🏆 שיא חדש!" banner on new records.
  */
 export default function GameResultCard({
   emoji,
@@ -39,23 +43,32 @@ export default function GameResultCard({
   secondaryAction,
   animateEmoji = false,
   shareText,
+  score,
+  best,
   children,
 }: Props) {
   const { share, copied } = useShareScore();
+  const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
+
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br ${gradientClass} flex items-center justify-center p-4`}
+      className={`min-h-screen bg-linear-to-br ${gradientClass} flex items-center justify-center p-4`}
       dir="rtl"
     >
       <GameCompletionCelebration />
       <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
         <div className={`text-6xl mb-3 ${animateEmoji ? 'animate-bounce' : ''}`}>{emoji}</div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
+        {isNewRecord && (
+          <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg animate-bounce shadow-md">
+            🏆 שיא חדש!
+          </div>
+        )}
         <div className="mb-6">{children}</div>
         <div className="flex gap-3">
           <button
             onClick={onRestart}
-            className={`flex-1 py-4 rounded-2xl bg-gradient-to-l ${buttonClass} text-white font-bold hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
+            className={`flex-1 py-4 rounded-2xl bg-linear-to-l ${buttonClass} text-white font-bold hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
           >
             {restartLabel}
           </button>
