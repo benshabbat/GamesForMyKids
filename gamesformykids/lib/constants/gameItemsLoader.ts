@@ -82,7 +82,6 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'vehicles':         return fromWorld('ALL_VEHICLES');
     case 'tools':            return fromWorld('ALL_TOOLS');
     case 'space':            return fromWorld('ALL_SPACE_OBJECTS');
-    case 'space-adventure':  return fromWorld('ALL_SPACE_OBJECTS');
     case 'weather':          return fromWorld('ALL_WEATHERS');
     case 'advanced-weather': return fromWorld('ADVANCED_WEATHER_ITEMS');
 
@@ -99,9 +98,7 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
 
     // single-export files (each module exports exactly one BaseGameItem[] constant)
     case 'sports':     return (await import('./gameData/sports')).SPORTS_ITEMS;
-    case 'kitchen':
-    case 'cooking-kitchen':
-                       return (await import('./gameData/cooking')).KITCHEN_ITEMS;
+    case 'kitchen':    return (await import('./gameData/cooking')).KITCHEN_ITEMS;
     case 'body-parts': return (await import('./gameData/body')).BODY_PARTS_ITEMS;
     case 'family':     return (await import('./gameData/family')).FAMILY_ITEMS;
     case 'dinosaurs':  return (await import('./gameData/dinosaurs')).DINOSAURS_ITEMS;
@@ -136,7 +133,6 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'medicine':          return fromAdditional('MEDICINE_ITEMS');
     case 'nature-sounds':     return fromAdditional('NATURE_SOUNDS_ITEMS');
     case 'seasons-holidays':  return fromAdditional('SEASONS_HOLIDAYS_ITEMS');
-    case 'feelings':          return fromAdditional('FEELINGS_ITEMS');
     case 'shopping-money':    return fromAdditional('SHOPPING_MONEY_ITEMS');
     case 'road-safety':       return fromAdditional('ROAD_SAFETY_ITEMS');
 

@@ -32,9 +32,9 @@ export type AutoGameType =
   | 'instruments' | 'professions' | 'emotions' | 'math'
   | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs'
   | 'world-food' | 'recycling' | 'medicine' | 'nature-sounds'
-  | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety'
+  | 'seasons-holidays' | 'shopping-money' | 'road-safety'
   | 'ocean-life' | 'garden-plants' | 'magic-fairy-tales'
-  | 'space-adventure' | 'cooking-kitchen' | 'circus-show'
+  | 'circus-show'
   | 'virtual-reality' | 'new-professions' | 'advanced-weather'
   | 'advanced-colors' | 'jewish-holidays' | 'logic-games'
   | 'sound-imitation' | 'body-movements' | 'touch-senses'
@@ -102,14 +102,11 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   medicine:           g('medicine'),
   'nature-sounds':    useNatureSoundsGame,
   'seasons-holidays': g('seasons-holidays'),
-  feelings:           g('feelings'),
   'shopping-money':   g('shopping-money'),
   'road-safety':      g('road-safety'),
   'ocean-life':       g('ocean-life'),
   'garden-plants':    g('garden-plants'),
   'magic-fairy-tales':g('magic-fairy-tales'),
-  'space-adventure':  g('space-adventure'),
-  'cooking-kitchen':  g('cooking-kitchen'),
   'circus-show':      g('circus-show'),
   'virtual-reality':  g('virtual-reality'),
   'new-professions':  g('new-professions'),

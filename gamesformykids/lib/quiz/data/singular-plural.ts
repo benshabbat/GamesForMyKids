@@ -23,7 +23,7 @@ export const SINGULAR_PLURAL_QUESTIONS: SingularPluralQuestion[] = [
   { id: 14, singular: "ענן",    plural: "עננים",   emoji: "☁️", wrongOptions: ["עננות", "ענניות", "עננן"] },
   { id: 15, singular: "יד",     plural: "ידיים",   emoji: "🖐️", wrongOptions: ["ידות", "ידים", "ידיות"] },
   { id: 16, singular: "רגל",    plural: "רגליים",  emoji: "🦵", wrongOptions: ["רגלים", "רגלות", "רגלן"] },
-  { id: 17, singular: "שולחן",  plural: "שולחנות", emoji: "🪑", wrongOptions: ["שולחנים", "שולחניות", "שולחנן"] },
+  { id: 17, singular: "שולחן",  plural: "שולחנות", emoji: "🍽️", wrongOptions: ["שולחנים", "שולחניות", "שולחנן"] },
   { id: 18, singular: "מכונית", plural: "מכוניות", emoji: "🚗", wrongOptions: ["מכוניתים", "מכוניתות", "מכוניתן"] },
   { id: 19, singular: "שיר",    plural: "שירים",   emoji: "🎵", wrongOptions: ["שירות", "שיריות", "שירן"] },
   { id: 20, singular: "דלת",    plural: "דלתות",   emoji: "🚪", wrongOptions: ["דלתים", "דלתיות", "דלתן"] },

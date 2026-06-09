@@ -71,15 +71,12 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   medicine: DefaultGameCard,
   'nature-sounds': DefaultGameCard,
   'seasons-holidays': DefaultGameCard,
-  feelings: DefaultGameCard,
   'shopping-money': DefaultGameCard,
   'road-safety': DefaultGameCard,
   // 6 משחקים חדשים נוספים
   'ocean-life': DefaultGameCard,
   'garden-plants': DefaultGameCard,
   'magic-fairy-tales': DefaultGameCard,
-  'space-adventure': DefaultGameCard,
-  'cooking-kitchen': DefaultGameCard,
   'circus-show': DefaultGameCard,
   // 6 משחקים טכנולוגיים חדשים
   'virtual-reality': DefaultGameCard,
