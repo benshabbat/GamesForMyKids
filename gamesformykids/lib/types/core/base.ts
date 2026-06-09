@@ -141,9 +141,9 @@ export type GameType =
   // Expanded topic games
   | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs'
   | 'world-food' | 'recycling' | 'medicine' | 'nature-sounds'
-  | 'seasons-holidays' | 'feelings' | 'shopping-money' | 'road-safety'
+  | 'seasons-holidays' | 'shopping-money' | 'road-safety'
   | 'ocean-life' | 'garden-plants' | 'magic-fairy-tales'
-  | 'space-adventure' | 'cooking-kitchen' | 'circus-show'
+  | 'circus-show'
   | 'virtual-reality' | 'new-professions' | 'advanced-weather'
   | 'advanced-colors' | 'jewish-holidays' | 'logic-games'
   | 'sound-imitation' | 'body-movements' | 'touch-senses'
