@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 
-const EMOJIS = ['🎉', '⭐', '🌟', '🎊', '✨', '🎈', '🏆', '💫'];
-
-const PARTICLES = Array.from({ length: 20 }, (_, i) => ({
-  id: i,
-  emoji: EMOJIS[i % EMOJIS.length],
-  left: `${5 + i * 4.5}%`,
-  delay: `${i * 0.1}s`,
-  size: 1.5 + (i % 3) * 0.4,
-}));
+function getSeasonalEmojis(): string[] {
+  const m = new Date().getMonth(); // 0-11
+  if (m === 8 || m === 9)  return ['🍎', '🍯', '🌙', '✨', '🏠', '⭐', '🌟', '🎊']; // Sep-Oct: Rosh Hashana/Sukkot
+  if (m === 10 || m === 11) return ['🕎', '❄️', '⭐', '🌟', '✨', '💫', '🎁', '🌨️']; // Nov-Dec: Hanukkah/winter
+  if (m === 0 || m === 1)  return ['❄️', '⛄', '🌨️', '💫', '⭐', '🌟', '✨', '🎈']; // Jan-Feb: winter
+  if (m === 2 || m === 3)  return ['🌸', '🌼', '🦋', '🌷', '🌻', '✨', '🎉', '🎊']; // Mar-Apr: Purim/Pesach/spring
+  if (m === 4 || m === 5)  return ['☀️', '🌈', '🎓', '🌞', '🎉', '⭐', '🏆', '🌟']; // May-Jun: Independence/end of year
+  return ['☀️', '🏖️', '🍉', '🌴', '🎈', '🌊', '🌞', '💫'];                           // Jul-Aug: summer
+}
 
 const KEYFRAMES = `
 @keyframes gfk-confetti-fall {
@@ -24,6 +24,15 @@ const KEYFRAMES = `
 export function GameCompletionCelebration() {
   const [visible, setVisible] = useState(true);
   const { playSuccessSound } = useGameAudio();
+
+  const emojis = getSeasonalEmojis();
+  const particles = Array.from({ length: 20 }, (_, i) => ({
+    id: i,
+    emoji: emojis[i % emojis.length]!,
+    left: `${5 + i * 4.5}%`,
+    delay: `${i * 0.1}s`,
+    size: 1.5 + (i % 3) * 0.4,
+  }));
 
   useEffect(() => {
     playSuccessSound();
@@ -42,7 +51,7 @@ export function GameCompletionCelebration() {
     <>
       <style>{KEYFRAMES}</style>
       <div className="fixed inset-0 pointer-events-none overflow-hidden z-50" aria-hidden>
-        {PARTICLES.map(({ id, emoji, left, delay, size }) => (
+        {particles.map(({ id, emoji, left, delay, size }) => (
           <span
             key={id}
             style={{
