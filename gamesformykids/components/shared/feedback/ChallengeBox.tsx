@@ -3,34 +3,30 @@ import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import type { ComponentTypes } from "@/lib/types";
 
-/**
- * 🎯 ChallengeBox עם קונטקסט - ללא props!
- */
-export default function ChallengeBox({ 
-  className = "" 
+export default function ChallengeBox({
+  className = ""
 }: ComponentTypes.ContextBasedComponentProps) {
-  const { 
-    config, 
-    currentChallenge, 
+  const {
+    config,
+    currentChallenge,
     speakItemName,
-    showCelebration 
+    showCelebration
   } = useUniversalGame();
-  
-  // אם אין אתגר נוכחי או שיש חגיגה, לא להציג
+
+  const cooldownRef = useRef(false);
+  const [speaking, setSpeaking] = useState(false);
+
   if (!currentChallenge || showCelebration) {
     return null;
   }
-  
+
   const title = config.challengeTitle || "איזה פריט שמעת?";
   const icon = config.challengeIcon || "🎯";
   const iconColor = config.colors?.header || "text-purple-600";
   const description = config.challengeDescription || "בחר את הפריט הנכון!";
-  
-  const cooldownRef = useRef(false);
-  const [speaking, setSpeaking] = useState(false);
 
   const handleSpeak = () => {
-    if (!currentChallenge || cooldownRef.current) return;
+    if (cooldownRef.current) return;
     cooldownRef.current = true;
     setSpeaking(true);
     speakItemName(currentChallenge.name);
