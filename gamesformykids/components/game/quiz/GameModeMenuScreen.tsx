@@ -60,7 +60,7 @@ export default function GameModeMenuScreen<T extends ModeItem>({
                   <span className="text-4xl">{item.emoji}</span>
                   <div>
                     <div className="text-xl font-bold">{item.label}</div>
-                    <div className="text-sm opacity-80">{item.desc}</div>
+                    <div className="text-base opacity-80">{item.desc}</div>
                   </div>
                 </>
               ) : (

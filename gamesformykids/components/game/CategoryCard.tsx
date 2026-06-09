@@ -20,7 +20,7 @@ export default function CategoryCard({
         <div className="mb-2 md:mb-4 flex justify-center">
           <Icon className="w-8 h-8 md:w-10 md:h-10 lg:w-12 lg:h-12" />
         </div>
-        <h3 className="text-sm md:text-lg lg:text-2xl font-bold mb-1 md:mb-2 leading-tight">
+        <h3 className="text-base md:text-lg lg:text-2xl font-bold mb-1 md:mb-2 leading-tight">
           {category.title}
         </h3>
         <p className="text-xs md:text-sm lg:text-base opacity-90 mb-2 md:mb-3 hidden sm:block">
