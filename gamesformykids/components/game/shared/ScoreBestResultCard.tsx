@@ -63,7 +63,7 @@ export default function ScoreBestResultCard({
   return (
     <GameResultCard {...cardProps}>
       {showBanner && (
-        <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg animate-bounce shadow-md">
+        <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg motion-safe:animate-bounce shadow-md">
           🏆 שיא חדש!
         </div>
       )}

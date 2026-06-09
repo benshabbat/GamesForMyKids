@@ -48,7 +48,7 @@ export default function CanvasGameOverOverlay({
         <div className="text-5xl mb-2">{emoji}</div>
         <h2 className="text-2xl font-black text-gray-800 mb-3">{title}</h2>
         {isNewRecord && (
-          <div className="mb-3 px-3 py-1.5 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-base animate-bounce shadow-md">
+          <div className="mb-3 px-3 py-1.5 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-base motion-safe:animate-bounce shadow-md">
             🏆 שיא חדש!
           </div>
         )}
