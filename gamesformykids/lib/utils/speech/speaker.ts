@@ -3,6 +3,7 @@ import {
   type SpeechOptions,
   isSpeaking,
   speechEnabled,
+  userMuted,
   setIsSpeaking,
   findHebrewVoice,
   getOptimizedSpeechSettings,
@@ -15,7 +16,7 @@ export async function speak(
   options: SpeechOptions = {}
 ): Promise<boolean> {
   // בדיקת זמינות ה-API
-  if (!speechEnabled || typeof window === "undefined" || !("speechSynthesis" in window)) {
+  if (!speechEnabled || userMuted || typeof window === "undefined" || !("speechSynthesis" in window)) {
     return false;
   }
 

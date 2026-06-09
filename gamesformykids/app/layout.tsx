@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Rubik } from 'next/font/google';
+import dynamic from 'next/dynamic';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
@@ -9,6 +10,8 @@ import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import HeadLinks from '@/components/layout/HeadLinks';
 import StructuredData from '@/components/layout/StructuredData';
 import { siteMetadata, siteViewport } from '@/lib/constants/siteMetadata';
+
+const SoundToggleButton = dynamic(() => import('@/components/ui/SoundToggleButton'), { ssr: false });
 
 const rubik = Rubik({
   subsets: ['latin', 'hebrew'],
@@ -36,6 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           {children}
           <NotificationToast />
+          <SoundToggleButton />
         </AuthProvider>
       </body>
     </html>

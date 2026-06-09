@@ -10,6 +10,11 @@ export interface SpeechOptions {
 // מצב גלובלי פשוט
 export let isSpeaking = false;
 export let speechEnabled = false;
+// explicit user mute — overrides speechEnabled; checked in speak() before every utterance
+export let userMuted = false;
+export function setUserMuted(muted: boolean): void {
+  userMuted = muted;
+}
 
 // setter — used by speaker.ts to update isSpeaking
 export function setIsSpeaking(value: boolean): void {

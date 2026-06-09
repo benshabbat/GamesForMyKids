@@ -4,6 +4,8 @@ export type { SpeechOptions } from "./voiceSelector";
 export {
   isSpeaking,
   speechEnabled,
+  userMuted,
+  setUserMuted,
   initializeSpeech,
   findHebrewVoice,
   getOptimizedSpeechSettings,

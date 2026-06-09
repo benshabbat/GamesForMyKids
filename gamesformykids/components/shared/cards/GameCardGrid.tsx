@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useCallback } from 'react';
 import { ComponentTypes } from "@/lib/types";
 import { useGridFillers } from "@/hooks";
 
@@ -24,7 +25,27 @@ export function GameCardGrid<T extends GameItemType>({
     typeof gridCols === 'string' ? gridCols : { mobile: gridCols, tablet: gridCols, desktop: gridCols }
   );
 
-  const handleItemClick = propOnItemClick ?? (() => {});
+  const [shakeKey, setShakeKey] = useState<string | null>(null);
+
+  const handleItemClick = useCallback((item: T) => {
+    if (!propOnItemClick) return;
+    propOnItemClick(item);
+    const isCorrect = currentChallenge != null && (
+      typeof item === 'object' && item !== null && typeof currentChallenge === 'object' && currentChallenge !== null &&
+      compareKey in item && compareKey in currentChallenge
+        ? item[compareKey] === currentChallenge[compareKey]
+        : item === currentChallenge
+    );
+    if (!isCorrect) {
+      const key = typeof item === 'object' && item !== null && 'name' in item
+        ? String(item.name)
+        : typeof item === 'object' && item !== null && compareKey in item
+          ? String(item[compareKey])
+          : String(item);
+      setShakeKey(key);
+      setTimeout(() => setShakeKey(null), 550);
+    }
+  }, [propOnItemClick, currentChallenge, compareKey]);
 
   const isCurrentItem = (item: T, challenge?: T | null): boolean => {
     if (!challenge) return false;
@@ -64,6 +85,7 @@ export function GameCardGrid<T extends GameItemType>({
                   bg-linear-to-br from-gray-400 to-gray-600
                   border-8 border-white
                   ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}
+                  ${shakeKey === getItemKey(item) ? "animate-shake" : ""}
                   ${cardClassName}
                 `}
               >
