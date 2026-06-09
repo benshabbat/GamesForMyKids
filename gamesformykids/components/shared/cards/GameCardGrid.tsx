@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { ComponentTypes } from "@/lib/types";
 import { useGridFillers } from "@/hooks";
 
@@ -26,6 +26,17 @@ export function GameCardGrid<T extends GameItemType>({
   );
 
   const [shakeKey, setShakeKey] = useState<string | null>(null);
+  const [tooltipKey, setTooltipKey] = useState<string | null>(null);
+  const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hoverRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const getTooltipHandlers = useCallback((key: string) => ({
+    onMouseEnter: () => { hoverRef.current = setTimeout(() => setTooltipKey(key), 200); },
+    onMouseLeave: () => { if (hoverRef.current) clearTimeout(hoverRef.current); setTooltipKey(null); },
+    onTouchStart: () => { longPressRef.current = setTimeout(() => setTooltipKey(key), 500); },
+    onTouchEnd: () => { if (longPressRef.current) clearTimeout(longPressRef.current); setTooltipKey(null); },
+    onTouchMove: () => { if (longPressRef.current) clearTimeout(longPressRef.current); setTooltipKey(null); },
+  }), []);
 
   const handleItemClick = useCallback((item: T) => {
     if (!propOnItemClick) return;
@@ -69,11 +80,27 @@ export function GameCardGrid<T extends GameItemType>({
         const isCorrect = isCurrentItem(item, currentChallenge);
         const isFocused = typeof focusedIdx === 'number' && focusedIdx === idx;
 
+        const itemKey = getItemKey(item);
+        const itemObj = item as unknown as Record<string, unknown>;
+        const hasEnglish = typeof item === 'object' && item !== null && 'english' in item;
+        const englishLabel = hasEnglish ? String(itemObj.english) : null;
+        const funFact = hasEnglish && 'funFact' in item ? String(itemObj.funFact) : null;
+
         return (
           <div
-            key={getItemKey(item)}
-            className={isFocused ? 'ring-4 ring-blue-400 ring-offset-2 rounded-3xl' : ''}
+            key={itemKey}
+            className={`relative ${isFocused ? 'ring-4 ring-blue-400 ring-offset-2 rounded-3xl' : ''}`}
+            {...(englishLabel ? getTooltipHandlers(itemKey) : {})}
           >
+            {tooltipKey === itemKey && englishLabel && (
+              <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-20 pointer-events-none" dir="ltr">
+                <div className="bg-gray-900 text-white text-sm rounded-lg px-3 py-1.5 text-center shadow-lg whitespace-nowrap">
+                  <div className="font-semibold">{englishLabel}</div>
+                  {funFact && <div className="text-xs text-gray-300 mt-0.5">{funFact}</div>}
+                </div>
+                <div className="w-2 h-2 bg-gray-900 rotate-45 mx-auto -mt-1" />
+              </div>
+            )}
             {renderCustomCard ? (
               renderCustomCard(item, isCorrect)
             ) : (
