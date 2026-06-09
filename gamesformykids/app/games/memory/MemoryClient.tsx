@@ -7,11 +7,9 @@ import MemoryGameBoard from './components/MemoryGameBoard';
 import MemoryStartScreen from './components/MemoryStartScreen';
 import { useMemoryGameContent } from './useMemoryGameContent';
 import { useMemoryGame } from './useMemoryGame';
-import { useMemorySyncDifficulty } from './useMemorySyncDifficulty';
 
 export default function MemoryClient() {
   useMemoryGameContent();
-  useMemorySyncDifficulty();
   const { phase } = useMemoryGame();
 
   if (phase === 'menu')    return <MemoryStartScreen />;
