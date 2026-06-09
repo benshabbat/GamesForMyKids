@@ -10,7 +10,7 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
     <div className="fixed inset-0 bg-gradient-to-br from-purple-400 via-pink-400 to-blue-400 flex items-center justify-center z-50">
       <div className="text-center text-white">
         {/* Animated emoji */}
-        <div className="text-8xl mb-8 animate-bounce">
+        <div className="text-8xl mb-8 motion-safe:animate-bounce">
           {LOADING_EMOJIS[currentEmoji]}
         </div>
         

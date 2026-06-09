@@ -55,12 +55,12 @@ export default function GameResultCard({
       className={`min-h-screen bg-linear-to-br ${gradientClass} flex items-center justify-center p-4`}
       dir="rtl"
     >
-      <GameCompletionCelebration />
+      {(score === undefined || score > 0) && <GameCompletionCelebration />}
       <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
-        <div className={`text-6xl mb-3 ${animateEmoji ? 'animate-bounce' : ''}`}>{emoji}</div>
+        <div className={`text-6xl mb-3 ${animateEmoji ? 'motion-safe:animate-bounce' : ''}`}>{emoji}</div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
         {isNewRecord && (
-          <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg animate-bounce shadow-md">
+          <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg motion-safe:animate-bounce shadow-md">
             🏆 שיא חדש!
           </div>
         )}
