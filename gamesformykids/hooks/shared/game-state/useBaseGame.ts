@@ -63,18 +63,19 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   const { saveGameResultRef } = useGameCompletion(gameType);
   const sessionStartRef = useRef(Date.now());
 
-  // Save on unmount (user navigates away mid-game)
+  // Save on unmount (user navigates away mid-game).
+  // Read saveGameResultRef.current at cleanup time so we always call the
+  // latest version (auth may load after this effect mounts).
   useEffect(() => {
     sessionStartRef.current = Date.now();
-    const save = saveGameResultRef.current;
     return () => {
       const { score: s, level: l, isGameActive } = useGameProgressStore.getState();
       if (isGameActive && (s > 0 || l > 1)) {
         const durationSeconds = Math.round((Date.now() - sessionStartRef.current) / 1000);
-        save({ score: s, level: l, durationSeconds });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        saveGameResultRef.current({ score: s, level: l, durationSeconds });
       }
     };
-  // saveGameResultRef is a stable ref — intentionally omitted from deps
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   
@@ -112,10 +113,17 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // התחלת משחק
   const startGame = async () => {
-    // Reset Zustand stores
+    // Save previous session score before resetting (user may replay without navigating away)
     const progressStore = useGameProgressStore.getState();
+    const { score: prevScore, level: prevLevel, isGameActive } = progressStore;
+    if (isGameActive && (prevScore > 0 || prevLevel > 1)) {
+      const durationSeconds = Math.round((Date.now() - sessionStartRef.current) / 1000);
+      saveGameResultRef.current({ score: prevScore, level: prevLevel, durationSeconds });
+    }
+
     progressStore.resetProgress();
     progressStore.setGameActive(true);
+    sessionStartRef.current = Date.now();
     useGameStore.getState().startGame(gameType);
 
     useGameSessionStore.getState().resetSession();
