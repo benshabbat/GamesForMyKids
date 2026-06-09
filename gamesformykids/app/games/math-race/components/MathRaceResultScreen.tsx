@@ -16,6 +16,8 @@ export default function MathRaceResultScreen() {
       onRestart={startGame}
       restartLabel="🔄 שוב!"
       shareText={`🏁 קיבלתי ${score} נקודות במרוץ מתמטיקה!`}
+      score={score}
+      best={best}
     >
       <StatGrid>
         <StatCell label="ניקוד" value={score} bgClass="bg-blue-50" textClass="text-blue-600" labelClass="text-blue-400" />

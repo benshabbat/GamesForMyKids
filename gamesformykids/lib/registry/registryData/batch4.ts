@@ -350,6 +350,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 153,
   },
   {
+    id: "division",
+    title: "חילוק",
+    description: "12 ÷ 3 = ? — חלק פריטים לקבוצות שוות!",
+    icon: Hash,
+    emoji: "➗",
+    color: "bg-blue-500 hover:bg-blue-600",
+    href: "/games/division",
+    available: true,
+    order: 154,
+  },
+  {
     id: "maze",
     title: "מבוך",
     description: "נווט דרך המבוך, אסוף כוכבים והגע לדלת — 5 רמות מאתגרות!",
