@@ -38,22 +38,20 @@ export default function UniversalGameNavigation({
   return (
     <nav
       aria-label="ניווט בין משחקים"
-      className="fixed top-4 left-4 right-4 z-50 flex justify-between items-center pointer-events-none"
+      className="fixed top-4 inset-x-4 z-50 flex justify-between items-center pointer-events-none"
     >
-      {/* שמאל — קודם */}
+      {/* ימין — הבא (first in DOM = right side in RTL flex) */}
       <div className="flex gap-2 pointer-events-auto">
-        {navigation.previous && (
+        {navigation.next && (
           <Link
-            href={navigation.previous.href}
-            className="bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300"
-            title={`${navigation.previous.title} (←)`}
-            aria-label={`משחק קודם: ${navigation.previous.title}`}
+            href={navigation.next.href}
+            className="bg-green-500/90 backdrop-blur-sm hover:bg-green-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-green-400 hover:border-green-300"
+            title={`${navigation.next.title} (→)`}
+            aria-label={`משחק הבא: ${navigation.next.title}`}
           >
-            <ArrowRight className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
-            {navigation.previous.icon && renderIcon(navigation.previous.icon)}
-            <span className="hidden lg:inline">
-              {navigation.previous.title}
-            </span>
+            <span className="hidden lg:inline">{navigation.next.title}</span>
+            {navigation.next.icon && renderIcon(navigation.next.icon)}
+            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
           </Link>
         )}
       </div>
@@ -82,18 +80,20 @@ export default function UniversalGameNavigation({
         )}
       </div>
 
-      {/* ימין — הבא */}
+      {/* שמאל — קודם (last in DOM = left side in RTL flex) */}
       <div className="flex gap-2 pointer-events-auto">
-        {navigation.next && (
+        {navigation.previous && (
           <Link
-            href={navigation.next.href}
-            className="bg-green-500/90 backdrop-blur-sm hover:bg-green-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-green-400 hover:border-green-300"
-            title={`${navigation.next.title} (→)`}
-            aria-label={`משחק הבא: ${navigation.next.title}`}
+            href={navigation.previous.href}
+            className="bg-blue-500/90 backdrop-blur-sm hover:bg-blue-600 text-white font-bold py-2 px-3 md:py-3 md:px-4 rounded-xl shadow-lg transition-[transform,colors] duration-200 hover:scale-105 active:scale-95 flex items-center gap-2 text-sm md:text-base border-2 border-blue-400 hover:border-blue-300"
+            title={`${navigation.previous.title} (←)`}
+            aria-label={`משחק קודם: ${navigation.previous.title}`}
           >
-            <span className="hidden lg:inline">{navigation.next.title}</span>
-            {navigation.next.icon && renderIcon(navigation.next.icon)}
-            <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+            <ArrowRight className="w-4 h-4 md:w-5 md:h-5" aria-hidden="true" />
+            {navigation.previous.icon && renderIcon(navigation.previous.icon)}
+            <span className="hidden lg:inline">
+              {navigation.previous.title}
+            </span>
           </Link>
         )}
       </div>
