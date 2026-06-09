@@ -12,7 +12,7 @@ export default function FractionBar({ numerator, denominator, color = '#7c3aed' 
       {Array.from({ length: denominator }).map((_, i) => (
         <div
           key={i}
-          className="h-10 rounded border-2 border-purple-400 transition-all"
+          className="h-10 rounded border-2 border-purple-400 transition-[width,background-color]"
           style={{
             width: `${Math.min(56 / denominator, 40)}px`,
             backgroundColor: i < numerator ? color : '#f3f4f6',

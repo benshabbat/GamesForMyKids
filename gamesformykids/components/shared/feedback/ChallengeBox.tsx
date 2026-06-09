@@ -57,7 +57,7 @@ export default function ChallengeBox({
       <button
         onClick={handleSpeak}
         aria-label="שמע שוב"
-        className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-bold text-base transition-all duration-150 select-none
+        className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-bold text-base transition-[transform,background-color] duration-150 select-none
           bg-blue-100 hover:bg-blue-200 text-blue-700 border-2 border-blue-300
           ${speaking ? 'scale-90 bg-blue-300' : 'active:scale-90'}`}
       >

@@ -72,7 +72,7 @@ export default function GameMainContent() {
           className="
             px-6 py-3 bg-linear-to-r from-purple-500 to-pink-500 text-white rounded-xl shadow-lg
             hover:from-purple-600 hover:to-pink-600 transform hover:scale-105
-            transition-all duration-200 font-bold
+            transition-transform duration-200 font-bold
           "
         >
           📈 דיוק משחק: {Math.round(game.currentAccuracy)}%

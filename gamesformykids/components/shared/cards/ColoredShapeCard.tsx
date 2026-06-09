@@ -30,7 +30,7 @@ export default function ColoredShapeCard({
       className={`
         relative group bg-white rounded-3xl p-8 shadow-xl 
         hover:shadow-2xl hover:scale-105 
-        transform transition-all duration-300 cursor-pointer 
+        transform transition-[transform,box-shadow] duration-300 cursor-pointer 
         border-2 border-gray-100 hover:border-gray-200
         ${className}
       `}
