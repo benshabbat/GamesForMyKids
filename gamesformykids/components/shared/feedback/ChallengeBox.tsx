@@ -1,34 +1,39 @@
+import { useRef, useState } from 'react';
 import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import type { ComponentTypes } from "@/lib/types";
 
-/**
- * 🎯 ChallengeBox עם קונטקסט - ללא props!
- */
-export default function ChallengeBox({ 
-  className = "" 
+export default function ChallengeBox({
+  className = ""
 }: ComponentTypes.ContextBasedComponentProps) {
-  const { 
-    config, 
-    currentChallenge, 
+  const {
+    config,
+    currentChallenge,
     speakItemName,
-    showCelebration 
+    showCelebration
   } = useUniversalGame();
-  
-  // אם אין אתגר נוכחי או שיש חגיגה, לא להציג
+
+  const cooldownRef = useRef(false);
+  const [speaking, setSpeaking] = useState(false);
+
   if (!currentChallenge || showCelebration) {
     return null;
   }
-  
+
   const title = config.challengeTitle || "איזה פריט שמעת?";
   const icon = config.challengeIcon || "🎯";
   const iconColor = config.colors?.header || "text-purple-600";
   const description = config.challengeDescription || "בחר את הפריט הנכון!";
-  
+
   const handleSpeak = () => {
-    if (currentChallenge) {
-      speakItemName(currentChallenge.name);
-    }
+    if (cooldownRef.current) return;
+    cooldownRef.current = true;
+    setSpeaking(true);
+    speakItemName(currentChallenge.name);
+    setTimeout(() => {
+      cooldownRef.current = false;
+      setSpeaking(false);
+    }, 300);
   };
 
   return (
@@ -48,7 +53,16 @@ export default function ChallengeBox({
       <p className="text-3xl font-bold text-blue-800 mb-6">
         &ldquo;{currentChallenge.hebrew}&rdquo;
       </p>
-      <p className="text-xl text-gray-600">{description}</p>
+      <p className="text-xl text-gray-600 mb-4">{description}</p>
+      <button
+        onClick={handleSpeak}
+        aria-label="שמע שוב"
+        className={`inline-flex items-center gap-2 px-4 py-3 min-h-11 rounded-xl font-bold text-base transition-all duration-150 select-none
+          bg-blue-100 hover:bg-blue-200 text-blue-700 border-2 border-blue-300
+          ${speaking ? 'scale-90 bg-blue-300' : 'active:scale-90'}`}
+      >
+        🔊 שמע שוב
+      </button>
     </GenericBox>
   );
 }
