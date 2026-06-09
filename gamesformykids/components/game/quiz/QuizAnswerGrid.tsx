@@ -50,7 +50,7 @@ export function QuizAnswerGrid({
               choice === selected,
               !enabled,
               `${t.answerIdle} cursor-pointer`,
-            )} ${enabled && idx === focusedIdx ? 'ring-4 ring-offset-2 ring-blue-400' : ''}`}
+            )} ${enabled && idx === focusedIdx ? 'ring-4 ring-offset-2 ring-blue-400' : ''} ${!enabled && choice === selected && choice !== correctValue ? 'animate-shake' : ''}`}
           >
             {renderChoice ? renderChoice(choice) : choice}
           </button>

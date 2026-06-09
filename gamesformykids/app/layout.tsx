@@ -9,6 +9,7 @@ import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import HeadLinks from '@/components/layout/HeadLinks';
 import StructuredData from '@/components/layout/StructuredData';
 import { siteMetadata, siteViewport } from '@/lib/constants/siteMetadata';
+import SoundToggleButton from '@/components/ui/SoundToggleButton';
 
 const rubik = Rubik({
   subsets: ['latin', 'hebrew'],
@@ -36,6 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <AuthProvider>
           {children}
           <NotificationToast />
+          <SoundToggleButton />
         </AuthProvider>
       </body>
     </html>
