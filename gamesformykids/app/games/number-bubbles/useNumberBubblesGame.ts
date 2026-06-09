@@ -14,12 +14,24 @@ export function useNumberBubblesGame() {
   const { saveGameResultRef } = useGameCompletion('number-bubbles');
   const startTimeRef = useRef<number>(0);
 
-  // Record start time when a round begins
+  // Game timer — ticks every 100ms while playing
   useEffect(() => {
-    if (state.phase === 'playing') {
-      startTimeRef.current = Date.now();
-    }
+    if (state.phase !== 'playing') return;
+    startTimeRef.current = Date.now();
+    const id = setInterval(() => {
+      state.tick(Math.floor((Date.now() - startTimeRef.current) / 100) / 10);
+    }, 100);
+    return () => clearInterval(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.phase]);
+
+  // Clear wrong-answer flash after 600ms
+  useEffect(() => {
+    if (!state.wrong) return;
+    const id = setTimeout(state.clearWrong, 600);
+    return () => clearTimeout(id);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.wrong]);
 
   // Persist result on each level completion
   useEffect(() => {
