@@ -18,7 +18,7 @@ export default function HumanBodyQuestion({ currentQuestion, choices, onSelect }
       onSelect={onSelect}
       cols={1}
       correctMsg="✅ נכון!"
-      wrongMsg={`❌ התשובה: ${currentQuestion.function}`}
+      wrongMsg={`💙 התשובה: ${currentQuestion.function}`}
     >
       <div className="text-7xl mb-3">{currentQuestion.emoji}</div>
       <div className="inline-block px-3 py-1 rounded-full text-sm font-bold text-white bg-red-400 mb-3">{currentQuestion.category}</div>
