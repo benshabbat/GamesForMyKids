@@ -18,7 +18,7 @@ export const ADJECTIVE_QUESTIONS: AdjectiveQuestion[] = [
   { id: 9,  question: "🪨 האבן היא...",             answer: "קשה",    emoji: "🪨", wrongOptions: ["רכה",   "קלה",   "חמה"]    },
   { id: 10, question: "🧸 הבובה היא...",            answer: "רכה",    emoji: "🧸", wrongOptions: ["קשה",   "כבדה",  "חמה"]    },
   { id: 11, question: "🏔️ ההר הוא...",             answer: "גבוה",   emoji: "🏔️", wrongOptions: ["נמוך",  "רחב",   "ישן"]    },
-  { id: 12, question: "🌻 הכד הנמוך הוא...",       answer: "נמוך",   emoji: "🌱", wrongOptions: ["גבוה",  "ישן",   "חדש"]    },
+  { id: 12, question: "🏺 הכד הנמוך הוא...",       answer: "נמוך",   emoji: "🏺", wrongOptions: ["גבוה",  "ישן",   "חדש"]    },
   { id: 13, question: "🏋️ כדור הברזל הוא...",      answer: "כבד",    emoji: "🏋️", wrongOptions: ["קל",    "רך",    "קטן"]    },
   { id: 14, question: "🪶 הנוצה היא...",            answer: "קלה",    emoji: "🪶", wrongOptions: ["כבדה",  "קשה",   "גדולה"]  },
   { id: 15, question: "🧽 הספוג הוא...",            answer: "רטוב",   emoji: "🧽", wrongOptions: ["יבש",   "קשה",   "קטן"]    },

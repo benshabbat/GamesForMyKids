@@ -54,7 +54,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport","vehicles","weather","space","space-adventure","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel","geography-flags","geography-capitals","geography-continents"],
+    gameIds: ["transport","vehicles","weather","space","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel","geography-flags","geography-capitals","geography-continents"],
   },
   home: {
     title: "בית וחיים",
@@ -62,7 +62,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Home,
     color: "bg-pink-500",
     gradient: "from-pink-400 to-pink-600",
-    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","cooking-kitchen","family","body-parts","new-professions","morning-routine"],
+    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","family","body-parts","new-professions","morning-routine"],
   },
   math: {
     title: "מתמטיקה וחשיבה",
@@ -78,7 +78,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Gamepad2,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-teal-600",
-    gameIds: ["memory","bubbles","emotions","feelings","sports","circus-show","soccer-logos","nba-teams","sports-quiz","soccer"],
+    gameIds: ["memory","bubbles","emotions","sports","circus-show","soccer-logos","nba-teams","sports-quiz","soccer"],
   },
   health: {
     title: "בריאות ובטיחות",

@@ -1,10 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { useQuizGameStore } from '@/lib/stores';
 import { QUIZ_THEMES } from '@/components/game/quiz/quizTheme';
 import { QuizProgress } from '@/components/game/quiz/QuizProgress';
 import type { LifeCycleQuestion } from '@/lib/quiz/data/life-cycles';
+import { useLifeCyclesInteraction } from './useLifeCyclesInteraction';
 
 interface Props {
   current: LifeCycleQuestion;
@@ -12,45 +11,8 @@ interface Props {
 }
 
 export default function LifeCyclesQuestion({ current, onComplete }: Props) {
-  const [placed, setPlaced] = useState<number[]>([]);
-  const [shuffled, setShuffled] = useState<number[]>([]);
-  const [wrongIdx, setWrongIdx] = useState<number | null>(null);
-
-  const isCorrect = useQuizGameStore(s => s.isCorrect);
-  const nextQuestion = useQuizGameStore(s => s.nextQuestion);
+  const { placed, shuffled, wrongIdx, isCorrect, tapStage } = useLifeCyclesInteraction(current, onComplete);
   const t = QUIZ_THEMES['green'];
-
-  // Reset state when lifecycle question changes
-  useEffect(() => {
-    const indices: number[] = [0, 1, 2, 3];
-    setShuffled(indices.sort(() => Math.random() - 0.5));
-    setPlaced([]);
-    setWrongIdx(null);
-  }, [current.id]);
-
-  // Auto-advance after lifecycle completion
-  useEffect(() => {
-    if (isCorrect === true) {
-      const t = setTimeout(nextQuestion, 1200);
-      return () => clearTimeout(t);
-    }
-  }, [isCorrect, nextQuestion]);
-
-  function tapStage(stageIndex: number) {
-    if (isCorrect !== null) return;
-    const nextExpected = placed.length;
-    if (stageIndex === nextExpected) {
-      const newPlaced = [...placed, stageIndex];
-      setShuffled(prev => prev.filter(i => i !== stageIndex));
-      setPlaced(newPlaced);
-      if (newPlaced.length === 4) {
-        setTimeout(onComplete, 300);
-      }
-    } else {
-      setWrongIdx(stageIndex);
-      setTimeout(() => setWrongIdx(null), 500);
-    }
-  }
 
   return (
     <div className={`min-h-screen bg-linear-to-br ${t.gradient} flex flex-col items-center justify-center p-4`} dir="rtl">

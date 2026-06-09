@@ -1,8 +1,7 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
 import type { PhonicsQuestion } from '@/lib/quiz/data/phonics';
-import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { usePhonicsInteraction } from './usePhonicsInteraction';
 
 interface Props {
   current: PhonicsQuestion;
@@ -11,14 +10,7 @@ interface Props {
 }
 
 export default function PhonicsQuestion({ current, choices, onSelect }: Props) {
-  const speak = useCallback(() => {
-    speakHebrew(current.sound).catch(() => {});
-  }, [current.sound]);
-
-  // Auto-play sound on each new question so pre-readers don't need to tap first
-  useEffect(() => {
-    speakHebrew(current.sound).catch(() => {});
-  }, [current.sound]);
+  const { speak } = usePhonicsInteraction(current);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-100 to-purple-200 flex flex-col items-center justify-center p-4" dir="rtl">

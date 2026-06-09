@@ -12,6 +12,7 @@ export const EMOTION_CONSTANTS: Record<string, BaseGameItem> = {
   CONFUSED: { name: "confused", hebrew: "מבולבל", english: "Confused", emoji: "😕", color: "bg-gradient-to-br from-amber-400 to-amber-600", sound: [349, 440, 523], plural: "מבולבלים" },
   PROUD: { name: "proud", hebrew: "גאה", english: "Proud", emoji: "😌", color: "bg-gradient-to-br from-green-400 to-green-600", sound: [392, 494, 587], plural: "גאים" },
   LAUGHING: { name: "laughing", hebrew: "צוחק", english: "Laughing", emoji: "😂", color: "bg-gradient-to-br from-teal-400 to-teal-600", sound: [659, 784, 880], plural: "צוחקים" },
+  LOVING: { name: "loving", hebrew: "אוהב", english: "Loving", emoji: "🥰", color: "bg-gradient-to-br from-pink-400 to-pink-600", sound: [392, 494, 587], plural: "אוהבים" },
 };
 
 export const ALL_EMOTIONS = createItemsList(EMOTION_CONSTANTS);

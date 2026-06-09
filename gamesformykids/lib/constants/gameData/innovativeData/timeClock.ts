@@ -11,6 +11,9 @@ export const TIME_CLOCK_CONSTANTS: Record<string, BaseGameItem> = {
   // ימי השבוע
   SUNDAY_REST: { name: "sunday_rest", hebrew: "יום ראשון", english: "Sunday", emoji: "1️⃣", color: "bg-red-400", sound: [440, 440, 440] },
   MONDAY_START: { name: "monday_start", hebrew: "יום שני", english: "Monday", emoji: "2️⃣", color: "bg-blue-400", sound: [494, 494, 494] },
+  TUESDAY: { name: "tuesday", hebrew: "יום שלישי", english: "Tuesday", emoji: "3️⃣", color: "bg-green-400", sound: [523, 523, 523] },
+  WEDNESDAY: { name: "wednesday", hebrew: "יום רביעי", english: "Wednesday", emoji: "4️⃣", color: "bg-purple-400", sound: [554, 554, 554] },
+  THURSDAY: { name: "thursday", hebrew: "יום חמישי", english: "Thursday", emoji: "5️⃣", color: "bg-orange-400", sound: [587, 587, 587] },
   FRIDAY_SHABBAT: { name: "friday_shabbat", hebrew: "יום שישי - שבת", english: "Friday Shabbat", emoji: "🕯️", color: "bg-yellow-600", sound: [587, 659, 698] },
   SATURDAY_FAMILY: { name: "saturday_family", hebrew: "יום שבת - משפחה", english: "Saturday Family", emoji: "👨‍👩‍👧‍👦", color: "bg-green-400", sound: [523, 587, 622] },
 
@@ -30,6 +33,9 @@ export const TIME_CLOCK_PRONUNCIATIONS = {
   'night_stars': 'לַיְלָה - כּוֹכָבִים',
   'sunday_rest': 'יוֹם רִאשׁוֹן',
   'monday_start': 'יוֹם שֵׁנִי',
+  'tuesday': 'יוֹם שְׁלִישִׁי',
+  'wednesday': 'יוֹם רְבִיעִי',
+  'thursday': 'יוֹם חֲמִישִׁי',
   'friday_shabbat': 'יוֹם שִׁישִׁי - שַׁבָּת',
   'saturday_family': 'יוֹם שַׁבָּת - מִשְׁפָּחָה',
   'spring_flowers': 'אָבִיב - פְּרָחִים',

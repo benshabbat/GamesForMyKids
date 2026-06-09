@@ -20,7 +20,7 @@ export const VERBS_QUESTIONS: VerbQuestion[] = [
   { id: 11, question: "🧗 הילד...",           answer: "מטפס",    emoji: "🧗", wrongOptions: ["קופץ",  "שוחה",   "רץ"]      },
   { id: 12, question: "🎨 הילדה...",          answer: "מציירת",  emoji: "🎨", wrongOptions: ["כותבת", "קוראת",  "שרה"]     },
   { id: 13, question: "⚽ הילד...",           answer: "משחק",    emoji: "⚽", wrongOptions: ["קורא",  "ישן",    "אוכל"]    },
-  { id: 14, question: "🦘 הארנב...",          answer: "קופץ",    emoji: "🦘", wrongOptions: ["שוחה",  "עף",     "רץ"]      },
+  { id: 14, question: "🐇 הארנב...",          answer: "קופץ",    emoji: "🐇", wrongOptions: ["שוחה",  "עף",     "רץ"]      },
   { id: 15, question: "🚿 הילדה...",          answer: "מתרחצת",  emoji: "🚿", wrongOptions: ["ישנה",  "שרה",    "אוכלת"]   },
   { id: 16, question: "👕 הילד...",           answer: "לובש",    emoji: "👕", wrongOptions: ["אוכל",  "שותה",   "קורא"]    },
   { id: 17, question: "💃 הילדה...",          answer: "רוקדת",   emoji: "💃", wrongOptions: ["שרה",   "ישנה",   "בוכה"]    },
