@@ -74,7 +74,9 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
         save({ score: s, level: l, durationSeconds });
       }
     };
-  }, []); // empty deps — run cleanup only on unmount
+  // saveGameResultRef is a stable ref — intentionally omitted from deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
     allItems: items,
