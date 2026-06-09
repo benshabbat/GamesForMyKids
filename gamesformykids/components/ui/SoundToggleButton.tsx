@@ -6,15 +6,21 @@ import { setUserMuted } from '@/lib/utils/speech/enhancedSpeechUtils';
 const STORAGE_KEY = 'sound_muted';
 
 export default function SoundToggleButton() {
+  const [mounted, setMounted] = useState(false);
   const [muted, setMuted] = useState(false);
 
   useEffect(() => {
-    const saved = typeof window !== 'undefined' && localStorage.getItem(STORAGE_KEY) === 'true';
+    setMounted(true);
+    const saved = localStorage.getItem(STORAGE_KEY) === 'true';
     if (saved) {
       setMuted(true);
       setUserMuted(true);
     }
   }, []);
+
+  // Render nothing on the server and on first paint to avoid hydration mismatch
+  // (mute state can only be read from localStorage after mount).
+  if (!mounted) return null;
 
   const toggle = () => {
     const newMuted = !muted;
