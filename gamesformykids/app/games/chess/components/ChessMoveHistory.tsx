@@ -59,7 +59,7 @@ export default function ChessMoveHistory() {
         className="flex items-center justify-between px-3 py-2"
         style={{ borderBottom: '1px solid rgba(255,255,255,0.05)', background: 'rgba(255,255,255,0.025)' }}
       >
-        <span className="text-xs text-slate-400 tracking-wider font-semibold uppercase">היסטוריית מהלכים</span>
+        <span className="text-xs text-slate-400 font-semibold">היסטוריית מהלכים</span>
         <span
           className="text-xs font-mono px-1.5 py-0.5 rounded-md"
           style={{ background: 'rgba(255,255,255,0.06)', color: 'rgba(255,255,255,0.3)' }}

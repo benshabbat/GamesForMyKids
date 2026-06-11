@@ -20,7 +20,7 @@ function ResultCircle({ mix }: { mix: ColorMix }) {
       >
         {!selected && <span className="text-3xl">❓</span>}
       </div>
-      <span className="text-sm font-bold text-gray-600">{selected ? mix.resultLabel : '?'}</span>
+      <span className="text-base font-bold text-gray-600">{selected ? mix.resultLabel : '?'}</span>
     </div>
   );
 }
@@ -39,12 +39,12 @@ export default function ColorMixQuestion({ mix, choices, onSelect }: Props) {
       <div className="flex items-center justify-center gap-4">
         <div className="text-center">
           <div className="w-20 h-20 rounded-full shadow-lg mx-auto mb-2 border-4 border-white ring-2 ring-gray-200" style={{ backgroundColor: mix.color1 }} />
-          <span className="text-sm font-bold text-gray-600">{mix.label1}</span>
+          <span className="text-base font-bold text-gray-600">{mix.label1}</span>
         </div>
         <div className="text-4xl font-black text-gray-400">+</div>
         <div className="text-center">
           <div className="w-20 h-20 rounded-full shadow-lg mx-auto mb-2 border-4 border-white ring-2 ring-gray-200" style={{ backgroundColor: mix.color2 }} />
-          <span className="text-sm font-bold text-gray-600">{mix.label2}</span>
+          <span className="text-base font-bold text-gray-600">{mix.label2}</span>
         </div>
         <div className="text-4xl font-black text-gray-400">=</div>
         <ResultCircle mix={mix} />

@@ -5,3 +5,4 @@ export * from './cardUtils';
 export * from './feedbackUtils';
 export * from './gameMetadata';
 export * from './gameNavigation';
+export * from './getGameConfettiEmojis';

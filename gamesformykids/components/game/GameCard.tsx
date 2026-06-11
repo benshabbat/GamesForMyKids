@@ -43,11 +43,11 @@ export default function GameCard({ game }: ComponentTypes.GameCardProps) {
             <button
               onClick={(e) => { e.preventDefault(); toggleFavorite(game.id); }}
               aria-label={isFav ? 'הסר ממועדפים' : 'הוסף למועדפים'}
-              className={`absolute top-2 start-2 md:top-4 md:start-4 p-0.5 rounded-full transition-[transform,opacity] duration-200 z-10 ${
+              className={`absolute top-1 inset-s-1 md:top-2 md:inset-s-2 p-2 min-w-11 min-h-11 flex items-center justify-center rounded-full transition-[transform,opacity] duration-200 z-10 ${
                 isFav ? 'scale-125' : 'opacity-60 hover:opacity-100 hover:scale-110'
               }`}
             >
-              <Star className={`w-3.5 h-3.5 md:w-5 md:h-5 drop-shadow-sm transition-colors duration-200 ${
+              <Star className={`w-4 h-4 md:w-5 md:h-5 drop-shadow-sm transition-colors duration-200 ${
                 isFav ? 'text-yellow-300 fill-current' : 'text-white'
               }`} />
             </button>
