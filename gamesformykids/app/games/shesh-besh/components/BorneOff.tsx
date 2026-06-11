@@ -21,7 +21,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }:
 
       {/* Computer borne off */}
       <div className="relative z-10 flex flex-col items-center gap-1.5 w-full">
-        <span className="text-[8px] text-gray-400 font-bold tracking-wider">מחשב</span>
+        <span className="text-[8px] text-gray-400 font-bold">מחשב</span>
         <div className="flex flex-wrap gap-[3px] justify-center w-full">
           {Array.from({ length: TOTAL }).map((_, i) => (
             <div
@@ -61,7 +61,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }:
           ))}
         </div>
         <span className="text-rose-300 text-[11px] font-extrabold leading-none">{playerCount}/15</span>
-        <span className="text-[8px] text-rose-400/70 font-bold tracking-wider">
+        <span className="text-[8px] text-rose-400/70 font-bold">
           {isBearOffTarget ? '✓ צא' : 'שלך'}
         </span>
       </button>

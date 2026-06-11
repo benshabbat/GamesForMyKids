@@ -31,7 +31,7 @@ export default function GeographyChallengeBox() {
         <div className="relative w-48 h-32 rounded-xl overflow-hidden shadow-lg">
           <Image
             src={flagUrl}
-            alt="דגל"
+            alt={`דגל ${countryName ?? ''}`}
             fill
             className="object-cover"
           />
