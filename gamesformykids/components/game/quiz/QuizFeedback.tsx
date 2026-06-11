@@ -1,7 +1,9 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
+import { vibrateCorrect, vibrateWrong } from '@/lib/utils/haptic';
 
 interface Props {
   correctLabel: string;
@@ -21,7 +23,13 @@ export function QuizFeedback({
   const isCorrect = useQuizGameStore(s => s.isCorrect);
   const index     = useQuizGameStore(s => s.index);
   const total     = useQuizGameStore(s => s.total);
+  const streak    = useQuizGameStore(s => s.streak);
   const next      = useQuizGameStore(s => s.nextQuestion);
+
+  useEffect(() => {
+    if (isCorrect === true) vibrateCorrect();
+    else if (isCorrect === false) vibrateWrong();
+  }, [isCorrect]);
 
   if (isCorrect === null) return null;
 
@@ -31,6 +39,15 @@ export function QuizFeedback({
 
   return (
     <div>
+      {isCorrect && streak >= 3 && (
+        <div
+          role="status"
+          aria-live="assertive"
+          className="text-center text-orange-500 font-black text-lg mb-2 motion-safe:animate-bounce"
+        >
+          🔥 רצף של {streak}!
+        </div>
+      )}
       <div
         role="status"
         aria-live="polite"
