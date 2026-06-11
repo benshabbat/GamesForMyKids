@@ -1,5 +1,5 @@
 import type { GameType } from '@/lib/types/core/base';
-import { spellingConfig, oppositesConfig, englishWordsConfig, worldLanguagesConfig, rhymingConfig, adjectivesConfig, verbsConfig } from './configs/language';
+import { spellingConfig, oppositesConfig, englishWordsConfig, worldLanguagesConfig, rhymingConfig, adjectivesConfig, verbsConfig, genderConfig, finalLettersConfig, alphabetOrderConfig } from './configs/language';
 import { riddlesConfig, capitalsConfig, instrumentsConfig, sportsQuizConfig, continentsConfig } from './configs/knowledge';
 import { emotionsConfig, familyConfig, healthyFoodConfig, singularPluralConfig, morningRoutineConfig } from './configs/social';
 import { fractionsConfig, shapes3dConfig, skipCountingConfig } from './configs/math';
@@ -30,4 +30,7 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<unknown>
   adjectives: adjectivesConfig,
   verbs: verbsConfig,
   'skip-counting': skipCountingConfig,
+  'gender': genderConfig,
+  'final-letters': finalLettersConfig,
+  'alphabet-order': alphabetOrderConfig,
 };

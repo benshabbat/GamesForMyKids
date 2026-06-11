@@ -51,6 +51,9 @@ export const SUPPORTED_GAMES = [
   'maze',
   'nikud',
   'division',
+  // New language & safety games
+  'gender', 'final-letters', 'alphabet-order',
+  'personal-safety',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

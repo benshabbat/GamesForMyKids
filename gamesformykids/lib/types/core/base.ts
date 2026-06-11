@@ -168,6 +168,8 @@ export type GameType =
   | 'rhyming' | 'adjectives' | 'verbs'
   | 'spatial-concepts' | 'number-words'
   | 'visual-opposites' | 'english-cards'
+  | 'gender' | 'final-letters' | 'alphabet-order'
+  | 'personal-safety'
   // Arcade & action games
   | 'maze'
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'

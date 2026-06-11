@@ -7,6 +7,9 @@ import { LANGUAGE_QUESTIONS } from '@/lib/quiz/data/world-languages';
 import { RHYMING_QUESTIONS } from '@/lib/quiz/data/rhyming';
 import { ADJECTIVE_QUESTIONS } from '@/lib/quiz/data/adjectives';
 import { VERBS_QUESTIONS } from '@/lib/quiz/data/verbs';
+import { GENDER_QUESTIONS } from '@/lib/quiz/data/gender';
+import { FINAL_LETTER_QUESTIONS } from '@/lib/quiz/data/final-letters';
+import { ALPHABET_ORDER_QUESTIONS } from '@/lib/quiz/data/alphabet-order';
 import { defineConfig } from './types';
 
 export const spellingConfig = defineConfig({
@@ -129,6 +132,69 @@ export const verbsConfig = defineConfig({
   renderQuestion: (q) => (
     <><div className="text-6xl mb-3">{q.emoji}</div>
       <p className="text-gray-700 text-xl font-medium leading-relaxed">{q.question}</p></>
+  ),
+});
+
+export const genderConfig = defineConfig({
+  gameType: 'gender', emoji: '🧒', title: 'זכר ונקבה',
+  description: 'האם המילה זכר או נקבה?', theme: 'violet',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['👦 ילד — זכר', '👧 ילדה — נקבה', '🐕 כלב — זכר', '🚗 מכונית — נקבה'].map(s => (
+        <div key={s} className="bg-violet-50 rounded-xl px-2 py-1.5 text-xs font-medium text-violet-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🧒 בואו נזהה!',
+  questions: GENDER_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-6xl mb-3">{q.emoji}</div>
+      <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
+  ),
+});
+
+export const finalLettersConfig = defineConfig({
+  gameType: 'final-letters', emoji: '🔤', title: 'אותיות סופיות',
+  description: 'למד את חמש האותיות הסופיות בעברית!', theme: 'indigo',
+  preview: (
+    <div className="grid grid-cols-5 gap-1">
+      {['מ→ם', 'נ→ן', 'פ→ף', 'צ→ץ', 'כ→ך'].map(s => (
+        <div key={s} className="bg-indigo-50 rounded-xl px-1 py-1.5 text-xs font-bold text-indigo-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🔤 בואו נלמד!',
+  questions: FINAL_LETTER_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-7xl font-black text-indigo-700 mb-3">{q.emoji}</div>
+      <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
+  ),
+});
+
+export const alphabetOrderConfig = defineConfig({
+  gameType: 'alphabet-order', emoji: '🔠', title: 'סדר האלפבית',
+  description: 'מה הסדר הנכון של אותיות האלפבית?', theme: 'emerald',
+  preview: (
+    <div className="grid grid-cols-4 gap-1">
+      {['א', 'ב', 'ג', 'ד', 'ה', 'ו', 'ז', 'ח'].map(s => (
+        <div key={s} className="bg-emerald-50 rounded-xl py-1.5 text-sm font-bold text-emerald-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '🔠 בואו נסדר!',
+  questions: ALPHABET_ORDER_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-6xl mb-3">{q.emoji}</div>
+      <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
   ),
 });
 
