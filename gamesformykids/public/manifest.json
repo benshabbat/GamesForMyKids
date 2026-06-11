@@ -28,5 +28,37 @@
       "type": "image/png",
       "purpose": "any maskable"
     }
+  ],
+  "shortcuts": [
+    {
+      "name": "חיות 🦁",
+      "short_name": "חיות",
+      "url": "/games/animals",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "מספרים 🔢",
+      "short_name": "מספרים",
+      "url": "/games/numbers",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "זיכרון 🃏",
+      "short_name": "זיכרון",
+      "url": "/games/memory",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "צבעים 🎨",
+      "short_name": "צבעים",
+      "url": "/games/colors",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "חשבון ➕",
+      "short_name": "חשבון",
+      "url": "/games/math",
+      "icons": [{ "src": "/icons/icon-192x192.png", "sizes": "192x192" }]
+    }
   ]
 }
