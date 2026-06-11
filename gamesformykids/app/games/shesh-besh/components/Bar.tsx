@@ -33,7 +33,7 @@ export function Bar({ playerBar, compBar, isSelected, onClickPlayer }: BarProps)
       {/* Center label */}
       <div className="relative z-10 flex flex-col items-center gap-0.5 py-1">
         <div className="w-px h-3 bg-amber-400/50 rounded-full" />
-        <span className="text-amber-400/80 text-[9px] font-bold tracking-widest">בר</span>
+        <span className="text-amber-400/80 text-[9px] font-bold">בר</span>
         <div className="w-px h-3 bg-amber-400/50 rounded-full" />
       </div>
 

@@ -28,7 +28,7 @@ export function GameBoard() {
             ))}
           </div>
           <div className="flex-1 flex items-center justify-center min-h-[2rem]">
-            <span className="text-[9px] text-amber-700/40 font-bold tracking-widest select-none">← מחשב</span>
+            <span className="text-[9px] text-amber-700/40 font-bold select-none">← מחשב</span>
           </div>
           <div className="flex">
             {BOT_POINTS.slice(0, 6).map(i => (
@@ -56,7 +56,7 @@ export function GameBoard() {
             ))}
           </div>
           <div className="flex-1 flex items-center justify-center min-h-[2rem]">
-            <span className="text-[9px] text-amber-700/40 font-bold tracking-widest select-none">אתה →</span>
+            <span className="text-[9px] text-amber-700/40 font-bold select-none">אתה →</span>
           </div>
           <div className="flex">
             {BOT_POINTS.slice(6).map(i => (
