@@ -50,7 +50,7 @@ const FeaturedGameContent = () => {
           <div className="flex flex-col md:flex-row items-center gap-8">
             <div className="relative bg-white bg-opacity-20 rounded-2xl p-6 backdrop-blur-sm">
               <Link href={featuredGame.href} className="block">
-                <div className="bg-white bg-opacity-80 rounded-xl p-4 hover:bg-opacity-90 transition-all duration-200 transform hover:scale-105">
+                <div className="bg-white bg-opacity-80 rounded-xl p-4 hover:bg-opacity-90 transition-[background-color,transform] duration-200 hover:scale-105">
                   <featuredGame.icon className="w-16 h-16 text-gray-700 mx-auto" />
                 </div>
               </Link>
@@ -65,7 +65,7 @@ const FeaturedGameContent = () => {
               </p>
               
               <Link href={featuredGame.href}>
-                <button className="inline-flex items-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-50 transition-all duration-200 transform hover:scale-105 shadow-lg">
+                <button className="inline-flex items-center gap-2 bg-white text-orange-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-orange-50 transition-[background-color,transform] duration-200 hover:scale-105 shadow-lg">
                   <Star className="w-5 h-5 fill-current" />
                   בואו נשחק!
                   <ArrowRight className="w-5 h-5" />

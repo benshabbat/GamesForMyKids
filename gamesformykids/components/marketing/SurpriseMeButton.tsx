@@ -31,7 +31,7 @@ export default function SurpriseMeButton() {
         className="flex items-center gap-3 px-8 py-4 rounded-2xl font-bold text-xl text-white shadow-xl
           bg-linear-to-r from-fuchsia-500 to-orange-400
           hover:from-fuchsia-600 hover:to-orange-500
-          active:scale-95 transition-all duration-200 disabled:opacity-80"
+          active:scale-95 transition-[transform,opacity,background] duration-200 disabled:opacity-80"
         aria-label="משחק אקראי"
       >
         <span
