@@ -16,6 +16,11 @@ export function QuizProgress({ theme }: { theme: QuizTheme }) {
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2 mb-5">
         <div
+          role="progressbar"
+          aria-valuenow={index + 1}
+          aria-valuemin={1}
+          aria-valuemax={total}
+          aria-label="התקדמות בחידון"
           className={`${t.progress} h-2 rounded-full transition-[width]`}
           style={{ width: `${((index + 1) / total) * 100}%` }}
         />

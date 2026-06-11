@@ -1,8 +1,10 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useParams } from 'next/navigation';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { getGameConfettiEmojis } from '@/lib/utils/game/getGameConfettiEmojis';
 
 const CELEBRATION_PHRASES = [
   'כל הכבוד! עשית עבודה מדהימה!',
@@ -32,8 +34,10 @@ const KEYFRAMES = `
 export function GameCompletionCelebration() {
   const [visible, setVisible] = useState(true);
   const { playSuccessSound } = useGameAudio();
+  const params = useParams();
+  const gameType = typeof params?.gameType === 'string' ? params.gameType : undefined;
 
-  const emojis = getSeasonalEmojis();
+  const emojis = getGameConfettiEmojis(gameType) ?? getSeasonalEmojis();
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     emoji: emojis[i % emojis.length]!,
