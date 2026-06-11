@@ -21,13 +21,13 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
 
         {/* Header */}
         <div className="bg-green-50 rounded-2xl p-4 mb-4 text-center">
-          <p className="text-sm text-green-600 font-semibold mb-1">סדר את מחזור החיים:</p>
+          <p className="text-base text-green-600 font-semibold mb-1">סדר את מחזור החיים:</p>
           <p className="text-xl font-black text-green-800">{current.name}</p>
         </div>
 
         {/* Completed slots */}
         <div className="mb-4">
-          <p className="text-xs text-gray-500 text-center mb-2">סדר נכון:</p>
+          <p className="text-sm text-gray-500 text-center mb-2">סדר נכון:</p>
           <div className="flex gap-2 justify-center">
             {[0, 1, 2, 3].map(pos => {
               const stageIdx = placed[pos];
@@ -44,7 +44,7 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
                   {stage ? (
                     <>
                       <span className="text-2xl mt-2">{stage.emoji}</span>
-                      <span className="text-xs text-green-700 font-bold text-center leading-tight px-1">
+                      <span className="text-sm text-green-700 font-bold text-center leading-tight px-1">
                         {stage.label}
                       </span>
                     </>
@@ -60,7 +60,7 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
         {/* Available tiles */}
         {shuffled.length > 0 && (
           <div>
-            <p className="text-xs text-gray-500 text-center mb-2">לחץ על השלב הראשון:</p>
+            <p className="text-sm text-gray-500 text-center mb-2">לחץ על השלב הראשון:</p>
             <div className="grid grid-cols-2 gap-2">
               {shuffled.map(stageIndex => {
                 const stage = current.stages[stageIndex];
@@ -76,7 +76,7 @@ export default function LifeCyclesQuestion({ current, onComplete }: Props) {
                     }`}
                   >
                     <span className="text-3xl">{stage.emoji}</span>
-                    <span className="text-sm font-medium text-gray-700 text-center leading-tight">
+                    <span className="text-base font-medium text-gray-700 text-center leading-tight">
                       {stage.label}
                     </span>
                   </button>

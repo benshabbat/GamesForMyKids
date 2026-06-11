@@ -11,7 +11,7 @@ export function QuizProgress({ theme }: { theme: QuizTheme }) {
   return (
     <>
       <div className="flex justify-between items-center mb-4">
-        <span className="text-gray-500 text-sm">שאלה {index + 1} / {total}</span>
+        <span className="text-gray-500 text-base font-medium">שאלה {index + 1} / {total}</span>
         <span className={`${t.badge} font-bold px-3 py-1 rounded-full`}>{score * 10} נקודות</span>
       </div>
       <div className="w-full bg-gray-200 rounded-full h-2 mb-5">

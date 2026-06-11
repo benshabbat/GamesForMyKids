@@ -40,7 +40,7 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
           {subtitle ?? `ענית נכון על ${correctCount} מתוך ${total} שאלות`}
         </p>
         <div className={`text-5xl font-black ${t.text} mb-1`}>{score}</div>
-        <p className="text-gray-400 text-sm mb-6">נקודות</p>
+        <p className="text-gray-400 text-base mb-6">נקודות</p>
         <button
           onClick={onRestart}
           className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-opacity`}
