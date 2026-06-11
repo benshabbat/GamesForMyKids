@@ -187,6 +187,13 @@ body {
     --background: #0a0a0a;
     --foreground: #ededed;
   }
+
+  /* Dim game screen backgrounds for comfortable night-time play.
+     Targets both Tailwind bg-gradient-to-* classes and inline linear-gradient styles. */
+  [class*="bg-gradient-to-"],
+  [style*="linear-gradient"] {
+    filter: brightness(0.85) saturate(0.9);
+  }
 }
 
 body {
