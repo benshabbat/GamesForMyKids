@@ -30,7 +30,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics","rhyming","nikud"],
+    gameIds: ["letters","hebrew-letters","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics","rhyming","nikud","gender","final-letters","alphabet-order"],
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -86,7 +86,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Heart,
     color: "bg-red-500",
     gradient: "from-red-400 to-red-600",
-    gameIds: ["medicine","road-safety","body-parts","body-movements","touch-senses","human-body"],
+    gameIds: ["medicine","road-safety","body-parts","body-movements","touch-senses","human-body","personal-safety"],
   },
   science: {
     title: "מדע וטכנולוגיה",

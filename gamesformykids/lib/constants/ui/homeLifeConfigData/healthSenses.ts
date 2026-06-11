@@ -111,4 +111,33 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
     tip: "💡 טיפ: תשמע על הבטיחות!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הכללים למטה לשמוע עליהם",
   },
+
+  "personal-safety": {
+    title: "🛡️ בטיחות אישית 🆘",
+    subTitle: "למד מי עוזר לנו ואיך נשמור על עצמנו!",
+    itemsTitle: "אנשי הבטיחות שנלמד:",
+    itemsDescription: "לחץ על כל אחד כדי לשמוע מה הוא עושה!",
+    steps: [
+      { icon: "👀", title: "1. תראה", description: "מי מוצג" },
+      { icon: "🎤", title: "2. תשמע", description: "מה התפקיד שלו" },
+      { icon: "👆", title: "3. תלחץ", description: "על התשובה הנכונה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+      header: "text-white",
+      subHeader: "text-purple-100",
+      itemsDescription: "text-purple-100",
+      button: { from: "purple", to: "indigo" },
+      stepsBg: "bg-purple-100 bg-opacity-90",
+    },
+    grid: {
+      className: "flex flex-wrap justify-center gap-4",
+    },
+    challengeTitle: "מה שמעת?",
+    challengeIcon: "🛡️",
+    challengeDescription: "בחר את התשובה הנכונה!",
+    itemLabel: "שומר בטיחות",
+    tip: "💡 טיפ: הכר את אנשי הבטיחות!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב",
+  },
 };

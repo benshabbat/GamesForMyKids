@@ -64,6 +64,7 @@ import { CAT_BREEDS_ITEMS } from "@/lib/constants/gameData/catBreeds";
 import { NBA_TEAMS_ITEMS } from "@/lib/constants/gameData/nbaTeams";
 import { EXOTIC_BIRDS_ITEMS } from "@/lib/constants/gameData/exoticBirds";
 import { BUTTERFLIES_ITEMS } from "@/lib/constants/gameData/butterflies";
+import { ALL_PERSONAL_SAFETY } from "@/lib/constants/gameData/personalSafety";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -165,4 +166,5 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   "geography-continents": GEOGRAPHY_CONTINENTS_ITEMS, // ✅ משחק גיאוגרפיה — יבשות
   "visual-opposites": OPPOSITES_ITEMS, // ✅ משחק ניגודים ויזואלי
   "english-cards": ENGLISH_FIRST_ITEMS, // ✅ משחק אנגלית ראשונה
+  "personal-safety": ALL_PERSONAL_SAFETY, // ✅ משחק בטיחות אישית
 } as const;
