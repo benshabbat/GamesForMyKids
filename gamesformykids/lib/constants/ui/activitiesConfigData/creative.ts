@@ -72,7 +72,7 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
       header: "text-yellow-300",
       subHeader: "text-white/90",
       itemsDescription: "text-blue-100",
-      button: { from: "from-yellow-400", to: "to-orange-500" },
+      button: { from: "yellow", to: "orange" },
       stepsBg: "bg-white/20",
     },
     grid: {
