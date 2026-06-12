@@ -27,30 +27,35 @@ import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
 import { CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
+import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
+
+// Shared loading fallback for all dynamic screen imports
+const spinner = { loading: () => <GameSpinnerScreen /> };
+
 // Screen components — lazy-loaded so each game page only downloads its own screens
-const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'));
-const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'));
-const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'));
-const ColorMixQuestion   = dynamic(() => import('@/components/game/quiz/screens/ColorMixQuestion'));
-const SequencesMenuScreen = dynamic(() => import('@/components/game/quiz/screens/SequencesMenuScreen'));
-const SequencesQuestion  = dynamic(() => import('@/components/game/quiz/screens/SequencesQuestion'));
-const HumanBodyMenuScreen = dynamic(() => import('@/components/game/quiz/screens/HumanBodyMenuScreen'));
-const HumanBodyQuestion  = dynamic(() => import('@/components/game/quiz/screens/HumanBodyQuestion'));
-const TriviaMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/TriviaMenuScreen'));
-const TriviaQuestion     = dynamic(() => import('@/components/game/quiz/screens/TriviaQuestion'));
-const ScienceMenuScreen  = dynamic(() => import('@/components/game/quiz/screens/ScienceMenuScreen'));
-const ScienceQuestion    = dynamic(() => import('@/components/game/quiz/screens/ScienceQuestion'));
-const NatureMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/NatureMenuScreen'));
-const IsraelMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/IsraelMenuScreen'));
-const SoccerMenuScreen   = dynamic(() => import('@/app/games/soccer/components/SoccerMenuScreen'));
-const SoccerQuestion     = dynamic(() => import('@/app/games/soccer/components/SoccerQuestion'));
-const SoccerResultScreen = dynamic(() => import('@/app/games/soccer/components/SoccerResultScreen'));
-const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/PhonicsQuestion'));
-const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'));
-const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'));
-const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'));
-const NikudQuestion      = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'));
-const DivisionQuestion   = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'));
+const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'), spinner);
+const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'), spinner);
+const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'), spinner);
+const ColorMixQuestion   = dynamic(() => import('@/components/game/quiz/screens/ColorMixQuestion'), spinner);
+const SequencesMenuScreen = dynamic(() => import('@/components/game/quiz/screens/SequencesMenuScreen'), spinner);
+const SequencesQuestion  = dynamic(() => import('@/components/game/quiz/screens/SequencesQuestion'), spinner);
+const HumanBodyMenuScreen = dynamic(() => import('@/components/game/quiz/screens/HumanBodyMenuScreen'), spinner);
+const HumanBodyQuestion  = dynamic(() => import('@/components/game/quiz/screens/HumanBodyQuestion'), spinner);
+const TriviaMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/TriviaMenuScreen'), spinner);
+const TriviaQuestion     = dynamic(() => import('@/components/game/quiz/screens/TriviaQuestion'), spinner);
+const ScienceMenuScreen  = dynamic(() => import('@/components/game/quiz/screens/ScienceMenuScreen'), spinner);
+const ScienceQuestion    = dynamic(() => import('@/components/game/quiz/screens/ScienceQuestion'), spinner);
+const NatureMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/NatureMenuScreen'), spinner);
+const IsraelMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/IsraelMenuScreen'), spinner);
+const SoccerMenuScreen   = dynamic(() => import('@/app/games/soccer/components/SoccerMenuScreen'), spinner);
+const SoccerQuestion     = dynamic(() => import('@/app/games/soccer/components/SoccerQuestion'), spinner);
+const SoccerResultScreen = dynamic(() => import('@/app/games/soccer/components/SoccerResultScreen'), spinner);
+const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/PhonicsQuestion'), spinner);
+const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'), spinner);
+const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'), spinner);
+const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'), spinner);
+const NikudQuestion      = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'), spinner);
+const DivisionQuestion   = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), spinner);
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
