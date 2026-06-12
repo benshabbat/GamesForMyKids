@@ -440,4 +440,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 161,
   },
+  {
+    id: "visual-addition",
+    title: "חיבור חזותי",
+    description: "ספור את האובייקטים וחבר אותם — מתאים לגילאי 3-5!",
+    icon: Hash,
+    emoji: "➕",
+    color: "bg-green-500 hover:bg-green-600",
+    href: "/games/visual-addition",
+    available: true,
+    order: 162,
+  },
 ];

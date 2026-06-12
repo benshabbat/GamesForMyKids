@@ -3,8 +3,31 @@ import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import { FRACTION_QUESTIONS } from '@/lib/quiz/data/fractions';
 import { QUIZ_QUESTIONS, SHAPES_3D } from '@/lib/quiz/data/shapes-3d';
 import { SKIP_COUNTING_QUESTIONS } from '@/lib/quiz/data/skip-counting';
+import { VISUAL_ADDITION_QUESTIONS } from '@/lib/quiz/data/visual-addition';
 import FractionBar from '@/components/game/quiz/FractionBar';
 import { defineConfig } from './types';
+
+export const visualAdditionConfig = defineConfig({
+  gameType: 'visual-addition', emoji: '➕', title: 'חיבור חזותי',
+  description: 'ספור את האובייקטים וחבר אותם!', theme: 'green',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['🐸 + 🐸🐸 = 3', '⭐⭐ + ⭐⭐ = 4', '🍎🍎🍎 + 🍎 = 4', '🎈🎈🎈 + 🎈🎈🎈 = 6'].map(s => (
+        <div key={s} className="bg-green-50 rounded-xl px-2 py-1.5 text-xs font-medium text-green-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  buttonLabel: '➕ בואו נספור!',
+  questions: VISUAL_ADDITION_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <><div className="text-4xl mb-3">{q.emoji}</div>
+      <p className="text-gray-600 text-sm mb-2">{'כמה סה"כ?'}</p>
+      <p className="text-3xl font-black text-green-700 tracking-widest">{q.question}</p></>
+  ),
+});
 
 export const skipCountingConfig = defineConfig({
   gameType: 'skip-counting', emoji: '🔢', title: 'ספירה לפי קפיצות',

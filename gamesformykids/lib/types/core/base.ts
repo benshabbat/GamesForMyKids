@@ -170,6 +170,7 @@ export type GameType =
   | 'visual-opposites' | 'english-cards'
   | 'gender' | 'final-letters' | 'alphabet-order'
   | 'personal-safety'
+  | 'visual-addition'
   // Arcade & action games
   | 'maze'
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
