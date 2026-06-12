@@ -24,7 +24,7 @@ export const visualAdditionConfig = defineConfig({
   getCorrectLabel: (q) => q.answer,
   renderQuestion: (q) => (
     <><div className="text-4xl mb-3">{q.emoji}</div>
-      <p className="text-gray-600 text-sm mb-2">כמה סה"כ?</p>
+      <p className="text-gray-600 text-sm mb-2">{'כמה סה"כ?'}</p>
       <p className="text-3xl font-black text-green-700 tracking-widest">{q.question}</p></>
   ),
 });
