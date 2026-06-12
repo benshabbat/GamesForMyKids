@@ -31,7 +31,11 @@ const KEYFRAMES = `
 }
 `;
 
-export function GameCompletionCelebration() {
+interface Props {
+  isPerfect?: boolean;
+}
+
+export function GameCompletionCelebration({ isPerfect = false }: Props) {
   const [visible, setVisible] = useState(true);
   const { playSuccessSound } = useGameAudio();
   const params = useParams();
@@ -54,7 +58,8 @@ export function GameCompletionCelebration() {
       setVisible(false);
       return;
     }
-    const id = setTimeout(() => setVisible(false), 2500);
+    const duration = isPerfect ? 4000 : 2500;
+    const id = setTimeout(() => setVisible(false), duration);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

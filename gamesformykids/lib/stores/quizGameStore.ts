@@ -8,6 +8,8 @@ export interface QuizGameState {
   index: number;
   total: number;
   score: number;
+  streak: number;
+  bestStreak: number;
   selected: string | null;
   isCorrect: boolean | null;
 }
@@ -26,6 +28,8 @@ const INITIAL_STATE: QuizGameState = {
   index: 0,
   total: 0,
   score: 0,
+  streak: 0,
+  bestStreak: 0,
   selected: null,
   isCorrect: null,
 };
@@ -35,14 +39,23 @@ export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('Quiz
 
       startQuiz: (gameType, total) =>
         set(
-          { phase: 'playing', gameType, index: 0, total, score: 0, selected: null, isCorrect: null },
+          { phase: 'playing', gameType, index: 0, total, score: 0, streak: 0, bestStreak: 0, selected: null, isCorrect: null },
           false,
           'quiz/startQuiz',
         ),
 
       selectAnswer: (id, isCorrect) =>
         set(
-          (s) => ({ selected: id, isCorrect, score: isCorrect ? s.score + 1 : s.score }),
+          (s) => {
+            const newStreak = isCorrect ? s.streak + 1 : 0;
+            return {
+              selected: id,
+              isCorrect,
+              score: isCorrect ? s.score + 1 : s.score,
+              streak: newStreak,
+              bestStreak: Math.max(s.bestStreak, newStreak),
+            };
+          },
           false,
           'quiz/selectAnswer',
         ),
@@ -61,7 +74,7 @@ export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('Quiz
 
       restartQuiz: () =>
         set(
-          { phase: 'playing', index: 0, score: 0, selected: null, isCorrect: null },
+          { phase: 'playing', index: 0, score: 0, streak: 0, bestStreak: 0, selected: null, isCorrect: null },
           false,
           'quiz/restartQuiz',
         ),

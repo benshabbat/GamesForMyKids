@@ -47,8 +47,8 @@ export default function CategoryGamesView() {
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
         {categoryGames.length > 0 ? (
           <>
-            {categoryGames.map((game) => (
-              <GameCard key={game.id} game={game} />
+            {categoryGames.map((game, index) => (
+              <GameCard key={game.id} game={game} animationDelay={Math.min(index * 50, 600)} />
             ))}
             {Array.from({ length: fillerCount }).map((_, i) => (
               <div key={`filler-${i}`} aria-hidden="true" className="invisible" />

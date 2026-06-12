@@ -5,13 +5,20 @@ import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { useFavoritesStore } from "@/lib/stores";
 
-export default function GameCard({ game }: ComponentTypes.GameCardProps) {
+interface GameCardProps extends ComponentTypes.GameCardProps {
+  animationDelay?: number;
+}
+
+export default function GameCard({ game, animationDelay }: GameCardProps) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const isFav = useFavoritesStore((s) => s.favoriteIds.includes(game.id));
 
   if (game.available) {
     return (
-      <div className="relative">
+      <div
+        className="relative motion-safe:animate-fade-in-up"
+        style={animationDelay ? { animationDelay: `${animationDelay}ms` } : undefined}
+      >
         <Link href={game.href} aria-label={game.title}>
           <div
             className={`
