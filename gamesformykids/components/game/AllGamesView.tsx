@@ -33,8 +33,8 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
           : `כל המשחקים (${games.length})`}
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6">
-        {games.map((game) => (
-          <GameCard key={game.id} game={game} />
+        {games.map((game, index) => (
+          <GameCard key={game.id} game={game} animationDelay={Math.min(index * 50, 600)} />
         ))}
         {Array.from({ length: fillerCount }).map((_, i) => (
           <div key={`filler-${i}`} aria-hidden="true" className="invisible" />
