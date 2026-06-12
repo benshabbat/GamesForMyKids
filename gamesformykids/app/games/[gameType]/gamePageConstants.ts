@@ -54,6 +54,7 @@ export const SUPPORTED_GAMES = [
   // New language & safety games
   'gender', 'final-letters', 'alphabet-order',
   'personal-safety',
+  'visual-addition',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
