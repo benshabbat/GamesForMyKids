@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import Link from 'next/link';
 import { useMemoryStore } from "../stores/useMemoryStore";
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { useUniversalGameNavigation } from '@/components/game/universal/navigation/useUniversalGameNavigation';
 import WinStatsGrid from "./WinStatsGrid";
 import WinAchievements from "./WinAchievements";
 
@@ -14,6 +16,7 @@ export default function GameWinMessage() {
   const performance = getPerformanceLevel();
 
   const { saveGameResultRef } = useGameCompletion('memory');
+  const { navigation } = useUniversalGameNavigation({ showHomeButton: false });
 
   // Fires once on mount — this component only renders when the game is won.
   useEffect(() => {
@@ -56,6 +59,16 @@ export default function GameWinMessage() {
             >
               🎮 שחק שוב
             </button>
+            {navigation.next && (
+              <Link
+                href={navigation.next.href}
+                className="bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
+              >
+                <span>משחק הבא</span>
+                <span>{navigation.next.title}</span>
+                <span>←</span>
+              </Link>
+            )}
             <button
               onClick={resetToMenu}
               className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"

@@ -8,12 +8,21 @@ function formatMemberSince(iso: string): string {
   return new Date(iso).toLocaleDateString('he-IL', { year: 'numeric', month: 'long' });
 }
 
+const GENDER_OPTIONS: { value: 'male' | 'female'; label: string; emoji: string }[] = [
+  { value: 'male',   label: 'זכר',  emoji: '👦' },
+  { value: 'female', label: 'נקבה', emoji: '👧' },
+];
+
 export function ProfileCard() {
   const { user } = useAuth();
-  const { profile, uploadAvatar } = useUserProfile();
+  const { profile, uploadAvatar, updateProfile } = useUserProfile();
   const { isEditing, uploadingAvatar, startEdit, handleAvatarUpload } = useProfileStore();
 
   if (!user) return null;
+
+  const handleGenderSelect = (gender: 'male' | 'female') => {
+    updateProfile({ gender: profile?.gender === gender ? null : gender });
+  };
 
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
@@ -60,6 +69,27 @@ export function ProfileCard() {
                   חבר מאז {formatMemberSince(profile.created_at)}
                 </p>
               )}
+
+              {/* gender selection */}
+              <div className="flex items-center gap-2 mt-3">
+                <span className="text-xs text-gray-500">אווטר:</span>
+                {GENDER_OPTIONS.map(({ value, label, emoji }) => (
+                  <button
+                    key={value}
+                    onClick={() => handleGenderSelect(value)}
+                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border-2 transition-all duration-200 ${
+                      profile?.gender === value
+                        ? 'border-purple-500 bg-purple-100 text-purple-700'
+                        : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-purple-300'
+                    }`}
+                    title={`אווטר ${label}`}
+                  >
+                    <span>{emoji}</span>
+                    <span>{label}</span>
+                  </button>
+                ))}
+              </div>
+
               <button
                 onClick={startEdit}
                 className="mt-3 text-sm text-purple-600 hover:text-purple-800 font-medium transition-colors"
