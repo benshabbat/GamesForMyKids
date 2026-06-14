@@ -20,7 +20,7 @@ export default function ActionButtons() {
       <div className="grid grid-cols-2 gap-1 md:gap-2">
         <button
           onClick={magicShuffle}
-          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
+          className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
           title="ערבוב קסום של כל הצורות"
         >
           <Sparkles className="w-3 h-3 md:w-4 md:h-4" />
@@ -29,7 +29,7 @@ export default function ActionButtons() {
         
         <button
           onClick={clearAll}
-          className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
+          className="bg-gradient-to-r from-red-500 to-orange-500 hover:from-red-600 hover:to-orange-600 text-white font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-transform hover:scale-105 active:scale-95 flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation"
           title="מחיקת כל הצורות"
         >
           <Trash2 className="w-3 h-3 md:w-4 md:h-4" />

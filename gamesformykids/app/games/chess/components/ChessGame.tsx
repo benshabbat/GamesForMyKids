@@ -45,7 +45,7 @@ export default function ChessGame() {
 
           {/* Message pill */}
           <div
-            className={`text-sm font-semibold rounded-2xl py-2 px-5 text-center transition-all duration-300 w-full ${
+            className={`text-sm font-semibold rounded-2xl py-2 px-5 text-center transition-colors duration-300 w-full ${
               phase === 'check'
                 ? 'animate-pulse'
                 : ''

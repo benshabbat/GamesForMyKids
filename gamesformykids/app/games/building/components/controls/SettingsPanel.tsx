@@ -22,7 +22,7 @@ export default function SettingsPanel() {
       <div className="space-y-1 md:space-y-2">
         <button
           onClick={() => setSoundEnabled(!soundEnabled)}
-          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-colors flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation ${
             soundEnabled ? 'bg-green-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
@@ -32,7 +32,7 @@ export default function SettingsPanel() {
         
         <button
           onClick={() => setShowGrid(!showGrid)}
-          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all text-sm md:text-base touch-manipulation ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-colors text-sm md:text-base touch-manipulation ${
             showGrid ? 'bg-blue-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
@@ -41,7 +41,7 @@ export default function SettingsPanel() {
         
         <button
           onClick={() => setAnimationMode(!animationMode)}
-          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-all text-sm md:text-base touch-manipulation ${
+          className={`w-full py-2 px-2 md:px-3 rounded-xl font-bold transition-colors text-sm md:text-base touch-manipulation ${
             animationMode ? 'bg-purple-500 text-white' : 'bg-gray-500 text-white'
           }`}
         >
@@ -95,7 +95,7 @@ export default function SettingsPanel() {
         
         <button
           onClick={saveCreation}
-          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 md:px-3 rounded-xl shadow-lg transition-all hover:scale-105 flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation"
+          className="w-full bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-2 md:px-3 rounded-xl shadow-lg transition-transform hover:scale-105 flex items-center justify-center gap-1 md:gap-2 text-sm md:text-base touch-manipulation"
         >
           <Save className="w-3 h-3 md:w-4 md:h-4" />
           שמור

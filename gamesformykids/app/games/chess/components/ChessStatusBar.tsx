@@ -12,7 +12,7 @@ export default function ChessStatusBar() {
 
       <div className="flex flex-col items-center justify-between gap-1 py-0.5">
         <div className={[
-          'text-xs font-extrabold px-3 py-1.5 rounded-xl whitespace-nowrap transition-all duration-300 leading-none',
+          'text-xs font-extrabold px-3 py-1.5 rounded-xl whitespace-nowrap transition-colors duration-300 leading-none',
           turn === 'w'
             ? 'bg-[#f0d9b5] text-[#3d1f0a] shadow-md shadow-amber-900/40'
             : 'bg-slate-700/80 text-slate-400',
