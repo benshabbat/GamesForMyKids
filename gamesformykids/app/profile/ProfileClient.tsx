@@ -21,17 +21,23 @@ export default function ProfileClient() {
   const { refreshProgress } = useGameProgress();
   useAchievements();
 
-  // Fetch on mount (user change) and on tab re-focus so progress saved
-  // during a game session is visible when navigating back to this page.
+  // Fetch on mount and on tab re-focus.
+  // A delayed second fetch catches saves that were still in-flight when the
+  // user navigated here (game unmount fires an async Supabase write that may
+  // not have committed before the immediate fetch runs).
   useEffect(() => {
     if (!user) return;
     refreshProgress();
+    const delayed = setTimeout(refreshProgress, 1500);
 
     const onVisible = () => {
       if (document.visibilityState === 'visible') refreshProgress();
     };
     document.addEventListener('visibilitychange', onVisible);
-    return () => document.removeEventListener('visibilitychange', onVisible);
+    return () => {
+      clearTimeout(delayed);
+      document.removeEventListener('visibilitychange', onVisible);
+    };
   // refreshProgress is stable (useCallback), user drives re-runs
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);

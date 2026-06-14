@@ -36,8 +36,30 @@ const initialState: GameProgressDataState = {
 export const useGameProgressDataStore = makeStore<GameProgressDataState & GameProgressDataActions>('GameProgressDataStore', (set) => ({
       ...initialState,
 
-      setProgress: (progress) =>
-        set({ progress }, false, 'gameProgressData/setAll'),
+      setProgress: (incoming) =>
+        set(
+          (state) => {
+            // Merge DB data with in-memory data, keeping the more recent entry per
+            // game type. This prevents a concurrent profile refresh from overwriting
+            // an in-memory upsertProgressItem result that raced the DB read:
+            // if the profile fetch started before the game save committed, the fetch
+            // returns stale data — but the in-memory version is already correct.
+            const merged = [...incoming];
+            for (const mem of state.progress) {
+              const idx = merged.findIndex((p) => p.game_type === mem.game_type);
+              if (idx < 0) {
+                merged.push(mem); // in-memory has it, DB hasn't committed it yet
+              } else if (
+                new Date(mem.updated_at) > new Date(merged[idx]!.updated_at)
+              ) {
+                merged[idx] = mem; // in-memory is newer → prefer it
+              }
+            }
+            return { progress: merged };
+          },
+          false,
+          'gameProgressData/setAll',
+        ),
 
       upsertProgressItem: (item) =>
         set(
