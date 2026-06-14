@@ -25,7 +25,7 @@
 
 /* הפיכת חצים לכיוון נכון עבור RTL */
 .rtl-arrow-left {
-  transform: scaleX(-1);
+  transform: scaleX(1);
 }
 
 .rtl-arrow-right {
