@@ -17,7 +17,7 @@ export default function ShapeCreator() {
           <button
             key={shape}
             onClick={() => createBlock(shape)}
-            className={`w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white hover:scale-110 rounded-xl shadow-lg transition-all flex items-center justify-center text-base md:text-lg border-2 border-transparent hover:border-gray-300 touch-manipulation ${
+            className={`w-10 h-10 md:w-12 md:h-12 bg-white/90 hover:bg-white hover:scale-110 rounded-xl shadow-lg transition-transform flex items-center justify-center text-base md:text-lg border-2 border-transparent hover:border-gray-300 touch-manipulation ${
               shape === 'heart' ? 'hover:animate-pulse' : ''
             }`}
             style={{ 
@@ -38,7 +38,7 @@ export default function ShapeCreator() {
       <div className="flex gap-1">
         <button
           onClick={() => handleToolSelect('normal')}
-          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-all touch-manipulation ${
+          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-colors touch-manipulation ${
             selectedTool === 'normal' ? 'bg-blue-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
           }`}
         >
@@ -46,7 +46,7 @@ export default function ShapeCreator() {
         </button>
         <button
           onClick={() => handleToolSelect('magic')}
-          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-all touch-manipulation ${
+          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-colors touch-manipulation ${
             selectedTool === 'magic' ? 'bg-purple-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
           }`}
         >
@@ -54,7 +54,7 @@ export default function ShapeCreator() {
         </button>
         <button
           onClick={() => handleToolSelect('rainbow')}
-          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-all touch-manipulation ${
+          className={`flex-1 py-2 px-1 md:px-2 rounded-lg text-xs font-bold transition-colors touch-manipulation ${
             selectedTool === 'rainbow' ? 'bg-pink-500 text-white' : 'bg-white/50 text-gray-700 hover:bg-white/70'
           }`}
         >
