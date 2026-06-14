@@ -4,7 +4,7 @@ import NotFoundSuggestions from '@/components/marketing/NotFoundSuggestions';
 
 export const metadata: Metadata = {
   title: '404 - דף לא נמצא | משחקים לילדים',
-  description: 'הדף שחיפשתם לא נמצא. חזרו לעמוד הראשי לגלות משחקים מהנים לילדים בגיל 2-5.',
+  description: 'הדף שחיפשתם לא נמצא. חזרו לעמוד הראשי לגלות משחקים מהנים לילדים בגיל 2-10.',
   robots: {
     index: false,
     follow: false,
