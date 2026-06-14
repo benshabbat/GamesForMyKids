@@ -32,7 +32,7 @@ export default function ChessSquare({ row, col }: Props) {
       onClick={() => selectSquare({ row, col })}
       className={[
         'w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center cursor-pointer relative',
-        'transition-all duration-100',
+        'transition-colors duration-100',
         bg,
         !isSelected && !isKingInCheck ? 'hover:brightness-110' : '',
         isKingInCheck ? 'animate-pulse' : '',
