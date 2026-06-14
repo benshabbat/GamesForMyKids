@@ -2,6 +2,8 @@
 import { ReactNode } from 'react';
 import { GameCompletionCelebration } from './GameCompletionCelebration';
 import { useShareScore } from '@/hooks/shared/social/useShareScore';
+import { useGameRating } from '@/hooks/shared/social/useGameRating';
+import { printCertificate } from '@/lib/utils/game/printCertificate';
 
 interface SecondaryAction {
   label: string;
@@ -24,6 +26,10 @@ interface Props {
   /** Pass score + best to surface a "🏆 שיא חדש!" banner when score equals best. */
   score?: number;
   best?: number;
+  /** Enables 👍/👎 rating buttons (persisted per game per day in localStorage). */
+  gameType?: string;
+  /** 0-100; when >= 80 shows a print-certificate button. */
+  scorePercent?: number;
   children: ReactNode;
 }
 
@@ -45,10 +51,14 @@ export default function GameResultCard({
   shareText,
   score,
   best,
+  gameType,
+  scorePercent,
   children,
 }: Props) {
   const { share, copied } = useShareScore();
+  const { rating, rate } = useGameRating(gameType);
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
+  const showCertificate = scorePercent !== undefined && scorePercent >= 80;
 
   return (
     <div
@@ -88,6 +98,41 @@ export default function GameResultCard({
           >
             {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
           </button>
+        )}
+        {showCertificate && (
+          <button
+            onClick={() => printCertificate({ emoji, title, scorePercent: scorePercent! })}
+            className="mt-3 w-full py-2.5 rounded-2xl border-2 border-amber-200 text-amber-600 font-semibold text-sm hover:bg-amber-50 active:scale-95 transition-[transform,background-color]"
+          >
+            🖨️ הדפס תעודה
+          </button>
+        )}
+        {gameType && (
+          <div className="mt-4 pt-3 border-t border-gray-100">
+            {rating ? (
+              <p className="text-sm text-gray-400">
+                {rating === 'up' ? '😊 תודה על המשוב!' : '🙏 תודה! נמשיך להשתפר'}
+              </p>
+            ) : (
+              <div className="flex items-center justify-center gap-3">
+                <span className="text-sm text-gray-400">איך היה המשחק?</span>
+                <button
+                  onClick={() => rate('up')}
+                  className="text-2xl hover:scale-125 transition-transform"
+                  aria-label="אהבתי"
+                >
+                  👍
+                </button>
+                <button
+                  onClick={() => rate('down')}
+                  className="text-2xl hover:scale-125 transition-transform"
+                  aria-label="לא אהבתי"
+                >
+                  👎
+                </button>
+              </div>
+            )}
+          </div>
         )}
       </div>
     </div>
