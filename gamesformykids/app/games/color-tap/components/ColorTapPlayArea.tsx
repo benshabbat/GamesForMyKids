@@ -30,12 +30,12 @@ export default function ColorTapPlayArea() {
           <LivesDisplay lives={lives} />
         </div>
         <div>
-          <p className={`font-black transition-all ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-purple-600 text-2xl'}`}>{timeLeft}</p>
+          <p className={`font-black transition-colors ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-purple-600 text-2xl'}`}>{timeLeft}</p>
           <p className="text-xs text-purple-400">שניות</p>
         </div>
       </div>
 
-      <div className={`mb-6 rounded-3xl p-6 text-center shadow-xl w-full max-w-xs transition-all duration-200 ${
+      <div className={`mb-6 rounded-3xl p-6 text-center shadow-xl w-full max-w-xs transition-colors duration-200 ${
         feedback === 'correct' ? 'bg-green-100 ring-4 ring-green-400' :
         feedback === 'wrong' ? 'bg-amber-50 ring-4 ring-amber-400' : 'bg-white'
       }`}>
@@ -57,7 +57,7 @@ export default function ColorTapPlayArea() {
             key={color.name}
             onClick={() => handleTap(color)}
             disabled={!!feedback}
-            className={`${color.bg} h-24 rounded-3xl shadow-xl font-black text-white text-lg flex items-center justify-center gap-2 active:scale-90 transition-all hover:brightness-110 disabled:opacity-80`}
+            className={`${color.bg} h-24 rounded-3xl shadow-xl font-black text-white text-lg flex items-center justify-center gap-2 active:scale-90 transition hover:brightness-110 disabled:opacity-80`}
           >
             <span className="text-3xl">{color.emoji}</span>
             <span>{color.name}</span>
