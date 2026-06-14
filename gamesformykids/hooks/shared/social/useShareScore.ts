@@ -5,12 +5,14 @@ export function useShareScore() {
   const [copied, setCopied] = useState(false);
 
   const share = useCallback(async (text: string) => {
-    const url = typeof window !== 'undefined' ? window.location.origin : '';
+    const url = typeof window !== 'undefined'
+      ? `${window.location.origin}${window.location.pathname}?utm_source=share&utm_medium=native&utm_campaign=game_result`
+      : '';
     const fullText = `${text}\n${url}`;
 
     if (typeof navigator !== 'undefined' && navigator.share) {
       try {
-        await navigator.share({ text: fullText, url });
+        await navigator.share({ text: text, url });
         return;
       } catch {
         // User cancelled or API unavailable — fall through to clipboard
