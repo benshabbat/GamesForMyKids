@@ -7,6 +7,7 @@ import { ButtonCheckAudio } from "@/components/shared";
 import { ComponentTypes } from "@/lib/types";
 import { useUniversalGame } from "@/hooks/shared/game-state/useUniversalGame";
 import { useGameStore } from "@/lib/stores/gameStore";
+import { DifficultyPicker } from "@/components/game/shared/DifficultyPicker";
 
 type GenericStartScreenProps<T> = ComponentTypes.GenericStartScreenProps<T>;
 
@@ -75,6 +76,9 @@ export default function GenericStartScreen<T>({
           showSteps={true}
           variant="detailed"
         />
+
+        {/* בחירת רמת קושי */}
+        <DifficultyPicker />
 
         {/* כפתור התחלה */}
         <SimpleGameStartButton
