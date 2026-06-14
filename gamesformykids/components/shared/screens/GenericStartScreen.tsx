@@ -6,6 +6,7 @@ import { StartScreenHeader } from "@/components/shared";
 import { ButtonCheckAudio } from "@/components/shared";
 import { ComponentTypes } from "@/lib/types";
 import { useUniversalGame } from "@/hooks/shared/game-state/useUniversalGame";
+import { useGameStore } from "@/lib/stores/gameStore";
 
 type GenericStartScreenProps<T> = ComponentTypes.GenericStartScreenProps<T>;
 
@@ -35,7 +36,8 @@ export default function GenericStartScreen<T>({
   showAudioCheck = true,
   className = "",
 }: GenericStartScreenProps<T>) {
-  const { config, items: hookItems, startGame } = useUniversalGame();
+  const { config, items: hookItems, startGame, gameType } = useUniversalGame();
+  const prevBest = useGameStore((s) => s.highScores[gameType ?? ""] ?? 0);
 
   const resolvedTitle          = title               ?? config?.title          ?? "";
   const resolvedSubTitle       = subTitle            ?? config?.subTitle        ?? "";
@@ -80,6 +82,13 @@ export default function GenericStartScreen<T>({
           fromColor={resolvedFromColor}
           toColor={resolvedToColor}
         />
+
+        {/* שיא אישי */}
+        {prevBest > 0 && (
+          <p className="text-white/80 text-base mt-3 font-medium">
+            🏆 השיא שלך: {prevBest} — נסה לשבור אותו!
+          </p>
+        )}
 
         {/* כפתור בדיקת שמע */}
         {showAudioCheck && <ButtonCheckAudio />}
