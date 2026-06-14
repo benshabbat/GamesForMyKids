@@ -8,6 +8,7 @@ import SurpriseMeButton from "@/components/marketing/SurpriseMeButton";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
+import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import { useHomePage } from "./useHomePage";
 
 export default function HomePageClient() {
@@ -28,6 +29,7 @@ export default function HomePageClient() {
         <CategorizedGamesGrid />
       </main>
       <Footer />
+      <PWAInstallBanner />
     </div>
   );
 }
