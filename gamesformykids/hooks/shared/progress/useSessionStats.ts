@@ -9,6 +9,7 @@ import { useState, useCallback } from 'react';
 import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession } from '@/lib/types/hooks/progress';
 import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
+import { recordGameSession } from '@/lib/utils/engagement/masteryStars';
 
 export function useSessionStats(gameType: GameType) {
   const { addSession } = useProgressTrackingStore();
@@ -77,9 +78,13 @@ export function useSessionStats(gameType: GameType) {
         endTime: new Date(),
       };
       addSession(completedSession);
+      const accuracy = completedSession.totalAnswers > 0
+        ? Math.round((completedSession.correctAnswers / completedSession.totalAnswers) * 100)
+        : 0;
+      recordGameSession(String(gameType), accuracy);
       setCurrentSession(null);
     }
-  }, [currentSession, addSession]);
+  }, [currentSession, addSession, gameType]);
 
   // Get accuracy rate for current session
   const getCurrentAccuracy = useCallback(() => {
