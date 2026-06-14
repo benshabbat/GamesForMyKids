@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
-import { UltimateGamePage, GameLogicSync } from '@/components/game/universal';
+import { UltimateGamePage, GameLogicSync, GameEngagementSync } from '@/components/game/universal';
 import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 import CustomGameRenderer from './CustomGameRenderer';
@@ -33,6 +33,7 @@ export default async function UniversalGamePage({ params }: PageProps) {
   return (
     <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
       <GameLogicSync />
+      <GameEngagementSync />
       <UltimateGamePage />
     </GameTypeProvider>
   );

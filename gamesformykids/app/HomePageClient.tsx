@@ -8,6 +8,10 @@ import SurpriseMeButton from "@/components/marketing/SurpriseMeButton";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
+import ContinueBanner from "@/components/marketing/ContinueBanner";
+import DailyChallenge from "@/components/marketing/DailyChallenge";
+import RecentlyPlayedRow from "@/components/marketing/RecentlyPlayedRow";
+import GamesTodayBadge from "@/components/marketing/GamesTodayBadge";
 import { useHomePage } from "./useHomePage";
 
 export default function HomePageClient() {
@@ -23,6 +27,10 @@ export default function HomePageClient() {
       <Header />
       <main>
         <FeaturedGame />
+        <ContinueBanner />
+        <DailyChallenge />
+        <RecentlyPlayedRow />
+        <GamesTodayBadge />
         <GameRecommendations />
         <SurpriseMeButton />
         <CategorizedGamesGrid />
