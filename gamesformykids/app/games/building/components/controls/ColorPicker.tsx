@@ -18,7 +18,7 @@ export default function ColorPicker() {
           <button
             key={color}
             onClick={() => handleColorSelect(color)}
-            className={`w-8 h-8 md:w-10 md:h-10 rounded-xl shadow-lg transition-all duration-200 hover:scale-110 hover:rotate-12 border-2 touch-manipulation relative overflow-hidden ${
+            className={`w-8 h-8 md:w-10 md:h-10 rounded-xl shadow-lg transition-transform duration-200 hover:scale-110 hover:rotate-12 border-2 touch-manipulation relative overflow-hidden ${
               selectedColor === color ? 'border-white scale-110 ring-2 ring-white/50' : 'border-white/30'
             }`}
             style={{ 
@@ -35,7 +35,7 @@ export default function ColorPicker() {
       </div>
       <div className="text-center">
         <div 
-          className="w-full h-6 md:h-8 rounded-lg border-2 border-white/50 transition-all duration-300 shadow-inner"
+          className="w-full h-6 md:h-8 rounded-lg border-2 border-white/50 transition-colors duration-300 shadow-inner"
           style={{ backgroundColor: selectedColor }}
         />
         <p className="text-white/80 text-xs md:text-sm mt-1 font-medium">צבע נבחר</p>

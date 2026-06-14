@@ -8,10 +8,21 @@ import { useRouter } from 'next/navigation';
 export type { Coin } from './tzedakahStore';
 
 export function useCharityCoinGame() {
-  const { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight, gameStarted,
-          score, gameTime, collectedCoins, coins, startGame, moveBasket, stepBasket, setIsMobile,
-          tickCoins, spawnCoin, timerTick } =
-    useTzedakahStore(useShallow((s) => s));
+  const { isMobile, gameWidth, gameHeight, basketX, basketWidth, basketHeight,
+          gameStarted, score, gameTime, collectedCoins, coins } =
+    useTzedakahStore(useShallow((s) => ({
+      isMobile: s.isMobile, gameWidth: s.gameWidth, gameHeight: s.gameHeight,
+      basketX: s.basketX, basketWidth: s.basketWidth, basketHeight: s.basketHeight,
+      gameStarted: s.gameStarted, score: s.score, gameTime: s.gameTime,
+      collectedCoins: s.collectedCoins, coins: s.coins,
+    })));
+
+  const { startGame, moveBasket, stepBasket, setIsMobile, tickCoins, spawnCoin, timerTick } =
+    useTzedakahStore(useShallow((s) => ({
+      startGame: s.startGame, moveBasket: s.moveBasket, stepBasket: s.stepBasket,
+      setIsMobile: s.setIsMobile, tickCoins: s.tickCoins, spawnCoin: s.spawnCoin,
+      timerTick: s.timerTick,
+    })));
 
   const router = useRouter();
 
