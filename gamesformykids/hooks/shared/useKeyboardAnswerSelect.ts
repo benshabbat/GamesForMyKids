@@ -15,15 +15,16 @@ export function useKeyboardAnswerSelect(
   onSelect: (idx: number) => void,
   enabled: boolean,
 ) {
-  const [focusedIdx, setFocusedIdx] = useState(0);
-  const focusedRef = useRef(0);
+  // -1 = no keyboard focus yet; ring only appears after first arrow/number key press
+  const [focusedIdx, setFocusedIdx] = useState(-1);
+  const focusedRef = useRef(-1);
   const onSelectRef = useRef(onSelect);
   onSelectRef.current = onSelect;
 
   // Reset focus when a new set of choices arrives
   useEffect(() => {
-    setFocusedIdx(0);
-    focusedRef.current = 0;
+    setFocusedIdx(-1);
+    focusedRef.current = -1;
   }, [count]);
 
   useEffect(() => {
@@ -48,7 +49,7 @@ export function useKeyboardAnswerSelect(
       if (key === 'ArrowRight' || key === 'ArrowDown') {
         e.preventDefault();
         setFocusedIdx(prev => {
-          const next = (prev + 1) % count;
+          const next = prev < 0 ? 0 : (prev + 1) % count;
           focusedRef.current = next;
           return next;
         });
@@ -58,7 +59,7 @@ export function useKeyboardAnswerSelect(
       if (key === 'ArrowLeft' || key === 'ArrowUp') {
         e.preventDefault();
         setFocusedIdx(prev => {
-          const next = (prev - 1 + count) % count;
+          const next = prev < 0 ? count - 1 : (prev - 1 + count) % count;
           focusedRef.current = next;
           return next;
         });
@@ -67,7 +68,7 @@ export function useKeyboardAnswerSelect(
 
       if (key === 'Enter' || key === ' ') {
         e.preventDefault();
-        onSelectRef.current(focusedRef.current);
+        if (focusedRef.current >= 0) onSelectRef.current(focusedRef.current);
       }
     };
 

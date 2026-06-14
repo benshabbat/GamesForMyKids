@@ -34,9 +34,16 @@ export interface ProfileActions {
 export const getDisplayName = (profile: UserProfile | null, user: User): string =>
   profile?.full_name ?? (user.user_metadata?.full_name as string | undefined) ?? 'משתמש';
 
-export const getAvatarSrc = (profile: UserProfile | null, user: User): string =>
-  profile?.avatar_url ??
-  `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email ?? 'User')}&background=8b5cf6&color=fff`;
+const GENDER_AVATARS = {
+  male:   'https://api.dicebear.com/9.x/fun-emoji/svg?seed=boy&backgroundColor=b6e3f4',
+  female: 'https://api.dicebear.com/9.x/fun-emoji/svg?seed=girl&backgroundColor=ffd5dc',
+} as const;
+
+export const getAvatarSrc = (profile: UserProfile | null, user: User): string => {
+  if (profile?.avatar_url) return profile.avatar_url;
+  if (profile?.gender && GENDER_AVATARS[profile.gender]) return GENDER_AVATARS[profile.gender];
+  return `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email ?? 'User')}&background=8b5cf6&color=fff`;
+};
 
 // ── Computed stats hook (subscribes to underlying stores) ─
 
@@ -47,9 +54,11 @@ export function useProfileComputedStats() {
   const totalPlayTime = useGameProgressDataStore((s) =>
     Math.floor(s.progress.reduce((sum, p) => sum + p.total_play_time, 0) / 60)
   );
+  // Distinct game types that have at least one session recorded
   const gamesPlayed = useGameProgressDataStore((s) => s.progress.length);
   const achievementsCount = useAchievementsStore((s) => s.achievements.length);
-  return { totalScore, totalPlayTime, achievementsCount, gamesPlayed };
+  const isLoading = useGameProgressDataStore((s) => s.loading);
+  return { totalScore, totalPlayTime, achievementsCount, gamesPlayed, isLoading };
 }
 
 // ── Store ─────────────────────────────────────────────────
