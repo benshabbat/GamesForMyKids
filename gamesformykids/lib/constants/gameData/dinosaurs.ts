@@ -11,18 +11,18 @@ import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } f
  * ===============================================
  */
 export const DINOSAURS_CONSTANTS: Record<string, BaseGameItem> = {
-  TRICERATOPS: { name: "triceratops", hebrew: "טריצרטופס", english: "Triceratops", emoji: "🦕", color: "bg-green-600", sound: [440, 550, 660] },
-  TYRANNOSAURUS: { name: "tyrannosaurus", hebrew: "טירנוזאורוס רקס", english: "Tyrannosaurus Rex", emoji: "🦖", color: "bg-red-600", sound: [392, 494, 587] },
-  STEGOSAURUS: { name: "stegosaurus", hebrew: "סטגוזאורוס", english: "Stegosaurus", emoji: "🦕", color: "bg-orange-600", sound: [349, 440, 523] },
-  BRACHIOSAURUS: { name: "brachiosaurus", hebrew: "ברכיוזאורוס", english: "Brachiosaurus", emoji: "🦕", color: "bg-brown-500", sound: [523, 659, 784] },
-  VELOCIRAPTOR: { name: "velociraptor", hebrew: "ולוסירפטור", english: "Velociraptor", emoji: "🦖", color: "bg-gray-700", sound: [294, 370, 440] },
-  DIPLODOCUS: { name: "diplodocus", hebrew: "דיפלודוקוס", english: "Diplodocus", emoji: "🦕", color: "bg-green-500", sound: [330, 415, 494] },
-  PTERANODON: { name: "pteranodon", hebrew: "פטרנודון", english: "Pteranodon", emoji: "🦅", color: "bg-blue-500", sound: [587, 698, 784] },
-  ANKYLOSAURUS: { name: "ankylosaurus", hebrew: "אנקילוזאורוס", english: "Ankylosaurus", emoji: "🦕", color: "bg-gray-600", sound: [196, 247, 294] },
-  SPINOSAURUS: { name: "spinosaurus", hebrew: "ספינוזאורוס", english: "Spinosaurus", emoji: "🦖", color: "bg-purple-600", sound: [659, 831, 988] },
-  ALLOSAURUS: { name: "allosaurus", hebrew: "אלוזאורוס", english: "Allosaurus", emoji: "🦖", color: "bg-red-500", sound: [277, 349, 415] },
-  PARASAUROLOPHUS: { name: "parasaurolophus", hebrew: "פרזאורולופוס", english: "Parasaurolophus", emoji: "🦕", color: "bg-yellow-500", sound: [415, 523, 622] },
-  COMPSOGNATHUS: { name: "compsognathus", hebrew: "קומפסוגנתוס", english: "Compsognathus", emoji: "🦖", color: "bg-green-300", sound: [220, 277, 330] },
+  TRICERATOPS: { name: "triceratops", hebrew: "טריצרטופס", english: "Triceratops", emoji: "🦕", color: "bg-green-600", sound: [440, 550, 660], funFact: "לטריצרטופס היו שלושה קרניים ומגן עצום על הראש!" },
+  TYRANNOSAURUS: { name: "tyrannosaurus", hebrew: "טירנוזאורוס רקס", english: "Tyrannosaurus Rex", emoji: "🦖", color: "bg-red-600", sound: [392, 494, 587], funFact: "ל-T-Rex היו שיניים באורך 30 ס\"מ!" },
+  STEGOSAURUS: { name: "stegosaurus", hebrew: "סטגוזאורוס", english: "Stegosaurus", emoji: "🦕", color: "bg-orange-600", sound: [349, 440, 523], funFact: "למרות גודלו, מוח הסטגוזאורוס היה קטן כאגוז אוסטרלי!" },
+  BRACHIOSAURUS: { name: "brachiosaurus", hebrew: "ברכיוזאורוס", english: "Brachiosaurus", emoji: "🦕", color: "bg-amber-700", sound: [523, 659, 784], funFact: "הברכיוזאורוס היה גבוה כמו בניין בן 4 קומות!" },
+  VELOCIRAPTOR: { name: "velociraptor", hebrew: "ולוסירפטור", english: "Velociraptor", emoji: "🦖", color: "bg-gray-700", sound: [294, 370, 440], funFact: "הולוסירפטור האמיתי היה קטן כתרנגול — לא כמו בסרטים!" },
+  DIPLODOCUS: { name: "diplodocus", hebrew: "דיפלודוקוס", english: "Diplodocus", emoji: "🦕", color: "bg-green-500", sound: [330, 415, 494], funFact: "הדיפלודוקוס היה מהדינוזאורים הארוכים ביותר — 27 מטר!" },
+  PTERANODON: { name: "pteranodon", hebrew: "פטרנודון", english: "Pteranodon", emoji: "🦅", color: "bg-blue-500", sound: [587, 698, 784], funFact: "הפטרנודון לא דינוזאור — זחלן מעופף שחי באותה תקופה!" },
+  ANKYLOSAURUS: { name: "ankylosaurus", hebrew: "אנקילוזאורוס", english: "Ankylosaurus", emoji: "🦕", color: "bg-gray-600", sound: [196, 247, 294], funFact: "האנקילוזאורוס היה מכוסה שריון עצם כמו טנק חי!" },
+  SPINOSAURUS: { name: "spinosaurus", hebrew: "ספינוזאורוס", english: "Spinosaurus", emoji: "🦖", color: "bg-purple-600", sound: [659, 831, 988], funFact: "הספינוזאורוס היה גדול מהטירנוזאורוס רקס!" },
+  ALLOSAURUS: { name: "allosaurus", hebrew: "אלוזאורוס", english: "Allosaurus", emoji: "🦖", color: "bg-red-500", sound: [277, 349, 415], funFact: "האלוזאורוס ציד הרבה לפני הטירנוזאורוס — לפני 150 מיליון שנה!" },
+  PARASAUROLOPHUS: { name: "parasaurolophus", hebrew: "פרזאורולופוס", english: "Parasaurolophus", emoji: "🦕", color: "bg-yellow-500", sound: [415, 523, 622], funFact: "הציצית הארוכה על ראש הפרזאורולופוס הפיקה צלילים כמו חצוצרה!" },
+  COMPSOGNATHUS: { name: "compsognathus", hebrew: "קומפסוגנתוס", english: "Compsognathus", emoji: "🦖", color: "bg-green-300", sound: [220, 277, 330], funFact: "הקומפסוגנתוס היה אחד הדינוזאורים הקטנים — בגודל תרנגול!" },
 };
 
 /**
