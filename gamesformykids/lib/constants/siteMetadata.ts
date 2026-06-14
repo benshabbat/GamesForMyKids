@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from 'next';
 
 export const siteMetadata: Metadata = {
-  title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
-  description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד! פותח באהבה על ידי דוד-חן בן שבת.',
-  keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-5, פעוטות, משחקי למידה, דוד-חן בן שבת',
+  title: '🎮 משחקים לילדים 2-10 - למידה מהנה וחינוכית',
+  description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-10 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד! פותח באהבה על ידי דוד-חן בן שבת.',
+  keywords: 'משחקים לילדים, חינוכי, זיכרון, צבעים, עברית, מספרים, גיל 2-10, פעוטות, משחקי למידה, דוד-חן בן שבת',
   authors: [{ name: 'דוד-חן בן שבת', url: 'https://www.linkedin.com/in/davidchen-benshabbat' }],
   creator: 'דוד-חן בן שבת',
   publisher: 'GamesForMyKids',
@@ -12,8 +12,8 @@ export const siteMetadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
-    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד!',
+    title: '🎮 משחקים לילדים 2-10 - למידה מהנה וחינוכית',
+    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-10 שנים. אותיות עבריות, מספרים, צבעים, צורות, זיכרון ועוד!',
     type: 'website',
     locale: 'he_IL',
     url: 'https://games-for-my-kids.vercel.app',
@@ -23,8 +23,8 @@ export const siteMetadata: Metadata = {
     card: 'summary',
     site: '@GamesForMyKids',
     creator: '@davidchen_dev',
-    title: '🎮 משחקים לילדים 2-5 - למידה מהנה וחינוכית',
-    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים',
+    title: '🎮 משחקים לילדים 2-10 - למידה מהנה וחינוכית',
+    description: 'אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-10 שנים',
   },
   robots: {
     index: true,
@@ -50,8 +50,8 @@ export const siteViewport: Viewport = {
 export const structuredData = {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "משחקים לילדים 2-5",
-  "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-5 שנים",
+  "name": "משחקים לילדים 2-10",
+  "description": "אוסף משחקים חינוכיים ומהנים לילדים בגיל 2-10 שנים",
   "url": "https://games-for-my-kids.vercel.app",
   "author": {
     "@type": "Person",
@@ -67,7 +67,7 @@ export const structuredData = {
     "@type": "Audience",
     "audienceType": "children",
     "suggestedMinAge": 2,
-    "suggestedMaxAge": 5
+    "suggestedMaxAge": 10
   },
   "potentialAction": {
     "@type": "SearchAction",
