@@ -5,7 +5,7 @@ import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetter
 
 export const metadata: Metadata = {
   title: 'מפת האתר - כל המשחקים במקום אחד | משחקים לילדים',
-  description: 'מפת האתר המלאה של משחקים לילדים 2-5. גלו את כל המשחקים החינוכיים והמהנים שלנו.',
+  description: 'מפת האתר המלאה של משחקים לילדים 2-10. גלו את כל המשחקים החינוכיים והמהנים שלנו.',
   robots: {
     index: true,
     follow: true,
