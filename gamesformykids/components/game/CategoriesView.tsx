@@ -26,12 +26,13 @@ export default function CategoriesView() {
           ).length;
 
           return (
-            <CategoryCard
-              key={key}
-              category={category}
-              gamesCount={gamesCount}
-              onClick={() => selectCategory(key)}
-            />
+            <div key={key} id={`category-${key}`}>
+              <CategoryCard
+                category={category}
+                gamesCount={gamesCount}
+                onClick={() => selectCategory(key)}
+              />
+            </div>
           );
         })}
         {Array.from({ length: fillerCount }).map((_, i) => (
