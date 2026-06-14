@@ -18,6 +18,7 @@ import {
 import { GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgressStore, useGameStore } from "@/lib/stores";
 import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
+import { trackEvent } from "@/lib/analytics/trackEvent";
 
 /**
  * Hook בסיסי לכל המשחקים הפשוטים
@@ -125,6 +126,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     progressStore.setGameActive(true);
     sessionStartRef.current = Date.now();
     useGameStore.getState().startGame(gameType);
+    trackEvent('game_start', { game_type: gameType });
 
     useGameSessionStore.getState().resetSession();
     progressHooks.startSession();
@@ -147,6 +149,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
     if (selectedItem.name === currentChallenge.name) {
       // תשובה נכונה
+      trackEvent('correct_answer', { game_type: gameType });
       playSuccessSound();
       useGameSessionStore.getState().resetWrongAttempts();
 
@@ -178,6 +181,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       useGameStore.getState().updateProgress(updated.score, updated.level);
     } else {
       // תשובה שגויה
+      trackEvent('wrong_answer', { game_type: gameType });
       useGameSessionStore.getState().incrementWrongAttempts();
       progressHooks.recordMistake(currentChallenge, 1);
       
@@ -199,6 +203,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     useGameProgressStore.getState().setGameActive(false);
     useGameProgressStore.getState().resetProgress();
     useGameSessionStore.getState().resetSession();
+
+    trackEvent('game_complete', { game_type: gameType, score: finalScore });
 
     // Persist progress to Supabase — single atomic upsert
     if (finalScore > 0 || finalLevel > 1) {

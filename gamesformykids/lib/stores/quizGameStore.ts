@@ -1,4 +1,5 @@
 import { makeStore } from './createStore';
+import { trackEvent } from '@/lib/analytics/trackEvent';
 
 export type QuizPhase = 'menu' | 'playing' | 'result';
 
@@ -37,14 +38,17 @@ const INITIAL_STATE: QuizGameState = {
 export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('QuizGameStore', (set, get) => ({
       ...INITIAL_STATE,
 
-      startQuiz: (gameType, total) =>
+      startQuiz: (gameType, total) => {
         set(
           { phase: 'playing', gameType, index: 0, total, score: 0, streak: 0, bestStreak: 0, selected: null, isCorrect: null },
           false,
           'quiz/startQuiz',
-        ),
+        );
+        trackEvent('game_start', { game_type: gameType });
+      },
 
-      selectAnswer: (id, isCorrect) =>
+      selectAnswer: (id, isCorrect) => {
+        const gameType = get().gameType ?? undefined;
         set(
           (s) => {
             const newStreak = isCorrect ? s.streak + 1 : 0;
@@ -58,14 +62,17 @@ export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('Quiz
           },
           false,
           'quiz/selectAnswer',
-        ),
+        );
+        if (gameType) trackEvent(isCorrect ? 'correct_answer' : 'wrong_answer', { game_type: gameType });
+      },
 
       nextQuestion: () => {
-        const { index, total } = get();
+        const { index, total, score, gameType } = get();
         if (index < total - 1) {
           set({ index: index + 1, selected: null, isCorrect: null }, false, 'quiz/nextQuestion');
         } else {
           set({ phase: 'result', selected: null, isCorrect: null }, false, 'quiz/endGame');
+          if (gameType) trackEvent('game_complete', { game_type: gameType, score, total });
         }
       },
 
