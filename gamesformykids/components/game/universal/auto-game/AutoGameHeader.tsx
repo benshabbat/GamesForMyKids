@@ -6,6 +6,7 @@ import { ChallengeBox } from "../../../shared";
 import { CelebrationBox } from "../../../shared";
 import { SlowSpeechToggle } from "@/components/game/shared/SlowSpeechToggle";
 import { FullscreenToggle } from "@/components/game/shared/FullscreenToggle";
+import { StreakBadge } from "@/components/game/shared/StreakBadge";
 
 /**
  * AutoGameHeader - header section of AutoGamePage
@@ -38,6 +39,13 @@ export function AutoGameHeader() {
           </button>
         </div>
       </div>
+
+      {/* Streak badge */}
+      {gameState && !showCelebration && (
+        <div className="flex justify-center mb-2">
+          <StreakBadge />
+        </div>
+      )}
 
       {/* Challenge Box */}
       {gameState && currentChallenge && !showCelebration && (
