@@ -1,11 +1,45 @@
 import { shuffle } from '@/lib/utils';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
 import { FRACTION_QUESTIONS } from '@/lib/quiz/data/fractions';
+import { GEMATRIA_QUESTIONS } from '@/lib/quiz/data/gematria';
 import { QUIZ_QUESTIONS, SHAPES_3D } from '@/lib/quiz/data/shapes-3d';
 import { SKIP_COUNTING_QUESTIONS } from '@/lib/quiz/data/skip-counting';
 import { VISUAL_ADDITION_QUESTIONS } from '@/lib/quiz/data/visual-addition';
 import FractionBar from '@/components/game/quiz/FractionBar';
 import { defineConfig } from './types';
+
+export const gematriaConfig = defineConfig({
+  gameType: 'gematria', emoji: 'א', title: 'גמטריה',
+  description: 'למד את ערכי האותיות העבריות וחשב גמטריה!', theme: 'violet',
+  buttonLabel: 'א בואו נחשב!',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['א = 1', 'י = 10', 'כ = 20', 'ק = 100'].map(s => (
+        <div key={s} className="bg-violet-50 rounded-xl px-2 py-1.5 text-sm font-bold text-violet-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  questions: GEMATRIA_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  wrongMsg: (q) => q.hint,
+  renderQuestion: (q) => (
+    <>
+      <div className="text-5xl mb-3 font-hebrew">{q.emoji}</div>
+      <p className="text-gray-700 text-lg font-bold mb-1 text-center" dir="rtl">{q.question}</p>
+      {q.type === 'letter' && (
+        <p className="text-xs text-violet-500 mt-1">כל אות עברית שווה מספר מיוחד</p>
+      )}
+      {q.type === 'word' && (
+        <p className="text-xs text-violet-500 mt-1">חבר את ערכי כל האותיות</p>
+      )}
+      {q.type === 'reverse' && (
+        <p className="text-xs text-violet-500 mt-1">איזו אות מתאימה למספר זה?</p>
+      )}
+    </>
+  ),
+});
 
 export const visualAdditionConfig = defineConfig({
   gameType: 'visual-addition', emoji: '➕', title: 'חיבור חזותי',

@@ -172,6 +172,7 @@ export type GameType =
   | 'gender' | 'final-letters' | 'alphabet-order'
   | 'personal-safety'
   | 'visual-addition'
+  | 'gematria'
   // Arcade & action games
   | 'maze'
   | 'true-false' | 'flappy-bird' | 'snake' | 'pong' | 'frogger'
