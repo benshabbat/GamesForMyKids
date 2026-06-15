@@ -1,6 +1,6 @@
 'use client';
 
-import { PATH, PATH_SET, GRID_ROWS, GRID_COLS, CELL_PX, isOnPath } from '../letterDefenderStore';
+import { PATH, GRID_ROWS, GRID_COLS, CELL_PX, isOnPath } from '../letterDefenderStore';
 import type { Enemy, Tower } from '../letterDefenderStore';
 
 interface Props {
@@ -9,18 +9,6 @@ interface Props {
   onCellClick: (row: number, col: number) => void;
 }
 
-function pathDirectionClass(index: number): string {
-  const cur = PATH[index];
-  const nxt = PATH[index + 1];
-  if (!cur || !nxt) return '';
-  const dr = nxt[0] - cur[0];
-  const dc = nxt[1] - cur[1];
-  if (dr > 0) return 'after:content-["↓"]';
-  if (dr < 0) return 'after:content-["↑"]';
-  if (dc > 0) return 'after:content-["→"]';
-  if (dc < 0) return 'after:content-["←"]';
-  return '';
-}
 
 export default function DefenderGrid({ enemies, towers, onCellClick }: Props) {
   const w = GRID_COLS * CELL_PX;

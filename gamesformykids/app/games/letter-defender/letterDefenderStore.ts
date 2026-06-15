@@ -133,7 +133,7 @@ export const useLetterDefenderStore = create<State & Actions>((set, get) => ({
 
     const reached  = moved.filter(e => e.pathIndex >= PATH.length);
     const still    = moved.filter(e => e.pathIndex < PATH.length);
-    let   lives    = state.lives - reached.length;
+    const lives    = state.lives - reached.length;
     let   score    = state.score;
 
     const shot = new Set<number>();
