@@ -33,7 +33,7 @@ interface GameDataItem {
 }
 
 // טייפ בסיס לנתוני פריטי משחק
-export type BaseGameItem = GameDataItem & { 
+export type BaseGameItem = GameDataItem & {
   id?: string;
   svg?: string; // לצורות
   digit?: string; // למספרים
@@ -41,6 +41,7 @@ export type BaseGameItem = GameDataItem & {
   colorName?: string; // לצורות צבועות
   svgPath?: string; // לצורות צבועות
   plural?: string; // לרבים
+  funFact?: string; // עובדה מעניינת להצגה אחרי תשובה נכונה
 };
 
 /**
