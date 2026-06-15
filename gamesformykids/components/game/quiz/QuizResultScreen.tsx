@@ -1,9 +1,11 @@
 'use client';
 
 import { type ReactNode } from 'react';
+import Link from 'next/link';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
 import { GameCompletionCelebration } from '@/components/game/shared/GameCompletionCelebration';
+import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 
 interface Props {
   onRestart: () => void;
@@ -20,9 +22,11 @@ interface Props {
 export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!', headerContent, subtitle, correctCount: correctCountProp, total: totalProp }: Props) {
   const storeScore = useQuizGameStore(s => s.score);
   const storeTotal = useQuizGameStore(s => s.total);
+  const storeGameType = useQuizGameStore(s => s.gameType);
   const correctCount = correctCountProp ?? storeScore;
   const total        = totalProp ?? storeTotal;
   const t = QUIZ_THEMES[theme];
+  const nextGame = storeGameType ? getNextGameInCategory(storeGameType) : null;
   const score = correctCount * 10;
   const pct = total > 0 ? Math.round((correctCount / total) * 100) : 0;
   const emoji = pct >= 90 ? '🏆' : pct >= 70 ? '🌟' : pct >= 50 ? '👍' : '💪';
@@ -47,6 +51,15 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
         >
           שחק שוב
         </button>
+        {nextGame && (
+          <Link
+            href={nextGame.href}
+            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl border-2 border-indigo-100 text-indigo-600 font-semibold text-sm hover:bg-indigo-50 active:scale-95 transition-[transform,colors]"
+          >
+            <span>המשחק הבא: {nextGame.emoji} {nextGame.title}</span>
+            <span aria-hidden>←</span>
+          </Link>
+        )}
       </div>
     </div>
   );
