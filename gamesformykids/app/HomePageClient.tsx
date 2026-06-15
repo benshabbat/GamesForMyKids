@@ -12,6 +12,7 @@ import ContinueBanner from "@/components/marketing/ContinueBanner";
 import DailyChallenge from "@/components/marketing/DailyChallenge";
 import RecentlyPlayedRow from "@/components/marketing/RecentlyPlayedRow";
 import GamesTodayBadge from "@/components/marketing/GamesTodayBadge";
+import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import { useHomePage } from "./useHomePage";
@@ -40,6 +41,7 @@ export default function HomePageClient() {
         <CategorizedGamesGrid />
       </main>
       <Footer />
+      <PWAInstallBanner />
     </div>
   );
 }
