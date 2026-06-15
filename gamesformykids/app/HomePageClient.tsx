@@ -9,6 +9,8 @@ import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
 import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
+import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
+import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import { useHomePage } from "./useHomePage";
 
 export default function HomePageClient() {
@@ -22,7 +24,9 @@ export default function HomePageClient() {
     <div className="min-h-screen bg-linear-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <VocabularyOfTheDay />
       <Header />
+      <CategoryJumpBar />
       <main>
+        <DailyStreakBadge />
         <FeaturedGame />
         <GameRecommendations />
         <SurpriseMeButton />

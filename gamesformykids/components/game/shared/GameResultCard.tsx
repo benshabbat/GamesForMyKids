@@ -1,7 +1,9 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
+import Link from 'next/link';
 import { GameCompletionCelebration } from './GameCompletionCelebration';
 import { useShareScore } from '@/hooks/shared/social/useShareScore';
+import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 
 interface SecondaryAction {
   label: string;
@@ -24,6 +26,8 @@ interface Props {
   /** Pass score + best to surface a "🏆 שיא חדש!" banner when score equals best. */
   score?: number;
   best?: number;
+  /** When provided, shows a "next game in category" link below the actions. */
+  gameType?: string;
   children: ReactNode;
 }
 
@@ -45,9 +49,11 @@ export default function GameResultCard({
   shareText,
   score,
   best,
+  gameType,
   children,
 }: Props) {
   const { share, copied } = useShareScore();
+  const nextGame = useMemo(() => (gameType ? getNextGameInCategory(gameType) : null), [gameType]);
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
 
   return (
@@ -88,6 +94,15 @@ export default function GameResultCard({
           >
             {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
           </button>
+        )}
+        {nextGame && (
+          <Link
+            href={nextGame.href}
+            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl border-2 border-indigo-100 text-indigo-600 font-semibold text-sm hover:bg-indigo-50 active:scale-95 transition-[transform,colors]"
+          >
+            <span>המשחק הבא: {nextGame.emoji} {nextGame.title}</span>
+            <span aria-hidden>←</span>
+          </Link>
         )}
       </div>
     </div>

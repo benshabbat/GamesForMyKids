@@ -27,6 +27,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <head>
         <HeadLinks />
         <StructuredData />
+        {/* Prevent flash of wrong theme — runs before hydration */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{var t=localStorage.getItem('gfk_theme');if(t==='dark'||(!t&&matchMedia('(prefers-color-scheme:dark)').matches))document.documentElement.classList.add('dark')}catch{}`,
+          }}
+        />
       </head>
       <body className={`${rubik.className} dark:bg-gray-900 dark:text-white`}>
         {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GA_ID && (
