@@ -8,6 +8,7 @@ import SurpriseMeButton from "@/components/marketing/SurpriseMeButton";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
+import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import { useHomePage } from "./useHomePage";
 
@@ -24,6 +25,7 @@ export default function HomePageClient() {
       <Header />
       <CategoryJumpBar />
       <main>
+        <DailyStreakBadge />
         <FeaturedGame />
         <GameRecommendations />
         <SurpriseMeButton />
