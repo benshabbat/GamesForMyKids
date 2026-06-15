@@ -1,8 +1,8 @@
 import type { StateCreator } from 'zustand';
 import type { HebrewLettersStore } from '../types';
 import { makeToggle, makeSetter } from '@/lib/stores/utils/sliceUtils';
+import { speak } from '@/lib/utils/speech/enhancedSpeechUtils';
 import {
-  DEFAULT_AUDIO_STATE,
   ENCOURAGEMENT_MESSAGES,
   STEP_MESSAGES,
 } from '../../constants/hebrewLettersConstants';
@@ -26,13 +26,8 @@ export const createAudioSlice: StateCreator<HebrewLettersStore, [['zustand/devto
 
   speakText: (text, settings) => {
     const { isAudioEnabled } = get();
-    if (!isAudioEnabled || !('speechSynthesis' in window)) return;
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = settings?.lang ?? 'he-IL';
-    utterance.rate = settings?.rate ?? DEFAULT_AUDIO_STATE.speechRate;
-    utterance.pitch = settings?.pitch ?? DEFAULT_AUDIO_STATE.speechPitch;
-    utterance.volume = settings?.volume ?? DEFAULT_AUDIO_STATE.volume;
-    speechSynthesis.speak(utterance);
+    if (!isAudioEnabled) return;
+    speak(text, settings);
   },
 
   playLetterSound: (letter) => {
