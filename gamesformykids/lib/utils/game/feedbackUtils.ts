@@ -5,6 +5,7 @@ import { FEEDBACK_MESSAGES, GAME_CONSTANTS } from '../../constants';
 import { speakHebrew, cancelSpeech, isSpeechEnabled } from '../speech/enhancedSpeechUtils';
 import { logError } from '../errorUtils';
 import { delay } from './gameUtils';
+import { getChildName } from './getChildName';
 
 /**
  * מחזיר הודעת משוב אקראית
@@ -14,6 +15,14 @@ export function getRandomFeedbackMessage(type: 'SUCCESS' | 'WRONG' | 'START'): s
   return messages[Math.floor(Math.random() * messages.length)]!;
 }
 
+/** Injects the child's name into a SUCCESS message when available. */
+function personalizeSuccessMessage(msg: string): string {
+  const name = getChildName();
+  if (!name) return msg;
+  // Messages ending with ! get the name prepended; others get it appended.
+  return msg.endsWith('!') ? `${name}, ${msg}` : `${msg}, ${name}!`;
+}
+
 /**
  * משמיע משוב קולי חיובי
  */
@@ -21,7 +30,7 @@ export async function speakPositiveFeedback(): Promise<void> {
   cancelSpeech();
   await delay(GAME_CONSTANTS.DELAYS.SUCCESS_SPEAK_DELAY);
   try {
-    await speakHebrew(getRandomFeedbackMessage('SUCCESS'));
+    await speakHebrew(personalizeSuccessMessage(getRandomFeedbackMessage('SUCCESS')));
   } catch (error) {
     logError('שגיאה בהשמעת משוב חיובי:', error);
   }
