@@ -184,6 +184,6 @@ export type GameType =
   // Word games
   | 'word-builder' | 'word-scramble' | 'word-chain'
   // Special games
-  | 'hebrew-letters' | 'tzedakah'
+  | 'hebrew-letters' | 'tzedakah' | 'letter-defender'
   // Logic & patterns
   | 'sorting' | 'patterns';

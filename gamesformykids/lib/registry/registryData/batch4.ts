@@ -474,4 +474,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 164,
   },
+  {
+    id: "letter-defender",
+    title: "מגן האותיות",
+    description: "הצב מגדלים כדי לעצור מילים שגויות — הגן על האיות הנכון!",
+    icon: Layers,
+    emoji: "🏰",
+    color: "bg-emerald-600 hover:bg-emerald-700",
+    href: "/games/letter-defender",
+    available: true,
+    order: 165,
+  },
 ];
