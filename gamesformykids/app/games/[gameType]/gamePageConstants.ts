@@ -56,6 +56,7 @@ export const SUPPORTED_GAMES = [
   'personal-safety',
   'visual-addition',
   'gematria',
+  'word-chain',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
