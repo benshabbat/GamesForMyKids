@@ -4,6 +4,7 @@ import { useAutoGame } from "@/hooks";
 import { GameHeader } from "../../../shared";
 import { ChallengeBox } from "../../../shared";
 import { CelebrationBox } from "../../../shared";
+import { StreakBadge } from "@/components/game/shared/StreakBadge";
 
 /**
  * AutoGameHeader - header section of AutoGamePage
@@ -36,6 +37,13 @@ export function AutoGameHeader() {
           📊 {currentAccuracy || 0}%
         </button>
       </div>
+
+      {/* Streak badge */}
+      {gameState && !showCelebration && (
+        <div className="flex justify-center mb-2">
+          <StreakBadge />
+        </div>
+      )}
 
       {/* Challenge Box */}
       {gameState && currentChallenge && !showCelebration && (
