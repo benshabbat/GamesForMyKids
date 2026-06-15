@@ -4,6 +4,9 @@ import { useAutoGame } from "@/hooks";
 import { GameHeader } from "../../../shared";
 import { ChallengeBox } from "../../../shared";
 import { CelebrationBox } from "../../../shared";
+import { SlowSpeechToggle } from "@/components/game/shared/SlowSpeechToggle";
+import { FullscreenToggle } from "@/components/game/shared/FullscreenToggle";
+import { StreakBadge } from "@/components/game/shared/StreakBadge";
 
 /**
  * AutoGameHeader - header section of AutoGamePage
@@ -23,19 +26,26 @@ export function AutoGameHeader() {
       <div className="flex justify-between items-center mb-4">
         <GameHeader />
 
-        {/* כפתור סטטיסטיקות */}
-        <button
-          onClick={() => setShowProgressModal(true)}
-          className="
-            px-3 py-2 bg-blue-500 text-white rounded-lg shadow-lg
-            hover:bg-blue-600 hover:scale-105
-            transition-[transform,colors] duration-200 text-sm font-bold
-          "
-          title="הצג סטטיסטיקות"
-        >
-          📊 {currentAccuracy || 0}%
-        </button>
+        {/* כפתורי שליטה */}
+        <div className="flex items-center gap-2">
+          <SlowSpeechToggle />
+          <FullscreenToggle />
+          <button
+            onClick={() => setShowProgressModal(true)}
+            className="px-3 py-2 bg-blue-500 text-white rounded-lg shadow-lg hover:bg-blue-600 hover:scale-105 transition-[transform,background-color] duration-200 text-sm font-bold"
+            title="הצג סטטיסטיקות"
+          >
+            📊 {currentAccuracy || 0}%
+          </button>
+        </div>
       </div>
+
+      {/* Streak badge */}
+      {gameState && !showCelebration && (
+        <div className="flex justify-center mb-2">
+          <StreakBadge />
+        </div>
+      )}
 
       {/* Challenge Box */}
       {gameState && currentChallenge && !showCelebration && (
