@@ -26,6 +26,7 @@ import {
   ShieldCheck,
   Type,
   AlignLeft,
+  Calculator,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -450,5 +451,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/visual-addition",
     available: true,
     order: 162,
+  },
+  {
+    id: "gematria",
+    title: "גמטריה",
+    description: "למד את ערכי האותיות העבריות וחשב גמטריה!",
+    icon: Calculator,
+    emoji: "א",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/gematria",
+    available: true,
+    order: 163,
   },
 ];
