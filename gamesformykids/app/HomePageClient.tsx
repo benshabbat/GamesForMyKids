@@ -9,6 +9,7 @@ import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
 import OnboardingModal from "@/components/marketing/OnboardingModal";
+import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import { useHomePage } from "./useHomePage";
@@ -34,6 +35,7 @@ export default function HomePageClient() {
       </main>
       <Footer />
       <OnboardingModal />
+      <PWAInstallBanner />
     </div>
   );
 }
