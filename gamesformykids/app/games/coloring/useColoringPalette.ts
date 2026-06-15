@@ -1,15 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 import { useColoringStore, PALETTE_COLORS } from './store/coloringStore';
-
-function speakHebrew(text: string) {
-  if (typeof window === 'undefined') return;
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = 'he-IL';
-  utterance.rate = 0.9;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(utterance);
-}
+import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 
 export function useColoringPalette() {
   const selectedColor = useColoringStore((s) => s.selectedColor);
