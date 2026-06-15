@@ -23,6 +23,8 @@ export default function CelebrationBox({
   const value = currentChallenge.hebrew;
   const points = 10; // יכול להיות דינמי מהקונטקסט בעתיד
 
+  const funFact = (currentChallenge as { funFact?: string }).funFact;
+
   return (
     <GenericBox
       title="מעולה!"
@@ -36,6 +38,11 @@ export default function CelebrationBox({
         מצאת את ה{label} {value}!
       </p>
       <div className="text-3xl mt-4">+{points} נקודות! ⭐</div>
+      {funFact && (
+        <p className="mt-3 text-sm text-orange-600 bg-orange-50 rounded-xl px-3 py-2 leading-relaxed" dir="rtl">
+          💡 {funFact}
+        </p>
+      )}
     </GenericBox>
   );
 }
