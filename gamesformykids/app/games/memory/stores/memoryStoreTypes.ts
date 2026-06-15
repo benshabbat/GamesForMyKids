@@ -16,6 +16,15 @@ export const initialGameStats: GameStats = {
 
 export type MemoryPhase = 'menu' | 'playing' | 'won' | 'timeout';
 
+// ─── Duo mode types ───────────────────────────────────────────────────────────
+
+export type MemoryMode = 'solo' | 'duo';
+
+export interface DuoPlayer {
+  name: string;
+  score: number;
+}
+
 // ─── State shape ──────────────────────────────────────────────────────────────
 
 export interface MemoryStoreState {
@@ -26,6 +35,11 @@ export interface MemoryStoreState {
   isGamePaused: boolean;
   difficulty: DifficultyLevel;
   gameStats: GameStats;
+
+  // Duo mode
+  mode: MemoryMode;
+  players: [DuoPlayer, DuoPlayer];
+  currentPlayer: 0 | 1;
 
   // Cards
   lastMatchWasSuccess: boolean;
@@ -50,6 +64,8 @@ export interface MemoryStoreActions {
   resetGame: () => void;
   resetToMenu: () => void;
   setDifficulty: (difficulty: DifficultyLevel) => void;
+  setMode: (mode: MemoryMode) => void;
+  setPlayerNames: (p1: string, p2: string) => void;
 
   // Called from timer useEffect in useMemoryGameContent
   incrementTimer: () => void;
@@ -98,4 +114,7 @@ export const initialState: MemoryStoreState = {
   matchedPairs: [],
   showHints: false,
   showDebug: false,
+  mode: 'solo',
+  players: [{ name: 'שחקן 1', score: 0 }, { name: 'שחקן 2', score: 0 }],
+  currentPlayer: 0,
 };
