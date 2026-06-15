@@ -8,6 +8,10 @@ import SurpriseMeButton from "@/components/marketing/SurpriseMeButton";
 import CategorizedGamesGrid from "@/components/marketing/CategorizedGamesGrid";
 import LoadingScreen from "@/components/layout/LoadingScreen";
 import VocabularyOfTheDay from "@/components/marketing/VocabularyOfTheDay";
+import ContinueBanner from "@/components/marketing/ContinueBanner";
+import DailyChallenge from "@/components/marketing/DailyChallenge";
+import RecentlyPlayedRow from "@/components/marketing/RecentlyPlayedRow";
+import GamesTodayBadge from "@/components/marketing/GamesTodayBadge";
 import OnboardingModal from "@/components/marketing/OnboardingModal";
 import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
@@ -29,6 +33,10 @@ export default function HomePageClient() {
       <main>
         <DailyStreakBadge />
         <FeaturedGame />
+        <ContinueBanner />
+        <DailyChallenge />
+        <RecentlyPlayedRow />
+        <GamesTodayBadge />
         <GameRecommendations />
         <SurpriseMeButton />
         <CategorizedGamesGrid />
