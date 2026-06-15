@@ -2,6 +2,7 @@ import UserProfile from '../user/UserProfile';
 import { HeaderBackground } from './header/HeaderBackground';
 import { HeaderHero } from './header/HeaderHero';
 import { FeatureHighlights } from './header/FeatureHighlights';
+import { ThemeToggle } from '../ui/ThemeToggle';
 
 // Server Component - renders statically for better LCP
 export function StaticHeader() {
@@ -12,7 +13,8 @@ export function StaticHeader() {
       </div>
 
       <div className="relative z-10">
-        <div className="flex justify-end px-4 mb-2">
+        <div className="flex justify-end items-center gap-2 px-4 mb-2">
+          <ThemeToggle />
           <UserProfile />
         </div>
         <HeaderHero />

@@ -1,9 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { useFavoritesStore } from "@/lib/stores";
+import { getMasteryStars } from "@/lib/utils/engagement/masteryStars";
 
 interface GameCardProps extends ComponentTypes.GameCardProps {
   animationDelay?: number;
@@ -12,6 +14,11 @@ interface GameCardProps extends ComponentTypes.GameCardProps {
 export default function GameCard({ game, animationDelay }: GameCardProps) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const isFav = useFavoritesStore((s) => s.favoriteIds.includes(game.id));
+  const [masteryStars, setMasteryStars] = useState(0);
+
+  useEffect(() => {
+    setMasteryStars(getMasteryStars(game.id));
+  }, [game.id]);
 
   if (game.available) {
     return (
@@ -58,6 +65,15 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
                 isFav ? 'text-yellow-300 fill-current' : 'text-white'
               }`} />
             </button>
+            {/* כוכבי שליטה */}
+            {masteryStars > 0 && (
+              <div
+                className="absolute bottom-1 inset-e-1 md:bottom-2 md:inset-e-2 flex gap-0.5 leading-none"
+                aria-label={`${masteryStars} כוכבי שליטה`}
+              >
+                {'⭐'.repeat(masteryStars)}
+              </div>
+            )}
           </div>
         </Link>
       </div>

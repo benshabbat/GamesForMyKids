@@ -1,9 +1,11 @@
 'use client';
-import { ReactNode } from 'react';
+import { ReactNode, useMemo } from 'react';
+import Link from 'next/link';
 import { GameCompletionCelebration } from './GameCompletionCelebration';
 import { useShareScore } from '@/hooks/shared/social/useShareScore';
 import { useGameRating } from '@/hooks/shared/social/useGameRating';
 import { printCertificate } from '@/lib/utils/game/printCertificate';
+import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 
 interface SecondaryAction {
   label: string;
@@ -26,7 +28,7 @@ interface Props {
   /** Pass score + best to surface a "🏆 שיא חדש!" banner when score equals best. */
   score?: number;
   best?: number;
-  /** Enables 👍/👎 rating buttons (persisted per game per day in localStorage). */
+  /** Enables 👍/👎 rating buttons and "next game" link. */
   gameType?: string;
   /** 0-100; when >= 80 shows a print-certificate button. */
   scorePercent?: number;
@@ -57,6 +59,7 @@ export default function GameResultCard({
 }: Props) {
   const { share, copied } = useShareScore();
   const { rating, rate } = useGameRating(gameType);
+  const nextGame = useMemo(() => (gameType ? getNextGameInCategory(gameType) : null), [gameType]);
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
   const showCertificate = scorePercent !== undefined && scorePercent >= 80;
 
@@ -106,6 +109,15 @@ export default function GameResultCard({
           >
             🖨️ הדפס תעודה
           </button>
+        )}
+        {nextGame && (
+          <Link
+            href={nextGame.href}
+            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl border-2 border-indigo-100 text-indigo-600 font-semibold text-sm hover:bg-indigo-50 active:scale-95 transition-[transform,colors]"
+          >
+            <span>המשחק הבא: {nextGame.emoji} {nextGame.title}</span>
+            <span aria-hidden>←</span>
+          </Link>
         )}
         {gameType && (
           <div className="mt-4 pt-3 border-t border-gray-100">

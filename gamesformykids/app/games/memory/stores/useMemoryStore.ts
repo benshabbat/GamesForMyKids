@@ -14,11 +14,13 @@ import {
   initialState,
   initialGameStats,
   type MemoryPhase,
+  type MemoryMode,
+  type DuoPlayer,
 } from './memoryStoreTypes';
 import { formatTime, getTimeColor, getGridCols, getAnimationDelay } from './memoryPureHelpers';
 import { resolveCardMatch } from './memoryMatchLogic';
 
-export type { MemoryStoreState, MemoryStoreActions } from './memoryStoreTypes';
+export type { MemoryStoreState, MemoryStoreActions, MemoryMode, DuoPlayer } from './memoryStoreTypes';
 export type { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
 
 // ─── Store ────────────────────────────────────────────────────────────────────
@@ -133,6 +135,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
         isMatched: card.isMatched,
       }));
 
+      const { players } = get();
       set(
         {
           ...(targetDifficulty ? { difficulty: currentDifficulty } : {}),
@@ -144,6 +147,8 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           flippedCards: [],
           matchedPairs: [],
           gameStats: initialGameStats,
+          currentPlayer: 0,
+          players: [{ ...players[0], score: 0 }, { ...players[1], score: 0 }],
         },
         false,
         'memory/initializeGame',
@@ -177,6 +182,19 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
       const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[s.difficulty];
       const outcome = resolveCardMatch(s, firstCardIndex, secondCardIndex, config.pairs);
 
+      // Duo mode: award pair to current player on match; switch on miss
+      let updatedPlayers = s.players;
+      let nextPlayer = s.currentPlayer;
+      if (s.mode === 'duo') {
+        if (outcome.isMatch) {
+          updatedPlayers = s.players.map((p, i) =>
+            i === s.currentPlayer ? { ...p, score: p.score + 1 } : p
+          ) as [DuoPlayer, DuoPlayer];
+        } else {
+          nextPlayer = (1 - s.currentPlayer) as 0 | 1;
+        }
+      }
+
       set(
         {
           cards: outcome.cards,
@@ -184,6 +202,8 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           flippedCards: outcome.flippedCards,
           gameStats: outcome.gameStats,
           lastMatchWasSuccess: outcome.isMatch,
+          players: updatedPlayers,
+          currentPlayer: nextPlayer,
         },
         false,
         outcome.isMatch ? 'memory/successMatch' : 'memory/failedMatch',
@@ -193,6 +213,20 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
         set({ phase: 'won' as MemoryPhase }, false, 'memory/gameWon');
       }
     },
+
+    setMode: (mode: MemoryMode) => set({ mode }, false, 'memory/setMode'),
+
+    setPlayerNames: (p1: string, p2: string) =>
+      set(
+        (s) => ({
+          players: [
+            { ...s.players[0], name: p1 || 'שחקן 1' },
+            { ...s.players[1], name: p2 || 'שחקן 2' },
+          ] as [DuoPlayer, DuoPlayer],
+        }),
+        false,
+        'memory/setPlayerNames',
+      ),
 
     pauseGame: () => set({ isGamePaused: true }, false, 'memory/pause'),
     resumeGame: () => set({ isGamePaused: false }, false, 'memory/resume'),

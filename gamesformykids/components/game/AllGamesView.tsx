@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
+import { useMemo, useState, useEffect } from "react";
 import GameCard from "./GameCard";
+import { GameCardSkeletonGrid } from "./GameCardSkeleton";
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 import { useGridFillers } from "@/hooks";
 
@@ -14,6 +15,9 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
   const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
   const games = gamesProp ?? allGameRegistrations;
   const fillerCount = useGridFillers(games.length);
+  const [hydrated, setHydrated] = useState(false);
+
+  useEffect(() => { setHydrated(true); }, []);
 
   if (isFiltered && games.length === 0) {
     return (
@@ -21,6 +25,15 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
         <div className="text-5xl mb-4">🔍</div>
         <p className="text-xl font-bold text-gray-600 mb-2">לא נמצאו משחקים</p>
         <p className="text-gray-400 text-sm">נסה מילות חיפוש שונות או קטגוריה אחרת</p>
+      </div>
+    );
+  }
+
+  if (!hydrated) {
+    return (
+      <div>
+        <div className="h-9 w-48 bg-gray-200 animate-pulse rounded-xl mx-auto mb-6" />
+        <GameCardSkeletonGrid count={12} />
       </div>
     );
   }
