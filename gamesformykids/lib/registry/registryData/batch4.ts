@@ -463,4 +463,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 163,
   },
+  {
+    id: "word-chain",
+    title: "שרשרת מילים",
+    description: "כל מילה מתחילה באות האחרונה של הקודמת — בנה שרשרת ארוכה!",
+    icon: AlignLeft,
+    emoji: "🔗",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/word-chain",
+    available: true,
+    order: 164,
+  },
 ];

@@ -182,7 +182,7 @@ export type GameType =
   // Board & strategy games
   | 'chess' | 'checkers' | 'shesh-besh' | 'taki' | 'soccer'
   // Word games
-  | 'word-builder' | 'word-scramble'
+  | 'word-builder' | 'word-scramble' | 'word-chain'
   // Special games
   | 'hebrew-letters' | 'tzedakah'
   // Logic & patterns
