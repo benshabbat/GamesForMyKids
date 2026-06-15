@@ -8,19 +8,7 @@ import { delay, getRandomItem } from "@/lib/utils/game/gameUtils";
 import { MATH_GAME_CONSTANTS } from "@/lib/constants";
 import { useMathChallengeStore } from "@/lib/stores/mathChallengeStore";
 import { useNumericQuizRuntime } from "@/hooks/games/useNumericQuizRuntime";
-
-// ---------------------------------------------------------------------------
-// Items
-// ---------------------------------------------------------------------------
-
-const MATH_ITEMS = [
-  { emoji: "🍎", name: "תפוח", plural: "תפוחים" },
-  { emoji: "🌟", name: "כוכב", plural: "כוכבים" },
-  { emoji: "🐶", name: "כלב", plural: "כלבים" },
-  { emoji: "🎈", name: "בלון", plural: "בלונים" },
-  { emoji: "🍭", name: "סוכריה", plural: "סוכריות" },
-  { emoji: "🦋", name: "פרפר", plural: "פרפרים" },
-];
+import { MATH_ITEMS } from "@/lib/constants/gameData/math";
 
 // ---------------------------------------------------------------------------
 // Pure helpers (defined outside hook — stable references, no closures)
