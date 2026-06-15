@@ -2,6 +2,11 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Homepage', () => {
   test.beforeEach(async ({ page }) => {
+    // Suppress first-visit overlays (onboarding modal, PWA banner) that block clicks
+    await page.addInitScript(() => {
+      localStorage.setItem('gfk_onboarded', 'true');
+      localStorage.setItem('gfk_visit_count', '1');
+    });
     await page.goto('/');
   });
 
