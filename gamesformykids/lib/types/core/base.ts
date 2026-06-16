@@ -206,4 +206,6 @@ export type GameType =
   // Escape & adventure games
   | 'escape-room'
   // Coding & logic games
-  | 'robot-coder';
+  | 'robot-coder'
+  // Hidden object games
+  | 'find-in-scene';

@@ -29,6 +29,7 @@ import {
   AlignLeft,
   Calculator,
   KeyRound,
+  Search,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -607,5 +608,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/robot-coder",
     available: true,
     order: 176,
+  },
+  {
+    id: "find-in-scene",
+    title: "מצא בסצנה",
+    description: "מצא חפצים נסתרים בתמונה תוך 60 שניות — אתגר תצפית מהנה!",
+    icon: Search,
+    emoji: "🔍",
+    color: "bg-teal-600 hover:bg-teal-700",
+    href: "/games/find-in-scene",
+    available: true,
+    order: 177,
   },
 ];
