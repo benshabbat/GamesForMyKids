@@ -30,6 +30,7 @@ import {
   Calculator,
   KeyRound,
   Search,
+  HelpCircle,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -619,5 +620,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/find-in-scene",
     available: true,
     order: 177,
+  },
+  {
+    id: "hangman",
+    title: "תלייה עברית",
+    description: "נחש מילים עבריות לפני שהדמות מתמוטטת — 4 קטגוריות!",
+    icon: HelpCircle,
+    emoji: "🎯",
+    color: "bg-violet-600 hover:bg-violet-700",
+    href: "/games/hangman",
+    available: true,
+    order: 178,
   },
 ];

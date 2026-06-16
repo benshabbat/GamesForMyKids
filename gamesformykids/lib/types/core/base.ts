@@ -208,4 +208,6 @@ export type GameType =
   // Coding & logic games
   | 'robot-coder'
   // Hidden object games
-  | 'find-in-scene';
+  | 'find-in-scene'
+  // Word puzzle games
+  | 'hangman';
