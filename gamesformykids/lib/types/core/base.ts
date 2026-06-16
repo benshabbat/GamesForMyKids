@@ -192,4 +192,6 @@ export type GameType =
   // Language & wisdom
   | 'proverbs'
   // Money & economy
-  | 'coins-match';
+  | 'coins-match'
+  // Jewish tradition
+  | 'blessings';

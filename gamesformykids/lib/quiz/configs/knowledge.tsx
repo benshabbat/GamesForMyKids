@@ -7,6 +7,7 @@ import { SPORTS_QUESTIONS } from '@/lib/quiz/data/sports-quiz';
 import { CONTINENT_QUESTIONS } from '@/lib/quiz/data/continents';
 import { VISUAL_LOGIC_QUESTIONS } from '@/lib/quiz/data/visual-logic';
 import { PROVERB_QUESTIONS } from '@/lib/quiz/data/proverbs';
+import { BLESSING_QUESTIONS } from '@/lib/quiz/data/blessings';
 import { defineConfig } from './types';
 
 const FAMILY_BADGE: Record<string, string> = {
@@ -168,6 +169,34 @@ export const proverbsConfig = defineConfig({
       <p className="text-center text-gray-500 text-sm font-medium" dir="rtl">השלם את הפתגם:</p>
       <p className="text-center text-xl font-bold text-amber-800 leading-relaxed" dir="rtl">
         {q.firstHalf} <span className="text-amber-400">___</span>
+      </p>
+    </div>
+  ),
+});
+
+export const blessingsConfig = defineConfig({
+  gameType: 'blessings', emoji: '🙏', title: 'ברכות יהודיות',
+  description: 'איזו ברכה אומרים? — ברכות על אוכל, טבע ומועדים!', theme: 'violet',
+  buttonLabel: '🙏 בואו נברך!',
+  preview: (
+    <div className="text-right" dir="rtl">
+      <p className="text-violet-800 font-semibold text-sm mb-1">דוגמה:</p>
+      <p className="text-gray-700 text-sm">לפני שאוכלים לחם 🍞</p>
+      <p className="text-violet-600 font-bold text-sm">המוציא לחם מן הארץ</p>
+    </div>
+  ),
+  questions: BLESSING_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  correctMsg: '🙏 כל הכבוד! ברכת נכון!',
+  wrongMsg: (q) => `💡 הברכה הנכונה: ${q.answer}`,
+  renderQuestion: (q) => (
+    <div className="w-full flex flex-col items-center gap-2">
+      <div className="text-5xl">{q.emoji}</div>
+      <p className="text-center text-gray-500 text-sm font-medium" dir="rtl">מה הברכה המתאימה?</p>
+      <p className="text-center text-lg font-bold text-violet-800 leading-relaxed" dir="rtl">
+        {q.situation}
       </p>
     </div>
   ),

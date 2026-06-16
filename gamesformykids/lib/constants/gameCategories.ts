@@ -102,7 +102,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calendar,
     color: "bg-yellow-500",
     gradient: "from-yellow-400 to-yellow-600",
-    gameIds: ["seasons-holidays","jewish-holidays","time-clock","tzadikim","holidays","days-of-week","months-of-year"],
+    gameIds: ["seasons-holidays","jewish-holidays","time-clock","tzadikim","holidays","days-of-week","months-of-year","blessings"],
   },
   innovative: {
     title: "משחקים חדשניים",
