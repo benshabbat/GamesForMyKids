@@ -72,6 +72,7 @@ export const SUPPORTED_GAMES = [
   'hangman',
   'choose-adventure',
   'picture-dictionary',
+  'word-search',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -84,7 +85,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
   'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
-  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary',
+  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search',
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────

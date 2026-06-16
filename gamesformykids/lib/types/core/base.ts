@@ -214,4 +214,6 @@ export type GameType =
   // Interactive story games
   | 'choose-adventure'
   // Visual dictionary
-  | 'picture-dictionary';
+  | 'picture-dictionary'
+  // Word search games
+  | 'word-search';
