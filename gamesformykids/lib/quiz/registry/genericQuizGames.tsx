@@ -37,4 +37,5 @@ export const GENERIC_QUIZ_GAMES: Record<string, ComponentType> = {
   'visual-addition':       GenericQuizGame,
   'gematria':              GenericQuizGame,
   'visual-logic':          GenericQuizGame,
+  'proverbs':              GenericQuizGame,
 };

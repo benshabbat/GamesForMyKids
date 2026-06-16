@@ -507,4 +507,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 168,
   },
+  {
+    id: "proverbs",
+    title: "פתגמים עבריים",
+    description: "השלם פתגמים עבריים ולמד את חכמת הדורות!",
+    icon: BookOpen,
+    emoji: "📜",
+    color: "bg-amber-500 hover:bg-amber-600",
+    href: "/games/proverbs",
+    available: true,
+    order: 169,
+  },
 ];

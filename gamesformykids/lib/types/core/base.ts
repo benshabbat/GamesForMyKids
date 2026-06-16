@@ -188,4 +188,6 @@ export type GameType =
   // Logic & patterns
   | 'sorting' | 'patterns' | 'visual-logic'
   // Story games
-  | 'puppet-story';
+  | 'puppet-story'
+  // Language & wisdom
+  | 'proverbs';
