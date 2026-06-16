@@ -210,4 +210,6 @@ export type GameType =
   // Hidden object games
   | 'find-in-scene'
   // Word puzzle games
-  | 'hangman';
+  | 'hangman'
+  // Interactive story games
+  | 'choose-adventure';
