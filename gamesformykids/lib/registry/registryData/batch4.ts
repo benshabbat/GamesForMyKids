@@ -497,6 +497,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 166,
   },
   {
+    id: "coins-match",
+    title: "מטבעות ישראליים",
+    description: "למד לזהות מטבעות ישראל — מעשרה אגורות ועד עשרה שקלים!",
+    icon: Calculator,
+    emoji: "🪙",
+    color: "bg-yellow-500 hover:bg-yellow-600",
+    href: "/games/coins-match",
+    available: true,
+    order: 170,
+  },
+  {
     id: "puppet-story",
     title: "תיאטרון בובות",
     description: "בחר דמויות ומיקום, צפה בסיפור עברי ועני על שאלות הבנה!",

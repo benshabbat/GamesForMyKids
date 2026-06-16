@@ -30,6 +30,39 @@ export const timeLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על העונות והחגים למטה לשמוע עליהם",
   },
 
+  "coins-match": {
+    title: "🪙 מטבעות ישראליים 💰",
+    subTitle: "למד לזהות את מטבעות ישראל!",
+    itemsTitle: "המטבעות שנלמד:",
+    itemsDescription: "לחץ על מטבע כדי לשמוע את ערכו!",
+    steps: [
+      { icon: "👀", title: "1. תראה", description: "איזה מטבע אני מבקש" },
+      { icon: "🎤", title: "2. תשמע", description: "את שם המטבע" },
+      { icon: "👆", title: "3. תלחץ", description: "על המטבע הנכון" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #f6d365 0%, #fda085 50%, #f093fb 100%)",
+      header: "text-yellow-900",
+      subHeader: "text-yellow-800",
+      itemsDescription: "text-yellow-800",
+      button: { from: "yellow", to: "amber" },
+      stepsBg: "bg-yellow-100 bg-opacity-90",
+    },
+    grid: {
+      className: "flex flex-wrap justify-center gap-4",
+    },
+    challengeTitle: "איזה מטבע שמעת?",
+    challengeIcon: "🪙💰💎",
+    challengeDescription: "בחר את המטבע הנכון!",
+    itemLabel: "מטבע",
+    tip: "💡 טיפ: תשמע את שם המטבע!",
+    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב",
+    metadata: {
+      keywords: "מטבעות ישראל שקל אגורה כסף כלכלה",
+      description: "למד לזהות מטבעות ישראליים — עשרה אגורות, חמישים אגורות, שקל, שני שקלים, חמישה שקלים, עשרה שקלים",
+    },
+  },
+
   "shopping-money": {
     title: "🛒 משחק קניות וכסף 💰",
     subTitle: "למד על קניות וחשבון כסף!",
