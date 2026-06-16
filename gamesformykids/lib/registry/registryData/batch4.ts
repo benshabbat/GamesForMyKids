@@ -529,4 +529,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 169,
   },
+  {
+    id: "blessings",
+    title: "ברכות יהודיות",
+    description: "למד איזו ברכה אומרים — על לחם, יין, פירות, ברק וקשת!",
+    icon: BookOpen,
+    emoji: "🙏",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/blessings",
+    available: true,
+    order: 171,
+  },
 ];

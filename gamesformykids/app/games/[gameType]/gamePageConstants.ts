@@ -62,6 +62,7 @@ export const SUPPORTED_GAMES = [
   'visual-logic',
   'puppet-story',
   'proverbs',
+  'blessings',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
