@@ -200,4 +200,6 @@ export type GameType =
   // Math story problems
   | 'math-stories'
   // Board games
-  | 'snakes-ladders';
+  | 'snakes-ladders'
+  // Story & creative games
+  | 'story-builder';

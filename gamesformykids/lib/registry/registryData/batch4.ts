@@ -574,4 +574,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 173,
   },
+  {
+    id: "story-builder",
+    title: "בניית סיפור",
+    description: "מלא חסרים וצור סיפור מצחיק בעברית — Mad Libs עברי!",
+    icon: BookOpen,
+    emoji: "📖",
+    color: "bg-amber-500 hover:bg-amber-600",
+    href: "/games/story-builder",
+    available: true,
+    order: 174,
+  },
 ];
