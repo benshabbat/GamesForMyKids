@@ -597,4 +597,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 175,
   },
+  {
+    id: "robot-coder",
+    title: "תכנת את הרובוט",
+    description: "הכנס פקודות לרובוט ואסוף אותיות עברית — הכר תכנות!",
+    icon: Cpu,
+    emoji: "🤖",
+    color: "bg-indigo-600 hover:bg-indigo-700",
+    href: "/games/robot-coder",
+    available: true,
+    order: 176,
+  },
 ];

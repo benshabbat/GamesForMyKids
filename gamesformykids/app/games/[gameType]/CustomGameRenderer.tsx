@@ -49,6 +49,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'number-slide':     dynamic(() => import('../number-slide/NumberSlideClient'),                  { ssr: false }),
   'snakes-ladders':   dynamic(() => import('../snakes-ladders/SnakesLaddersClient'),              { ssr: false }),
   'escape-room':      dynamic(() => import('../escape-room/EscapeRoomClient'),                    { ssr: false }),
+  'robot-coder':      dynamic(() => import('../robot-coder/RobotCoderClient'),                    { ssr: false }),
 };
 
 interface Props { gameType: string; }
