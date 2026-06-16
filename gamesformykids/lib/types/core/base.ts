@@ -190,4 +190,6 @@ export type GameType =
   // Story games
   | 'puppet-story'
   // Language & wisdom
-  | 'proverbs';
+  | 'proverbs'
+  // Money & economy
+  | 'coins-match';
