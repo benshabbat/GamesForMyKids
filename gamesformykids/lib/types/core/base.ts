@@ -212,4 +212,6 @@ export type GameType =
   // Word puzzle games
   | 'hangman'
   // Interactive story games
-  | 'choose-adventure';
+  | 'choose-adventure'
+  // Visual dictionary
+  | 'picture-dictionary';

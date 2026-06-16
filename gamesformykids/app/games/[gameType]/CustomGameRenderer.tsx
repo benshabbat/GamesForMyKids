@@ -53,6 +53,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'find-in-scene':    dynamic(() => import('../find-in-scene/FindInSceneClient'),                  { ssr: false }),
   'hangman':           dynamic(() => import('../hangman/HangmanClient'),                             { ssr: false }),
   'choose-adventure':  dynamic(() => import('../choose-adventure/ChooseAdventureClient'),            { ssr: false }),
+  'picture-dictionary':  dynamic(() => import('../picture-dictionary/PictureDictionaryClient'),        { ssr: false }),
 };
 
 interface Props { gameType: string; }

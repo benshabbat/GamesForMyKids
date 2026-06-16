@@ -643,4 +643,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 179,
   },
+  {
+    id: "picture-dictionary",
+    title: "מילון בתמונות",
+    description: "גלה מילים עבריות לפי אות או נושא — 1000+ מילים עם תמונות וקול!",
+    icon: BookOpen,
+    emoji: "📖",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/picture-dictionary",
+    available: true,
+    order: 180,
+  },
 ];
