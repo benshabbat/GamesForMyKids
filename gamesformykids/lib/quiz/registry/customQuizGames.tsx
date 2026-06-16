@@ -5,6 +5,7 @@ import { makeQuizGame } from '../makeQuizGame';
 import { QuizMenuScreen, QuizResultScreen, CategoryIndexedQuestion } from '@/components/game/quiz';
 import { useNikudGame } from '@/lib/quiz/useNikudGame';
 import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
+import { useStoryBuilderGame } from '@/lib/quiz/useStoryBuilderGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -52,8 +53,10 @@ const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/
 const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'), { loading: () => <GameSpinnerScreen /> });
 const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'), { loading: () => <GameSpinnerScreen /> });
 const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'), { loading: () => <GameSpinnerScreen /> });
-const NikudQuestion      = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'), { loading: () => <GameSpinnerScreen /> });
-const DivisionQuestion   = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), { loading: () => <GameSpinnerScreen /> });
+const NikudQuestion        = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'), { loading: () => <GameSpinnerScreen /> });
+const DivisionQuestion     = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), { loading: () => <GameSpinnerScreen /> });
+const StoryBuilderQuestion = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderQuestion'), { loading: () => <GameSpinnerScreen /> });
+const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderResult'), { loading: () => <GameSpinnerScreen /> });
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
@@ -192,6 +195,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="➗" title="חילוק" description="12 ÷ 3 = ? — חלק פריטים לקבוצות שוות!" theme="blue" buttonLabel="➗ בואו נחלק!" onStart={startGame} />,
       question: current ? <DivisionQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="blue" />,
+    }),
+  ),
+
+  'story-builder': makeQuizGame(
+    useStoryBuilderGame,
+    ({ story, currentBlank, currentBlankIdx, filledWords, completedStory, startGame, selectWord, restart }) => ({
+      menu:     <QuizMenuScreen emoji="📖" title="בניית סיפור" description="מלא את החסר — בנה סיפור מצחיק בעברית!" theme="amber" buttonLabel="📖 בואו נכתוב!" onStart={startGame} />,
+      question: currentBlank ? <StoryBuilderQuestion story={story} currentBlank={currentBlank} currentBlankIdx={currentBlankIdx} filledWords={filledWords} onSelect={selectWord} /> : null,
+      result:   completedStory ? <StoryBuilderResult story={story} completedStory={completedStory} onRestart={restart} /> : <QuizResultScreen onRestart={restart} theme="amber" />,
     }),
   ),
 };
