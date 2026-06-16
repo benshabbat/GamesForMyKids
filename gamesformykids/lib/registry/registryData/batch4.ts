@@ -485,4 +485,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 165,
   },
+  {
+    id: "visual-logic",
+    title: "לוגיקה חזותית",
+    description: "מצא את הפריט החסר בתבנית — חשיבה לוגית וזיהוי דפוסים!",
+    icon: Layers,
+    emoji: "🧩",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/visual-logic",
+    available: true,
+    order: 166,
+  },
 ];
