@@ -202,4 +202,6 @@ export type GameType =
   // Board games
   | 'snakes-ladders'
   // Story & creative games
-  | 'story-builder';
+  | 'story-builder'
+  // Escape & adventure games
+  | 'escape-room';

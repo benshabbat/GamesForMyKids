@@ -66,6 +66,7 @@ export const SUPPORTED_GAMES = [
   'number-slide',
   'math-stories',
   'story-builder',
+  'escape-room',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -78,6 +79,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
   'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
+  'escape-room',
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────
