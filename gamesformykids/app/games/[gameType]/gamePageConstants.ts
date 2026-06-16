@@ -32,7 +32,7 @@ export const SUPPORTED_GAMES = [
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
-  'word-builder', 'word-scramble',
+  'word-builder', 'word-scramble', 'snakes-ladders',
 
   // ── משחקי חידון (QuizGameRouter) ──────────────────────────────────────────
   'riddles', 'capitals', 'fractions', 'spelling',
@@ -76,7 +76,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
-  'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide',
+  'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────

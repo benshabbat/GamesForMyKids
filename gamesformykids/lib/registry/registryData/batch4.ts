@@ -563,4 +563,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 172,
   },
+  {
+    id: "snakes-ladders",
+    title: "נחשים וסולמות",
+    description: "הטל קוביה, ענה על שאלות מתמטיות, עלה בסולמות והימנע מהנחשים!",
+    icon: Gamepad2,
+    emoji: "🐍",
+    color: "bg-green-600 hover:bg-green-700",
+    href: "/games/snakes-ladders",
+    available: true,
+    order: 173,
+  },
 ];
