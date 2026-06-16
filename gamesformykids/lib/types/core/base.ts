@@ -186,4 +186,4 @@ export type GameType =
   // Special games
   | 'hebrew-letters' | 'tzedakah' | 'letter-defender'
   // Logic & patterns
-  | 'sorting' | 'patterns';
+  | 'sorting' | 'patterns' | 'visual-logic';

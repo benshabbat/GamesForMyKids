@@ -5,6 +5,7 @@ import { CAPITAL_QUESTIONS as CAPITALS } from '@/lib/quiz/data/capitals';
 import { INSTRUMENTS } from '@/lib/quiz/data/instruments';
 import { SPORTS_QUESTIONS } from '@/lib/quiz/data/sports-quiz';
 import { CONTINENT_QUESTIONS } from '@/lib/quiz/data/continents';
+import { VISUAL_LOGIC_QUESTIONS } from '@/lib/quiz/data/visual-logic';
 import { defineConfig } from './types';
 
 const FAMILY_BADGE: Record<string, string> = {
@@ -98,6 +99,49 @@ export const sportsQuizConfig = defineConfig({
     <><div className="text-5xl mb-3">{q.emoji}</div>
       <p className="text-lg font-bold text-gray-700 mb-1">{q.sport}</p>
       <p className="text-gray-600">{q.question}</p></>
+  ),
+});
+
+export const visualLogicConfig = defineConfig({
+  gameType: 'visual-logic', emoji: '🧩', title: 'לוגיקה חזותית',
+  description: 'מצא את הפריט החסר בתבנית!', theme: 'indigo',
+  buttonLabel: '🧩 בואו נפתור!',
+  preview: (
+    <div className="grid grid-cols-3 gap-1 max-w-30 mx-auto">
+      {['🔴','🟡','🔵','🔴','🟡','🔵','🔴','🟡','?'].map((cell, i) => (
+        <div
+          key={i}
+          className={`flex items-center justify-center rounded text-sm h-8 ${i === 8 ? 'bg-yellow-100 border border-yellow-400 font-bold text-yellow-700' : 'bg-gray-50 border border-gray-200'}`}
+        >
+          {cell}
+        </div>
+      ))}
+    </div>
+  ),
+  questions: VISUAL_LOGIC_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  wrongMsg: (q) => `💡 רמז: ${q.explanation}`,
+  renderQuestion: (q) => (
+    <div className="w-full flex flex-col items-center">
+      <p className="text-center text-gray-500 text-sm font-medium mb-3" dir="rtl">מה הפריט החסר?</p>
+      <div className="grid grid-cols-3 gap-2" style={{ maxWidth: 220 }}>
+        {([...q.grid, '?'] as string[]).map((cell, i) => (
+          <div
+            key={i}
+            className={`flex items-center justify-center rounded-xl text-2xl font-bold select-none ${
+              i === 8
+                ? 'bg-yellow-100 border-2 border-yellow-400 text-yellow-600'
+                : 'bg-white border border-gray-200 text-gray-800 shadow-sm'
+            }`}
+            style={{ height: 56, width: 56 }}
+          >
+            {cell}
+          </div>
+        ))}
+      </div>
+    </div>
   ),
 });
 
