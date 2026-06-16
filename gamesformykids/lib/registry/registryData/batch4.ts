@@ -552,4 +552,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 171,
   },
+  {
+    id: "math-stories",
+    title: "בעיות מילוליות",
+    description: "פתור בעיות מתמטיות בעברית — מילים למספרים!",
+    icon: BookOpen,
+    emoji: "📝",
+    color: "bg-blue-500 hover:bg-blue-600",
+    href: "/games/math-stories",
+    available: true,
+    order: 172,
+  },
 ];

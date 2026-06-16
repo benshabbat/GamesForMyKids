@@ -5,6 +5,7 @@ import { GEMATRIA_QUESTIONS } from '@/lib/quiz/data/gematria';
 import { QUIZ_QUESTIONS, SHAPES_3D } from '@/lib/quiz/data/shapes-3d';
 import { SKIP_COUNTING_QUESTIONS } from '@/lib/quiz/data/skip-counting';
 import { VISUAL_ADDITION_QUESTIONS } from '@/lib/quiz/data/visual-addition';
+import { MATH_STORY_QUESTIONS } from '@/lib/quiz/data/math-stories';
 import FractionBar from '@/components/game/quiz/FractionBar';
 import { defineConfig } from './types';
 
@@ -116,4 +117,22 @@ export const shapes3dConfig = defineConfig({
         <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
     );
   },
+});
+
+export const mathStoriesConfig = defineConfig({
+  gameType: 'math-stories', emoji: '📝', title: 'בעיות מילוליות',
+  description: 'פתור בעיות מתמטיות בעברית — מילים למספרים!', theme: 'blue',
+  buttonLabel: '📝 בואו נפתור!',
+  questions: MATH_STORY_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <div className="w-full flex flex-col items-center gap-2">
+      <div className="text-5xl">{q.emoji}</div>
+      <p className="text-center text-gray-700 text-base font-semibold leading-relaxed" dir="rtl">
+        {q.question}
+      </p>
+    </div>
+  ),
 });

@@ -196,4 +196,6 @@ export type GameType =
   // Jewish tradition
   | 'blessings'
   // Number games
-  | 'number-slide';
+  | 'number-slide'
+  // Math story problems
+  | 'math-stories';

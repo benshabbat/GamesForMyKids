@@ -2,7 +2,7 @@ import type { GameType } from '@/lib/types/core/base';
 import { spellingConfig, oppositesConfig, englishWordsConfig, worldLanguagesConfig, rhymingConfig, adjectivesConfig, verbsConfig, genderConfig, finalLettersConfig, alphabetOrderConfig } from './configs/language';
 import { riddlesConfig, capitalsConfig, instrumentsConfig, sportsQuizConfig, continentsConfig, visualLogicConfig, proverbsConfig, blessingsConfig } from './configs/knowledge';
 import { emotionsConfig, familyConfig, healthyFoodConfig, singularPluralConfig, morningRoutineConfig } from './configs/social';
-import { fractionsConfig, gematriaConfig, shapes3dConfig, skipCountingConfig, visualAdditionConfig } from './configs/math';
+import { fractionsConfig, gematriaConfig, mathStoriesConfig, shapes3dConfig, skipCountingConfig, visualAdditionConfig } from './configs/math';
 
 export type { QuizGameConfig } from './configs/types';
 import type { QuizGameConfig } from './configs/types';
@@ -38,4 +38,5 @@ export const QUIZ_GAME_CONFIGS: Partial<Record<GameType, QuizGameConfig<unknown>
   'visual-logic': visualLogicConfig,
   'proverbs': proverbsConfig,
   'blessings': blessingsConfig,
+  'math-stories': mathStoriesConfig,
 };

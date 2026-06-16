@@ -64,6 +64,7 @@ export const SUPPORTED_GAMES = [
   'proverbs',
   'blessings',
   'number-slide',
+  'math-stories',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
