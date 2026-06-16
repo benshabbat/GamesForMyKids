@@ -131,6 +131,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","clock","spelling","opposites","world-languages","riddles","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","clock","spelling","opposites","world-languages","riddles","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman","choose-adventure"],
   },
 };

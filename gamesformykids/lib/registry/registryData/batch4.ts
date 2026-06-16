@@ -632,4 +632,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 178,
   },
+  {
+    id: "choose-adventure",
+    title: "ספר הרפתקאות",
+    description: "סיפורים אינטראקטיביים בעברית — בחר את הדרך וגלה סיומים שונים!",
+    icon: BookOpen,
+    emoji: "📚",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/choose-adventure",
+    available: true,
+    order: 179,
+  },
 ];
