@@ -198,4 +198,6 @@ export type GameType =
   // Number games
   | 'number-slide'
   // Math story problems
-  | 'math-stories';
+  | 'math-stories'
+  // Board games
+  | 'snakes-ladders';
