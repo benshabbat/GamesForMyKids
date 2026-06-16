@@ -194,4 +194,6 @@ export type GameType =
   // Money & economy
   | 'coins-match'
   // Jewish tradition
-  | 'blessings';
+  | 'blessings'
+  // Number games
+  | 'number-slide';
