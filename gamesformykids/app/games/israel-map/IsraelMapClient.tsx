@@ -10,7 +10,7 @@ const QUESTIONS_PER_GAME = 10;
 
 export default function IsraelMapClient() {
   const {
-    phase, level, current, foundIds, score, total, lastResult,
+    phase, current, foundIds, score, total, lastResult,
     startGame, checkTap, nextLocation, resetGame,
   } = useMapStore();
 

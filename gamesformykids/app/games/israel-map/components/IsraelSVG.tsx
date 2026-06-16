@@ -39,9 +39,6 @@ const ISRAEL_PATH = `
   Z
 `;
 
-// Mediterranean Sea (left of map)
-const SEA_PATH = `M 0,0 L 22,0 L 30,20 L 32,42 L 36,65 L 32,92 L 28,120 L 24,145 L 22,175 L 22,188 L 28,200 L 38,212 L 55,235 L 70,270 L 0,270 Z`;
-
 interface Props {
   current: Location | null;
   foundIds: string[];
