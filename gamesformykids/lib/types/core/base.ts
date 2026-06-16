@@ -204,4 +204,6 @@ export type GameType =
   // Story & creative games
   | 'story-builder'
   // Escape & adventure games
-  | 'escape-room';
+  | 'escape-room'
+  // Coding & logic games
+  | 'robot-coder';
