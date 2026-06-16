@@ -53,7 +53,7 @@ export const useFindInSceneStore = create<State & Actions>((set, get) => ({
   },
 
   tapObject: (objectId) => {
-    const { targetIds, foundIds, scene } = get();
+    const { targetIds, foundIds } = get();
     if (foundIds.has(objectId)) return 'already';
 
     if (targetIds.has(objectId)) {
