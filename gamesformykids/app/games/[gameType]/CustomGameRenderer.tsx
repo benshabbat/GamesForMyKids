@@ -58,7 +58,9 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'word-search':       dynamic(() => import('../word-search/WordSearchClient'),                      { ssr: false }),
 
   'israel-map':        dynamic(() => import('../israel-map/IsraelMapClient'),                        { ssr: false }),
+
   'kids-songs':        dynamic(() => import('../kids-songs/KidsSongsClient'),                        { ssr: false }),
+  'melody-maker':        dynamic(() => import('../melody-maker/MelodyMakerClient'),                    { ssr: false }),
 };
 
 interface Props { gameType: string; }

@@ -688,4 +688,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 183,
   },
+  {
+    id: "melody-maker",
+    title: "יוצר מנגינות",
+    description: "נגן על קסילופון צבעוני, הקלט מנגינות ולמד שירי ילדים עבריים!",
+    icon: Music,
+    emoji: "🎼",
+    color: "bg-purple-600 hover:bg-purple-700",
+    href: "/games/melody-maker",
+    available: true,
+    order: 184,
+  },
 ];
