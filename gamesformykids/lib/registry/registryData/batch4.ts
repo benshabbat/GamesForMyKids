@@ -28,6 +28,7 @@ import {
   Type,
   AlignLeft,
   Calculator,
+  KeyRound,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -584,5 +585,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/story-builder",
     available: true,
     order: 174,
+  },
+  {
+    id: "escape-room",
+    title: "בריחה מהחדר",
+    description: "פתור חידות, גלה ספרות סודיות ופרוץ את הדלת הנעולה!",
+    icon: KeyRound,
+    emoji: "🔐",
+    color: "bg-purple-600 hover:bg-purple-700",
+    href: "/games/escape-room",
+    available: true,
+    order: 175,
   },
 ];
