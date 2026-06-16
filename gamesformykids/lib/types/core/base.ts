@@ -205,4 +205,3 @@ export type GameType =
   | 'story-builder'
   // Escape & adventure games
   | 'escape-room';
->>>>>>> 69f91cf7 (feat(escape-room): Hebrew room-escape puzzle game (closes #1247))
