@@ -20,7 +20,7 @@ interface Actions {
   clickHotspot: (hotspotId: string) => void;
   submitAnswer: (answer: string) => boolean; // returns isCorrect
   dismissOverlay: () => void;
-  useHint: () => string | null; // returns hint text or null if none left
+  applyHint: () => string | null; // returns hint text or null if none left
   resetGame: () => void;
 }
 
@@ -83,7 +83,7 @@ export const useEscapeRoomStore = create<State & Actions>((set, get) => ({
     set({ activePuzzle: null, funMessage: null });
   },
 
-  useHint: () => {
+  applyHint: () => {
     const { activePuzzle, hintsUsed } = get();
     if (!activePuzzle || hintsUsed >= 3) return null;
     set({ hintsUsed: hintsUsed + 1 });

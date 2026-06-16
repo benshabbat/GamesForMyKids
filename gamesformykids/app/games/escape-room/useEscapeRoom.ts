@@ -13,7 +13,7 @@ export function useEscapeRoom() {
   const funMessage     = useEscapeRoomStore(s => s.funMessage);
   const score          = useEscapeRoomStore(s => s.score);
   const hintsUsed      = useEscapeRoomStore(s => s.hintsUsed);
-  const { startGame, clickHotspot, submitAnswer, dismissOverlay, useHint, resetGame } = useEscapeRoomStore();
+  const { startGame, clickHotspot, submitAnswer, dismissOverlay, applyHint, resetGame } = useEscapeRoomStore();
 
   const handleStart = useCallback((roomId: string) => {
     startGame(roomId);
@@ -46,10 +46,10 @@ export function useEscapeRoom() {
   }, [submitAnswer]);
 
   const handleHint = useCallback(() => {
-    const hint = useHint();
+    const hint = applyHint();
     if (hint) speakHebrew(hint);
     return hint;
-  }, [useHint]);
+  }, [applyHint]);
 
   const puzzleCount = room?.hotspots.filter(h => h.puzzle !== null).length ?? 0;
 
