@@ -677,4 +677,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 182,
   },
+  {
+    id: "kids-songs",
+    title: "שירי ילדים",
+    description: "האזן לשירי ילדים עבריים, עקוב אחר המילים ובדוק הבנה — 8 שירים!",
+    icon: Music,
+    emoji: "🎵",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/kids-songs",
+    available: true,
+    order: 183,
+  },
 ];

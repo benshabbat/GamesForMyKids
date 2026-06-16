@@ -218,5 +218,8 @@ export type GameType =
 
   // Word search games
   | 'word-search'
+
   // Interactive map
-  | 'israel-map';
+  | 'israel-map'
+  // Music & songs
+  | 'kids-songs';

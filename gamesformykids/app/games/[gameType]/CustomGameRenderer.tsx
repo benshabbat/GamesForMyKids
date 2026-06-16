@@ -56,7 +56,9 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'picture-dictionary':  dynamic(() => import('../picture-dictionary/PictureDictionaryClient'),        { ssr: false }),
 
   'word-search':       dynamic(() => import('../word-search/WordSearchClient'),                      { ssr: false }),
+
   'israel-map':        dynamic(() => import('../israel-map/IsraelMapClient'),                        { ssr: false }),
+  'kids-songs':        dynamic(() => import('../kids-songs/KidsSongsClient'),                        { ssr: false }),
 };
 
 interface Props { gameType: string; }
