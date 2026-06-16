@@ -54,7 +54,9 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'hangman':           dynamic(() => import('../hangman/HangmanClient'),                             { ssr: false }),
   'choose-adventure':  dynamic(() => import('../choose-adventure/ChooseAdventureClient'),            { ssr: false }),
   'picture-dictionary':  dynamic(() => import('../picture-dictionary/PictureDictionaryClient'),        { ssr: false }),
+
   'word-search':       dynamic(() => import('../word-search/WordSearchClient'),                      { ssr: false }),
+  'israel-map':        dynamic(() => import('../israel-map/IsraelMapClient'),                        { ssr: false }),
 };
 
 interface Props { gameType: string; }

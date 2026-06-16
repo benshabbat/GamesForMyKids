@@ -666,4 +666,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 181,
   },
+  {
+    id: "israel-map",
+    title: "מפת ישראל",
+    description: "לחץ על ערים, טבע ואזורים במפה האינטראקטיבית של ישראל!",
+    icon: MapPin,
+    emoji: "🗺️",
+    color: "bg-blue-600 hover:bg-blue-700",
+    href: "/games/israel-map",
+    available: true,
+    order: 182,
+  },
 ];
