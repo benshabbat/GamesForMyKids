@@ -496,4 +496,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 166,
   },
+  {
+    id: "puppet-story",
+    title: "תיאטרון בובות",
+    description: "בחר דמויות ומיקום, צפה בסיפור עברי ועני על שאלות הבנה!",
+    icon: BookOpen,
+    emoji: "🎭",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/puppet-story",
+    available: true,
+    order: 168,
+  },
 ];
