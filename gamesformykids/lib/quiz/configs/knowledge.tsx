@@ -6,6 +6,7 @@ import { INSTRUMENTS } from '@/lib/quiz/data/instruments';
 import { SPORTS_QUESTIONS } from '@/lib/quiz/data/sports-quiz';
 import { CONTINENT_QUESTIONS } from '@/lib/quiz/data/continents';
 import { VISUAL_LOGIC_QUESTIONS } from '@/lib/quiz/data/visual-logic';
+import { PROVERB_QUESTIONS } from '@/lib/quiz/data/proverbs';
 import { defineConfig } from './types';
 
 const FAMILY_BADGE: Record<string, string> = {
@@ -141,6 +142,33 @@ export const visualLogicConfig = defineConfig({
           </div>
         ))}
       </div>
+    </div>
+  ),
+});
+
+export const proverbsConfig = defineConfig({
+  gameType: 'proverbs', emoji: '📜', title: 'פתגמים עבריים',
+  description: 'השלם את הפתגם — חכמת הדורות!', theme: 'amber',
+  buttonLabel: '📜 בואו נשלים!',
+  preview: (
+    <div className="text-right" dir="rtl">
+      <p className="text-amber-800 font-semibold text-sm mb-1">דוגמה:</p>
+      <p className="text-gray-700 text-sm">ידיים רבות —</p>
+      <p className="text-amber-600 font-bold text-sm">עבודה קלה 🙌</p>
+    </div>
+  ),
+  questions: PROVERB_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  wrongMsg: (q) => `💡 המשמעות: ${q.explanation}`,
+  renderQuestion: (q) => (
+    <div className="w-full flex flex-col items-center gap-2">
+      <div className="text-5xl">{q.emoji}</div>
+      <p className="text-center text-gray-500 text-sm font-medium" dir="rtl">השלם את הפתגם:</p>
+      <p className="text-center text-xl font-bold text-amber-800 leading-relaxed" dir="rtl">
+        {q.firstHalf} <span className="text-amber-400">___</span>
+      </p>
     </div>
   ),
 });
