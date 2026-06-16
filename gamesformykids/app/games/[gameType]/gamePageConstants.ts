@@ -59,6 +59,7 @@ export const SUPPORTED_GAMES = [
   'word-chain',
   'letter-defender',
   'visual-logic',
+  'puppet-story',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -70,7 +71,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
-  'word-builder', 'word-scramble', 'maze', 'letter-defender',
+  'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story',
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────
