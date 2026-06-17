@@ -12,7 +12,7 @@ export function ColoringImageSelector() {
         <button
           key={img.id}
           onClick={() => selectImage(img.id)}
-          className={`flex flex-col items-center px-3 py-2 rounded-xl border-2 transition-all ${
+          className={`flex flex-col items-center px-3 py-2 rounded-xl border-2 transition ${
             currentImage === img.id
               ? 'border-purple-500 bg-purple-100 scale-110 shadow-lg'
               : 'border-gray-200 bg-white hover:border-purple-300 hover:scale-105'

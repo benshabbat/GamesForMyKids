@@ -15,7 +15,7 @@ export function ColoringPalette() {
             onClick={() => selectColor(color.hex)}
             title={color.hebrew}
             aria-label={`צבע ${color.hebrew}`}
-            className={`w-10 h-10 rounded-full border-4 transition-all hover:scale-110 active:scale-95 ${
+            className={`w-10 h-10 rounded-full border-4 transition hover:scale-110 active:scale-95 ${
               selectedColor === color.hex
                 ? 'border-purple-700 scale-125 shadow-lg ring-2 ring-purple-400'
                 : 'border-white shadow-md hover:border-gray-300'

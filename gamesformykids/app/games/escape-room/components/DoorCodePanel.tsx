@@ -16,7 +16,7 @@ export default function DoorCodePanel({ revealedDigits, puzzleCount }: Props) {
         {slots.map((digit, i) => (
           <div
             key={i}
-            className={`w-10 h-12 rounded-xl border-2 flex items-center justify-center text-2xl font-bold transition-all duration-500 ${
+            className={`w-10 h-12 rounded-xl border-2 flex items-center justify-center text-2xl font-bold transition duration-500 ${
               digit
                 ? 'border-green-400 bg-green-100 text-green-700 scale-110'
                 : 'border-amber-300 bg-amber-50 text-amber-200'

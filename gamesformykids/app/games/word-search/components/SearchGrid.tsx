@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useCallback } from 'react';
+import { useRef, useState, useCallback, useEffect } from 'react';
 import type { PlacedWord } from '../wordSearchStore';
 import { GRID_SIZE } from '../wordSearchStore';
 
@@ -37,6 +37,8 @@ function cellKey(r: number, c: number) { return `${r},${c}`; }
 
 export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const wrongFlashTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(wrongFlashTimerRef.current), []);
   const [dragging, setDragging] = useState(false);
   const [startCell, setStartCell] = useState<CellCoord | null>(null);
   const [currentCell, setCurrentCell] = useState<CellCoord | null>(null);
@@ -90,7 +92,8 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     if (!found) {
       const keys = new Set(cells.map(([r, c]) => cellKey(r, c)));
       setWrongFlash(keys);
-      setTimeout(() => setWrongFlash(new Set()), 400);
+      clearTimeout(wrongFlashTimerRef.current);
+      wrongFlashTimerRef.current = setTimeout(() => setWrongFlash(new Set()), 400);
     }
     setStartCell(null);
     setCurrentCell(null);

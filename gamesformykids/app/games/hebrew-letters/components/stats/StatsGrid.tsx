@@ -22,7 +22,7 @@ interface StatCardProps {
 function StatCard({ value, label, borderClass, textClass, delay }: StatCardProps) {
   return (
     <motion.div
-      className={`text-center bg-white/50 rounded-xl p-4 border ${borderClass} hover:shadow-lg transition-all`}
+      className={`text-center bg-white/50 rounded-xl p-4 border ${borderClass} hover:shadow-lg transition`}
       whileHover={{ scale: 1.05 }}
     >
       <motion.div

@@ -17,7 +17,7 @@ export default function DrawingTools() {
         <div className="grid grid-cols-2 gap-2">
           <button
             onClick={selectDrawMode}
-            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 shadow-md ${styles.toolButton} ${
+            className={`px-4 py-3 rounded-xl text-sm font-medium transition duration-200 shadow-md ${styles.toolButton} ${
               !isErasing 
                 ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-blue-200' 
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -27,7 +27,7 @@ export default function DrawingTools() {
           </button>
           <button
             onClick={toggleEraser}
-            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 shadow-md ${styles.toolButton} ${
+            className={`px-4 py-3 rounded-xl text-sm font-medium transition duration-200 shadow-md ${styles.toolButton} ${
               isErasing 
                 ? 'bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-orange-200' 
                 : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
@@ -78,7 +78,7 @@ export default function DrawingTools() {
       
       <button
         onClick={clearCanvas}
-        className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-red-700 transition-all duration-200 font-medium shadow-lg shadow-red-200"
+        className="w-full bg-gradient-to-r from-red-500 to-red-600 text-white px-4 py-3 rounded-xl hover:from-red-600 hover:to-red-700 transition duration-200 font-medium shadow-lg shadow-red-200"
       >
         🗑️ נקה הכל
       </button>

@@ -27,7 +27,7 @@ export default function LetterGuideOverlay() {
       ref={canvasRef}
       width={width}
       height={height}
-      className={`absolute top-0 left-0 pointer-events-none transition-all duration-1000 ${
+      className={`absolute top-0 left-0 pointer-events-none transition duration-1000 ${
         isAnimating ? 'scale-105 opacity-90' : 'scale-100'
       }`}
       style={{ ...OVERLAY_BASE_STYLE, filter: isAnimating ? 'brightness(1.1)' : 'brightness(1)' }}

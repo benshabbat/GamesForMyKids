@@ -36,7 +36,7 @@ export default function EmojiMathPlayArea() {
           <LivesDisplay lives={lives} size="text-xl" />
         </div>
         <div>
-          <p className={`font-black transition-all ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-orange-700 text-2xl'}`}>{timeLeft}</p>
+          <p className={`font-black transition ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-orange-700 text-2xl'}`}>{timeLeft}</p>
           <p className="text-xs text-orange-400">שניות</p>
         </div>
         {streak >= 2 && (
@@ -47,7 +47,7 @@ export default function EmojiMathPlayArea() {
         )}
       </div>
 
-      <div className={`w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl mb-5 transition-all duration-200 ${
+      <div className={`w-full max-w-sm bg-white rounded-3xl p-5 shadow-2xl mb-5 transition duration-200 ${
         feedback === 'correct' ? 'ring-4 ring-green-400 bg-green-50' :
         feedback === 'wrong' ? 'ring-4 ring-amber-400 bg-amber-50' : ''
       }`}>
@@ -75,7 +75,7 @@ export default function EmojiMathPlayArea() {
             key={c}
             onClick={() => tap(c)}
             disabled={!!feedback}
-            className="py-5 rounded-3xl bg-white font-black text-3xl text-gray-700 shadow-xl border-2 border-orange-200 active:scale-90 hover:border-orange-400 transition-all disabled:opacity-60"
+            className="py-5 rounded-3xl bg-white font-black text-3xl text-gray-700 shadow-xl border-2 border-orange-200 active:scale-90 hover:border-orange-400 transition disabled:opacity-60"
           >
             {c}
           </button>

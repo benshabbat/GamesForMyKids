@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useRef } from 'react';
+import { useCallback, useRef, useEffect } from 'react';
 import { useMelodyMakerStore } from './melodyMakerStore';
 import { MELODY_MAKER_SONGS } from '@/lib/constants/melodyMakerSongs';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
@@ -33,6 +33,12 @@ function playOscillator(ctx: AudioContext, freq: number, startTime: number, dura
 export function useMelodyMaker() {
   const store = useMelodyMakerStore();
   const audioCtxRef = useRef<AudioContext | null>(null);
+  const playbackTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const previewTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  useEffect(() => () => {
+    clearTimeout(playbackTimerRef.current);
+    previewTimersRef.current.forEach(clearTimeout);
+  }, []);
 
   const getCtx = useCallback((): AudioContext => {
     if (!audioCtxRef.current) {
@@ -83,7 +89,8 @@ export function useMelodyMaker() {
       const freq = NOTE_FREQUENCIES[noteIndex] ?? 261.63;
       playOscillator(ctx, freq, now + i * 0.6, 0.5);
     });
-    setTimeout(() => setPlayingBack(false), recording.length * 600 + 200);
+    clearTimeout(playbackTimerRef.current);
+    playbackTimerRef.current = setTimeout(() => setPlayingBack(false), recording.length * 600 + 200);
   }, [getCtx]);
 
   const previewSong = useCallback((songIndex: number) => {
@@ -92,12 +99,14 @@ export function useMelodyMaker() {
     const { setFlashingKey } = useMelodyMakerStore.getState();
     const ctx = getCtx();
     const now = ctx.currentTime;
+    previewTimersRef.current.forEach(clearTimeout);
+    previewTimersRef.current = [];
     song.notes.forEach((noteIndex, i) => {
       const freq = NOTE_FREQUENCIES[noteIndex] ?? 261.63;
       playOscillator(ctx, freq, now + i * 0.65, 0.5);
-      setTimeout(() => setFlashingKey(noteIndex), i * 650);
+      previewTimersRef.current.push(setTimeout(() => setFlashingKey(noteIndex), i * 650));
     });
-    setTimeout(() => setFlashingKey(null), song.notes.length * 650 + 200);
+    previewTimersRef.current.push(setTimeout(() => setFlashingKey(null), song.notes.length * 650 + 200));
   }, [getCtx]);
 
   return { ...store, tapKey, playbackRecording, previewSong };
