@@ -61,6 +61,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
 
   'kids-songs':        dynamic(() => import('../kids-songs/KidsSongsClient'),                        { ssr: false }),
   'melody-maker':        dynamic(() => import('../melody-maker/MelodyMakerClient'),                    { ssr: false }),
+  'kids-encyclopedia': dynamic(() => import('../kids-encyclopedia/EncyclopediaClient'),              { ssr: false }),
 };
 
 interface Props { gameType: string; }
