@@ -54,7 +54,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Car,
     color: "bg-orange-500",
     gradient: "from-orange-400 to-orange-600",
-    gameIds: ["transport","vehicles","weather","space","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel","geography-flags","geography-capitals","geography-continents"],
+    gameIds: ["transport","vehicles","weather","space","world-food","advanced-weather","road-safety","camping","flags","car-brands","world-landmarks","solar-system","capitals","continents","israel","geography-flags","geography-capitals","geography-continents","israel-map"],
   },
   home: {
     title: "בית וחיים",

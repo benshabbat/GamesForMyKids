@@ -215,5 +215,8 @@ export type GameType =
   | 'choose-adventure'
   // Visual dictionary
   | 'picture-dictionary'
+
   // Word search games
-  | 'word-search';
+  | 'word-search'
+  // Interactive map
+  | 'israel-map';
