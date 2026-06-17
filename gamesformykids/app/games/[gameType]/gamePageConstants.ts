@@ -82,6 +82,7 @@ export const SUPPORTED_GAMES = [
   'kids-encyclopedia',
   'age-calculator',
   'craft-guide',
+  'jokes-browser',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -96,7 +97,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
 
 
-  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search', 'israel-map', 'kids-songs', 'melody-maker', 'kids-encyclopedia', 'age-calculator', 'craft-guide',
+  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search', 'israel-map', 'kids-songs', 'melody-maker', 'kids-encyclopedia', 'age-calculator', 'craft-guide', 'jokes-browser',
   
   
 ]);

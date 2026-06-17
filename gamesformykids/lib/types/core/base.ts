@@ -231,4 +231,6 @@ export type GameType =
   // Fun tools
   | 'age-calculator'
   // Craft guide
-  | 'craft-guide';
+  | 'craft-guide'
+  // Jokes browser
+  | 'jokes-browser';
