@@ -710,4 +710,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 185,
   },
+  {
+    id: "age-calculator",
+    title: "כמה אני בן/בת?",
+    description: "הזן תאריך לידה וגלה את גילך המדויק בשנים, חודשים, ימים ושניות חיות!",
+    icon: Calculator,
+    emoji: "🎂",
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/age-calculator",
+    available: true,
+    order: 186,
+  },
 ];
