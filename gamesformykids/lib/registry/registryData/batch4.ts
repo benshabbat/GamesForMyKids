@@ -744,4 +744,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 188,
   },
+  {
+    id: "word-maze",
+    title: "מבוך מילים",
+    description: "נווט במבוך ואסוף אותיות עבריות בסדר הנכון כדי לאיית מילה!",
+    icon: TextSearch,
+    emoji: "🗺️",
+    color: "bg-amber-600 hover:bg-amber-700",
+    href: "/games/word-maze",
+    available: true,
+    order: 189,
+  },
 ];
