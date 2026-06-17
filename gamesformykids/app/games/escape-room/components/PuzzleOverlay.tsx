@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import type { Hotspot, Puzzle } from './puzzleData';
 
 type Props = {
@@ -24,7 +24,7 @@ export default function PuzzleOverlay({ hotspot, puzzle, hintsUsed, onAnswer, on
     [puzzle],
   );
 
-  const handleSelect = useCallback((choice: string) => {
+  const handleSelect = (choice: string) => {
     if (answered) return;
     const isCorrect = onAnswer(choice);
     setFeedback({ text: isCorrect ? puzzle.successMessage : 'לא נכון — נסה שוב! 💪', correct: isCorrect });
@@ -32,12 +32,12 @@ export default function PuzzleOverlay({ hotspot, puzzle, hintsUsed, onAnswer, on
       setAnswered(true);
       dismissTimerRef.current = setTimeout(onDismiss, 2000);
     }
-  }, [answered, onAnswer, onDismiss, puzzle.successMessage]);
+  };
 
-  const handleHint = useCallback(() => {
+  const handleHint = () => {
     const h = onHint();
     if (h) setHint(h);
-  }, [onHint]);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={onDismiss}>
