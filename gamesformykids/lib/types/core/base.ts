@@ -227,4 +227,6 @@ export type GameType =
   // Music & creativity
   | 'melody-maker'
   // Kids encyclopedia
-  | 'kids-encyclopedia';
+  | 'kids-encyclopedia'
+  // Fun tools
+  | 'age-calculator';
