@@ -20,6 +20,9 @@ export default function LetterEncouragement() {
       x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
       y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0,
     })),
+    // Deps are intentionally the trigger values, not used inside the callback —
+    // we want fresh random positions each time the firework effect fires.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [encouragementState.showEncouragement, showCompletion],
   );
 

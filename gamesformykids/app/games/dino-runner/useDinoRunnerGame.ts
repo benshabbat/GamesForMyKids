@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -135,7 +135,7 @@ export function useDinoRunnerGame() {
   const { st, canvasRef } = _useDinoRunner();
 
 
-  const jump = () => {
+  const jump = useCallback(() => {
     const s = st.current;
     if (s.phase === 'playing' && s.onGround) {
       s.dinoVY = JUMP_V;
@@ -156,7 +156,7 @@ export function useDinoRunnerGame() {
       s.phase = 'menu';
       useDinoRunnerStore.getState().resetToMenu();
     }
-  };
+  }, []);
 
 
   useEffect(() => {

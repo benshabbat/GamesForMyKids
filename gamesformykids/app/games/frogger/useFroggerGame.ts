@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -120,7 +120,7 @@ export function useFroggerGame() {
     useFroggerStore.getState().startPlaying();
   };
 
-  const moveFrog = (dc: number, dr: number) => {
+  const moveFrog = useCallback((dc: number, dr: number) => {
     const s = st.current;
     if (s.phase !== 'playing' || s.dead) return;
     const nc = Math.max(0, Math.min(COLS - 1, s.fCol + dc));
@@ -128,7 +128,7 @@ export function useFroggerGame() {
     if (dr < 0) s.score += 2;
     s.fCol = nc; s.fRow = nr;
     if (nr === 0) { s.score += 30; s.level++; s.fCol = 4; s.fRow = 8; useFroggerStore.getState().setScore(s.score); }
-  };
+  }, []);
 
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 

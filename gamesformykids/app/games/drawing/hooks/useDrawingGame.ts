@@ -7,7 +7,7 @@
  * מנהל את לוגיקת המשחק, רמות קושי ואינטראקציה
  */
 
-import { useState, useEffect } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { useDrawingStore } from '../store/drawingStore';
 
 export interface GameSettings {
@@ -39,10 +39,10 @@ export const useDrawingGame = () => {
   }, []);
 
   // סיום משחק
-  const handleGameEnd = () => {
+  const handleGameEnd = useCallback(() => {
     setIsTimerRunning(false);
     // כאן אפשר להוסיף לוגיקה נוספת לסיום המשחק
-  };
+  }, [setIsTimerRunning]);
 
   // טיימר המשחק
   useEffect(() => {

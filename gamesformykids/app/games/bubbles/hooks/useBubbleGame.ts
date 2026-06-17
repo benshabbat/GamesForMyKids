@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { useBubblesStore, type BubbleData } from '../bubblesStore';
@@ -24,7 +24,7 @@ export function useBubbleGame() {
   );
   const level = Math.floor(poppedCount / 15) + 1;
 
-  const createBubble = () => {
+  const createBubble = useCallback(() => {
     if (!gameContainerRef.current) return;
     const currentLevel = Math.floor(useBubblesStore.getState().poppedCount / 15) + 1;
     const containerWidth = gameContainerRef.current.offsetWidth;
@@ -42,7 +42,7 @@ export function useBubbleGame() {
     };
 
     useBubblesStore.getState().addBubble(newBubble);
-  };
+  }, []);
 
   const playBubbleSound = (frequency: number) => {
     if (!audioContext || frequency === 0) return;

@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStackStore } from './stackStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -98,7 +98,7 @@ export function useStackGame() {
     useStackStore.getState().startPlaying();
   };
 
-  const drop = () => {
+  const drop = useCallback(() => {
     const s = st.current;
     if (s.phase !== 'playing') return;
 
@@ -127,7 +127,7 @@ export function useStackGame() {
     const topWorldY = sliderWorldY;
     s.camOffset = Math.max(0, TARGET_TOP - topWorldY);
     useStackStore.getState().setScore(s.score);
-  };
+  }, []);
 
   const handleCanvasClick = () => {
     if (st.current.phase === 'playing') drop();

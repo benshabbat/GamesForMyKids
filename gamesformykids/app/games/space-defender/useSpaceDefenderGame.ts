@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -134,14 +134,14 @@ export function useSpaceDefenderGame() {
   const { st, canvasRef } = _useSpaceDefender();
 
 
-  const shoot = () => {
+  const shoot = useCallback(() => {
     const s = st.current;
     if (s.phase !== 'playing') return;
     const now = s.frame;
     if (now - s.lastShot < 12) return;
     s.lastShot = now;
     s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
-  };
+  }, []);
 
   const startGame = () => {
     const s = st.current;

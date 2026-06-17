@@ -7,7 +7,7 @@
  * פיצול מהקובץ הגדול DrawingGameClient.tsx
  */
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { useDrawingStore } from '../store/drawingStore';
 
 export interface DrawingState {
@@ -144,14 +144,14 @@ export const useDrawingCanvas = () => {
   };
 
   // ניקוי הקנבס
-  const clearCanvas = () => {
+  const clearCanvas = useCallback(() => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (canvas && ctx) {
       const dpr = window.devicePixelRatio || 1;
       ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
     }
-  };
+  }, []);
 
   // רישום clearCanvas לסטור כדי שרכיבים אחרים יוכלו לגשת אליו
   const registerClearCanvas = useDrawingStore((s) => s.registerClearCanvas);
@@ -160,14 +160,14 @@ export const useDrawingCanvas = () => {
   }, [clearCanvas, registerClearCanvas]);
 
   // שמירת התמונה כקובץ PNG
-  const saveDrawing = () => {
+  const saveDrawing = useCallback(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const link = document.createElement('a');
     link.download = `ציור-${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
-  };
+  }, []);
 
   // רישום saveDrawing לסטור
   const registerSaveDrawing = useDrawingStore((s) => s.registerSaveDrawing);
