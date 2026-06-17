@@ -63,6 +63,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'melody-maker':        dynamic(() => import('../melody-maker/MelodyMakerClient'),                    { ssr: false }),
   'kids-encyclopedia': dynamic(() => import('../kids-encyclopedia/EncyclopediaClient'),              { ssr: false }),
   'age-calculator':    dynamic(() => import('../age-calculator/AgeCalculatorClient'),                { ssr: false }),
+  'craft-guide':       dynamic(() => import('../craft-guide/CraftGuideClient'),                      { ssr: false }),
 };
 
 interface Props { gameType: string; }
