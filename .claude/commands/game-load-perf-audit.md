@@ -279,7 +279,8 @@ function GameCard({ items }: Props) {
 |---------|------------------------------|
 | Mutations inside render (`arr.sort()`, `obj.x = 1`) | 🔴 CRITICAL — blocks compiler for entire component |
 | Inline `{}` object prop — compiler CANNOT analyze dynamic shape | 🟠 HIGH if compiler bails; 🟡 LOW if it handles it |
-| Inline `() => ...` arrow in JSX | 🟡 LOW — compiler wraps automatically when possible |
+| Inline `() => ...` arrow in JSX | ✅ SAFE — compiler memoizes callbacks automatically; no action needed |
+| `useCallback(...)` anywhere in code | 🟡 REDUNDANT — compiler handles this; remove wrapper, use plain function |
 | `'use no memo'` directive present | 🟠 HIGH — compiler disabled; manual memoization required |
 
 **Grep:**
@@ -334,23 +335,31 @@ grep -n "useEffect(" gamesformykids/app/games/<id>/*.ts gamesformykids/app/games
 
 ### Check P4 — `useMemo` for computed game data
 
-> **React Compiler note:** With `reactCompiler: true`, the compiler infers memoization for pure computations automatically. Only flag P4 when the computation is **heavy** (maze generation, shuffle of 100+ items, BFS traversal) AND the component has a mutation or other compiler bail-out (confirmed via P1 grep above). For pure, lightweight derivations, the compiler handles it.
+> **React Compiler note:** With `reactCompiler: true`, the compiler memoizes **pure** computations automatically. `useMemo` is valid in **two cases only**:
+> 1. **Impure computations** — `Math.random()`, `Date.now()`, `crypto.randomUUID()` etc. in render body. These are non-deterministic: same props → different output. The compiler detects this, bails out on the whole component, and leaves it unmemoized. `useMemo` *contains* the impurity in a defined box so the compiler can optimize the rest of the component. This is a **correctness fix**, not a performance one.
+> 2. **Heavy computations** (>10ms) in a component with a **confirmed bail-out** — maze generation, BFS, shuffle of 100+ items. Only add `useMemo` if profiling shows the cost; the compiler handles everything else.
+>
+> **`useMemo` on pure, lightweight derivations is redundant** — remove it; the compiler handles it.
 
-**Rule:** Heavy derivations called synchronously in component render that depend on stable inputs must be wrapped in `useMemo` — especially when the component is a compiler bail-out candidate.
+**Rule:** Flag `useMemo` only for impure computations or heavy computations in confirmed bail-out components.
 
 ```bash
 grep -n "generateMaze\|bfsOrder\|shuffle\|Array\.from.*length.*\(.*\)\." \
   gamesformykids/app/games/<id>/*.ts gamesformykids/app/games/<id>/*.tsx 2>/dev/null | head -10
+# Also check for impure computations outside useMemo:
+grep -n "Math\.random\|Date\.now\|crypto\.random" \
+  gamesformykids/app/games/<id>/*.ts gamesformykids/app/games/<id>/*.tsx 2>/dev/null | grep -v "useMemo"
 ```
 
 | Pattern | Severity |
 |---------|----------|
-| Maze/graph generation in render body | 🟠 HIGH — 5–50ms; perceivable freeze on click |
-| Large array shuffle (100+ items) in render | 🟠 HIGH |
-| `map/filter` on ≤20 items, pure component | 🟡 LOW — compiler handles |
-| Any computation in component with known mutation bail-out | 🟠 HIGH — compiler won't memoize |
+| `Math.random()` / `Date.now()` directly in render (not in useMemo) | 🔴 CRITICAL — compiler bail-out + value changes every render |
+| Maze/graph generation in render body (bail-out component) | 🟠 HIGH — 5–50ms; perceivable freeze on click |
+| Large array shuffle (100+ items) in render (bail-out component) | 🟠 HIGH |
+| `useMemo` wrapping a pure `map/filter` on ≤20 items | 🟡 REDUNDANT — remove; compiler handles pure derivations |
+| `useMemo` wrapping `Math.random()` / `Date.now()` | ✅ CORRECT — contains impurity |
 
-**Severity:** 🟠 HIGH for heavy computations in bailed-out components; 🟡 LOW otherwise (compiler handles).
+**Severity:** 🔴 CRITICAL for impure computations outside `useMemo`; 🟠 HIGH for heavy computations in bailed-out components; 🟡 REDUNDANT for pure lightweight derivations already in `useMemo`.
 
 ---
 
@@ -599,11 +608,28 @@ grep -rn "setTimeout.*[0-9]\{4,\}\|setInterval.*[0-9]\{4,\}" \
 grep -rn ": any\b\|as any\b" \
   gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -15
 
-# QW5 — React Compiler bail-outs ('use no memo' or mutation-in-render)
-# React Compiler is enabled (reactCompiler: true) — manual memo should be rare
-grep -rn "use no memo\|React\.memo(\|useMemo(\|useCallback(" \
+# QW5 — Redundant manual memoization (React Compiler handles this automatically)
+# With reactCompiler: true:
+#   useCallback → ALWAYS redundant; replace with plain function
+#   React.memo  → ALWAYS redundant; remove wrapper
+#   useMemo     → redundant UNLESS (a) impure computation (Math.random/Date.now) or (b) heavy computation in bail-out component
+
+# Flag all useCallback — should be plain functions:
+grep -rn "useCallback(" \
   gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -20
-# If React.memo/useMemo/useCallback appear heavily, the compiler may have bailed out for that file
+
+# Flag React.memo — should be removed:
+grep -rn "React\.memo(" \
+  gamesformykids/app/games/ gamesformykids/components/ --include="*.tsx" 2>/dev/null | head -10
+
+# Flag useMemo on pure derivations (map/filter/find without Math.random) — potentially redundant:
+grep -rn "useMemo(" \
+  gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -20
+# Cross-check: is the useMemo body impure (Math.random/Date.now) or heavy (maze/shuffle)?
+# If neither → flag as redundant
+
+# Flag 'use no memo' — compiler disabled for that component (must use manual memo):
+grep -rn "use no memo" gamesformykids/app/games/ --include="*.tsx" --include="*.ts" 2>/dev/null
 ```
 
 ---
@@ -1064,13 +1090,23 @@ For items flagged in this report, use the targeted agents:
   - Style A — skip L8 (no store), L9 (no quiz data), P2 (no direct store use)
   - Style B — skip L7, L8 (no client component), P1–P5 (no custom component)
   - Style D/E — all checks apply
-- **React Compiler is ON (`reactCompiler: true`)** — do not suggest adding `useMemo`/`useCallback`/`React.memo` unless: (a) the component has a confirmed mutation bail-out, or (b) the computation is provably heavy (>10ms). Flag mutations-in-render (R3) as the priority.
+- **React Compiler is ON (`reactCompiler: true`)** — strict memoization rules:
+  - **`useCallback` is ALWAYS redundant.** The compiler memoizes all functions automatically. Flag every `useCallback` and remove it; replace with a plain function.
+  - **`React.memo` is ALWAYS redundant.** The compiler memoizes components automatically. Remove wrappers.
+  - **`useMemo` is valid ONLY for:** (a) impure computations (`Math.random()`, `Date.now()`, `crypto.randomUUID()`) that would produce different values every render — `useMemo` *contains* the impurity; (b) provably heavy computations (>10ms) in a component with a confirmed mutation bail-out. For pure, lightweight derivations, `useMemo` is redundant — remove it.
+  - **Never suggest adding `useCallback`/`React.memo`** in `--fix` mode. Flag existing ones for removal instead.
+  - **Do suggest `useMemo`** only when `Math.random()` / `Date.now()` appear directly in render body without it (R3/P4).
 - **`--fix` mode:** Only apply mechanical, safe fixes:
   - Add `{ ssr: false }` to dynamic imports missing it
   - Add `loading: () => <GameSpinnerScreen />` to dynamic imports missing it
   - Remove `console.log` lines
-  - Replace `transition-all` with `transition-colors` (color changes) or `transition-[transform,opacity]` (transform+opacity) — never combine `transition-transform transition-opacity` as separate classes
+  - Replace `transition-all` with `transition` (Tailwind's default transition covers transform, opacity, colors, shadow — but NOT layout properties like width/height/margin)
   - Replace `<Context.Provider value={x}>` with `<Context value={x}>` (React 19)
+  - Replace `useContext(X)` with `use(X)` (React 19)
+  - Remove `useCallback(fn, deps)` → replace with plain `fn` — the compiler handles memoization
+  - Remove `React.memo(Component)` → replace with plain `Component` — the compiler handles it
+  - Remove `useMemo(() => pureExpr, deps)` ONLY when the body is a pure, lightweight derivation (no `Math.random`, no heavy computation) — the compiler handles it
+  - Wrap `Math.random()` / `Date.now()` in render body with `useMemo` if not already wrapped
   - Add `clearTimeout`/`clearInterval` cleanup to useEffect hooks missing them
   - Remove clearly unused lucide icon imports (verify usage first)
   - For all other issues, output the fix as a code block and ask for confirmation.
