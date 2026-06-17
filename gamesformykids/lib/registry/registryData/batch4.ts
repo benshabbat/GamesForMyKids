@@ -33,6 +33,7 @@ import {
   HelpCircle,
   TextSearch,
   Laugh,
+  Lightbulb,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -754,5 +755,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-maze",
     available: true,
     order: 189,
+  },
+  {
+    id: "riddles-pro",
+    title: "חידות מדורגות",
+    description: "פתור חידות עם רמזים מדורגים — ככל שתנחש מוקדם יותר, כך תרוויח יותר נקודות!",
+    icon: Lightbulb,
+    emoji: "🧩",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/riddles-pro",
+    available: true,
+    order: 190,
   },
 ];
