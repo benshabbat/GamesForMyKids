@@ -225,4 +225,6 @@ export type GameType =
   // Music & songs
   | 'kids-songs'
   // Music & creativity
-  | 'melody-maker';
+  | 'melody-maker'
+  // Kids encyclopedia
+  | 'kids-encyclopedia';

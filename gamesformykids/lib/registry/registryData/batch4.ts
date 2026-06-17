@@ -699,4 +699,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 184,
   },
+  {
+    id: "kids-encyclopedia",
+    title: "אנציקלופדיה לילדים",
+    description: "גלה עובדות מדהימות על בעלי חיים, חלל, גוף האדם, ישראל ודינוזאורים!",
+    icon: BookOpen,
+    emoji: "📚",
+    color: "bg-cyan-500 hover:bg-cyan-600",
+    href: "/games/kids-encyclopedia",
+    available: true,
+    order: 185,
+  },
 ];
