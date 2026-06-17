@@ -221,5 +221,8 @@ export type GameType =
 
   // Interactive map
   | 'israel-map'
+
   // Music & songs
-  | 'kids-songs';
+  | 'kids-songs'
+  // Music & creativity
+  | 'melody-maker';
