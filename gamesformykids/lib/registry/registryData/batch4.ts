@@ -721,4 +721,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 186,
   },
+  {
+    id: "craft-guide",
+    title: "מדריך יצירה",
+    description: "בצע פרויקטי יצירה שלב אחר שלב עם הנחיות קוליות — ספינת נייר, כרטיס ברכה ועוד!",
+    icon: Palette,
+    emoji: "🎨",
+    color: "bg-orange-500 hover:bg-orange-600",
+    href: "/games/craft-guide",
+    available: true,
+    order: 187,
+  },
 ];

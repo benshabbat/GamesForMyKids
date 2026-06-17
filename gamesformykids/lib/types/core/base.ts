@@ -229,4 +229,6 @@ export type GameType =
   // Kids encyclopedia
   | 'kids-encyclopedia'
   // Fun tools
-  | 'age-calculator';
+  | 'age-calculator'
+  // Craft guide
+  | 'craft-guide';
