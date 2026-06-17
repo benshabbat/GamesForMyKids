@@ -11,7 +11,7 @@ const LEVEL_LABELS: Record<DifficultyLevel, string> = {
 
 export default function WordMazeClient() {
   const {
-    phase, targetWord, nextLetterIndex, score, level, wordsCompleted, bouncing,
+    phase, targetWord, nextLetterIndex, score, wordsCompleted, bouncing,
     gridRef, playerRef, lettersRef,
     startGame, movePlayer, nextLevel, restart, backToMenu,
   } = useWordMaze();

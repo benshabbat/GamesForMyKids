@@ -90,7 +90,7 @@ export default function WordMazeCanvas({ gridRef, playerRef, lettersRef, bouncin
       canvas.removeEventListener('touchstart', onTouchStart);
       canvas.removeEventListener('touchend', onTouchEnd);
     };
-  }, [onMove]);
+  }, [onMove, canvasRef]);
 
   const size = GRID_SIZE * CELL_SIZE;
   return (
