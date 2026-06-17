@@ -181,7 +181,7 @@ export function useBrickBreakerGame() {
     s.lives = level === 1 ? 3 : s.lives;
     s.level = level; s.particles = [];
     useBrickBreakerStore.getState().startLevel({ score: s.score, lives: s.lives, level });
-  }, []);
+  }, [st]);
 
   // Wire startGame into the module-level ref so the draw loop can trigger level
   // progression. Clean up on unmount so a stale callback is never called.
@@ -194,7 +194,7 @@ export function useBrickBreakerGame() {
     const s = st.current;
     if (s.phase === 'playing' && !s.launched) { s.launched = true; }
     else if (s.phase === 'menu') { startGame(1); }
-  }, [startGame]);
+  }, [startGame, st]);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();

@@ -141,7 +141,7 @@ export function useSpaceDefenderGame() {
     if (now - s.lastShot < 12) return;
     s.lastShot = now;
     s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
-  }, []);
+  }, [st]);
 
   const startGame = () => {
     const s = st.current;

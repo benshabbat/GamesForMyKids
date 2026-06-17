@@ -156,7 +156,7 @@ export function useDinoRunnerGame() {
       s.phase = 'menu';
       useDinoRunnerStore.getState().resetToMenu();
     }
-  }, []);
+  }, [st]);
 
 
   useEffect(() => {

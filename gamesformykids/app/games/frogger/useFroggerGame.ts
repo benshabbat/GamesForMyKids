@@ -128,7 +128,7 @@ export function useFroggerGame() {
     if (dr < 0) s.score += 2;
     s.fCol = nc; s.fRow = nr;
     if (nr === 0) { s.score += 30; s.level++; s.fCol = 4; s.fRow = 8; useFroggerStore.getState().setScore(s.score); }
-  }, []);
+  }, [st]);
 
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 
