@@ -31,6 +31,7 @@ import {
   KeyRound,
   Search,
   HelpCircle,
+  TextSearch,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -653,5 +654,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/picture-dictionary",
     available: true,
     order: 180,
+  },
+  {
+    id: "word-search",
+    title: "חיפוש מילים",
+    description: "מצא מילים עבריות נסתרות בגריד אותיות — 8 נושאים!",
+    icon: TextSearch,
+    emoji: "🔎",
+    color: "bg-emerald-600 hover:bg-emerald-700",
+    href: "/games/word-search",
+    available: true,
+    order: 181,
   },
 ];
