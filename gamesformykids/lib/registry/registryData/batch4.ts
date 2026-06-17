@@ -32,6 +32,7 @@ import {
   Search,
   HelpCircle,
   TextSearch,
+  Laugh,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -731,5 +732,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/craft-guide",
     available: true,
     order: 187,
+  },
+  {
+    id: "jokes-browser",
+    title: "ספריית בדיחות",
+    description: "בדיחות מצחיקות לילדים לפי קטגוריות — בעלי חיים, בית ספר ואוכל!",
+    icon: Laugh,
+    emoji: "😂",
+    color: "bg-yellow-500 hover:bg-yellow-600",
+    href: "/games/jokes-browser",
+    available: true,
+    order: 188,
   },
 ];
