@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useMapStore } from './mapStore';
 import { LOCATIONS } from './data/locations';
 import IsraelSVG from './components/IsraelSVG';
@@ -25,7 +25,7 @@ export default function IsraelMapClient() {
     }
   }, [current, phase]);
 
-  const handleTap = useCallback((svgX: number, svgY: number) => {
+  const handleTap = (svgX: number, svgY: number) => {
     if (!current || lastResult !== null) return;
     const hit = checkTap(svgX, svgY);
 
@@ -51,7 +51,7 @@ export default function IsraelMapClient() {
         useMapStore.setState({ lastResult: null });
       }, 1200);
     }
-  }, [current, lastResult, checkTap, nextLocation]);
+  };
 
   useEffect(() => () => { if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current); }, []);
 
@@ -120,7 +120,7 @@ export default function IsraelMapClient() {
       {/* Progress bar */}
       <div className="w-full max-w-md bg-gray-200 rounded-full h-2 mb-3">
         <div
-          className="bg-blue-500 h-2 rounded-full transition-all"
+          className="bg-blue-500 h-2 rounded-full transition-[width]"
           style={{ width: `${progressPct}%` }}
         />
       </div>

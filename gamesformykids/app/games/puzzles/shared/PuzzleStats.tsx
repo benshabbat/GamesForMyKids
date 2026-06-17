@@ -29,7 +29,7 @@ export default function PuzzleStats({ className = '' }: { className?: string }) 
             <span className={`text-sm font-bold ${barText}`}>{completionPercentage}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-3">
-            <div className={`h-3 rounded-full transition-all duration-500 ${barColor}`} style={{ width: `${completionPercentage}%` }} />
+            <div className={`h-3 rounded-full transition-[width] duration-500 ${barColor}`} style={{ width: `${completionPercentage}%` }} />
           </div>
         </div>
         <div className="grid grid-cols-2 gap-4">

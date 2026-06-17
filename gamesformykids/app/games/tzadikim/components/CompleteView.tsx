@@ -32,7 +32,7 @@ export default function CompleteView({ score, maxScore, onRestart }: CompleteVie
           {/* כוכבים */}
           <div className="flex justify-center gap-1 mb-6">
             {Array.from({ length: 5 }).map((_, i) => (
-              <span key={i} className={`text-4xl transition-all ${i < stars ? 'opacity-100 scale-110' : 'opacity-20'}`}>
+              <span key={i} className={`text-4xl transition ${i < stars ? 'opacity-100 scale-110' : 'opacity-20'}`}>
                 ⭐
               </span>
             ))}
@@ -44,7 +44,7 @@ export default function CompleteView({ score, maxScore, onRestart }: CompleteVie
             <p className="text-amber-600">נקודות</p>
             <div className="mt-3 h-3 bg-amber-100 rounded-full overflow-hidden">
               <div
-                className="h-full bg-amber-400 rounded-full transition-all duration-1000"
+                className="h-full bg-amber-400 rounded-full transition-[width] duration-1000"
                 style={{ width: `${percent}%` }}
               />
             </div>
@@ -68,7 +68,7 @@ export default function CompleteView({ score, maxScore, onRestart }: CompleteVie
             onClick={onRestart}
             className="w-full py-4 rounded-2xl text-white font-bold text-xl shadow-lg
               bg-gradient-to-l from-amber-500 to-orange-500
-              hover:opacity-90 active:scale-95 transition-all"
+              hover:opacity-90 active:scale-95 transition"
           >
             🔄 שחק שוב
           </button>

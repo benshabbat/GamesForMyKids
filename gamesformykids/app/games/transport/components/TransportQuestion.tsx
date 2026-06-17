@@ -40,7 +40,7 @@ export default function TransportQuestion({
         <div className="grid grid-cols-2 gap-3 w-full max-w-md">
           {currentQuestion.answers.map((ans, idx) => (
             <button key={idx} onClick={() => onSelect(idx)} disabled={answered}
-              className={`py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition-all ${answerButtonClass(
+              className={`py-3 px-4 rounded-xl font-bold text-center shadow active:scale-95 transition ${answerButtonClass(
                 idx === currentQuestion.correctIndex,
                 idx === selected,
                 answered,

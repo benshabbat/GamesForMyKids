@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useMelodyMakerStore } from './melodyMakerStore';
 import { MELODY_MAKER_SONGS } from '@/lib/constants/melodyMakerSongs';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
@@ -40,7 +40,7 @@ export function useMelodyMaker() {
     previewTimersRef.current.forEach(clearTimeout);
   }, []);
 
-  const getCtx = useCallback((): AudioContext => {
+  const getCtx = (): AudioContext => {
     if (!audioCtxRef.current) {
       audioCtxRef.current = new AudioContext();
     }
@@ -49,9 +49,9 @@ export function useMelodyMaker() {
       void ctx.resume();
     }
     return ctx;
-  }, []);
+  };
 
-  const tapKey = useCallback((noteIndex: number) => {
+  const tapKey = (noteIndex: number) => {
     const ctx = getCtx();
     const freq = NOTE_FREQUENCIES[noteIndex] ?? 261.63;
     playOscillator(ctx, freq, ctx.currentTime, 0.5);
@@ -77,9 +77,9 @@ export function useMelodyMaker() {
         }
       }
     }
-  }, [getCtx]);
+  };
 
-  const playbackRecording = useCallback(() => {
+  const playbackRecording = () => {
     const { recording, isPlayingBack, setPlayingBack } = useMelodyMakerStore.getState();
     if (recording.length === 0 || isPlayingBack) return;
     setPlayingBack(true);
@@ -91,9 +91,9 @@ export function useMelodyMaker() {
     });
     clearTimeout(playbackTimerRef.current);
     playbackTimerRef.current = setTimeout(() => setPlayingBack(false), recording.length * 600 + 200);
-  }, [getCtx]);
+  };
 
-  const previewSong = useCallback((songIndex: number) => {
+  const previewSong = (songIndex: number) => {
     const song = MELODY_MAKER_SONGS[songIndex];
     if (!song) return;
     const { setFlashingKey } = useMelodyMakerStore.getState();
@@ -107,7 +107,7 @@ export function useMelodyMaker() {
       previewTimersRef.current.push(setTimeout(() => setFlashingKey(noteIndex), i * 650));
     });
     previewTimersRef.current.push(setTimeout(() => setFlashingKey(null), song.notes.length * 650 + 200));
-  }, [getCtx]);
+  };
 
   return { ...store, tapKey, playbackRecording, previewSong };
 }

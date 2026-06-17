@@ -7,7 +7,7 @@
  * מנהל את לוגיקת המשחק, רמות קושי ואינטראקציה
  */
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useDrawingStore } from '../store/drawingStore';
 
 export interface GameSettings {
@@ -39,10 +39,10 @@ export const useDrawingGame = () => {
   }, []);
 
   // סיום משחק
-  const handleGameEnd = useCallback(() => {
+  const handleGameEnd = () => {
     setIsTimerRunning(false);
     // כאן אפשר להוסיף לוגיקה נוספת לסיום המשחק
-  }, [setIsTimerRunning]);
+  };
 
   // טיימר המשחק
   useEffect(() => {
@@ -67,35 +67,35 @@ export const useDrawingGame = () => {
   }, [isTimerRunning, timeRemaining, handleGameEnd, setIsTimerRunning, setTimeRemaining]);
 
   // התחלת משחק
-  const startGame = useCallback((settings?: Partial<GameSettings>) => {
+  const startGame = (settings?: Partial<GameSettings>) => {
     const mergedSettings = settings ? { ...gameSettings, ...settings } : gameSettings;
     if (settings) setGameSettings(mergedSettings);
     storeStartGame(mergedSettings.timeLimit);
-  }, [gameSettings, storeStartGame]);
+  };
 
   // עצירת משחק
-  const stopGame = useCallback(() => {
+  const stopGame = () => {
     storeStopGame(gameSettings.timeLimit);
-  }, [gameSettings.timeLimit, storeStopGame]);
+  };
 
   // השהיית משחק
-  const pauseGame = useCallback(() => {
+  const pauseGame = () => {
     setIsTimerRunning(false);
-  }, [setIsTimerRunning]);
+  };
 
   // חזרה למשחק
-  const resumeGame = useCallback(() => {
+  const resumeGame = () => {
     if (isGameStarted && timeRemaining > 0) {
       setIsTimerRunning(true);
     }
-  }, [isGameStarted, timeRemaining, setIsTimerRunning]);
+  };
 
   // פורמט זמן למציג
-  const formatTime = useCallback((seconds: number) => {
+  const formatTime = (seconds: number) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
     return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  }, []);
+  };
 
   // נושאי ציור זמינים
   const availableThemes = [

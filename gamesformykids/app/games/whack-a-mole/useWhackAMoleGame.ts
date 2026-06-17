@@ -1,5 +1,5 @@
 'use client';
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useWhackAMoleStore, GAME_DURATION, MOLES, BAD } from './whackAMoleStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
@@ -75,14 +75,14 @@ export function useWhackAMoleGame() {
   }, [state.phase]);
 
   // Wrap whack to cancel auto-hide timer + schedule clear after hit/miss animation
-  const whack = useCallback((idx: number) => {
+  const whack = (idx: number) => {
     if (moleTimersRef.current[idx]) {
       clearTimeout(moleTimersRef.current[idx]!);
       moleTimersRef.current[idx] = null;
     }
     store.getState().whack(idx);
     setTimeout(() => store.getState().clearHole(idx), 300);
-  }, [store]);
+  };
 
   const pct     = (state.timeLeft / GAME_DURATION) * 100;
   const bgColor = state.timeLeft <= 10 ? 'from-red-100 to-rose-200' : 'from-yellow-50 to-amber-100';

@@ -16,7 +16,7 @@ interface Props {
 export default function MathRaceQuestion({ q, feedback, streak, onTap }: Props) {
   return (
     <>
-      <div className={`w-full max-w-sm bg-white rounded-3xl p-8 text-center shadow-2xl mb-5 transition-all duration-150 ${
+      <div className={`w-full max-w-sm bg-white rounded-3xl p-8 text-center shadow-2xl mb-5 transition duration-150 ${
         feedback === 'correct' ? 'bg-green-50 ring-4 ring-green-400 scale-105' :
         feedback === 'wrong' ? 'bg-amber-50 ring-4 ring-amber-400' : ''
       }`}>
@@ -34,7 +34,7 @@ export default function MathRaceQuestion({ q, feedback, streak, onTap }: Props) 
             key={c}
             onClick={() => onTap(c)}
             disabled={!!feedback}
-            className="py-5 rounded-3xl bg-white font-black text-3xl text-indigo-700 shadow-xl border-2 border-blue-200 active:scale-90 hover:border-blue-500 hover:text-blue-600 transition-all disabled:opacity-50"
+            className="py-5 rounded-3xl bg-white font-black text-3xl text-indigo-700 shadow-xl border-2 border-blue-200 active:scale-90 hover:border-blue-500 hover:text-blue-600 transition disabled:opacity-50"
           >
             {c}
           </button>

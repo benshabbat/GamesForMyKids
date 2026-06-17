@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export interface AgeResult {
   years: number;
@@ -46,20 +46,20 @@ export function useAgeCalculator() {
   const [result, setResult] = useState<AgeResult | null>(null);
   const [calculated, setCalculated] = useState(false);
 
-  const calculate = useCallback(() => {
+  const calculate = () => {
     if (!birthdayInput) return;
     const birthday = new Date(birthdayInput);
     if (isNaN(birthday.getTime())) return;
     if (birthday > new Date()) return;
     setResult(computeAge(birthday, new Date()));
     setCalculated(true);
-  }, [birthdayInput]);
+  };
 
-  const reset = useCallback(() => {
+  const reset = () => {
     setCalculated(false);
     setResult(null);
     setBirthdayInput('');
-  }, []);
+  };
 
   useEffect(() => {
     if (!calculated || !birthdayInput) return;

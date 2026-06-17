@@ -13,7 +13,7 @@ export default function SoccerCategoryGrid() {
         <button
           key={cat}
           onClick={() => startGame(cat)}
-          className={`py-3 px-4 rounded-xl font-bold text-white shadow-lg active:scale-95 transition-all bg-gradient-to-br ${CATEGORY_COLORS[cat] ?? 'from-green-500 to-emerald-600'} ${cat === 'הכל' ? 'col-span-2 py-4 text-xl' : ''}`}
+          className={`py-3 px-4 rounded-xl font-bold text-white shadow-lg active:scale-95 transition bg-gradient-to-br ${CATEGORY_COLORS[cat] ?? 'from-green-500 to-emerald-600'} ${cat === 'הכל' ? 'col-span-2 py-4 text-xl' : ''}`}
         >
           <span className="me-1">{CATEGORY_ICONS[cat] ?? '⚽'}</span> {cat}
         </button>

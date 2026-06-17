@@ -18,7 +18,7 @@ export default function WordBuilderQuestion() {
           <span className="text-orange-700 font-bold">⭐ {score}</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full mb-5">
-          <div className="h-full bg-orange-400 rounded-full transition-all" style={{ width: `${(index / total) * 100}%` }} />
+          <div className="h-full bg-orange-400 rounded-full transition-[width]" style={{ width: `${(index / total) * 100}%` }} />
         </div>
         <div className="bg-white rounded-3xl shadow-xl p-6 mb-5 text-center">
           <div className="text-7xl mb-2">{current.emoji}</div>
@@ -55,7 +55,7 @@ export default function WordBuilderQuestion() {
                 key={i}
                 onClick={() => pressLetter(i)}
                 disabled={item.used}
-                className={`w-12 h-12 rounded-xl text-2xl font-black transition-all active:scale-90
+                className={`w-12 h-12 rounded-xl text-2xl font-black transition active:scale-90
                   ${item.used ? 'bg-gray-200 text-gray-400 cursor-not-allowed' :
                     'bg-amber-500 text-white shadow-md hover:bg-amber-400 hover:scale-110'}`}
               >
@@ -66,17 +66,17 @@ export default function WordBuilderQuestion() {
         )}
         <div className="flex gap-3">
           {status === 'idle' && typed.length > 0 && (
-            <button onClick={clearTyped} className="flex-1 py-3 rounded-2xl border-2 border-orange-300 text-orange-600 font-semibold hover:bg-orange-50 transition-all">
+            <button onClick={clearTyped} className="flex-1 py-3 rounded-2xl border-2 border-orange-300 text-orange-600 font-semibold hover:bg-orange-50 transition">
               🔄 נקה
             </button>
           )}
           {(status === 'correct' || status === 'wrong') && (
-            <button onClick={next} className="flex-1 py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-orange-500 to-amber-500 shadow-lg hover:opacity-90 active:scale-95 transition-all">
+            <button onClick={next} className="flex-1 py-4 rounded-2xl text-white font-bold text-xl bg-gradient-to-l from-orange-500 to-amber-500 shadow-lg hover:opacity-90 active:scale-95 transition">
               {index < total - 1 ? 'מילה הבאה ←' : 'תוצאות! 🎉'}
             </button>
           )}
           {status === 'wrong' && (
-            <button onClick={clearTyped} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-all">
+            <button onClick={clearTyped} className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition">
               🔄 נסה שוב
             </button>
           )}

@@ -13,7 +13,7 @@ export default function DifficultySelector({ variant = 'buttons' }: { variant?: 
           <select
             value={difficulty}
             onChange={(e) => changeDifficulty(Number(e.target.value))}
-            className="px-4 py-3 border-2 border-blue-300 rounded-xl bg-white text-blue-800 font-semibold text-lg shadow-sm hover:shadow-md transition-all duration-200 focus:ring-2 focus:ring-blue-400"
+            className="px-4 py-3 border-2 border-blue-300 rounded-xl bg-white text-blue-800 font-semibold text-lg shadow-sm hover:shadow-md transition duration-200 focus:ring-2 focus:ring-blue-400"
           >
             <option value={4}>🟢 קל (2x2) - 4 חלקים</option>
             <option value={9}>🟡 בינוני (3x3) - 9 חלקים</option>
@@ -36,7 +36,7 @@ export default function DifficultySelector({ variant = 'buttons' }: { variant?: 
           <button
             key={level}
             onClick={() => changeDifficulty(level * level)}
-            className={`px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 ${
+            className={`px-4 py-2 rounded-lg font-medium transition duration-200 transform hover:scale-105 ${
               difficulty === level * level
                 ? 'bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-lg'
                 : 'bg-gray-200 text-gray-700 hover:bg-gray-300'

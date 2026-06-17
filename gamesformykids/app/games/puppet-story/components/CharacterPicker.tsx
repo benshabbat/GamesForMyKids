@@ -18,7 +18,7 @@ export function CharacterPicker({ step, excludeId, onPick }: PickCharProps) {
           <button
             key={c.id}
             onClick={() => onPick(c)}
-            className="flex flex-col items-center gap-1 bg-white rounded-2xl p-3 shadow hover:shadow-md hover:bg-purple-50 transition-all active:scale-95"
+            className="flex flex-col items-center gap-1 bg-white rounded-2xl p-3 shadow hover:shadow-md hover:bg-purple-50 transition active:scale-95"
           >
             <span className="text-4xl">{c.emoji}</span>
             <span className="text-xs font-bold text-gray-700">{c.name}</span>
@@ -42,7 +42,7 @@ export function SettingPicker({ onPick }: PickSettingProps) {
           <button
             key={s.id}
             onClick={() => onPick(s)}
-            className="flex items-center gap-3 bg-white rounded-2xl px-5 py-4 shadow hover:shadow-md hover:bg-purple-50 transition-all active:scale-95 text-right"
+            className="flex items-center gap-3 bg-white rounded-2xl px-5 py-4 shadow hover:shadow-md hover:bg-purple-50 transition active:scale-95 text-right"
           >
             <span className="text-4xl">{s.emoji}</span>
             <span className="text-lg font-bold text-gray-800">{s.name}</span>

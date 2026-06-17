@@ -14,7 +14,7 @@ export default function PuzzleHeader({ title, subtitle }: { title: string; subti
         </div>
         <button
           onClick={toggleHelp}
-          className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition-all duration-200 text-sm sm:text-base font-medium"
+          className="inline-flex items-center gap-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-xl shadow-lg hover:shadow-xl transition duration-200 text-sm sm:text-base font-medium"
         >
           <HelpCircle className="w-5 h-5" />
           <span className="hidden sm:inline">עזרה</span>

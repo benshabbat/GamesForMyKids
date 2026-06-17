@@ -32,7 +32,7 @@ export default function SongGuide({
             <button
               key={song.id}
               onClick={() => onSelectSong(i)}
-              className="flex flex-col items-center gap-1 bg-white border-2 border-purple-300 rounded-xl px-4 py-3 hover:bg-purple-50 hover:border-purple-500 transition-all shadow"
+              className="flex flex-col items-center gap-1 bg-white border-2 border-purple-300 rounded-xl px-4 py-3 hover:bg-purple-50 hover:border-purple-500 transition-colors shadow"
             >
               <span className="text-3xl">{song.emoji}</span>
               <span className="font-bold text-purple-800 text-sm">{song.title}</span>

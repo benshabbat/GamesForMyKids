@@ -40,7 +40,7 @@ export function MenuScreen() {
           'shadow-[0_6px_0_#92400e,0_8px_30px_rgba(251,191,36,0.35)]',
           'hover:shadow-[0_6px_0_#92400e,0_8px_36px_rgba(251,191,36,0.45)]',
           'active:shadow-[0_2px_0_#92400e] active:translate-y-[4px]',
-          'transition-all duration-150',
+          'transition duration-150',
         ].join(' ')}
       >
         🎮 התחל משחק

@@ -9,7 +9,7 @@ export default function SoccerProgressBar() {
     <>
       <div className="w-full bg-white bg-opacity-20 rounded-full h-2 mb-4">
         <div
-          className="h-2 bg-yellow-400 rounded-full transition-all duration-300"
+          className="h-2 bg-yellow-400 rounded-full transition-[width] duration-300"
           style={{ width: `${progressPct}%` }}
         />
       </div>

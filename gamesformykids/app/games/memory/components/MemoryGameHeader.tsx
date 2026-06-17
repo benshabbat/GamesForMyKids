@@ -15,7 +15,7 @@ function DuoPlayerIndicator() {
       {players.map((p, i) => (
         <div
           key={i}
-          className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-bold transition-all duration-300 ${
+          className={`flex items-center gap-1 px-3 py-1.5 rounded-full text-sm font-bold transition duration-300 ${
             currentPlayer === i
               ? 'bg-white text-purple-700 shadow-lg scale-105'
               : 'bg-white/20 text-white/70'

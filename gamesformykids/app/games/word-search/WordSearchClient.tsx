@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import { useWordSearchStore } from './wordSearchStore';
 import SearchGrid from './components/SearchGrid';
 import GameResultCard from '@/components/game/shared/GameResultCard';
@@ -12,7 +11,7 @@ export default function WordSearchClient() {
     startGame, submitSelection, resetGame,
   } = useWordSearchStore();
 
-  const handleSelect = useCallback((cells: Array<[number, number]>) => {
+  const handleSelect = (cells: Array<[number, number]>) => {
     const ok = submitSelection(cells);
     if (ok) {
       const { found: newFound, placed: ps } = useWordSearchStore.getState();
@@ -20,7 +19,7 @@ export default function WordSearchClient() {
       if (justFound) speakHebrew(justFound.word);
     }
     return ok;
-  }, [submitSelection, found]);
+  };
 
   if (phase === 'menu') {
     return (

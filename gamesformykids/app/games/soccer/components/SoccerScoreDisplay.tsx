@@ -13,7 +13,7 @@ export default function SoccerScoreDisplay() {
       </div>
       <div className="w-full max-w-xs bg-white bg-opacity-20 rounded-full h-4 mb-8">
         <div
-          className="h-4 rounded-full bg-yellow-400 transition-all duration-1000"
+          className="h-4 rounded-full bg-yellow-400 transition-[width] duration-1000"
           style={{ width: `${pct}%` }}
         />
       </div>

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 
 export function FullscreenToggle() {
   const [isFullscreen, setIsFullscreen] = useState(false);
@@ -13,7 +13,7 @@ export function FullscreenToggle() {
     return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
-  const toggle = useCallback(async () => {
+  const toggle = async () => {
     try {
       if (document.fullscreenElement) {
         await document.exitFullscreen();
@@ -23,7 +23,7 @@ export function FullscreenToggle() {
     } catch {
       // browser denied or not supported — ignore
     }
-  }, []);
+  };
 
   if (!supported) return null;
 

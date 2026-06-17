@@ -39,13 +39,13 @@ function DuoResult({ players, onRestart, onMenu }: {
           <div className="flex gap-3 justify-center flex-wrap">
             <button
               onClick={onRestart}
-              className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+              className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-6 rounded-full text-lg transition duration-300 hover:scale-105 shadow-lg"
             >
               🎮 שחק שוב
             </button>
             <button
               onClick={onMenu}
-              className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-6 rounded-full text-lg transition-all duration-300 hover:scale-105 shadow-lg"
+              className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-6 rounded-full text-lg transition duration-300 hover:scale-105 shadow-lg"
             >
               🏠 תפריט
             </button>
@@ -111,14 +111,14 @@ export default function GameWinMessage() {
           <div className="flex gap-4 justify-center flex-wrap">
             <button
               onClick={() => initializeGame(difficulty)}
-              className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-linear-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 transform hover:scale-105 shadow-lg"
             >
               🎮 שחק שוב
             </button>
             {navigation.next && (
               <Link
                 href={navigation.next.href}
-                className="bg-linear-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
+                className="bg-linear-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 transform hover:scale-105 shadow-lg flex items-center gap-2"
               >
                 <span>משחק הבא</span>
                 <span>{navigation.next.title}</span>
@@ -127,7 +127,7 @@ export default function GameWinMessage() {
             )}
             <button
               onClick={resetToMenu}
-              className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition duration-300 transform hover:scale-105 shadow-lg"
             >
               🏠 תפריט
             </button>

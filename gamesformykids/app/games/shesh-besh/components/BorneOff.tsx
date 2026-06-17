@@ -44,7 +44,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }:
         onClick={onBearOff}
         aria-label="bear off"
         className={[
-          'relative z-10 flex flex-col items-center gap-1.5 rounded-xl px-1 py-1.5 w-full transition-all duration-200',
+          'relative z-10 flex flex-col items-center gap-1.5 rounded-xl px-1 py-1.5 w-full transition duration-200',
           isBearOffTarget ? 'bg-emerald-500/25 ring-2 ring-emerald-400/80 scale-105' : '',
         ].join(' ')}
       >

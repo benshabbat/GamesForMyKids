@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import type { SongData } from '../data/songs';
 
 interface Props {
@@ -16,12 +16,12 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
   const onFinishRef = useRef(onFinish);
   onFinishRef.current = onFinish;
 
-  const cancel = useCallback(() => {
+  const cancel = () => {
     window.speechSynthesis.cancel();
     if (timerRef.current) clearTimeout(timerRef.current);
-  }, []);
+  };
 
-  const advance = useCallback((idx: number) => {
+  const advance = (idx: number) => {
     cancel();
     if (idx >= song.lines.length) {
       onFinishRef.current();
@@ -63,7 +63,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
 
     utter.onerror = () => setPlaying(false);
     window.speechSynthesis.speak(utter);
-  }, [song, cancel]);
+  };
 
   useEffect(() => {
     advance(0);

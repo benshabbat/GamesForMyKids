@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -120,23 +120,23 @@ export function useMeteorDodgeGame() {
 
 
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
     s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
     s.startTime = Date.now();
     useMeteorDodgeStore.getState().startPlaying();
-  }, [st]);
+  };
 
-  const handleCanvasClick = useCallback(() => {
+  const handleCanvasClick = () => {
     if (st.current.phase === 'menu') startGame();
-  }, [st, startGame]);
+  };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (st.current.phase === 'menu') startGame();
     handlers.onTouchMove(e);
-  }, [startGame, handlers, st]);
+  };
 
 
   useEffect(() => {
@@ -154,15 +154,15 @@ export function useMeteorDodgeGame() {
     return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, [st]);
 
-  const nudgeLeft = useCallback(() => {
+  const nudgeLeft = () => {
     const s = st.current;
     s.playerX = Math.max(PLAYER_R, s.playerX - 45);
-  }, [st]);
+  };
 
-  const nudgeRight = useCallback(() => {
+  const nudgeRight = () => {
     const s = st.current;
     s.playerX = Math.min(W - PLAYER_R, s.playerX + 45);
-  }, [st]);
+  };
 
   const { phase, score, best } = useMeteorDodgeStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 

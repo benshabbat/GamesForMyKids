@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -150,7 +150,7 @@ export function useJumperGame() {
   const { st, canvasRef } = _useJumper();
 
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing';
     s.px = W / 2; s.py = H - 100;
@@ -161,16 +161,16 @@ export function useJumperGame() {
     s.nextPlatY = H - 60 - INIT_PLATS * (PLAT_GAP * 0.75);
     s.startTime = Date.now();
     useJumperStore.getState().startPlaying();
-  }, [st]);
+  };
 
-  const handleCanvasClick = useCallback(() => {
+  const handleCanvasClick = () => {
     if (st.current.phase === 'menu') startGame();
-  }, [st, startGame]);
+  };
 
-  const pressLeft = useCallback(() => { st.current.leftDown = true; }, [st]);
-  const releaseLeft = useCallback(() => { st.current.leftDown = false; }, [st]);
-  const pressRight = useCallback(() => { st.current.rightDown = true; }, [st]);
-  const releaseRight = useCallback(() => { st.current.rightDown = false; }, [st]);
+  const pressLeft = () => { st.current.leftDown = true; };
+  const releaseLeft = () => { st.current.leftDown = false; };
+  const pressRight = () => { st.current.rightDown = true; };
+  const releaseRight = () => { st.current.rightDown = false; };
 
 
   useEffect(() => {
@@ -187,7 +187,7 @@ export function useJumperGame() {
     return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
   }, [st]);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const rect = e.currentTarget.getBoundingClientRect();
     const tx = (e.touches[0]!.clientX - rect.left) * (W / rect.width);
@@ -195,12 +195,12 @@ export function useJumperGame() {
     if (s.phase !== 'playing') return;
     if (tx < W / 2) { s.leftDown = true; s.rightDown = false; }
     else             { s.rightDown = true; s.leftDown = false; }
-  }, [st]);
+  };
 
-  const handleTouchEnd = useCallback(() => {
+  const handleTouchEnd = () => {
     st.current.leftDown = false;
     st.current.rightDown = false;
-  }, [st]);
+  };
 
   const { phase, score, best } = useJumperStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 

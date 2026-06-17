@@ -1,4 +1,4 @@
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { useBubblesStore, type BubbleData } from '../bubblesStore';
@@ -24,7 +24,7 @@ export function useBubbleGame() {
   );
   const level = Math.floor(poppedCount / 15) + 1;
 
-  const createBubble = useCallback(() => {
+  const createBubble = () => {
     if (!gameContainerRef.current) return;
     const currentLevel = Math.floor(useBubblesStore.getState().poppedCount / 15) + 1;
     const containerWidth = gameContainerRef.current.offsetWidth;
@@ -42,9 +42,9 @@ export function useBubbleGame() {
     };
 
     useBubblesStore.getState().addBubble(newBubble);
-  }, []);
+  };
 
-  const playBubbleSound = useCallback((frequency: number) => {
+  const playBubbleSound = (frequency: number) => {
     if (!audioContext || frequency === 0) return;
     try {
       const oscillator = audioContext.createOscillator();
@@ -61,12 +61,12 @@ export function useBubbleGame() {
     } catch (error) {
       console.error('שגיאה בהשמעת צליל בועה:', error);
     }
-  }, [audioContext]);
+  };
 
-  const handleBubblePop = useCallback((bubbleId: number, frequency: number) => {
+  const handleBubblePop = (bubbleId: number, frequency: number) => {
     useBubblesStore.getState().popBubble(bubbleId, frequency > 0);
     if (frequency > 0) playBubbleSound(frequency);
-  }, [playBubbleSound]);
+  };
 
   // Manage bubble creation interval — recreates only when isPlaying or level changes
   useEffect(() => {
@@ -76,10 +76,10 @@ export function useBubbleGame() {
     return () => clearInterval(id);
   }, [isPlaying, level, createBubble]);
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     useBubblesStore.getState().startGame();
     setTimeout(createBubble, 200);
-  }, [createBubble]);
+  };
 
   const stopGame = () => { useBubblesStore.getState().stopGame(); };
   const resetGame = () => { useBubblesStore.getState().resetGame(); };

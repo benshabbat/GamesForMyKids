@@ -67,7 +67,7 @@ export default function CanvasToolbar() {
           onClick={toggleGuide}
           variant="outline"
           size="sm"
-          className={`flex items-center gap-2 transition-all ${
+          className={`flex items-center gap-2 transition-colors ${
             showLetterGuide
               ? 'bg-green-100 border-green-400 text-green-700'
               : 'hover:bg-gray-50'

@@ -31,7 +31,7 @@ function CollectionTab() {
         <button
           key={`${item.hebrew}-${i}`}
           onClick={() => expandItem(item)}
-          className="flex flex-col items-center gap-2 p-3 bg-white rounded-2xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all active:scale-95"
+          className="flex flex-col items-center gap-2 p-3 bg-white rounded-2xl shadow hover:shadow-md hover:-translate-y-0.5 transition active:scale-95"
         >
           <div
             className={`w-14 h-14 rounded-xl flex items-center justify-center text-4xl ${item.color ?? 'bg-gradient-to-br from-yellow-400 to-orange-500'}`}

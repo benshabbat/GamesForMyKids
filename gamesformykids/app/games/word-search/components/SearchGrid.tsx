@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useState, useCallback, useEffect } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import type { PlacedWord } from '../wordSearchStore';
 import { GRID_SIZE } from '../wordSearchStore';
 
@@ -51,7 +51,7 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     });
   });
 
-  const getCellFromPoint = useCallback((clientX: number, clientY: number): CellCoord | null => {
+  const getCellFromPoint = (clientX: number, clientY: number): CellCoord | null => {
     const el = containerRef.current;
     if (!el) return null;
     const rect = el.getBoundingClientRect();
@@ -61,12 +61,12 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     const row = Math.floor((clientY - rect.top) / cellH);
     if (row < 0 || row >= GRID_SIZE || col < 0 || col >= GRID_SIZE) return null;
     return [row, col];
-  }, []);
+  };
 
   const selection = (startCell && currentCell) ? getLineCells(startCell, currentCell) : [];
   const selectionKeys = new Set(selection.map(([r, c]) => cellKey(r, c)));
 
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
+  const handlePointerDown = (e: React.PointerEvent) => {
     e.preventDefault();
     const cell = getCellFromPoint(e.clientX, e.clientY);
     if (!cell) return;
@@ -74,16 +74,16 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     setDragging(true);
     setStartCell(cell);
     setCurrentCell(cell);
-  }, [getCellFromPoint]);
+  };
 
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
+  const handlePointerMove = (e: React.PointerEvent) => {
     if (!dragging) return;
     e.preventDefault();
     const cell = getCellFromPoint(e.clientX, e.clientY);
     if (cell) setCurrentCell(cell);
-  }, [dragging, getCellFromPoint]);
+  };
 
-  const handlePointerUp = useCallback((_e: React.PointerEvent) => {
+  const handlePointerUp = (_e: React.PointerEvent) => {
     if (!dragging || !startCell || !currentCell) return;
     setDragging(false);
     const cells = getLineCells(startCell, currentCell);
@@ -97,7 +97,7 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     }
     setStartCell(null);
     setCurrentCell(null);
-  }, [dragging, startCell, currentCell, onSelect]);
+  };
 
   return (
     <div

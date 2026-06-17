@@ -11,12 +11,17 @@ interface MemoryCardProps {
   onClick: () => void;
 }
 
+const STAR_POSITIONS = Array.from({ length: 8 }, () => ({
+  top: Math.random() * 80 + 10,
+  left: Math.random() * 80 + 10,
+}));
+
 export default function MemoryCard({ card, onClick }: MemoryCardProps) {
   return (
     <div
       onClick={onClick}
       className={`
-        aspect-square rounded-3xl cursor-pointer transition-all duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl relative overflow-hidden
+        aspect-square rounded-3xl cursor-pointer transition duration-500 transform hover:scale-105 shadow-xl hover:shadow-2xl relative overflow-hidden
         ${card.isFlipped || card.isMatched
           ? "bg-gradient-to-br from-white to-gray-50 border-8 border-white"
           : "bg-gradient-to-br from-purple-400 via-pink-400 to-indigo-400 hover:from-purple-500 hover:via-pink-500 hover:to-indigo-500 border-8 border-white"}
@@ -34,7 +39,7 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
       <div className="w-full h-full flex items-center justify-center relative z-10">
         {card.isFlipped || card.isMatched ? (
           <span className={`
-            text-5xl md:text-7xl transition-all duration-500
+            text-5xl md:text-7xl transition duration-500
             ${card.isMatched ? "animate-bounce" : ""}
             filter drop-shadow-lg
           `}>
@@ -56,8 +61,8 @@ export default function MemoryCard({ card, onClick }: MemoryCardProps) {
               key={i}
               className="absolute text-yellow-400 text-2xl animate-bounce filter drop-shadow-lg"
               style={{
-                top: `${Math.random() * 80 + 10}%`,
-                left: `${Math.random() * 80 + 10}%`,
+                top: `${STAR_POSITIONS[i]!.top}%`,
+                left: `${STAR_POSITIONS[i]!.left}%`,
                 animationDelay: `${i * 0.15}s`,
                 animationDuration: '1.2s'
               }}

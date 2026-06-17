@@ -18,7 +18,7 @@ export default function DrawingCanvas() {
           ref={canvasRef}
           width={isMobileDevice ? 600 : 800}
           height={isMobileDevice ? 400 : 600}
-          className={`border-4 rounded-xl w-full max-w-full block touch-none transition-all duration-200 cursor-crosshair ${
+          className={`border-4 rounded-xl w-full max-w-full block touch-none transition-colors duration-200 cursor-crosshair ${
             isErasing ? 'border-orange-200' : 'border-blue-200'
           }`}
           style={{

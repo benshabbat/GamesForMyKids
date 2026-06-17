@@ -35,7 +35,7 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
           <div className="grid grid-cols-2 gap-3">
             {question.options.map((option, idx) => {
               let cls =
-                'p-4 rounded-xl border-2 font-semibold text-center transition-all text-base cursor-pointer ';
+                'p-4 rounded-xl border-2 font-semibold text-center transition-colors text-base cursor-pointer ';
               if (!submitted) {
                 cls +=
                   selected === idx

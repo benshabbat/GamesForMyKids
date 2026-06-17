@@ -22,7 +22,7 @@ export function Scoreboard() {
         </div>
 
         <div className={[
-          'flex-1 flex items-center justify-center gap-1.5 text-xs font-extrabold px-3 py-1.5 rounded-xl border transition-all duration-300',
+          'flex-1 flex items-center justify-center gap-1.5 text-xs font-extrabold px-3 py-1.5 rounded-xl border transition duration-300',
           currentTurn === 'player'
             ? 'bg-amber-400/20 border-amber-400/50 text-amber-300'
             : 'bg-gray-800/60 border-gray-700/50 text-gray-400',

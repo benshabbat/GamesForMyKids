@@ -44,7 +44,7 @@ export function GameOverScreen() {
           'active:scale-95 text-gray-900 font-extrabold text-xl px-12 py-4 rounded-2xl',
           'shadow-[0_5px_0_#92400e,0_6px_24px_rgba(251,191,36,0.3)]',
           'active:shadow-[0_2px_0_#92400e] active:translate-y-[3px]',
-          'transition-all duration-150 mt-2',
+          'transition duration-150 mt-2',
         ].join(' ')}
       >
         🔄 שחק שוב

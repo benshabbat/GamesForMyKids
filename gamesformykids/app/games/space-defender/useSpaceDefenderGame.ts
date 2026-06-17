@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -134,39 +134,39 @@ export function useSpaceDefenderGame() {
   const { st, canvasRef } = _useSpaceDefender();
 
 
-  const shoot = useCallback(() => {
+  const shoot = () => {
     const s = st.current;
     if (s.phase !== 'playing') return;
     const now = s.frame;
     if (now - s.lastShot < 12) return;
     s.lastShot = now;
     s.bullets.push({ id: uid++, x: s.shipX, y: H - 80 });
-  }, [st]);
+  };
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing';
     s.shipX = W / 2; s.bullets = []; s.asteroids = [];
     s.score = 0; s.lives = 3; s.timeLeft = GAME_DURATION; s.frame = 0; s.nextAsteroid = 60; s.lastShot = 0; s.startTime = Date.now();
     useSpaceDefenderStore.getState().startGame();
-  }, [st]);
+  };
 
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const scaleX = W / rect.width;
     st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.clientX - rect.left) * scaleX));
-  }, [st, canvasRef]);
+  };
 
-  const handleCanvasClick = useCallback(() => {
+  const handleCanvasClick = () => {
     const s = st.current;
     if (s.phase === 'playing') { shoot(); return; }
     if (s.phase === 'menu') startGame();
-  }, [st, shoot, startGame]);
+  };
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -174,12 +174,12 @@ export function useSpaceDefenderGame() {
     const scaleX = W / rect.width;
     st.current.shipX = Math.max(SHIP_W / 2, Math.min(W - SHIP_W / 2, (e.touches[0]!.clientX - rect.left) * scaleX));
     shoot();
-  }, [st, canvasRef, shoot]);
+  };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (st.current.phase !== 'playing') startGame();
-  }, [st, startGame]);
+  };
 
   useEffect(() => {
     let leftDown = false, rightDown = false;

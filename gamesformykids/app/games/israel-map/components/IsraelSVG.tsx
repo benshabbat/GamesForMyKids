@@ -1,5 +1,5 @@
 'use client';
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import type { Location } from '../data/locations';
 
 // Simplified Israel outline in SVG viewBox "0 0 200 385"
@@ -55,7 +55,7 @@ const FOUND_COLORS = [
 export default function IsraelSVG({ current, foundIds, allLocations, onTap, lastResult }: Props) {
   const svgRef = useRef<SVGSVGElement>(null);
 
-  const handleClick = useCallback((e: React.MouseEvent<SVGSVGElement>) => {
+  const handleClick = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
     const scaleX = 200 / rect.width;
@@ -63,9 +63,9 @@ export default function IsraelSVG({ current, foundIds, allLocations, onTap, last
     const svgX = (e.clientX - rect.left) * scaleX;
     const svgY = (e.clientY - rect.top) * scaleY;
     onTap(svgX, svgY);
-  }, [onTap]);
+  };
 
-  const handleTouch = useCallback((e: React.TouchEvent<SVGSVGElement>) => {
+  const handleTouch = (e: React.TouchEvent<SVGSVGElement>) => {
     if (!svgRef.current || !e.touches[0]) return;
     e.preventDefault();
     const rect = svgRef.current.getBoundingClientRect();
@@ -74,7 +74,7 @@ export default function IsraelSVG({ current, foundIds, allLocations, onTap, last
     const svgX = (e.touches[0].clientX - rect.left) * scaleX;
     const svgY = (e.touches[0].clientY - rect.top) * scaleY;
     onTap(svgX, svgY);
-  }, [onTap]);
+  };
 
   return (
     <svg

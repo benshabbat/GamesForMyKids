@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback, MutableRefObject } from 'react';
+import { useEffect, useRef, MutableRefObject } from 'react';
 import { type Dir, type SnakeRefs, OPPOSITE_DIR } from './snakeConstants';
 
 /**
@@ -30,11 +30,11 @@ export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
   // Touch
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent) => {
+  const handleTouchStart = (e: React.TouchEvent) => {
     touchStart.current = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY };
-  }, []);
+  };
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent) => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     if (!touchStart.current) return;
     const dx = e.changedTouches[0]!.clientX - touchStart.current.x;
     const dy = e.changedTouches[0]!.clientY - touchStart.current.y;
@@ -47,14 +47,14 @@ export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
     if (adx > ady) newDir = dx > 0 ? 'R' : 'L';
     else newDir = dy > 0 ? 'D' : 'U';
     if (newDir !== OPPOSITE_DIR[s.dir]) s.nextDir = newDir;
-  }, [st]);
+  };
 
   // On-screen D-pad
-  const controlDir = useCallback((dir: Dir) => {
+  const controlDir = (dir: Dir) => {
     const s = st.current;
     if (s.phase !== 'playing') return;
     if (dir !== OPPOSITE_DIR[s.dir]) s.nextDir = dir;
-  }, [st]);
+  };
 
   return { handleTouchStart, handleTouchEnd, controlDir };
 }

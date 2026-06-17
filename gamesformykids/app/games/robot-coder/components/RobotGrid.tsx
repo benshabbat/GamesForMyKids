@@ -40,7 +40,7 @@ export default function RobotGrid({ level, robotPos, collectedLetters }: Props) 
             return (
               <div
                 key={col}
-                className={`${cellSize} rounded-xl border-2 flex items-center justify-center font-bold relative transition-all duration-200 ${
+                className={`${cellSize} rounded-xl border-2 flex items-center justify-center font-bold relative transition duration-200 ${
                   tile
                     ? collected
                       ? 'border-gray-300 bg-gray-100 text-gray-400'

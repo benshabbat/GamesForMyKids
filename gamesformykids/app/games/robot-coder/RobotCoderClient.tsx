@@ -29,7 +29,7 @@ export default function RobotCoderClient() {
           </div>
           <button
             onClick={startGame}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-extrabold text-xl rounded-2xl py-4 transition-all active:scale-95 shadow-md"
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-extrabold text-xl rounded-2xl py-4 transition active:scale-95 shadow-md"
           >
             🤖 בואו נתכנת!
           </button>
@@ -75,7 +75,7 @@ export default function RobotCoderClient() {
           </p>
           <button
             onClick={resetLevel}
-            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-lg rounded-2xl py-3 transition-all active:scale-95"
+            className="w-full bg-gradient-to-r from-indigo-500 to-purple-600 text-white font-bold text-lg rounded-2xl py-3 transition active:scale-95"
           >
             נסה שוב
           </button>
@@ -105,7 +105,7 @@ export default function RobotCoderClient() {
           {level.targetWord.split('').map((letter, i) => (
             <span
               key={i}
-              className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center text-xl font-bold transition-all ${
+              className={`w-10 h-10 rounded-xl border-2 flex items-center justify-center text-xl font-bold transition ${
                 i < collectedLetters.length
                   ? 'border-green-400 bg-green-300 text-green-900'
                   : 'border-white/30 text-white'

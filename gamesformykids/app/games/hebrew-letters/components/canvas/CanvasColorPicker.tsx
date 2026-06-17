@@ -16,7 +16,7 @@ export default function CanvasColorPicker() {
         <button
           key={color}
           onClick={() => changeStrokeColor(color)}
-          className={`w-10 h-10 rounded-full border-3 transition-all duration-200 relative ${
+          className={`w-10 h-10 rounded-full border-3 transition duration-200 relative ${
             currentColor === color
               ? 'border-gray-800 scale-110 shadow-lg'
               : 'border-gray-300 hover:scale-105 hover:border-gray-400'

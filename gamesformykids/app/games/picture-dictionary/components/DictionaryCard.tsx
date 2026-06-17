@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 import type { DictionaryItem } from '../pictureDictionaryStore';
 import { usePictureDictionaryStore } from '../pictureDictionaryStore';
@@ -12,9 +11,9 @@ export default function DictionaryCard({ item }: Props) {
   const { closeExpanded, toggleCollection, collection } = usePictureDictionaryStore();
   const isSaved = collection.some((c) => c.hebrew === item.hebrew);
 
-  const handleSpeak = useCallback(() => {
+  const handleSpeak = () => {
     speakHebrew(item.hebrew);
-  }, [item.hebrew]);
+  };
 
   return (
     <div

@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect } from 'react';
 import { useQuizGameStore } from '@/lib/stores';
 import type { LifeCycleQuestion } from '@/lib/quiz/data/life-cycles';
 
@@ -24,7 +24,7 @@ export function useLifeCyclesInteraction(current: LifeCycleQuestion, onComplete:
     return () => clearTimeout(t);
   }, [isCorrect, nextQuestion]);
 
-  const tapStage = useCallback((stageIndex: number) => {
+  const tapStage = (stageIndex: number) => {
     if (isCorrect !== null) return;
     const nextExpected = placed.length;
     if (stageIndex === nextExpected) {
@@ -38,7 +38,7 @@ export function useLifeCyclesInteraction(current: LifeCycleQuestion, onComplete:
       setWrongIdx(stageIndex);
       setTimeout(() => setWrongIdx(null), 500);
     }
-  }, [isCorrect, placed, onComplete]);
+  };
 
   return { placed, shuffled, wrongIdx, isCorrect, tapStage };
 }

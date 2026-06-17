@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { usePongStore } from './pongStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -96,7 +96,7 @@ export function usePongGame() {
   const { st, canvasRef, handlers } = _usePong();
 
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing';
     s.playerX = W / 2 - PAD_W / 2; s.aiX = W / 2 - PAD_W / 2;
@@ -105,17 +105,17 @@ export function usePongGame() {
     s.ballVX = Math.sin(angle) * spd; s.ballVY = (Math.random() < 0.5 ? 1 : -1) * Math.cos(angle) * spd;
     s.playerScore = 0; s.aiScore = 0; s.frame = 0; s.particles = []; s.startTime = Date.now();
     usePongStore.getState().startGame();
-  }, [st]);
+  };
 
-  const handleCanvasClick = useCallback(() => {
+  const handleCanvasClick = () => {
     if (st.current.phase === 'menu') startGame();
-  }, [st, startGame]);
+  };
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (st.current.phase === 'menu') startGame();
     handlers.onTouchMove(e);
-  }, [startGame, handlers, st]);
+  };
 
 
   useEffect(() => {

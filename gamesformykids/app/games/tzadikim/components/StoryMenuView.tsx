@@ -39,7 +39,7 @@ export default function StoryMenuView({
               key={story.id}
               onClick={() => onSelectStory(index)}
               className={`
-                w-full text-right p-5 rounded-2xl border-2 transition-all duration-200
+                w-full text-right p-5 rounded-2xl border-2 transition duration-200
                 shadow-md hover:shadow-lg hover:scale-[1.01] active:scale-[0.99]
                 ${index < currentIndex
                   ? 'bg-green-50 border-green-300 opacity-80'

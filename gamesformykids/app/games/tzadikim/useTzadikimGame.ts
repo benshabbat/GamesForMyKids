@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { TZADIKIM_STORIES, TzaddikStory } from './data/tzadikim';
 import { useQuizQuestionState } from '@/lib/quiz/useQuizQuestionState';
 
@@ -30,18 +30,18 @@ export function useTzadikimGame() {
     onComplete: () => setPhase('result'),
   });
 
-  const startStory = useCallback((index: number) => {
+  const startStory = (index: number) => {
     setStoryIndex(index);
     resetQuestionState();
     setPhase('story');
-  }, [resetQuestionState]);
+  };
 
-  const startQuiz = useCallback(() => {
+  const startQuiz = () => {
     resetQuestionState();
     setPhase('quiz');
-  }, [resetQuestionState]);
+  };
 
-  const nextStory = useCallback(() => {
+  const nextStory = () => {
     if (storyIndex < totalStories - 1) {
       setStoryIndex(prev => prev + 1);
       resetQuestionState();
@@ -49,16 +49,16 @@ export function useTzadikimGame() {
     } else {
       setPhase('complete');
     }
-  }, [storyIndex, totalStories, resetQuestionState]);
+  };
 
-  const backToMenu = useCallback(() => setPhase('menu'), []);
+  const backToMenu = () => setPhase('menu');
 
-  const restartGame = useCallback(() => {
+  const restartGame = () => {
     setPhase('menu');
     setStoryIndex(0);
     setScore(0);
     resetQuestionState();
-  }, [resetQuestionState]);
+  };
 
   const progressPercent = Math.round((storyIndex / totalStories) * 100);
 

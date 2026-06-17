@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { CRAFT_PROJECTS, type CraftProject } from '@/lib/constants/craftProjects';
 
 type Phase = 'menu' | 'materials' | 'steps' | 'done';
@@ -9,37 +9,37 @@ export function useCraftGuide() {
   const [project, setProject] = useState<CraftProject | null>(null);
   const [stepIndex, setStepIndex] = useState(0);
 
-  const selectProject = useCallback((id: string) => {
+  const selectProject = (id: string) => {
     const p = CRAFT_PROJECTS.find((x) => x.id === id);
     if (!p) return;
     setProject(p);
     setStepIndex(0);
     setPhase('materials');
-  }, []);
+  };
 
-  const startSteps = useCallback(() => {
+  const startSteps = () => {
     setStepIndex(0);
     setPhase('steps');
-  }, []);
+  };
 
-  const nextStep = useCallback(() => {
+  const nextStep = () => {
     if (!project) return;
     if (stepIndex < project.steps.length - 1) {
       setStepIndex((i) => i + 1);
     } else {
       setPhase('done');
     }
-  }, [project, stepIndex]);
+  };
 
-  const prevStep = useCallback(() => {
+  const prevStep = () => {
     if (stepIndex > 0) setStepIndex((i) => i - 1);
-  }, [stepIndex]);
+  };
 
-  const backToMenu = useCallback(() => {
+  const backToMenu = () => {
     setPhase('menu');
     setProject(null);
     setStepIndex(0);
-  }, []);
+  };
 
   const currentStep = project ? project.steps[stepIndex] : null;
   const totalSteps = project ? project.steps.length : 0;

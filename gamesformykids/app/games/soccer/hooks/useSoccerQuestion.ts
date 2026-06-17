@@ -23,7 +23,7 @@ export function useSoccerQuestion() {
   const nextLabel = index + 1 < total ? 'הבא ⚽' : 'סיום! 🏆';
 
   function answerClass(idx: number): string {
-    let cls = 'py-3 px-4 rounded-xl font-bold text-center shadow-md active:scale-95 transition-all text-sm ';
+    let cls = 'py-3 px-4 rounded-xl font-bold text-center shadow-md active:scale-95 transition text-sm ';
     if (isAnswered) {
       if (idx === currentQuestion?.correctIndex) cls += 'bg-green-500 text-white ring-4 ring-green-300';
       else if (String(idx) === selected) cls += 'bg-red-400 text-white';
