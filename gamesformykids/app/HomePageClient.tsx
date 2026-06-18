@@ -16,6 +16,7 @@ import GamesTodayBadge from "@/components/marketing/GamesTodayBadge";
 import OnboardingModal from "@/components/marketing/OnboardingModal";
 import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
+import JokeOfTheDay from "@/components/marketing/JokeOfTheDay";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
 import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
@@ -56,6 +57,7 @@ export default function HomePageClient() {
             <FeaturedGame />
             <ContinueBanner />
             <DailyChallenge />
+            <JokeOfTheDay />
             <RecentlyPlayedRow />
             <GamesTodayBadge />
             <GameRecommendations />
