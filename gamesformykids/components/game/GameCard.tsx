@@ -1,10 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { useFavoritesStore } from "@/lib/stores";
-import { useMasteryStars } from "@/hooks/shared/progress/useMasteryStars";
+import { getMasteryStars } from "@/lib/utils/engagement/masteryStars";
 
 interface GameCardProps extends ComponentTypes.GameCardProps {
   animationDelay?: number;
@@ -13,7 +14,11 @@ interface GameCardProps extends ComponentTypes.GameCardProps {
 export default function GameCard({ game, animationDelay }: GameCardProps) {
   const toggleFavorite = useFavoritesStore((s) => s.toggleFavorite);
   const isFav = useFavoritesStore((s) => s.favoriteIds.includes(game.id));
-  const masteryStars = useMasteryStars(game.id);
+  const [masteryStars, setMasteryStars] = useState(0);
+
+  useEffect(() => {
+    setMasteryStars(getMasteryStars(game.id));
+  }, [game.id]);
 
   if (game.available) {
     return (
@@ -29,7 +34,7 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
             `}
           >
             {/* Gradient overlay for enhanced visual appeal */}
-            <div className="absolute inset-0 bg-linear-to-br from-white/10 to-transparent pointer-events-none"></div>
+            <div className="absolute inset-0 bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
             
             <div className="relative text-center text-white">
               <div className="mb-2 md:mb-4 flex justify-center">

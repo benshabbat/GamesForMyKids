@@ -26,5 +26,5 @@ export function useMazeGame() {
     return () => window.removeEventListener('keydown', handleKey);
   }, [phase, move]);
 
-  return { phase, level, starsCollectedThisLevel, totalStarsCollected, startGame, move, nextLevel, reset };
+  return { phase, level, starsCollectedThisLevel, totalStarsCollected, startGame, nextLevel, reset };
 }
