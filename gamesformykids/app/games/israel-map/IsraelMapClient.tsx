@@ -1,6 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
-import { useMapStore } from './mapStore';
+import { useIsraelMap } from './useIsraelMap';
 import { LOCATIONS } from './data/locations';
 import IsraelSVG from './components/IsraelSVG';
 import GameResultCard from '@/components/game/shared/GameResultCard';
@@ -9,55 +8,11 @@ import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 const QUESTIONS_PER_GAME = 10;
 
 export default function IsraelMapClient() {
-  const {
-    phase, current, foundIds, score, total, lastResult,
-    startGame, checkTap, nextLocation, resetGame,
-  } = useMapStore();
-
-  const [feedback, setFeedback] = useState<string | null>(null);
-  const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  // Announce current location via TTS whenever it changes
-  useEffect(() => {
-    if (current && phase === 'playing') {
-      const msg = `לחץ על ${current.name}`;
-      speakHebrew(msg);
-    }
-  }, [current, phase]);
-
-  const handleTap = (svgX: number, svgY: number) => {
-    if (!current || lastResult !== null) return;
-    const hit = checkTap(svgX, svgY);
-
-    if (hit) {
-      useMapStore.setState((s) => ({
-        score: s.score + 1,
-        total: s.total + 1,
-        foundIds: [...s.foundIds, current.id],
-        lastResult: 'correct',
-      }));
-      setFeedback('correct');
-      speakHebrew(`נכון! ${current.fact}`);
-      feedbackTimerRef.current = setTimeout(() => {
-        setFeedback(null);
-        nextLocation();
-      }, 2500);
-    } else {
-      useMapStore.setState((s) => ({ total: s.total + 1, lastResult: 'wrong' }));
-      setFeedback('wrong');
-      speakHebrew(`נסה שוב — לחץ על ${current.name}`);
-      feedbackTimerRef.current = setTimeout(() => {
-        setFeedback(null);
-        useMapStore.setState({ lastResult: null });
-      }, 1200);
-    }
-  };
-
-  useEffect(() => () => { if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current); }, []);
+  const { phase, current, foundIds, score, total, lastResult, feedback, startGame, handleTap, resetGame } = useIsraelMap();
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 to-teal-100 flex flex-col items-center justify-center p-6">
+      <div className="min-h-screen bg-linear-to-br from-blue-100 to-teal-100 flex flex-col items-center justify-center p-6">
         <div className="text-6xl mb-4">🗺️</div>
         <h1 className="text-3xl font-bold text-blue-900 mb-2">מפת ישראל</h1>
         <p className="text-blue-700 mb-8 text-center">לחץ על המקום הנכון במפה!</p>
@@ -82,7 +37,7 @@ export default function IsraelMapClient() {
   if (phase === 'result') {
     const pct = Math.round((score / QUESTIONS_PER_GAME) * 100);
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-100 to-teal-100 flex items-center justify-center p-6">
+      <div className="min-h-screen bg-linear-to-br from-blue-100 to-teal-100 flex items-center justify-center p-6">
         <GameResultCard
           emoji="🗺️"
           title="סיימת את מסע ישראל!"
@@ -104,7 +59,7 @@ export default function IsraelMapClient() {
   const progressPct = Math.round((total / QUESTIONS_PER_GAME) * 100);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-teal-50 flex flex-col items-center p-3">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 to-teal-50 flex flex-col items-center p-3">
       {/* Header */}
       <div className="w-full max-w-md flex items-center justify-between mb-3">
         <button onClick={resetGame} className="text-blue-500 text-2xl">←</button>
