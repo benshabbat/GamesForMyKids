@@ -20,9 +20,9 @@ const LoadingScreen = ({ onLoadingComplete }: LoadingScreenProps) => {
         </h2>
         
         {/* Progress bar */}
-        <div className="w-80 h-4 bg-white bg-opacity-30 rounded-full overflow-hidden mb-4">
+        <div className="w-80 h-4 bg-white/30 rounded-full overflow-hidden mb-4">
           <div 
-            className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 transition-all duration-200 ease-out rounded-full"
+            className="h-full bg-gradient-to-r from-yellow-400 to-orange-400 transition-[width] duration-200 ease-out rounded-full"
             style={{ width: `${progress}%` }}
           />
         </div>

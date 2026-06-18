@@ -74,7 +74,7 @@ export default function StoryBuilderQuestion({ story, currentBlank, currentBlank
             <button
               key={word}
               onClick={() => onSelect(word)}
-              className="py-3 px-4 bg-indigo-100 hover:bg-indigo-200 active:scale-95 text-indigo-900 font-bold rounded-2xl transition-all text-lg"
+              className="py-3 px-4 bg-indigo-100 hover:bg-indigo-200 active:scale-95 text-indigo-900 font-bold rounded-2xl transition-transform text-lg"
             >
               {word}
             </button>

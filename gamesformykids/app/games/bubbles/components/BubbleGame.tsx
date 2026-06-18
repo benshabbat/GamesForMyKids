@@ -46,7 +46,7 @@ export default function BubbleGame() {
       </div>
 
       {/* סטטיסטיקות נוספות */}
-      <div className="absolute top-20 end-4 z-20 bg-white bg-opacity-80 rounded-2xl p-4 shadow-lg">
+      <div className="absolute top-20 end-4 z-20 bg-white/80 rounded-2xl p-4 shadow-lg">
         <div className="text-center">
           <div className="text-lg font-bold text-blue-800">בועות פוצצו:</div>
           <div className="text-2xl font-bold text-blue-600">{poppedCount}</div>
@@ -71,13 +71,13 @@ export default function BubbleGame() {
       {/* אפקטים ויזואליים נוספים */}
       <div className="absolute inset-0 pointer-events-none">
         {/* עננים מאחורה */}
-        <div className="absolute top-10 left-10 w-20 h-12 bg-white bg-opacity-40 rounded-full"></div>
-        <div className="absolute top-32 right-20 w-16 h-10 bg-white bg-opacity-30 rounded-full"></div>
-        <div className="absolute top-20 left-1/2 w-24 h-14 bg-white bg-opacity-35 rounded-full"></div>
+        <div className="absolute top-10 left-10 w-20 h-12 bg-white/40 rounded-full"></div>
+        <div className="absolute top-32 right-20 w-16 h-10 bg-white/30 rounded-full"></div>
+        <div className="absolute top-20 left-1/2 w-24 h-14 bg-white/35 rounded-full"></div>
 
         {/* ציפורים קטנות */}
-        <div className="absolute top-16 right-1/4 text-white text-opacity-60">🐦</div>
-        <div className="absolute top-40 left-1/3 text-white text-opacity-60">🐦</div>
+        <div className="absolute top-16 right-1/4 text-white/60">🐦</div>
+        <div className="absolute top-40 left-1/3 text-white/60">🐦</div>
       </div>
     </div>
   );

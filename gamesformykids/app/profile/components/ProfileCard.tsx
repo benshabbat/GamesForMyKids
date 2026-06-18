@@ -77,7 +77,7 @@ export function ProfileCard() {
                   <button
                     key={value}
                     onClick={() => handleGenderSelect(value)}
-                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border-2 transition-all duration-200 ${
+                    className={`flex items-center gap-1 px-3 py-1 rounded-full text-sm font-medium border-2 transition-colors duration-200 ${
                       profile?.gender === value
                         ? 'border-purple-500 bg-purple-100 text-purple-700'
                         : 'border-gray-200 bg-gray-50 text-gray-600 hover:border-purple-300'

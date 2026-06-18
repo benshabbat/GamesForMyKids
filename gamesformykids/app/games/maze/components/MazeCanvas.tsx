@@ -92,7 +92,7 @@ export default function MazeCanvas() {
       ref={canvasRef}
       width={CANVAS_SIZE}
       height={CANVAS_SIZE}
-      style={{ display: 'block', margin: '0 auto', borderRadius: '12px', border: '2px solid #334155' }}
+      className="block mx-auto rounded-xl border-2 border-slate-700"
     />
   );
 }

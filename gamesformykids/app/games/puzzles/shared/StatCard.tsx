@@ -15,7 +15,7 @@ export default function StatCard({ icon, label, value, color }: { icon: ReactNod
   return (
     <div className={`${c.bg} p-3 rounded-lg text-center`}>
       <div className="flex items-center justify-center mb-1">
-        <span className={`${c.icon} mr-1`}>{icon}</span>
+        <span className={`${c.icon} me-1`}>{icon}</span>
         <span className={`text-xs font-medium ${c.label}`}>{label}</span>
       </div>
       <div className={`text-lg font-bold ${c.value}`}>{value}</div>
