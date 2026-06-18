@@ -6,11 +6,11 @@ test.describe('Animals game', () => {
     await expect(page.getByText('בעלי חיים')).toBeVisible({ timeout: 10_000 });
   });
 
-  test('shows category selection buttons', async ({ page }) => {
+  test('shows start screen with difficulty and start buttons', async ({ page }) => {
     await page.goto('/games/animals');
-    // Category buttons are rendered from CATEGORY_ORDER — at least 2 should exist
     const buttons = page.getByRole('button');
-    await expect(buttons.first()).toBeVisible({ timeout: 10_000 });
+    // Wait for at least 2 buttons (DifficultyPicker + start button) to be rendered
+    await expect(buttons.nth(1)).toBeVisible({ timeout: 10_000 });
     expect(await buttons.count()).toBeGreaterThanOrEqual(2);
   });
 
