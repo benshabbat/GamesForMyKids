@@ -6,6 +6,7 @@ import { QuizMenuScreen, QuizResultScreen, CategoryIndexedQuestion } from '@/com
 import { useNikudGame } from '@/lib/quiz/useNikudGame';
 import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
 import { useStoryBuilderGame } from '@/lib/quiz/useStoryBuilderGame';
+import { useRiddlesProGame } from '@/lib/quiz/useRiddlesProGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -32,6 +33,7 @@ import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 // Screen components — lazy-loaded so each game page only downloads its own screens
 // Options must be object literals (Turbopack static analysis requirement)
+const RiddleProQuestion  = dynamic(() => import('@/components/game/quiz/screens/RiddleProQuestion'), { loading: () => <GameSpinnerScreen /> });
 const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'), { loading: () => <GameSpinnerScreen /> });
 const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'), { loading: () => <GameSpinnerScreen /> });
 const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'), { loading: () => <GameSpinnerScreen /> });
@@ -63,6 +65,15 @@ const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screen
  * Opening /games/clock does NOT download soccer/phonics/nature screens (and vice versa).
  */
 export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
+  'riddles-pro': makeQuizGame(
+    useRiddlesProGame,
+    ({ current, choices, cluesRevealed, answersShown, questionNumber, total, score, lastPoints, lastCorrect, revealClue, showAnswers, selectAnswer, startGame, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🧩" title="חידות מדורגות" description="השב מוקדם יותר — קבל יותר נקודות! עד 3 נקודות לחידה!" theme="violet" buttonLabel="🧩 בואו ניגש!" onStart={startGame} />,
+      question: current ? <RiddleProQuestion current={current} choices={choices as string[]} cluesRevealed={cluesRevealed as number} answersShown={answersShown as boolean} questionNumber={questionNumber as number} total={total as number} score={score} lastPoints={lastPoints as number | null} lastCorrect={lastCorrect as boolean | null} onRevealClue={revealClue as () => void} onShowAnswers={showAnswers as () => void} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="violet" />,
+    }),
+  ),
+
   'clock': makeQuizGame(
     useClockGame,
     ({ current, choices, startGame, selectAnswer, restart }) => ({

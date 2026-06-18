@@ -84,6 +84,7 @@ export const SUPPORTED_GAMES = [
   'craft-guide',
   'jokes-browser',
   'word-maze',
+  'riddles-pro',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

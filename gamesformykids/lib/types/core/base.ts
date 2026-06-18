@@ -235,4 +235,6 @@ export type GameType =
   // Jokes browser
   | 'jokes-browser'
   // Word maze
-  | 'word-maze';
+  | 'word-maze'
+  // Progressive riddles
+  | 'riddles-pro';
