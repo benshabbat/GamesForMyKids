@@ -86,7 +86,7 @@ body {
   }
 }
 
-@keyframes glow {
+@keyframes glow-gold {
   0%, 100% {
     box-shadow: 0 0 5px rgba(255, 215, 0, 0.5);
   }
@@ -115,8 +115,8 @@ body {
   animation: float 3s ease-in-out infinite;
 }
 
-.animate-glow {
-  animation: glow 2s ease-in-out infinite;
+.animate-glow-gold {
+  animation: glow-gold 2s ease-in-out infinite;
 }
 
 .animate-shake {
@@ -156,15 +156,6 @@ body {
     width: 800px;
     height: 600px;
   }
-}
-
-@keyframes bounce-gentle {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-5px); }
-}
-
-.animate-bounce-gentle {
-  animation: bounce-gentle 2s infinite;
 }
 
 /* הסתרת scrollbar אך שמירה על פונקציונליות */
@@ -234,21 +225,6 @@ body {
 
 .animate-flip-in {
   animation: flip-in 0.5s ease-out;
-}
-
-@keyframes fade-in {
-  0% { 
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  100% { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out;
 }
 
 @keyframes shimmer {
