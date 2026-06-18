@@ -58,7 +58,7 @@ export default function GameResultCard({
   scorePercent,
   children,
 }: Props) {
-  const { share, copied, shareWhatsApp } = useShareScore();
+  const { share, copied } = useShareScore();
   const { rating, rate } = useGameRating(gameType);
   const nextGame = useMemo(() => (gameType ? getNextGameInCategory(gameType) : null), [gameType]);
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
