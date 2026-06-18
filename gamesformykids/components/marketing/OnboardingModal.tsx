@@ -1,7 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
 
-const ONBOARDED_KEY = 'gfk_onboarded';
+import { useOnboardingModal } from '@/hooks/shared/marketing/useOnboardingModal';
 
 const STEPS = [
   {
@@ -22,24 +21,7 @@ const STEPS = [
 ];
 
 export default function OnboardingModal() {
-  const [step, setStep] = useState(0);
-  const [visible, setVisible] = useState(false);
-
-  useEffect(() => {
-    try {
-      if (!localStorage.getItem(ONBOARDED_KEY)) setVisible(true);
-    } catch {}
-  }, []);
-
-  const close = () => {
-    try { localStorage.setItem(ONBOARDED_KEY, '1'); } catch {}
-    setVisible(false);
-  };
-
-  const next = () => {
-    if (step < STEPS.length - 1) setStep(step + 1);
-    else close();
-  };
+  const { step, visible, next, prev, close } = useOnboardingModal(STEPS.length);
 
   if (!visible) return null;
 
@@ -47,7 +29,7 @@ export default function OnboardingModal() {
 
   return (
     <div
-      className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm"
       dir="rtl"
       role="dialog"
       aria-modal="true"
@@ -58,7 +40,6 @@ export default function OnboardingModal() {
         <h2 className="text-2xl font-bold text-gray-800 mb-3">{current.title}</h2>
         <p className="text-gray-600 leading-relaxed mb-6">{current.body}</p>
 
-        {/* Step dots */}
         <div className="flex justify-center gap-2 mb-6">
           {STEPS.map((_, i) => (
             <div
@@ -71,7 +52,7 @@ export default function OnboardingModal() {
         <div className="flex gap-3">
           {step > 0 && (
             <button
-              onClick={() => setStep(step - 1)}
+              onClick={prev}
               className="flex-1 py-3 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold hover:bg-gray-50 transition-colors"
             >
               ← אחורה

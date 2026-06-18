@@ -1,31 +1,10 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { getRecentGames, type RecentGameEntry } from '@/lib/utils/engagement/trackGameVisit';
-import { GamesRegistry } from '@/lib/registry/gamesRegistry';
-
-interface RecentItem {
-  gameType: string;
-  title: string;
-  emoji: string;
-  href: string;
-}
+import { useRecentlyPlayed } from '@/hooks/shared/marketing/useRecentlyPlayed';
 
 export default function RecentlyPlayedRow() {
-  const [items, setItems] = useState<RecentItem[]>([]);
-
-  useEffect(() => {
-    const recent: RecentGameEntry[] = getRecentGames();
-    const resolved = recent
-      .map((entry) => {
-        const reg = GamesRegistry.getGameById(entry.gameType);
-        if (!reg) return null;
-        return { gameType: entry.gameType, title: reg.title, emoji: reg.emoji, href: reg.href };
-      })
-      .filter((x): x is RecentItem => x !== null);
-    setItems(resolved);
-  }, []);
+  const items = useRecentlyPlayed();
 
   if (items.length === 0) return null;
 
@@ -38,10 +17,10 @@ export default function RecentlyPlayedRow() {
             <Link
               key={item.gameType}
               href={item.href}
-              className="flex flex-col items-center gap-1 bg-white dark:bg-gray-800 rounded-2xl shadow px-4 py-3 hover:shadow-md active:scale-95 transition-transform text-center min-w-[80px]"
+              className="flex flex-col items-center gap-1 bg-white dark:bg-gray-800 rounded-2xl shadow px-4 py-3 hover:shadow-md active:scale-95 transition-transform text-center min-w-20"
             >
               <span className="text-3xl">{item.emoji}</span>
-              <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 leading-tight max-w-[72px] line-clamp-2">
+              <span className="text-xs font-semibold text-gray-700 dark:text-gray-200 leading-tight max-w-18 line-clamp-2">
                 {item.title}
               </span>
             </Link>
