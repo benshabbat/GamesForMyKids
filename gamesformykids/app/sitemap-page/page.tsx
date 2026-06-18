@@ -95,7 +95,7 @@ export default function SitemapPage() {
         <div className="text-center mt-12">
           <Link 
             href="/"
-            className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+            className="inline-block bg-gradient-to-r from-purple-500 to-pink-500 text-white px-8 py-4 rounded-2xl font-bold text-lg shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:scale-105"
           >
             🏠 חזרה לעמוד הראשי
           </Link>

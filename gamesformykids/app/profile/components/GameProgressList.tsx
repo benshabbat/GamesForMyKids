@@ -49,7 +49,7 @@ export function GameProgressList() {
                     <h4 className="font-semibold text-gray-800 truncate group-hover:text-purple-700">
                       {title}
                     </h4>
-                    <span className="text-xs text-gray-400 shrink-0 mr-2">
+                    <span className="text-xs text-gray-400 shrink-0 me-2">
                       {formatLastPlayed(gp.last_played_at)}
                     </span>
                   </div>
@@ -57,7 +57,7 @@ export function GameProgressList() {
                   {/* progress bar */}
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-2">
                     <div
-                      className="bg-linear-to-r from-purple-400 to-purple-600 h-2 rounded-full transition-all"
+                      className="bg-linear-to-r from-purple-400 to-purple-600 h-2 rounded-full transition-[width]"
                       style={{ width: `${pct}%` }}
                     />
                   </div>

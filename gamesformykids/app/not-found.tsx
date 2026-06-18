@@ -33,7 +33,7 @@ export default function NotFound() {
           <div className="space-y-4">
             <Link
               href="/"
-              className="block w-full bg-linear-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105"
+              className="block w-full bg-linear-to-r from-purple-500 to-pink-500 text-white px-6 py-3 rounded-xl font-bold text-lg shadow-lg hover:shadow-xl transition-[transform,box-shadow] duration-300 hover:scale-105"
             >
               🏠 חזרה לעמוד הראשי
             </Link>

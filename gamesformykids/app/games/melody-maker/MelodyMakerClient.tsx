@@ -51,7 +51,7 @@ export default function MelodyMakerClient() {
         </button>
       </div>
 
-      <div className="w-full max-w-lg bg-white bg-opacity-70 rounded-2xl p-4 shadow-lg">
+      <div className="w-full max-w-lg bg-white/70 rounded-2xl p-4 shadow-lg">
         <XylophoneKeys
           onTap={tapKey}
           flashingKey={flashingKey}
@@ -91,7 +91,7 @@ export default function MelodyMakerClient() {
           )}
 
           {recording.length > 0 && (
-            <div className="flex flex-wrap gap-1 justify-center bg-white bg-opacity-80 rounded-xl p-3 w-full">
+            <div className="flex flex-wrap gap-1 justify-center bg-white/80 rounded-xl p-3 w-full">
               {recording.map((noteIdx, i) => (
                 <span key={i} className="bg-purple-100 text-purple-700 text-xs font-bold px-2 py-1 rounded-full">
                   {NOTE_NAMES_HE[noteIdx] ?? ''}
@@ -101,7 +101,7 @@ export default function MelodyMakerClient() {
           )}
         </div>
       ) : (
-        <div className="w-full max-w-lg bg-white bg-opacity-70 rounded-2xl p-4 shadow-lg">
+        <div className="w-full max-w-lg bg-white/70 rounded-2xl p-4 shadow-lg">
           <SongGuide
             selectedSong={selectedSong}
             songProgress={songProgress}
