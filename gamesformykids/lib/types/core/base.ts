@@ -237,4 +237,6 @@ export type GameType =
   // Word maze
   | 'word-maze'
   // Progressive riddles
-  | 'riddles-pro';
+  | 'riddles-pro'
+  // Categorised trivia with difficulty picker
+  | 'trivia-categories';

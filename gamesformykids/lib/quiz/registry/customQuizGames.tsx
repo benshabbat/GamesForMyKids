@@ -7,6 +7,7 @@ import { useNikudGame } from '@/lib/quiz/useNikudGame';
 import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
 import { useStoryBuilderGame } from '@/lib/quiz/useStoryBuilderGame';
 import { useRiddlesProGame } from '@/lib/quiz/useRiddlesProGame';
+import { useTriviaCategoriesGame } from '@/lib/quiz/useTriviaCategoriesGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -24,6 +25,7 @@ import { usePatternsGame } from '@/lib/quiz/usePatternsGame';
 import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
 
 // Category data constants needed synchronously in render props
+import type { TriviaCatCategory, TriviaCatDifficulty } from '@/lib/quiz/data/trivia-categories';
 import type { NatureCategory } from '@/lib/quiz/data/nature';
 import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
@@ -34,6 +36,8 @@ import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 // Screen components — lazy-loaded so each game page only downloads its own screens
 // Options must be object literals (Turbopack static analysis requirement)
 const RiddleProQuestion  = dynamic(() => import('@/components/game/quiz/screens/RiddleProQuestion'), { loading: () => <GameSpinnerScreen /> });
+const TriviaCategoryPicker = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoryPicker'), { loading: () => <GameSpinnerScreen /> });
+const TriviaCategoriesQuestion = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoriesQuestion'), { loading: () => <GameSpinnerScreen /> });
 const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'), { loading: () => <GameSpinnerScreen /> });
 const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'), { loading: () => <GameSpinnerScreen /> });
 const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'), { loading: () => <GameSpinnerScreen /> });
@@ -65,6 +69,15 @@ const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screen
  * Opening /games/clock does NOT download soccer/phonics/nature screens (and vice versa).
  */
 export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
+  'trivia-categories': makeQuizGame(
+    useTriviaCategoriesGame,
+    ({ current, choices, correctLabel, difficulty, streak, startGame, selectAnswer, restart }) => ({
+      menu:     <TriviaCategoryPicker onStart={startGame as (cat: TriviaCatCategory, diff: TriviaCatDifficulty) => void} />,
+      question: current ? <TriviaCategoriesQuestion current={current} choices={choices as string[]} correctLabel={correctLabel as string} difficulty={difficulty as TriviaCatDifficulty} streak={streak as number} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="amber" />,
+    }),
+  ),
+
   'riddles-pro': makeQuizGame(
     useRiddlesProGame,
     ({ current, choices, cluesRevealed, answersShown, questionNumber, total, score, lastPoints, lastCorrect, revealClue, showAnswers, selectAnswer, startGame, restart }) => ({
