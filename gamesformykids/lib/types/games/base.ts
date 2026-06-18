@@ -33,6 +33,7 @@ interface GameAvailability {
 }
 
 export type ContentType = 'game' | 'tool' | 'creative' | 'riddle';
+export type GameDifficulty = 1 | 2 | 3;
 
 /**
  * רישום משחק מלא - עקרון Interface Segregation
@@ -43,6 +44,7 @@ export interface GameRegistration extends
   GameAvailability {
   readonly order: number;
   readonly contentType?: ContentType;
+  readonly difficulty?: GameDifficulty;
 }
 
 /**
