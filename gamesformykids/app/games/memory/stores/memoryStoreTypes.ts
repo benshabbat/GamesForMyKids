@@ -1,6 +1,6 @@
 import { AnimalData } from '@/lib/types/games';
 import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
-import { DifficultyLevel, MemoryCard, GameStats } from '../types/memory';
+import { DifficultyLevel, MemoryCard, GameStats, MemoryPhase } from '../types/memory';
 import { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
 
 // ─── Initial values ───────────────────────────────────────────────────────────
@@ -12,9 +12,7 @@ export const initialGameStats: GameStats = {
   streak: 0,
 };
 
-// ─── Phase type ───────────────────────────────────────────────────────────────
-
-export type MemoryPhase = 'menu' | 'playing' | 'won' | 'timeout';
+export type { MemoryPhase };
 
 // ─── Duo mode types ───────────────────────────────────────────────────────────
 

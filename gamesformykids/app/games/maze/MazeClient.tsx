@@ -1,6 +1,5 @@
 'use client';
 import { useMazeGame } from './useMazeGame';
-import { useMazeStore } from './mazeStore';
 import MazeCanvas from './components/MazeCanvas';
 import { GameCompletionCelebration } from '@/components/game/shared/GameCompletionCelebration';
 
@@ -8,8 +7,7 @@ const LEVEL_NAMES = ['מפה קטנה 5×5', 'מפה בינונית 7×7', 'מפ
 const TOTAL_LEVELS = 5;
 
 export default function MazeClient() {
-  const { phase, level, starsCollectedThisLevel, totalStarsCollected, startGame, nextLevel, reset } = useMazeGame();
-  const move = useMazeStore(s => s.move);
+  const { phase, level, starsCollectedThisLevel, totalStarsCollected, startGame, move, nextLevel, reset } = useMazeGame();
 
   if (phase === 'idle') {
     return (
