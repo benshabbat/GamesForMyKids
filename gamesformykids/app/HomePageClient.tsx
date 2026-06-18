@@ -18,6 +18,7 @@ import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
 import JokeOfTheDay from "@/components/marketing/JokeOfTheDay";
 import FactOfTheDay from "@/components/marketing/FactOfTheDay";
+import RiddleOfTheDay from "@/components/marketing/RiddleOfTheDay";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
 import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
@@ -62,6 +63,7 @@ export default function HomePageClient() {
             <DailyChallenge />
             <JokeOfTheDay />
             <FactOfTheDay />
+            <RiddleOfTheDay />
             <RecentlyPlayedRow />
             <GamesTodayBadge />
             <GameRecommendations />
