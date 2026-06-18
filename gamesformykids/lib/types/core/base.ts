@@ -241,4 +241,6 @@ export type GameType =
   // Categorised trivia with difficulty picker
   | 'trivia-categories'
   // Hebrew avatar character builder
-  | 'avatar-maker';
+  | 'avatar-maker'
+  // Identify Hebrew sounds game
+  | 'sound-quiz';
