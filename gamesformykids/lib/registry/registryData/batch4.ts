@@ -35,6 +35,7 @@ import {
   Laugh,
   Lightbulb,
   RotateCw,
+  Users,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -826,5 +827,27 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/spinner",
     available: true,
     order: 194,
+  },
+  {
+    id: "spinner",
+    title: "גלגל מזל",
+    description: "סובב את גלגל המזל — בחר קטעים מותאמים אישית, אותיות, מספרים, צבעים וחיות!",
+    icon: RotateCw,
+    emoji: "🎡",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/spinner",
+    available: true,
+    order: 194,
+  },
+  {
+    id: "team-picker",
+    title: "מחלק קבוצות",
+    description: "הזן שמות, בחר מספר קבוצות — הכלי יחלק בהגינות עם ערבוב פישר-ייטס!",
+    icon: Users,
+    emoji: "🎯",
+    color: "bg-teal-500 hover:bg-teal-600",
+    href: "/games/team-picker",
+    available: true,
+    order: 195,
   },
 ];
