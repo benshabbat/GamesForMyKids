@@ -233,4 +233,6 @@ export type GameType =
   // Craft guide
   | 'craft-guide'
   // Jokes browser
-  | 'jokes-browser';
+  | 'jokes-browser'
+  // Word maze
+  | 'word-maze';

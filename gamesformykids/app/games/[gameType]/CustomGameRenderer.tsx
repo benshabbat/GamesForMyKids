@@ -65,6 +65,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'age-calculator':    dynamic(() => import('../age-calculator/AgeCalculatorClient'),                { ssr: false }),
   'craft-guide':       dynamic(() => import('../craft-guide/CraftGuideClient'),                      { ssr: false }),
   'jokes-browser':     dynamic(() => import('../jokes-browser/JokesBrowserClient'),                  { ssr: false }),
+  'word-maze':         dynamic(() => import('../word-maze/WordMazeClient'),                          { ssr: false }),
 };
 
 interface Props { gameType: string; }
