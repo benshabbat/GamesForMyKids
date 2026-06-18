@@ -15,7 +15,7 @@ export default function WordScramblePlayScreen() {
         <div><p className="text-lg font-bold text-gray-500">{wIdx + 1}/{words.length}</p></div>
         <LivesDisplay lives={lives} size="text-base" />
       </div>
-      <div className={`bg-white rounded-3xl p-6 shadow-2xl max-w-sm w-full text-center transition-all duration-200 ${shake ? 'animate-shake' : ''}`}>
+      <div className={`bg-white rounded-3xl p-6 shadow-2xl max-w-sm w-full text-center transition duration-200 ${shake ? 'animate-shake' : ''}`}>
         <div className="text-7xl mb-2">{entry.emoji}</div>
         <p className="text-gray-400 text-sm mb-4">{entry.hint}</p>
         <div className="flex justify-center gap-2 mb-6 flex-wrap">
@@ -23,7 +23,7 @@ export default function WordScramblePlayScreen() {
             <button
               key={i}
               onClick={() => picked[i] && unpick(i)}
-              className={`w-12 h-12 rounded-xl border-2 text-xl font-black transition-all
+              className={`w-12 h-12 rounded-xl border-2 text-xl font-black transition
                 ${picked[i]
                   ? correct
                     ? 'border-green-400 bg-green-100 text-green-700'
@@ -41,7 +41,7 @@ export default function WordScramblePlayScreen() {
               key={l.idx}
               onClick={() => pickLetter(l.idx)}
               disabled={l.picked}
-              className={`w-12 h-12 rounded-xl text-xl font-black transition-all
+              className={`w-12 h-12 rounded-xl text-xl font-black transition
                 ${l.picked
                   ? 'bg-gray-100 text-gray-300 border-2 border-gray-200 cursor-default'
                   : 'bg-gradient-to-br from-emerald-400 to-green-600 text-white shadow-md active:scale-90 hover:scale-110 border-2 border-green-600'}`}

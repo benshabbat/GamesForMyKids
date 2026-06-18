@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import { useWordSearchStore } from './wordSearchStore';
 import SearchGrid from './components/SearchGrid';
 import GameResultCard from '@/components/game/shared/GameResultCard';
@@ -12,7 +11,7 @@ export default function WordSearchClient() {
     startGame, submitSelection, resetGame,
   } = useWordSearchStore();
 
-  const handleSelect = useCallback((cells: Array<[number, number]>) => {
+  const handleSelect = (cells: Array<[number, number]>) => {
     const ok = submitSelection(cells);
     if (ok) {
       const { found: newFound, placed: ps } = useWordSearchStore.getState();
@@ -20,7 +19,7 @@ export default function WordSearchClient() {
       if (justFound) speakHebrew(justFound.word);
     }
     return ok;
-  }, [submitSelection, found]);
+  };
 
   if (phase === 'menu') {
     return (
@@ -34,7 +33,7 @@ export default function WordSearchClient() {
               <button
                 key={ws.name}
                 onClick={() => startGame(i)}
-                className="bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white font-bold rounded-2xl py-4 px-3 flex flex-col items-center gap-1 transition-all active:scale-95 shadow-md"
+                className="bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-white font-bold rounded-2xl py-4 px-3 flex flex-col items-center gap-1 transition active:scale-95 shadow-md"
               >
                 <span className="text-3xl">{ws.emoji}</span>
                 <span className="text-sm">{ws.name}</span>
@@ -88,7 +87,7 @@ export default function WordSearchClient() {
         {placed.map(pw => (
           <span
             key={pw.word}
-            className={`px-2 py-0.5 rounded-full text-sm font-bold transition-all ${
+            className={`px-2 py-0.5 rounded-full text-sm font-bold transition ${
               found.has(pw.word)
                 ? 'bg-green-300 text-green-900 line-through opacity-60'
                 : 'bg-white/20 text-white'

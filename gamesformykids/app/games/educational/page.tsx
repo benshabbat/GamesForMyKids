@@ -35,7 +35,7 @@ export default function EducationalPage() {
             <Link key={game.id} href={game.href} aria-label={game.title}>
               <div
                 className={`
-                  relative p-4 md:p-6 rounded-2xl shadow-lg transition-all duration-300
+                  relative p-4 md:p-6 rounded-2xl shadow-lg transition duration-300
                   transform hover:scale-105 cursor-pointer hover:shadow-2xl overflow-hidden
                   ${game.color}
                 `}

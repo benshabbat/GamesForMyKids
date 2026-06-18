@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -167,10 +167,10 @@ export function useDinoRunnerGame() {
     return () => window.removeEventListener('keydown', handler);
   }, [jump]);
 
-  const handleTap = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+  const handleTap = (e?: React.MouseEvent | React.TouchEvent) => {
     e?.preventDefault();
     jump();
-  }, [jump]);
+  };
 
   const { phase, score, best } = useDinoRunnerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
 

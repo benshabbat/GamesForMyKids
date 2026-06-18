@@ -10,7 +10,7 @@ export default function GameControls() {
       {!gameStarted && gameTime > 0 && (
         <button
           onClick={startGame}
-          className={`bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-green-300 ${
+          className={`bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white font-bold rounded-2xl shadow-2xl transform hover:scale-105 transition duration-300 border-2 border-green-300 ${
             isMobile ? 'py-3 px-6 text-lg' : 'py-4 px-8 text-2xl'
           }`}
         >
@@ -35,7 +35,7 @@ export default function GameControls() {
           <div className="flex flex-col gap-3">
             <button
               onClick={startGame}
-              className={`bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 transform hover:scale-105 shadow-lg ${
+              className={`bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white font-bold rounded-xl transition duration-300 transform hover:scale-105 shadow-lg ${
                 isMobile ? 'py-2 px-4 text-sm' : 'py-3 px-6'
               }`}
             >

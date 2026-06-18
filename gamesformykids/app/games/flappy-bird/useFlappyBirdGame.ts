@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFlappyBirdStore } from './flappyBirdStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -183,7 +182,7 @@ export function useFlappyBirdGame() {
   const { st, canvasRef } = _useFlappyBird();
 
 
-  const resetGame = useCallback(() => {
+  const resetGame = () => {
     const s = st.current;
     s.phase = 'playing';
     s.birdY = H / 2;
@@ -194,9 +193,9 @@ export function useFlappyBirdGame() {
     s.startTime = Date.now();
     useFlappyBirdStore.getState().setPhase('playing');
     useFlappyBirdStore.getState().setScore(0);
-  }, [st]);
+  };
 
-  const flap = useCallback(() => {
+  const flap = () => {
     const s = st.current;
     if (s.phase === 'playing') {
       s.birdVY = FLAP_STRENGTH;
@@ -206,13 +205,13 @@ export function useFlappyBirdGame() {
       s.phase = 'menu';
       useFlappyBirdStore.getState().setPhase('menu');
     }
-  }, [st, resetGame]);
+  };
 
 
-  const handleInput = useCallback((e?: React.MouseEvent | React.TouchEvent) => {
+  const handleInput = (e?: React.MouseEvent | React.TouchEvent) => {
     e?.preventDefault();
     flap();
-  }, [flap]);
+  };
 
   const { phase, best, score } = useFlappyBirdStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score })));
 

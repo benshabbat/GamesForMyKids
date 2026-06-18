@@ -20,11 +20,11 @@ export default function TrueFalsePlayScreen() {
           <LivesDisplay lives={lives} />
         </div>
         <div>
-          <p className={`font-black transition-all ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-cyan-600 text-2xl'}`}>{timeLeft}</p>
+          <p className={`font-black transition ${timeLeft <= 2 ? 'text-orange-500 text-3xl scale-110' : 'text-cyan-600 text-2xl'}`}>{timeLeft}</p>
           <p className="text-xs text-cyan-400">שניות</p>
         </div>
       </div>
-      <div className={`w-full max-w-sm bg-white rounded-3xl p-6 text-center shadow-2xl mb-6 transition-all duration-200 ${
+      <div className={`w-full max-w-sm bg-white rounded-3xl p-6 text-center shadow-2xl mb-6 transition duration-200 ${
         feedback === 'correct' ? 'ring-4 ring-green-400 bg-green-50' :
         feedback === 'wrong'   ? 'ring-4 ring-amber-400 bg-amber-50' : ''
       }`}>
@@ -37,7 +37,7 @@ export default function TrueFalsePlayScreen() {
         )}
         <div className="mt-4 bg-gray-100 rounded-full h-2">
           <div
-            className="bg-gradient-to-r from-teal-400 to-cyan-500 h-2 rounded-full transition-all duration-1000"
+            className="bg-gradient-to-r from-teal-400 to-cyan-500 h-2 rounded-full transition-[width] duration-1000"
             style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
           />
         </div>
@@ -46,12 +46,12 @@ export default function TrueFalsePlayScreen() {
         <button
           onClick={() => answer(true)}
           disabled={!!feedback}
-          className="flex-1 py-6 rounded-3xl bg-green-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-green-400 transition-all disabled:opacity-60"
+          className="flex-1 py-6 rounded-3xl bg-green-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-green-400 transition disabled:opacity-60"
         >✅</button>
         <button
           onClick={() => answer(false)}
           disabled={!!feedback}
-          className="flex-1 py-6 rounded-3xl bg-red-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-red-400 transition-all disabled:opacity-60"
+          className="flex-1 py-6 rounded-3xl bg-red-500 text-white font-black text-5xl shadow-xl active:scale-90 hover:bg-red-400 transition disabled:opacity-60"
         >❌</button>
       </div>
       <KeyboardHint

@@ -1,5 +1,5 @@
 'use client';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import type { SongData, ComprehensionQuestion } from '../data/songs';
 
 interface Props {
@@ -12,11 +12,13 @@ interface Props {
 export default function SongQuiz({ song, question, questionNum, onAnswer }: Props) {
   const [selected, setSelected] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const submitTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(submitTimerRef.current), []);
 
   const handleSubmit = () => {
     if (selected === null) return;
     setSubmitted(true);
-    setTimeout(() => onAnswer(selected), 1500);
+    submitTimerRef.current = setTimeout(() => onAnswer(selected), 1500);
   };
 
   return (
@@ -33,7 +35,7 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
           <div className="grid grid-cols-2 gap-3">
             {question.options.map((option, idx) => {
               let cls =
-                'p-4 rounded-xl border-2 font-semibold text-center transition-all text-base cursor-pointer ';
+                'p-4 rounded-xl border-2 font-semibold text-center transition-colors text-base cursor-pointer ';
               if (!submitted) {
                 cls +=
                   selected === idx

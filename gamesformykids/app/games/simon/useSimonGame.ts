@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSimonStore, BUTTONS } from './simonStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
@@ -15,7 +15,7 @@ export function useSimonGame() {
           setActiveColor, setPhase, setPlayerIdx, setRoundScore, setSequence, updateBest } =
     useSimonStore(useShallow((s) => s));
 
-  const flash = useCallback((id: ButtonId, ms: number): Promise<void> => {
+  const flash = (id: ButtonId, ms: number): Promise<void> => {
     return new Promise(resolve => {
       setActiveColor(id);
       setTimeout(() => {
@@ -23,9 +23,9 @@ export function useSimonGame() {
         setTimeout(resolve, 120);
       }, ms);
     });
-  }, [setActiveColor]);
+  };
 
-  const runSequence = useCallback(async (seq: ButtonId[]) => {
+  const runSequence = async (seq: ButtonId[]) => {
     setPhase('showing');
     setPlayerIdx(0);
     await new Promise(r => setTimeout(r, 500));
@@ -37,13 +37,13 @@ export function useSimonGame() {
     if (useSimonStore.getState().phase !== 'showing') return;
     setPhase('input');
     setPlayerIdx(0);
-  }, [flash, setPhase, setPlayerIdx]);
+  };
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     initGame();
     const { sequence: seq } = useSimonStore.getState();
     runSequence(seq);
-  }, [initGame, runSequence]);
+  };
 
   const { saveGameResultRef } = useGameCompletion('simon');
   const startTimeRef = useRef<number>(0);
@@ -64,7 +64,7 @@ export function useSimonGame() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [phase]);
 
-  const handleTap = useCallback((id: string) => {
+  const handleTap = (id: string) => {
     const { phase: currentPhase, playerIdx: idx, sequence: seq } = useSimonStore.getState();
     if (currentPhase !== 'input') return;
 
@@ -88,7 +88,7 @@ export function useSimonGame() {
       setSequence(newSeq);
       setTimeout(() => runSequence(newSeq), 900);
     }
-  }, [setActiveColor, setPhase, setPlayerIdx, setRoundScore, setSequence, updateBest, runSequence]);
+  };
 
   return { phase, activeColor, playerIdx, best, roundScore, sequenceLength: sequence.length, startGame, handleTap };
 }

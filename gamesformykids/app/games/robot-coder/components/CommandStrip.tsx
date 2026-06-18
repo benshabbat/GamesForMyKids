@@ -28,7 +28,7 @@ export default function CommandStrip({ commands, maxCommands, isRunning, animSte
             onClick={() => onAdd(dir)}
             disabled={isRunning || commands.length >= maxCommands}
             title={DIR_LABELS[dir]}
-            className="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 active:bg-indigo-300 border-2 border-indigo-300 text-indigo-700 text-2xl font-bold transition-all disabled:opacity-40 disabled:cursor-not-allowed"
+            className="w-12 h-12 rounded-xl bg-indigo-100 hover:bg-indigo-200 active:bg-indigo-300 border-2 border-indigo-300 text-indigo-700 text-2xl font-bold transition disabled:opacity-40 disabled:cursor-not-allowed"
           >
             {dir}
           </button>
@@ -42,7 +42,7 @@ export default function CommandStrip({ commands, maxCommands, isRunning, animSte
             key={i}
             onClick={() => cmd && !isRunning && onRemove(i)}
             disabled={isRunning}
-            className={`w-10 h-10 rounded-xl border-2 text-xl font-bold transition-all ${
+            className={`w-10 h-10 rounded-xl border-2 text-xl font-bold transition ${
               cmd
                 ? i === animStep - 1 && isRunning
                   ? 'border-yellow-400 bg-yellow-200 text-yellow-800 scale-110'
@@ -60,14 +60,14 @@ export default function CommandStrip({ commands, maxCommands, isRunning, animSte
         <button
           onClick={onClear}
           disabled={isRunning || commands.length === 0}
-          className="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-sm transition-all disabled:opacity-40"
+          className="px-4 py-2 rounded-xl bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold text-sm transition disabled:opacity-40"
         >
           נקה
         </button>
         <button
           onClick={onRun}
           disabled={isRunning || commands.length === 0}
-          className="px-6 py-2 rounded-xl bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-extrabold text-base transition-all disabled:opacity-40 shadow-md"
+          className="px-6 py-2 rounded-xl bg-green-500 hover:bg-green-600 active:bg-green-700 text-white font-extrabold text-base transition disabled:opacity-40 shadow-md"
         >
           {isRunning ? '⚙️ רץ...' : '▶ הרץ!'}
         </button>

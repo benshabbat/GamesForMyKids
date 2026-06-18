@@ -22,7 +22,7 @@ export default function HolidaysMenuScreen({ holidays, score, maxScore, onStart 
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
           {holidays.map((h, i) => (
             <button key={h.id} onClick={() => onStart(i)}
-              className={`p-4 rounded-2xl text-center shadow-md hover:shadow-lg transition-all hover:scale-105 active:scale-95 bg-gradient-to-br ${h.color} text-white`}>
+              className={`p-4 rounded-2xl text-center shadow-md hover:shadow-lg transition hover:scale-105 active:scale-95 bg-gradient-to-br ${h.color} text-white`}>
               <div className="text-4xl mb-2">{h.emoji}</div>
               <div className="font-bold text-sm">{h.name}</div>
               <div className="text-xs opacity-80 mt-0.5">{h.when}</div>

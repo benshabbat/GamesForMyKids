@@ -27,7 +27,7 @@ export default function PongResultOverlay({ onRestart }: Props) {
         </div>
         <button
           onClick={onRestart}
-          className="w-full py-4 rounded-2xl bg-gradient-to-l from-slate-600 to-slate-800 text-white font-black text-xl shadow-lg hover:opacity-90 active:scale-95 transition-all"
+          className="w-full py-4 rounded-2xl bg-gradient-to-l from-slate-600 to-slate-800 text-white font-black text-xl shadow-lg hover:opacity-90 active:scale-95 transition"
         >
           🔄 שוב!
         </button>

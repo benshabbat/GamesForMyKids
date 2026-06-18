@@ -39,7 +39,7 @@ export default function ActionButtons() {
         <button
           onClick={undo}
           disabled={!canUndo}
-          className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
+          className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
             canUndo 
               ? 'bg-blue-500 hover:bg-blue-600 text-white hover:scale-105 active:scale-95' 
               : 'bg-gray-400 text-gray-200 cursor-not-allowed'
@@ -53,7 +53,7 @@ export default function ActionButtons() {
         <button
           onClick={redo}
           disabled={!canRedo}
-          className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition-all flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
+          className={`font-bold py-2 md:py-3 px-2 md:px-3 rounded-xl shadow-lg transition flex items-center justify-center gap-1 text-sm md:text-base touch-manipulation ${
             canRedo 
               ? 'bg-green-500 hover:bg-green-600 text-white hover:scale-105 active:scale-95' 
               : 'bg-gray-400 text-gray-200 cursor-not-allowed'

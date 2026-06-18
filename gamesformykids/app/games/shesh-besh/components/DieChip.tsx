@@ -17,7 +17,7 @@ export function DieChip({ face, used }: DieChipProps) {
   const dots = DOT_POSITIONS[face] ?? [];
   return (
     <div className={[
-      'w-11 h-11 rounded-xl border-2 p-1.5 transition-all duration-300 select-none',
+      'w-11 h-11 rounded-xl border-2 p-1.5 transition duration-300 select-none',
       used
         ? 'bg-gray-800 border-gray-700 opacity-25 scale-90'
         : 'bg-white border-gray-200 scale-100 shadow-[0_4px_0_#111,0_2px_10px_rgba(0,0,0,0.6)]',

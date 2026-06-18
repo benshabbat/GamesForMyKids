@@ -4,7 +4,7 @@ export default function ModeCard({ onClick, icon, iconBgClass, title, descriptio
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition-all duration-300 cursor-pointer"
+      className="bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transform hover:scale-105 transition duration-300 cursor-pointer"
     >
       <div className="text-center">
         <div className={`w-20 h-20 ${iconBgClass} rounded-full flex items-center justify-center mx-auto mb-4`}>

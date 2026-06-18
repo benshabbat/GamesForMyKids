@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useCallback } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -112,13 +112,13 @@ export function useFroggerGame() {
   const { st, canvasRef } = _useFrogger();
 
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     s.phase = 'playing'; s.fCol = 4; s.fRow = 8;
     s.lives = 3; s.score = 0; s.level = 1; s.frame = 0; s.dead = false; s.deadTimer = 0;
     s.lanes = makeLanes(); s.startTime = Date.now();
     useFroggerStore.getState().startPlaying();
-  }, [st]);
+  };
 
   const moveFrog = useCallback((dc: number, dr: number) => {
     const s = st.current;
@@ -132,11 +132,11 @@ export function useFroggerGame() {
 
   const touchRef = useRef<{ x: number; y: number } | null>(null);
 
-  const handleTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     touchRef.current = { x: e.touches[0]!.clientX, y: e.touches[0]!.clientY };
-  }, []);
+  };
 
-  const handleTouchEnd = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const handleTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (!touchRef.current) return;
     const dx = e.changedTouches[0]!.clientX - touchRef.current.x;
@@ -145,7 +145,7 @@ export function useFroggerGame() {
     if (Math.abs(dx) < 12 && Math.abs(dy) < 12) { moveFrog(0, -1); return; }
     if (Math.abs(dx) > Math.abs(dy)) moveFrog(dx > 0 ? 1 : -1, 0);
     else moveFrog(0, dy > 0 ? 1 : -1);
-  }, [moveFrog]);
+  };
 
 
   useEffect(() => {

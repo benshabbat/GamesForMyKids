@@ -59,7 +59,7 @@ export default function PuppetClient() {
                 <button
                   key={i}
                   onClick={() => answerQuestion(i)}
-                  className="bg-white hover:bg-purple-50 active:scale-95 border-2 border-purple-200 text-gray-800 font-semibold text-sm px-3 py-3 rounded-2xl shadow transition-all text-center"
+                  className="bg-white hover:bg-purple-50 active:scale-95 border-2 border-purple-200 text-gray-800 font-semibold text-sm px-3 py-3 rounded-2xl shadow transition text-center"
                 >
                   {resolveText(opt, char1, char2, setting)}
                 </button>

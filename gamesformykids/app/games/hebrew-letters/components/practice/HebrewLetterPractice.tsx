@@ -50,7 +50,7 @@ export default function HebrewLetterPractice({ letterData }: Props) {
               <button
                 key={index}
                 onClick={() => goToStep(index)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 hover:scale-105 cursor-pointer ${getStepTabStyle(index)}`}
+                className={`px-4 py-2 rounded-full text-sm font-medium transition duration-200 hover:scale-105 cursor-pointer ${getStepTabStyle(index)}`}
               >
                 <span className="ms-1">{index + 1}</span>
                 {step}

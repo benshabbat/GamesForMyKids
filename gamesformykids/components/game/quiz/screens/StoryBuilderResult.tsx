@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import type { StoryTemplate } from '@/lib/quiz/data/storyBuilderData';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 
@@ -10,9 +9,9 @@ interface Props {
 }
 
 export default function StoryBuilderResult({ story, completedStory, onRestart }: Props) {
-  const handleRead = useCallback(() => {
+  const handleRead = () => {
     speakHebrew(completedStory);
-  }, [completedStory]);
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-100 to-pink-100 flex items-center justify-center p-4">

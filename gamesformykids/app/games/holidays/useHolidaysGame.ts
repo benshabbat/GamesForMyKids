@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState } from 'react';
 import { HOLIDAYS, Holiday } from './data/holidays';
 import { useQuizQuestionState } from '@/lib/quiz/useQuizQuestionState';
 
@@ -30,13 +30,13 @@ export function useHolidaysGame() {
     onComplete: () => setPhase('result'),
   });
 
-  const startHoliday = useCallback((index: number) => {
+  const startHoliday = (index: number) => {
     setHolidayIndex(index);
     resetQuestionState();
     setPhase('quiz');
-  }, [resetQuestionState]);
+  };
 
-  const nextHoliday = useCallback(() => {
+  const nextHoliday = () => {
     if (holidayIndex < totalHolidays - 1) {
       setHolidayIndex(h => h + 1);
       resetQuestionState();
@@ -44,14 +44,14 @@ export function useHolidaysGame() {
     } else {
       setPhase('complete');
     }
-  }, [holidayIndex, totalHolidays, resetQuestionState]);
+  };
 
-  const restart = useCallback(() => {
+  const restart = () => {
     setPhase('menu');
     setHolidayIndex(0);
     setScore(0);
     resetQuestionState();
-  }, [resetQuestionState]);
+  };
 
   return {
     phase, holidayIndex, questionIndex, score, maxScore,

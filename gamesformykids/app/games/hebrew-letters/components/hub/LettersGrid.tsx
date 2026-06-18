@@ -17,7 +17,7 @@ export default function LettersGrid() {
           transition={{ delay: index * 0.05 }}
         >
           <Link href={`/games/hebrew-letters/${letter.name}`}>
-            <Card className="hover:shadow-xl transition-all duration-300 cursor-pointer group border-2 hover:border-green-400">
+            <Card className="hover:shadow-xl transition duration-300 cursor-pointer group border-2 hover:border-green-400">
               <CardContent className="p-6">
                 <HebrewLetterProgress
                   letter={letter}

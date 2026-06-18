@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext } from 'react';
+import React, { createContext, use } from 'react';
 import { useWritingCanvas } from './useWritingCanvas';
 
 type WritingCanvasContextValue = ReturnType<typeof useWritingCanvas> & {
@@ -10,7 +10,7 @@ type WritingCanvasContextValue = ReturnType<typeof useWritingCanvas> & {
 const WritingCanvasContext = createContext<WritingCanvasContextValue | null>(null);
 
 export function useWritingCanvasContext(): WritingCanvasContextValue {
-  const ctx = useContext(WritingCanvasContext);
+  const ctx = use(WritingCanvasContext);
   if (!ctx) throw new Error('useWritingCanvasContext must be used inside WritingCanvasProvider');
   return ctx;
 }
@@ -24,8 +24,8 @@ interface WritingCanvasProviderProps {
 export function WritingCanvasProvider({ value, guideLetter, children }: WritingCanvasProviderProps) {
   const contextValue: WritingCanvasContextValue = { ...value, guideLetter };
   return (
-    <WritingCanvasContext.Provider value={contextValue}>
+    <WritingCanvasContext value={contextValue}>
       {children}
-    </WritingCanvasContext.Provider>
+    </WritingCanvasContext>
   );
 }

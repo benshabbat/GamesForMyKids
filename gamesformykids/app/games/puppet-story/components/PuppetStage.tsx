@@ -60,7 +60,7 @@ export default function PuppetStage({ template, panelIndex, char1, char2, settin
       {/* Button */}
       <button
         onClick={onNext}
-        className="bg-purple-500 hover:bg-purple-600 active:scale-95 text-white font-bold text-lg px-8 py-3 rounded-2xl shadow-lg transition-all"
+        className="bg-purple-500 hover:bg-purple-600 active:scale-95 text-white font-bold text-lg px-8 py-3 rounded-2xl shadow-lg transition"
       >
         {isLast ? '🎬 לשאלות הבנה' : 'הבא ▶'}
       </button>

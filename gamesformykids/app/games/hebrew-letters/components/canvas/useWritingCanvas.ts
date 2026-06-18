@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect, useCallback } from 'react';
+import { useRef, useEffect } from 'react';
 import type React from 'react';
 import {
   useHebrewLettersStore,
@@ -67,57 +67,45 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
     ctx.lineWidth = drawingState.currentStrokeWidth;
   }, [drawingState.currentStrokeColor, drawingState.currentStrokeWidth]);
 
-  const getMousePos = useCallback(
-    (e: React.MouseEvent<HTMLCanvasElement>) => {
-      const canvas = canvasRef.current;
-      if (!canvas) return { x: 0, y: 0 };
-      return getCanvasPosition(e.nativeEvent, canvas);
-    },
-    []
-  );
+  const getMousePos = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    return getCanvasPosition(e.nativeEvent, canvas);
+  };
 
-  const getTouchPos = useCallback(
-    (e: React.TouchEvent<HTMLCanvasElement>) => {
-      const canvas = canvasRef.current;
-      if (!canvas || e.touches.length === 0) return { x: 0, y: 0 };
-      return getCanvasPosition(e.nativeEvent, canvas);
-    },
-    []
-  );
+  const getTouchPos = (e: React.TouchEvent<HTMLCanvasElement>) => {
+    const canvas = canvasRef.current;
+    if (!canvas || e.touches.length === 0) return { x: 0, y: 0 };
+    return getCanvasPosition(e.nativeEvent, canvas);
+  };
 
-  const startDrawing = useCallback(
-    (x: number, y: number) => {
-      const ctx = contextRef.current;
-      if (!ctx) return;
-      const dpr = window.devicePixelRatio || 1;
-      const imageData = ctx.getImageData(0, 0, width * dpr, height * dpr);
-      saveCanvasState(imageData);
-      startDrawingStore(x, y);
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-    },
-    [width, height, saveCanvasState, startDrawingStore]
-  );
+  const startDrawing = (x: number, y: number) => {
+    const ctx = contextRef.current;
+    if (!ctx) return;
+    const dpr = window.devicePixelRatio || 1;
+    const imageData = ctx.getImageData(0, 0, width * dpr, height * dpr);
+    saveCanvasState(imageData);
+    startDrawingStore(x, y);
+    ctx.beginPath();
+    ctx.moveTo(x, y);
+  };
 
-  const draw = useCallback(
-    (x: number, y: number) => {
-      if (!drawingState.isDrawing) return;
-      const ctx = contextRef.current;
-      if (!ctx) return;
-      continueDrawing(x, y);
-      ctx.lineTo(x, y);
-      ctx.stroke();
-    },
-    [drawingState.isDrawing, continueDrawing]
-  );
+  const draw = (x: number, y: number) => {
+    if (!drawingState.isDrawing) return;
+    const ctx = contextRef.current;
+    if (!ctx) return;
+    continueDrawing(x, y);
+    ctx.lineTo(x, y);
+    ctx.stroke();
+  };
 
-  const stopDrawing = useCallback(() => {
+  const stopDrawing = () => {
     if (!drawingState.isDrawing) return;
     const ctx = contextRef.current;
     if (!ctx) return;
     stopDrawingStore();
     ctx.closePath();
-  }, [drawingState.isDrawing, stopDrawingStore]);
+  };
 
   const clearCanvas = () => {
     const ctx = contextRef.current;
@@ -148,32 +136,32 @@ export function useWritingCanvas({ width, height, backgroundColor }: UseWritingC
   const changeStrokeWidth = (strokeWidth: number) => updateDrawingState({ currentStrokeWidth: strokeWidth });
   const toggleGuide = () => updateDrawingState({ showLetterGuide: !drawingState.showLetterGuide });
 
-  const onMouseDown = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onMouseDown = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getMousePos(e);
     startDrawing(x, y);
-  }, [getMousePos, startDrawing]);
+  };
 
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const { x, y } = getMousePos(e);
     draw(x, y);
-  }, [getMousePos, draw]);
+  };
 
-  const onTouchStart = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const onTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const { x, y } = getTouchPos(e);
     startDrawing(x, y);
-  }, [getTouchPos, startDrawing]);
+  };
 
-  const onTouchMove = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const onTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     const { x, y } = getTouchPos(e);
     draw(x, y);
-  }, [getTouchPos, draw]);
+  };
 
-  const onTouchEnd = useCallback((e: React.TouchEvent<HTMLCanvasElement>) => {
+  const onTouchEnd = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     stopDrawing();
-  }, [stopDrawing]);
+  };
 
   return {
     canvasRef,

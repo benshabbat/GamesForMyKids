@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import type { Hotspot, Puzzle } from './puzzleData';
 
 type Props = {
@@ -16,22 +16,28 @@ export default function PuzzleOverlay({ hotspot, puzzle, hintsUsed, onAnswer, on
   const [hint, setHint] = useState<string | null>(null);
   const [answered, setAnswered] = useState(false);
 
-  const choices = [puzzle.answer, ...puzzle.wrongOptions].sort(() => Math.random() - 0.5);
+  const dismissTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  useEffect(() => () => clearTimeout(dismissTimerRef.current), []);
 
-  const handleSelect = useCallback((choice: string) => {
+  const choices = useMemo(
+    () => [puzzle.answer, ...puzzle.wrongOptions].sort(() => Math.random() - 0.5),
+    [puzzle],
+  );
+
+  const handleSelect = (choice: string) => {
     if (answered) return;
     const isCorrect = onAnswer(choice);
     setFeedback({ text: isCorrect ? puzzle.successMessage : 'לא נכון — נסה שוב! 💪', correct: isCorrect });
     if (isCorrect) {
       setAnswered(true);
-      setTimeout(onDismiss, 2000);
+      dismissTimerRef.current = setTimeout(onDismiss, 2000);
     }
-  }, [answered, onAnswer, onDismiss, puzzle.successMessage]);
+  };
 
-  const handleHint = useCallback(() => {
+  const handleHint = () => {
     const h = onHint();
     if (h) setHint(h);
-  }, [onHint]);
+  };
 
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50 p-4" onClick={onDismiss}>
@@ -63,7 +69,7 @@ export default function PuzzleOverlay({ hotspot, puzzle, hintsUsed, onAnswer, on
               <button
                 key={choice}
                 onClick={() => handleSelect(choice)}
-                className="bg-indigo-50 hover:bg-indigo-100 active:bg-indigo-200 border-2 border-indigo-200 hover:border-indigo-400 rounded-2xl p-3 font-bold text-indigo-800 text-base transition-all"
+                className="bg-indigo-50 hover:bg-indigo-100 active:bg-indigo-200 border-2 border-indigo-200 hover:border-indigo-400 rounded-2xl p-3 font-bold text-indigo-800 text-base transition"
               >
                 {choice}
               </button>

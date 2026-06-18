@@ -21,7 +21,7 @@ export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick }: Bo
       aria-label={`point ${idx}`}
       className={[
         'relative flex flex-col items-center w-10 cursor-pointer select-none outline-none',
-        'transition-all duration-150 overflow-hidden',
+        'transition duration-150 overflow-hidden',
         isTop ? 'justify-start pt-0.5' : 'justify-end pb-0.5',
       ].join(' ')}
       style={{ height: '7.5rem' }}

@@ -9,7 +9,7 @@ export default function PuzzleCard({ puzzle }: { puzzle: SimplePuzzle }) {
   const { handlePuzzleSelect } = usePuzzleGame();
   return (
     <div
-      className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 cursor-pointer hover:scale-105 transform"
+      className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition duration-300 cursor-pointer hover:scale-105 transform"
       style={{ borderTop: `6px solid ${puzzle.color}` }}
       onClick={() => handlePuzzleSelect(puzzle)}
     >
@@ -34,7 +34,7 @@ export default function PuzzleCard({ puzzle }: { puzzle: SimplePuzzle }) {
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-300" />
         </div>
-        <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+        <button className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 rounded-lg font-medium transition duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
           התחל לשחק
         </button>
       </div>

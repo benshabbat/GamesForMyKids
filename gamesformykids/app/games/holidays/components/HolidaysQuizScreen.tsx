@@ -29,7 +29,7 @@ export default function HolidaysQuizScreen({ current, currentQuestion, questionI
           <span>⭐ {score} נקודות</span>
         </div>
         <div className="h-2 bg-gray-200 rounded-full mb-4">
-          <div className={`h-full rounded-full bg-gradient-to-l ${current.color} transition-all`}
+          <div className={`h-full rounded-full bg-gradient-to-l ${current.color} transition`}
             style={{ width: `${((questionIndex + 1) / totalQuestions) * 100}%` }} />
         </div>
         <QuizQuestionCard

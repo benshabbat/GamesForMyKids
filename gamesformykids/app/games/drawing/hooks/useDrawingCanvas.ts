@@ -49,16 +49,16 @@ export const useDrawingCanvas = () => {
   ];
 
   // פונקציה לקבלת מיקום האירוע (עכבר או מגע)
-  const getEventPosition = useCallback((
+  const getEventPosition = (
     e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
   ) => {
     if (!canvasRef.current) return { x: 0, y: 0 };
-    
+
     const canvas = canvasRef.current;
     const rect = canvas.getBoundingClientRect();
-    
+
     let clientX, clientY;
-    
+
     if ('touches' in e) {
       // Touch event
       if (e.touches.length > 0) {
@@ -75,20 +75,20 @@ export const useDrawingCanvas = () => {
       clientX = e.clientX;
       clientY = e.clientY;
     }
-    
+
     const x = clientX - rect.left;
     const y = clientY - rect.top;
-    
+
     return { x, y };
-  }, []);
+  };
 
   // התחלת ציור — קורא state עדכני מהסטור ישירות למניעת stale closure
-  const startDrawing = useCallback((
+  const startDrawing = (
     e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
   ) => {
     e.preventDefault();
     setIsDrawing(true);
-    
+
     const { x, y } = getEventPosition(e);
     ctxRef.current ??= canvasRef.current?.getContext('2d') ?? null;
     const ctx = ctxRef.current;
@@ -106,15 +106,15 @@ export const useDrawingCanvas = () => {
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(x, y);
-  }, [getEventPosition]);
+  };
 
   // ציור
-  const draw = useCallback((
+  const draw = (
     e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
   ) => {
     if (!isDrawing) return;
     e.preventDefault();
-    
+
     const { x, y } = getEventPosition(e);
     const ctx = ctxRef.current;
     if (!ctx) return;
@@ -128,20 +128,20 @@ export const useDrawingCanvas = () => {
       ctx.strokeStyle = currentColor;
       ctx.lineWidth = brushSize;
     }
-    
+
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.lineTo(x, y);
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(x, y);
-  }, [isDrawing, getEventPosition]);
+  };
 
   // סיום ציור
-  const stopDrawing = useCallback(() => {
+  const stopDrawing = () => {
     setIsDrawing(false);
     ctxRef.current?.beginPath();
-  }, []);
+  };
 
   // ניקוי הקנבס
   const clearCanvas = useCallback(() => {

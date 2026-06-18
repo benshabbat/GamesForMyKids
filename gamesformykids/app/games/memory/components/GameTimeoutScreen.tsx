@@ -21,13 +21,13 @@ export default function GameTimeoutScreen() {
         <div className="flex gap-4 justify-center flex-wrap">
           <button
             onClick={() => initializeGame(difficulty)}
-            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg"
+            className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white font-bold py-3 px-8 rounded-full text-xl transition duration-300 transform hover:scale-105 shadow-lg"
           >
             🎮 נסה שוב
           </button>
           <button
             onClick={resetToMenu}
-            className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition-all duration-300 transform hover:scale-105 shadow-lg border border-gray-200"
+            className="bg-white/80 hover:bg-white text-gray-700 font-bold py-3 px-8 rounded-full text-xl transition duration-300 transform hover:scale-105 shadow-lg border border-gray-200"
           >
             🏠 תפריט
           </button>

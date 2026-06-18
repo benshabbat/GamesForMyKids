@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useCallback } from 'react';
+import { useEffect } from 'react';
 import { useFindInSceneStore } from './findInSceneStore';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 import { SCENES } from './components/sceneData';
@@ -32,17 +32,17 @@ export function useFindInScene() {
     }
   }, [phase, prompt.text, foundIds.size, targetIds.size]);
 
-  const handleStart = useCallback((sceneId: string) => {
+  const handleStart = (sceneId: string) => {
     startRound(sceneId);
-  }, [startRound]);
+  };
 
-  const handleTap = useCallback((objectId: string) => {
+  const handleTap = (objectId: string) => {
     const result = tapObject(objectId);
     if (result === 'correct') {
       const obj = scene.objects.find(o => o.id === objectId);
       if (obj) speakHebrew(obj.label);
     }
-  }, [tapObject, scene.objects]);
+  };
 
   return {
     phase, scene, scenes: SCENES, prompt, targetIds, foundIds, wrongId,

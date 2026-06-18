@@ -13,7 +13,7 @@ export default function SimpleControls() {
     <div className="flex justify-center gap-4 mb-6 flex-wrap">
       <button
         onClick={goToMenu}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white"
       >
         <Home className="w-4 h-4" />
         <span className="hidden sm:inline">בחר פאזל אחר</span>
@@ -22,7 +22,7 @@ export default function SimpleControls() {
       <button
         onClick={resetGame}
         disabled={!gameStarted}
-        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+        className="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
       >
         <RotateCcw className="w-4 h-4" />
         <span className="hidden sm:inline">התחל מחדש</span>
@@ -30,7 +30,7 @@ export default function SimpleControls() {
       </button>
       <button
         onClick={toggleHints}
-        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
           hintsEnabled
             ? 'bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white'
             : 'bg-gradient-to-r from-gray-300 to-gray-400 hover:from-gray-400 hover:to-gray-500 text-gray-700'
@@ -42,7 +42,7 @@ export default function SimpleControls() {
       </button>
       <button
         onClick={toggleDebug}
-        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
+        className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg transition duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${
           debugMode
             ? 'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white'
             : 'bg-gradient-to-r from-gray-300 to-gray-400 hover:from-gray-400 hover:to-gray-500 text-gray-700'

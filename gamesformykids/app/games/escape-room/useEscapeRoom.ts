@@ -1,5 +1,4 @@
 'use client';
-import { useCallback } from 'react';
 import { useEscapeRoomStore } from './escapeRoomStore';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 import { ROOMS } from './components/puzzleData';
@@ -15,12 +14,12 @@ export function useEscapeRoom() {
   const hintsUsed      = useEscapeRoomStore(s => s.hintsUsed);
   const { startGame, clickHotspot, submitAnswer, dismissOverlay, applyHint, resetGame } = useEscapeRoomStore();
 
-  const handleStart = useCallback((roomId: string) => {
+  const handleStart = (roomId: string) => {
     startGame(roomId);
     speakHebrew('בואו נפרוץ את החדר!');
-  }, [startGame]);
+  };
 
-  const handleClickHotspot = useCallback((hotspotId: string) => {
+  const handleClickHotspot = (hotspotId: string) => {
     clickHotspot(hotspotId);
     const state = useEscapeRoomStore.getState();
     if (state.activePuzzle) {
@@ -28,9 +27,9 @@ export function useEscapeRoom() {
     } else if (state.funMessage) {
       speakHebrew(state.funMessage);
     }
-  }, [clickHotspot]);
+  };
 
-  const handleAnswer = useCallback((answer: string) => {
+  const handleAnswer = (answer: string) => {
     const isCorrect = submitAnswer(answer);
     const state = useEscapeRoomStore.getState();
     if (isCorrect) {
@@ -43,13 +42,13 @@ export function useEscapeRoom() {
       speakHebrew('לא נכון — נסה שוב!');
     }
     return isCorrect;
-  }, [submitAnswer]);
+  };
 
-  const handleHint = useCallback(() => {
+  const handleHint = () => {
     const hint = applyHint();
     if (hint) speakHebrew(hint);
     return hint;
-  }, [applyHint]);
+  };
 
   const puzzleCount = room?.hotspots.filter(h => h.puzzle !== null).length ?? 0;
 

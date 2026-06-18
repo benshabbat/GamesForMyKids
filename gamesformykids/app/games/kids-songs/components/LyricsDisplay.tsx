@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import type { SongData } from '../data/songs';
 
 interface Props {
@@ -63,7 +63,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
 
     utter.onerror = () => setPlaying(false);
     window.speechSynthesis.speak(utter);
-  }, [song, cancel]);
+  }, [cancel, song]);
 
   useEffect(() => {
     advance(0);
@@ -107,7 +107,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
             return (
               <div
                 key={li}
-                className={`text-center py-3 px-4 rounded-xl mb-2 transition-all duration-300 ${
+                className={`text-center py-3 px-4 rounded-xl mb-2 transition duration-300 ${
                   isCurrent
                     ? 'bg-purple-100 scale-105'
                     : li < lineIdx
@@ -120,7 +120,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
                     {words.map((word, wi) => (
                       <span
                         key={wi}
-                        className={`inline-block mx-1 transition-all duration-150 rounded px-1 ${
+                        className={`inline-block mx-1 transition duration-150 rounded px-1 ${
                           wi === wordIdx
                             ? 'bg-yellow-300 text-yellow-900 scale-110'
                             : 'text-purple-900'
@@ -143,7 +143,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
           {song.lines.map((_, i) => (
             <div
               key={i}
-              className={`w-3 h-3 rounded-full transition-all ${
+              className={`w-3 h-3 rounded-full transition ${
                 i < lineIdx ? 'bg-purple-500' : i === lineIdx ? 'bg-yellow-400 scale-125' : 'bg-gray-200'
               }`}
             />

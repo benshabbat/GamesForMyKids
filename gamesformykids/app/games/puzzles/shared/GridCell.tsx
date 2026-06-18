@@ -17,7 +17,7 @@ export default function GridCell({ index, row, col, piece }: GridCellProps) {
 
   return (
     <div
-      className={`puzzle-grid-cell aspect-square border-2 rounded-lg relative overflow-hidden transition-all duration-200 min-h-[60px] min-w-[60px] ${
+      className={`puzzle-grid-cell aspect-square border-2 rounded-lg relative overflow-hidden transition duration-200 min-h-[60px] min-w-[60px] ${
         piece
           ? 'border-gray-300 bg-gray-100'
           : 'border-dashed border-gray-400 bg-gray-50 hover:bg-blue-50 hover:border-blue-300'
@@ -35,7 +35,7 @@ export default function GridCell({ index, row, col, piece }: GridCellProps) {
             alt={`Piece ${piece.id} at ${row},${col}`}
             width={100}
             height={100}
-            className={`w-full h-full object-cover cursor-grab active:cursor-grabbing transition-all duration-300 ${
+            className={`w-full h-full object-cover cursor-grab active:cursor-grabbing transition duration-300 ${
               piece.isCorrect ? 'ring-4 ring-green-400 shadow-lg transform scale-105' : 'ring-2 ring-red-400 opacity-80'
             }`}
             draggable={!piece.isCorrect}

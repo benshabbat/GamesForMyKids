@@ -17,7 +17,7 @@ export const MULTIPLICATION_CONFIG: TimedMathConfig<number, MultiplicationQuesti
   renderLevelItem: (lv) => lv,
   levelColumns: 5,
   levelGap: 3,
-  levelButtonClass: 'aspect-square rounded-2xl text-2xl font-black text-white shadow-lg hover:scale-105 active:scale-95 transition-all bg-gradient-to-br from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500',
+  levelButtonClass: 'aspect-square rounded-2xl text-2xl font-black text-white shadow-lg hover:scale-105 active:scale-95 transition bg-gradient-to-br from-purple-500 to-violet-600 hover:from-purple-400 hover:to-violet-500',
   menuFooter: (
     <p className="text-center text-purple-500 text-sm mt-4">
       {QUESTIONS_PER_LEVEL} שאלות ל-{TIME_PER_QUESTION} שניות כל אחת

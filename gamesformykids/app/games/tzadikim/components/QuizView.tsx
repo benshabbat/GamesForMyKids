@@ -35,7 +35,7 @@ export default function QuizView({
           <p className="text-gray-500 text-sm">שאלה {questionIndex + 1} מתוך {totalQuestions}</p>
           <div className="mt-3 h-2.5 bg-gray-200 rounded-full overflow-hidden">
             <div
-              className={`h-full rounded-full bg-gradient-to-l ${story.color} transition-all duration-500`}
+              className={`h-full rounded-full bg-gradient-to-l ${story.color} transition-[width] duration-500`}
               style={{ width: `${(questionIndex / totalQuestions) * 100}%` }}
             />
           </div>

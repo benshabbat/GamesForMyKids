@@ -41,7 +41,7 @@ export function ColoringCanvas() {
           <button
             key={id}
             onClick={() => fillGroup(members, regions)}
-            className="px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all border-purple-400 bg-purple-50 text-purple-700 hover:bg-purple-100 active:scale-95"
+            className="px-3 py-1.5 rounded-full text-sm font-bold border-2 transition border-purple-400 bg-purple-50 text-purple-700 hover:bg-purple-100 active:scale-95"
           >
             ✨ {name}
           </button>
@@ -51,7 +51,7 @@ export function ColoringCanvas() {
           <button
             key={id}
             onClick={() => selectRegion(id, regions)}
-            className="px-3 py-1.5 rounded-full text-sm font-bold border-2 transition-all border-gray-300 bg-white text-gray-700 hover:border-purple-400 hover:bg-purple-50 active:scale-95"
+            className="px-3 py-1.5 rounded-full text-sm font-bold border-2 transition border-gray-300 bg-white text-gray-700 hover:border-purple-400 hover:bg-purple-50 active:scale-95"
             style={fills[id] ? { borderColor: fills[id], color: fills[id] } : undefined}
           >
             {names[id]}

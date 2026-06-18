@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useCallback } from 'react';
+import { useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameProgressStore, useGameStore } from '@/lib/stores';
 import { useSnakeStore } from './stores/useSnakeStore';
@@ -86,7 +86,7 @@ export function useSnakeGame() {
 
   // ─── Start ──────────────────────────────────────────────────────────────────
 
-  const startGame = useCallback(() => {
+  const startGame = () => {
     const s = st.current;
     clearTimeout(s.timer as ReturnType<typeof setTimeout>);
     s.phase = 'playing';
@@ -103,8 +103,7 @@ export function useSnakeGame() {
     useGameStore.getState().startGame('snake');
     useSnakeStore.getState().setPhase('playing');
     scheduleStep();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
 
   // ─── Sub-hooks ───────────────────────────────────────────────────────────────
 

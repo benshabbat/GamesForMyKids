@@ -14,7 +14,7 @@ function ItemTile({ item }: { item: DictionaryItem }) {
   return (
     <button
       onClick={() => expandItem(item)}
-      className="flex flex-col items-center gap-2 p-3 bg-white rounded-2xl shadow hover:shadow-md hover:-translate-y-0.5 transition-all active:scale-95 cursor-pointer"
+      className="flex flex-col items-center gap-2 p-3 bg-white rounded-2xl shadow hover:shadow-md hover:-translate-y-0.5 transition active:scale-95 cursor-pointer"
     >
       <div
         className={`w-14 h-14 rounded-xl flex items-center justify-center text-4xl ${item.color ?? 'bg-gradient-to-br from-blue-400 to-purple-500'}`}
@@ -36,7 +36,7 @@ export default function DictionaryBrowse() {
 
   const allItems = useMemo(() => buildDictionary(), []);
 
-  const displayedItems = useMemo((): DictionaryItem[] => {
+  const displayedItems: DictionaryItem[] = (() => {
     if (browseMode === 'letter' && selectedLetter) {
       return allItems.filter((item) => getFirstHebrewLetter(item.hebrew) === selectedLetter);
     }
@@ -50,12 +50,9 @@ export default function DictionaryBrowse() {
       );
     }
     return [];
-  }, [browseMode, selectedLetter, selectedCategory, searchQuery, allItems]);
+  })();
 
-  const categoryKeys = useMemo(
-    () => Object.keys(CATEGORY_LABELS).filter((k) => allItems.some((i) => i.category === k)),
-    [allItems]
-  );
+  const categoryKeys = Object.keys(CATEGORY_LABELS).filter((k) => allItems.some((i) => i.category === k));
 
   return (
     <div className="flex flex-col gap-4" dir="rtl">
@@ -85,7 +82,7 @@ export default function DictionaryBrowse() {
             <button
               key={key}
               onClick={() => selectCategory(key)}
-              className="bg-white rounded-2xl shadow p-4 flex flex-col items-center gap-1 hover:shadow-md hover:-translate-y-0.5 transition-all"
+              className="bg-white rounded-2xl shadow p-4 flex flex-col items-center gap-1 hover:shadow-md hover:-translate-y-0.5 transition"
             >
               <span className="text-3xl">
                 {allItems.find((i) => i.category === key)?.emoji ?? '📦'}

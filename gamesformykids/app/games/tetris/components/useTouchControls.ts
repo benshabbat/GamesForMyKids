@@ -1,6 +1,5 @@
 'use client';
 
-import { useCallback } from 'react';
 import { useTetrisStore } from '../store/tetrisStore';
 
 export function useTouchControls() {
@@ -8,18 +7,15 @@ export function useTouchControls() {
   const movePiece = useTetrisStore(s => s.movePiece);
   const handleRotateAction = useTetrisStore(s => s.handleRotate);
 
-  const handleMove = useCallback(
-    (dx: number, dy: number) => {
-      if (!isGameRunning) return;
-      movePiece(dx, dy);
-    },
-    [isGameRunning, movePiece]
-  );
+  const handleMove = (dx: number, dy: number) => {
+    if (!isGameRunning) return;
+    movePiece(dx, dy);
+  };
 
-  const handleRotate = useCallback(() => {
+  const handleRotate = () => {
     if (!isGameRunning) return;
     handleRotateAction();
-  }, [isGameRunning, handleRotateAction]);
+  };
 
   return { handleMove, handleRotate };
 }

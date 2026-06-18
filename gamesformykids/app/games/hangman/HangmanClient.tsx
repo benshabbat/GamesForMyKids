@@ -40,7 +40,7 @@ export default function HangmanClient() {
               <button
                 key={cat}
                 onClick={() => startGame(cat)}
-                className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition-all active:scale-95 shadow-md"
+                className="w-full bg-gradient-to-r from-violet-500 to-purple-600 hover:from-violet-600 hover:to-purple-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition active:scale-95 shadow-md"
               >
                 <span className="text-3xl">{CATEGORY_EMOJIS[cat] ?? '📝'}</span>
                 <span>{cat}</span>
@@ -75,7 +75,7 @@ export default function HangmanClient() {
           {streak > 1 && <p className="text-violet-600 font-bold">רצף: {streak} מילים! 🔥</p>}
           <button
             onClick={nextWord}
-            className="mt-2 px-8 py-3 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:from-green-500 hover:to-emerald-600 active:scale-95 transition-all"
+            className="mt-2 px-8 py-3 bg-gradient-to-r from-green-400 to-emerald-500 text-white font-bold rounded-2xl shadow-lg hover:from-green-500 hover:to-emerald-600 active:scale-95 transition"
           >
             מילה נוספת מ{categoryName}
           </button>
@@ -176,7 +176,7 @@ export default function HangmanClient() {
               key={letter}
               onClick={() => handleGuess(letter)}
               disabled={isGuessed}
-              className={`w-10 h-10 rounded-xl font-bold text-lg transition-all ${
+              className={`w-10 h-10 rounded-xl font-bold text-lg transition ${
                 isCorrect
                   ? 'bg-green-400 text-white cursor-default scale-95'
                   : isWrong

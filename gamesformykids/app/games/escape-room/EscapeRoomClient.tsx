@@ -28,7 +28,7 @@ export default function EscapeRoomClient() {
               <button
                 key={r.id}
                 onClick={() => handleStart(r.id)}
-                className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition-all active:scale-95 shadow-md"
+                className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition active:scale-95 shadow-md"
               >
                 <span className="text-3xl">{r.emoji}</span>
                 <span>{r.title}</span>
@@ -71,7 +71,7 @@ export default function EscapeRoomClient() {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 to-indigo-900 flex flex-col items-center justify-center p-3 gap-3" dir="rtl">
       {/* Header */}
       <div className="flex items-center justify-between w-full max-w-2xl">
-        <button onClick={resetGame} className="text-white/70 hover:text-white text-sm font-bold px-3 py-1.5 rounded-xl bg-white/10 transition-all">
+        <button onClick={resetGame} className="text-white/70 hover:text-white text-sm font-bold px-3 py-1.5 rounded-xl bg-white/10 transition">
           ← חזור
         </button>
         <h2 className="text-white font-extrabold text-xl">{room.emoji} {room.title}</h2>

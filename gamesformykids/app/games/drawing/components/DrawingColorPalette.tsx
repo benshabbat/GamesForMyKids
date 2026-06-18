@@ -19,7 +19,7 @@ export default function DrawingColorPalette() {
           <button
             key={color}
             onClick={() => setCurrentColor(color)}
-            className={`w-12 h-12 rounded-full border-4 hover:scale-110 transition-all duration-200 shadow-md ${
+            className={`w-12 h-12 rounded-full border-4 hover:scale-110 transition duration-200 shadow-md ${
               currentColor === color ? 'border-gray-800 ring-2 ring-blue-300' : 'border-gray-300 hover:border-gray-400'
             }`}
             style={{ backgroundColor: color }}

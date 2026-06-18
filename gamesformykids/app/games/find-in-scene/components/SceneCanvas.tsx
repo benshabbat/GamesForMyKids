@@ -23,7 +23,7 @@ export default function SceneCanvas({ scene, targetIds, foundIds, wrongId, onTap
             onClick={() => onTap(obj.id)}
             disabled={isFound}
             style={{ left: `${obj.x}%`, top: `${obj.y}%` }}
-            className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition-all duration-200 select-none ${
+            className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition duration-200 select-none ${
               isFound
                 ? 'opacity-40 cursor-default scale-90'
                 : isWrong

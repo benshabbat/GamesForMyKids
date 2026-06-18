@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useCallback } from 'react';
+import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerStore } from './brickBreakerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -194,7 +194,7 @@ export function useBrickBreakerGame() {
     const s = st.current;
     if (s.phase === 'playing' && !s.launched) { s.launched = true; }
     else if (s.phase === 'menu') { startGame(1); }
-  }, [st, startGame]);
+  }, [startGame, st]);
 
   const handleTouchStart = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();

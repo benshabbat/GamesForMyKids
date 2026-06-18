@@ -37,7 +37,7 @@ export default function CraftStep({
         {/* Progress bar */}
         <div className="bg-gray-200 rounded-full h-3 overflow-hidden">
           <div
-            className={`h-full bg-linear-to-br ${projectColor} transition-all duration-500`}
+            className={`h-full bg-linear-to-br ${projectColor} transition-[width] duration-500`}
             style={{ width: `${progress}%` }}
           />
         </div>

@@ -22,7 +22,7 @@ export default function XylophoneKeys({ onTap, flashingKey, highlightKey }: Prop
             onPointerDown={() => onTap(i)}
             className={[
               'flex-1 rounded-b-xl rounded-t-sm text-white font-bold text-xs sm:text-sm',
-              'transition-all duration-75 touch-none',
+              'transition duration-75 touch-none',
               'shadow-md flex flex-col items-center justify-end pb-3 gap-1',
               color,
               heightClass,

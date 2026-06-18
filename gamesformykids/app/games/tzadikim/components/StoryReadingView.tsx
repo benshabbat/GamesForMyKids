@@ -74,7 +74,7 @@ export default function StoryReadingView({
           className={`
             w-full py-5 rounded-2xl text-white font-bold text-xl shadow-lg
             bg-gradient-to-l ${story.color}
-            hover:opacity-90 active:scale-95 transition-all duration-200
+            hover:opacity-90 active:scale-95 transition duration-200
           `}
         >
           🧠 לחידון על הסיפור! ←

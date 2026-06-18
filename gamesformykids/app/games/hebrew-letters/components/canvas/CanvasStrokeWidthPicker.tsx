@@ -12,7 +12,7 @@ export default function CanvasStrokeWidthPicker() {
         <button
           key={strokeWidth}
           onClick={() => changeStrokeWidth(strokeWidth)}
-          className={`flex items-center justify-center w-14 h-10 rounded-lg border-2 transition-all duration-200 ${
+          className={`flex items-center justify-center w-14 h-10 rounded-lg border-2 transition-colors duration-200 ${
             currentWidth === strokeWidth
               ? 'border-green-500 bg-green-50 shadow-md'
               : 'border-gray-300 hover:border-gray-400 bg-white'

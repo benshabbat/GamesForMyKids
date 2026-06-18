@@ -25,7 +25,7 @@ export default function FindInSceneClient() {
               <button
                 key={s.id}
                 onClick={() => handleStart(s.id)}
-                className="w-full bg-gradient-to-r from-teal-500 to-sky-600 hover:from-teal-600 hover:to-sky-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition-all active:scale-95 shadow-md"
+                className="w-full bg-gradient-to-r from-teal-500 to-sky-600 hover:from-teal-600 hover:to-sky-700 text-white font-bold text-lg rounded-2xl py-4 px-6 flex items-center gap-3 transition active:scale-95 shadow-md"
               >
                 <span className="text-3xl">{s.emoji}</span>
                 <span>{s.title}</span>
@@ -99,7 +99,7 @@ export default function FindInSceneClient() {
         {Array.from({ length: targetIds.size }, (_, i) => (
           <div
             key={i}
-            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-lg transition-all ${
+            className={`w-8 h-8 rounded-full border-2 flex items-center justify-center text-lg transition ${
               i < foundIds.size
                 ? 'border-green-400 bg-green-300'
                 : 'border-white/30 bg-white/10'

@@ -22,7 +22,7 @@ export default function PuzzlePieceItem({ piece }: { piece: PuzzlePiece }) {
         alt={`Puzzle piece ${piece.id}`}
         width={80}
         height={80}
-        className="w-20 h-20 object-cover border-2 border-gray-300 hover:border-blue-400 transition-all duration-200 hover:shadow-lg hover:scale-110"
+        className="w-20 h-20 object-cover border-2 border-gray-300 hover:border-blue-400 transition duration-200 hover:shadow-lg hover:scale-110"
         unoptimized
       />
     </div>

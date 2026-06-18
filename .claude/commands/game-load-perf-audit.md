@@ -2,6 +2,8 @@
 
 You are the **Game Load & Performance Audit** agent for GamesForMyKids.
 
+**Stack:** Next.js 16+ (App Router, Turbopack, `use cache`, `after()`), React 19+ (React Compiler enabled, `use()`, ref-as-prop, async transitions), Zustand 5+, TypeScript strict.
+
 Your job: verify that **every game loads correctly at runtime** and that **performance is at the highest possible level** — covering all game styles (A/B/C/D/E), all device classes, and all phases of the game lifecycle (loading → menu → play → result).
 
 This agent is **complementary** to the specialist agents:
@@ -10,7 +12,7 @@ This agent is **complementary** to the specialist agents:
 - `lazy-loading-optimizer` → bundle splitting (do not repeat)
 - `runtime-error-scanner` → diff-specific crash patterns (do not repeat)
 
-This agent covers the **cross-cutting, whole-project** view: SSR safety, re-render hygiene, Zustand selector efficiency, animation performance, audio lifecycle, and loading UX — for every game, always.
+This agent covers the **cross-cutting, whole-project** view: SSR safety, re-render hygiene, Zustand selector efficiency, animation performance, audio lifecycle, loading UX, React 19+ compatibility, and Next.js 16+ API correctness — for every game, always.
 
 ---
 
@@ -147,15 +149,33 @@ grep -n "dynamic(" gamesformykids/lib/quiz/registry/customQuizGames.tsx | grep -
 
 ---
 
-### Check L5 — Async params in page.tsx (Next.js 15+/16+)
+### Check L5 — Async params and searchParams in page.tsx (Next.js 15+/16+)
 
 ```bash
 cat gamesformykids/app/games/\[gameType\]/page.tsx
+grep -rn "params\.\|searchParams\." gamesformykids/app/games/ --include="page.tsx" 2>/dev/null | grep -v "await" | head -20
 ```
 
-**Rule:** Since Next.js 15, `params` is a Promise — `params.gameType` without `await params` throws. This applies equally to Next.js 16+.
+**Rule:** Since Next.js 15, both `params` AND `searchParams` are Promises. Any synchronous access (`params.gameType`, `searchParams.q`) without `await params` / `await searchParams` throws a runtime error in Next.js 16+.
 
-**Pattern to catch:** `params.gameType` used synchronously (without `await`).
+**Patterns to catch:**
+| Pattern | Risk |
+|---------|------|
+| `params.gameType` without `await params` | 🔴 500 on every page load |
+| `searchParams.difficulty` without `await searchParams` | 🔴 500 on every page load |
+| `const { gameType } = params` without `await` | 🔴 |
+| `generateMetadata({ params })` not async | 🟠 Metadata missing |
+
+**Correct pattern (Next.js 16):**
+```typescript
+export default async function Page({ params, searchParams }: {
+  params: Promise<{ gameType: string }>;
+  searchParams: Promise<{ difficulty?: string }>;
+}) {
+  const { gameType } = await params;
+  const { difficulty } = await searchParams;
+}
+```
 
 **Severity:** 🔴 CRITICAL — entire game route returns 500.
 
@@ -237,26 +257,40 @@ cat gamesformykids/app/games/<id>/use*Game*.ts
 
 ### Check P1 — Inline object/array/function creation in JSX
 
-**Look for:** Props passed as inline literals.
+> **React Compiler note:** This project has `reactCompiler: true` in `next.config.ts`. The compiler automatically memoizes props and callbacks for components it can analyze. Flag P1 violations only when: (a) the component is marked `'use no memo'`, (b) the component contains mutations that block the compiler, or (c) the pattern is provably causing re-renders (confirm with React DevTools before filing).
+
+**Look for:** Props passed as inline literals in components the compiler cannot optimize.
 
 ```typescript
-// ❌ BAD — new object on every render → child re-renders unnecessarily
-<GameCard style={{ padding: 16 }} options={['a', 'b']} onClick={() => select('a')} />
+// ⚠️ COMPILER CAN'T FIX — mutation inside render blocks optimization
+function GameCard({ items }: Props) {
+  items.sort(); // ← mutates input; compiler bails out for this component
+  return <Child options={items} onClick={() => select(items[0])} />;
+}
 
-// ✅ GOOD
-const cardStyle = useMemo(() => ({ padding: 16 }), []);
-const handleSelect = useCallback(() => select('a'), [select]);
+// ✅ GOOD — pure render; compiler handles memoization automatically
+function GameCard({ items }: Props) {
+  const sorted = [...items].sort(); // new array, no mutation
+  return <Child options={sorted} onClick={() => select(sorted[0])} />;
+}
 ```
 
-| Pattern | Severity |
-|---------|----------|
-| Inline `{}` object literal as a component prop | 🟠 HIGH — causes child re-render every parent render |
-| Inline `[]` array literal as a component prop | 🟠 HIGH |
-| Inline `() => ...` arrow in JSX without `useCallback` | 🟡 MEDIUM |
+| Pattern | Severity with React Compiler |
+|---------|------------------------------|
+| Mutations inside render (`arr.sort()`, `obj.x = 1`) | 🔴 CRITICAL — blocks compiler for entire component |
+| Inline `{}` object prop — compiler CANNOT analyze dynamic shape | 🟠 HIGH if compiler bails; 🟡 LOW if it handles it |
+| Inline `() => ...` arrow in JSX | ✅ SAFE — compiler memoizes callbacks automatically; no action needed |
+| `useCallback(...)` anywhere in code | 🟡 REDUNDANT — compiler handles this; remove wrapper, use plain function |
+| `'use no memo'` directive present | 🟠 HIGH — compiler disabled; manual memoization required |
 
 **Grep:**
 ```bash
-grep -n "=\s*{{\|=\s*\[.*\]\|={() =>" gamesformykids/app/games/<id>/*Client.tsx | head -20
+# Mutations that block React Compiler
+grep -n "\.sort(\|\.push(\|\.pop(\|\.splice(\|\.reverse(" \
+  gamesformykids/app/games/<id>/*Client.tsx gamesformykids/app/games/<id>/components/*.tsx 2>/dev/null | head -15
+
+# Explicit compiler opt-outs
+grep -rn "use no memo" gamesformykids/app/games/ --include="*.tsx" --include="*.ts" 2>/dev/null
 ```
 
 ---
@@ -301,17 +335,31 @@ grep -n "useEffect(" gamesformykids/app/games/<id>/*.ts gamesformykids/app/games
 
 ### Check P4 — `useMemo` for computed game data
 
-**Rule:** Expensive derivations (shuffled arrays, filtered questions, calculated scores) that depend on stable inputs must be wrapped in `useMemo`.
+> **React Compiler note:** With `reactCompiler: true`, the compiler memoizes **pure** computations automatically. `useMemo` is valid in **two cases only**:
+> 1. **Impure computations** — `Math.random()`, `Date.now()`, `crypto.randomUUID()` etc. in render body. These are non-deterministic: same props → different output. The compiler detects this, bails out on the whole component, and leaves it unmemoized. `useMemo` *contains* the impurity in a defined box so the compiler can optimize the rest of the component. This is a **correctness fix**, not a performance one.
+> 2. **Heavy computations** (>10ms) in a component with a **confirmed bail-out** — maze generation, BFS, shuffle of 100+ items. Only add `useMemo` if profiling shows the cost; the compiler handles everything else.
+>
+> **`useMemo` on pure, lightweight derivations is redundant** — remove it; the compiler handles it.
+
+**Rule:** Flag `useMemo` only for impure computations or heavy computations in confirmed bail-out components.
 
 ```bash
-grep -n "\.sort(\|\.filter(\|\.map(\|\.shuffle\|Math\.random" \
-  gamesformykids/app/games/<id>/*.ts gamesformykids/app/games/<id>/*.tsx 2>/dev/null | \
-  grep -v "useMemo\|useCallback\|useEffect" | head -10
+grep -n "generateMaze\|bfsOrder\|shuffle\|Array\.from.*length.*\(.*\)\." \
+  gamesformykids/app/games/<id>/*.ts gamesformykids/app/games/<id>/*.tsx 2>/dev/null | head -10
+# Also check for impure computations outside useMemo:
+grep -n "Math\.random\|Date\.now\|crypto\.random" \
+  gamesformykids/app/games/<id>/*.ts gamesformykids/app/games/<id>/*.tsx 2>/dev/null | grep -v "useMemo"
 ```
 
-If `sort/filter/map` appears directly in the component body (not inside a hook or memoized function), flag it.
+| Pattern | Severity |
+|---------|----------|
+| `Math.random()` / `Date.now()` directly in render (not in useMemo) | 🔴 CRITICAL — compiler bail-out + value changes every render |
+| Maze/graph generation in render body (bail-out component) | 🟠 HIGH — 5–50ms; perceivable freeze on click |
+| Large array shuffle (100+ items) in render (bail-out component) | 🟠 HIGH |
+| `useMemo` wrapping a pure `map/filter` on ≤20 items | 🟡 REDUNDANT — remove; compiler handles pure derivations |
+| `useMemo` wrapping `Math.random()` / `Date.now()` | ✅ CORRECT — contains impurity |
 
-**Severity:** 🟡 MEDIUM — runs on every render, noticeable on older phones.
+**Severity:** 🔴 CRITICAL for impure computations outside `useMemo`; 🟠 HIGH for heavy computations in bailed-out components; 🟡 REDUNDANT for pure lightweight derivations already in `useMemo`.
 
 ---
 
@@ -347,12 +395,20 @@ grep -rn "transition-all" gamesformykids/components/shared/ 2>/dev/null | head -
 
 **Fix template:**
 ```typescript
-// ❌ BAD
+// ❌ BAD — triggers layout recalculation for every CSS property
 className="transition-all duration-300"
 
-// ✅ GOOD — only animate GPU-composited properties
-className="transition-transform transition-opacity duration-300"
+// ✅ GOOD — colors/backgrounds only (border-color, background-color, color)
+className="transition-colors duration-300"
+
+// ✅ GOOD — scale/translate/rotate only (GPU composited)
+className="transition-transform duration-300"
+
+// ✅ GOOD — both transform AND opacity (use Tailwind arbitrary value — single transition-property)
+className="transition-[transform,opacity] duration-300"
 ```
+
+> **Note:** Never combine `transition-transform` + `transition-opacity` as separate Tailwind classes — both set `transition-property` and the second one silently overrides the first. Use the arbitrary value `transition-[transform,opacity]` instead.
 
 ---
 
@@ -552,34 +608,285 @@ grep -rn "setTimeout.*[0-9]\{4,\}\|setInterval.*[0-9]\{4,\}" \
 grep -rn ": any\b\|as any\b" \
   gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -15
 
-# QW5 — Missing React.memo on frequently-re-rendered child components
-grep -rn "export default function\|export function" \
-  gamesformykids/app/games/*/components/*.tsx 2>/dev/null | grep -v "memo\|Client\|Page" | head -20
+# QW5 — Redundant manual memoization (React Compiler handles this automatically)
+# With reactCompiler: true:
+#   useCallback → ALWAYS redundant; replace with plain function
+#   React.memo  → ALWAYS redundant; remove wrapper
+#   useMemo     → redundant UNLESS (a) impure computation (Math.random/Date.now) or (b) heavy computation in bail-out component
+
+# Flag all useCallback — should be plain functions:
+grep -rn "useCallback(" \
+  gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -20
+
+# Flag React.memo — should be removed:
+grep -rn "React\.memo(" \
+  gamesformykids/app/games/ gamesformykids/components/ --include="*.tsx" 2>/dev/null | head -10
+
+# Flag useMemo on pure derivations (map/filter/find without Math.random) — potentially redundant:
+grep -rn "useMemo(" \
+  gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -20
+# Cross-check: is the useMemo body impure (Math.random/Date.now) or heavy (maze/shuffle)?
+# If neither → flag as redundant
+
+# Flag 'use no memo' — compiler disabled for that component (must use manual memo):
+grep -rn "use no memo" gamesformykids/app/games/ --include="*.tsx" --include="*.ts" 2>/dev/null
 ```
 
 ---
 
-## Phase 10 — Per-Game Summary Matrix
+## Phase 10 — React 19+ Compatibility
+
+**Why it matters:** React 19 introduces breaking API changes. Deprecated patterns (`forwardRef`, `Context.Provider`, `useFormState`) still work but emit warnings; some will be removed in React 20. The React Compiler (enabled in this project) has specific rules about what it can and cannot optimize.
+
+### Check R1 — Deprecated `React.forwardRef` (React 19)
+
+```bash
+grep -rn "React\.forwardRef\|forwardRef(" \
+  gamesformykids/app/games/ gamesformykids/components/ --include="*.tsx" --include="*.ts" 2>/dev/null | head -20
+```
+
+**Rule:** In React 19, `forwardRef` is deprecated — refs are passed as regular props. Any component accepting a ref must be updated to destructure `ref` from props.
+
+```typescript
+// ❌ React 18 — deprecated in React 19
+const MyCanvas = React.forwardRef<HTMLCanvasElement, Props>((props, ref) => (
+  <canvas ref={ref} />
+));
+
+// ✅ React 19 — ref is a plain prop
+function MyCanvas({ ref, ...props }: Props & { ref?: React.Ref<HTMLCanvasElement> }) {
+  return <canvas ref={ref} />;
+}
+```
+
+**Severity:** 🟡 MEDIUM — emits deprecation warning in console; canvas/input refs in games may be affected.
+
+---
+
+### Check R2 — Deprecated `Context.Provider` wrapper (React 19)
+
+```bash
+grep -rn "\.Provider>" \
+  gamesformykids/ --include="*.tsx" 2>/dev/null | grep -v "node_modules" | head -20
+```
+
+**Rule:** In React 19, `<MyContext.Provider value={...}>` is deprecated. Use `<MyContext value={...}>` directly.
+
+```typescript
+// ❌ deprecated
+<GameTypeContext.Provider value={game}>...</GameTypeContext.Provider>
+
+// ✅ React 19
+<GameTypeContext value={game}>...</GameTypeContext>
+```
+
+**Severity:** 🟡 MEDIUM — console warning; will break in React 20.
+
+---
+
+### Check R3 — React Compiler bail-out: mutations inside render
+
+```bash
+# Mutations that cause the React Compiler to bail out for the entire component
+grep -rn "\bstate\.\w\+ =" \
+  gamesformykids/app/games/ --include="*.tsx" 2>/dev/null | grep -v "useState\|=>" | head -15
+grep -rn "\.push(\|\.pop(\|\.splice(\|\.sort(\|\.reverse(" \
+  gamesformykids/app/games/ gamesformykids/components/game/ --include="*.tsx" 2>/dev/null | \
+  grep -v "useEffect\|useCallback\|useMemo\|// " | head -20
+```
+
+**Rule:** The React Compiler cannot optimize components that mutate values during render. A single mutation causes the compiler to bail out for the **entire component** — negating all auto-memoization. This is the highest-impact correctness issue for React Compiler projects.
+
+| Pattern | Risk |
+|---------|------|
+| `arr.sort()` in render (mutates input) | 🔴 Compiler bail-out + sort order bug |
+| `arr.push()` directly in component body | 🔴 Compiler bail-out |
+| Direct property assignment (`obj.x = value`) in render | 🔴 Compiler bail-out |
+| `[...arr].sort()` — new array, then sort | ✅ Safe, compiler can optimize |
+
+**Severity:** 🔴 CRITICAL — disables React Compiler auto-memoization for the component; every render of that component becomes unoptimized.
+
+---
+
+### Check R4 — `use()` hook for context reading (React 19 idiomatic)
+
+```bash
+grep -rn "useContext(" \
+  gamesformykids/app/games/ gamesformykids/components/ --include="*.tsx" --include="*.ts" 2>/dev/null | head -15
+```
+
+**Rule:** In React 19, prefer `use(MyContext)` over `useContext(MyContext)`. The `use()` hook can be called conditionally and inside loops — unlike `useContext`.
+
+```typescript
+// ✅ React 19 idiomatic (also works conditionally)
+const gameType = use(GameTypeContext);
+
+// 🟡 React 18 style — still works but less flexible
+const gameType = useContext(GameTypeContext);
+```
+
+**Severity:** 🟡 LOW — `useContext` still works; opportunistic upgrade only.
+
+---
+
+### Check R5 — Uncleaned `setTimeout`/`setInterval` in hooks (React 19 Strict Mode)
+
+```bash
+grep -rn "setTimeout\|setInterval" \
+  gamesformykids/app/games/ --include="*.ts" --include="*.tsx" 2>/dev/null | \
+  grep -v "clearTimeout\|clearInterval\|useRef\|//\s*" | head -20
+```
+
+**Rule:** React 19 Strict Mode (dev) mounts components twice to surface missing cleanups. A `setTimeout` without a corresponding `clearTimeout` in the `useEffect` cleanup fires twice in dev. In production, it causes state updates on unmounted components ("Can't perform a React state update on an unmounted component").
+
+```typescript
+// ❌ No cleanup
+useEffect(() => {
+  setTimeout(() => setState('win'), 800);
+}, []);
+
+// ✅ Correct
+useEffect(() => {
+  const id = setTimeout(() => setState('win'), 800);
+  return () => clearTimeout(id);
+}, []);
+```
+
+Cross-check: also scan game hook files (`use*.ts`) for `setTimeout` without paired `clearTimeout`.
+
+**Severity:** 🟠 HIGH — silent state-update-on-unmounted-component; causes React warnings and potential crashes when navigating quickly between games.
+
+---
+
+## Phase 11 — Next.js 16+ API Correctness
+
+### Check N1 — `'use cache'` directive correctness
+
+```bash
+grep -rn "'use cache'\|\"use cache\"" \
+  gamesformykids/ --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "node_modules" | head -20
+```
+
+**Rule:** In Next.js 16 (`cacheComponents: true`), `'use cache'` is the idiomatic server-side cache directive (replacing `unstable_cache`). Rules:
+- `'use cache'` may only appear in **Server Components or server-side functions** — never in `'use client'` files.
+- Any `'use cache'` function that accepts request-time data (e.g., `headers()`, `cookies()`) must call `cacheTag()` + `cacheLife()` to set invalidation scope.
+- If `unstable_cache(...)` still appears, flag it as a migration opportunity.
+
+```bash
+# Deprecated pattern to migrate
+grep -rn "unstable_cache" gamesformykids/ --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "node_modules"
+```
+
+**Severity:** 🟠 HIGH if `'use cache'` appears in a `'use client'` file (build error); 🟡 LOW if `unstable_cache` still used (deprecation warning).
+
+---
+
+### Check N2 — `after()` for deferred post-response work
+
+```bash
+grep -rn "after(" gamesformykids/ --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "node_modules" | head -10
+```
+
+**Rule:** In Next.js 15+/16+, `after()` runs work after the response is sent — ideal for analytics logging, cache warm-up, and non-critical side effects that previously blocked the response. If you see `fetch()`-based analytics calls directly in a Server Component or Route Handler, suggest `after()`.
+
+```typescript
+import { after } from 'next/server';
+
+export default async function GamePage() {
+  after(() => logGameView(gameId)); // doesn't block the response
+  return <Game />;
+}
+```
+
+**Severity:** 🟡 LOW — opportunity to improve TTFB; not a correctness issue.
+
+---
+
+### Check N3 — Async `headers()` and `cookies()` (Next.js 15+/16+)
+
+```bash
+grep -rn "headers()\|cookies()" \
+  gamesformykids/app/ --include="*.ts" --include="*.tsx" 2>/dev/null | grep -v "await\|async" | head -15
+```
+
+**Rule:** Since Next.js 15, `headers()` and `cookies()` return Promises. Synchronous access (`const h = headers(); h.get(...)`) throws at runtime in Next.js 16+.
+
+```typescript
+// ❌ Next.js 14 style — throws in Next.js 16
+const headersList = headers();
+const token = headersList.get('authorization');
+
+// ✅ Next.js 16
+const headersList = await headers();
+const token = headersList.get('authorization');
+```
+
+**Severity:** 🔴 CRITICAL if used synchronously — route handler returns 500.
+
+---
+
+### Check N4 — `forbidden()` / `unauthorized()` guard usage (Next.js 16)
+
+```bash
+grep -rn "forbidden(\|unauthorized(" \
+  gamesformykids/app/ --include="*.ts" --include="*.tsx" 2>/dev/null | head -10
+```
+
+**Rule:** `authInterrupts: true` is set in `next.config.ts` — `forbidden()` and `unauthorized()` are enabled. When used, the route must have a corresponding `forbidden.tsx` / `unauthorized.tsx` boundary. Without the boundary, the interrupt renders a blank page.
+
+```bash
+# Check boundaries exist alongside usage
+find gamesformykids/app -name "forbidden.tsx" -o -name "unauthorized.tsx" 2>/dev/null
+```
+
+**Severity:** 🟠 HIGH — missing boundary shows blank page instead of error UI.
+
+---
+
+### Check N5 — Turbopack compatibility (Next.js 16 default dev)
+
+```bash
+# Dynamic import options must be object literals (Turbopack static analysis)
+grep -rn "dynamic(" gamesformykids/ --include="*.tsx" --include="*.ts" 2>/dev/null | \
+  grep -v "{ ssr:\|{ loading:\|{ssr:\|{loading:" | grep -v "node_modules" | head -15
+```
+
+**Rule:** Turbopack (stable in Next.js 16, default dev server) performs static analysis on `dynamic()` options. The options argument **must be an object literal** — a variable reference (`const opts = {...}; dynamic(fn, opts)`) is not statically analyzable and Turbopack will warn or skip optimization.
+
+```typescript
+// ❌ Turbopack cannot analyze — variable options
+const opts = { ssr: false, loading: () => <Spinner /> };
+dynamic(() => import('./Game'), opts);
+
+// ✅ Inline object literal — Turbopack can statically analyze
+dynamic(() => import('./Game'), { ssr: false, loading: () => <GameSpinnerScreen /> });
+```
+
+**Severity:** 🟠 HIGH — dynamic imports with non-literal options may not be optimized by Turbopack.
+
+---
+
+## Phase 12 — Per-Game Summary Matrix
 
 After running all checks for all games in scope, build this matrix:
 
-| Check Category | Description | Severity when fails |
-|----------------|-------------|---------------------|
+| Check | Description | Severity when fails |
+|-------|-------------|---------------------|
 | L1 | ssr: false on dynamic import | 🔴 |
 | L2 | 'use client' directive | 🔴 |
 | L3 | window/document outside useEffect | 🔴 |
 | L4 | Loading state on dynamic import | 🟠 |
-| L5 | Async params awaited (Next.js 15) | 🔴 |
+| L5 | Async params + searchParams awaited (Next.js 16) | 🔴 |
 | L6 | Error boundary exists | 🟠 |
 | L7 | No boot side effects | 🟠 |
 | L8 | Store reset on unmount | 🟠 |
 | L9 | Quiz data exported correctly | 🔴/🟠 |
-| P1 | No inline object/array/fn in JSX | 🟠 |
+| P1 | No mutations in render (React Compiler compat) | 🔴 |
 | P2 | Zustand selector granularity | 🟠 |
 | P3 | useEffect deps correct | 🟠 |
-| P4 | useMemo for computed data | 🟡 |
+| P4 | Heavy computation memoized (compiler bail-outs) | 🟠 |
 | P5 | Component < 200 lines | 🟡 |
-| P6 | No transition-all in gameplay | 🟠 |
+| P6 | No transition-all in gameplay (use transition-colors / transition-[transform,opacity]) | 🟠 |
 | P7 | No layout props animated | 🔴/🟠 |
 | P8 | will-change on animated elements | 🟡 |
 | P9 | speechSynthesis cancel on phase change | 🟠 |
@@ -590,18 +897,29 @@ After running all checks for all games in scope, build this matrix:
 | P14 | Store slice import only | 🟡 |
 | P15 | startGame < 50ms | 🟠 |
 | P16 | No layout-thrashing class toggles | 🟡 |
+| R1 | No deprecated React.forwardRef (React 19) | 🟡 |
+| R2 | No Context.Provider wrapper (React 19) | 🟡 |
+| R3 | No mutations-in-render blocking React Compiler | 🔴 |
+| R4 | use() instead of useContext() (React 19) | 🟡 |
+| R5 | setTimeout/setInterval cleaned up on unmount | 🟠 |
+| N1 | 'use cache' only in server files; no unstable_cache | 🟠 |
+| N2 | after() for deferred analytics/logging | 🟡 |
+| N3 | headers() / cookies() awaited (Next.js 16) | 🔴 |
+| N4 | forbidden.tsx / unauthorized.tsx boundaries exist | 🟠 |
+| N5 | dynamic() options are inline object literals (Turbopack) | 🟠 |
 | QW1 | No console.log in production | 🟡 |
 | QW4 | No `any` types | 🟡 |
 
 ---
 
-## Phase 11 — Report
+## Phase 13 — Report
 
 ### All-games mode
 
 ```
 ## Game Load & Performance Audit
 Date: <today>
+Stack: Next.js 16+ / React 19+ / React Compiler ON
 Scope: All games / Style <X> / <IDs>
 Games audited: <N>
 
@@ -620,10 +938,10 @@ Only show games with issues; compress passing games into a count.
 
 ### Performance Summary
 
-| Game ID | Style | P1 | P2 | P3 | P6 | P9 | P15 | QW1 | Rating |
-|---------|-------|----|----|----|----|----|-----|-----|--------|
-| animals | A     | ✅ | ✅ | ✅ | ✅ | ✅ | ✅  | ✅  | ⚡ OPT |
-| <id>    | D     | 🟠 | 🟠 | ✅ | 🔴 | 🟠 | ✅  | 🟡  | 🐢 SLOW |
+| Game ID | Style | P1/R3 | P2 | P3 | P6 | R5 | P15 | N5 | Rating |
+|---------|-------|-------|----|----|----|-----|-----|-----|--------|
+| animals | A     | ✅    | ✅ | ✅ | ✅ | ✅  | ✅  | ✅  | ⚡ OPT |
+| <id>    | D     | 🔴    | 🟠 | ✅ | 🟠 | 🟠  | ✅  | ✅  | 🐢 SLOW |
 ```
 
 ---
@@ -714,23 +1032,29 @@ List items that have a mechanical fix across multiple games:
 ### Prioritised fix list
 
 ```
-🔴 LOAD-BREAKING (game will not render — fix immediately)
+🔴 LOAD-BREAKING / COMPILER-BREAKING (fix immediately)
   1. [<id>] Missing ssr: false in complexQuizGames — game throws on page render
   2. [<id>] window access outside useEffect — SSR crash
-  3. [<id>] Async params not awaited — entire route 500s
+  3. [<id>] Async params/searchParams not awaited — entire route 500s (Next.js 16)
+  4. [<id>] Mutation in render (arr.sort()) — React Compiler bails out, entire component unoptimized
+  5. [<id>] headers()/cookies() called synchronously — route handler 500s (Next.js 16)
 
 🟠 HIGH PERF (visible jank / audio failure / stale state)
-  4. [<id>] Whole-store Zustand selector — all components re-render on any state change
-  5. [<id>] speechSynthesis not cancelled on phase change — audio plays after navigation
-  6. [<id>] transition-all on gameplay buttons — layout reflow on every answer
+  6. [<id>] Whole-store Zustand selector — all components re-render on any state change
+  7. [<id>] speechSynthesis not cancelled on phase change — audio plays after navigation
+  8. [<id>] transition-all on gameplay buttons — use transition-colors or transition-[transform,opacity]
+  9. [<id>] setTimeout without clearTimeout on unmount — state update on unmounted component
+  10. [<id>] 'use cache' in 'use client' file — build error (Next.js 16)
 
-🟡 MEDIUM (noticeable on low-end phones)
-  7. [<id>] Inline object prop in JSX — unnecessary child re-renders
-  8. [<id>] 5 unused lucide imports — 10 KB extra bundle
-  9. [<id>] Component 380 lines — split for better memoization
+🟡 MEDIUM (noticeable on low-end phones / deprecation warnings)
+  11. [<id>] React.forwardRef — deprecated in React 19, use ref as prop
+  12. [<id>] Context.Provider wrapper — deprecated in React 19, use <Context value>
+  13. [<id>] 5 unused lucide imports — 10 KB extra bundle
+  14. [<id>] dynamic() options not inline object literal — Turbopack can't analyze
 
-ℹ️ LOW (polish)
-  10. 3 games have console.log left in — clean up before next release
+ℹ️ LOW (polish / opportunistic)
+  15. 3 games have console.log left in — clean up before next release
+  16. useContext() → use() — React 19 idiomatic, enables conditional reads
 ```
 
 ---
@@ -766,11 +1090,24 @@ For items flagged in this report, use the targeted agents:
   - Style A — skip L8 (no store), L9 (no quiz data), P2 (no direct store use)
   - Style B — skip L7, L8 (no client component), P1–P5 (no custom component)
   - Style D/E — all checks apply
+- **React Compiler is ON (`reactCompiler: true`)** — strict memoization rules:
+  - **`useCallback` is ALWAYS redundant.** The compiler memoizes all functions automatically. Flag every `useCallback` and remove it; replace with a plain function.
+  - **`React.memo` is ALWAYS redundant.** The compiler memoizes components automatically. Remove wrappers.
+  - **`useMemo` is valid ONLY for:** (a) impure computations (`Math.random()`, `Date.now()`, `crypto.randomUUID()`) that would produce different values every render — `useMemo` *contains* the impurity; (b) provably heavy computations (>10ms) in a component with a confirmed mutation bail-out. For pure, lightweight derivations, `useMemo` is redundant — remove it.
+  - **Never suggest adding `useCallback`/`React.memo`** in `--fix` mode. Flag existing ones for removal instead.
+  - **Do suggest `useMemo`** only when `Math.random()` / `Date.now()` appear directly in render body without it (R3/P4).
 - **`--fix` mode:** Only apply mechanical, safe fixes:
   - Add `{ ssr: false }` to dynamic imports missing it
   - Add `loading: () => <GameSpinnerScreen />` to dynamic imports missing it
   - Remove `console.log` lines
-  - Replace `transition-all` with `transition-transform transition-opacity` in game component dirs
+  - Replace `transition-all` with `transition` (Tailwind's default transition covers transform, opacity, colors, shadow — but NOT layout properties like width/height/margin)
+  - Replace `<Context.Provider value={x}>` with `<Context value={x}>` (React 19)
+  - Replace `useContext(X)` with `use(X)` (React 19)
+  - Remove `useCallback(fn, deps)` → replace with plain `fn` — the compiler handles memoization
+  - Remove `React.memo(Component)` → replace with plain `Component` — the compiler handles it
+  - Remove `useMemo(() => pureExpr, deps)` ONLY when the body is a pure, lightweight derivation (no `Math.random`, no heavy computation) — the compiler handles it
+  - Wrap `Math.random()` / `Date.now()` in render body with `useMemo` if not already wrapped
+  - Add `clearTimeout`/`clearInterval` cleanup to useEffect hooks missing them
   - Remove clearly unused lucide icon imports (verify usage first)
   - For all other issues, output the fix as a code block and ask for confirmation.
 - **After the report, always list:**

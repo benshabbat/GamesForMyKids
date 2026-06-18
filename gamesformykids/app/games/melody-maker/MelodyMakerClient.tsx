@@ -30,7 +30,7 @@ export default function MelodyMakerClient() {
         <button
           onClick={() => setMode('free')}
           className={[
-            'px-4 py-2 rounded-full font-bold text-sm transition-all',
+            'px-4 py-2 rounded-full font-bold text-sm transition',
             mode === 'free'
               ? 'bg-purple-600 text-white shadow-md'
               : 'bg-white text-purple-600 border-2 border-purple-300 hover:bg-purple-50',
@@ -41,7 +41,7 @@ export default function MelodyMakerClient() {
         <button
           onClick={() => setMode('learning')}
           className={[
-            'px-4 py-2 rounded-full font-bold text-sm transition-all',
+            'px-4 py-2 rounded-full font-bold text-sm transition',
             mode === 'learning'
               ? 'bg-purple-600 text-white shadow-md'
               : 'bg-white text-purple-600 border-2 border-purple-300 hover:bg-purple-50',

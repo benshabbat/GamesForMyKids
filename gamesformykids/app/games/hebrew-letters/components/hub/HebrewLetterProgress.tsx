@@ -59,7 +59,7 @@ export default function HebrewLetterProgress({
             ? 'bg-yellow-100 border-2 border-yellow-400' 
             : 'bg-gray-100 border-2 border-gray-300'
         }
-        transition-all duration-300 hover:scale-105
+        transition duration-300 hover:scale-105
       `}>
         <span className={`
           ${currentSize.text} font-bold
@@ -116,7 +116,7 @@ export default function HebrewLetterProgress({
         <div className={`mt-2 w-full bg-gray-200 rounded-full ${currentSize.progress}`}>
           <motion.div 
             className={`
-              ${currentSize.progress} rounded-full transition-all duration-500
+              ${currentSize.progress} rounded-full transition duration-500
               ${isCompleted ? 'bg-green-500' : 'bg-yellow-400'}
             `}
             initial={{ width: 0 }}

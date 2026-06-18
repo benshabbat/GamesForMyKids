@@ -31,7 +31,7 @@ export default function LetterTracingStep() {
         {TRACING_LINE_NUMS.map((lineNum) => (
           <motion.div
             key={lineNum}
-            className="flex items-center justify-around bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-green-500 rounded-xl p-6 hover:shadow-lg transition-all duration-300"
+            className="flex items-center justify-around bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-green-500 rounded-xl p-6 hover:shadow-lg transition duration-300"
             whileHover={{ scale: 1.02 }}
             initial={{ opacity: 0, x: lineNum % 2 === 0 ? -50 : 50 }}
             animate={{ opacity: 1, x: 0 }}
@@ -46,7 +46,7 @@ export default function LetterTracingStep() {
             {TRACING_POSITIONS.map((pos) => (
               <motion.div
                 key={pos}
-                className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition-all duration-300 hover:scale-110 relative group"
+                className="text-6xl font-bold text-green-100 hover:text-green-300 cursor-pointer transition duration-300 hover:scale-110 relative group"
                 style={TRACING_LETTER_STYLE}
                 whileHover={{
                   rotate: [0, -5, 5, 0],

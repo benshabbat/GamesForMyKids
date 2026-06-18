@@ -15,14 +15,14 @@ export default function PreMadeImagesPicker() {
           <div
             key={index}
             onClick={() => handlePreMadeImageSelect(img.src)}
-            className="group cursor-pointer border-3 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-400 hover:shadow-2xl transition-all duration-300 transform hover:scale-105 bg-white"
+            className="group cursor-pointer border-3 border-gray-200 rounded-2xl overflow-hidden hover:border-blue-400 hover:shadow-2xl transition duration-300 transform hover:scale-105 bg-white"
           >
             <div className="aspect-square relative">
               <Image
                 src={img.src}
                 alt={img.name}
                 fill
-                className="object-cover group-hover:brightness-110 transition-all duration-300"
+                className="object-cover group-hover:brightness-110 transition duration-300"
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
               />
               <div className="absolute top-3 left-3 bg-gradient-to-r from-blue-500 to-purple-500 text-white text-xs sm:text-sm px-3 py-2 rounded-full font-bold shadow-lg">

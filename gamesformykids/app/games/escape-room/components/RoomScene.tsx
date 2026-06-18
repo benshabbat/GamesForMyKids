@@ -23,7 +23,7 @@ export default function RoomScene({ room, solvedIds, onClickHotspot }: Props) {
             onClick={() => onClickHotspot(hotspot.id)}
             disabled={isSolved && hasPuzzle}
             style={{ left: `${hotspot.x}%`, top: `${hotspot.y}%` }}
-            className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition-all duration-200 ${
+            className={`absolute -translate-x-1/2 -translate-y-1/2 flex flex-col items-center gap-0.5 transition duration-200 ${
               isSolved && hasPuzzle
                 ? 'opacity-60 cursor-default'
                 : 'hover:scale-125 active:scale-110 cursor-pointer'

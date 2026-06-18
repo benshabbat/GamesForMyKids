@@ -9,7 +9,7 @@ const GameBoard = ({ displayBoard }: GameBoardProps) => (
           return (
             <div
               key={`${y}-${x}`}
-              className={`w-4 h-4 lg:w-6 lg:h-6 rounded-md border border-gray-600/50 ${isEmpty ? '' : 'transform transition-all duration-150'}`}
+              className={`w-4 h-4 lg:w-6 lg:h-6 rounded-md border border-gray-600/50 ${isEmpty ? '' : 'transform transition duration-150'}`}
               style={{
                 background: isEmpty 
                   ? 'linear-gradient(135deg, #1f2937 0%, #111827 100%)' 

@@ -42,7 +42,7 @@ export function Bar({ playerBar, compBar, isSelected, onClickPlayer }: BarProps)
         onClick={onClickPlayer}
         aria-label="bar player"
         className={[
-          'relative z-10 flex flex-col-reverse items-center gap-[3px] pb-2 flex-1 justify-start w-full rounded transition-all',
+          'relative z-10 flex flex-col-reverse items-center gap-[3px] pb-2 flex-1 justify-start w-full rounded transition',
           isSelected ? 'ring-2 ring-yellow-400 ring-inset bg-yellow-400/10' : '',
         ].join(' ')}
       >
