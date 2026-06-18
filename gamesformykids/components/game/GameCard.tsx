@@ -6,6 +6,8 @@ import { ComponentTypes } from "@/lib/types";
 import { useFavoritesStore } from "@/lib/stores";
 import { useMasteryStars } from "@/hooks/shared/progress/useMasteryStars";
 import ContentTypePill from "@/components/shared/ContentTypePill";
+import DifficultyPips from "@/components/shared/DifficultyPips";
+import { getGameDifficulty } from "@/lib/registry/gameDifficulty";
 
 interface GameCardProps extends ComponentTypes.GameCardProps {
   animationDelay?: number;
@@ -76,6 +78,10 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
                 {'⭐'.repeat(masteryStars)}
               </div>
             )}
+            {/* רמת קושי */}
+            <div className="absolute bottom-1 inset-s-1 md:bottom-2 md:inset-s-2">
+              <DifficultyPips difficulty={game.difficulty ?? getGameDifficulty(game.id)} />
+            </div>
           </div>
         </Link>
       </div>
