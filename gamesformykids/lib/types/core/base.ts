@@ -245,4 +245,6 @@ export type GameType =
   // Identify Hebrew sounds game
   | 'sound-quiz'
   // Educational spinning wheel
-  | 'spinner';
+  | 'spinner'
+  // Random team picker classroom tool
+  | 'team-picker';

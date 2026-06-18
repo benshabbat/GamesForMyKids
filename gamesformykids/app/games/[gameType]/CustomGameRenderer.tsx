@@ -69,6 +69,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'avatar-maker':      dynamic(() => import('../avatar-maker/AvatarMakerClient'),                   { ssr: false }),
   'sound-quiz':        dynamic(() => import('../sound-quiz/SoundQuizClient'),                       { ssr: false }),
   'spinner':           dynamic(() => import('../spinner/SpinnerClient'),                            { ssr: false }),
+  'team-picker':       dynamic(() => import('../team-picker/TeamPickerClient'),                     { ssr: false }),
 };
 
 interface Props { gameType: string; }
