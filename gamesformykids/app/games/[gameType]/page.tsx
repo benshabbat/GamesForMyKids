@@ -7,6 +7,7 @@ import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
 import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageUtils';
 import CustomGameRenderer from './CustomGameRenderer';
 import { loadGameItems } from '@/lib/constants/gameItemsLoader';
+import RelatedGames from '@/components/game/RelatedGames';
 
 interface PageProps {
   params: Promise<GamePageParams>;
@@ -25,17 +26,25 @@ export default async function UniversalGamePage({ params }: PageProps) {
   if (!isSupportedGame(actualGameType)) notFound();
 
   if (CUSTOM_GAME_TYPES.has(actualGameType)) {
-    return <CustomGameRenderer gameType={actualGameType} />;
+    return (
+      <>
+        <CustomGameRenderer gameType={actualGameType} />
+        <RelatedGames gameType={actualGameType} />
+      </>
+    );
   }
 
   const gameItems = await loadGameItems(actualGameType);
 
   return (
-    <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
-      <GameLogicSync />
-      <GameEngagementSync />
-      <UltimateGamePage />
-    </GameTypeProvider>
+    <>
+      <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
+        <GameLogicSync />
+        <GameEngagementSync />
+        <UltimateGamePage />
+      </GameTypeProvider>
+      <RelatedGames gameType={actualGameType} />
+    </>
   );
 }
 
