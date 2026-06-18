@@ -767,4 +767,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 190,
   },
+  {
+    id: "trivia-categories",
+    title: "טריוויה מדורגת",
+    description: "בחר נושא ורמת קושי — טבע, מדע, ישראל, בעלי חיים, חגים וספורט עם מונה רצף!",
+    icon: HelpCircle,
+    emoji: "🧠",
+    color: "bg-amber-500 hover:bg-amber-600",
+    href: "/games/trivia-categories",
+    available: true,
+    order: 191,
+  },
 ];
