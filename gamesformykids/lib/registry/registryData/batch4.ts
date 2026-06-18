@@ -778,4 +778,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 191,
   },
+  {
+    id: "avatar-maker",
+    title: "יוצר הדמות שלי",
+    description: "בנה דמות מגניבה עם הבעות, שיער, ביגוד ואביזרים — שמור כתמונה ושתף!",
+    icon: Palette,
+    emoji: "🧑‍🎨",
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/avatar-maker",
+    available: true,
+    order: 192,
+  },
 ];
