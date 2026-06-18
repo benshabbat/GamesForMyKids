@@ -789,4 +789,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 192,
   },
+  {
+    id: "sound-quiz",
+    title: "מה הצליל?",
+    description: "שמע צליל של בעל חיים, כלי נגינה, טבע או בית — ובחר מה עשה אותו!",
+    icon: Music,
+    emoji: "🔊",
+    color: "bg-teal-500 hover:bg-teal-600",
+    href: "/games/sound-quiz",
+    available: true,
+    order: 193,
+  },
 ];

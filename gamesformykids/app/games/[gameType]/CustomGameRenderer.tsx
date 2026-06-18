@@ -67,6 +67,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'jokes-browser':     dynamic(() => import('../jokes-browser/JokesBrowserClient'),                  { ssr: false }),
   'word-maze':         dynamic(() => import('../word-maze/WordMazeClient'),                          { ssr: false }),
   'avatar-maker':      dynamic(() => import('../avatar-maker/AvatarMakerClient'),                   { ssr: false }),
+  'sound-quiz':        dynamic(() => import('../sound-quiz/SoundQuizClient'),                       { ssr: false }),
 };
 
 interface Props { gameType: string; }
