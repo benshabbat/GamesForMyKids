@@ -94,7 +94,7 @@ export default function LyricsDisplay({ song, onFinish, onBack }: Props) {
       <div className="w-full max-w-lg">
         {/* Header */}
         <div className="flex items-center mb-6 mt-2">
-          <button onClick={handleBack} className="text-purple-500 hover:text-purple-700 text-2xl ml-3">→</button>
+          <button onClick={handleBack} className="text-purple-500 hover:text-purple-700 text-2xl me-3">→</button>
           <div className="text-4xl mx-3">{song.emoji}</div>
           <h2 className="text-2xl font-bold text-purple-800">{song.title}</h2>
         </div>

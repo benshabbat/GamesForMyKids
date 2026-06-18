@@ -103,7 +103,6 @@ export default function SearchGrid({ grid, placed, found, onSelect }: Props) {
     <div
       ref={containerRef}
       className="relative w-full aspect-square select-none touch-none cursor-crosshair"
-      style={{ userSelect: 'none' }}
       onPointerDown={handlePointerDown}
       onPointerMove={handlePointerMove}
       onPointerUp={handlePointerUp}
