@@ -247,4 +247,6 @@ export type GameType =
   // Educational spinning wheel
   | 'spinner'
   // Random team picker classroom tool
-  | 'team-picker';
+  | 'team-picker'
+  // Digital dice roller classroom tool
+  | 'dice';

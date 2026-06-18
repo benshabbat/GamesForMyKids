@@ -36,6 +36,7 @@ import {
   Lightbulb,
   RotateCw,
   Users,
+  Dice6,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -838,5 +839,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/team-picker",
     available: true,
     order: 195,
+  },
+  {
+    id: "dice",
+    title: "קוביה דיגיטלית",
+    description: "זרוק קוביות מספרים, אותיות עבריות, צבעים וחיות — עם הגייה בעברית!",
+    icon: Dice6,
+    emoji: "🎲",
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/dice",
+    available: true,
+    contentType: "tool",
+    order: 196,
   },
 ];

@@ -70,6 +70,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'sound-quiz':        dynamic(() => import('../sound-quiz/SoundQuizClient'),                       { ssr: false }),
   'spinner':           dynamic(() => import('../spinner/SpinnerClient'),                            { ssr: false }),
   'team-picker':       dynamic(() => import('../team-picker/TeamPickerClient'),                     { ssr: false }),
+  'dice':              dynamic(() => import('../dice/DiceClient'),                                    { ssr: false }),
 };
 
 interface Props { gameType: string; }
