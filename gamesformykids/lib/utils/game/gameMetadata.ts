@@ -27,7 +27,7 @@ export function generateGameMetadata(
     };
   }
 
-  const defaultKeywords = `${config.title}, משחקים לילדים, חינוכי, גיל 2-5, פעוטות, למידה, ${gameType}`;
+  const defaultKeywords = `${config.title}, משחקים לילדים, חינוכי, גיל 2-10, למידה, ${gameType}`;
   const keywords = config.metadata?.keywords || defaultKeywords;
   const description = config.metadata?.description || config.subTitle;
 
