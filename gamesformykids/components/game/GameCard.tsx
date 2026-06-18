@@ -5,6 +5,7 @@ import { Star } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { useFavoritesStore } from "@/lib/stores";
 import { useMasteryStars } from "@/hooks/shared/progress/useMasteryStars";
+import ContentTypePill from "@/components/shared/ContentTypePill";
 
 interface GameCardProps extends ComponentTypes.GameCardProps {
   animationDelay?: number;
@@ -48,6 +49,12 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
                 {game.description}
               </p>
             </div>
+            {/* תג סוג תוכן */}
+            {game.contentType && game.contentType !== 'game' && (
+              <div className="absolute top-1.5 inset-e-1.5 md:top-2 md:inset-e-2 z-10">
+                <ContentTypePill contentType={game.contentType} />
+              </div>
+            )}
             {/* כפתור מועדפים — כוכב */}
             <button
               onClick={(e) => { e.preventDefault(); toggleFavorite(game.id); }}
