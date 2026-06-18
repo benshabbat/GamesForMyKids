@@ -20,6 +20,7 @@ import JokeOfTheDay from "@/components/marketing/JokeOfTheDay";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
 import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
+import HolidayLane from "@/components/marketing/HolidayLane";
 import { useHomePage } from "./useHomePage";
 
 const SESSION_KEY = 'home-content-tab';
@@ -53,6 +54,7 @@ export default function HomePageClient() {
       <main>
         {activeTab === 'games' && (
           <>
+            <HolidayLane />
             <DailyStreakBadge />
             <FeaturedGame />
             <ContinueBanner />
