@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import FeaturedGame from "@/components/marketing/ClientOnlyFeaturedGame";
@@ -16,10 +17,27 @@ import OnboardingModal from "@/components/marketing/OnboardingModal";
 import PWAInstallBanner from "@/components/marketing/PWAInstallBanner";
 import DailyStreakBadge from "@/components/marketing/DailyStreakBadge";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
+import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
+import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
 import { useHomePage } from "./useHomePage";
+
+const SESSION_KEY = 'home-content-tab';
 
 export default function HomePageClient() {
   const { isLoading, shouldShowLoader, handleLoadingComplete } = useHomePage();
+  const [activeTab, setActiveTab] = useState<ContentType>('games');
+
+  useEffect(() => {
+    const saved = sessionStorage.getItem(SESSION_KEY);
+    if (saved === 'creative' || saved === 'riddles' || saved === 'tools') {
+      setActiveTab(saved);
+    }
+  }, []);
+
+  function handleTabChange(tab: ContentType) {
+    setActiveTab(tab);
+    sessionStorage.setItem(SESSION_KEY, tab);
+  }
 
   if (isLoading && shouldShowLoader) {
     return <LoadingScreen onLoadingComplete={handleLoadingComplete} />;
@@ -30,16 +48,24 @@ export default function HomePageClient() {
       <VocabularyOfTheDay />
       <Header />
       <CategoryJumpBar />
+      <ContentTypeTabBar active={activeTab} onChange={handleTabChange} />
       <main>
-        <DailyStreakBadge />
-        <FeaturedGame />
-        <ContinueBanner />
-        <DailyChallenge />
-        <RecentlyPlayedRow />
-        <GamesTodayBadge />
-        <GameRecommendations />
-        <SurpriseMeButton />
-        <CategorizedGamesGrid />
+        {activeTab === 'games' && (
+          <>
+            <DailyStreakBadge />
+            <FeaturedGame />
+            <ContinueBanner />
+            <DailyChallenge />
+            <RecentlyPlayedRow />
+            <GamesTodayBadge />
+            <GameRecommendations />
+            <SurpriseMeButton />
+            <CategorizedGamesGrid />
+          </>
+        )}
+        {activeTab !== 'games' && (
+          <ContentTypeGrid contentType={activeTab} />
+        )}
       </main>
       <Footer />
       <OnboardingModal />
