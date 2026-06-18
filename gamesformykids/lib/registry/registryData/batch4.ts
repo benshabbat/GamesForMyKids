@@ -107,6 +107,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/famous-paintings",
     available: true,
     order: 121,
+    contentType: 'creative' as const,
   },
   {
     id: "tech-logos",
@@ -261,6 +262,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/rhyming",
     available: true,
     order: 144,
+    contentType: 'riddle' as const,
   },
   {
     id: "adjectives",
@@ -525,6 +527,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/puppet-story",
     available: true,
     order: 168,
+    contentType: 'creative' as const,
   },
   {
     id: "proverbs",
@@ -536,6 +539,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/proverbs",
     available: true,
     order: 169,
+    contentType: 'riddle' as const,
   },
   {
     id: "coins-match",
@@ -679,6 +683,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/israel-map",
     available: true,
     order: 182,
+    contentType: 'tool' as const,
   },
   {
     id: "kids-songs",
@@ -690,6 +695,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/kids-songs",
     available: true,
     order: 183,
+    contentType: 'tool' as const,
   },
   {
     id: "melody-maker",
@@ -701,6 +707,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/melody-maker",
     available: true,
     order: 184,
+    contentType: 'creative' as const,
   },
   {
     id: "kids-encyclopedia",
@@ -712,6 +719,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/kids-encyclopedia",
     available: true,
     order: 185,
+    contentType: 'tool' as const,
   },
   {
     id: "age-calculator",
@@ -723,6 +731,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/age-calculator",
     available: true,
     order: 186,
+    contentType: 'tool' as const,
   },
   {
     id: "craft-guide",
@@ -734,6 +743,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/craft-guide",
     available: true,
     order: 187,
+    contentType: 'creative' as const,
   },
   {
     id: "jokes-browser",
@@ -745,6 +755,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/jokes-browser",
     available: true,
     order: 188,
+    contentType: 'riddle' as const,
   },
   {
     id: "word-maze",
@@ -767,6 +778,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/riddles-pro",
     available: true,
     order: 190,
+    contentType: 'riddle' as const,
   },
   {
     id: "trivia-categories",
@@ -778,6 +790,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/trivia-categories",
     available: true,
     order: 191,
+    contentType: 'riddle' as const,
   },
   {
     id: "avatar-maker",
@@ -789,6 +802,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/avatar-maker",
     available: true,
     order: 192,
+    contentType: 'creative' as const,
   },
   {
     id: "sound-quiz",
@@ -800,6 +814,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/sound-quiz",
     available: true,
     order: 193,
+    contentType: 'riddle' as const,
   },
   {
     id: "spinner",

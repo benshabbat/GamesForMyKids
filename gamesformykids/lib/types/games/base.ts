@@ -32,6 +32,8 @@ interface GameAvailability {
   available: boolean;
 }
 
+export type ContentType = 'game' | 'tool' | 'creative' | 'riddle';
+
 /**
  * רישום משחק מלא - עקרון Interface Segregation
  */
@@ -40,6 +42,7 @@ export interface GameRegistration extends
   GameVisuals,
   GameAvailability {
   readonly order: number;
+  readonly contentType?: ContentType;
 }
 
 /**
