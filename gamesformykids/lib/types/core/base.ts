@@ -239,4 +239,6 @@ export type GameType =
   // Progressive riddles
   | 'riddles-pro'
   // Categorised trivia with difficulty picker
-  | 'trivia-categories';
+  | 'trivia-categories'
+  // Hebrew avatar character builder
+  | 'avatar-maker';
