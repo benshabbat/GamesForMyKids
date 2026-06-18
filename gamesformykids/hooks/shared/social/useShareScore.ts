@@ -28,5 +28,14 @@ export function useShareScore() {
     }
   }, []);
 
-  return { share, copied };
+  const shareWhatsApp = useCallback((text: string, url?: string) => {
+    const shareUrl = url ?? (typeof window !== 'undefined'
+      ? `${window.location.origin}${window.location.pathname}?utm_source=whatsapp&utm_medium=share&utm_campaign=game_result`
+      : '');
+    const fullText = `${text}\n${shareUrl}`;
+    const waUrl = `https://wa.me/?text=${encodeURIComponent(fullText)}`;
+    window.open(waUrl, '_blank', 'noopener,noreferrer');
+  }, []);
+
+  return { share, copied, shareWhatsApp };
 }

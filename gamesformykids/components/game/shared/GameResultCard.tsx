@@ -6,6 +6,7 @@ import { useShareScore } from '@/hooks/shared/social/useShareScore';
 import { useGameRating } from '@/hooks/shared/social/useGameRating';
 import { printCertificate } from '@/lib/utils/game/printCertificate';
 import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
+import WhatsAppShareButton from '@/components/shared/buttons/WhatsAppShareButton';
 
 interface SecondaryAction {
   label: string;
@@ -95,12 +96,15 @@ export default function GameResultCard({
           )}
         </div>
         {shareText && (
-          <button
-            onClick={() => share(shareText)}
-            className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
-          >
-            {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
-          </button>
+          <>
+            <button
+              onClick={() => share(shareText)}
+              className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
+            >
+              {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
+            </button>
+            <WhatsAppShareButton text={shareText} />
+          </>
         )}
         {showCertificate && (
           <button
