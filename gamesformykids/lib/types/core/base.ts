@@ -251,4 +251,6 @@ export type GameType =
   // Digital dice roller classroom tool
   | 'dice'
   // Classroom countdown timer
-  | 'timer';
+  | 'timer'
+  // Hebrew first-letter racing game
+  | 'letter-race';
