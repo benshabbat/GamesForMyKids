@@ -243,4 +243,6 @@ export type GameType =
   // Hebrew avatar character builder
   | 'avatar-maker'
   // Identify Hebrew sounds game
-  | 'sound-quiz';
+  | 'sound-quiz'
+  // Educational spinning wheel
+  | 'spinner';
