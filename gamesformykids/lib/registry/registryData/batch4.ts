@@ -829,17 +829,6 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 194,
   },
   {
-    id: "spinner",
-    title: "גלגל מזל",
-    description: "סובב את גלגל המזל — בחר קטעים מותאמים אישית, אותיות, מספרים, צבעים וחיות!",
-    icon: RotateCw,
-    emoji: "🎡",
-    color: "bg-purple-500 hover:bg-purple-600",
-    href: "/games/spinner",
-    available: true,
-    order: 194,
-  },
-  {
     id: "team-picker",
     title: "מחלק קבוצות",
     description: "הזן שמות, בחר מספר קבוצות — הכלי יחלק בהגינות עם ערבוב פישר-ייטס!",
