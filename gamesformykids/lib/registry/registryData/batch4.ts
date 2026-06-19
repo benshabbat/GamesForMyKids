@@ -849,7 +849,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     color: "bg-pink-500 hover:bg-pink-600",
     href: "/games/dice",
     available: true,
-    contentType: "tool",
+    contentType: "tool" as const,
     order: 196,
   },
   {
@@ -861,7 +861,18 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     color: "bg-indigo-500 hover:bg-indigo-600",
     href: "/games/timer",
     available: true,
-    contentType: "tool",
+    contentType: "tool" as const,
     order: 197,
+  },
+  {
+    id: "letter-race",
+    title: "מרוץ אותיות",
+    description: "ראה תמונה — בחר את האות הראשונה! מרוץ נגד השעון לזיהוי אותיות עבריות.",
+    icon: Type,
+    emoji: "🔤",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/letter-race",
+    available: true,
+    order: 198,
   },
 ];
