@@ -852,4 +852,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     contentType: "tool",
     order: 196,
   },
+  {
+    id: "timer",
+    title: "טיימר כיתתי",
+    description: "טיימר ספירה לאחור לכיתה — בחר זמן מראש או הזן מותאם, עם התראה ב-10 שניות וחגיגה בסיום!",
+    icon: Zap,
+    emoji: "⏱️",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/timer",
+    available: true,
+    contentType: "tool",
+    order: 197,
+  },
 ];

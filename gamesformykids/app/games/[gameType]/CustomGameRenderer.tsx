@@ -71,6 +71,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'spinner':           dynamic(() => import('../spinner/SpinnerClient'),                            { ssr: false }),
   'team-picker':       dynamic(() => import('../team-picker/TeamPickerClient'),                     { ssr: false }),
   'dice':              dynamic(() => import('../dice/DiceClient'),                                    { ssr: false }),
+  'timer':             dynamic(() => import('../timer/TimerClient'),                                  { ssr: false }),
 };
 
 interface Props { gameType: string; }
