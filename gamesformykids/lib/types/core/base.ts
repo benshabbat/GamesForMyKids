@@ -257,4 +257,6 @@ export type GameType =
   // City builder quiz game
   | 'city-builder'
   // Drag-and-drop sorting game
-  | 'drag-sort';
+  | 'drag-sort'
+  // Hebrew spin-the-wheel first-letter quiz
+  | 'word-wheel';

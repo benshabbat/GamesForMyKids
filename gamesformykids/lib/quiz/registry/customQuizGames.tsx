@@ -9,6 +9,7 @@ import { useStoryBuilderGame } from '@/lib/quiz/useStoryBuilderGame';
 import { useRiddlesProGame } from '@/lib/quiz/useRiddlesProGame';
 import { useTriviaCategoriesGame } from '@/lib/quiz/useTriviaCategoriesGame';
 import { useCityBuilderGame } from '@/lib/quiz/useCityBuilderGame';
+import { useWordWheelGame } from '@/lib/quiz/useWordWheelGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -36,6 +37,7 @@ import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 // Screen components — lazy-loaded so each game page only downloads its own screens
 // Options must be object literals (Turbopack static analysis requirement)
+const WordWheelQuestion    = dynamic(() => import('@/components/game/quiz/screens/WordWheelQuestion'),   { loading: () => <GameSpinnerScreen /> });
 const RiddleProQuestion  = dynamic(() => import('@/components/game/quiz/screens/RiddleProQuestion'), { loading: () => <GameSpinnerScreen /> });
 const TriviaCategoryPicker = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoryPicker'), { loading: () => <GameSpinnerScreen /> });
 const TriviaCategoriesQuestion = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoriesQuestion'), { loading: () => <GameSpinnerScreen /> });
@@ -239,6 +241,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="📖" title="בניית סיפור" description="מלא את החסר — בנה סיפור מצחיק בעברית!" theme="amber" buttonLabel="📖 בואו נכתוב!" onStart={startGame} />,
       question: currentBlank ? <StoryBuilderQuestion story={story} currentBlank={currentBlank} currentBlankIdx={currentBlankIdx} filledWords={filledWords} onSelect={selectWord} /> : null,
       result:   completedStory ? <StoryBuilderResult story={story} completedStory={completedStory} onRestart={restart} /> : <QuizResultScreen onRestart={restart} theme="amber" />,
+    }),
+  ),
+
+  'word-wheel': makeQuizGame(
+    useWordWheelGame,
+    ({ current, choices, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🎡" title="ספין של מילים" description="סובב את הגלגל וגלה אות — אחר כך מצא מילה שמתחילה בה!" theme="violet" buttonLabel="🌀 בואו לסובב!" onStart={startGame} />,
+      question: current ? <WordWheelQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="violet" title="כל הכבוד!" />,
     }),
   ),
 };
