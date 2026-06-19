@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 
 function Footer() {
@@ -44,6 +45,14 @@ function Footer() {
             <span className="bg-blue-100 px-2 md:px-3 py-1 rounded-full">📱 נייד</span>
             <span className="bg-green-100 px-2 md:px-3 py-1 rounded-full">🎯 חינוכי</span>
             <span className="bg-yellow-100 px-2 md:px-3 py-1 rounded-full">🎮 מהנה</span>
+          </div>
+
+          {/* Section links */}
+          <div className="flex flex-wrap justify-center gap-3 md:gap-5 text-sm mt-5 md:mt-6">
+            <Link href="/tools"    className="text-teal-600 hover:text-teal-800 font-medium transition-colors">🎲 כלי כיתה</Link>
+            <Link href="/creative" className="text-purple-600 hover:text-purple-800 font-medium transition-colors">🎨 יצירה</Link>
+            <Link href="/riddles"  className="text-orange-600 hover:text-orange-800 font-medium transition-colors">🤣 חידות</Link>
+            <Link href="/"         className="text-blue-600 hover:text-blue-800 font-medium transition-colors">🎮 משחקים</Link>
           </div>
           
           {/* Developer credit */}
