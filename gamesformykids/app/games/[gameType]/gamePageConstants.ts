@@ -93,6 +93,7 @@ export const SUPPORTED_GAMES = [
   'dice',
   'timer',
   'letter-race',
+  'city-builder',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

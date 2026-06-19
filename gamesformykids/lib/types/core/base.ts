@@ -253,4 +253,6 @@ export type GameType =
   // Classroom countdown timer
   | 'timer'
   // Hebrew first-letter racing game
-  | 'letter-race';
+  | 'letter-race'
+  // City builder quiz game
+  | 'city-builder';
