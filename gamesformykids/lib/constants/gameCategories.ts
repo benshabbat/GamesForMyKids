@@ -110,7 +110,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Sparkles,
     color: "bg-gradient-to-r from-purple-500 to-pink-500",
     gradient: "from-purple-400 to-pink-600",
-    gameIds: ["sound-imitation","emotional-social","advanced-weather","advanced-colors","logic-games","visual-logic","sound-quiz","spinner","team-picker","dice"],
+    gameIds: ["sound-imitation","emotional-social","advanced-weather","advanced-colors","logic-games","visual-logic","sound-quiz","spinner","team-picker","dice","timer"],
   },
   arcade: {
     title: "🕹️ ארקייד",

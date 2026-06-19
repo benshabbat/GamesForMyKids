@@ -249,4 +249,6 @@ export type GameType =
   // Random team picker classroom tool
   | 'team-picker'
   // Digital dice roller classroom tool
-  | 'dice';
+  | 'dice'
+  // Classroom countdown timer
+  | 'timer';
