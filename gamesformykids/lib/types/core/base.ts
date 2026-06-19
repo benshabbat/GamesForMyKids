@@ -1,4 +1,4 @@
-/**
+﻿/**
  * ===============================================
  * טיפוסים בסיסיים למערכת המשחקים
  * ===============================================
@@ -261,4 +261,6 @@ export type GameType =
   // Hebrew spin-the-wheel first-letter quiz
   | 'word-wheel'
   // Answer cannon — aim and shoot the correct answer bubble
-  | 'answer-cannon';
+  | 'answer-cannon'
+  // Hebrew typing speed game
+  | 'typing-race';
