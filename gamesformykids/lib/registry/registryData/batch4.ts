@@ -944,4 +944,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 204,
   },
+  {
+    id: "letter-grow",
+    title: "לצמוח למילה",
+    description: "תפוס אותיות נופלות וצבור 5 — האות תצמח למילה! כסה את כל 22 אותיות האלפבית.",
+    icon: Leaf,
+    emoji: "🌱",
+    color: "bg-emerald-600 hover:bg-emerald-700",
+    href: "/games/letter-grow",
+    available: true,
+    order: 205,
+  },
 ];
