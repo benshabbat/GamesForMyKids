@@ -966,4 +966,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 206,
   },
+  {
+    id: "syllable-drums",
+    title: "תופים עבריים",
+    description: "הקש בזמן הנכון! עיגולים יורדים לכל אות במילה — הקש כשמגיעים לקו הזהב!",
+    icon: Music,
+    emoji: "🥁",
+    color: "bg-violet-600 hover:bg-violet-700",
+    href: "/games/syllable-drums",
+    available: true,
+    order: 207,
+  },
 ];

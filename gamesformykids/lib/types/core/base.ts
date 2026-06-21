@@ -269,4 +269,6 @@ export type GameType =
   // Letter grow — catch falling letters to evolve them into words
   | 'letter-grow'
   // Letter slingshot — physics puzzle: aim at the box with the matching word
-  | 'letter-slingshot';
+  | 'letter-slingshot'
+  // Syllable drums — tap the beat for each Hebrew letter in a word
+  | 'syllable-drums';
