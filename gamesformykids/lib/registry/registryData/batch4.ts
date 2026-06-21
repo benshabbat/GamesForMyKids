@@ -40,6 +40,7 @@ import {
   Building2,
   Crosshair,
   Fish,
+  Shirt,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -976,5 +977,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/syllable-drums",
     available: true,
     order: 207,
+  },
+  {
+    id: "dress-up",
+    title: "לבוש את הדמות",
+    description: "הקשב לשם הבגד ולבש את הדמות — כובע, חולצה, נעליים ועוד! 3 קטגוריות: יומיומי, עונתי, מקצועי.",
+    icon: Shirt,
+    emoji: "👗",
+    color: "bg-pink-500 hover:bg-pink-600",
+    href: "/games/dress-up",
+    available: true,
+    order: 208,
   },
 ];
