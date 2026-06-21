@@ -39,6 +39,7 @@ import {
   Dice6,
   Building2,
   Crosshair,
+  Fish,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -931,5 +932,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/answer-cannon",
     available: true,
     order: 203,
+  },
+  {
+    id: "word-fishing",
+    title: "דיג מילים",
+    description: "תפוס את הדג הנכון! קרא את השאלה ולחץ על בעל החיים המתאים — 18 גלים של חיות!",
+    icon: Fish,
+    emoji: "🎣",
+    color: "bg-cyan-600 hover:bg-cyan-700",
+    href: "/games/word-fishing",
+    available: true,
+    order: 204,
   },
 ];

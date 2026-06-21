@@ -76,6 +76,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'drag-sort':         dynamic(() => import('../drag-sort/DragSortClient'),                           { ssr: false }),
   'answer-cannon':     dynamic(() => import('../answer-cannon/CannonClient'),                          { ssr: false }),
   'typing-race':       dynamic(() => import('../typing-race/TypingRaceClient'),                      { ssr: false }),
+  'word-fishing':      dynamic(() => import('../word-fishing/WordFishingClient'),                      { ssr: false }),
 };
 
 interface Props { gameType: string; }
