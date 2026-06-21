@@ -887,4 +887,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 199,
   },
+  {
+    id: "drag-sort",
+    title: "מיון גרירה",
+    description: "גרור כל פריט לקטגוריה הנכונה — 6 נושאים: חיות, תחבורה, אוכל ועוד!",
+    icon: Layers,
+    emoji: "🗂️",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/drag-sort",
+    available: true,
+    order: 202,
+  },
 ];

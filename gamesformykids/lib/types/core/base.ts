@@ -255,4 +255,6 @@ export type GameType =
   // Hebrew first-letter racing game
   | 'letter-race'
   // City builder quiz game
-  | 'city-builder';
+  | 'city-builder'
+  // Drag-and-drop sorting game
+  | 'drag-sort';

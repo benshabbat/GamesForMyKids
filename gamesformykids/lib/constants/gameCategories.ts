@@ -132,6 +132,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
 
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","trivia-categories","clock","spelling","opposites","world-languages","riddles","riddles-pro","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman","choose-adventure","picture-dictionary","word-search","kids-songs","kids-encyclopedia","age-calculator","jokes-browser","word-maze","city-builder"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","trivia-categories","clock","spelling","opposites","world-languages","riddles","riddles-pro","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman","choose-adventure","picture-dictionary","word-search","kids-songs","kids-encyclopedia","age-calculator","jokes-browser","word-maze","city-builder","drag-sort"],
   },
 };
