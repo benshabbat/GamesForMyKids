@@ -122,7 +122,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
       "flappy-bird","snake","dino-runner","catch-fruit","space-defender",
       "whack-a-mole","brick-breaker","balloon-pop","pong","meteor-dodge",
       "frogger","stack","color-tap","jumper","simon",
-      "reflex","taki","checkers","chess","shesh-besh","maze","letter-defender","snakes-ladders","escape-room","find-in-scene","answer-cannon","word-fishing",
+      "reflex","taki","checkers","chess","shesh-besh","maze","letter-defender","snakes-ladders","escape-room","find-in-scene","answer-cannon","word-fishing","letter-grow",
     ],
   },
   educational: {

@@ -265,4 +265,6 @@ export type GameType =
   // Hebrew typing speed game
   | 'typing-race'
   // Word fishing — catch the correct fish by animal characteristic
-  | 'word-fishing';
+  | 'word-fishing'
+  // Letter grow — catch falling letters to evolve them into words
+  | 'letter-grow';
