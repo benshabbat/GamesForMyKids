@@ -900,6 +900,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 200,
   },
   {
+    id: "typing-race",
+    title: "קלדן מהיר",
+    description: "הקלד מילים עבריות אות אחרי אות — מקלדת עברית מובנית, 3 רמות קושי ומדליית מהירות!",
+    icon: PenLine,
+    emoji: "⌨️",
+    color: "bg-indigo-600 hover:bg-indigo-700",
+    href: "/games/typing-race",
+    available: true,
+    order: 201,
+  },
+  {
     id: "drag-sort",
     title: "מיון גרירה",
     description: "גרור כל פריט לקטגוריה הנכונה — 6 נושאים: חיות, תחבורה, אוכל ועוד!",
