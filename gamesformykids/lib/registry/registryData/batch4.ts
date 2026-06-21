@@ -38,6 +38,7 @@ import {
   Users,
   Dice6,
   Building2,
+  Crosshair,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -908,5 +909,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/drag-sort",
     available: true,
     order: 202,
+  },
+  {
+    id: "answer-cannon",
+    title: "תותחן תשובות",
+    description: "כוון את התותח וירה על התשובה הנכונה — מתמטיקה, אוצר מילים, ידע כללי!",
+    icon: Crosshair,
+    emoji: "🎯",
+    color: "bg-blue-700 hover:bg-blue-800",
+    href: "/games/answer-cannon",
+    available: true,
+    order: 203,
   },
 ];

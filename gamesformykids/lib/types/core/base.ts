@@ -259,4 +259,6 @@ export type GameType =
   // Drag-and-drop sorting game
   | 'drag-sort'
   // Hebrew spin-the-wheel first-letter quiz
-  | 'word-wheel';
+  | 'word-wheel'
+  // Answer cannon — aim and shoot the correct answer bubble
+  | 'answer-cannon';
