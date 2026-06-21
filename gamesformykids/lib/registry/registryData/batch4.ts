@@ -955,4 +955,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 205,
   },
+  {
+    id: "letter-slingshot",
+    title: "קלע אותיות",
+    description: "גרור את הכדור ושגר לקופסה עם המילה שמתחילה באות — פיזיקה ושפה ביחד!",
+    icon: Zap,
+    emoji: "🎯",
+    color: "bg-purple-600 hover:bg-purple-700",
+    href: "/games/letter-slingshot",
+    available: true,
+    order: 206,
+  },
 ];
