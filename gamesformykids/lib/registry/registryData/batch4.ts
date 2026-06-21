@@ -37,6 +37,7 @@ import {
   RotateCw,
   Users,
   Dice6,
+  Building2,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -874,5 +875,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-race",
     available: true,
     order: 198,
+  },
+  {
+    id: "city-builder",
+    title: "בנה את העיר",
+    description: "ענה על שאלות מכל התחומים ובנה עיר מגדלים שלמה — 10 שאלות, 10 בניינים!",
+    icon: Building2,
+    emoji: "🏙️",
+    color: "bg-sky-500 hover:bg-sky-600",
+    href: "/games/city-builder",
+    available: true,
+    order: 199,
   },
 ];

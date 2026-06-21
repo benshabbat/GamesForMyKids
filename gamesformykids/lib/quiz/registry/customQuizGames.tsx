@@ -8,6 +8,7 @@ import { useDivisionGame } from '@/lib/quiz/useDivisionGame';
 import { useStoryBuilderGame } from '@/lib/quiz/useStoryBuilderGame';
 import { useRiddlesProGame } from '@/lib/quiz/useRiddlesProGame';
 import { useTriviaCategoriesGame } from '@/lib/quiz/useTriviaCategoriesGame';
+import { useCityBuilderGame } from '@/lib/quiz/useCityBuilderGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -63,6 +64,7 @@ const NikudQuestion        = dynamic(() => import('@/components/game/quiz/screen
 const DivisionQuestion     = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), { loading: () => <GameSpinnerScreen /> });
 const StoryBuilderQuestion = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderQuestion'), { loading: () => <GameSpinnerScreen /> });
 const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderResult'), { loading: () => <GameSpinnerScreen /> });
+const CityBuilderStage     = dynamic(() => import('@/components/game/quiz/screens/CityBuilderStage'),   { loading: () => <GameSpinnerScreen /> });
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
@@ -219,6 +221,15 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="➗" title="חילוק" description="12 ÷ 3 = ? — חלק פריטים לקבוצות שוות!" theme="blue" buttonLabel="➗ בואו נחלק!" onStart={startGame} />,
       question: current ? <DivisionQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="blue" />,
+    }),
+  ),
+
+  'city-builder': makeQuizGame(
+    useCityBuilderGame,
+    ({ current, choices, startGame, selectAnswer, restart }) => ({
+      menu:     <QuizMenuScreen emoji="🏙️" title="בנה את העיר" description="ענה נכון — ובנה בניין חדש בעיר! 10 שאלות מכל התחומים." theme="sky" buttonLabel="🏗️ בואו לבנות!" onStart={startGame} />,
+      question: current ? <CityBuilderStage current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="sky" title="העיר שלך מוכנה!" subtitle="כל הכבוד על הבניין!" />,
     }),
   ),
 
