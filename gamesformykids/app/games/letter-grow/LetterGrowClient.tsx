@@ -110,7 +110,7 @@ export default function LetterGrowClient() {
     });
   }, []);
 
-  const advanceRound = useCallback((W: number) => {
+  const advanceRound = useCallback(() => {
     const next = roundIdxRef.current + 1;
     scoreRef.current = next;
     setScore(next);
@@ -131,7 +131,7 @@ export default function LetterGrowClient() {
     }
   }, []);
 
-  const triggerEvolution = useCallback((W: number) => {
+  const triggerEvolution = useCallback(() => {
     const target = currentTarget();
     if (!target) return;
     phaseRef.current = 'evolving';
@@ -139,7 +139,7 @@ export default function LetterGrowClient() {
     setEvolveInfo(target);
     fallingRef.current = [];
     speakHebrew(target.word);
-    setTimeout(() => advanceRound(W), 2800);
+    setTimeout(() => advanceRound(), 2800);
   }, [advanceRound]);
 
   const startGame = useCallback(() => {
@@ -200,7 +200,7 @@ export default function LetterGrowClient() {
         catchCountRef.current += 1;
         setCatchCount(catchCountRef.current);
         if (catchCountRef.current >= CATCHES_TO_EVOLVE) {
-          triggerEvolution(W);
+          triggerEvolution();
           return;
         }
       } else {
