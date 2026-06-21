@@ -267,4 +267,6 @@ export type GameType =
   // Word fishing — catch the correct fish by animal characteristic
   | 'word-fishing'
   // Letter grow — catch falling letters to evolve them into words
-  | 'letter-grow';
+  | 'letter-grow'
+  // Letter slingshot — physics puzzle: aim at the box with the matching word
+  | 'letter-slingshot';
