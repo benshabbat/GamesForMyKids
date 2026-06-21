@@ -989,4 +989,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 208,
   },
+  {
+    id: "letter-bubble-shooter",
+    title: "ירי אותיות",
+    description: "ירה בועות אל 3 אותיות זהות ופוצץ אותן — אות, צבע, כיף!",
+    icon: Crosshair,
+    emoji: "🫧",
+    color: "bg-indigo-600 hover:bg-indigo-700",
+    href: "/games/letter-bubble-shooter",
+    available: true,
+    order: 209,
+  },
 ];

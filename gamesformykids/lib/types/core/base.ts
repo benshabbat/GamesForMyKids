@@ -273,4 +273,6 @@ export type GameType =
   // Syllable drums — tap the beat for each Hebrew letter in a word
   | 'syllable-drums'
   // Dress-up — clothe the character with Hebrew vocabulary items
-  | 'dress-up';
+  | 'dress-up'
+  // Letter bubble shooter — shoot letter bubbles to match 3+
+  | 'letter-bubble-shooter';
