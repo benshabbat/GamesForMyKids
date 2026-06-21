@@ -888,6 +888,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 199,
   },
   {
+    id: "word-wheel",
+    title: "ספין של מילים",
+    description: "סובב את הגלגל — נחת על אות ומצא מילה שמתחילה בה! 5 קטגוריות: חיות, אוכל, פעלים, שמות, מקומות.",
+    icon: RotateCw,
+    emoji: "🎡",
+    color: "bg-violet-500 hover:bg-violet-600",
+    href: "/games/word-wheel",
+    available: true,
+    order: 200,
+  },
+  {
     id: "drag-sort",
     title: "מיון גרירה",
     description: "גרור כל פריט לקטגוריה הנכונה — 6 נושאים: חיות, תחבורה, אוכל ועוד!",
