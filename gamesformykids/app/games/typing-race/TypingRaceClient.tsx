@@ -79,7 +79,7 @@ export default function TypingRaceClient() {
             </div>
             <div>
               <div className="text-2xl font-black text-white">{totalSec}ש׳</div>
-              <div className="text-xs text-white/80">סה"כ זמן</div>
+              <div className="text-xs text-white/80">{'סה"כ זמן'}</div>
             </div>
             <div>
               <div className="text-2xl font-black text-white">{errorCount}</div>
