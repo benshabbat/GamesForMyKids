@@ -263,4 +263,6 @@ export type GameType =
   // Answer cannon — aim and shoot the correct answer bubble
   | 'answer-cannon'
   // Hebrew typing speed game
-  | 'typing-race';
+  | 'typing-race'
+  // Word fishing — catch the correct fish by animal characteristic
+  | 'word-fishing';
