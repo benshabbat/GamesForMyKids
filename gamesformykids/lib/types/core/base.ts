@@ -271,4 +271,6 @@ export type GameType =
   // Letter slingshot — physics puzzle: aim at the box with the matching word
   | 'letter-slingshot'
   // Syllable drums — tap the beat for each Hebrew letter in a word
-  | 'syllable-drums';
+  | 'syllable-drums'
+  // Dress-up — clothe the character with Hebrew vocabulary items
+  | 'dress-up';
