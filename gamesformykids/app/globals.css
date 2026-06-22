@@ -389,3 +389,68 @@ body {
 .animate-fade-in-up {
   animation: fade-in-up 0.4s ease-out both;
 }
+
+/* ═══════════════════════════════════════════════════════
+   Colorblind-friendly mode (deuteranopia / protanopia)
+   Paul Tol palette: correct = #0077BB (blue), wrong = #EE7733 (orange)
+   Activated by [data-colorblind] on <html>
+   ═══════════════════════════════════════════════════════ */
+[data-colorblind="true"] .bg-green-400,
+[data-colorblind="true"] .bg-green-500,
+[data-colorblind="true"] .bg-green-600,
+[data-colorblind="true"] .from-green-400,
+[data-colorblind="true"] .from-green-500,
+[data-colorblind="true"] .to-green-400,
+[data-colorblind="true"] .to-green-500,
+[data-colorblind="true"] .to-green-600 {
+  --tw-bg-opacity: 1;
+  background-color: #0077BB !important;
+}
+
+[data-colorblind="true"] .bg-red-400,
+[data-colorblind="true"] .bg-red-500,
+[data-colorblind="true"] .bg-red-600,
+[data-colorblind="true"] .from-red-400,
+[data-colorblind="true"] .from-red-500,
+[data-colorblind="true"] .to-red-400,
+[data-colorblind="true"] .to-red-500,
+[data-colorblind="true"] .to-red-600 {
+  --tw-bg-opacity: 1;
+  background-color: #EE7733 !important;
+}
+
+[data-colorblind="true"] .text-green-400,
+[data-colorblind="true"] .text-green-500,
+[data-colorblind="true"] .text-green-600,
+[data-colorblind="true"] .text-green-700 {
+  color: #0077BB !important;
+}
+
+[data-colorblind="true"] .text-red-400,
+[data-colorblind="true"] .text-red-500,
+[data-colorblind="true"] .text-red-600,
+[data-colorblind="true"] .text-red-700 {
+  color: #EE7733 !important;
+}
+
+[data-colorblind="true"] .border-green-400,
+[data-colorblind="true"] .border-green-500,
+[data-colorblind="true"] .border-green-600 {
+  border-color: #0077BB !important;
+}
+
+[data-colorblind="true"] .border-red-400,
+[data-colorblind="true"] .border-red-500,
+[data-colorblind="true"] .border-red-600 {
+  border-color: #EE7733 !important;
+}
+
+[data-colorblind="true"] .ring-green-400,
+[data-colorblind="true"] .ring-green-500 {
+  --tw-ring-color: #0077BB !important;
+}
+
+[data-colorblind="true"] .ring-red-400,
+[data-colorblind="true"] .ring-red-500 {
+  --tw-ring-color: #EE7733 !important;
+}

@@ -7,6 +7,7 @@ import { useAuth } from '@/hooks/shared/auth/useAuth';
 import { AudioSection } from '@/components/settings/AudioSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { AccountSection } from '@/components/settings/AccountSection';
+import { ColorblindSection } from '@/components/settings/ColorblindSection';
 import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 export default function SettingsClient() {
@@ -70,6 +71,7 @@ export default function SettingsClient() {
             onChange={handleSettingChange}
             disabled={saving}
           />
+          <ColorblindSection />
           <AccountSection onSignOut={handleSignOut} />
         </div>
 
