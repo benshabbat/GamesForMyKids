@@ -8,6 +8,7 @@ import { MostPlayedCard } from './components/MostPlayedCard';
 import { ScoreSummaryCard } from './components/ScoreSummaryCard';
 import { RecentAchievementsCard } from './components/RecentAchievementsCard';
 import { RecommendedGameCard } from './components/RecommendedGameCard';
+import { ScoreHistoryCard } from './components/ScoreHistoryCard';
 
 export default function DashboardClient() {
   const { user, loading: authLoading } = useAuth();
@@ -48,6 +49,7 @@ export default function DashboardClient() {
           <div className="grid md:grid-cols-2 gap-6">
             <MostPlayedCard />
             <ScoreSummaryCard />
+            <ScoreHistoryCard />
             <RecentAchievementsCard />
             <RecommendedGameCard />
           </div>
