@@ -41,6 +41,7 @@ import {
   Crosshair,
   Fish,
   Shirt,
+  Scissors,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -999,5 +1000,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-bubble-shooter",
     available: true,
     order: 209,
+  },
+  {
+    id: "letter-slicer",
+    title: "חותך מילים",
+    description: "הקשב למילה ולחץ על הבועה הנכונה — בועות עפות בכל כיוון, חתוך את הנכונה!",
+    icon: Scissors,
+    emoji: "✂️",
+    color: "bg-violet-700 hover:bg-violet-800",
+    href: "/games/letter-slicer",
+    available: true,
+    order: 210,
   },
 ];

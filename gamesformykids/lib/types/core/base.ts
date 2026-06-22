@@ -275,4 +275,6 @@ export type GameType =
   // Dress-up — clothe the character with Hebrew vocabulary items
   | 'dress-up'
   // Letter bubble shooter — shoot letter bubbles to match 3+
-  | 'letter-bubble-shooter';
+  | 'letter-bubble-shooter'
+  // Letter slicer — tap flying Hebrew word bubbles to slice the target
+  | 'letter-slicer';
