@@ -157,7 +157,7 @@ export default function SpotClient() {
     return stopTimer;
   }, [phase, stopTimer]);
 
-  const handleTap = useCallback((index: number, fromAltPanel: boolean) => {
+  const handleTap = useCallback((index: number, _fromAltPanel: boolean) => {
     if (phase !== 'playing') return;
     const scene = SCENES[sceneIdx]!;
     const diff = scene.diffs.find(d => d.index === index);
@@ -227,7 +227,6 @@ export default function SpotClient() {
   }
 
   if (phase === 'result') {
-    const scene = SCENES[sceneIdx]!;
     const stars = found.size >= 5 ? 3 : found.size >= 3 ? 2 : 1;
     return (
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex flex-col items-center justify-center p-4">
