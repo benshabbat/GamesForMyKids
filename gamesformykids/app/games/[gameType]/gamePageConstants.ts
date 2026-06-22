@@ -106,6 +106,7 @@ export const SUPPORTED_GAMES = [
   'letter-bubble-shooter',
   'letter-slicer',
   'cooking-game',
+  'spot-the-difference',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -120,7 +121,7 @@ export const CUSTOM_GAME_TYPES = new Set([
   'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
 
 
-  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search', 'israel-map', 'kids-songs', 'melody-maker', 'kids-encyclopedia', 'age-calculator', 'craft-guide', 'jokes-browser', 'word-maze', 'avatar-maker', 'sound-quiz', 'spinner', 'team-picker', 'dice', 'timer', 'letter-race', 'drag-sort', 'answer-cannon', 'typing-race', 'word-fishing', 'letter-grow', 'letter-slingshot', 'syllable-drums', 'dress-up', 'letter-bubble-shooter', 'letter-slicer', 'cooking-game',
+  'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search', 'israel-map', 'kids-songs', 'melody-maker', 'kids-encyclopedia', 'age-calculator', 'craft-guide', 'jokes-browser', 'word-maze', 'avatar-maker', 'sound-quiz', 'spinner', 'team-picker', 'dice', 'timer', 'letter-race', 'drag-sort', 'answer-cannon', 'typing-race', 'word-fishing', 'letter-grow', 'letter-slingshot', 'syllable-drums', 'dress-up', 'letter-bubble-shooter', 'letter-slicer', 'cooking-game', 'spot-the-difference',
   
   
 ]);

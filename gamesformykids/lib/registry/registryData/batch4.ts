@@ -1024,4 +1024,15 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 211,
   },
+  {
+    id: "spot-the-difference",
+    title: "מצא את ההבדל",
+    description: "מצא 5 הבדלים בין שתי תמונות אמוג'י — חיות, מטבח, גן, ים ושמים!",
+    icon: Search,
+    emoji: "🔍",
+    color: "bg-purple-500 hover:bg-purple-600",
+    href: "/games/spot-the-difference",
+    available: true,
+    order: 212,
+  },
 ];
