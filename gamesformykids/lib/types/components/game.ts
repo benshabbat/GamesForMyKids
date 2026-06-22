@@ -26,6 +26,8 @@ export interface CategoryCardProps {
   category: Category;
   /** מספר כלל המשחקים בקטגוריה */
   gamesCount: number;
+  /** מספר משחקים שהילד שיחק בקטגוריה זו */
+  playedCount?: number;
   /** פונקציה שמתבצעת בלחיצה */
   onClick: () => void;
 }

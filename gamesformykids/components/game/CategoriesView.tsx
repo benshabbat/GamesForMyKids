@@ -6,6 +6,7 @@ import { useHomePageStore } from "@/lib/stores";
 import { GAME_CATEGORIES } from "@/lib/constants/gameCategories";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import { useGridFillers } from "@/hooks";
+import { useCategoryProgress } from "@/hooks/shared/progress/useCategoryProgress";
 
 export default function CategoriesView() {
   const selectCategory = useHomePageStore((s) => s.selectCategory);
@@ -13,6 +14,7 @@ export default function CategoriesView() {
   const categories = GAME_CATEGORIES;
   const categoriesCount = Object.keys(categories).length;
   const fillerCount = useGridFillers(categoriesCount, { mobile: 2, tablet: 3, desktop: 3 });
+  const categoryProgress = useCategoryProgress();
 
   return (
     <div>
@@ -30,6 +32,7 @@ export default function CategoriesView() {
               <CategoryCard
                 category={category}
                 gamesCount={gamesCount}
+                playedCount={categoryProgress[key] ?? 0}
                 onClick={() => selectCategory(key)}
               />
             </div>
