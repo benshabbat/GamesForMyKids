@@ -6,6 +6,8 @@ import { GameCardGrid } from "../../../shared";
 import { GameHints } from "../../../shared";
 import { TipsBox } from "../../../shared";
 import VoiceAnswerButton from "../../../shared/buttons/VoiceAnswerButton";
+import { REAL_PHOTO_CARD_MAP } from "../../../shared/GameCardMap";
+import { useAudioSettingsStore } from "@/lib/stores/audioSettingsStore";
 
 interface AutoGameBodyProps {
   renderCard?: ((item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode) | undefined;
@@ -24,7 +26,12 @@ export function AutoGameBody({ renderCard }: AutoGameBodyProps) {
     currentAccuracy,
     setShowProgressModal,
     CardComponent,
+    gameType,
   } = useAutoGame();
+
+  const showRealPhotos = useAudioSettingsStore((s) => s.showRealPhotos);
+  const PhotoCard = showRealPhotos && gameType ? REAL_PHOTO_CARD_MAP[gameType] : undefined;
+  const EffectiveCard = PhotoCard ?? CardComponent;
 
   return (
     <div className="space-y-6">
@@ -37,7 +44,7 @@ export function AutoGameBody({ renderCard }: AutoGameBodyProps) {
         maxWidth="max-w-2xl"
         renderCustomCard={(item) => (
           renderCard ? renderCard(item, handleItemClick) : (
-            <CardComponent item={item} onClick={handleItemClick} />
+            <EffectiveCard item={item} onClick={handleItemClick} />
           )
         )}
       />

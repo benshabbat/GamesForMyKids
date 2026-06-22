@@ -18,6 +18,8 @@ import { TECH_LOGOS_URLS, TECH_BG_MAP } from './photoCardData/techLogos';
 import { SOCCER_LOGOS_URLS }   from './photoCardData/soccerLogos';
 import { CAR_BRANDS_URLS }     from './photoCardData/carBrands';
 import { DINOSAURS_URLS }      from './photoCardData/dinosaurs';
+import { ANIMALS_URLS }        from './photoCardData/animals';
+import { FRUITS_URLS }         from './photoCardData/fruits';
 
 export interface PhotoCardConfig {
   imageUrls: Record<string, string>;
@@ -97,6 +99,17 @@ export const PHOTO_CARD_CONFIGS = {
     imageUrls: DINOSAURS_URLS, objectFit: "cover",
     cardBg: "bg-stone-100", selectedBorder: "border-emerald-500 ring-4 ring-emerald-500 ring-offset-4",
     defaultBorder: "border-stone-300", labelBg: "bg-stone-100", labelText: "text-stone-800",
+  },
+  // Real-photo toggle targets (emoji cards by default; these activate when showRealPhotos is on)
+  "animals": {
+    imageUrls: ANIMALS_URLS, objectFit: "cover",
+    cardBg: "bg-green-50", selectedBorder: "border-green-400 ring-4 ring-green-400 ring-offset-4",
+    defaultBorder: "border-green-200", labelBg: "bg-green-50", labelText: "text-green-900",
+  },
+  "fruits": {
+    imageUrls: FRUITS_URLS, objectFit: "cover",
+    cardBg: "bg-yellow-50", selectedBorder: "border-yellow-400 ring-4 ring-yellow-400 ring-offset-4",
+    defaultBorder: "border-yellow-200", labelBg: "bg-yellow-50", labelText: "text-yellow-900",
   },
 } as const satisfies Record<string, PhotoCardConfig>;
 
