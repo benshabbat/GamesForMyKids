@@ -125,11 +125,13 @@ export function useGameState() {
 }
 
 export function useGameActions() {
-  const startGame       = useGameActionsStore((s) => s.startGame)
-  const resetGame       = useGameActionsStore((s) => s.resetGame)
-  const handleItemClick = useGameActionsStore((s) => s.handleItemClick)
-  const speakItemName   = useGameActionsStore((s) => s.speakItemName)
-  return { startGame, resetGame, handleItemClick, speakItemName }
+  const startGame          = useGameActionsStore((s) => s.startGame)
+  const resetGame          = useGameActionsStore((s) => s.resetGame)
+  const handleItemClick    = useGameActionsStore((s) => s.handleItemClick)
+  const speakItemName      = useGameActionsStore((s) => s.speakItemName)
+  const lastMistakeItems   = useGameActionsStore((s) => s.lastMistakeItems)
+  const startMistakeReview = useGameActionsStore((s) => s.startMistakeReview)
+  return { startGame, resetGame, handleItemClick, speakItemName, lastMistakeItems, startMistakeReview }
 }
 
 export function useGameUI() {

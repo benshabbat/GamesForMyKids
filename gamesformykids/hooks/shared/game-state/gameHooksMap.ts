@@ -22,6 +22,8 @@ type AnyGameHookFn = () => {
   hasMoreHints?: boolean;
   showNextHint?: () => void;
   currentAccuracy?: number;
+  lastMistakeItems?: BaseGameItem[];
+  startMistakeReview?: () => void | Promise<void>;
 };
 
 // טיפוס עבור משחקים שתומכים ב-AutoGamePage בלבד

@@ -25,6 +25,8 @@ export interface GameActionsState {
   hasMoreHints: boolean;
   showNextHint: () => void;
   currentAccuracy: number;
+  lastMistakeItems: BaseGameItem[];
+  startMistakeReview: () => void | Promise<void>;
 }
 
 export interface GameActionsStoreActions {
@@ -40,6 +42,8 @@ export const useGameActionsStore = makeStore<GameActionsState & GameActionsStore
       hasMoreHints: false,
       showNextHint: NOOP,
       currentAccuracy: 0,
+      lastMistakeItems: [],
+      startMistakeReview: ASYNC_NOOP,
 
       setGameActions: (actions) => set(actions, false, 'gameActions/setGameActions'),
     }));

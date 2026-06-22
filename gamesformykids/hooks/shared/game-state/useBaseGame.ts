@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { BaseGameItem, BaseGameState } from "@/lib/types/core/base";
 import { UseBaseGameConfig } from "@/lib/types/hooks/game-state";
 import { useGameAudio } from "../audio/useGameAudio";
@@ -8,12 +8,14 @@ import { useGameOptions } from "./useGameOptions";
 import { useGameHints } from "../ui/useGameHints";
 import { useSessionStats } from "../progress/useSessionStats";
 import { useGameCompletion } from "../progress/useGameCompletion";
-import { 
-  delay, 
+import {
+  delay,
   speakItemName as speakItemNameUtil,
   handleWrongGameAnswer,
   handleCorrectGameAnswer,
-  speakStartMessage
+  speakStartMessage,
+  getRandomItem,
+  generateOptions,
 } from "@/lib/utils/game/gameUtils";
 import { GAME_CONSTANTS } from "@/lib/constants";
 import { useGameProgressStore, useGameStore } from "@/lib/stores";
@@ -26,6 +28,13 @@ import { trackEvent } from "@/lib/analytics/trackEvent";
  */
 export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBaseGameConfig) {
   const { gameType, items, pronunciations, gameConstants, customAudio, uniqueByField } = config;
+
+  // Mistakes from the last completed session — persists until the next startGame
+  const [lastMistakeItems, setLastMistakeItems] = useState<T[]>([]);
+  // When set, the game uses only these items (mistake review mode)
+  const [reviewItems, setReviewItems] = useState<T[] | null>(null);
+
+  const effectiveItems = (reviewItems ?? items) as T[];
 
   // ── Zustand store reads (score / level / isPlaying) ─────
   const score          = useGameProgressStore((s) => s.score);
@@ -81,7 +90,7 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
   }, []);
   
   const { getRandomChallenge, getOptionsForChallenge } = useGameOptions({
-    allItems: items,
+    allItems: effectiveItems,
     level,
     baseCount: gameConstants.BASE_COUNT,
     increment: gameConstants.INCREMENT,
@@ -112,36 +121,47 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     }
   };
 
-  // התחלת משחק
-  const startGame = async () => {
-    // Save previous session score before resetting (user may replay without navigating away)
+  // Helper shared by startGame and startMistakeReview
+  const _beginSession = async (firstChallenge: T, firstOptions: T[]) => {
     const progressStore = useGameProgressStore.getState();
     const { score: prevScore, level: prevLevel, isGameActive } = progressStore;
     if (isGameActive && (prevScore > 0 || prevLevel > 1)) {
       const durationSeconds = Math.round((Date.now() - sessionStartRef.current) / 1000);
       saveGameResultRef.current({ score: prevScore, level: prevLevel, durationSeconds });
     }
-
     progressStore.resetProgress();
     progressStore.setGameActive(true);
     sessionStartRef.current = Date.now();
     useGameStore.getState().startGame(gameType);
     trackEvent('game_start', { game_type: gameType });
-
     useGameSessionStore.getState().resetSession();
     progressHooks.startSession();
-
     await delay(GAME_CONSTANTS.DELAYS.START_GAME_DELAY);
     await speakStartMessage();
-    
+    useGameSessionStore.getState().setChallengeAndOptions(firstChallenge, firstOptions);
+    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
+    await speakItemNameFunc(firstChallenge.name);
+  };
+
+  // התחלת משחק
+  const startGame = async () => {
+    setReviewItems(null); // reset to full item pool
     const challenge = getRandomChallenge() as T;
     const newOptions = getOptionsForChallenge(challenge) as T[];
-
-    useGameSessionStore.getState().setChallengeAndOptions(challenge, newOptions);
-
-    await delay(GAME_CONSTANTS.DELAYS.NEXT_ITEM_DELAY);
-    await speakItemNameFunc(challenge.name);
+    await _beginSession(challenge, newOptions);
   };
+
+  // התחלת סשן תרגול טעויות — משחק רק עם הפריטים שהמשתמש פספס
+  const startMistakeReview = useCallback(async () => {
+    if (lastMistakeItems.length < 2) return;
+    setReviewItems(lastMistakeItems);
+    // Pick first challenge directly from lastMistakeItems (reviewItems update is async)
+    const challenge = getRandomItem(lastMistakeItems) as T;
+    const pool = lastMistakeItems as T[];
+    const newOptions = generateOptions(challenge, pool, GAME_CONSTANTS.OPTIONS_COUNT, 'name') as T[];
+    await _beginSession(challenge, newOptions);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [lastMistakeItems]);
 
   // טיפול בלחיצה על פריט
   const handleItemClick = async (selectedItem: T) => {
@@ -198,6 +218,12 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     // Capture final score/level before resetting local state
     const { score: finalScore, level: finalLevel } = useGameProgressStore.getState();
 
+    // Preserve mistake items so the start screen can offer a review round
+    const mistakeNames = progressHooks.currentSession?.mistakes?.map((m) => m.item) ?? [];
+    const capturedMistakes = (items as T[]).filter((item) => mistakeNames.includes(item.name));
+    setLastMistakeItems(capturedMistakes);
+    setReviewItems(null);
+
     progressHooks.endSession();
     useGameStore.getState().endGame();
     useGameProgressStore.getState().setGameActive(false);
@@ -224,5 +250,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
     hasMoreHints: hintsHooks.hasMoreHints || false,
     showNextHint: hintsHooks.showNextHint || (() => {}),
     currentAccuracy: progressHooks.getCurrentAccuracy() || 0,
+    // תרגול טעויות
+    lastMistakeItems,
+    startMistakeReview,
   };
 }
