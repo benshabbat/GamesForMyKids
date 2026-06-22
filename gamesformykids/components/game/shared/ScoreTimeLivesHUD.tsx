@@ -1,5 +1,6 @@
 'use client';
 import LivesDisplay from './LivesDisplay';
+import { useTimerVisibility } from '@/hooks/shared/useTimerVisibility';
 
 interface Props {
   score: number;
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export default function ScoreTimeLivesHUD({ score, lives, timeLeft, mb = 'mb-3' }: Props) {
+  const { timerHidden, toggleTimer } = useTimerVisibility();
   return (
     <div className={`flex gap-5 ${mb} text-white text-center`}>
       <div>
@@ -19,8 +21,21 @@ export default function ScoreTimeLivesHUD({ score, lives, timeLeft, mb = 'mb-3' 
         <LivesDisplay lives={lives} />
         <p className="text-sm text-red-400">חיים</p>
       </div>
-      <div>
-        <p className="text-2xl font-black text-blue-200">{timeLeft} שנ׳</p>
+      <div className="flex flex-col items-center">
+        <div className="flex items-center gap-1">
+          {timerHidden
+            ? <p className="text-2xl font-black text-blue-200">⏱️</p>
+            : <p className="text-2xl font-black text-blue-200">{timeLeft} שנ׳</p>
+          }
+          <button
+            onClick={toggleTimer}
+            title={timerHidden ? 'הצג שעון' : 'הסתר שעון'}
+            aria-label={timerHidden ? 'הצג שעון ספירה לאחור' : 'הסתר שעון ספירה לאחור'}
+            className="text-blue-300 hover:text-blue-100 transition-colors text-base leading-none opacity-70 hover:opacity-100"
+          >
+            {timerHidden ? '👁️' : '🙈'}
+          </button>
+        </div>
         <p className="text-sm text-blue-400">זמן</p>
       </div>
     </div>
