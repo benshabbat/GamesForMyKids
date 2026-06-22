@@ -2,6 +2,7 @@
 import { useState, useCallback, useRef } from 'react';
 import QRCode from 'react-qr-code';
 import { QrCode, X, Copy, Download, Check } from 'lucide-react';
+import { useEscapeKey } from '@/hooks/shared/useEscapeKey';
 
 interface Props {
   gameType: string;
@@ -11,6 +12,7 @@ export default function QRButton({ gameType }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
+  useEscapeKey(() => setOpen(false), open);
 
   const gameUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/games/${gameType}?utm_source=qr`
@@ -59,7 +61,7 @@ export default function QRButton({ gameType }: Props) {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
           onClick={(e) => { if (e.target === e.currentTarget) setOpen(false); }}
         >
-          <div className="bg-white rounded-3xl p-6 max-w-xs w-full shadow-2xl text-center" dir="rtl">
+          <div className="bg-white rounded-3xl p-6 max-w-xs w-full shadow-2xl text-center" dir="rtl" role="dialog" aria-modal="true" aria-label="שתף את המשחק">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-bold text-indigo-900">שתף את המשחק</h2>
               <button onClick={() => setOpen(false)} className="text-gray-400 hover:text-gray-600">

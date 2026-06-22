@@ -9,19 +9,20 @@
 "use client";
 
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
+import { useEscapeKey } from '@/hooks/shared/useEscapeKey';
 
 /**
  * 🎯 ContextProgressDisplay עם קונטקסט - ללא props!
  */
 export function ContextProgressDisplay() {
-  const { 
-    currentAccuracy, 
-    showProgressModal, 
+  const {
+    currentAccuracy,
+    showProgressModal,
     setShowProgressModal,
     score,
     level
   } = useUniversalGame();
-  
+  useEscapeKey(() => setShowProgressModal(false), showProgressModal);
   if (!showProgressModal) return null;
 
   const getAccuracyColor = (accuracy: number) => {
@@ -39,7 +40,7 @@ export function ContextProgressDisplay() {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl">
+      <div className="bg-white rounded-2xl p-6 max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto shadow-2xl" role="dialog" aria-modal="true" aria-label="הסטטיסטיקות שלך">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold text-gray-800">📊 הסטטיסטיקות שלך</h2>
