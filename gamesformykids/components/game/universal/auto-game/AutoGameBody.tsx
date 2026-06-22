@@ -5,6 +5,7 @@ import { useAutoGame } from "@/hooks";
 import { GameCardGrid } from "../../../shared";
 import { GameHints } from "../../../shared";
 import { TipsBox } from "../../../shared";
+import VoiceAnswerButton from "../../../shared/buttons/VoiceAnswerButton";
 
 interface AutoGameBodyProps {
   renderCard?: ((item: BaseGameItem, onClick: (item: BaseGameItem) => void) => React.ReactNode) | undefined;
@@ -54,8 +55,9 @@ export function AutoGameBody({ renderCard }: AutoGameBodyProps) {
         />
       )}
 
-      {/* כפתור סטטיסטיקות */}
-      <div className="text-center mt-4">
+      {/* כפתורי פעולה */}
+      <div className="flex items-center justify-center gap-3 mt-4 flex-wrap">
+        <VoiceAnswerButton options={options || []} onMatch={handleItemClick} />
         <button
           onClick={() => setShowProgressModal(true)}
           className="
