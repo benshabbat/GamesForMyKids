@@ -8,6 +8,13 @@ import ChessBoard from './ChessBoard';
 import ChessStatusBar from './ChessStatusBar';
 import ChessCaptured from './ChessCaptured';
 import ChessMoveHistory from './ChessMoveHistory';
+import { GameTutorial } from '@/components/game/GameTutorial';
+
+const CHESS_TUTORIAL = [
+  { emoji: '♟️', title: 'שחמט — הכרת הכלים', body: 'לכל כלי תנועה ייחודית: הרץ זז באלכסון, הצריח בקווים ישרים, הפרש קופץ בצורת L.' },
+  { emoji: '🎯', title: 'איך מנצחים?', body: 'לכודו את המלך של היריב — כשהמלך תחת מתקפה ואין לו מנוס, זה "מט".' },
+  { emoji: '🤖', title: 'משחק נגד AI', body: 'לחצו על כלי כדי לראות את הזזות האפשריות שלו, ואז לחצו על המשבצת הרצויה.' },
+];
 
 export default function ChessGame() {
   const { phase, message } = useChessGame();
@@ -31,6 +38,7 @@ export default function ChessGame() {
         }}
       />
 
+      <GameTutorial steps={CHESS_TUTORIAL} storageKey="gfk_tutorial_chess" />
       {phase === 'menu' && <ChessMenu />}
 
       {phase === 'checkmate' && <ChessGameOver />}

@@ -7,12 +7,19 @@ import MemoryGameBoard from './components/MemoryGameBoard';
 import MemoryStartScreen from './components/MemoryStartScreen';
 import { useMemoryGameContent } from './useMemoryGameContent';
 import { useMemoryGame } from './useMemoryGame';
+import { GameTutorial } from '@/components/game/GameTutorial';
+
+const MEMORY_TUTORIAL = [
+  { emoji: '🃏', title: 'משחק זיכרון', body: 'כל הכרטיסים הפוכים על הגב. לחצו על כרטיס כדי לגלות מה מאחוריו.' },
+  { emoji: '👀', title: 'זכרו היכן כל דבר', body: 'מצאו שני כרטיסים זהים ברצף — הם יישארו פתוחים!' },
+  { emoji: '⏱️', title: 'חסכו לחיצות', body: 'כמה פחות ניסיונות — כך טוב יותר. שכלו את הזיכרון!' },
+];
 
 export default function MemoryClient() {
   useMemoryGameContent();
   const { phase } = useMemoryGame();
 
-  if (phase === 'menu')    return <MemoryStartScreen />;
+  if (phase === 'menu')    return <><GameTutorial steps={MEMORY_TUTORIAL} storageKey="gfk_tutorial_memory" /><MemoryStartScreen /></>;
   if (phase === 'won')     return <GameWinMessage />;
   if (phase === 'timeout') return <GameTimeoutScreen />;
 
