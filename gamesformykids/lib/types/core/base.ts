@@ -277,4 +277,6 @@ export type GameType =
   // Letter bubble shooter — shoot letter bubbles to match 3+
   | 'letter-bubble-shooter'
   // Letter slicer — tap flying Hebrew word bubbles to slice the target
-  | 'letter-slicer';
+  | 'letter-slicer'
+  // Cooking game — follow Hebrew recipe steps, tap correct ingredients
+  | 'cooking-game';

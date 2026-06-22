@@ -42,6 +42,7 @@ import {
   Fish,
   Shirt,
   Scissors,
+  UtensilsCrossed,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -1011,5 +1012,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-slicer",
     available: true,
     order: 210,
+  },
+  {
+    id: "cooking-game",
+    title: "המטבח של ילדים",
+    description: "הקשב להוראה ובחר את המרכיב הנכון — הכן 6 מנות עבריות טעימות!",
+    icon: UtensilsCrossed,
+    emoji: "👨‍🍳",
+    color: "bg-orange-500 hover:bg-orange-600",
+    href: "/games/cooking-game",
+    available: true,
+    order: 211,
   },
 ];
