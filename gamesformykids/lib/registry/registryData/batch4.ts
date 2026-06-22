@@ -58,6 +58,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/flags",
     available: true,
     order: 116,
+    ageMin: 7,
   },
   // משחקי ספורט
   {
@@ -70,6 +71,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/soccer-logos",
     available: true,
     order: 117,
+    ageMin: 7,
   },
   // משחקי תחבורה וסמלים
   {
@@ -82,6 +84,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/car-brands",
     available: true,
     order: 118,
+    ageMin: 8,
   },
   {
     id: "world-landmarks",
@@ -93,6 +96,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/world-landmarks",
     available: true,
     order: 119,
+    ageMin: 7,
   },
   {
     id: "solar-system",
@@ -104,6 +108,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/solar-system",
     available: true,
     order: 120,
+    ageMin: 6,
   },
   {
     id: "famous-paintings",
@@ -115,6 +120,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/famous-paintings",
     available: true,
     order: 121,
+    ageMin: 8,
     contentType: 'creative' as const,
   },
   {
@@ -127,6 +133,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/tech-logos",
     available: true,
     order: 122,
+    ageMin: 8,
   },
   {
     id: "dog-breeds",
@@ -138,6 +145,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/dog-breeds",
     available: true,
     order: 123,
+    ageMin: 6,
   },
   {
     id: "cat-breeds",
@@ -149,6 +157,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/cat-breeds",
     available: true,
     order: 124,
+    ageMin: 6,
   },
   {
     id: "nba-teams",
@@ -160,6 +169,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/nba-teams",
     available: true,
     order: 125,
+    ageMin: 8,
   },
   {
     id: "exotic-birds",
@@ -171,6 +181,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/exotic-birds",
     available: true,
     order: 126,
+    ageMin: 6,
   },
   {
     id: "butterflies",
@@ -182,6 +193,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/butterflies",
     available: true,
     order: 127,
+    ageMin: 6,
   },
   {
     id: "taki",
@@ -193,6 +205,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/taki",
     available: true,
     order: 128,
+    ageMin: 6,
   },
   {
     id: "checkers",
@@ -204,6 +217,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/checkers",
     available: true,
     order: 129,
+    ageMin: 7,
   },
   {
     id: "chess",
@@ -215,6 +229,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/chess",
     available: true,
     order: 130,
+    ageMin: 8,
   },
   {
     id: "shesh-besh",
@@ -226,6 +241,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/shesh-besh",
     available: true,
     order: 131,
+    ageMin: 7,
   },
   {
     id: "days-of-week",
@@ -237,6 +253,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/days-of-week",
     available: true,
     order: 141,
+    ageMin: 4,
   },
   {
     id: "months-of-year",
@@ -248,6 +265,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/months-of-year",
     available: true,
     order: 142,
+    ageMin: 5,
   },
   {
     id: "ordinals",
@@ -259,6 +277,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/ordinals",
     available: true,
     order: 143,
+    ageMin: 4,
   },
   {
     id: "rhyming",
@@ -270,6 +289,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/rhyming",
     available: true,
     order: 144,
+    ageMin: 5,
     contentType: 'riddle' as const,
   },
   {
@@ -282,6 +302,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/adjectives",
     available: true,
     order: 145,
+    ageMin: 5,
   },
   {
     id: "spatial-concepts",
@@ -293,6 +314,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/spatial-concepts",
     available: true,
     order: 146,
+    ageMin: 4,
   },
   {
     id: "number-words",
@@ -304,6 +326,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/number-words",
     available: true,
     order: 147,
+    ageMin: 4,
   },
   {
     id: "verbs",
@@ -315,6 +338,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/verbs",
     available: true,
     order: 148,
+    ageMin: 5,
   },
   {
     id: "visual-opposites",
@@ -326,6 +350,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/visual-opposites",
     available: true,
     order: 149,
+    ageMin: 4,
   },
   {
     id: "english-cards",
@@ -337,6 +362,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/english-cards",
     available: true,
     order: 150,
+    ageMin: 4,
   },
   {
     id: "sorting",
@@ -348,6 +374,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/sorting",
     available: true,
     order: 151,
+    ageMin: 4,
   },
   {
     id: "patterns",
@@ -359,6 +386,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/patterns",
     available: true,
     order: 152,
+    ageMin: 4,
   },
   {
     id: "skip-counting",
@@ -370,6 +398,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/skip-counting",
     available: true,
     order: 153,
+    ageMin: 6,
   },
   {
     id: "division",
@@ -381,6 +410,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/division",
     available: true,
     order: 154,
+    ageMin: 7,
   },
   {
     id: "maze",
@@ -392,6 +422,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/maze",
     available: true,
     order: 155,
+    ageMin: 5,
   },
   {
     id: "life-cycles",
@@ -403,6 +434,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/life-cycles",
     available: true,
     order: 156,
+    ageMin: 5,
   },
   {
     id: "nikud",
@@ -414,6 +446,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/nikud",
     available: true,
     order: 157,
+    ageMin: 6,
   },
   {
     id: "gender",
@@ -425,6 +458,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/gender",
     available: true,
     order: 158,
+    ageMin: 6,
   },
   {
     id: "final-letters",
@@ -436,6 +470,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/final-letters",
     available: true,
     order: 159,
+    ageMin: 5,
   },
   {
     id: "alphabet-order",
@@ -447,6 +482,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/alphabet-order",
     available: true,
     order: 160,
+    ageMin: 5,
   },
   {
     id: "personal-safety",
@@ -458,6 +494,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/personal-safety",
     available: true,
     order: 161,
+    ageMin: 4,
   },
   {
     id: "visual-addition",
@@ -469,6 +506,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/visual-addition",
     available: true,
     order: 162,
+    ageMin: 3,
   },
   {
     id: "gematria",
@@ -480,6 +518,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/gematria",
     available: true,
     order: 163,
+    ageMin: 8,
   },
   {
     id: "word-chain",
@@ -491,6 +530,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-chain",
     available: true,
     order: 164,
+    ageMin: 7,
   },
   {
     id: "letter-defender",
@@ -502,6 +542,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-defender",
     available: true,
     order: 165,
+    ageMin: 6,
   },
   {
     id: "visual-logic",
@@ -513,6 +554,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/visual-logic",
     available: true,
     order: 166,
+    ageMin: 6,
   },
   {
     id: "number-slide",
@@ -524,6 +566,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/number-slide",
     available: true,
     order: 167,
+    ageMin: 6,
   },
   {
     id: "puppet-story",
@@ -535,6 +578,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/puppet-story",
     available: true,
     order: 168,
+    ageMin: 4,
     contentType: 'creative' as const,
   },
   {
@@ -547,6 +591,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/proverbs",
     available: true,
     order: 169,
+    ageMin: 8,
     contentType: 'riddle' as const,
   },
   {
@@ -559,6 +604,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/coins-match",
     available: true,
     order: 170,
+    ageMin: 5,
   },
   {
     id: "blessings",
@@ -570,6 +616,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/blessings",
     available: true,
     order: 171,
+    ageMin: 6,
   },
   {
     id: "math-stories",
@@ -581,6 +628,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/math-stories",
     available: true,
     order: 172,
+    ageMin: 6,
   },
   {
     id: "snakes-ladders",
@@ -592,6 +640,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/snakes-ladders",
     available: true,
     order: 173,
+    ageMin: 5,
   },
   {
     id: "story-builder",
@@ -603,6 +652,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/story-builder",
     available: true,
     order: 174,
+    ageMin: 6,
   },
   {
     id: "escape-room",
@@ -614,6 +664,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/escape-room",
     available: true,
     order: 175,
+    ageMin: 7,
   },
   {
     id: "robot-coder",
@@ -625,6 +676,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/robot-coder",
     available: true,
     order: 176,
+    ageMin: 6,
   },
   {
     id: "find-in-scene",
@@ -636,6 +688,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/find-in-scene",
     available: true,
     order: 177,
+    ageMin: 5,
   },
   {
     id: "hangman",
@@ -647,6 +700,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/hangman",
     available: true,
     order: 178,
+    ageMin: 6,
   },
   {
     id: "choose-adventure",
@@ -658,6 +712,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/choose-adventure",
     available: true,
     order: 179,
+    ageMin: 6,
   },
   {
     id: "picture-dictionary",
@@ -669,6 +724,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/picture-dictionary",
     available: true,
     order: 180,
+    ageMin: 3,
   },
   {
     id: "word-search",
@@ -680,6 +736,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-search",
     available: true,
     order: 181,
+    ageMin: 6,
   },
   {
     id: "israel-map",
@@ -691,6 +748,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/israel-map",
     available: true,
     order: 182,
+    ageMin: 5,
     contentType: 'tool' as const,
   },
   {
@@ -703,6 +761,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/kids-songs",
     available: true,
     order: 183,
+    ageMin: 3,
     contentType: 'tool' as const,
   },
   {
@@ -715,6 +774,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/melody-maker",
     available: true,
     order: 184,
+    ageMin: 4,
     contentType: 'creative' as const,
   },
   {
@@ -727,6 +787,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/kids-encyclopedia",
     available: true,
     order: 185,
+    ageMin: 5,
     contentType: 'tool' as const,
   },
   {
@@ -739,6 +800,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/age-calculator",
     available: true,
     order: 186,
+    ageMin: 4,
     contentType: 'tool' as const,
   },
   {
@@ -751,6 +813,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/craft-guide",
     available: true,
     order: 187,
+    ageMin: 4,
     contentType: 'creative' as const,
   },
   {
@@ -763,6 +826,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/jokes-browser",
     available: true,
     order: 188,
+    ageMin: 5,
     contentType: 'riddle' as const,
   },
   {
@@ -775,6 +839,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-maze",
     available: true,
     order: 189,
+    ageMin: 6,
   },
   {
     id: "riddles-pro",
@@ -786,6 +851,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/riddles-pro",
     available: true,
     order: 190,
+    ageMin: 7,
     contentType: 'riddle' as const,
   },
   {
@@ -798,6 +864,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/trivia-categories",
     available: true,
     order: 191,
+    ageMin: 7,
     contentType: 'riddle' as const,
   },
   {
@@ -810,6 +877,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/avatar-maker",
     available: true,
     order: 192,
+    ageMin: 4,
     contentType: 'creative' as const,
   },
   {
@@ -822,6 +890,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/sound-quiz",
     available: true,
     order: 193,
+    ageMin: 4,
     contentType: 'riddle' as const,
   },
   {
@@ -834,6 +903,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/spinner",
     available: true,
     order: 194,
+    ageMin: 3,
   },
   {
     id: "team-picker",
@@ -845,6 +915,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/team-picker",
     available: true,
     order: 195,
+    ageMin: 4,
   },
   {
     id: "dice",
@@ -857,6 +928,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     contentType: "tool" as const,
     order: 196,
+    ageMin: 3,
   },
   {
     id: "timer",
@@ -869,6 +941,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     contentType: "tool" as const,
     order: 197,
+    ageMin: 3,
   },
   {
     id: "letter-race",
@@ -880,6 +953,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-race",
     available: true,
     order: 198,
+    ageMin: 4,
   },
   {
     id: "city-builder",
@@ -891,6 +965,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/city-builder",
     available: true,
     order: 199,
+    ageMin: 6,
   },
   {
     id: "word-wheel",
@@ -902,6 +977,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-wheel",
     available: true,
     order: 200,
+    ageMin: 6,
   },
   {
     id: "typing-race",
@@ -913,6 +989,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/typing-race",
     available: true,
     order: 201,
+    ageMin: 7,
   },
   {
     id: "drag-sort",
@@ -924,6 +1001,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/drag-sort",
     available: true,
     order: 202,
+    ageMin: 4,
   },
   {
     id: "answer-cannon",
@@ -935,6 +1013,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/answer-cannon",
     available: true,
     order: 203,
+    ageMin: 5,
   },
   {
     id: "word-fishing",
@@ -946,6 +1025,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/word-fishing",
     available: true,
     order: 204,
+    ageMin: 4,
   },
   {
     id: "letter-grow",
@@ -957,6 +1037,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-grow",
     available: true,
     order: 205,
+    ageMin: 5,
   },
   {
     id: "letter-slingshot",
@@ -968,6 +1049,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-slingshot",
     available: true,
     order: 206,
+    ageMin: 5,
   },
   {
     id: "syllable-drums",
@@ -979,6 +1061,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/syllable-drums",
     available: true,
     order: 207,
+    ageMin: 5,
   },
   {
     id: "dress-up",
@@ -990,6 +1073,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/dress-up",
     available: true,
     order: 208,
+    ageMin: 4,
   },
   {
     id: "letter-bubble-shooter",
@@ -1001,6 +1085,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-bubble-shooter",
     available: true,
     order: 209,
+    ageMin: 5,
   },
   {
     id: "letter-slicer",
@@ -1012,6 +1097,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/letter-slicer",
     available: true,
     order: 210,
+    ageMin: 5,
   },
   {
     id: "cooking-game",
@@ -1023,6 +1109,7 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/cooking-game",
     available: true,
     order: 211,
+    ageMin: 4,
   },
   {
     id: "spot-the-difference",
@@ -1034,5 +1121,6 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     href: "/games/spot-the-difference",
     available: true,
     order: 212,
+    ageMin: 5,
   },
 ];

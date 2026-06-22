@@ -50,6 +50,13 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
               <p className="text-sm md:text-base opacity-90 drop-shadow-sm hidden sm:block">
                 {game.description}
               </p>
+              {game.ageMin !== undefined && (
+                <div className="mt-1.5">
+                  <span className="inline-block bg-white/25 backdrop-blur-sm rounded-full px-2 py-0.5 text-xs font-semibold">
+                    גיל {game.ageMin}+
+                  </span>
+                </div>
+              )}
             </div>
             {/* תג סוג תוכן */}
             {game.contentType && game.contentType !== 'game' && (

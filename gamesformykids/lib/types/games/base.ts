@@ -45,6 +45,8 @@ export interface GameRegistration extends
   readonly order: number;
   readonly contentType?: ContentType;
   readonly difficulty?: GameDifficulty;
+  readonly ageMin?: number;
+  readonly ageMax?: number;
 }
 
 /**
