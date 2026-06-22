@@ -84,6 +84,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'letter-bubble-shooter': dynamic(() => import('../letter-bubble-shooter/BubbleShooterClient'),      { ssr: false }),
   'letter-slicer':         dynamic(() => import('../letter-slicer/LetterSlicerClient'),                { ssr: false }),
   'cooking-game':          dynamic(() => import('../cooking-game/CookingClient'),                     { ssr: false }),
+  'spot-the-difference':   dynamic(() => import('../spot-the-difference/SpotClient'),                 { ssr: false }),
 };
 
 interface Props { gameType: string; }

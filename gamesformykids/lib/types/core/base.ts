@@ -279,4 +279,6 @@ export type GameType =
   // Letter slicer — tap flying Hebrew word bubbles to slice the target
   | 'letter-slicer'
   // Cooking game — follow Hebrew recipe steps, tap correct ingredients
-  | 'cooking-game';
+  | 'cooking-game'
+  // Spot the difference — find 5 differences between two emoji scenes
+  | 'spot-the-difference';
