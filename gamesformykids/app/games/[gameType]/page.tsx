@@ -10,7 +10,7 @@ import CustomGameRenderer from './CustomGameRenderer';
 import { loadGameItems } from '@/lib/constants/gameItemsLoader';
 import RelatedGames from '@/components/game/RelatedGames';
 
-const QRButton = dynamic(() => import('@/components/game/QRButton'), { ssr: false });
+const QRButton = dynamic(() => import('@/components/game/QRButton'));
 
 interface PageProps {
   params: Promise<GamePageParams>;
