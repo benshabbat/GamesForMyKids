@@ -2,9 +2,11 @@
 
 import { X, Mouse, RotateCcw, HelpCircle, Eye, Settings } from 'lucide-react';
 import { usePuzzleGame } from '../usePuzzleGame';
+import { useEscapeKey } from '@/hooks/shared/useEscapeKey';
 
 export default function SimpleHelpModal() {
   const { showHelp, toggleHelp } = usePuzzleGame();
+  useEscapeKey(toggleHelp, showHelp);
   if (!showHelp) return null;
   return (
     <div
@@ -13,6 +15,9 @@ export default function SimpleHelpModal() {
     >
       <div
         className="bg-white rounded-lg p-6 max-w-md w-full mx-4"
+        role="dialog"
+        aria-modal="true"
+        aria-label="איך לשחק?"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-4">

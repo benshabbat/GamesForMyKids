@@ -2,9 +2,11 @@
 
 import { RotateCcw, Eye, Settings, Upload, Shuffle } from 'lucide-react';
 import { usePuzzleGame } from '../usePuzzleGame';
+import { useEscapeKey } from '@/hooks/shared/useEscapeKey';
 
 export default function CustomHelpModal() {
   const { showHelp, toggleHelp } = usePuzzleGame();
+  useEscapeKey(toggleHelp, showHelp);
   if (!showHelp) return null;
   return (
     <div
@@ -13,6 +15,9 @@ export default function CustomHelpModal() {
     >
       <div
         className="bg-white rounded-2xl p-8 max-w-2xl mx-4 max-h-[80vh] overflow-y-auto"
+        role="dialog"
+        aria-modal="true"
+        aria-label="איך לשחק?"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between items-center mb-6">
