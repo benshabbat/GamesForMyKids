@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
+import dynamic from 'next/dynamic';
 import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync, GameEngagementSync } from '@/components/game/universal';
@@ -8,6 +9,8 @@ import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageU
 import CustomGameRenderer from './CustomGameRenderer';
 import { loadGameItems } from '@/lib/constants/gameItemsLoader';
 import RelatedGames from '@/components/game/RelatedGames';
+
+const QRButton = dynamic(() => import('@/components/game/QRButton'), { ssr: false });
 
 interface PageProps {
   params: Promise<GamePageParams>;
@@ -30,6 +33,7 @@ export default async function UniversalGamePage({ params }: PageProps) {
       <>
         <CustomGameRenderer gameType={actualGameType} />
         <RelatedGames gameType={actualGameType} />
+        <QRButton gameType={actualGameType} />
       </>
     );
   }
@@ -44,6 +48,7 @@ export default async function UniversalGamePage({ params }: PageProps) {
         <UltimateGamePage />
       </GameTypeProvider>
       <RelatedGames gameType={actualGameType} />
+      <QRButton gameType={actualGameType} />
     </>
   );
 }
