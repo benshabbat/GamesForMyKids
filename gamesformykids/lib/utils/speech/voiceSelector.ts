@@ -1,4 +1,5 @@
 import { AUDIO_CONSTANTS } from "../../constants/core";
+import { isSlowModeActive } from "../../audio/slowSpeechMode";
 
 export interface SpeechOptions {
   lang?: string;
@@ -89,7 +90,7 @@ export function getOptimizedSpeechSettings(options: SpeechOptions = {}) {
 
   return {
     lang: options.lang || "he-IL",
-    rate: options.rate || savedSettings?.speechRate || AUDIO_CONSTANTS.SPEECH.HEBREW_RATE,
+    rate: options.rate || ((savedSettings?.speechRate || AUDIO_CONSTANTS.SPEECH.HEBREW_RATE) * (isSlowModeActive() ? 0.5 : 1)),
     pitch: options.pitch || savedSettings?.speechPitch || AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH,
     volume: options.volume || savedSettings?.volume || AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME,
   };
