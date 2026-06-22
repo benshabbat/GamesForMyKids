@@ -42,6 +42,7 @@ export type BaseGameItem = GameDataItem & {
   svgPath?: string; // לצורות צבועות
   plural?: string; // לרבים
   funFact?: string; // עובדה מעניינת להצגה אחרי תשובה נכונה
+  hebrewNikud?: string; // טקסט עברי עם ניקוד (לילדים בגיל K-2)
 };
 
 /**

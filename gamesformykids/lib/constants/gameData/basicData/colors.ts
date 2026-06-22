@@ -2,16 +2,16 @@ import { BaseGameItem } from "@/lib/types/core/base";
 import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 export const COLOR_CONSTANTS: Record<string, BaseGameItem> = {
-  RED: { name: "red", hebrew: "אדום", english: "Red", emoji: "🔴", color: "bg-gradient-to-br from-red-400 to-red-600", sound: [440, 550, 660] },
-  BLUE: { name: "blue", hebrew: "כחול", english: "Blue", emoji: "🔵", color: "bg-gradient-to-br from-blue-400 to-blue-600", sound: [523, 659, 784] },
-  GREEN: { name: "green", hebrew: "ירוק", english: "Green", emoji: "🟢", color: "bg-gradient-to-br from-green-400 to-green-600", sound: [349, 440, 523] },
-  YELLOW: { name: "yellow", hebrew: "צהוב", english: "Yellow", emoji: "🟡", color: "bg-gradient-to-br from-yellow-400 to-yellow-600", sound: [392, 494, 587] },
-  PURPLE: { name: "purple", hebrew: "סגול", english: "Purple", emoji: "🟣", color: "bg-gradient-to-br from-purple-400 to-purple-600", sound: [294, 370, 440] },
-  ORANGE: { name: "orange", hebrew: "כתום", english: "Orange", emoji: "🟠", color: "bg-gradient-to-br from-orange-400 to-orange-600", sound: [330, 415, 494] },
-  PINK: { name: "pink", hebrew: "ורוד", english: "Pink", emoji: "🩷", color: "bg-gradient-to-br from-pink-400 to-pink-600", sound: [587, 698, 784] },
-  BROWN: { name: "brown", hebrew: "חום", english: "Brown", emoji: "🤎", color: "bg-gradient-to-br from-amber-500 to-amber-700", sound: [220, 277, 330] },
-  BLACK: { name: "black", hebrew: "שחור", english: "Black", emoji: "⚫", color: "bg-gradient-to-br from-gray-800 to-gray-950", sound: [196, 247, 294] },
-  WHITE: { name: "white", hebrew: "לבן", english: "White", emoji: "⚪", color: "bg-gradient-to-br from-gray-50 to-gray-200 border-2 border-gray-300", sound: [659, 784, 880] },
+  RED: { name: "red", hebrew: "אדום", hebrewNikud: "אָדֹם", english: "Red", emoji: "🔴", color: "bg-gradient-to-br from-red-400 to-red-600", sound: [440, 550, 660] },
+  BLUE: { name: "blue", hebrew: "כחול", hebrewNikud: "כָּחֹל", english: "Blue", emoji: "🔵", color: "bg-gradient-to-br from-blue-400 to-blue-600", sound: [523, 659, 784] },
+  GREEN: { name: "green", hebrew: "ירוק", hebrewNikud: "יָרֹק", english: "Green", emoji: "🟢", color: "bg-gradient-to-br from-green-400 to-green-600", sound: [349, 440, 523] },
+  YELLOW: { name: "yellow", hebrew: "צהוב", hebrewNikud: "צָהֹב", english: "Yellow", emoji: "🟡", color: "bg-gradient-to-br from-yellow-400 to-yellow-600", sound: [392, 494, 587] },
+  PURPLE: { name: "purple", hebrew: "סגול", hebrewNikud: "סָגֹל", english: "Purple", emoji: "🟣", color: "bg-gradient-to-br from-purple-400 to-purple-600", sound: [294, 370, 440] },
+  ORANGE: { name: "orange", hebrew: "כתום", hebrewNikud: "כָּתֹם", english: "Orange", emoji: "🟠", color: "bg-gradient-to-br from-orange-400 to-orange-600", sound: [330, 415, 494] },
+  PINK: { name: "pink", hebrew: "ורוד", hebrewNikud: "וָרֹד", english: "Pink", emoji: "🩷", color: "bg-gradient-to-br from-pink-400 to-pink-600", sound: [587, 698, 784] },
+  BROWN: { name: "brown", hebrew: "חום", hebrewNikud: "חוּם", english: "Brown", emoji: "🤎", color: "bg-gradient-to-br from-amber-500 to-amber-700", sound: [220, 277, 330] },
+  BLACK: { name: "black", hebrew: "שחור", hebrewNikud: "שָׁחֹר", english: "Black", emoji: "⚫", color: "bg-gradient-to-br from-gray-800 to-gray-950", sound: [196, 247, 294] },
+  WHITE: { name: "white", hebrew: "לבן", hebrewNikud: "לָבָן", english: "White", emoji: "⚪", color: "bg-gradient-to-br from-gray-50 to-gray-200 border-2 border-gray-300", sound: [659, 784, 880] },
 };
 
 export const ALL_COLORS = createItemsList(COLOR_CONSTANTS);
