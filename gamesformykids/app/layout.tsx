@@ -39,6 +39,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             __html: `try{if(localStorage.getItem('gfk_colorblind')==='true')document.documentElement.dataset.colorblind='true'}catch{}`,
           }}
         />
+        {/* Reduced-motion mode — apply before hydration to avoid flash */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `try{if(localStorage.getItem('gfk_reduced_motion')==='true'||matchMedia('(prefers-reduced-motion:reduce)').matches)document.documentElement.dataset.reducedMotion='true'}catch{}`,
+          }}
+        />
       </head>
       <body className={`${rubik.className} dark:bg-gray-900 dark:text-white`}>
         {process.env.NODE_ENV === 'production' && process.env.NEXT_PUBLIC_GA_ID && (
