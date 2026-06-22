@@ -3,7 +3,7 @@
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
-import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
+import CanvasGameSkeleton from '@/components/ui/CanvasGameSkeleton';
 
 const GAME_CLIENTS: Record<string, ComponentType> = {
   arithmetic:        dynamic(() => import('../arithmetic/ArithmeticGameClient'),              { ssr: false }),
@@ -93,7 +93,7 @@ export default function CustomGameRenderer({ gameType }: Props) {
   const Component = GAME_CLIENTS[gameType];
   if (!Component) return null;
   return (
-    <Suspense fallback={<GameSpinnerScreen />}>
+    <Suspense fallback={<CanvasGameSkeleton />}>
       <Component />
     </Suspense>
   );

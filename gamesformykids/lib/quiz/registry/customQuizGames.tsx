@@ -33,40 +33,40 @@ import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
 import { CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
-import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
+import QuizGameSkeleton from '@/components/ui/QuizGameSkeleton';
 
 // Screen components — lazy-loaded so each game page only downloads its own screens
 // Options must be object literals (Turbopack static analysis requirement)
-const WordWheelQuestion    = dynamic(() => import('@/components/game/quiz/screens/WordWheelQuestion'),   { loading: () => <GameSpinnerScreen /> });
-const RiddleProQuestion  = dynamic(() => import('@/components/game/quiz/screens/RiddleProQuestion'), { loading: () => <GameSpinnerScreen /> });
-const TriviaCategoryPicker = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoryPicker'), { loading: () => <GameSpinnerScreen /> });
-const TriviaCategoriesQuestion = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoriesQuestion'), { loading: () => <GameSpinnerScreen /> });
-const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'), { loading: () => <GameSpinnerScreen /> });
-const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'), { loading: () => <GameSpinnerScreen /> });
-const ColorMixQuestion   = dynamic(() => import('@/components/game/quiz/screens/ColorMixQuestion'), { loading: () => <GameSpinnerScreen /> });
-const SequencesMenuScreen = dynamic(() => import('@/components/game/quiz/screens/SequencesMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const SequencesQuestion  = dynamic(() => import('@/components/game/quiz/screens/SequencesQuestion'), { loading: () => <GameSpinnerScreen /> });
-const HumanBodyMenuScreen = dynamic(() => import('@/components/game/quiz/screens/HumanBodyMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const HumanBodyQuestion  = dynamic(() => import('@/components/game/quiz/screens/HumanBodyQuestion'), { loading: () => <GameSpinnerScreen /> });
-const TriviaMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/TriviaMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const TriviaQuestion     = dynamic(() => import('@/components/game/quiz/screens/TriviaQuestion'), { loading: () => <GameSpinnerScreen /> });
-const ScienceMenuScreen  = dynamic(() => import('@/components/game/quiz/screens/ScienceMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const ScienceQuestion    = dynamic(() => import('@/components/game/quiz/screens/ScienceQuestion'), { loading: () => <GameSpinnerScreen /> });
-const NatureMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/NatureMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const IsraelMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/IsraelMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const SoccerMenuScreen   = dynamic(() => import('@/app/games/soccer/components/SoccerMenuScreen'), { loading: () => <GameSpinnerScreen /> });
-const SoccerQuestion     = dynamic(() => import('@/app/games/soccer/components/SoccerQuestion'), { loading: () => <GameSpinnerScreen /> });
-const SoccerResultScreen = dynamic(() => import('@/app/games/soccer/components/SoccerResultScreen'), { loading: () => <GameSpinnerScreen /> });
-const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/PhonicsQuestion'), { loading: () => <GameSpinnerScreen /> });
-const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'), { loading: () => <GameSpinnerScreen /> });
-const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'), { loading: () => <GameSpinnerScreen /> });
-const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'), { loading: () => <GameSpinnerScreen /> });
-const NikudQuestion        = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'), { loading: () => <GameSpinnerScreen /> });
-const DivisionQuestion     = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), { loading: () => <GameSpinnerScreen /> });
-const StoryBuilderQuestion = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderQuestion'), { loading: () => <GameSpinnerScreen /> });
-const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderResult'), { loading: () => <GameSpinnerScreen /> });
-const CityBuilderStage     = dynamic(() => import('@/components/game/quiz/screens/CityBuilderStage'),   { loading: () => <GameSpinnerScreen /> });
+const WordWheelQuestion    = dynamic(() => import('@/components/game/quiz/screens/WordWheelQuestion'),   { loading: () => <QuizGameSkeleton /> });
+const RiddleProQuestion  = dynamic(() => import('@/components/game/quiz/screens/RiddleProQuestion'), { loading: () => <QuizGameSkeleton /> });
+const TriviaCategoryPicker = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoryPicker'), { loading: () => <QuizGameSkeleton /> });
+const TriviaCategoriesQuestion = dynamic(() => import('@/components/game/quiz/screens/TriviaCategoriesQuestion'), { loading: () => <QuizGameSkeleton /> });
+const ClockMenuScreen    = dynamic(() => import('@/components/game/quiz/screens/ClockMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const ClockQuestion      = dynamic(() => import('@/components/game/quiz/screens/ClockQuestion'), { loading: () => <QuizGameSkeleton /> });
+const ClockResultScreen  = dynamic(() => import('@/components/game/quiz/screens/ClockResultScreen'), { loading: () => <QuizGameSkeleton /> });
+const ColorMixQuestion   = dynamic(() => import('@/components/game/quiz/screens/ColorMixQuestion'), { loading: () => <QuizGameSkeleton /> });
+const SequencesMenuScreen = dynamic(() => import('@/components/game/quiz/screens/SequencesMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const SequencesQuestion  = dynamic(() => import('@/components/game/quiz/screens/SequencesQuestion'), { loading: () => <QuizGameSkeleton /> });
+const HumanBodyMenuScreen = dynamic(() => import('@/components/game/quiz/screens/HumanBodyMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const HumanBodyQuestion  = dynamic(() => import('@/components/game/quiz/screens/HumanBodyQuestion'), { loading: () => <QuizGameSkeleton /> });
+const TriviaMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/TriviaMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const TriviaQuestion     = dynamic(() => import('@/components/game/quiz/screens/TriviaQuestion'), { loading: () => <QuizGameSkeleton /> });
+const ScienceMenuScreen  = dynamic(() => import('@/components/game/quiz/screens/ScienceMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const ScienceQuestion    = dynamic(() => import('@/components/game/quiz/screens/ScienceQuestion'), { loading: () => <QuizGameSkeleton /> });
+const NatureMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/NatureMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const IsraelMenuScreen   = dynamic(() => import('@/components/game/quiz/screens/IsraelMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const SoccerMenuScreen   = dynamic(() => import('@/app/games/soccer/components/SoccerMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const SoccerQuestion     = dynamic(() => import('@/app/games/soccer/components/SoccerQuestion'), { loading: () => <QuizGameSkeleton /> });
+const SoccerResultScreen = dynamic(() => import('@/app/games/soccer/components/SoccerResultScreen'), { loading: () => <QuizGameSkeleton /> });
+const PhonicsQuestion    = dynamic(() => import('@/components/game/quiz/screens/PhonicsQuestion'), { loading: () => <QuizGameSkeleton /> });
+const SortingQuestion    = dynamic(() => import('@/components/game/quiz/screens/SortingQuestion'), { loading: () => <QuizGameSkeleton /> });
+const PatternQuestion    = dynamic(() => import('@/components/game/quiz/screens/PatternQuestion'), { loading: () => <QuizGameSkeleton /> });
+const LifeCyclesQuestion = dynamic(() => import('@/components/game/quiz/screens/LifeCyclesQuestion'), { loading: () => <QuizGameSkeleton /> });
+const NikudQuestion        = dynamic(() => import('@/components/game/quiz/screens/NikudQuestion'), { loading: () => <QuizGameSkeleton /> });
+const DivisionQuestion     = dynamic(() => import('@/components/game/quiz/screens/DivisionQuestion'), { loading: () => <QuizGameSkeleton /> });
+const StoryBuilderQuestion = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderQuestion'), { loading: () => <QuizGameSkeleton /> });
+const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderResult'), { loading: () => <QuizGameSkeleton /> });
+const CityBuilderStage     = dynamic(() => import('@/components/game/quiz/screens/CityBuilderStage'),   { loading: () => <QuizGameSkeleton /> });
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
