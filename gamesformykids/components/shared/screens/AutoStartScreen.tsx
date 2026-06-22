@@ -11,7 +11,7 @@ import PrintWorksheetButton from '../buttons/PrintWorksheetButton';
 import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 
 export default function AutoStartScreen() {
-  const { config, speakItemName, gameType, items, startGame } = useUniversalGame();
+  const { config, speakItemName, gameType, items, startGame, lastMistakeItems, startMistakeReview } = useUniversalGame();
   const [studyMode, setStudyMode] = useState(false);
   const [inStudy, setInStudy] = useState(false);
 
@@ -76,6 +76,14 @@ export default function AutoStartScreen() {
           </button>
           {gameType && gameType in REAL_PHOTO_CARD_MAP && <RealPhotoToggleButton />}
           <PrintWorksheetButton items={items as BaseGameItem[]} title={config.title ?? gameType ?? ''} />
+          {lastMistakeItems.length >= 2 && (
+            <button
+              onClick={() => startMistakeReview()}
+              className="flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all border-2 bg-rose-400 border-rose-500 text-white hover:bg-rose-500 shadow-md"
+            >
+              🔁 תרגל טעויות ({lastMistakeItems.length})
+            </button>
+          )}
         </div>
       }
     />

@@ -30,6 +30,8 @@ function GameLogicSyncInner() {
       hasMoreHints: gameHookResult.hasMoreHints ?? false,
       showNextHint: gameHookResult.showNextHint ?? (() => {}),
       currentAccuracy: gameHookResult.currentAccuracy ?? 0,
+      lastMistakeItems: (gameHookResult.lastMistakeItems as import('@/lib/types/core/base').BaseGameItem[]) ?? [],
+      startMistakeReview: gameHookResult.startMistakeReview ?? (() => {}),
     });
   });
 

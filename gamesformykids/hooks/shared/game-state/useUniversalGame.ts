@@ -36,7 +36,7 @@ export function useUniversalGame(): UniversalGameContextValue {
   const { isReady, error } = useGameLogic()
   const { gameState, isPlaying, showCelebration, currentChallenge, options, score, level } =
     useGameState()
-  const { startGame, resetGame, handleItemClick, speakItemName } = useGameActions()
+  const { startGame, resetGame, handleItemClick, speakItemName, lastMistakeItems, startMistakeReview } = useGameActions()
   const { config, items, CardComponent, gameType } = useGameConfigFromLogic()
   const { hints, hasMoreHints, showNextHint, currentAccuracy } = useHintActions()
   const { showProgressModal, setShowProgressModal } = useGameUI()
@@ -55,6 +55,8 @@ export function useUniversalGame(): UniversalGameContextValue {
     resetGame,
     handleItemClick,
     speakItemName,
+    lastMistakeItems: lastMistakeItems || [],
+    startMistakeReview: startMistakeReview || (() => {}),
     config: config!,
     items: items || [],
     CardComponent: CardComponent!,

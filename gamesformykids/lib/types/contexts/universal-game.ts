@@ -53,6 +53,8 @@ interface BasicGameActions {
   readonly resetGame: () => void;
   readonly handleItemClick: (item: BaseGameItem) => void;
   readonly speakItemName: (itemName: string) => void;
+  readonly lastMistakeItems: readonly BaseGameItem[];
+  readonly startMistakeReview: () => void;
 }
 
 /**
