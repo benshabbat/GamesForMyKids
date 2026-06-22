@@ -1,6 +1,6 @@
 'use client';
-import { useState, useCallback, useRef, useEffect } from 'react';
-import QRCode from 'qrcode';
+import { useState, useCallback, useRef } from 'react';
+import QRCode from 'react-qr-code';
 import { QrCode, X, Copy, Download, Check } from 'lucide-react';
 
 interface Props {
@@ -10,25 +10,11 @@ interface Props {
 export default function QRButton({ gameType }: Props) {
   const [open, setOpen] = useState(false);
   const [copied, setCopied] = useState(false);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
 
   const gameUrl = typeof window !== 'undefined'
     ? `${window.location.origin}/games/${gameType}?utm_source=qr`
     : `https://games-for-my-kids.vercel.app/games/${gameType}?utm_source=qr`;
-
-  const generateQR = useCallback(async () => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    await QRCode.toCanvas(canvas, gameUrl, {
-      width: 256,
-      margin: 2,
-      color: { dark: '#1e1b4b', light: '#ffffff' },
-    });
-  }, [gameUrl]);
-
-  useEffect(() => {
-    if (open) generateQR();
-  }, [open, generateQR]);
 
   const handleCopy = useCallback(async () => {
     await navigator.clipboard.writeText(gameUrl);
@@ -37,12 +23,24 @@ export default function QRButton({ gameType }: Props) {
   }, [gameUrl]);
 
   const handleDownload = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const link = document.createElement('a');
-    link.download = `game-${gameType}-qr.png`;
-    link.href = canvas.toDataURL('image/png');
-    link.click();
+    const svg = wrapperRef.current?.querySelector('svg');
+    if (!svg) return;
+    const xml = new XMLSerializer().serializeToString(svg);
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d')!;
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, 256, 256);
+      ctx.drawImage(img, 0, 0, 256, 256);
+      const link = document.createElement('a');
+      link.download = `game-${gameType}-qr.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    };
+    img.src = `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(xml)))}`;
   }, [gameType]);
 
   return (
@@ -69,8 +67,13 @@ export default function QRButton({ gameType }: Props) {
               </button>
             </div>
 
-            <div className="bg-indigo-50 rounded-2xl p-3 inline-block mb-4">
-              <canvas ref={canvasRef} className="rounded-lg" />
+            <div ref={wrapperRef} className="bg-indigo-50 rounded-2xl p-3 inline-block mb-4">
+              <QRCode
+                value={gameUrl}
+                size={220}
+                fgColor="#1e1b4b"
+                bgColor="#eef2ff"
+              />
             </div>
 
             <p className="text-xs text-gray-500 mb-4 break-all">{gameUrl}</p>
