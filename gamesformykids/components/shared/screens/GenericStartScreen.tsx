@@ -36,6 +36,7 @@ export default function GenericStartScreen<T>({
   customItemsRenderer,
   showAudioCheck = true,
   className = "",
+  extraControls,
 }: GenericStartScreenProps<T>) {
   const { config, items: hookItems, startGame, gameType } = useUniversalGame();
   const prevBest = useGameStore((s) => s.highScores[gameType ?? ""] ?? 0);
@@ -96,6 +97,9 @@ export default function GenericStartScreen<T>({
 
         {/* כפתור בדיקת שמע */}
         {showAudioCheck && <ButtonCheckAudio />}
+
+        {/* פקדים נוספים (למשל כפתור לימוד קודם) */}
+        {extraControls}
 
         {/* דוגמת פריטים */}
         <div className="mt-12">

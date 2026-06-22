@@ -50,6 +50,9 @@ export interface GenericStartScreenProps<T> {
   // Layout options
   showAudioCheck?: boolean | undefined;
   className?: string | undefined;
+
+  // Extra controls below the start button (e.g. study-first toggle)
+  extraControls?: React.ReactNode;
 }
 
 export interface GameErrorScreenProps {
