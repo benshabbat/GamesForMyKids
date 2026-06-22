@@ -1,6 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Memory game', () => {
+  test.beforeEach(async ({ page }) => {
+    // Pre-seed localStorage so the first-time tutorial overlay does not appear
+    await page.addInitScript(() => {
+      localStorage.setItem('gfk_tutorial_memory', '1');
+    });
+  });
+
   test('menu page loads with title', async ({ page }) => {
     await page.goto('/games/memory');
     await expect(page.getByText('משחק הזיכרון')).toBeVisible({ timeout: 10_000 });
