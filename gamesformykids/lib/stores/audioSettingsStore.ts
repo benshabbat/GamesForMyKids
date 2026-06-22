@@ -19,6 +19,7 @@ export interface AudioSettingsState {
   speechPitch: number;
   volume: number;
   enabled: boolean;
+  showNikud: boolean;
 }
 
 export interface AudioSettingsActions {
@@ -26,6 +27,7 @@ export interface AudioSettingsActions {
   updateSpeechPitch: (pitch: number) => void;
   updateVolume: (volume: number) => void;
   toggleEnabled: () => void;
+  toggleNikud: () => void;
   saveSettings: (partial: Partial<AudioSettingsState>) => void;
   resetToDefaults: () => void;
 }
@@ -35,6 +37,7 @@ const DEFAULTS: AudioSettingsState = {
   speechPitch: 1.0,   // AUDIO_CONSTANTS.SPEECH.DEFAULT_PITCH
   volume: 0.8,        // AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME
   enabled: true,
+  showNikud: false,
 };
 
 // ── Store ──────────────────────────────────────────────────
@@ -70,6 +73,9 @@ export const useAudioSettingsStore = makePersistStore<AudioSettingsState & Audio
 
     toggleEnabled: () =>
       set((s) => ({ enabled: !s.enabled }), false, 'audio/toggleEnabled'),
+
+    toggleNikud: () =>
+      set((s) => ({ showNikud: !s.showNikud }), false, 'audio/toggleNikud'),
 
     resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
   }),

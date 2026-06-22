@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react';
 import GenericBox from "../displays/GenericBox";
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
+import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 import type { ComponentTypes } from "@/lib/types";
 
 export default function ChallengeBox({
@@ -12,6 +13,7 @@ export default function ChallengeBox({
     speakItemName,
     showCelebration
   } = useUniversalGame();
+  const showNikud = useAudioSettingsStore((s) => s.showNikud);
 
   const cooldownRef = useRef(false);
   const [speaking, setSpeaking] = useState(false);
@@ -51,7 +53,7 @@ export default function ChallengeBox({
         {icon}
       </div>
       <p className="text-3xl font-bold text-blue-800 mb-6">
-        &ldquo;{currentChallenge.hebrew}&rdquo;
+        &ldquo;{showNikud && currentChallenge.hebrewNikud ? currentChallenge.hebrewNikud : currentChallenge.hebrew}&rdquo;
       </p>
       <p className="text-xl text-gray-600 mb-4">{description}</p>
       <button

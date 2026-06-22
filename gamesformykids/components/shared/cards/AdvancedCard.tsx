@@ -1,5 +1,6 @@
 import { Volume2 } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
+import { useAudioSettingsStore } from "@/lib/stores/audioSettingsStore";
 import {
   advancedSizeClasses,
   aspectClasses,
@@ -77,16 +78,19 @@ export function AdvancedCard({
   finalShowSoundIcon,
   handleClick,
 }: AdvancedCardProps) {
+  const showNikud = useAudioSettingsStore((s) => s.showNikud);
+
   // item.color takes priority (contains full static class strings from game data)
   // fallback: solid color prop (avoids dynamic from-/to- class generation issues)
   const backgroundClass = item?.color || color;
 
+  const resolvedHebrew = hebrewText ?? (showNikud && item?.hebrewNikud ? item.hebrewNikud : item?.hebrew);
   const ariaLabel =
-    hebrewText || item?.hebrew || name || (digit ? String(digit) : undefined);
+    resolvedHebrew || name || (digit ? String(digit) : undefined);
 
   // For letter items: emoji and hebrew are identical (e.g. "א") — only show once
   const displayedEmoji = item?.emoji;
-  const hebrewIsSameAsEmoji = displayedEmoji && displayedEmoji === (hebrewText || item?.hebrew);
+  const hebrewIsSameAsEmoji = displayedEmoji && displayedEmoji === resolvedHebrew;
 
   const displayDigit = digit || item?.digit;
 
@@ -146,9 +150,9 @@ export function AdvancedCard({
               </div>
             )}
 
-            {showHebrew && !hebrewIsSameAsEmoji && (hebrewText || item?.hebrew) && (
+            {showHebrew && !hebrewIsSameAsEmoji && resolvedHebrew && (
               <div className="text-xl md:text-2xl font-bold text-center px-2">
-                {hebrewText || item?.hebrew}
+                {resolvedHebrew}
               </div>
             )}
 

@@ -2,16 +2,16 @@ import { BaseGameItem } from "@/lib/types/core/base";
 import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 export const ANIMALS: Record<string, BaseGameItem> = {
-  DOG: { name: "dog", hebrew: "כלב", english: "Dog", emoji: "🐶", color: "bg-brown-500", sound: [200, 300, 150], funFact: "לכלבים יש חוש ריח חזק פי 100,000 מהאדם!" },
-  CAT: { name: "cat", hebrew: "חתול", english: "Cat", emoji: "🐱", color: "bg-gray-500", sound: [800, 1000, 600], funFact: "חתולים ישנים כ-16 שעות ביום!" },
-  COW: { name: "cow", hebrew: "פרה", english: "Cow", emoji: "🐄", color: "bg-pink-300", sound: [100, 200, 150], funFact: "פרה אחת נותנת כ-25 ליטר חלב ביום!" },
-  HORSE: { name: "horse", hebrew: "סוס", english: "Horse", emoji: "🐴", color: "bg-amber-600", sound: [300, 500, 400], funFact: "סוסים יכולים לישון עומדים על רגליהם!" },
-  SHEEP: { name: "sheep", hebrew: "כבש", english: "Sheep", emoji: "🐑", color: "bg-gray-200", sound: [400, 600, 500], funFact: "צמר של כבש אחת מספיק לסריגת 3 סוודרים!" },
-  PIG: { name: "pig", hebrew: "חזיר", english: "Pig", emoji: "🐷", color: "bg-pink-400", sound: [250, 350, 200], funFact: "חזירים חכמים מאוד — חכמים יותר מכלבים!" },
-  CHICKEN: { name: "chicken", hebrew: "תרנגולת", english: "Chicken", emoji: "🐔", color: "bg-yellow-400", sound: [600, 800, 700], funFact: "תרנגולת מטילה כ-300 ביצים בשנה!" },
-  DUCK: { name: "duck", hebrew: "ברווז", english: "Duck", emoji: "🦆", color: "bg-blue-300", sound: [500, 700, 600], funFact: "נוצות הברווז עמידות למים לגמרי!" },
-  RABBIT: { name: "rabbit", hebrew: "ארנב", english: "Rabbit", emoji: "🐰", color: "bg-gray-300", sound: [400, 500, 600], funFact: "ארנבים יכולים לקפוץ יותר ממטר לגובה!" },
-  FROG: { name: "frog", hebrew: "צפרדע", english: "Frog", emoji: "🐸", color: "bg-green-400", sound: [200, 400, 300], funFact: "צפרדעים שותות מים דרך העור שלהן!" },
+  DOG: { name: "dog", hebrew: "כלב", hebrewNikud: "כֶּלֶב", english: "Dog", emoji: "🐶", color: "bg-brown-500", sound: [200, 300, 150], funFact: "לכלבים יש חוש ריח חזק פי 100,000 מהאדם!" },
+  CAT: { name: "cat", hebrew: "חתול", hebrewNikud: "חָתוּל", english: "Cat", emoji: "🐱", color: "bg-gray-500", sound: [800, 1000, 600], funFact: "חתולים ישנים כ-16 שעות ביום!" },
+  COW: { name: "cow", hebrew: "פרה", hebrewNikud: "פָּרָה", english: "Cow", emoji: "🐄", color: "bg-pink-300", sound: [100, 200, 150], funFact: "פרה אחת נותנת כ-25 ליטר חלב ביום!" },
+  HORSE: { name: "horse", hebrew: "סוס", hebrewNikud: "סוּס", english: "Horse", emoji: "🐴", color: "bg-amber-600", sound: [300, 500, 400], funFact: "סוסים יכולים לישון עומדים על רגליהם!" },
+  SHEEP: { name: "sheep", hebrew: "כבש", hebrewNikud: "כֶּבֶשׂ", english: "Sheep", emoji: "🐑", color: "bg-gray-200", sound: [400, 600, 500], funFact: "צמר של כבש אחת מספיק לסריגת 3 סוודרים!" },
+  PIG: { name: "pig", hebrew: "חזיר", hebrewNikud: "חֲזִיר", english: "Pig", emoji: "🐷", color: "bg-pink-400", sound: [250, 350, 200], funFact: "חזירים חכמים מאוד — חכמים יותר מכלבים!" },
+  CHICKEN: { name: "chicken", hebrew: "תרנגולת", hebrewNikud: "תַּרְנְגֹלֶת", english: "Chicken", emoji: "🐔", color: "bg-yellow-400", sound: [600, 800, 700], funFact: "תרנגולת מטילה כ-300 ביצים בשנה!" },
+  DUCK: { name: "duck", hebrew: "ברווז", hebrewNikud: "בַּרְוָז", english: "Duck", emoji: "🦆", color: "bg-blue-300", sound: [500, 700, 600], funFact: "נוצות הברווז עמידות למים לגמרי!" },
+  RABBIT: { name: "rabbit", hebrew: "ארנב", hebrewNikud: "אַרְנָב", english: "Rabbit", emoji: "🐰", color: "bg-gray-300", sound: [400, 500, 600], funFact: "ארנבים יכולים לקפוץ יותר ממטר לגובה!" },
+  FROG: { name: "frog", hebrew: "צפרדע", hebrewNikud: "צְפַרְדֵּעַ", english: "Frog", emoji: "🐸", color: "bg-green-400", sound: [200, 400, 300], funFact: "צפרדעים שותות מים דרך העור שלהן!" },
 };
 
 export const ALL_ANIMALS = createItemsList(ANIMALS);

@@ -1,5 +1,6 @@
 import { Volume2 } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
+import { useAudioSettingsStore } from "@/lib/stores/audioSettingsStore";
 
 type SimpleCardProps = Pick<
   ComponentTypes.UnifiedCardProps,
@@ -52,7 +53,9 @@ export function SimpleCard({
     large: "w-20 h-20 text-base",
   };
 
-  const ariaLabel = hebrewText || item?.hebrew || name || undefined;
+  const showNikud = useAudioSettingsStore((s) => s.showNikud);
+  const resolvedHebrew = hebrewText ?? (showNikud && item?.hebrewNikud ? item.hebrewNikud : item?.hebrew);
+  const ariaLabel = resolvedHebrew || name || undefined;
 
   return (
     <button
@@ -70,7 +73,7 @@ export function SimpleCard({
     >
       {icon && <div className="mb-1">{icon}</div>}
       <div className="font-bold text-center">
-        {hebrewText || item?.hebrew}
+        {resolvedHebrew}
       </div>
       {secondaryText && (
         <div className="text-xs opacity-80 mt-0.5">{secondaryText}</div>
