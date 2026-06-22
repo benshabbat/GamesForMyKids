@@ -125,7 +125,6 @@ export default function CookingClient() {
   const [shelf, setShelf]           = useState<string[]>([]);
   const [wrongFlash, setWrongFlash] = useState(false);
   const [score, setScore]           = useState(0);
-  const [completedRecipes, setCompletedRecipes] = useState<string[]>([]);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const buildShelf = useCallback((targetKey: string) => {
@@ -152,7 +151,6 @@ export default function CookingClient() {
     setStepIdx(0);
     setTapped(0);
     setScore(0);
-    setCompletedRecipes([]);
     setPhase('cooking');
     beginStep(idx, 0);
   }, [beginStep]);
@@ -194,7 +192,6 @@ export default function CookingClient() {
         setPhase('cooking');
         beginStep(recipeIdx, nextStep);
       } else {
-        setCompletedRecipes(prev => [...prev, recipe.name]);
         setPhase('recipe-done');
         setTimeout(() => speakHebrew(`הכנת ${recipe.name}! מעולה!`), 100);
       }
