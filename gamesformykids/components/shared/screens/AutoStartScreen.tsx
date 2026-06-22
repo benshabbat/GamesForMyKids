@@ -7,6 +7,7 @@ import GenericStartScreen from "./GenericStartScreen";
 import UnifiedCard from "../cards/UnifiedCard";
 import { StudyFirstPhase } from './StudyFirstPhase';
 import RealPhotoToggleButton from '../buttons/RealPhotoToggleButton';
+import PrintWorksheetButton from '../buttons/PrintWorksheetButton';
 import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 
 export default function AutoStartScreen() {
@@ -74,6 +75,7 @@ export default function AutoStartScreen() {
             📖 {studyMode ? 'לימוד קודם ✓' : 'לימוד קודם'}
           </button>
           {gameType && gameType in REAL_PHOTO_CARD_MAP && <RealPhotoToggleButton />}
+          <PrintWorksheetButton items={items as BaseGameItem[]} title={config.title ?? gameType ?? ''} />
         </div>
       }
     />
