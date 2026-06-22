@@ -6,6 +6,8 @@ import type { BaseGameItem } from '@/lib/types';
 import GenericStartScreen from "./GenericStartScreen";
 import UnifiedCard from "../cards/UnifiedCard";
 import { StudyFirstPhase } from './StudyFirstPhase';
+import RealPhotoToggleButton from '../buttons/RealPhotoToggleButton';
+import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 
 export default function AutoStartScreen() {
   const { config, speakItemName, gameType, items, startGame } = useUniversalGame();
@@ -59,7 +61,7 @@ export default function AutoStartScreen() {
       }}
       customOnStart={studyMode ? handleStartWithStudy : undefined}
       extraControls={
-        <div className="flex justify-center mt-3">
+        <div className="flex justify-center gap-3 mt-3 flex-wrap">
           <button
             onClick={() => setStudyMode(v => !v)}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all border-2 ${
@@ -71,6 +73,7 @@ export default function AutoStartScreen() {
           >
             📖 {studyMode ? 'לימוד קודם ✓' : 'לימוד קודם'}
           </button>
+          {gameType && gameType in REAL_PHOTO_CARD_MAP && <RealPhotoToggleButton />}
         </div>
       }
     />

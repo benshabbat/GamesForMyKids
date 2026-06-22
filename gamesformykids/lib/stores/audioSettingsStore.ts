@@ -20,6 +20,7 @@ export interface AudioSettingsState {
   volume: number;
   enabled: boolean;
   showNikud: boolean;
+  showRealPhotos: boolean;
 }
 
 export interface AudioSettingsActions {
@@ -28,6 +29,7 @@ export interface AudioSettingsActions {
   updateVolume: (volume: number) => void;
   toggleEnabled: () => void;
   toggleNikud: () => void;
+  toggleRealPhotos: () => void;
   saveSettings: (partial: Partial<AudioSettingsState>) => void;
   resetToDefaults: () => void;
 }
@@ -38,6 +40,7 @@ const DEFAULTS: AudioSettingsState = {
   volume: 0.8,        // AUDIO_CONSTANTS.SPEECH.DEFAULT_VOLUME
   enabled: true,
   showNikud: false,
+  showRealPhotos: false,
 };
 
 // ── Store ──────────────────────────────────────────────────
@@ -76,6 +79,9 @@ export const useAudioSettingsStore = makePersistStore<AudioSettingsState & Audio
 
     toggleNikud: () =>
       set((s) => ({ showNikud: !s.showNikud }), false, 'audio/toggleNikud'),
+
+    toggleRealPhotos: () =>
+      set((s) => ({ showRealPhotos: !s.showRealPhotos }), false, 'audio/toggleRealPhotos'),
 
     resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
   }),

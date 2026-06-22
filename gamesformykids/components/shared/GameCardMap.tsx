@@ -125,4 +125,13 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'english-cards': DefaultGameCard,
 };
 
+/**
+ * Photo card components available for the "real photos" toggle.
+ * Only includes games that have photo data in photoCardConfigs.
+ */
+export const REAL_PHOTO_CARD_MAP: Partial<Record<GameType, ComponentType<GameItemCardProps>>> = {
+  animals: createPhotoCard('animals'),
+  fruits: createPhotoCard('fruits'),
+};
+
 export default GameCardMap;
