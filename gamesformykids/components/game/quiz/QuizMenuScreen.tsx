@@ -2,6 +2,8 @@
 
 import { type ReactNode } from 'react';
 import { QUIZ_THEMES, type QuizTheme } from './quizTheme';
+import { useGameStore } from '@/lib/stores/gameStore';
+import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 
 interface Props {
   emoji: string;
@@ -24,6 +26,9 @@ export function QuizMenuScreen({
   onStart,
 }: Props) {
   const t = QUIZ_THEMES[theme];
+  const gameType = useGameTypeStore((s) => s.currentGameType);
+  const prevBest = useGameStore((s) => s.highScores[gameType ?? ''] ?? 0);
+
   return (
     <div className={`min-h-screen bg-gradient-to-br ${t.gradient} flex flex-col items-center justify-center p-4`} dir="rtl">
       <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
@@ -37,6 +42,11 @@ export function QuizMenuScreen({
         >
           {emoji} {buttonLabel}
         </button>
+        {prevBest > 0 && (
+          <p className={`mt-4 text-sm font-medium ${t.text} opacity-75`}>
+            🏅 השיא שלך: {prevBest} — אפשר יותר?
+          </p>
+        )}
       </div>
     </div>
   );
