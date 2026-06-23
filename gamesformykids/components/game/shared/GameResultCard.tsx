@@ -1,5 +1,5 @@
 'use client';
-import { ReactNode, useMemo } from 'react';
+import { ReactNode, useMemo, useState, useEffect } from 'react';
 import Link from 'next/link';
 import { GameCompletionCelebration } from './GameCompletionCelebration';
 import { useShareScore } from '@/hooks/shared/social/useShareScore';
@@ -7,6 +7,7 @@ import { useGameRating } from '@/hooks/shared/social/useGameRating';
 import { printCertificate } from '@/lib/utils/game/printCertificate';
 import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 import WhatsAppShareButton from '@/components/shared/buttons/WhatsAppShareButton';
+import { useCategoryCompletion } from '@/hooks/shared/progress/useCategoryCompletion';
 
 interface SecondaryAction {
   label: string;
@@ -64,12 +65,35 @@ export default function GameResultCard({
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
   const showCertificate = scorePercent !== undefined && scorePercent >= 80;
 
+  const categoryTrophy = useCategoryCompletion(gameType);
+  const [showTrophyOverlay, setShowTrophyOverlay] = useState(false);
+  useEffect(() => {
+    if (!categoryTrophy) return;
+    setShowTrophyOverlay(true);
+    const t = setTimeout(() => setShowTrophyOverlay(false), 4000);
+    return () => clearTimeout(t);
+  }, [categoryTrophy]);
+
   return (
     <div
       className={`min-h-screen bg-linear-to-br ${gradientClass} flex items-center justify-center p-4`}
       dir="rtl"
     >
       {(score === undefined || score > 0) && <GameCompletionCelebration />}
+      {showTrophyOverlay && categoryTrophy && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 cursor-pointer"
+          onClick={() => setShowTrophyOverlay(false)}
+        >
+          <div className="bg-linear-to-br from-yellow-300 to-amber-500 rounded-3xl p-10 text-center shadow-2xl max-w-sm mx-4 motion-safe:animate-bounce">
+            <div className="text-7xl mb-4">🏆</div>
+            <h2 className="text-3xl font-black text-white mb-2">כל הכבוד!</h2>
+            <p className="text-xl text-white/90 font-bold">השלמת את כל משחקי הקטגוריה</p>
+            <p className="text-lg text-white mt-1 font-semibold">{categoryTrophy.title}</p>
+            <p className="text-sm text-white/75 mt-4">🥇 🌟 🎉</p>
+          </div>
+        </div>
+      )}
       <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
         <div className={`text-6xl mb-3 ${animateEmoji ? 'motion-safe:animate-bounce' : ''}`}>{emoji}</div>
         <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
