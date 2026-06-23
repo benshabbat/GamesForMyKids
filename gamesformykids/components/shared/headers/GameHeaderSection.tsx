@@ -8,6 +8,8 @@ import RealPhotoToggleButton from "../buttons/RealPhotoToggleButton";
 import GameChallengeSection from "../GameChallengeSection";
 import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { REAL_PHOTO_CARD_MAP } from "../GameCardMap";
+import { StreakBadge } from "@/components/game/shared/StreakBadge";
+import { FullscreenToggle } from "@/components/game/shared/FullscreenToggle";
 
 export default function GameHeaderSection() {
   const gameType = useGameTypeStore((s) => s.currentGameType);
@@ -18,9 +20,11 @@ export default function GameHeaderSection() {
       <div className="flex justify-between items-center mb-6">
         <GameHeader />
         <div className="flex items-center gap-2">
+          <StreakBadge />
           {hasRealPhotos && <RealPhotoToggleButton />}
           <NikudToggleButton />
           <SlowSpeechButton />
+          <FullscreenToggle />
           <GameStatsButton />
         </div>
       </div>

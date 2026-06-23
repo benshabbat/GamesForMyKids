@@ -173,6 +173,18 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       playSuccessSound();
       useGameSessionStore.getState().resetWrongAttempts();
 
+      // Update streak counter and award milestone bonus points
+      const { streakCount, bestStreak } = useGameProgressStore.getState();
+      const newStreak = streakCount + 1;
+      useGameProgressStore.getState().updateProgress({
+        streakCount: newStreak,
+        bestStreak: Math.max(newStreak, bestStreak),
+      });
+      // Milestone bonuses: 5→+5pts, 10→+10pts, 20→+20pts
+      const STREAK_BONUS: Record<number, number> = { 5: 5, 10: 10, 20: 20 };
+      const bonus = STREAK_BONUS[newStreak];
+      if (bonus) useGameProgressStore.getState().incrementScore(bonus);
+
       // Read current store values for progress tracking
       const { score: currentScore, level: currentLevel } = useGameProgressStore.getState();
       progressHooks.recordCorrectAnswer(
@@ -203,6 +215,8 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
       // תשובה שגויה
       trackEvent('wrong_answer', { game_type: gameType });
       useGameSessionStore.getState().incrementWrongAttempts();
+      // Reset streak on wrong answer
+      useGameProgressStore.getState().updateProgress({ streakCount: 0 });
       progressHooks.recordMistake(currentChallenge, 1);
       
       await handleWrongGameAnswer(async () => {
