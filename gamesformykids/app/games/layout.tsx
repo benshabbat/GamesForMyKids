@@ -2,6 +2,7 @@ import UniversalGameNavigation from '@/components/game/universal/navigation/Univ
 import SwipeNavigator from '@/components/game/shared/SwipeNavigator';
 import ScreenTimeOverlay from '@/components/game/shared/ScreenTimeOverlay';
 import ChampionshipOverlay from '@/components/game/shared/ChampionshipOverlay';
+import MascotCharacter from '@/components/game/shared/MascotCharacter';
 import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
@@ -26,6 +27,9 @@ export default function GamesLayout({ children }: GamesLayoutProps) {
 
       {/* Championship mode bottom bar — only renders when a championship is active */}
       <ChampionshipOverlay />
+
+      {/* Mascot owl — reacts to correct/wrong answers via gameSessionStore */}
+      <MascotCharacter />
 
       {/* Game Content — pt reserves space below the fixed nav bar (~56px = top-4 + button height) */}
       <div className="pt-16 md:pt-20">
