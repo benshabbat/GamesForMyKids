@@ -11,6 +11,7 @@ import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { REAL_PHOTO_CARD_MAP } from "../GameCardMap";
 import { StreakBadge } from "@/components/game/shared/StreakBadge";
 import { FullscreenToggle } from "@/components/game/shared/FullscreenToggle";
+import MusicToggleButton from "../buttons/MusicToggleButton";
 
 export default function GameHeaderSection() {
   const gameType = useGameTypeStore((s) => s.currentGameType);
@@ -23,6 +24,7 @@ export default function GameHeaderSection() {
         <div className="flex items-center gap-2">
           <StreakBadge />
           {hasRealPhotos && <RealPhotoToggleButton />}
+          <MusicToggleButton />
           <BilingualToggleButton />
           <NikudToggleButton />
           <SlowSpeechButton />
