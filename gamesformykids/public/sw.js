@@ -1,12 +1,17 @@
 // GamesForMyKids Service Worker
 // Bump CACHE_VERSION on each deploy to invalidate old caches.
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const STATIC_CACHE  = `gfk-static-${CACHE_VERSION}`;   // _next/static/* — content-addressed, cache forever
 const PAGES_CACHE   = `gfk-pages-${CACHE_VERSION}`;    // HTML navigation — stale-while-revalidate
 const ASSETS_CACHE  = `gfk-assets-${CACHE_VERSION}`;   // images / audio — cache-first
 const ALL_CACHES    = [STATIC_CACHE, PAGES_CACHE, ASSETS_CACHE];
 
-const PRECACHE_URLS = ['/', '/offline', '/manifest.json', '/favicon.ico'];
+const PRECACHE_URLS = [
+  '/', '/offline', '/manifest.json', '/favicon.ico',
+  '/games/animals', '/games/colors', '/games/numbers',
+  '/games/fruits', '/games/letters', '/games/shapes',
+  '/games/memory', '/games/math', '/games/counting', '/games/vehicles',
+];
 
 // ── Install: pre-cache critical pages ────────────────────────────────────────
 self.addEventListener('install', (event) => {
