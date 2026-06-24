@@ -23,6 +23,8 @@ import { GameHeaderSection } from "../../../shared";
 import GameMainContent from "../../../shared/GameMainContent";
 import { ContextProgressDisplay } from "../../../shared";
 import { UltimateStartScreen } from "./UltimateStartScreen";
+import SpeedBurstTimer from "../../shared/SpeedBurstTimer";
+import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
 
 // Re-export co-located components for convenience
 export { GameLogicSync } from './GameLogicSync';
@@ -55,6 +57,7 @@ function CardGamePage() {
 
   // 🎮 כל מה שצריך בשורה אחת!
   const game = useUniversalGame();
+  const speedEnabled = useSpeedBurstStore((s) => s.enabled);
 
   // 🔄 Loading
   if (!game.isReady) {
@@ -77,7 +80,8 @@ function CardGamePage() {
       className="min-h-screen p-4"
       style={{ background: game.config.colors?.background || DEFAULT_BG }}
     >
-      <div className="max-w-5xl mx-auto">
+      {speedEnabled && <SpeedBurstTimer gameType={String(game.gameType)} />}
+      <div className={`max-w-5xl mx-auto ${speedEnabled ? 'pt-8' : ''}`}>
         <GameHeaderSection />
         <GameMainContent />
         <ContextProgressDisplay />
