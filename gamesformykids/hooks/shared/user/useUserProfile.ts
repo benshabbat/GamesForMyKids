@@ -30,6 +30,7 @@ export interface UserProfile {
   full_name: string | null
   avatar_url: string | null
   gender: 'male' | 'female' | null
+  family_group_id: string | null
   created_at: string
   updated_at: string
 }
