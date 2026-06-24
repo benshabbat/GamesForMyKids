@@ -14,11 +14,11 @@ export default function SimpleGameInstructions({
   }
 
   return (
-    <div className="bg-white rounded-3xl p-8 mb-8 shadow-xl">
-      <h3 className="text-2xl font-bold text-purple-800 mb-6 text-center">
+    <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 mb-8 shadow-xl">
+      <h3 className="text-2xl font-bold text-purple-800 dark:text-purple-300 mb-6 text-center">
         {title}
       </h3>
-      
+
       {variant === "detailed" ? (
         <ol className="space-y-4">
           {instructions.map((instruction, index) => (
@@ -28,14 +28,14 @@ export default function SimpleGameInstructions({
                   {index + 1}
                 </span>
               )}
-              <span className="text-gray-700 leading-relaxed">{instruction}</span>
+              <span className="text-gray-700 dark:text-gray-300 leading-relaxed">{instruction}</span>
             </li>
           ))}
         </ol>
       ) : (
         <div className="space-y-3">
           {instructions.map((instruction, index) => (
-            <p key={index} className="text-gray-700 leading-relaxed">
+            <p key={index} className="text-gray-700 dark:text-gray-300 leading-relaxed">
               {instruction}
             </p>
           ))}
