@@ -282,4 +282,6 @@ export type GameType =
   // Cooking game — follow Hebrew recipe steps, tap correct ingredients
   | 'cooking-game'
   // Spot the difference — find 5 differences between two emoji scenes
-  | 'spot-the-difference';
+  | 'spot-the-difference'
+  // Hebrew letter tracing — trace all 22 letters with finger/mouse
+  | 'letter-trace';
