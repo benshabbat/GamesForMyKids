@@ -1,5 +1,6 @@
 import { shuffle } from '@/lib/utils';
 import { QUESTIONS_PER_GAME } from '@/lib/quiz/constants';
+import { MISPAR_BONDS_QUESTIONS } from '@/lib/quiz/data/mispar-bonds';
 import { FRACTION_QUESTIONS } from '@/lib/quiz/data/fractions';
 import { GEMATRIA_QUESTIONS } from '@/lib/quiz/data/gematria';
 import { QUIZ_QUESTIONS, SHAPES_3D } from '@/lib/quiz/data/shapes-3d';
@@ -117,6 +118,30 @@ export const shapes3dConfig = defineConfig({
         <p className="text-gray-700 text-lg font-medium">{q.question}</p></>
     );
   },
+});
+
+export const misparBondsConfig = defineConfig({
+  gameType: 'mispar-bonds', emoji: '🔢', title: 'קשרי מספרים',
+  description: 'מה המספר החסר? בחר את השם העברי הנכון!', theme: 'green',
+  buttonLabel: '🔢 בואו נחשב!',
+  preview: (
+    <div className="grid grid-cols-2 gap-2">
+      {['1 + __ = 3', '__ + 3 = 7', '2 + __ = 5', '__ + 4 = 6'].map(s => (
+        <div key={s} className="bg-green-50 rounded-xl px-2 py-1.5 text-sm font-bold text-green-700 text-center">{s}</div>
+      ))}
+    </div>
+  ),
+  questions: MISPAR_BONDS_QUESTIONS, questionsPerGame: QUESTIONS_PER_GAME,
+  getChoices: (q) => shuffle([q.answer, ...q.wrongOptions]),
+  isCorrect: (c, q) => c === q.answer,
+  getCorrectLabel: (q) => q.answer,
+  renderQuestion: (q) => (
+    <div className="w-full flex flex-col items-center gap-2">
+      <div className="text-5xl">{q.emoji}</div>
+      <p className="text-gray-600 text-sm mb-1" dir="rtl">מה המספר החסר?</p>
+      <p className="text-3xl font-black text-green-700 tracking-widest" dir="ltr">{q.question}</p>
+    </div>
+  ),
 });
 
 export const mathStoriesConfig = defineConfig({

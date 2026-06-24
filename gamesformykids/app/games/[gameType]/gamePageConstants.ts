@@ -111,6 +111,11 @@ export const SUPPORTED_GAMES = [
   'market-game',
   'crossword',
   'number-merge',
+  'mispar-bonds',
+  'nikud-drag',
+  'letter-merge',
+  'word-clicker',
+  'hebrew-racer',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];

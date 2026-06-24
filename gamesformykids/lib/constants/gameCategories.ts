@@ -30,7 +30,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Book,
     color: "bg-blue-500",
     gradient: "from-blue-400 to-blue-600",
-    gameIds: ["letters","hebrew-letters","hebrew-script","letter-trace","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics","rhyming","nikud","gender","final-letters","alphabet-order","letter-race"],
+    gameIds: ["letters","hebrew-letters","hebrew-script","letter-trace","numbers","shapes","colored-shapes","colors","advanced-colors","shapes-3d","phonics","rhyming","nikud","gender","final-letters","alphabet-order","letter-race","nikud-drag","letter-merge","word-clicker"],
   },
   creative: {
     title: "יצירתיות ואומנות",
@@ -70,7 +70,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Calculator,
     color: "bg-indigo-500",
     gradient: "from-indigo-400 to-indigo-600",
-    gameIds: ["counting","math","shopping-money","coins-match","multiplication","fractions","sequences","arithmetic","ordinals","number-words","spatial-concepts","sorting","patterns","skip-counting","division","visual-addition","gematria","number-slide","math-stories","number-merge"],
+    gameIds: ["counting","math","shopping-money","coins-match","multiplication","fractions","sequences","arithmetic","ordinals","number-words","spatial-concepts","sorting","patterns","skip-counting","division","visual-addition","gematria","number-slide","math-stories","number-merge","mispar-bonds"],
   },
   games: {
     title: "משחקים מיוחדים",
@@ -132,6 +132,6 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     color: "bg-teal-500",
     gradient: "from-teal-400 to-cyan-600",
 
-    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","trivia-categories","clock","spelling","opposites","world-languages","riddles","riddles-pro","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman","choose-adventure","picture-dictionary","word-search","kids-songs","kids-encyclopedia","age-calculator","jokes-browser","word-maze","city-builder","drag-sort","word-wheel","typing-race","crossword"],
+    gameIds: ["true-false","emoji-math","math-race","number-bubbles","word-scramble","word-builder","word-chain","trivia","trivia-categories","clock","spelling","opposites","world-languages","riddles","riddles-pro","english-words","singular-plural","adjectives","verbs","visual-opposites","english-cards","proverbs","story-builder","robot-coder","hangman","choose-adventure","picture-dictionary","word-search","kids-songs","kids-encyclopedia","age-calculator","jokes-browser","word-maze","city-builder","drag-sort","word-wheel","typing-race","crossword","hebrew-racer"],
   },
 };

@@ -290,4 +290,14 @@ export type GameType =
   // Hebrew crossword — fill in crossword answers from picture/audio clues
   | 'crossword'
   // Number merge — drop numbers into bowl, merge matching pairs
-  | 'number-merge';
+  | 'number-merge'
+  // Number bond quiz — fill in the missing addend, answer in Hebrew number names
+  | 'mispar-bonds'
+  // Nikud drag — drag the correct vowel mark onto a Hebrew consonant
+  | 'nikud-drag'
+  // Letter merge — Suika mechanic with Hebrew alef-bet letters
+  | 'letter-merge'
+  // Word clicker — tap floating letters in order to spell target Hebrew words
+  | 'word-clicker'
+  // Hebrew racer — obstacle course with Hebrew Q&A to jump over barriers
+  | 'hebrew-racer';
