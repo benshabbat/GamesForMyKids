@@ -35,11 +35,11 @@ export function QuizQuestionShell({
 }: Props) {
   const t = QUIZ_THEMES[theme];
   const cardCls = cardVariant === 'white'
-    ? 'bg-white shadow-xl rounded-2xl p-5 mb-5 text-center'
+    ? 'bg-white dark:bg-gray-700 shadow-xl rounded-2xl p-5 mb-5 text-center'
     : `${t.card} rounded-2xl p-5 mb-5 text-center`;
   return (
     <div className={`min-h-screen bg-gradient-to-br ${t.gradient} flex flex-col items-center justify-center p-4`} dir="rtl">
-      <div className="bg-white rounded-3xl shadow-2xl p-6 max-w-lg w-full">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 max-w-lg w-full">
         <QuizProgress theme={theme} />
         <div className={cardCls}>
           {children}

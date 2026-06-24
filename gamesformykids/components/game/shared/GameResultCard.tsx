@@ -94,9 +94,9 @@ export default function GameResultCard({
           </div>
         </div>
       )}
-      <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
         <div className={`text-6xl mb-3 ${animateEmoji ? 'motion-safe:animate-bounce' : ''}`}>{emoji}</div>
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">{title}</h2>
+        <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">{title}</h2>
         {isNewRecord && (
           <div className="mb-4 px-4 py-2 rounded-2xl bg-linear-to-l from-yellow-400 to-amber-500 text-white font-black text-lg motion-safe:animate-bounce shadow-md">
             🏆 שיא חדש!
@@ -113,7 +113,7 @@ export default function GameResultCard({
           {secondaryAction && (
             <button
               onClick={secondaryAction.onClick}
-              className="flex-1 py-4 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold hover:bg-gray-50 transition-colors"
+              className="flex-1 py-4 rounded-2xl border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 font-semibold hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors"
             >
               {secondaryAction.label}
             </button>
@@ -123,7 +123,7 @@ export default function GameResultCard({
           <>
             <button
               onClick={() => share(shareText)}
-              className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 text-gray-500 font-semibold text-sm hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
+              className="mt-3 w-full py-2.5 rounded-2xl border-2 border-gray-200 dark:border-gray-600 text-gray-500 dark:text-gray-400 font-semibold text-sm hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-[transform,colors]"
             >
               {copied ? '✅ הועתק!' : '📤 שתף את הניקוד'}
             </button>
@@ -148,14 +148,14 @@ export default function GameResultCard({
           </Link>
         )}
         {gameType && (
-          <div className="mt-4 pt-3 border-t border-gray-100">
+          <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-700">
             {rating ? (
-              <p className="text-sm text-gray-400">
+              <p className="text-sm text-gray-400 dark:text-gray-500">
                 {rating === 'up' ? '😊 תודה על המשוב!' : '🙏 תודה! נמשיך להשתפר'}
               </p>
             ) : (
               <div className="flex items-center justify-center gap-3">
-                <span className="text-sm text-gray-400">איך היה המשחק?</span>
+                <span className="text-sm text-gray-400 dark:text-gray-500">איך היה המשחק?</span>
                 <button
                   onClick={() => rate('up')}
                   className="text-2xl hover:scale-125 transition-transform"
