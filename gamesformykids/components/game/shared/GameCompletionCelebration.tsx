@@ -5,6 +5,7 @@ import { useParams } from 'next/navigation';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { getGameConfettiEmojis } from '@/lib/utils/game/getGameConfettiEmojis';
+import { useAvatarEmoji } from '@/hooks/shared/user/useAvatarEmoji';
 
 const CELEBRATION_PHRASES = [
   'כל הכבוד! עשית עבודה מדהימה!',
@@ -40,6 +41,7 @@ export function GameCompletionCelebration({ isPerfect = false }: Props) {
   const { playSuccessSound } = useGameAudio();
   const params = useParams();
   const gameType = typeof params?.gameType === 'string' ? params.gameType : undefined;
+  const { emoji: avatarEmoji } = useAvatarEmoji();
 
   const emojis = getGameConfettiEmojis(gameType) ?? getSeasonalEmojis();
   const particles = Array.from({ length: 20 }, (_, i) => ({
@@ -85,6 +87,14 @@ export function GameCompletionCelebration({ isPerfect = false }: Props) {
             {emoji}
           </span>
         ))}
+        {avatarEmoji && (
+          <span
+            className="absolute top-1/4 left-1/2 -translate-x-1/2 motion-safe:animate-bounce"
+            style={{ fontSize: '4rem' }}
+          >
+            {avatarEmoji}
+          </span>
+        )}
       </div>
     </>
   );
