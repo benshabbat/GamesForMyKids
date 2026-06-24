@@ -288,4 +288,6 @@ export type GameType =
   // Market game — serve customers, count items, calculate change
   | 'market-game'
   // Hebrew crossword — fill in crossword answers from picture/audio clues
-  | 'crossword';
+  | 'crossword'
+  // Number merge — drop numbers into bowl, merge matching pairs
+  | 'number-merge';
