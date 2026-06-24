@@ -9,6 +9,7 @@ import { ScoreSummaryCard } from './components/ScoreSummaryCard';
 import { RecentAchievementsCard } from './components/RecentAchievementsCard';
 import { RecommendedGameCard } from './components/RecommendedGameCard';
 import { ScoreHistoryCard } from './components/ScoreHistoryCard';
+import { SiblingLeaderboardCard } from './components/SiblingLeaderboardCard';
 
 export default function DashboardClient() {
   const { user, loading: authLoading } = useAuth();
@@ -52,6 +53,7 @@ export default function DashboardClient() {
             <ScoreHistoryCard />
             <RecentAchievementsCard />
             <RecommendedGameCard />
+            <SiblingLeaderboardCard />
           </div>
         </div>
       </div>
