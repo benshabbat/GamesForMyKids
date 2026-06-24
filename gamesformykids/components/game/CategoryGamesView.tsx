@@ -6,16 +6,25 @@ import { useHomePageStore } from "@/lib/stores";
 import { GAME_CATEGORIES } from "@/lib/constants/gameCategories";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import { useGridFillers } from "@/hooks";
+import { useAgeFilterStore, isAgeAppropriate } from "@/lib/stores/ageFilterStore";
 
 export default function CategoryGamesView() {
   const selectedCategory = useHomePageStore((s) => s.selectedCategory);
   const backToCategories = useHomePageStore((s) => s.backToCategories);
   const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const ageRange = useAgeFilterStore((s) => s.ageRange);
 
   const category = selectedCategory ? GAME_CATEGORIES[selectedCategory] : null;
   const categoryGames = useMemo(
-    () => (category ? allGameRegistrations.filter(game => category.gameIds.includes(game.id)) : []),
-    [category, allGameRegistrations]
+    () =>
+      category
+        ? allGameRegistrations.filter(
+            (game) =>
+              category.gameIds.includes(game.id) &&
+              isAgeAppropriate(game.ageMin, ageRange),
+          )
+        : [],
+    [category, allGameRegistrations, ageRange],
   );
   const fillerCount = useGridFillers(categoryGames.length);
 
