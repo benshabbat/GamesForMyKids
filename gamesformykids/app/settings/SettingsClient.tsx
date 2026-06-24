@@ -12,6 +12,7 @@ import { AvatarSection } from '@/components/settings/AvatarSection';
 import { ScreenTimeSection } from '@/components/settings/ScreenTimeSection';
 import { AgeFilterSection } from '@/components/settings/AgeFilterSection';
 import { HolidaySection } from '@/components/settings/HolidaySection';
+import { SoundThemeSection } from '@/components/settings/SoundThemeSection';
 import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 export default function SettingsClient() {
@@ -76,6 +77,7 @@ export default function SettingsClient() {
             disabled={saving}
           />
           <ColorblindSection />
+          <SoundThemeSection />
           <AvatarSection />
           <AgeFilterSection />
           <ScreenTimeSection />
