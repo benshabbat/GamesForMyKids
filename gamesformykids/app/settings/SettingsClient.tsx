@@ -11,6 +11,7 @@ import { ColorblindSection } from '@/components/settings/ColorblindSection';
 import { AvatarSection } from '@/components/settings/AvatarSection';
 import { ScreenTimeSection } from '@/components/settings/ScreenTimeSection';
 import { AgeFilterSection } from '@/components/settings/AgeFilterSection';
+import { HolidaySection } from '@/components/settings/HolidaySection';
 import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 export default function SettingsClient() {
@@ -78,6 +79,7 @@ export default function SettingsClient() {
           <AvatarSection />
           <AgeFilterSection />
           <ScreenTimeSection />
+          <HolidaySection />
           <AccountSection onSignOut={handleSignOut} />
         </div>
 

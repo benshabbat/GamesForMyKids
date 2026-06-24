@@ -22,6 +22,7 @@ export interface AudioSettingsState {
   showNikud: boolean;
   showRealPhotos: boolean;
   showEnglish: boolean;
+  holidayThemesEnabled: boolean;
 }
 
 export interface AudioSettingsActions {
@@ -32,6 +33,7 @@ export interface AudioSettingsActions {
   toggleNikud: () => void;
   toggleRealPhotos: () => void;
   toggleEnglish: () => void;
+  toggleHolidayThemes: () => void;
   saveSettings: (partial: Partial<AudioSettingsState>) => void;
   resetToDefaults: () => void;
 }
@@ -44,6 +46,7 @@ const DEFAULTS: AudioSettingsState = {
   showNikud: false,
   showRealPhotos: false,
   showEnglish: false,
+  holidayThemesEnabled: true,
 };
 
 // ── Store ──────────────────────────────────────────────────
@@ -88,6 +91,9 @@ export const useAudioSettingsStore = makePersistStore<AudioSettingsState & Audio
 
     toggleEnglish: () =>
       set((s) => ({ showEnglish: !s.showEnglish }), false, 'audio/toggleEnglish'),
+
+    toggleHolidayThemes: () =>
+      set((s) => ({ holidayThemesEnabled: !s.holidayThemesEnabled }), false, 'audio/toggleHolidayThemes'),
 
     resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
   }),
