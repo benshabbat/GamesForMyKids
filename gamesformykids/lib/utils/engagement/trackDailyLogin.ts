@@ -1,14 +1,14 @@
-const STREAK_KEY = 'gfk_login_streak';
-const LAST_DATE_KEY = 'gfk_login_last_date';
-
 export interface LoginStreak {
   count: number;
   isNew: boolean;
 }
 
 /** Reads and updates the daily login streak in localStorage. Call once on home page mount. */
-export function getDailyLoginStreak(): LoginStreak {
+export function getDailyLoginStreak(profileId?: string | null): LoginStreak {
   if (typeof window === 'undefined') return { count: 0, isNew: false };
+  const s = profileId ? `_${profileId}` : '';
+  const STREAK_KEY = `gfk_login_streak${s}`;
+  const LAST_DATE_KEY = `gfk_login_last_date${s}`;
   try {
     const today = new Date().toISOString().slice(0, 10);
     const lastDate = localStorage.getItem(LAST_DATE_KEY);

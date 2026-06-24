@@ -23,6 +23,7 @@ export interface GameSession {
     attempts: number;
   }>;
   completed: boolean;
+  childProfileId?: string;
 }
 
 
