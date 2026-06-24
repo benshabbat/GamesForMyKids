@@ -89,6 +89,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'market-game':           dynamic(() => import('../market-game/MarketClient'),                         { ssr: false }),
   'crossword':             dynamic(() => import('../crossword/CrosswordClient'),                        { ssr: false }),
   'number-merge':          dynamic(() => import('../number-merge/NumberMergeClient'),                   { ssr: false }),
+  'word-clicker':          dynamic(() => import('../word-clicker/WordClickerClient'),                   { ssr: false }),
 };
 
 interface Props { gameType: string; }
