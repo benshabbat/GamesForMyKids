@@ -8,12 +8,6 @@ export function SiblingLeaderboardCard() {
   const [joinInput, setJoinInput] = useState('');
   const [showJoinForm, setShowJoinForm] = useState(false);
 
-  const siblings = members.filter(m => {
-    // At runtime we compare against the auth user's id — the hook already filters
-    // siblingProgress by user_id !== user.id, so any member with progress is a sibling
-    return true;
-  });
-
   if (loading) {
     return (
       <div className="bg-white rounded-2xl shadow-md p-6 animate-pulse" dir="rtl">
@@ -102,9 +96,9 @@ export function SiblingLeaderboardCard() {
         <div className="text-center py-6 text-gray-400 text-sm">
           <p>עדיין אין משחקים משותפים.</p>
           <p className="mt-1">ברגע שגם הצד השני ישחק, הטבלה תתמלא!</p>
-          {siblings.length <= 1 && (
+          {members.length <= 1 && (
             <p className="mt-3 text-xs text-purple-500">
-              ממתין לחבר/ת קבוצה… ({siblings.length} חבר/ים כרגע)
+              ממתין לחבר/ת קבוצה… ({members.length} חבר/ים כרגע)
             </p>
           )}
         </div>
