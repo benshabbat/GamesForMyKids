@@ -3,6 +3,8 @@ export interface HolidayConfig {
   name: string;
   emoji: string;
   color: string;
+  /** Emojis used for confetti on result screens during this holiday */
+  confettiEmojis: string[];
   gameIds: string[];
   // Each occurrence: show lane from (start - 14 days) until (end + 1 day)
   occurrences: { start: string; end: string }[];
@@ -14,6 +16,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'ראש השנה',
     emoji: '🍎',
     color: 'from-amber-400 to-yellow-500',
+    confettiEmojis: ['🍎', '🍯', '🌙', '✡️', '⭐', '🌟', '🎉', '💫'],
     gameIds: ['jewish-holidays', 'seasons-holidays', 'family', 'blessings', 'fruits', 'counting'],
     occurrences: [
       { start: '2025-09-22', end: '2025-09-24' },
@@ -26,6 +29,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'סוכות',
     emoji: '🌿',
     color: 'from-green-400 to-emerald-500',
+    confettiEmojis: ['🌿', '🍊', '🌴', '🍋', '⭐', '🌟', '💫', '✨'],
     gameIds: ['jewish-holidays', 'seasons-holidays', 'garden-plants', 'nature', 'fruits', 'weather'],
     occurrences: [
       { start: '2025-09-27', end: '2025-10-04' },
@@ -38,6 +42,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'חנוכה',
     emoji: '🕎',
     color: 'from-blue-500 to-indigo-600',
+    confettiEmojis: ['🕎', '🕯️', '✡️', '⭐', '💙', '❄️', '🌟', '💫'],
     gameIds: ['jewish-holidays', 'shapes', 'colors', 'counting', 'math', 'seasons-holidays'],
     occurrences: [
       { start: '2025-12-14', end: '2025-12-22' },
@@ -50,6 +55,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'פורים',
     emoji: '🎭',
     color: 'from-purple-500 to-pink-500',
+    confettiEmojis: ['🎭', '👑', '🎉', '🎁', '🌟', '🎊', '💫', '✨'],
     gameIds: ['jewish-holidays', 'emotions', 'clothing', 'superheroes', 'art-craft', 'drawing'],
     occurrences: [
       { start: '2026-03-13', end: '2026-03-14' },
@@ -62,6 +68,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'פסח',
     emoji: '🫓',
     color: 'from-yellow-400 to-orange-400',
+    confettiEmojis: ['🫓', '🌾', '🍷', '✡️', '⭐', '🏆', '🌟', '💫'],
     gameIds: ['jewish-holidays', 'family', 'seasons-holidays', 'food', 'healthy-food', 'world-food'],
     occurrences: [
       { start: '2026-04-01', end: '2026-04-09' },
@@ -74,6 +81,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'יום העצמאות',
     emoji: '🇮🇱',
     color: 'from-blue-400 to-cyan-500',
+    confettiEmojis: ['🇮🇱', '⭐', '🌟', '🎉', '🎊', '💙', '💫', '✨'],
     gameIds: ['israel', 'israel-map', 'flags', 'world-landmarks', 'capitals', 'geography-flags'],
     occurrences: [
       { start: '2026-04-29', end: '2026-04-30' },
@@ -86,6 +94,7 @@ export const HOLIDAY_CONFIGS: HolidayConfig[] = [
     name: 'שבועות',
     emoji: '📜',
     color: 'from-emerald-400 to-teal-500',
+    confettiEmojis: ['📜', '🌸', '⭐', '🌟', '💫', '🌾', '🍀', '✨'],
     gameIds: ['jewish-holidays', 'letters', 'blessings', 'seasons-holidays', 'hebrew-letters', 'fruits'],
     occurrences: [
       { start: '2026-05-21', end: '2026-05-23' },

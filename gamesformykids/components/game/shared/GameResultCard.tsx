@@ -8,6 +8,8 @@ import { printCertificate } from '@/lib/utils/game/printCertificate';
 import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 import WhatsAppShareButton from '@/components/shared/buttons/WhatsAppShareButton';
 import { useCategoryCompletion } from '@/hooks/shared/progress/useCategoryCompletion';
+import { getActiveHoliday } from '@/lib/constants/holidayLanes';
+import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 
 interface SecondaryAction {
   label: string;
@@ -64,6 +66,8 @@ export default function GameResultCard({
   const nextGame = useMemo(() => (gameType ? getNextGameInCategory(gameType) : null), [gameType]);
   const isNewRecord = score !== undefined && best !== undefined && score > 0 && score === best;
   const showCertificate = scorePercent !== undefined && scorePercent >= 80;
+  const holidayThemesEnabled = useAudioSettingsStore((s) => s.holidayThemesEnabled);
+  const holiday = useMemo(() => holidayThemesEnabled ? getActiveHoliday() : null, [holidayThemesEnabled]);
 
   const categoryTrophy = useCategoryCompletion(gameType);
   const [showTrophyOverlay, setShowTrophyOverlay] = useState(false);
@@ -95,6 +99,12 @@ export default function GameResultCard({
         </div>
       )}
       <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full">
+        {holiday && (
+          <div className="mb-3 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-linear-to-l from-amber-400 to-yellow-300 text-amber-900 text-sm font-bold shadow-sm">
+            <span>{holiday.emoji}</span>
+            <span>חג שמח! {holiday.name}</span>
+          </div>
+        )}
         <div className={`text-6xl mb-3 ${animateEmoji ? 'motion-safe:animate-bounce' : ''}`}>{emoji}</div>
         <h2 className="text-2xl font-bold text-gray-800 dark:text-gray-100 mb-4">{title}</h2>
         {isNewRecord && (

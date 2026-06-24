@@ -6,6 +6,8 @@ import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { getGameConfettiEmojis } from '@/lib/utils/game/getGameConfettiEmojis';
 import { useAvatarEmoji } from '@/hooks/shared/user/useAvatarEmoji';
+import { getActiveHoliday } from '@/lib/constants/holidayLanes';
+import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 
 const CELEBRATION_PHRASES = [
   'כל הכבוד! עשית עבודה מדהימה!',
@@ -42,8 +44,10 @@ export function GameCompletionCelebration({ isPerfect = false }: Props) {
   const params = useParams();
   const gameType = typeof params?.gameType === 'string' ? params.gameType : undefined;
   const { emoji: avatarEmoji } = useAvatarEmoji();
+  const holidayThemesEnabled = useAudioSettingsStore((s) => s.holidayThemesEnabled);
 
-  const emojis = getGameConfettiEmojis(gameType) ?? getSeasonalEmojis();
+  const holiday = holidayThemesEnabled ? getActiveHoliday() : null;
+  const emojis = getGameConfettiEmojis(gameType) ?? holiday?.confettiEmojis ?? getSeasonalEmojis();
   const particles = Array.from({ length: 20 }, (_, i) => ({
     id: i,
     emoji: emojis[i % emojis.length]!,
