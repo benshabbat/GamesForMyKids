@@ -1148,4 +1148,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 215,
     ageMin: 5,
   },
+  {
+    id: "crossword",
+    title: "תשבץ עברי",
+    description: "פתור תשבץ עברי עם רמזים בעברית — מלא את האותיות הנכונות!",
+    icon: Grid2x2,
+    emoji: "🔤",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/crossword",
+    available: true,
+    order: 216,
+    ageMin: 6,
+  },
 ];

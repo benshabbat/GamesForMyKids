@@ -286,4 +286,6 @@ export type GameType =
   // Hebrew letter tracing — trace all 22 letters with finger/mouse
   | 'letter-trace'
   // Market game — serve customers, count items, calculate change
-  | 'market-game';
+  | 'market-game'
+  // Hebrew crossword — fill in crossword answers from picture/audio clues
+  | 'crossword';
