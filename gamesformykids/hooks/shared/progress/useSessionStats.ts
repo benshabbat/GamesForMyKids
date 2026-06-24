@@ -9,6 +9,7 @@ import { useState, useCallback } from 'react';
 import { BaseGameItem, GameType } from '@/lib/types/core/base';
 import { GameSession } from '@/lib/types/hooks/progress';
 import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
+import { useChildProfileStore } from '@/lib/stores/childProfileStore';
 import { recordGameSession } from '@/lib/utils/engagement/masteryStars';
 
 export function useSessionStats(gameType: GameType) {
@@ -73,9 +74,11 @@ export function useSessionStats(gameType: GameType) {
   // End current session and save progress
   const endSession = useCallback(() => {
     if (currentSession) {
+      const childProfileId = useChildProfileStore.getState().activeProfileId;
       const completedSession: GameSession = {
         ...currentSession,
         endTime: new Date(),
+        ...(childProfileId ? { childProfileId } : {}),
       };
       addSession(completedSession);
       const accuracy = completedSession.totalAnswers > 0

@@ -23,6 +23,7 @@ import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
 import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
 import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
 import HolidayLane from "@/components/marketing/HolidayLane";
+import ChildProfileSwitcher from "@/components/marketing/ChildProfileSwitcher";
 import { useHomePage } from "./useHomePage";
 
 const SESSION_KEY = 'home-content-tab';
@@ -51,6 +52,7 @@ export default function HomePageClient() {
     <div className="min-h-screen bg-linear-to-br from-blue-100 via-purple-100 to-pink-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900">
       <VocabularyOfTheDay />
       <Header />
+      <ChildProfileSwitcher />
       <CategoryJumpBar />
       <ContentTypeTabBar active={activeTab} onChange={handleTabChange} />
       <main>

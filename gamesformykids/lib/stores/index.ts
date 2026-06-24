@@ -77,6 +77,10 @@ export { useFavoritesStore } from './favoritesStore';
 export { useCountingChallengeStore } from './countingChallengeStore';
 export { useMathChallengeStore } from './mathChallengeStore';
 
+// Child Profiles (multi-child switcher — persisted)
+export { useChildProfileStore } from './childProfileStore';
+export type { ChildProfile } from './childProfileStore';
+
 // Store utilities
 export type { RemoteDataSlice } from './utils/RemoteDataSlice';
 export type { ChallengeStoreState } from './utils/createChallengeStore';
