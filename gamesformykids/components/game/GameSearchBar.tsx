@@ -2,6 +2,14 @@
 
 import { Search, X } from 'lucide-react';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
+import { useAgeFilterStore, type AgeRange } from '@/lib/stores/ageFilterStore';
+
+const AGE_LABELS: Record<AgeRange, string> = {
+  all: 'כל הגילאים',
+  '3-4': 'גיל 3-4',
+  '5-7': 'גיל 5-7',
+  '8-10': 'גיל 8-10',
+};
 
 interface Props {
   query: string;
@@ -20,6 +28,9 @@ export function GameSearchBar({
   hasFilter,
   onClear,
 }: Props) {
+  const ageRange = useAgeFilterStore((s) => s.ageRange);
+  const setAgeRange = useAgeFilterStore((s) => s.setAgeRange);
+
   return (
     <div dir="rtl" className="mb-4 md:mb-6 space-y-3">
       <div className="relative max-w-md mx-auto">
@@ -44,6 +55,21 @@ export function GameSearchBar({
           </button>
         )}
       </div>
+
+      {/* Age filter active badge */}
+      {ageRange !== 'all' && (
+        <div className="flex justify-center">
+          <button
+            onClick={() => setAgeRange('all')}
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold hover:bg-purple-200 transition-colors"
+            aria-label="הסר סינון גיל"
+          >
+            <span>🔧</span>
+            <span>מסנן: {AGE_LABELS[ageRange]}</span>
+            <X className="w-3 h-3" />
+          </button>
+        </div>
+      )}
 
       <div
         className="flex gap-2 overflow-x-auto pb-1 px-1"

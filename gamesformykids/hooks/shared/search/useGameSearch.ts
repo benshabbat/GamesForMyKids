@@ -4,10 +4,12 @@ import { useRouter } from 'next/navigation';
 import { GamesRegistry, GameRegistration } from '@/lib/registry/gamesRegistry';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { useHomePageStore } from '@/lib/stores';
+import { useAgeFilterStore, isAgeAppropriate } from '@/lib/stores/ageFilterStore';
 
 export function useGameSearch() {
   const router = useRouter();
   const showAllGamesView = useHomePageStore((s) => s.showAllGamesView);
+  const ageRange = useAgeFilterStore((s) => s.ageRange);
   const [query, setQueryState] = useState('');
   const [activeCat, setActiveCatState] = useState<string | null>(null);
 
@@ -62,7 +64,8 @@ export function useGameSearch() {
   const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
 
   const filteredGames = useMemo((): GameRegistration[] => {
-    let games = allGames;
+    let games = allGames.filter((g) => isAgeAppropriate(g.ageMin, ageRange));
+
     if (activeCat && GAME_CATEGORIES[activeCat]) {
       const ids = new Set(GAME_CATEGORIES[activeCat].gameIds);
       games = games.filter((g) => ids.has(g.id));
@@ -89,7 +92,7 @@ export function useGameSearch() {
     }, []);
 
     return scored.sort((a, b) => b.score - a.score).map(({ game }) => game);
-  }, [allGames, query, activeCat]);
+  }, [allGames, query, activeCat, ageRange]);
 
   return {
     query,
@@ -98,6 +101,7 @@ export function useGameSearch() {
     setActiveCat,
     filteredGames,
     hasFilter: Boolean(query || activeCat),
+    ageRange,
     clearFilters,
   };
 }
