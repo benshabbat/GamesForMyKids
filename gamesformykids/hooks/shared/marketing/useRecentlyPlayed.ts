@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { getRecentGames, type RecentGameEntry } from '@/lib/utils/engagement/trackGameVisit';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { useChildProfileStore } from '@/lib/stores/childProfileStore';
 
 export interface RecentItem {
   gameType: string;
@@ -11,10 +12,11 @@ export interface RecentItem {
 }
 
 export function useRecentlyPlayed(): RecentItem[] {
+  const activeProfileId = useChildProfileStore((s) => s.activeProfileId);
   const [items, setItems] = useState<RecentItem[]>([]);
 
   useEffect(() => {
-    const recent: RecentGameEntry[] = getRecentGames();
+    const recent: RecentGameEntry[] = getRecentGames(activeProfileId);
     const resolved = recent
       .map((entry) => {
         const reg = GamesRegistry.getGameById(entry.gameType);
@@ -23,7 +25,7 @@ export function useRecentlyPlayed(): RecentItem[] {
       })
       .filter((x): x is RecentItem => x !== null);
     setItems(resolved);
-  }, []);
+  }, [activeProfileId]);
 
   return items;
 }

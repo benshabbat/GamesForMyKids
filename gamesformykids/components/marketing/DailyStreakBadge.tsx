@@ -1,14 +1,16 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { getDailyLoginStreak } from '@/lib/utils/engagement/trackDailyLogin';
+import { useChildProfileStore } from '@/lib/stores/childProfileStore';
 
 export default function DailyStreakBadge() {
+  const activeProfileId = useChildProfileStore((s) => s.activeProfileId);
   const [streak, setStreak] = useState(0);
 
   useEffect(() => {
-    const { count } = getDailyLoginStreak();
+    const { count } = getDailyLoginStreak(activeProfileId);
     setStreak(count);
-  }, []);
+  }, [activeProfileId]);
 
   if (streak < 2) return null;
 
