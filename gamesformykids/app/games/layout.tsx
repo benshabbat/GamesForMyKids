@@ -3,6 +3,7 @@ import SwipeNavigator from '@/components/game/shared/SwipeNavigator';
 import ScreenTimeOverlay from '@/components/game/shared/ScreenTimeOverlay';
 import ChampionshipOverlay from '@/components/game/shared/ChampionshipOverlay';
 import MascotCharacter from '@/components/game/shared/MascotCharacter';
+import GameAchievementSync from '@/components/game/shared/GameAchievementSync';
 import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
@@ -30,6 +31,9 @@ export default function GamesLayout({ children }: GamesLayoutProps) {
 
       {/* Mascot owl — reacts to correct/wrong answers via gameSessionStore */}
       <MascotCharacter />
+
+      {/* Achievement detection — awards badges when sessions are recorded */}
+      <GameAchievementSync />
 
       {/* Game Content — pt reserves space below the fixed nav bar (~56px = top-4 + button height) */}
       <div className="pt-16 md:pt-20">
