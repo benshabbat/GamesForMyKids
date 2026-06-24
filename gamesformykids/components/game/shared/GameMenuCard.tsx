@@ -52,11 +52,11 @@ export default function GameMenuCard({
       className={`min-h-screen bg-gradient-to-br ${gradientClass} flex items-center justify-center p-4`}
       dir="rtl"
     >
-      <div className="bg-white rounded-3xl p-8 text-center shadow-2xl max-w-sm w-full">
+      <div className="bg-white dark:bg-gray-800 rounded-3xl p-8 text-center shadow-2xl max-w-sm w-full">
         <div className={`text-6xl mb-4 ${animateEmoji ? 'motion-safe:animate-bounce' : ''}`}>{emoji}</div>
-        <h1 className="text-3xl font-black text-gray-700 mb-2">{title}</h1>
-        <p className="text-gray-500 text-base mb-2">{description}</p>
-        {hint && <p className="text-gray-400 text-sm mb-4">{hint}</p>}
+        <h1 className="text-3xl font-black text-gray-700 dark:text-gray-100 mb-2">{title}</h1>
+        <p className="text-gray-500 dark:text-gray-300 text-base mb-2">{description}</p>
+        {hint && <p className="text-gray-400 dark:text-gray-400 text-sm mb-4">{hint}</p>}
         {best !== undefined && best > 0 && (
           <p className="text-yellow-600 font-bold mb-4">🏆 שיא: {best}</p>
         )}
@@ -73,7 +73,7 @@ export default function GameMenuCard({
         {secondaryAction && (
           <button
             onClick={secondaryAction.onClick}
-            className="w-full mt-3 py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-semibold text-base hover:bg-gray-50 active:scale-95 transition-[transform,colors]"
+            className="w-full mt-3 py-3 rounded-2xl border-2 border-gray-200 dark:border-gray-600 text-gray-600 dark:text-gray-300 font-semibold text-base hover:bg-gray-50 dark:hover:bg-gray-700 active:scale-95 transition-[transform,colors]"
           >
             {secondaryAction.label}
           </button>
