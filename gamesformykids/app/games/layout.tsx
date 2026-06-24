@@ -1,6 +1,7 @@
 import UniversalGameNavigation from '@/components/game/universal/navigation/UniversalGameNavigation';
 import SwipeNavigator from '@/components/game/shared/SwipeNavigator';
 import ScreenTimeOverlay from '@/components/game/shared/ScreenTimeOverlay';
+import ChampionshipOverlay from '@/components/game/shared/ChampionshipOverlay';
 import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
@@ -22,6 +23,9 @@ export default function GamesLayout({ children }: GamesLayoutProps) {
 
       {/* Screen time overlay — only renders when limit is set and reached */}
       <ScreenTimeOverlay />
+
+      {/* Championship mode bottom bar — only renders when a championship is active */}
+      <ChampionshipOverlay />
 
       {/* Game Content — pt reserves space below the fixed nav bar (~56px = top-4 + button height) */}
       <div className="pt-16 md:pt-20">
