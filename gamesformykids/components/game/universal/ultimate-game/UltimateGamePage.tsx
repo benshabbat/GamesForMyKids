@@ -25,6 +25,7 @@ import { ContextProgressDisplay } from "../../../shared";
 import { UltimateStartScreen } from "./UltimateStartScreen";
 import SpeedBurstTimer from "../../shared/SpeedBurstTimer";
 import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
+import AdaptiveDifficultyBanner from "../../shared/AdaptiveDifficultyBanner";
 
 // Re-export co-located components for convenience
 export { GameLogicSync } from './GameLogicSync';
@@ -81,6 +82,7 @@ function CardGamePage() {
       style={{ background: game.config.colors?.background || DEFAULT_BG }}
     >
       {speedEnabled && <SpeedBurstTimer gameType={String(game.gameType)} />}
+      <AdaptiveDifficultyBanner />
       <div className={`max-w-5xl mx-auto ${speedEnabled ? 'pt-8' : ''}`}>
         <GameHeaderSection />
         <GameMainContent />
