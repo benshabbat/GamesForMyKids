@@ -1160,4 +1160,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 216,
     ageMin: 6,
   },
+  {
+    id: "number-merge",
+    title: "מיזוג מספרים",
+    description: "שחרר מספרים לקערה ומזג זוגות זהים — תרגול חיבור מהנה!",
+    icon: Hash,
+    emoji: "🔢",
+    color: "bg-yellow-500 hover:bg-yellow-600",
+    href: "/games/number-merge",
+    available: true,
+    order: 217,
+    ageMin: 5,
+  },
 ];

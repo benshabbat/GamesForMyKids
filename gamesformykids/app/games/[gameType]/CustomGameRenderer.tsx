@@ -88,6 +88,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'letter-trace':          dynamic(() => import('../letter-trace/LetterTraceClient'),                  { ssr: false }),
   'market-game':           dynamic(() => import('../market-game/MarketClient'),                         { ssr: false }),
   'crossword':             dynamic(() => import('../crossword/CrosswordClient'),                        { ssr: false }),
+  'number-merge':          dynamic(() => import('../number-merge/NumberMergeClient'),                   { ssr: false }),
 };
 
 interface Props { gameType: string; }
