@@ -92,6 +92,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'word-clicker':          dynamic(() => import('../word-clicker/WordClickerClient'),                   { ssr: false }),
   'nikud-drag':            dynamic(() => import('../nikud-drag/NikudDragClient'),                       { ssr: false }),
   'letter-merge':          dynamic(() => import('../letter-merge/LetterMergeClient'),                   { ssr: false }),
+  'hebrew-racer':          dynamic(() => import('../hebrew-racer/HebrewRacerClient'),                   { ssr: false }),
 };
 
 interface Props { gameType: string; }
