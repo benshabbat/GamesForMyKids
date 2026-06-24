@@ -43,6 +43,7 @@ import {
   Shirt,
   Scissors,
   UtensilsCrossed,
+  Pencil,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -1122,5 +1123,17 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     available: true,
     order: 212,
     ageMin: 5,
+  },
+  {
+    id: "letter-trace",
+    title: "כתיבת אותיות",
+    description: "עקוב אחרי הקו ותרגל לכתוב את 22 האותיות בעברית — מושלם לגילאי 3-6!",
+    icon: Pencil,
+    emoji: "✏️",
+    color: "bg-blue-500 hover:bg-blue-600",
+    href: "/games/letter-trace",
+    available: true,
+    order: 213,
+    ageMin: 3,
   },
 ];
