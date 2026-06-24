@@ -184,7 +184,6 @@ export default function LetterCanvas({ letter, difficulty, onComplete }: Props) 
     setAccuracy(acc);
     setDone(true);
     onComplete(acc);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onComplete]);
 
   return (
