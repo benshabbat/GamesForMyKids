@@ -62,7 +62,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Home,
     color: "bg-pink-500",
     gradient: "from-pink-400 to-pink-600",
-    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","family","body-parts","new-professions","morning-routine","dress-up","cooking-game"],
+    gameIds: ["house","clothing","professions","tools","tzedakah","kitchen","family","body-parts","new-professions","morning-routine","dress-up","cooking-game","market-game"],
   },
   math: {
     title: "מתמטיקה וחשיבה",
