@@ -1136,4 +1136,16 @@ export const gamesRegistryBatch4: GameRegistration[] = [
     order: 213,
     ageMin: 3,
   },
+  {
+    id: "market-game",
+    title: "שוק של ילדים",
+    description: "שרת לקוחות בשוק — מנה פירות וירקות לפי הזמנה!",
+    icon: UtensilsCrossed,
+    emoji: "🛒",
+    color: "bg-orange-500 hover:bg-orange-600",
+    href: "/games/market-game",
+    available: true,
+    order: 215,
+    ageMin: 5,
+  },
 ];

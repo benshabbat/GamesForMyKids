@@ -284,4 +284,6 @@ export type GameType =
   // Spot the difference — find 5 differences between two emoji scenes
   | 'spot-the-difference'
   // Hebrew letter tracing — trace all 22 letters with finger/mouse
-  | 'letter-trace';
+  | 'letter-trace'
+  // Market game — serve customers, count items, calculate change
+  | 'market-game';
