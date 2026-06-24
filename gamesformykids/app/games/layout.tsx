@@ -1,5 +1,6 @@
 import UniversalGameNavigation from '@/components/game/universal/navigation/UniversalGameNavigation';
 import SwipeNavigator from '@/components/game/shared/SwipeNavigator';
+import ScreenTimeOverlay from '@/components/game/shared/ScreenTimeOverlay';
 import { ReactNode } from 'react';
 
 interface GamesLayoutProps {
@@ -18,6 +19,9 @@ export default function GamesLayout({ children }: GamesLayoutProps) {
 
       {/* RTL swipe gesture handler + first-visit hint */}
       <SwipeNavigator />
+
+      {/* Screen time overlay — only renders when limit is set and reached */}
+      <ScreenTimeOverlay />
 
       {/* Game Content — pt reserves space below the fixed nav bar (~56px = top-4 + button height) */}
       <div className="pt-16 md:pt-20">
