@@ -49,7 +49,7 @@ function resolveCollision(balls: Ball[]): { balls: Ball[]; merges: { x: number; 
       if (!a || !b || toRemove.has(a.id) || toRemove.has(b.id)) continue;
       if (a.value !== b.value) continue;
 
-      const { dist, minDist, dx, dy } = circlePair(a, b);
+      const { dist, minDist } = circlePair(a, b);
       if (dist >= minDist) continue;
 
       // Same value touching → merge
@@ -112,7 +112,7 @@ function stepPhysics(balls: Ball[]): { balls: Ball[]; merges: { x: number; y: nu
       const a = balls[i];
       const b = balls[j];
       if (!a || !b) continue;
-      const { dist, minDist, dx, dy, overlap } = circlePair(a, b);
+      const { dist, dx, dy, overlap } = circlePair(a, b);
       if (overlap <= 0 || dist === 0) continue;
       if (a.value === b.value) continue; // will be merged separately
 
