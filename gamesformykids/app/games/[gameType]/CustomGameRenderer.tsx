@@ -90,6 +90,7 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'crossword':             dynamic(() => import('../crossword/CrosswordClient'),                        { ssr: false }),
   'number-merge':          dynamic(() => import('../number-merge/NumberMergeClient'),                   { ssr: false }),
   'word-clicker':          dynamic(() => import('../word-clicker/WordClickerClient'),                   { ssr: false }),
+  'nikud-drag':            dynamic(() => import('../nikud-drag/NikudDragClient'),                       { ssr: false }),
 };
 
 interface Props { gameType: string; }
