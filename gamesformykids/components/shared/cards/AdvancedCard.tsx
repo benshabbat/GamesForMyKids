@@ -79,6 +79,9 @@ export function AdvancedCard({
   handleClick,
 }: AdvancedCardProps) {
   const showNikud = useAudioSettingsStore((s) => s.showNikud);
+  const showEnglishFromStore = useAudioSettingsStore((s) => s.showEnglish);
+  // store value overrides the prop so a single toggle affects all cards
+  const resolvedShowEnglish = showEnglishFromStore || showEnglish;
 
   // item.color takes priority (contains full static class strings from game data)
   // fallback: solid color prop (avoids dynamic from-/to- class generation issues)
@@ -156,8 +159,8 @@ export function AdvancedCard({
               </div>
             )}
 
-            {showEnglish && item?.english && (
-              <div className="text-lg md:text-xl font-semibold mt-1">
+            {resolvedShowEnglish && item?.english && (
+              <div className="text-lg md:text-xl font-semibold mt-1" dir="ltr">
                 {item.english}
               </div>
             )}

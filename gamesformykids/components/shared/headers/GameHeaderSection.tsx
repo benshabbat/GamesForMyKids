@@ -5,6 +5,7 @@ import GameStatsButton from "../buttons/GameStatsButton";
 import SlowSpeechButton from "../buttons/SlowSpeechButton";
 import NikudToggleButton from "../buttons/NikudToggleButton";
 import RealPhotoToggleButton from "../buttons/RealPhotoToggleButton";
+import BilingualToggleButton from "../buttons/BilingualToggleButton";
 import GameChallengeSection from "../GameChallengeSection";
 import { useGameTypeStore } from "@/lib/stores/gameTypeStore";
 import { REAL_PHOTO_CARD_MAP } from "../GameCardMap";
@@ -22,6 +23,7 @@ export default function GameHeaderSection() {
         <div className="flex items-center gap-2">
           <StreakBadge />
           {hasRealPhotos && <RealPhotoToggleButton />}
+          <BilingualToggleButton />
           <NikudToggleButton />
           <SlowSpeechButton />
           <FullscreenToggle />

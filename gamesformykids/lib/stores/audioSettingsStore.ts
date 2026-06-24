@@ -21,6 +21,7 @@ export interface AudioSettingsState {
   enabled: boolean;
   showNikud: boolean;
   showRealPhotos: boolean;
+  showEnglish: boolean;
 }
 
 export interface AudioSettingsActions {
@@ -30,6 +31,7 @@ export interface AudioSettingsActions {
   toggleEnabled: () => void;
   toggleNikud: () => void;
   toggleRealPhotos: () => void;
+  toggleEnglish: () => void;
   saveSettings: (partial: Partial<AudioSettingsState>) => void;
   resetToDefaults: () => void;
 }
@@ -41,6 +43,7 @@ const DEFAULTS: AudioSettingsState = {
   enabled: true,
   showNikud: false,
   showRealPhotos: false,
+  showEnglish: false,
 };
 
 // ── Store ──────────────────────────────────────────────────
@@ -83,7 +86,10 @@ export const useAudioSettingsStore = makePersistStore<AudioSettingsState & Audio
     toggleRealPhotos: () =>
       set((s) => ({ showRealPhotos: !s.showRealPhotos }), false, 'audio/toggleRealPhotos'),
 
+    toggleEnglish: () =>
+      set((s) => ({ showEnglish: !s.showEnglish }), false, 'audio/toggleEnglish'),
+
     resetToDefaults: () => set(DEFAULTS, false, 'audio/resetToDefaults'),
   }),
-  { version: 1 },
+  { version: 2 },
 );
