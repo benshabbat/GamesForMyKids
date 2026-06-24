@@ -67,6 +67,40 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות",
   },
 
+  "hebrew-script": {
+    title: "✍️ כתב עברי — זיהוי אותיות כתב",
+    subTitle: "למד לזהות את אותיות הכתב העברי!",
+    itemsTitle: "האותיות שנלמד:",
+    itemsDescription: "לחץ על אות כדי לשמוע את שמה!",
+    steps: [
+      { icon: "👂", title: "1. תשמע", description: "שם האות בעברית" },
+      { icon: "🤔", title: "2. תחשוב", description: "איך האות נראית בכתב" },
+      { icon: "👆", title: "3. תלחץ", description: "על האות הנכונה" },
+    ],
+    colors: {
+      background: "linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 50%, #c3cfe2 100%)",
+      header: "text-indigo-900",
+      subHeader: "text-indigo-700",
+      itemsDescription: "text-indigo-100",
+      button: { from: "indigo", to: "violet" },
+      stepsBg: "bg-indigo-100 bg-opacity-90",
+    },
+    grid: {
+      className: "grid grid-cols-4 md:grid-cols-6 gap-4 max-w-4xl mx-auto",
+      showSpeaker: false,
+    },
+    challengeTitle: "איזו אות שמעת?",
+    challengeIcon: "✍️📝🖊️",
+    challengeDescription: "בחר את האות הנכונה!",
+    itemLabel: "אות",
+    tip: "💡 טיפ: תשמע היטב את שם האות!",
+    tipDescription: "לחץ על הסמל כדי לשמוע שוב את שם האות",
+    metadata: {
+      keywords: "כתב עברי, אותיות כתב, זיהוי אותיות, כיתה א, גן חובה, כתב סת\"ם",
+      description: "משחק ללימוד זיהוי אותיות הכתב העברי — כולל 22 אותיות ו-5 אותיות סופיות. מתאים לגיל 6-8.",
+    },
+  },
+
   shapes: {
     title: "🔺 משחק צורות 🟡",
     subTitle: "למד צורות דרך שמיעה!",
