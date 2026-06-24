@@ -4,9 +4,11 @@ import Link from 'next/link';
 import { X } from 'lucide-react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useContinueBanner } from '@/hooks/shared/marketing/useContinueBanner';
+import { useAvatarEmoji } from '@/hooks/shared/user/useAvatarEmoji';
 
 export default function ContinueBanner() {
   const { data, dismissed, dismiss } = useContinueBanner();
+  const { emoji: avatarEmoji } = useAvatarEmoji();
 
   if (!data || dismissed) return null;
 
@@ -15,7 +17,11 @@ export default function ContinueBanner() {
 
   return (
     <div dir="rtl" className="mx-4 mt-3 rounded-2xl bg-linear-to-l from-purple-500 to-indigo-600 text-white shadow-lg flex items-center gap-3 px-4 py-3">
-      <span className="text-3xl">{reg.emoji}</span>
+      {avatarEmoji ? (
+        <span className="text-3xl">{avatarEmoji}</span>
+      ) : (
+        <span className="text-3xl">{reg.emoji}</span>
+      )}
       <div className="flex-1 min-w-0">
         <p className="text-xs opacity-80 font-medium">ממשיכים מאיפה שעצרת</p>
         <p className="font-bold truncate">{reg.title}</p>

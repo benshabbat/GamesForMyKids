@@ -8,6 +8,7 @@ import { AudioSection } from '@/components/settings/AudioSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { AccountSection } from '@/components/settings/AccountSection';
 import { ColorblindSection } from '@/components/settings/ColorblindSection';
+import { AvatarSection } from '@/components/settings/AvatarSection';
 import GameSpinnerScreen from '@/components/ui/GameSpinnerScreen';
 
 export default function SettingsClient() {
@@ -72,6 +73,7 @@ export default function SettingsClient() {
             disabled={saving}
           />
           <ColorblindSection />
+          <AvatarSection />
           <AccountSection onSignOut={handleSignOut} />
         </div>
 
