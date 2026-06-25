@@ -14,12 +14,12 @@ test.describe('Animals game', () => {
     expect(await buttons.count()).toBeGreaterThanOrEqual(2);
   });
 
-  test('clicking a category starts the game and leaves the menu', async ({ page }) => {
+  test('clicking start begins the game and hides the start screen', async ({ page }) => {
     await page.goto('/games/animals');
-    const firstBtn = page.getByRole('button').first();
-    await firstBtn.waitFor({ state: 'visible', timeout: 10_000 });
-    await firstBtn.click();
-    // Menu heading should no longer be the only content — game UI takes over
-    await expect(page.getByText('בחר קטגוריה')).not.toBeVisible({ timeout: 5_000 });
+    const startBtn = page.getByRole('button', { name: /בואו נתחיל לשחק/i });
+    await startBtn.waitFor({ state: 'visible', timeout: 10_000 });
+    await startBtn.click();
+    // Start screen is replaced by the game challenge
+    await expect(startBtn).not.toBeVisible({ timeout: 5_000 });
   });
 });
