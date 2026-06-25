@@ -27,7 +27,7 @@ export default function StoryBuilderQuestion({ story, currentBlank, currentBlank
         </div>
 
         {/* Story preview with blanks */}
-        <div className="bg-amber-50 rounded-2xl p-4 w-full text-base leading-loose text-right" dir="rtl">
+        <div className="bg-amber-50 rounded-2xl p-4 w-full text-base leading-loose text-start" dir="rtl">
           {story.segments.map((seg, i) => (
             <span key={i}>
               <span>{seg}</span>

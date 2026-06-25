@@ -42,10 +42,10 @@ function AddProfileModal({ onAdd, onClose }: { onAdd: (name: string, emoji: stri
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={20}
-            className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 mb-4 text-right bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded-xl px-4 py-2 mb-4 text-start bg-white dark:bg-gray-700 text-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
           <p className="text-sm text-gray-500 dark:text-gray-400 mb-2">בחר אייקון</p>
-          <div className="grid grid-cols-6 gap-2 mb-5">
+          <div className="grid grid-cols-4 sm:grid-cols-6 gap-2 mb-5">
             {AVATAR_LIST.map((av) => (
               <button
                 key={av}
@@ -99,7 +99,7 @@ function ProfileBubble({ profile, isActive, isManaging, onClick, onDelete }: Pro
     <div className="relative flex flex-col items-center gap-1 shrink-0">
       <button
         onClick={onClick}
-        className={`w-12 h-12 rounded-full text-2xl flex items-center justify-center transition-all active:scale-90 ${
+        className={`w-12 h-12 rounded-full text-2xl flex items-center justify-center transition-[transform,box-shadow,ring-color] active:scale-90 ${
           isActive
             ? 'ring-4 ring-purple-500 ring-offset-2 ring-offset-white dark:ring-offset-gray-900 scale-110 shadow-md'
             : 'ring-2 ring-gray-200 dark:ring-gray-600 hover:ring-purple-300'
@@ -155,7 +155,7 @@ export default function ChildProfileSwitcher() {
           {profiles.length > 0 && (
             <button
               onClick={() => setIsManaging((m) => !m)}
-              className="mr-auto text-xs text-purple-500 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
+              className="me-auto text-xs text-purple-500 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors"
             >
               {isManaging ? 'סיים עריכה' : '✏️ ערוך'}
             </button>
@@ -183,7 +183,7 @@ export default function ChildProfileSwitcher() {
             <div className="flex flex-col items-center gap-1 shrink-0">
               <button
                 onClick={() => setShowAdd(true)}
-                className="w-12 h-12 rounded-full text-2xl flex items-center justify-center ring-2 ring-dashed ring-gray-300 dark:ring-gray-600 hover:ring-purple-400 bg-gray-50 dark:bg-gray-800 transition-all active:scale-90 text-gray-400 dark:text-gray-500"
+                className="w-12 h-12 rounded-full text-2xl flex items-center justify-center ring-2 ring-dashed ring-gray-300 dark:ring-gray-600 hover:ring-purple-400 bg-gray-50 dark:bg-gray-800 transition-[transform,ring-color] active:scale-90 text-gray-400 dark:text-gray-500"
                 aria-label="הוסף פרופיל"
               >
                 +

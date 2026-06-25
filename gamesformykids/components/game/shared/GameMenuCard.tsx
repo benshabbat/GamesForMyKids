@@ -1,5 +1,6 @@
 'use client';
 import { ReactNode } from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
 
@@ -78,6 +79,13 @@ export default function GameMenuCard({
             {secondaryAction.label}
           </button>
         )}
+        <Link
+          href="/"
+          className="mt-4 flex items-center justify-center gap-1.5 w-full py-2 text-gray-400 dark:text-gray-500 text-sm hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+        >
+          <span aria-hidden>🏠</span>
+          <span>חזור לדף הבית</span>
+        </Link>
       </div>
     </div>
   );

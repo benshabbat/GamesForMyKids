@@ -61,7 +61,7 @@ export const visualAdditionConfig = defineConfig({
   renderQuestion: (q) => (
     <><div className="text-4xl mb-3">{q.emoji}</div>
       <p className="text-gray-600 text-sm mb-2">{'כמה סה"כ?'}</p>
-      <p className="text-3xl font-black text-green-700 tracking-widest">{q.question}</p></>
+      <p className="text-3xl font-black text-green-700">{q.question}</p></>
   ),
 });
 
@@ -139,7 +139,7 @@ export const misparBondsConfig = defineConfig({
     <div className="w-full flex flex-col items-center gap-2">
       <div className="text-5xl">{q.emoji}</div>
       <p className="text-gray-600 text-sm mb-1" dir="rtl">מה המספר החסר?</p>
-      <p className="text-3xl font-black text-green-700 tracking-widest" dir="ltr">{q.question}</p>
+      <p className="text-3xl font-black text-green-700" dir="ltr">{q.question}</p>
     </div>
   ),
 });

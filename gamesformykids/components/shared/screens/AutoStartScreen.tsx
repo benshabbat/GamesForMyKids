@@ -68,7 +68,7 @@ export default function AutoStartScreen() {
         <div className="flex justify-center gap-3 mt-3 flex-wrap">
           <button
             onClick={() => setStudyMode(v => !v)}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all border-2 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-[background-color,border-color,box-shadow,color] border-2 ${
               studyMode
                 ? 'bg-amber-400 border-amber-500 text-amber-900 shadow-md'
                 : 'bg-white/30 border-white/50 text-white hover:bg-white/40'
@@ -79,7 +79,7 @@ export default function AutoStartScreen() {
           </button>
           <button
             onClick={toggleSpeed}
-            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-all border-2 ${
+            className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-[background-color,border-color,box-shadow,color] border-2 ${
               speedEnabled
                 ? 'bg-yellow-400 border-yellow-500 text-yellow-900 shadow-md'
                 : 'bg-white/30 border-white/50 text-white hover:bg-white/40'

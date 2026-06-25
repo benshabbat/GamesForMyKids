@@ -50,9 +50,18 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
         </p>
         <div className={`text-5xl font-black ${t.text} mb-1`}>{score}</div>
         <p className="text-gray-400 text-base mb-6">נקודות</p>
+        {nextGame && (
+          <Link
+            href={nextGame.href}
+            className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg flex items-center justify-center gap-2 hover:opacity-90 active:scale-95 transition-[transform,opacity]`}
+          >
+            <span>{nextGame.emoji} {nextGame.title}</span>
+            <span aria-hidden>←</span>
+          </Link>
+        )}
         <button
           onClick={onRestart}
-          className={`w-full py-3 rounded-2xl ${t.button} text-white font-bold text-lg transition-opacity`}
+          className="mt-3 w-full py-3 rounded-2xl border-2 border-gray-200 text-gray-600 font-bold text-lg hover:bg-gray-50 active:scale-95 transition-[transform,background-color]"
         >
           שחק שוב
         </button>
@@ -64,15 +73,13 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
             🖨️ הדפס תעודה
           </button>
         )}
-        {nextGame && (
-          <Link
-            href={nextGame.href}
-            className="mt-3 flex items-center justify-center gap-2 w-full py-2.5 rounded-2xl border-2 border-indigo-100 text-indigo-600 font-semibold text-sm hover:bg-indigo-50 active:scale-95 transition-[transform,colors]"
-          >
-            <span>המשחק הבא: {nextGame.emoji} {nextGame.title}</span>
-            <span aria-hidden>←</span>
-          </Link>
-        )}
+        <Link
+          href="/"
+          className="mt-3 flex items-center justify-center gap-1.5 w-full py-2 text-gray-400 text-sm hover:text-gray-600 transition-colors"
+        >
+          <span aria-hidden>🏠</span>
+          <span>חזור לדף הבית</span>
+        </Link>
         <div className="mt-4 pt-3 border-t border-gray-100">
           {rating ? (
             <p className="text-sm text-gray-400">

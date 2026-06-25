@@ -38,7 +38,7 @@ export function SoundThemeSection() {
               type="button"
               onClick={() => handleSelect(value)}
               className={`
-                flex items-center gap-2 px-3 py-3 rounded-xl border-2 text-right transition-all
+                flex items-center gap-2 px-3 py-3 rounded-xl border-2 text-start transition-[background-color,border-color,color,box-shadow]
                 ${theme === value
                   ? 'bg-purple-500 border-purple-600 text-white shadow-md'
                   : 'bg-white border-gray-200 text-gray-700 hover:border-purple-300'}

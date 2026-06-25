@@ -27,7 +27,7 @@ export default function EmojiAvatarPicker({ current, onSelect, onClose }: Props)
               type="button"
               onClick={() => { onSelect(e); onClose(); }}
               className={`
-                text-3xl p-2 rounded-2xl transition-all duration-150 active:scale-90
+                text-3xl p-2 rounded-2xl transition-[transform,background-color] duration-150 active:scale-90
                 ${current === e
                   ? 'bg-purple-100 ring-2 ring-purple-500 scale-110'
                   : 'hover:bg-gray-100'}

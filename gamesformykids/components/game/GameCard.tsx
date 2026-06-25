@@ -47,6 +47,9 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
               <h3 className="text-base md:text-lg lg:text-xl font-bold mb-1 md:mb-2 drop-shadow-sm leading-tight">
                 {game.title}
               </h3>
+              <p className="text-xs opacity-80 drop-shadow-sm line-clamp-1 sm:hidden">
+                {game.description}
+              </p>
               <p className="text-sm md:text-base opacity-90 drop-shadow-sm hidden sm:block">
                 {game.description}
               </p>

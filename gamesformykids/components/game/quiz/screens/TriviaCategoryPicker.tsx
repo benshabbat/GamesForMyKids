@@ -29,7 +29,7 @@ export default function TriviaCategoryPicker({ onStart }: Props) {
               <button
                 key={cat}
                 onClick={() => setSelectedCategory(cat)}
-                className="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-all active:scale-95 bg-white"
+                className="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-[border-color,background-color,transform] active:scale-95 bg-white"
               >
                 <span className="text-3xl">{CATEGORY_EMOJIS[cat]}</span>
                 <span className="font-bold text-gray-700">{cat}</span>
@@ -58,7 +58,7 @@ export default function TriviaCategoryPicker({ onStart }: Props) {
             <button
               key={diff}
               onClick={() => onStart(selectedCategory, diff)}
-              className={`bg-gradient-to-r ${DIFFICULTY_COLORS[diff]} text-white font-bold py-4 px-6 rounded-2xl text-lg flex items-center justify-between hover:opacity-90 active:scale-95 transition-all shadow-md`}
+              className={`bg-gradient-to-r ${DIFFICULTY_COLORS[diff]} text-white font-bold py-4 px-6 rounded-2xl text-lg flex items-center justify-between hover:opacity-90 active:scale-95 transition-[opacity,transform] shadow-md`}
             >
               <span>{DIFFICULTY_EMOJIS[diff]}</span>
               <span>{diff}</span>

@@ -45,7 +45,7 @@ export default function HolidayLane() {
             <Link
               key={game.id}
               href={game.href}
-              className="flex-shrink-0 flex flex-col items-center bg-white/90 hover:bg-white rounded-xl p-3 gap-1 shadow-sm hover:shadow-md transition-all duration-150 active:scale-95"
+              className="flex-shrink-0 flex flex-col items-center bg-white/90 hover:bg-white rounded-xl p-3 gap-1 shadow-sm hover:shadow-md transition-[background-color,box-shadow,transform] duration-150 active:scale-95"
               style={{ minWidth: '88px', maxWidth: '96px' }}
             >
               <span className="text-2xl">{game.emoji}</span>
