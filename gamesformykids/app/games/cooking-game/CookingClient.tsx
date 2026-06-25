@@ -7,7 +7,7 @@ export default function CookingClient() {
     setRecipeIdx, setStepIdx, setPhase,
     startGame, beginStep, handleIngredientTap,
     recipe, step,
-    RECIPES, INGREDIENTS, ingredientLabel, countWord,
+    RECIPES, INGREDIENTS, ingredientLabel,
   } = useCookingGame();
 
   if (phase === 'menu') {

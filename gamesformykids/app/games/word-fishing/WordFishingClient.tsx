@@ -3,7 +3,7 @@ import { useWordFishingGame } from './useWordFishingGame';
 
 export default function WordFishingClient() {
   const {
-    phase, score, lives, question, feedback, wave,
+    phase, score, question, feedback, wave,
     feedbackTimerRef, heartStr, totalWaves,
     canvasRef, startGame, handlePointerDown,
   } = useWordFishingGame();

@@ -1,9 +1,9 @@
 'use client';
-import { useLetterGrowGame, ROUNDS_PER_GAME, CATCHES_TO_EVOLVE, MAX_LIVES } from './useLetterGrowGame';
+import { useLetterGrowGame, ROUNDS_PER_GAME, CATCHES_TO_EVOLVE } from './useLetterGrowGame';
 
 export default function LetterGrowClient() {
   const {
-    phase, lives, catchCount, score, roundIdx, evolveInfo, hurtFlash,
+    phase, catchCount, score, roundIdx, evolveInfo, hurtFlash,
     target, heartStr, canvasRef, startGame, handlePointerMove,
   } = useLetterGrowGame();
 

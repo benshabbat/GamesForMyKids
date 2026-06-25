@@ -272,7 +272,7 @@ export function useBubbleShooterGame() {
 
     if (isGridClear(grid)) { setWon(true); setPhase('result'); }
     else if (gridTooLow(grid, GRID_ROWS - 1)) { setWon(false); setPhase('result'); }
-  }, [placeBubble])); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [placeBubble]));
 
   useEffect(() => {
     const canvas = canvasRef.current;
