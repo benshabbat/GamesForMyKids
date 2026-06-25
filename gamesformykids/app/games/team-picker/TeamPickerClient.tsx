@@ -1,6 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
-import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { useTeamPicker } from './useTeamPicker';
 
 const TEAM_COLORS = [
   { bg: 'bg-red-100', border: 'border-red-400', text: 'text-red-700', badge: 'bg-red-500', emoji: '🔴' },
@@ -11,58 +10,13 @@ const TEAM_COLORS = [
   { bg: 'bg-orange-100', border: 'border-orange-400', text: 'text-orange-700', badge: 'bg-orange-500', emoji: '🟠' },
 ];
 
-function fisherYates<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j]!, a[i]!];
-  }
-  return a;
-}
-
-function splitIntoTeams(names: string[], numTeams: number): string[][] {
-  const shuffled = fisherYates(names);
-  const teams: string[][] = Array.from({ length: numTeams }, () => []);
-  shuffled.forEach((name, i) => {
-    teams[i % numTeams]!.push(name);
-  });
-  return teams;
-}
-
 export default function TeamPickerClient() {
-  const [namesInput, setNamesInput] = useState('');
-  const [numTeams, setNumTeams] = useState(2);
-  const [teams, setTeams] = useState<string[][] | null>(null);
-  const [error, setError] = useState('');
-
-  const divide = useCallback(() => {
-    const names = namesInput
-      .split('\n')
-      .map((n) => n.trim())
-      .filter(Boolean);
-
-    if (names.length < numTeams) {
-      setError(`נדרשים לפחות ${numTeams} שמות לחלוקה ל-${numTeams} קבוצות`);
-      return;
-    }
-    setError('');
-    const result = splitIntoTeams(names, numTeams);
-    setTeams(result);
-
-    // TTS: announce each team
-    let delay = 300;
-    result.forEach((team, i) => {
-      setTimeout(() => {
-        speakHebrew(`קבוצה ${i + 1}: ${team.join(', ')}`);
-      }, delay);
-      delay += team.length * 600 + 800;
-    });
-  }, [namesInput, numTeams]);
-
-  const reshuffle = useCallback(() => {
-    setTeams(null);
-    setTimeout(divide, 50);
-  }, [divide]);
+  const {
+    namesInput, setNamesInput,
+    numTeams, setNumTeams,
+    teams, setTeams,
+    error, divide, reshuffle,
+  } = useTeamPicker();
 
   return (
     <div
@@ -70,14 +24,12 @@ export default function TeamPickerClient() {
       style={{ background: 'linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)' }}
       dir="rtl"
     >
-      {/* Header */}
       <div className="text-center">
         <h1 className="text-4xl font-extrabold text-gray-800 drop-shadow">🎯 מחלק קבוצות</h1>
         <p className="text-gray-600 mt-1 text-sm">הזן שמות, בחר מספר קבוצות — הכלי יחלק בהגינות!</p>
       </div>
 
       {!teams ? (
-        /* Input panel */
         <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md flex flex-col gap-4">
           <div>
             <label className="block text-sm font-bold text-gray-700 mb-1">שמות המשתתפים (שורה לכל שם)</label>
@@ -124,7 +76,6 @@ export default function TeamPickerClient() {
           </button>
         </div>
       ) : (
-        /* Results panel */
         <div className="w-full max-w-2xl flex flex-col gap-4">
           {teams.map((team, i) => {
             const color = TEAM_COLORS[i % TEAM_COLORS.length]!;

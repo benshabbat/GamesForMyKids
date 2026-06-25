@@ -1,207 +1,14 @@
 'use client';
-import { useState, useCallback, useRef, useEffect } from 'react';
-import { speakHebrew } from '@/lib/utils/speech/speaker';
-
-interface Ingredient {
-  name: string;
-  emoji: string;
-  label: string;
-  plural: string;
-}
-
-const INGREDIENTS: Record<string, Ingredient> = {
-  egg:       { name: 'egg',       emoji: '🥚', label: 'ביצה',          plural: 'ביצים' },
-  tomato:    { name: 'tomato',    emoji: '🍅', label: 'עגבנייה',        plural: 'עגבניות' },
-  cheese:    { name: 'cheese',    emoji: '🧀', label: 'גבינה',          plural: 'גבינה' },
-  flour:     { name: 'flour',     emoji: '🌾', label: 'קמח',            plural: 'קמח' },
-  chocolate: { name: 'chocolate', emoji: '🍫', label: 'שוקולד',         plural: 'שוקולד' },
-  butter:    { name: 'butter',    emoji: '🧈', label: 'חמאה',           plural: 'חמאה' },
-  cucumber:  { name: 'cucumber',  emoji: '🥒', label: 'מלפפון',         plural: 'מלפפונים' },
-  onion:     { name: 'onion',     emoji: '🧅', label: 'בצל',            plural: 'בצל' },
-  pepper:    { name: 'pepper',    emoji: '🫑', label: 'פלפל',           plural: 'פלפל' },
-  oil:       { name: 'oil',       emoji: '🫙', label: 'שמן',            plural: 'שמן' },
-  bread:     { name: 'bread',     emoji: '🍞', label: 'לחם',            plural: 'לחם' },
-  lettuce:   { name: 'lettuce',   emoji: '🥬', label: 'חסה',            plural: 'חסה' },
-  milk:      { name: 'milk',      emoji: '🥛', label: 'חלב',            plural: 'חלב' },
-  dough:     { name: 'dough',     emoji: '🫓', label: 'בצק',            plural: 'בצק' },
-  sauce:     { name: 'sauce',     emoji: '🍝', label: 'רוטב עגבניות',   plural: 'רוטב' },
-  sugar:     { name: 'sugar',     emoji: '🍬', label: 'סוכר',           plural: 'סוכר' },
-};
-
-interface RecipeStep {
-  ingredient: string;
-  count: number;
-}
-
-interface Recipe {
-  name: string;
-  emoji: string;
-  color: string;
-  steps: RecipeStep[];
-}
-
-const RECIPES: Recipe[] = [
-  {
-    name: 'פיצה', emoji: '🍕', color: '#ef4444',
-    steps: [
-      { ingredient: 'dough',  count: 1 },
-      { ingredient: 'sauce',  count: 2 },
-      { ingredient: 'cheese', count: 3 },
-      { ingredient: 'tomato', count: 2 },
-    ],
-  },
-  {
-    name: 'עוגת שוקולד', emoji: '🎂', color: '#92400e',
-    steps: [
-      { ingredient: 'flour',     count: 2 },
-      { ingredient: 'sugar',     count: 2 },
-      { ingredient: 'egg',       count: 3 },
-      { ingredient: 'chocolate', count: 2 },
-      { ingredient: 'butter',    count: 1 },
-    ],
-  },
-  {
-    name: 'סלט ירקות', emoji: '🥗', color: '#16a34a',
-    steps: [
-      { ingredient: 'tomato',   count: 2 },
-      { ingredient: 'cucumber', count: 2 },
-      { ingredient: 'onion',    count: 1 },
-      { ingredient: 'pepper',   count: 1 },
-      { ingredient: 'oil',      count: 2 },
-    ],
-  },
-  {
-    name: 'שקשוקה', emoji: '🍳', color: '#d97706',
-    steps: [
-      { ingredient: 'oil',    count: 1 },
-      { ingredient: 'onion',  count: 1 },
-      { ingredient: 'tomato', count: 3 },
-      { ingredient: 'pepper', count: 1 },
-      { ingredient: 'egg',    count: 2 },
-    ],
-  },
-  {
-    name: 'לביבות', emoji: '🥞', color: '#f59e0b',
-    steps: [
-      { ingredient: 'flour', count: 2 },
-      { ingredient: 'egg',   count: 1 },
-      { ingredient: 'milk',  count: 3 },
-      { ingredient: 'oil',   count: 1 },
-    ],
-  },
-  {
-    name: 'כריך', emoji: '🥪', color: '#65a30d',
-    steps: [
-      { ingredient: 'bread',   count: 2 },
-      { ingredient: 'cheese',  count: 1 },
-      { ingredient: 'tomato',  count: 2 },
-      { ingredient: 'lettuce', count: 1 },
-    ],
-  },
-];
-
-function ingredientLabel(key: string, count: number): string {
-  const ing = INGREDIENTS[key];
-  if (!ing) return key;
-  return count > 1 ? ing.plural : ing.label;
-}
-
-function countWord(n: number): string {
-  const words = ['', 'אחד', 'שניים', 'שלושה', 'ארבעה', 'חמישה'];
-  return words[n] ?? String(n);
-}
-
-function shuffle<T>(arr: T[]): T[] { return [...arr].sort(() => Math.random() - 0.5); }
-
-const SHELF_SIZE = 6;
-
-type Phase = 'menu' | 'cooking' | 'step-done' | 'recipe-done' | 'game-done';
+import { useCookingGame } from './useCookingGame';
 
 export default function CookingClient() {
-  const [phase, setPhase]           = useState<Phase>('menu');
-  const [recipeIdx, setRecipeIdx]   = useState(0);
-  const [stepIdx, setStepIdx]       = useState(0);
-  const [tapped, setTapped]         = useState(0);
-  const [shelf, setShelf]           = useState<string[]>([]);
-  const [wrongFlash, setWrongFlash] = useState(false);
-  const [score, setScore]           = useState(0);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  const buildShelf = useCallback((targetKey: string) => {
-    const others = Object.keys(INGREDIENTS).filter(k => k !== targetKey);
-    const distractors = shuffle(others).slice(0, SHELF_SIZE - 1);
-    setShelf(shuffle([targetKey, ...distractors]));
-  }, []);
-
-  const beginStep = useCallback((rIdx: number, sIdx: number) => {
-    const recipe = RECIPES[rIdx];
-    if (!recipe) return;
-    const step = recipe.steps[sIdx];
-    if (!step) return;
-    setTapped(0);
-    buildShelf(step.ingredient);
-    const ing = ingredientLabel(step.ingredient, step.count);
-    setTimeout(() => speakHebrew(`הוסף ${countWord(step.count)} ${ing}!`), 200);
-  }, [buildShelf]);
-
-  const startGame = useCallback(() => {
-    const order = Array.from({ length: RECIPES.length }, (_, i) => i);
-    const idx = order[Math.floor(Math.random() * order.length)]!;
-    setRecipeIdx(idx);
-    setStepIdx(0);
-    setTapped(0);
-    setScore(0);
-    setPhase('cooking');
-    beginStep(idx, 0);
-  }, [beginStep]);
-
-  const handleIngredientTap = useCallback((key: string) => {
-    if (phase !== 'cooking') return;
-    const recipe = RECIPES[recipeIdx];
-    if (!recipe) return;
-    const step = recipe.steps[stepIdx];
-    if (!step) return;
-
-    if (key !== step.ingredient) {
-      setWrongFlash(true);
-      speakHebrew('לא נכון, נסה שוב!');
-      if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => setWrongFlash(false), 600);
-      return;
-    }
-
-    const newTapped = tapped + 1;
-    setTapped(newTapped);
-
-    if (newTapped < step.count) {
-      const remaining = step.count - newTapped;
-      speakHebrew(`עוד ${countWord(remaining)}!`);
-      return;
-    }
-
-    // Step complete
-    const ing = INGREDIENTS[step.ingredient];
-    speakHebrew(`כן! ${ing ? ingredientLabel(step.ingredient, step.count) : ''}!`);
-    setScore(s => s + 10 * step.count);
-    setPhase('step-done');
-
-    timerRef.current = setTimeout(() => {
-      const nextStep = stepIdx + 1;
-      if (nextStep < recipe.steps.length) {
-        setStepIdx(nextStep);
-        setPhase('cooking');
-        beginStep(recipeIdx, nextStep);
-      } else {
-        setPhase('recipe-done');
-        setTimeout(() => speakHebrew(`הכנת ${recipe.name}! מעולה!`), 100);
-      }
-    }, 1200);
-  }, [phase, recipeIdx, stepIdx, tapped, beginStep]);
-
-  useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
-
-  const recipe = RECIPES[recipeIdx];
-  const step   = recipe?.steps[stepIdx];
+  const {
+    phase, recipeIdx, stepIdx, tapped, shelf, wrongFlash, score,
+    setRecipeIdx, setStepIdx, setPhase,
+    startGame, beginStep, handleIngredientTap,
+    recipe, step,
+    RECIPES, INGREDIENTS, ingredientLabel, countWord,
+  } = useCookingGame();
 
   if (phase === 'menu') {
     return (
@@ -274,7 +81,6 @@ export default function CookingClient() {
 
   return (
     <div className={`min-h-screen flex flex-col bg-gradient-to-br from-orange-50 to-yellow-50 transition-all ${wrongFlash ? 'bg-red-100' : ''}`}>
-      {/* Header */}
       <div className="flex items-center justify-between p-3 bg-white shadow-sm">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{recipe?.emoji}</span>
@@ -286,7 +92,6 @@ export default function CookingClient() {
         </div>
       </div>
 
-      {/* Recipe progress dots */}
       <div className="flex justify-center gap-2 py-2">
         {recipe?.steps.map((_, i) => (
           <div
@@ -296,10 +101,8 @@ export default function CookingClient() {
         ))}
       </div>
 
-      {/* Bowl / plate area */}
       <div className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="relative w-48 h-48 mb-4">
-          {/* Plate */}
           <div className="absolute inset-0 rounded-full bg-white border-4 border-gray-200 shadow-inner flex items-center justify-center">
             <div className="flex flex-wrap gap-1 justify-center p-4 max-w-full">
               {recipe?.steps.slice(0, stepIdx + (stepDone ? 1 : 0)).map((s, i) => {
@@ -312,7 +115,6 @@ export default function CookingClient() {
               })}
             </div>
           </div>
-          {/* Step complete checkmark */}
           {stepDone && (
             <div className="absolute -top-2 -right-2 bg-green-400 text-white rounded-full w-8 h-8 flex items-center justify-center font-bold text-lg">
               ✓
@@ -320,7 +122,6 @@ export default function CookingClient() {
           )}
         </div>
 
-        {/* Instruction */}
         {step && (
           <div className={`bg-white rounded-2xl p-4 text-center shadow-md w-full max-w-xs mb-4 transition-all ${stepDone ? 'border-2 border-green-400' : wrongFlash ? 'border-2 border-red-400' : 'border-2 border-transparent'}`}>
             {stepDone ? (
@@ -348,7 +149,6 @@ export default function CookingClient() {
         )}
       </div>
 
-      {/* Ingredient shelf */}
       {!stepDone && (
         <div className="bg-white border-t border-gray-200 p-3">
           <p className="text-center text-sm text-gray-500 mb-2">מה נוסיף?</p>
@@ -356,12 +156,11 @@ export default function CookingClient() {
             {shelf.map(key => {
               const ing = INGREDIENTS[key];
               if (!ing) return null;
-              const isTarget = key === step?.ingredient;
               return (
                 <button
                   key={key}
                   onClick={() => handleIngredientTap(key)}
-                  className={`flex flex-col items-center p-3 rounded-2xl font-bold text-sm transition-all active:scale-95 ${isTarget && wrongFlash ? 'bg-red-100' : 'bg-orange-50 hover:bg-orange-100'} border-2 border-orange-200`}
+                  className={`flex flex-col items-center p-3 rounded-2xl font-bold text-sm transition-all active:scale-95 ${wrongFlash ? 'bg-red-100' : 'bg-orange-50 hover:bg-orange-100'} border-2 border-orange-200`}
                 >
                   <span className="text-3xl mb-1">{ing.emoji}</span>
                   <span className="text-xs text-gray-700">{ing.label}</span>
