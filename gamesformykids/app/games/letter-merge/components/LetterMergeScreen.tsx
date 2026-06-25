@@ -77,7 +77,7 @@ export default function LetterMergeScreen() {
 
       {/* Alef-bet progress */}
       <div className="mt-3 flex flex-wrap gap-1 justify-center max-w-sm">
-        {ALEF_BET.map((l, i) => (
+        {ALEF_BET.map((l) => (
           <span key={l} className={`text-xs w-6 h-6 flex items-center justify-center rounded ${
             columns.flat().includes(l)
               ? letterColor(l)

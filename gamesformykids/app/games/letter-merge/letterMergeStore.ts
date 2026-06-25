@@ -8,7 +8,6 @@ const LETTER_NAMES: Record<string, string> = {
   'ט':'טֵית','י':'יוֹד','כ':'כַּף','ל':'לָמֶד','מ':'מֵם','נ':'נוּן','ס':'סָמֶך','ע':'עַיִן',
   'פ':'פֵּא','צ':'צָדִי','ק':'קוֹף','ר':'רֵישׁ','ש':'שִׁין','ת':'תָּו',
 };
-const MAX_COLS = 5;
 const MAX_HEIGHT = 7;
 
 function nextLetter(letter: string): string | null {

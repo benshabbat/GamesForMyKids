@@ -13,7 +13,7 @@ function shuffle<T>(arr: T[]): T[] {
 export default function HebrewRacerScreen() {
   const {
     phase, lives, checkpoint, score,
-    currentQuestion, feedback,
+    currentQuestion,
     triggerQuestion, answerQuestion, resumeRacing,
   } = useHebrewRacerStore();
 
