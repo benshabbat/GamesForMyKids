@@ -26,7 +26,7 @@ export default function ContentTypeTabBar({ active, onChange }: Props) {
               onClick={() => onChange(tab.id)}
               className={`
                 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold
-                whitespace-nowrap transition-all duration-200 flex-shrink-0
+                whitespace-nowrap transition-[background-color,box-shadow,transform,color] duration-200 shrink-0
                 ${isActive
                   ? `bg-gradient-to-l ${tab.color} text-white shadow-lg scale-105`
                   : 'bg-white/70 dark:bg-gray-800/70 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 shadow-sm hover:shadow-md'

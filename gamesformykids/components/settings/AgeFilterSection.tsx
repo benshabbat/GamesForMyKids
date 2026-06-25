@@ -28,7 +28,7 @@ export function AgeFilterSection() {
               onClick={() => setAgeRange(value)}
               title={desc}
               className={`
-                px-4 py-2 rounded-xl text-sm font-semibold border-2 transition-all
+                px-4 py-2 rounded-xl text-sm font-semibold border-2 transition-[background-color,border-color,color,box-shadow]
                 ${ageRange === value
                   ? 'bg-purple-500 border-purple-600 text-white shadow-md'
                   : 'bg-white border-gray-200 text-gray-700 hover:border-purple-300'}

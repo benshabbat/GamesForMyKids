@@ -28,12 +28,12 @@ export default function WordClickerScreen() {
         {/* Target word */}
         <div className="bg-white rounded-2xl p-5 shadow-md mb-4 text-center">
           <p className="text-xs text-gray-400 mb-1">בנה את המילה:</p>
-          <p className="text-5xl font-black text-pink-700 tracking-widest" dir="rtl">{word}</p>
+          <p className="text-5xl font-black text-pink-700" dir="rtl">{word}</p>
 
           {/* Progress bar */}
           <div className="mt-3 h-3 bg-pink-100 rounded-full overflow-hidden">
             <div
-              className="h-full bg-pink-500 rounded-full transition-all duration-300"
+              className="h-full bg-pink-500 rounded-full transition-[width] duration-300"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -43,7 +43,7 @@ export default function WordClickerScreen() {
             {word.split('').map((letter, i) => (
               <span
                 key={i}
-                className={`text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-lg transition-all ${
+                className={`text-2xl font-bold w-8 h-8 flex items-center justify-center rounded-lg transition-[background-color,color,border-color] ${
                   i < currentLetterIndex
                     ? 'bg-pink-500 text-white'
                     : i === currentLetterIndex
@@ -60,9 +60,9 @@ export default function WordClickerScreen() {
         {/* Feedback banner */}
         {feedback && (
           <div className={`text-center font-black text-xl mb-3 py-2 rounded-xl ${
-            feedback === 'correct' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
+            feedback === 'correct' ? 'bg-green-100 text-green-700' : 'bg-amber-50 text-amber-700'
           }`}>
-            {feedback === 'correct' ? '✅ נכון!' : '❌ נסה שוב'}
+            {feedback === 'correct' ? '✅ נכון!' : '💙 נסה שוב!'}
           </div>
         )}
 

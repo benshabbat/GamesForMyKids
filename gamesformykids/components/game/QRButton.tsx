@@ -49,7 +49,7 @@ export default function QRButton({ gameType }: Props) {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="fixed bottom-4 left-4 z-40 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg border border-gray-200 hover:bg-indigo-50 hover:border-indigo-300 transition-all"
+        className="fixed bottom-4 inset-s-4 z-40 bg-white/90 backdrop-blur-sm rounded-full p-2.5 shadow-lg border border-gray-200 hover:bg-indigo-50 hover:border-indigo-300 transition-[background-color,border-color]"
         aria-label="הצג קוד QR"
         title="קוד QR לשיתוף"
       >

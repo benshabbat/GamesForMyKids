@@ -60,10 +60,10 @@ export default function RiddleProQuestion({
 
       {/* Feedback */}
       {waiting && (
-        <div className={`text-center text-xl font-bold mb-3 ${lastCorrect ? 'text-green-600' : 'text-red-500'}`}>
+        <div className={`rounded-2xl p-3 mb-3 text-center text-xl font-bold ${lastCorrect ? 'bg-green-50 text-green-700' : 'bg-amber-50 text-amber-700'}`}>
           {lastCorrect
             ? `✅ נכון! +${lastPoints} ${lastPoints === 3 ? '🌟🌟🌟' : lastPoints === 2 ? '🌟🌟' : '🌟'}`
-            : `❌ לא נכון — ${current.answer}`}
+            : `💙 כמעט! הנכון: ${current.answer}`}
         </div>
       )}
 
