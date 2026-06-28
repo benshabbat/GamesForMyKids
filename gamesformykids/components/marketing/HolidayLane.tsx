@@ -22,7 +22,7 @@ export default function HolidayLane() {
 
   return (
     <div className="max-w-6xl mx-auto px-4 py-4" dir="rtl">
-      <div className={`rounded-2xl bg-gradient-to-l ${holiday.color} p-4 shadow-lg`}>
+      <div className={`rounded-2xl bg-linear-to-l ${holiday.color} p-4 shadow-lg`}>
         {/* Header */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center gap-2">
@@ -40,13 +40,12 @@ export default function HolidayLane() {
         </div>
 
         {/* Horizontal scroll lane */}
-        <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+        <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-none">
           {games.map((game) => (
             <Link
               key={game.id}
               href={game.href}
-              className="flex-shrink-0 flex flex-col items-center bg-white/90 hover:bg-white rounded-xl p-3 gap-1 shadow-sm hover:shadow-md transition-[background-color,box-shadow,transform] duration-150 active:scale-95"
-              style={{ minWidth: '88px', maxWidth: '96px' }}
+              className="flex-shrink-0 flex flex-col items-center bg-white/90 hover:bg-white rounded-xl p-3 gap-1 shadow-sm hover:shadow-md transition-[background-color,box-shadow,transform] duration-150 active:scale-95 min-w-22 max-w-24"
             >
               <span className="text-2xl">{game.emoji}</span>
               <span className="text-xs font-bold text-gray-700 text-center leading-tight line-clamp-2">

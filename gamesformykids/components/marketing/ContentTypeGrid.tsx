@@ -48,10 +48,10 @@ export default function ContentTypeGrid({ contentType }: Props) {
   if (!hydrated) {
     return (
       <div className="max-w-6xl mx-auto px-4 pb-8">
-        <div className="h-10 w-64 bg-gray-200 animate-pulse rounded-xl mx-auto mb-6" />
+        <div className="h-10 w-64 bg-gray-200 motion-safe:animate-pulse rounded-xl mx-auto mb-6" />
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {Array.from({ length: 8 }).map((_, i) => (
-            <div key={i} className="h-32 bg-gray-200 animate-pulse rounded-2xl" />
+            <div key={i} className="h-32 bg-gray-200 motion-safe:animate-pulse rounded-2xl" />
           ))}
         </div>
       </div>

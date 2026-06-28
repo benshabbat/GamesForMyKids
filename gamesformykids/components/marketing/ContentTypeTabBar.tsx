@@ -17,7 +17,7 @@ interface Props {
 export default function ContentTypeTabBar({ active, onChange }: Props) {
   return (
     <div className="max-w-6xl mx-auto px-4 py-4" dir="rtl">
-      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-hide">
+      <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">
         {TABS.map((tab) => {
           const isActive = active === tab.id;
           return (
@@ -28,7 +28,7 @@ export default function ContentTypeTabBar({ active, onChange }: Props) {
                 flex items-center gap-2 px-5 py-2.5 rounded-2xl text-sm font-bold
                 whitespace-nowrap transition-[background-color,box-shadow,transform,color] duration-200 shrink-0
                 ${isActive
-                  ? `bg-gradient-to-l ${tab.color} text-white shadow-lg scale-105`
+                  ? `bg-linear-to-l ${tab.color} text-white shadow-lg scale-105`
                   : 'bg-white/70 dark:bg-gray-800/70 text-gray-600 dark:text-gray-300 hover:bg-white dark:hover:bg-gray-700 shadow-sm hover:shadow-md'
                 }
               `}
