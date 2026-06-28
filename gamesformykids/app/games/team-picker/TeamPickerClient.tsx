@@ -70,7 +70,7 @@ export default function TeamPickerClient() {
           <button
             onClick={divide}
             disabled={!namesInput.trim()}
-            className="w-full py-3 bg-gradient-to-l from-teal-500 to-cyan-500 text-white font-extrabold rounded-2xl text-lg shadow-lg hover:shadow-xl disabled:opacity-40 transition-all active:scale-95"
+            className="w-full py-3 bg-linear-to-l from-teal-500 to-cyan-500 text-white font-extrabold rounded-2xl text-lg shadow-lg hover:shadow-xl disabled:opacity-40 transition-all active:scale-95"
           >
             🎲 חלק לקבוצות!
           </button>
@@ -87,7 +87,7 @@ export default function TeamPickerClient() {
                 <h3 className={`${color.text} font-extrabold text-lg mb-3 flex items-center gap-2`}>
                   <span>{color.emoji}</span>
                   <span>קבוצה {i + 1}</span>
-                  <span className={`${color.badge} text-white text-xs px-2 py-0.5 rounded-full mr-auto`}>
+                  <span className={`${color.badge} text-white text-xs px-2 py-0.5 rounded-full me-auto`}>
                     {team.length} חברים
                   </span>
                 </h3>
@@ -108,7 +108,7 @@ export default function TeamPickerClient() {
           <div className="flex gap-3 mt-2">
             <button
               onClick={reshuffle}
-              className="flex-1 py-3 bg-gradient-to-l from-purple-500 to-pink-500 text-white font-extrabold rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
+              className="flex-1 py-3 bg-linear-to-l from-purple-500 to-pink-500 text-white font-extrabold rounded-2xl shadow-lg hover:shadow-xl transition-all active:scale-95"
             >
               🔀 ערבב שוב
             </button>

@@ -9,8 +9,8 @@ export default function BubbleShooterClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-indigo-950 flex flex-col items-center justify-center p-6 text-center">
-        <div className="text-7xl mb-4 animate-bounce">🫧</div>
+      <div className="min-h-screen bg-linear-to-br from-slate-900 to-indigo-950 flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-7xl mb-4 motion-safe:animate-bounce">🫧</div>
         <h1 className="text-4xl font-bold text-white mb-3">ירי אותיות</h1>
         <p className="text-xl text-indigo-300 mb-2">ירה בועות אל עמודות של 3 אותיות זהות!</p>
         <div className="flex gap-6 mb-8 flex-wrap justify-center">
@@ -31,7 +31,7 @@ export default function BubbleShooterClient() {
 
   if (phase === 'result') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 to-indigo-950 flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-linear-to-br from-slate-900 to-indigo-950 flex flex-col items-center justify-center p-6 text-center">
         <div className="text-7xl mb-4">{won ? '🥇' : '💥'}</div>
         <h2 className="text-4xl font-bold text-white mb-2">{won ? 'ניצחת!' : 'ניסיון טוב!'}</h2>
         <p className="text-2xl text-indigo-300 mb-8">ניקוד: {score}</p>
@@ -50,8 +50,7 @@ export default function BubbleShooterClient() {
         <span className="text-white font-bold text-lg">⭐ {score}</span>
         <span className="text-indigo-300 text-sm">הזז אצבע לכיוון וגע כדי לירות</span>
       </div>
-      <div className="relative w-full max-w-md flex-1"
-        style={{ minHeight: 520 }}
+      <div className="relative w-full max-w-md flex-1 min-h-[520px]"
         onPointerMove={handlePointer}
         onClick={handleTap}
       >

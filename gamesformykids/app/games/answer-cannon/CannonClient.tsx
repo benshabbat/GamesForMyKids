@@ -13,7 +13,7 @@ export default function CannonClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 to-blue-700 p-6 text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-900 to-blue-700 p-6 text-white">
         <div className="text-7xl mb-4">🎯</div>
         <h1 className="text-4xl font-bold mb-2">תותחן תשובות</h1>
         <p className="text-xl mb-2 text-blue-200">כוון את התותח — ירה על התשובה הנכונה!</p>
@@ -40,7 +40,7 @@ export default function CannonClient() {
     const pct = Math.round((score / Math.min(total, 20)) * 100);
     const medal = pct >= 80 ? '🥇' : pct >= 60 ? '🥈' : '🥉';
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 to-blue-700 p-6 text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-900 to-blue-700 p-6 text-white">
         <div className="text-6xl mb-4">{medal}</div>
         <h1 className="text-3xl font-bold mb-2">כל הכבוד!</h1>
         <p className="text-xl mb-6 text-blue-200">פגעת ב־{score} מטרות!</p>
@@ -86,7 +86,6 @@ export default function CannonClient() {
       <canvas
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-crosshair"
-        style={{ touchAction: 'none' }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

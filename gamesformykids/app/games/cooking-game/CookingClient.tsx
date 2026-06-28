@@ -12,7 +12,7 @@ export default function CookingClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-yellow-50 to-red-50 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-orange-50 via-yellow-50 to-red-50 flex flex-col items-center justify-center p-4">
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">👨‍🍳</div>
           <h1 className="text-4xl font-bold text-orange-800 mb-2">המטבח של ילדים</h1>
@@ -33,7 +33,7 @@ export default function CookingClient() {
         </div>
         <button
           onClick={startGame}
-          className="bg-gradient-to-r from-orange-400 to-red-400 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+          className="bg-linear-to-r from-orange-400 to-red-400 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
           בואו נבשל! 👨‍🍳
         </button>
@@ -43,7 +43,7 @@ export default function CookingClient() {
 
   if (phase === 'recipe-done') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-yellow-50 to-orange-100 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-yellow-50 to-orange-100 flex flex-col items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-xl">
           <div className="text-7xl mb-4">{recipe?.emoji}</div>
           <h2 className="text-2xl font-bold text-orange-800 mb-1">המנה מוכנה!</h2>
@@ -80,7 +80,7 @@ export default function CookingClient() {
   const progress = recipe ? `${stepIdx + 1}/${recipe.steps.length}` : '';
 
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br from-orange-50 to-yellow-50 transition-all ${wrongFlash ? 'bg-red-100' : ''}`}>
+    <div className={`min-h-screen flex flex-col bg-linear-to-br from-orange-50 to-yellow-50 transition-all ${wrongFlash ? 'bg-red-100' : ''}`}>
       <div className="flex items-center justify-between p-3 bg-white shadow-sm">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{recipe?.emoji}</span>

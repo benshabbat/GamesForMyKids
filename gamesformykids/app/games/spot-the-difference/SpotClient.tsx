@@ -9,7 +9,7 @@ export default function SpotClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-purple-50 to-pink-100 flex flex-col items-center justify-center p-4">
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">🔍</div>
           <h1 className="text-4xl font-bold text-purple-900 mb-2">מצא את ההבדל</h1>
@@ -31,7 +31,7 @@ export default function SpotClient() {
         </div>
         <button
           onClick={startGame}
-          className="bg-gradient-to-r from-purple-500 to-pink-500 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+          className="bg-linear-to-r from-purple-500 to-pink-500 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
           התחל! 🔍
         </button>
@@ -42,7 +42,7 @@ export default function SpotClient() {
   if (phase === 'result') {
     const stars = found.size >= 5 ? 3 : found.size >= 3 ? 2 : 1;
     return (
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 to-pink-100 flex flex-col items-center justify-center p-4">
+      <div className="min-h-screen bg-linear-to-br from-purple-50 to-pink-100 flex flex-col items-center justify-center p-4">
         <div className="bg-white rounded-3xl p-8 text-center max-w-sm w-full shadow-xl">
           <div className="text-5xl mb-3">{found.size >= 5 ? '🏆' : found.size >= 3 ? '🥈' : '🥉'}</div>
           <h2 className="text-2xl font-bold text-purple-900 mb-1">
@@ -87,7 +87,7 @@ export default function SpotClient() {
 
   const renderPanel = (items: string[], panel: 'A' | 'B') => (
     <div
-      className={`bg-white/80 rounded-2xl p-2 shadow-md flex-1 transition-all ${shakePanel ? 'animate-pulse' : ''}`}
+      className={`bg-white/80 rounded-2xl p-2 shadow-md flex-1 transition-colors ${shakePanel ? 'motion-safe:animate-pulse' : ''}`}
     >
       <p className="text-center text-xs text-gray-500 mb-1 font-bold">תמונה {panel === 'A' ? 'א' : 'ב'}</p>
       <div
@@ -118,7 +118,7 @@ export default function SpotClient() {
   );
 
   return (
-    <div className={`min-h-screen flex flex-col bg-gradient-to-br ${scene.bg} p-3`}>
+    <div className={`min-h-screen flex flex-col bg-linear-to-br ${scene.bg} p-3`}>
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2">
           <span className="text-2xl">{scene.emoji}</span>
@@ -138,7 +138,7 @@ export default function SpotClient() {
             {found.has(d.index) ? '✓' : i + 1}
           </div>
         ))}
-        <span className="text-sm text-purple-700 mr-1">{found.size}/5</span>
+        <span className="text-sm text-purple-700 me-1">{found.size}/5</span>
       </div>
 
       <div className="flex flex-col sm:flex-row gap-2 flex-1">

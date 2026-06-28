@@ -9,7 +9,7 @@ export default function DrumsClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 to-indigo-900 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-slate-900 to-indigo-900 p-6 text-white" dir="rtl">
         <div className="text-7xl mb-4">🥁</div>
         <h1 className="text-4xl font-bold mb-2">תופים עבריים</h1>
         <p className="text-xl mb-2 text-indigo-200">הקש בזמן הנכון לכל אות!</p>
@@ -40,7 +40,7 @@ export default function DrumsClient() {
     const pct = Math.round((score / Math.max(1, WORDS_PER_GAME * 3.5 * 30)) * 100);
     const medal = pct >= 80 ? '🥇' : pct >= 50 ? '🥈' : '🥉';
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-slate-900 to-indigo-900 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-slate-900 to-indigo-900 p-6 text-white" dir="rtl">
         <div className="text-6xl mb-4">{medal}</div>
         <h1 className="text-3xl font-bold mb-2">כל הכבוד, מתופף!</h1>
         <p className="text-xl mb-6 text-indigo-200">ניקוד סופי: {score} נקודות</p>
@@ -97,7 +97,6 @@ export default function DrumsClient() {
       <canvas
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-pointer"
-        style={{ touchAction: 'none' }}
         onPointerDown={handleTap}
       />
       <div className="text-center py-2 text-sm text-indigo-400 bg-slate-900">

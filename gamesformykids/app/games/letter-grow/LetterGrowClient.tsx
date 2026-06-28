@@ -9,7 +9,7 @@ export default function LetterGrowClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
         <div className="text-7xl mb-4">🌱</div>
         <h1 className="text-4xl font-bold mb-2">לצמוח למילה</h1>
         <p className="text-xl mb-2 text-purple-200">תפוס אותיות ותגדל למילה!</p>
@@ -33,8 +33,8 @@ export default function LetterGrowClient() {
 
   if (phase === 'evolving' && evolveInfo) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
-        <div className="animate-bounce text-8xl mb-6">{evolveInfo.emoji}</div>
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
+        <div className="motion-safe:animate-bounce text-8xl mb-6">{evolveInfo.emoji}</div>
         <div className="text-6xl font-bold mb-2 text-yellow-300">{evolveInfo.letter}</div>
         <div className="text-4xl mb-2">→</div>
         <div className="text-5xl font-bold text-green-300 mb-4">{evolveInfo.word}!</div>
@@ -52,7 +52,7 @@ export default function LetterGrowClient() {
     const pct = Math.round((score / ROUNDS_PER_GAME) * 100);
     const medal = pct >= 80 ? '🥇' : pct >= 60 ? '🥈' : '🥉';
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-indigo-950 to-purple-900 p-6 text-white" dir="rtl">
         <div className="text-6xl mb-4">{medal}</div>
         <h1 className="text-3xl font-bold mb-2">כל הכבוד!</h1>
         <p className="text-xl mb-6 text-purple-200">גידלת {score} מתוך {ROUNDS_PER_GAME} מילים!</p>

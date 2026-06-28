@@ -9,7 +9,7 @@ export default function LetterSlicerClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
         <div className="text-center mb-8">
           <div className="text-7xl mb-4">✂️</div>
           <h1 className="text-4xl font-bold text-white mb-2">חותך מילים</h1>
@@ -35,7 +35,7 @@ export default function LetterSlicerClient() {
         </div>
         <button
           onClick={() => startGame(diff)}
-          className="bg-gradient-to-r from-indigo-500 to-purple-500 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
+          className="bg-linear-to-r from-indigo-500 to-purple-500 text-white font-bold text-xl px-10 py-4 rounded-2xl shadow-lg hover:scale-105 active:scale-95 transition-all"
         >
           התחל! ✂️
         </button>
@@ -46,7 +46,7 @@ export default function LetterSlicerClient() {
   if (phase === 'result') {
     const stars = score >= 100 ? 3 : score >= 50 ? 2 : 1;
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-br from-slate-900 via-indigo-950 to-slate-900 p-4">
         <div className="bg-white/10 backdrop-blur rounded-3xl p-8 text-center max-w-sm w-full">
           <div className="text-6xl mb-4">{stars === 3 ? '🏆' : stars === 2 ? '🥈' : '🥉'}</div>
           <h2 className="text-3xl font-bold text-white mb-2">כל הכבוד!</h2>

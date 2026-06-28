@@ -10,7 +10,7 @@ export default function WordFishingClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 to-blue-700 p-6 text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-900 to-blue-700 p-6 text-white">
         <div className="text-7xl mb-4">🎣</div>
         <h1 className="text-4xl font-bold mb-2">דיג מילים</h1>
         <p className="text-xl mb-2 text-blue-200">תפוס את הדג הנכון לפי השאלה!</p>
@@ -36,7 +36,7 @@ export default function WordFishingClient() {
     const pct = Math.round((score / totalWaves) * 100);
     const medal = pct >= 80 ? '🥇' : pct >= 60 ? '🥈' : '🥉';
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-900 to-blue-700 p-6 text-white">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-900 to-blue-700 p-6 text-white">
         <div className="text-6xl mb-4">{medal}</div>
         <h1 className="text-3xl font-bold mb-2">כל הכבוד, דַּיָּג!</h1>
         <p className="text-xl mb-6 text-blue-200">תפסת {score} מתוך {totalWaves} דגים!</p>
@@ -80,7 +80,6 @@ export default function WordFishingClient() {
       <canvas
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-pointer"
-        style={{ touchAction: 'none' }}
         onPointerDown={handlePointerDown}
       />
     </div>
