@@ -28,6 +28,10 @@ export const logosSportsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מדינה",
     tip: "💡 טיפ: שים לב לצבעים!",
     tipDescription: "לכל דגל יש צבעים וסמלים ייחודיים שעוזרים לזהות את המדינה",
+    metadata: {
+      keywords: "דגלי מדינות, עולם, גאוגרפיה, מפה, מדינות, גיל 7-12, ידע כללי",
+      description: "זהו דגלי מדינות מרחבי העולם! של איזו מדינה כל דגל — גאוגרפיה לגיל 7-12.",
+    },
   },
 
   "soccer-logos": {
@@ -57,6 +61,10 @@ export const logosSportsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "קבוצה",
     tip: "💡 טיפ: שים לב לצבעים ולסמל!",
     tipDescription: "לכל קבוצה יש סמל וצבעים ייחודיים",
+    metadata: {
+      keywords: "כדורגל, ליגות, ריאל מדריד, ברצלונה, מנצ'סטר, גיל 7-13, ספורט, לוגואים",
+      description: "זהו סמלי קבוצות כדורגל מהעולם! ריאל מדריד, ברצלונה ועוד — לגיל 7-13.",
+    },
   },
 
   "car-brands": {
@@ -84,6 +92,10 @@ export const logosSportsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מותג",
     tip: "💡 טיפ: שים לב לצורת הלוגו!",
     tipDescription: "לכל מותג יש צורה וסימן ייחודיים שעוזרים לזהות אותו",
+    metadata: {
+      keywords: "מותגי מכוניות, BMW, אאודי, טויוטה, פורד, לוגואים, גיל 7-13, תחבורה",
+      description: "זהו לוגואים של מותגי מכוניות מפורסמים! BMW, טויוטה, פורד ועוד — לגיל 7-13.",
+    },
   },
 
   "tech-logos": {
@@ -111,6 +123,10 @@ export const logosSportsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חברה",
     tip: "💡 טיפ: שים לב לצורה ולצבע!",
     tipDescription: "לכל חברת טכנולוגיה יש לוגו ייחודי שקל לזהות",
+    metadata: {
+      keywords: "חברות טכנולוגיה, אפל, גוגל, מטא, מיקרוסופט, לוגואים, גיל 8-13, טק",
+      description: "זהו לוגואים של חברות טכנולוגיה ענקיות! אפל, גוגל, מטא ועוד — לגיל 8-13.",
+    },
   },
 
   "nba-teams": {
@@ -138,5 +154,9 @@ export const logosSportsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "קבוצה",
     tip: "💡 טיפ: זכור את הצבעים של כל קבוצה!",
     tipDescription: "לכל קבוצת NBA צבעים וסמל ייחודיים",
+    metadata: {
+      keywords: "NBA, כדורסל, לייקרס, בולס, גולדן סטייט, לוגואים, גיל 8-13, ספורט",
+      description: "זהו לוגואים של קבוצות NBA! לייקרס, בולס, גולדן סטייט ועוד — לגיל 8-13.",
+    },
   },
 };

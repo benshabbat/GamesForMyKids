@@ -26,6 +26,10 @@ export const cultureWorldConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "אתר",
     tip: "💡 טיפ: זכור את המדינה!",
     tipDescription: "כל אתר מפורסם קשור למדינה או עיר מסויימת",
+    metadata: {
+      keywords: "אתרים מפורסמים, פריז, אייפל, כותל, פירמידות, ניו יורק, גיל 7-12, גיאוגרפיה",
+      description: "זהו אתרים מפורסמים בעולם! מגדל אייפל, הכותל המערבי, פירמידות ועוד — לגיל 7-12.",
+    },
   },
 
   "solar-system": {
@@ -53,6 +57,10 @@ export const cultureWorldConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "גרם שמיים",
     tip: "💡 טיפ: שים לב לצבע ולגודל!",
     tipDescription: "לכל כוכב לכת צבע וגודל ייחודיים",
+    metadata: {
+      keywords: "מערכת השמש, כוכבי לכת, מאדים, שבתאי, נפטון, חלל, גיל 6-12, אסטרונומיה",
+      description: "גלו את מערכת השמש! זהו כוכבי לכת לפי מראהם — אסטרונומיה לגיל 6-12.",
+    },
   },
 
   "famous-paintings": {
@@ -80,5 +88,9 @@ export const cultureWorldConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ציור",
     tip: "💡 טיפ: זכור את הציירים הגדולים!",
     tipDescription: "כל ציור שייך לאמן גדול מהיסטוריית האמנות",
+    metadata: {
+      keywords: "ציורים מפורסמים, מונה ליזה, ון גוך, אמנות, גלריה, גיל 7-12, היסטוריית אמנות",
+      description: "זהו ציורים מפורסמים מהיסטוריית האמנות! מונה ליזה, ון גוך ועוד — לגיל 7-12.",
+    },
   },
 };

@@ -23,6 +23,10 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "ריחות, טעמים, מתוק, חמוץ, מר, ריח פרחים, חינוך חושי, גיל 3-7",
+      description: "למדו לזהות ריחות וטעמים שונים! מתוק, חמוץ, מר ועוד — חינוך חושי לגיל 3-7.",
+    },
   },
 
   medicine: {
@@ -52,6 +56,10 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי רפואי",
     tip: "💡 טיפ: תשמע את שם הכלי!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הכלים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "רפואה, תרופות, כלי רפואה, עזרה ראשונה, רופא, גיל 4-8, בריאות",
+      description: "למדו על כלי רפואה ומתן עזרה ראשונה! מדחום, תחבושת, מזרק ועוד — לגיל 4-8.",
+    },
   },
 
   "nature-sounds": {
@@ -81,6 +89,10 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "קול טבע",
     tip: "💡 טיפ: תשמע את קול הטבע!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הקולות למטה לשמוע אותם",
+    metadata: {
+      keywords: "קולות טבע, ציפורים, רוח, גשם, ים, טבע, גיל 3-7, שמיעה, צלילים",
+      description: "האזינו לקולות הטבע ובעלי החיים! זהו קולות ציפורים, רוח וים — לגיל 3-7.",
+    },
   },
 
   "road-safety": {
@@ -110,6 +122,10 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלל בטיחות",
     tip: "💡 טיפ: תשמע על הבטיחות!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הכללים למטה לשמוע עליהם",
+    metadata: {
+      keywords: "בטיחות בדרכים, כללי תנועה, רמזור, מעבר חצייה, גיל 4-8, בטיחות ילדים",
+      description: "למדו כללי בטיחות חשובים בדרכים! רמזורים, מעברי חצייה ועוד — חיוני לגיל 4-8.",
+    },
   },
 
   "personal-safety": {
@@ -139,5 +155,9 @@ export const healthSensesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "שומר בטיחות",
     tip: "💡 טיפ: הכר את אנשי הבטיחות!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב",
+    metadata: {
+      keywords: "בטיחות אישית, שמירה על עצמי, זרים, גיל 4-8, בטיחות ילדים, גבולות",
+      description: "למדו כיצד לשמור על בטיחות אישית — מי עוזר לנו, מה לעשות במצבי סכנה לגיל 4-8.",
+    },
   },
 };

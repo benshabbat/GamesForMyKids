@@ -23,6 +23,10 @@ export const socialEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "רגשות, אינטליגנציה רגשית, זיהוי רגשות, גיל 4-8, שמחה עצב כעס, חינוך רגשי",
+      description: "זהו רגשות שונים בעברית — שמחה, עצב, כעס, הפתעה ועוד! פיתוח אינטליגנציה רגשית לגיל 4-8.",
+    },
   },
 
   puzzles: {
@@ -53,6 +57,10 @@ export const socialEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "פאזל",
     tip: "💡 טיפ: התחל מהפינות והקצוות!",
     tipDescription: "חפש צבעים ודפוסים דומים כדי להרכיב את התמונה",
+    metadata: {
+      keywords: "פאזל, פאזלים לילדים, הרכבת תמונה, גיל 3-8, ריכוז, חשיבה מרחבית",
+      description: "הרכיבו פאזלים צבעוניים ומהנים! פיתוח ריכוז, חשיבה מרחבית וסבלנות לגיל 3-8.",
+    },
   },
 
   feelings: {
@@ -82,5 +90,9 @@ export const socialEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "רגש",
     tip: "💡 טיפ: תראה את הרגש!",
     tipDescription: "לחץ על הסמל למעלה כדי לראות שוב, או על הרגשות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "רגשות, זיהוי רגשות, אינטליגנציה רגשית, גיל 3-7, פנים, הבעות פנים, חינוך רגשי",
+      description: "למדו לזהות ולקרוא שמות לרגשות! שמחה, עצב, כעס, פחד — חינוך רגשי חיוני לגיל 3-7.",
+    },
   },
 };

@@ -64,6 +64,10 @@ export const animalsCreaturesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "בעל חיים ימי",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על בעלי החיים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "חיי הים, דגים, כריש, דולפין, תמנון, בעלי חיים ימיים, ים ואוקיינוס",
+      description: "גלו את עולם הים הקסום! למדו על בעלי חיים ימיים — דגים, כרישים, תמנונים ועוד לגיל 4-9.",
+    },
   },
 
   "birds": {
@@ -93,6 +97,10 @@ export const animalsCreaturesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ציפור",
     tip: "💡 טיפ: שים לב לצבעים!",
     tipDescription: "כל ציפור ייחודית בצבעיה ואורח חייה",
+    metadata: {
+      keywords: "ציפורים, עופות, נשר, תוכי, ינשוף, ציפורים בעברית, טבע, גיל 4-9",
+      description: "הכירו ציפורים מרהיבות מרחבי העולם! נשרים, תוכים, ינשופים ועוד — לגיל 4-9.",
+    },
   },
 
   "bugs-insects": {
@@ -122,5 +130,9 @@ export const animalsCreaturesConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חרק",
     tip: "💡 טיפ: שימו לב לכנפיים!",
     tipDescription: "לכל חרק סימנים ייחודיים שעוזרים לזהות אותו",
+    metadata: {
+      keywords: "חרקים, פרפרים, דבורה, נמלה, חיפושית, עולם החרקים, טבע, גיל 4-9",
+      description: "גלו את העולם הזעיר והמרתק של חרקים ופרפרים! למדו על דבורים, נמלים, פרפרים ועוד.",
+    },
   },
 };

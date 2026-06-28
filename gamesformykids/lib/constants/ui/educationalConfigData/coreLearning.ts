@@ -65,6 +65,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "אות",
     tip: "💡 טיפ: תשמע את שם האות!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על האותיות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "משחק אותיות לילדים, אלפבית עברי, לימוד אותיות, גיל 4-7, עברית, א ב ג",
+      description: "משחק אינטראקטיבי ללימוד כל 22 אותיות האלפבית העברי לילדים בגיל 4-7. שמעו את שם האות ובחרו נכון!",
+    },
   },
 
   "hebrew-script": {
@@ -130,6 +134,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "צורה",
     tip: "💡 טיפ: תשמע את שם הצורה!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצורות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "משחק צורות לילדים, לימוד צורות, גאומטריה לפעוטות, גיל 3-7, עיגול, ריבוע, משולש",
+      description: "משחק אינטראקטיבי ללימוד צורות גאומטריות לילדים בגיל 3-7. שמעו את שם הצורה ומצאו אותה!",
+    },
   },
 
   "colored-shapes": {
@@ -161,6 +169,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "צורה צבעונית",
     tip: "💡 טיפ: תשמע את שם הצורה והצבע יחד!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצורות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "צורות צבעוניות, גאומטריה, צבעים וצורות, גיל 3-7, לימוד צורות, לימוד צבעים",
+      description: "למדו צורות וצבעים יחד! משחק משולב שמזהה צורה גאומטרית עם הצבע שלה לגיל 3-7.",
+    },
   },
 
   numbers: {
@@ -192,6 +204,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מספר",
     tip: "💡 טיפ: תשמע את המספר!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על המספרים למטה לשמוע אותם",
+    metadata: {
+      keywords: "משחק מספרים לילדים, לימוד מספרים, ספירה, גיל 3-7, עברית, מתמטיקה לפעוטות",
+      description: "משחק אינטראקטיבי ללימוד מספרים 1-20 לילדים בגיל 3-7. שמעו מספר ובחרו את הכרטיס הנכון!",
+    },
   },
 
   'days-of-week': {
@@ -219,6 +235,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "יום",
     tip: "💡 טיפ: תשמע את שם היום!",
     tipDescription: "ישנם 7 ימות השבוע — מיום ראשון עד שבת",
+    metadata: {
+      keywords: "ימות השבוע, ראשון שני שלישי, לוח שנה, גיל 4-7, לימוד זמן, עברית",
+      description: "למדו את 7 ימות השבוע בעברית! ראשון, שני, שלישי... עד שבת — משחק חינוכי לגיל 4-7.",
+    },
   },
 
   'visual-opposites': {
@@ -246,6 +266,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מושג",
     tip: "💡 טיפ: כל מילה יש לה הפך!",
     tipDescription: "גדול ↔ קטן, חם ↔ קר, מהיר ↔ איטי",
+    metadata: {
+      keywords: "ניגודים, מושגי ניגוד, הפכים, גדול קטן, גיל 3-7, שפה עברית, מושגים בסיסיים",
+      description: "למדו הפכים ומושגי ניגוד בעברית! גדול/קטן, חם/קר, מהיר/איטי — מרחיב אוצר מילים לגיל 3-7.",
+    },
   },
 
   'english-cards': {
@@ -273,6 +297,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מילה",
     tip: "💡 טיפ: תשמע את המילה האנגלית!",
     tipDescription: "אנגלית היא שפה חשובה מאוד ללמוד",
+    metadata: {
+      keywords: "אנגלית ראשונה, מילים באנגלית, לימוד אנגלית, גיל 4-7, שפה שניה, אנגלית לפעוטות",
+      description: "שמעו מילה באנגלית ובחרו את התמונה הנכונה! לימוד מילים ראשונות באנגלית לגיל 4-7.",
+    },
   },
 
   'spatial-concepts': {
@@ -300,6 +328,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מושג",
     tip: "💡 טיפ: שים לב לכיוון!",
     tipDescription: "מושגי מרחב עוזרים לנו לתאר היכן נמצאים עצמים",
+    metadata: {
+      keywords: "מושגי מרחב, למעלה למטה, שמאל ימין, מיקום, גיל 3-6, חינוך מרחבי, כיוונים",
+      description: "למדו מושגי מרחב ומיקום — למעלה/למטה, שמאל/ימין, לפנים/מאחור! חיוני לגיל 3-6.",
+    },
   },
 
   'number-words': {
@@ -327,6 +359,10 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מספר",
     tip: "💡 טיפ: שמע את שם המספר בעברית!",
     tipDescription: "בעברית כותבים מספרים כמילים — אחד, שתיים, שלוש...",
+    metadata: {
+      keywords: "מספרים כמילים, אחד שתיים שלוש, לימוד מספרים, גיל 5-8, כתיבת מספרים, עברית",
+      description: "למדו לקרוא ולכתוב מספרים כמילים בעברית — אחד, שתיים, שלוש... עד עשרה ומעבר לזה!",
+    },
   },
 
   'months-of-year': {
@@ -354,5 +390,9 @@ export const coreLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חודש",
     tip: "💡 טיפ: תשמע את שם החודש!",
     tipDescription: "ישנם 12 חודשים בשנה — מינואר עד דצמבר",
+    metadata: {
+      keywords: "חודשי השנה, ינואר פברואר מרץ, לוח שנה, גיל 4-7, לימוד זמן, עברית",
+      description: "למדו את 12 חודשי השנה בעברית! ינואר עד דצמבר — משחק חינוכי מהנה לגיל 4-7.",
+    },
   },
 };

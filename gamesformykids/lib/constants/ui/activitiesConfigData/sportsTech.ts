@@ -28,6 +28,10 @@ export const sportsTechConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ספורט",
     tip: "💡 טיפ: תשמע את שם הספורט!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הספורט למטה לשמוע את השמות",
+    metadata: {
+      keywords: "ספורט, כדורגל, כדורסל, שחייה, ספורטאים, גיל 4-9, פעילות גופנית",
+      description: "למדו על ענפי ספורט שונים בעברית! כדורגל, כדורסל, שחייה ועוד — לגיל 4-9.",
+    },
   },
 
   "cooking-kitchen": {
@@ -57,6 +61,10 @@ export const sportsTechConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי מטבח",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על כלי המטבח למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מטבח, כלי בישול, סיר, מחבת, מאפה, בישול, גיל 4-8, מטבח לילדים",
+      description: "למדו על כלי מטבח ובישול בעברית! מחבת, סיר, מזלג ועוד — חינוך בבית המטבח לגיל 4-8.",
+    },
   },
 
   "circus-show": {
@@ -86,5 +94,9 @@ export const sportsTechConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "אומן קרקס",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על האומנים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "קרקס, ליצן, אקרובט, חיות קרקס, מופע, גיל 4-8, אמנים, הצגה",
+      description: "הצטרפו למופע הקרקס המרהיב! ליצנים, אקרובטים, חיות ועוד — לגיל 4-8.",
+    },
   },
 };
