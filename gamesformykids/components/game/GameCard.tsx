@@ -105,7 +105,7 @@ export default function GameCard({ game, animationDelay }: GameCardProps) {
         aria-label={`${game.title} — בקרוב`}
         aria-disabled="true"
       >
-        <div className="absolute inset-0 bg-gray-400 bg-opacity-50 rounded-2xl md:rounded-3xl flex items-center justify-center" aria-hidden="true">
+        <div className="absolute inset-0 bg-gray-400/50 rounded-2xl md:rounded-3xl flex items-center justify-center" aria-hidden="true">
           <span className="text-white text-sm md:text-base lg:text-xl font-bold">בקרוב!</span>
         </div>
         <div className="text-center text-white">
