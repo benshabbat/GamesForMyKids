@@ -21,7 +21,7 @@ export default function SpeedBurstTimer({ gameType }: Props) {
                 style={{ width: `${pct}%` }}
               />
             </div>
-            <span className={`tabular-nums w-6 text-center ${timeLeft <= 10 ? 'text-red-400 animate-pulse' : ''}`}>
+            <span className={`tabular-nums w-6 text-center ${timeLeft <= 10 ? 'text-red-400 motion-safe:animate-pulse' : ''}`}>
               {timeLeft}
             </span>
           </div>

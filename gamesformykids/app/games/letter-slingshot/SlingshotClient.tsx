@@ -9,7 +9,7 @@ export default function SlingshotClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-200 to-blue-400 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-200 to-blue-400 p-6 text-white" dir="rtl">
         <div className="text-7xl mb-4">🎯</div>
         <h1 className="text-4xl font-bold mb-2 text-blue-900">קלע אותיות</h1>
         <p className="text-xl mb-2 text-blue-800">קלע לקופסה עם המילה הנכונה!</p>
@@ -35,7 +35,7 @@ export default function SlingshotClient() {
     const pct = Math.round((score / (LEVELS_PER_GAME * 10)) * 100);
     const medal = pct >= 80 ? '🥇' : pct >= 50 ? '🥈' : '🥉';
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-blue-200 to-blue-400 p-6 text-white" dir="rtl">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-linear-to-b from-blue-200 to-blue-400 p-6 text-white" dir="rtl">
         <div className="text-6xl mb-4">{medal}</div>
         <h1 className="text-3xl font-bold mb-2 text-blue-900">כל הכבוד, קלעי!</h1>
         <p className="text-xl mb-6 text-blue-800">ניקוד: {score} מתוך {LEVELS_PER_GAME * 10}</p>
@@ -82,7 +82,7 @@ export default function SlingshotClient() {
       <canvas
         ref={canvasRef}
         className="flex-1 w-full touch-none"
-        style={{ touchAction: 'none', cursor: phase === 'aiming' ? 'crosshair' : 'default' }}
+        style={{ cursor: phase === 'aiming' ? 'crosshair' : 'default' }}
         onPointerDown={handlePointerDown}
         onPointerMove={handlePointerMove}
         onPointerUp={handlePointerUp}

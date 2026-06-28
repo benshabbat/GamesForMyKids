@@ -11,8 +11,8 @@ export default function DressUpClient() {
 
   if (phase === 'menu') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center justify-center p-6 text-center">
-        <div className="text-8xl mb-4 animate-bounce">👗</div>
+      <div className="min-h-screen bg-linear-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center justify-center p-6 text-center">
+        <div className="text-8xl mb-4 motion-safe:animate-bounce">👗</div>
         <h1 className="text-4xl font-bold text-purple-800 mb-3">לבוש את הדמות</h1>
         <p className="text-xl text-purple-600 mb-2">הקשב לשם הבגד ובחר את הנכון!</p>
         <div className="flex gap-4 text-lg text-purple-500 mb-8 flex-wrap justify-center">
@@ -35,7 +35,7 @@ export default function DressUpClient() {
     const medal = pct === 100 ? '🥇' : pct >= 75 ? '🥈' : pct >= 50 ? '🥉' : '⭐';
     const msg = pct === 100 ? 'מושלם! לבשת הכל נכון!' : pct >= 75 ? 'כל הכבוד!' : pct >= 50 ? 'יפה מאוד!' : 'נסה שוב!';
     return (
-      <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center justify-center p-6 text-center">
+      <div className="min-h-screen bg-linear-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center justify-center p-6 text-center">
         <div className="text-8xl mb-4">{medal}</div>
         <h2 className="text-4xl font-bold text-purple-800 mb-2">{msg}</h2>
         <p className="text-2xl text-purple-600 mb-6">{score} מתוך {QUESTIONS_PER_GAME} נכון</p>
@@ -65,7 +65,7 @@ export default function DressUpClient() {
 
   // Playing phase
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center p-4" dir="rtl">
+    <div className="min-h-screen bg-linear-to-br from-pink-100 via-purple-50 to-purple-200 flex flex-col items-center p-4" dir="rtl">
       <div className="w-full max-w-md flex justify-between items-center mb-4 pt-2">
         <span className="bg-white rounded-full px-4 py-1 text-purple-700 font-bold text-lg shadow">
           {qIdx + 1} / {QUESTIONS_PER_GAME}
@@ -81,8 +81,8 @@ export default function DressUpClient() {
           <div className="flex flex-col gap-2 items-center">
             {ZONE_ORDER.map(zone => (
               <div key={zone} className="flex items-center gap-2">
-                <span className="text-xs text-gray-400 w-12 text-left">{ZONE_LABEL[zone]}</span>
-                <div className={`w-14 h-12 flex items-center justify-center rounded-xl border-2 transition-all ${
+                <span className="text-xs text-gray-400 w-12 text-start">{ZONE_LABEL[zone]}</span>
+                <div className={`w-14 h-12 flex items-center justify-center rounded-xl border-2 transition-colors ${
                   dressed[zone]
                     ? 'border-purple-300 bg-purple-50'
                     : 'border-dashed border-gray-200 bg-gray-50'
@@ -113,7 +113,7 @@ export default function DressUpClient() {
           <span>{current?.prompt}</span>
         </button>
         {feedback === 'correct' && (
-          <p className="text-green-600 font-bold mt-2 text-lg animate-bounce">✅ כן! {current?.hebrew}!</p>
+          <p className="text-green-600 font-bold mt-2 text-lg motion-safe:animate-bounce">✅ כן! {current?.hebrew}!</p>
         )}
         {feedback === 'wrong' && (
           <p className="text-red-500 font-bold mt-2">❌ לא נכון, נסה שוב!</p>
@@ -126,7 +126,7 @@ export default function DressUpClient() {
             key={item.name}
             onClick={() => selectAnswer(item)}
             disabled={feedback === 'correct'}
-            className={`bg-white rounded-2xl shadow-md p-4 flex flex-col items-center gap-2 border-2 transition-all active:scale-95 ${
+            className={`bg-white rounded-2xl shadow-md p-4 flex flex-col items-center gap-2 border-2 transition active:scale-95 ${
               feedback === 'correct' && item.name === current?.name
                 ? 'border-green-500 bg-green-50 scale-105'
                 : feedback === 'wrong' && item.name === current?.name
