@@ -30,6 +30,10 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מזג אוויר",
     tip: "💡 טיפ: תשמע את מזג האוויר!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על מזגי האוויר למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מזג אוויר, שמש גשם שלג, חינוך סביבתי, גיל 3-7, עונות השנה, קור חום",
+      description: "למדו על מזג האוויר בעברית! שמש, גשם, שלג, עננים — משחק חינוכי לגיל 3-7.",
+    },
   },
 
   space: {
@@ -53,6 +57,10 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
+    },
+    metadata: {
+      keywords: "חלל, כוכבים, שמש ירח, פלנטות, גיל 5-10, אסטרונומיה, עולם החלל",
+      description: "חקרו את החלל והכוכבים! שמש, ירח, פלנטות ואסטרואידים — אסטרונומיה לגיל 5-10.",
     },
   },
 
@@ -83,6 +91,10 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "דינוזאור",
     tip: "💡 טיפ: תשמע את שם הדינוזאור!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הדינוזאורים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "דינוזאורים, טי-רקס, ברכיוזאורוס, טריצרטופס, פרהיסטוריה, גיל 4-9",
+      description: "למדו על דינוזאורים מדהימים! טי-רקס, ברכיוזאורוס ועוד — פרהיסטוריה כיפית לגיל 4-9.",
+    },
   },
 
   recycling: {
@@ -112,6 +124,10 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חומר למיחזור",
     tip: "💡 טיפ: תשמע איך למחזר!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על החומרים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מיחזור, הגנת הסביבה, קיימות, זבל וניצול, גיל 4-9, ירוק, סביבה",
+      description: "למדו על מיחזור וחשיבות שמירה על הסביבה! פלסטיק, נייר, זכוכית — חינוך סביבתי.",
+    },
   },
 
   "climate-planet": {
@@ -141,6 +157,10 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מקום",
     tip: "💡 טיפ: חשוב על האקלים!",
     tipDescription: "חשוב איך מרגיש האקלים במקום הזה, ואז בחר",
+    metadata: {
+      keywords: "אקלים, כדור הארץ, יבשות, מדבר, טרופי, סביבה, גיל 6-10, שינויי אקלים",
+      description: "גלו יבשות, אוקיינוסים ואזורי אקלים שונים בכדור הארץ! גאוגרפיה סביבתית לגיל 6-10.",
+    },
   },
 
   "camping": {
@@ -170,5 +190,9 @@ export const environmentConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ציוד",
     tip: "💡 טיפ: תתכונן היטב!",
     tipDescription: "ציוד טיול נכון יכול להציל חיים ולהפוך הרפתקאה לבטוחה",
+    metadata: {
+      keywords: "טיול, שטח, ציוד, אוהל, גיל 5-10, הרפתקאות, טבע, טיולים",
+      description: "הכינו ציוד לטיול בטבע! אוהל, שקי שינה, מצפן ועוד — לימוד ציוד הרפתקאות לגיל 5-10.",
+    },
   },
 };

@@ -26,6 +26,10 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: 'מדינה',
     tip: '💡 טיפ: שים לב לצבעים ולסמלים!',
     tipDescription: 'לכל דגל יש צבעים וסמלים ייחודיים שעוזרים לזהות את המדינה',
+    metadata: {
+      keywords: "דגלי מדינות, גאוגרפיה, מדינות עולם, ישראל, גיל 7-12, דגלים, מפה",
+      description: "למדו לזהות דגלי מדינות! לאיזו מדינה שייך כל דגל — גאוגרפיה לגיל 7-12.",
+    },
   },
 
   'geography-capitals': {
@@ -53,6 +57,10 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: 'בירה',
     tip: '💡 טיפ: זכור בירות של מדינות מפורסמות!',
     tipDescription: 'כל מדינה יש לה בירה אחת — העיר הראשית שבה ממוקמת הממשלה',
+    metadata: {
+      keywords: "בירות עולם, ירושלים, פריז, לונדון, ברלין, גיל 8-13, גאוגרפיה, ערים",
+      description: "למדו בירות העולם! מה הבירה של כל מדינה — גאוגרפיה מתקדמת לגיל 8-13.",
+    },
   },
 
   'geography-continents': {
@@ -80,5 +88,9 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: 'יבשת',
     tip: '💡 טיפ: יש 5 יבשות עיקריות!',
     tipDescription: 'אירופה, אסיה, אמריקה, אפריקה ואוקיאניה',
+    metadata: {
+      keywords: "יבשות, אירופה, אסיה, אמריקה, אפריקה, אוקיאניה, גיל 8-13, גאוגרפיה",
+      description: "למדו את יבשות העולם! באיזו יבשת נמצאת כל מדינה — גאוגרפיה לגיל 8-13.",
+    },
   },
 };

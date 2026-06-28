@@ -30,6 +30,10 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי תחבורה",
     tip: "💡 טיפ: תשמע את שם כלי התחבורה!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על כלי התחבורה למטה לשמוע את השמות",
+    metadata: {
+      keywords: "כלי תחבורה, מכונית, אוטובוס, רכבת, מטוס, ספינה, גיל 3-7, תחבורה",
+      description: "גלו כלי רכב מהיבשה, הים והאוויר! אוטובוס, רכבת, מטוס ועוד — לגיל 3-7.",
+    },
   },
 
   clothing: {
@@ -61,6 +65,10 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "בגד",
     tip: "💡 טיפ: תשמע את שם הבגד!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הבגדים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "בגדים, לבוש, חולצה, מכנסיים, שמלה, מעיל, אופנה, גיל 3-7",
+      description: "למדו פריטי לבוש בעברית — חולצה, מכנסיים, שמלה ועוד! משחק לגיל 3-7.",
+    },
   },
 
   house: {
@@ -84,6 +92,10 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
+    },
+    metadata: {
+      keywords: "חפצי בית, רהיטים, כיסא, שולחן, מיטה, ספה, ציוד, גיל 3-7",
+      description: "גלו חפצים בבית בעברית! כיסא, שולחן, מיטה, ספה ועוד — משחק לגיל 3-7.",
     },
   },
 
@@ -109,6 +121,10 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "כלי עבודה, פטיש, מברג, מסור, רנצ'לה, תיקון, גיל 4-8, כלים",
+      description: "למדו כלי עבודה בעברית! פטיש, מברג, מסור ועוד — משחק מעשי לגיל 4-8.",
+    },
   },
 
   vehicles: {
@@ -132,6 +148,10 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
+    },
+    metadata: {
+      keywords: "כלי רכב, משאית, אופנוע, טרקטור, רכב, גיל 3-7, תחבורה כבדה",
+      description: "למדו כלי רכב מגוונים בעברית! משאית, אופנוע, טרקטור ועוד — לגיל 3-7.",
     },
   },
 
@@ -162,5 +182,9 @@ export const objectsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי מטבח",
     tip: "💡 טיפ: תשמע את שם הכלי!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הכלים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "כלי מטבח, סיר, מחבת, מזלג, כף, בישול, גיל 3-7, מטבח לילדים",
+      description: "למדו כלי מטבח בעברית! סיר, מחבת, מזלג ועוד — הכנה למטבח לגיל 3-7.",
+    },
   },
 };

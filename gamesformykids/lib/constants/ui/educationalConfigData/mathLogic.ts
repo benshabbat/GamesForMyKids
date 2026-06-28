@@ -23,6 +23,10 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-4 md:grid-cols-5 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "ספירה לילדים, לימוד ספירה, מספרים, גיל 2-6, מתמטיקה לפעוטות, כמה יש",
+      description: "משחק ספירה אינטראקטיבי לפעוטות! למדו לספור מ-1 עד 10 דרך שמיעה ובחירה נכונה לגיל 2-6.",
+    },
   },
 
   math: {
@@ -47,6 +51,10 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "חשבון לילדים, חיבור חיסור, מתמטיקה, גיל 5-9, תרגול חשבון, משחק מתמטיקה",
+      description: "משחק מתמטיקה אינטראקטיבי — פתרו תרגילי חיבור וחיסור דרך שמיעה ובחירה! לגיל 5-9.",
+    },
   },
 
   memory: {
@@ -70,6 +78,10 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
     grid: {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
     },
+    metadata: {
+      keywords: "משחק זיכרון, זוגות, כרטיסי זיכרון, גיל 4-9, ריכוז, זיכרון חזותי",
+      description: "משחק זיכרון קלאסי עם חיות! מצאו זוגות תואמים ופתחו זיכרון וריכוז לגיל 4-9.",
+    },
   },
 
   bubbles: {
@@ -92,6 +104,10 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
     },
     grid: {
       className: "flex flex-wrap justify-center gap-4",
+    },
+    metadata: {
+      keywords: "בועות, פיצוץ בועות, ריכוז, גיל 3-8, תגובה מהירה, כיפי, בועות מוזיקליות",
+      description: "פוצצו בועות מוזיקליות! משחק כיפי לפיתוח ריכוז ומהירות תגובה לגיל 3-8.",
     },
   },
 
@@ -123,5 +139,9 @@ export const mathLogicConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מספר סודרי",
     tip: "💡 טיפ: ראשון = 1, שני = 2, שלישי = 3",
     tipDescription: "מספרים סודריים מתארים סדר — מי ראשון, מי שני...",
+    metadata: {
+      keywords: "מספרים סודריים, ראשון שני שלישי, סדר, גיל 5-8, מתמטיקה, לימוד סדר",
+      description: "למדו מספרים סודריים בעברית — ראשון, שני, שלישי עד עשירי! חיוני לגיל 5-8.",
+    },
   },
 };

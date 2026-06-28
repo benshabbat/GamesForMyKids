@@ -26,6 +26,10 @@ export const natureAnimalsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "גזע כלב",
     tip: "💡 טיפ: שים לב לגודל ולצורת הגוף!",
     tipDescription: "לכל גזע כלב מראה וגוף ייחודיים",
+    metadata: {
+      keywords: "גזעי כלבים, לברדור, פודל, גרמני, חיות מחמד, גיל 6-12, ידע על כלבים",
+      description: "זהו גזעי כלבים מרחבי העולם! לברדור, פודל, גרמני ועוד — לגיל 6-12.",
+    },
   },
 
   "cat-breeds": {
@@ -53,6 +57,10 @@ export const natureAnimalsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "גזע חתול",
     tip: "💡 טיפ: שים לב לצורת הפנים ולפרווה!",
     tipDescription: "לכל גזע חתול מראה פרווה וגוף ייחודיים",
+    metadata: {
+      keywords: "גזעי חתולים, סיאמי, פרסי, רגדול, חיות מחמד, גיל 6-12, ידע על חתולים",
+      description: "זהו גזעי חתולים מרחבי העולם! סיאמי, פרסי, רגדול ועוד — לגיל 6-12.",
+    },
   },
 
   "exotic-birds": {
@@ -80,6 +88,10 @@ export const natureAnimalsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ציפור",
     tip: "💡 טיפ: שים לב לצבע ולצורת הגוף!",
     tipDescription: "לכל ציפור צבעים ותכונות ייחודיות",
+    metadata: {
+      keywords: "ציפורים אקזוטיות, טוקן, פלמינגו, ציפור גן עדן, עולם בעלי החיים, גיל 6-12",
+      description: "זהו ציפורים אקזוטיות ומרהיבות מסביב העולם! פלמינגו, טוקן ועוד — לגיל 6-12.",
+    },
   },
 
   "butterflies": {
@@ -107,5 +119,9 @@ export const natureAnimalsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "פרפר",
     tip: "💡 טיפ: שים לב לצבע ולצורת הכנפיים!",
     tipDescription: "לכל פרפר כנפיים בצבעים ודוגמאות ייחודיים",
+    metadata: {
+      keywords: "פרפרים, חרקים, כנפיים, צבעים, טבע, גיל 5-11, אנטומולוגיה, יצורי טבע",
+      description: "זהו פרפרים צבעוניים מרחבי העולם! שימו לב לכנפיים ולדוגמאות — לגיל 5-11.",
+    },
   },
 };

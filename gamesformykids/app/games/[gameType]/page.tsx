@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from 'next';
 import dynamic from 'next/dynamic';
-import { generateGameMetadata } from '@/lib/utils/game/gameMetadata';
+import { generateGameMetadata, buildGameJsonLd } from '@/lib/utils/game/gameMetadata';
 import { GameTypeProvider } from '@/lib/providers';
 import { UltimateGamePage, GameLogicSync, GameEngagementSync } from '@/components/game/universal';
 import { type GamePageParams, CUSTOM_GAME_TYPES } from './gamePageConstants';
@@ -28,9 +28,24 @@ export default async function UniversalGamePage({ params }: PageProps) {
 
   if (!isSupportedGame(actualGameType)) notFound();
 
+  const meta = generateGameMetadata(actualGameType, gameType);
+  const jsonLd = buildGameJsonLd(
+    actualGameType,
+    typeof meta.title === 'string' ? meta.title : String(meta.title ?? ''),
+    typeof meta.description === 'string' ? meta.description : '',
+  );
+
+  const jsonLdScript = (
+    <script
+      type="application/ld+json"
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  );
+
   if (CUSTOM_GAME_TYPES.has(actualGameType)) {
     return (
       <>
+        {jsonLdScript}
         <CustomGameRenderer gameType={actualGameType} />
         <RelatedGames gameType={actualGameType} />
         <QRButton gameType={actualGameType} />
@@ -42,6 +57,7 @@ export default async function UniversalGamePage({ params }: PageProps) {
 
   return (
     <>
+      {jsonLdScript}
       <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
         <GameLogicSync />
         <GameEngagementSync />

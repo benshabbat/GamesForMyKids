@@ -28,6 +28,10 @@ export const fantasyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "דמות אגדה",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הדמויות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "אגדות קסמים, פיות, דרקונים, מכשפות, קסם, גיל 4-8, עולם הפנטזיה",
+      description: "היכנסו לעולם הקסמים והאגדות! פיות, דרקונים, נסיכות ועוד — דמיון וקריאה לגיל 4-8.",
+    },
   },
 
   "space-adventure": {
@@ -57,6 +61,10 @@ export const fantasyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "עצם חלל",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על עצמי החלל למטה לשמוע את השמות",
+    metadata: {
+      keywords: "חלל, כוכבי לכת, חללית, גלקסיה, חקר חלל, גיל 5-10, אסטרונומיה לילדים",
+      description: "טוסו לחלל וגלו כוכבי לכת וכוכבים! חללית, גלקסיה ועוד — לגיל 5-10.",
+    },
   },
 
   "superheroes": {
@@ -86,6 +94,10 @@ export const fantasyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כוח",
     tip: "💡 טיפ: חשוב על הסמל!",
     tipDescription: "לכל כוח יש סמל ייחודי שעוזר לזהות אותו",
+    metadata: {
+      keywords: "גיבורי על, כוחות על, ספרמן, ספיידרמן, גיל 5-10, גיבורים, קסמים",
+      description: "למדו על גיבורי על וכוחות מדהימים! זהו כל גיבור לפי הכוח שלו — לגיל 5-10.",
+    },
   },
 
   "fairy-tale-chars": {
@@ -115,5 +127,9 @@ export const fantasyConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "דמות",
     tip: "💡 טיפ: זכור את האגדות!",
     tipDescription: "כל דמות מגיעה מאגדה מסוימת עם כוחות ייחודיים",
+    metadata: {
+      keywords: "דמויות אגדה, נסיכות, עלבה שלגייה, כיפה אדומה, אגדות ילדים, גיל 4-8",
+      description: "גלו דמויות קסומות מאגדות מרתקות! נסיכות, אגמונים, גמדים ועוד — לגיל 4-8.",
+    },
   },
 };

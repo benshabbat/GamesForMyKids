@@ -28,6 +28,10 @@ export const timeLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "עונה או חג",
     tip: "💡 טיפ: תשמע על העונה או החג!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על העונות והחגים למטה לשמוע עליהם",
+    metadata: {
+      keywords: "עונות השנה, חגים, אביב, קיץ, סתיו, חורף, ראש השנה, פסח, גיל 3-7",
+      description: "למדו עונות השנה והחגים בעברית! אביב, קיץ, ראש השנה, פסח ועוד — לגיל 3-7.",
+    },
   },
 
   "coins-match": {
@@ -58,7 +62,7 @@ export const timeLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     tip: "💡 טיפ: תשמע את שם המטבע!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב",
     metadata: {
-      keywords: "מטבעות ישראל שקל אגורה כסף כלכלה",
+      keywords: "מטבעות ישראל, שקל, אגורה, כסף, כלכלה, גיל 5-9, חינוך פיננסי",
       description: "למד לזהות מטבעות ישראליים — עשרה אגורות, חמישים אגורות, שקל, שני שקלים, חמישה שקלים, עשרה שקלים",
     },
   },
@@ -90,5 +94,9 @@ export const timeLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "פריט לקניה",
     tip: "💡 טיפ: תשמע את המחיר!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הפריטים למטה לשמוע את המחירים",
+    metadata: {
+      keywords: "קניות, כסף, מחיר, שקל, עודף, חנות, גיל 5-9, חינוך פיננסי, ניהול כסף",
+      description: "למדו על קניות וניהול כסף! מחירים, תשלום ועודף — חינוך פיננסי לגיל 5-9.",
+    },
   },
 };

@@ -29,6 +29,10 @@ export const foodPlantsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "פרי",
     tip: "💡 טיפ: תשמע את שם הפרי הטעים!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הפירות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "פירות, תפוח, בננה, תות, תפוז, אבטיח, פירות בעברית, תזונה, גיל 2-7",
+      description: "למדו פירות בעברית דרך שמיעה ובחירה! תפוח, בננה, תות ועוד — לגיל 2-7.",
+    },
   },
 
   vegetables: {
@@ -60,6 +64,10 @@ export const foodPlantsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "ירק",
     tip: "💡 טיפ: תשמע את שם הירק הבריא!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הירקות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "ירקות, גזר, עגבנייה, מלפפון, חסה, ירקות בריאים, תזונה, גיל 2-7",
+      description: "למדו ירקות בריאים בעברית! גזר, עגבנייה, מלפפון ועוד — חינוך תזונתי לגיל 2-7.",
+    },
   },
 
   "garden-plants": {
@@ -89,6 +97,10 @@ export const foodPlantsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "צמח או פרח",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצמחים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "פרחים, צמחים, גינה, ורד, חמנייה, טבע, גיל 3-7, גינון, צמחי גן",
+      description: "למדו על פרחים וצמחים יפים! ורד, חמנייה, ציפורן ועוד — טבע וגינון לגיל 3-7.",
+    },
   },
 
   "world-food": {
@@ -118,5 +130,9 @@ export const foodPlantsConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מאכל",
     tip: "💡 טיפ: תשמע את שם המאכל!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על המאכלים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מזון מסביב לעולם, פיצה, סושי, תמות, אוכל בינלאומי, תרבויות, גיל 5-10",
+      description: "הכירו מאכלים מתרבויות שונות ברחבי העולם! פיצה, סושי, תמות ועוד — לגיל 5-10.",
+    },
   },
 };

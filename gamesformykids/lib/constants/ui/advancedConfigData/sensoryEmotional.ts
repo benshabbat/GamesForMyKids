@@ -28,6 +28,10 @@ export const sensoryEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "קול",
     tip: "💡 טיפ: תקשיב בעיון לקול!",
     tipDescription: "חקה את הקול שאתה שומע ואז בחר את התמונה המתאימה",
+    metadata: {
+      keywords: "קולות, רעשים, חיקוי קולות, צלילים, שמיעה, גיל 3-7, חינוך חושי",
+      description: "חקו קולות ורעשים מהסביבה! ציפורים, מכוניות, ים ועוד — חינוך חושי לגיל 3-7.",
+    },
   },
 
   "touch-senses": {
@@ -57,6 +61,10 @@ export const sensoryEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חוש",
     tip: "💡 טיפ: השתמש בדמיון!",
     tipDescription: "דמיין איך זה מרגיש, נשמע או נראה, ואז בחר",
+    metadata: {
+      keywords: "חושים, מגע, מרקם, חם, קר, רך, קשה, גיל 3-7, חינוך חושי, תחושות",
+      description: "חקרו עולם המגע והחושים! חם, קר, רך, קשה ועוד — פיתוח חושי לגיל 3-7.",
+    },
   },
 
   "emotional-social": {
@@ -86,5 +94,9 @@ export const sensoryEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "רגש",
     tip: "💡 טיפ: תחבר לרגש שלך!",
     tipDescription: "חשוב על זמן שהרגשת כך, ואז בחר את הרגש המתאים",
+    metadata: {
+      keywords: "אינטליגנציה רגשית, רגשות, חברות, אמפתיה, גיל 5-10, כישורים חברתיים",
+      description: "פתחו אינטליגנציה רגשית וחברתית! שמחה, עצב, אמפתיה ועוד — לגיל 5-10.",
+    },
   },
 };

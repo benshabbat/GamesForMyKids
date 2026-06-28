@@ -23,6 +23,10 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "כלי נגינה, מוזיקה לילדים, גיטרה, כינור, תופים, חצוצרה, חינוך מוזיקלי",
+      description: "למדו כלי נגינה בעברית — גיטרה, פסנתר, חצוצרה ועוד! מוזיקה חינוכית לגיל 4-9.",
+    },
   },
 
   building: {
@@ -53,6 +57,10 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי בנייה",
     tip: "💡 טיפ: גרור כדי להזיז, לחץ פעמיים לסיבוב!",
     tipDescription: "השתמש בכלים השונים ליצירת יצירות קסומות",
+    metadata: {
+      keywords: "בנייה, צורות, יצירה, גיל 4-8, סטודיו, בניה ויצירה, עיצוב",
+      description: "בנו יצירות קסומות עם צורות צבעוניות! סטודיו בנייה יצירתי לפיתוח דמיון וחשיבה לגיל 4-8.",
+    },
   },
 
   tetris: {
@@ -85,6 +93,10 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חלק טטריס",
     tip: "💡 טיפ: נסה לחשוב איך לסדר החלקים מראש!",
     tipDescription: "השתמש בחיצי המקלדת או בכפתורי המגע לשלטון",
+    metadata: {
+      keywords: "טטריס, ארקייד, חשיבה מרחבית, גיל 7-12, לבנות, ריכוז, משחק קלאסי",
+      description: "טטריס לילדים — הפילו לבנות ומלאו שורות! ארקייד קלאסי לפיתוח חשיבה מרחבית.",
+    },
   },
 
   "art-craft": {
@@ -114,5 +126,9 @@ export const creativeConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "כלי",
     tip: "💡 טיפ: למד ליצור!",
     tipDescription: "כלי אמנות שונים יוצרים אפקטים ויצירות שונות",
+    metadata: {
+      keywords: "אמנות ויצירה, כלי אמנות, צביעה, גיל 4-9, יצירתיות, ציור, אמנות ילדים",
+      description: "הכירו כלי אמנות וצרו יצירות מדהימות! עפרון, מכחול, מספריים ועוד — לגיל 4-9.",
+    },
   },
 };

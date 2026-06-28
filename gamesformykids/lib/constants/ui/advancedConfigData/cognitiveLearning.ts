@@ -28,6 +28,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "טכנולוגיה",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הטכנולוגיות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מציאות מדומה, VR, טכנולוגיה, מחשב, גיל 7-12, עתיד, חדשנות טכנולוגית",
+      description: "גלו עולם הטכנולוגיה המתקדמת! מציאות מדומה, בינה מלאכותית ועוד — לגיל 7-12.",
+    },
   },
 
   "new-professions": {
@@ -57,6 +61,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "מקצוע",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על המקצועות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מקצועות עתיד, מתכנת, אסטרונאוט, מדען, גיל 7-12, קריירה, מקצועות מודרניים",
+      description: "למדו על מקצועות העתיד המרתקים! מתכנת, אסטרונאוט, מדען ועוד — לגיל 7-12.",
+    },
   },
 
   "advanced-weather": {
@@ -86,6 +94,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "תופעת מזג אוויר",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על התופעות למטה לשמוע את השמות",
+    metadata: {
+      keywords: "מזג אוויר מתקדם, סופת ברקים, הוריקן, ברד, אקלים, גיל 7-12, תופעות טבע",
+      description: "גלו תופעות מזג אוויר קיצוניות ומרהיבות! ברקים, הוריקן, ברד ועוד — לגיל 7-12.",
+    },
   },
 
   "advanced-colors": {
@@ -115,6 +127,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "צבע",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על הצבעים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "צבעים מתקדמים, גוונים, טורקיז, לילך, שנהב, אמנות, גיל 5-10, ציור",
+      description: "למדו גוונים וצבעים מיוחדים! טורקיז, לילך, קורל ועוד — העשרת אוצר הצבע לגיל 5-10.",
+    },
   },
 
   "jewish-holidays": {
@@ -144,6 +160,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חג יהודי",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על החגים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "חגים יהודיים, ראש השנה, יום כיפור, פסח, חנוכה, פורים, סוכות, גיל 4-10",
+      description: "למדו חגים יהודיים מיוחדים! ראש השנה, פסח, חנוכה ועוד — מסורת ישראלית לגיל 4-10.",
+    },
   },
 
   "logic-games": {
@@ -173,6 +193,10 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "משחק לוגיקה",
     tip: "💡 טיפ: תשמע את השם!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על המשחקים למטה לשמוע את השמות",
+    metadata: {
+      keywords: "לוגיקה, חשיבה ביקורתית, שח, פאזל, אסטרטגיה, גיל 6-12, חידות לוגיות",
+      description: "פתחו חשיבה לוגית ואסטרטגית! שח, פאזלים, חידות ועוד — לגיל 6-12.",
+    },
   },
 
   "time-clock": {
@@ -202,5 +226,9 @@ export const cognitiveLearningConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "זמן",
     tip: "💡 טיפ: חשוב על היום שלך!",
     tipDescription: "חשוב מה אתה עושה בזמנים שונים ביום, ואז בחר",
+    metadata: {
+      keywords: "שעות היום, זמן, בוקר, צהריים, ערב, לילה, שעון, גיל 5-9, לוח זמנים",
+      description: "למדו על שעות היום ומושגי זמן! בוקר, צהריים, ערב ולילה — לגיל 5-9.",
+    },
   },
 };

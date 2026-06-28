@@ -23,6 +23,10 @@ export const peopleConfigs: Partial<Record<string, GameUIConfig>> = {
       className: "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto",
       showSpeaker: false,
     },
+    metadata: {
+      keywords: "מקצועות, רופא, מורה, כבאי, שוטר, אחות, גיל 4-8, תפקידים, עבודות",
+      description: "למדו מקצועות ותפקידים בעברית! רופא, מורה, כבאי ועוד — עולם העבודה לגיל 4-8.",
+    },
   },
 
   "body-parts": {
@@ -52,6 +56,10 @@ export const peopleConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "חלק גוף",
     tip: "💡 טיפ: תשמע את שם חלק הגוף!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על חלקי הגוף למטה לשמוע את השמות",
+    metadata: {
+      keywords: "חלקי גוף, ראש, ידיים, רגליים, עיניים, אוזניים, גיל 2-6, אנטומיה לילדים",
+      description: "למדו חלקי גוף בעברית! ראש, ידיים, רגליים, עיניים ועוד — לגיל 2-6.",
+    },
   },
 
   family: {
@@ -81,6 +89,10 @@ export const peopleConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "בן משפחה",
     tip: "💡 טיפ: תשמע את שם בן המשפחה!",
     tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על בני המשפחה למטה לשמוע את השמות",
+    metadata: {
+      keywords: "משפחה, אמא, אבא, אח, אחות, סבא, סבתא, גיל 2-6, קשרי משפחה",
+      description: "למדו על בני המשפחה בעברית! אמא, אבא, סבא, סבתא ועוד — לגיל 2-6.",
+    },
   },
 
   "body-movements": {
@@ -110,5 +122,9 @@ export const peopleConfigs: Partial<Record<string, GameUIConfig>> = {
     itemLabel: "תנועה",
     tip: "💡 טיפ: תזוז בבטחה!",
     tipDescription: "בצע את התנועה בזהירות ובחר את התנועה שביצעת",
+    metadata: {
+      keywords: "תנועות גוף, ריקוד, כפיפות בטן, קפיצה, התמתחות, גיל 3-7, פעילות גופנית לילדים",
+      description: "למדו תנועות גוף וריקוד בעברית! זהו תנועות שונות ובצעו אותן — לגיל 3-7.",
+    },
   },
 };
