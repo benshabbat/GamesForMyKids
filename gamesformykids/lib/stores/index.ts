@@ -24,7 +24,6 @@ export type { Notification, NotificationType } from './uiStore';
 
 // Game Type
 export { useGameTypeStore } from './gameTypeStore';
-export type { GameTypeState } from './gameTypeStore';
 
 // Game Progress
 export { useGameProgressStore } from './gameProgressStore';

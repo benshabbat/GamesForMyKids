@@ -27,10 +27,10 @@ export const NATURE_QUESTIONS: NatureQuestion[] = [
   { id: 15, category: 'צמחים',    emoji: '🌺', question: 'מה פונקציית העלים של הצמח?',                       answers: ['הגנה', 'פוטוסינתזה', 'נשיאת מזון', 'רבייה'],  correctIndex: 1, funFact: 'פוטוסינתזה היא התהליך שבו צמחים מייצרים אוכל מאור שמש!' },
 ];
 
-export const CATEGORIES = ['הכל', 'בעלי חיים', 'צמחים', 'מזג אוויר', 'חלל', 'מים'] as const;
-export type NatureCategory = (typeof CATEGORIES)[number];
+export const NATURE_CATEGORIES = ['הכל', 'בעלי חיים', 'צמחים', 'מזג אוויר', 'חלל', 'מים'] as const;
+export type NatureCategory = (typeof NATURE_CATEGORIES)[number];
 
-export const CATEGORY_COLORS: Record<NatureCategory, string> = {
+export const NATURE_CATEGORY_COLORS: Record<NatureCategory, string> = {
   'הכל':       'bg-green-600 text-white',
   'בעלי חיים': 'bg-amber-500 text-white',
   'צמחים':     'bg-emerald-500 text-white',

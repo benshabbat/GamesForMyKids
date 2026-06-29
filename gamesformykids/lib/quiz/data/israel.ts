@@ -27,10 +27,10 @@ export const ISRAEL_QUESTIONS: IsraelQuestion[] = [
   { id: 15, category: 'היסטוריה',  emoji: '🕍', question: 'מי כתב את "מדינת היהודים"?',                               answers: ['חיים ויצמן', 'דוד בן גוריון', 'תאודור הרצל', 'זאב ז\'בוטינסקי'], correctIndex: 2, funFact: 'הרצל כתב את הספר ב-1896 בוינה' },
 ];
 
-export const CATEGORIES = ['הכל', 'גאוגרפיה', 'היסטוריה', 'תרבות', 'טבע', 'ערים'] as const;
-export type IsraelCategory = typeof CATEGORIES[number];
+export const ISRAEL_CATEGORIES = ['הכל', 'גאוגרפיה', 'היסטוריה', 'תרבות', 'טבע', 'ערים'] as const;
+export type IsraelCategory = typeof ISRAEL_CATEGORIES[number];
 
-export const CATEGORY_COLORS: Record<IsraelCategory, string> = {
+export const ISRAEL_CATEGORY_COLORS: Record<IsraelCategory, string> = {
   'הכל':      'bg-blue-600 text-white',
   'גאוגרפיה': 'bg-teal-500 text-white',
   'היסטוריה': 'bg-amber-500 text-white',

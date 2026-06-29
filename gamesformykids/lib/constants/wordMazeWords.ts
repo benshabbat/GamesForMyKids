@@ -4,4 +4,4 @@ export const MAZE_WORDS = {
   hard:   ['ספריה', 'שמחה', 'ילדים', 'חיוך', 'כובע', 'שוקו', 'כלבים'],
 } as const;
 
-export type DifficultyLevel = keyof typeof MAZE_WORDS;
+export type MazeDifficulty = keyof typeof MAZE_WORDS;

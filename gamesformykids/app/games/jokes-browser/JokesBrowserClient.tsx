@@ -1,6 +1,6 @@
 'use client';
 import { useJokesBrowser } from './useJokesBrowser';
-import { CATEGORY_LABELS, CATEGORY_COLORS, type JokeCategory } from '@/lib/constants/jokes';
+import { JOKE_CATEGORY_LABELS, JOKE_CATEGORY_COLORS, type JokeCategory } from '@/lib/constants/jokes';
 
 const CATEGORIES: JokeCategory[] = ['animals', 'school', 'food'];
 
@@ -22,8 +22,8 @@ export default function JokesBrowserClient() {
           <div className="space-y-3">
             {CATEGORIES.map((cat) => (
               <button key={cat} onClick={() => selectCategory(cat)}
-                className={`w-full bg-linear-to-br ${CATEGORY_COLORS[cat]} text-white font-bold py-4 rounded-2xl shadow-lg text-xl active:scale-95 transition-transform`}>
-                {CATEGORY_LABELS[cat]}
+                className={`w-full bg-linear-to-br ${JOKE_CATEGORY_COLORS[cat]} text-white font-bold py-4 rounded-2xl shadow-lg text-xl active:scale-95 transition-transform`}>
+                {JOKE_CATEGORY_LABELS[cat]}
               </button>
             ))}
           </div>

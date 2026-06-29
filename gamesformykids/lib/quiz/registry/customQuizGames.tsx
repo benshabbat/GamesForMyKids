@@ -29,9 +29,9 @@ import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
 // Category data constants needed synchronously in render props
 import type { TriviaCatCategory, TriviaCatDifficulty } from '@/lib/quiz/data/trivia-categories';
 import type { NatureCategory } from '@/lib/quiz/data/nature';
-import { CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
+import { NATURE_CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
-import { CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
+import { ISRAEL_CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
 import QuizGameSkeleton from '@/components/ui/QuizGameSkeleton';
 

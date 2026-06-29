@@ -1,6 +1,6 @@
 'use client';
 import type { NatureCategory } from '@/lib/quiz/data/nature';
-import { CATEGORIES, CATEGORY_COLORS } from '@/lib/quiz/data/nature';
+import { NATURE_CATEGORIES, NATURE_CATEGORY_COLORS } from '@/lib/quiz/data/nature';
 import QuizCategoryMenuScreen from '@/components/game/quiz/QuizCategoryMenuScreen';
 
 interface Props {
@@ -15,8 +15,8 @@ export default function NatureMenuScreen({ onStart }: Props) {
       emoji="🌱"
       title="עולם הטבע"
       description="בחר קטגוריה ולמד על הטבע!"
-      categories={CATEGORIES}
-      categoryClassName={cat => `py-3 rounded-xl font-bold text-sm transition-opacity shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
+      categories={NATURE_CATEGORIES}
+      categoryClassName={cat => `py-3 rounded-xl font-bold text-sm transition-opacity shadow hover:opacity-90 ${NATURE_CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
       onStart={onStart}
     />
   );

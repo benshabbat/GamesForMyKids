@@ -7,5 +7,3 @@
 // ===== טיפוסי UI מרכזיים =====
 export * from './core';        // ButtonProps, ModalProps, וכו'
 
-// ===== תאימות לאחור =====
-// export * from './legacy';   // רק במידת הצורך

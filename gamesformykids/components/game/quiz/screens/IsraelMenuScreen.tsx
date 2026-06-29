@@ -1,6 +1,6 @@
 'use client';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
-import { CATEGORIES, CATEGORY_COLORS } from '@/lib/quiz/data/israel';
+import { ISRAEL_CATEGORIES, ISRAEL_CATEGORY_COLORS } from '@/lib/quiz/data/israel';
 import QuizCategoryMenuScreen from '@/components/game/quiz/QuizCategoryMenuScreen';
 
 interface Props {
@@ -15,8 +15,8 @@ export default function IsraelMenuScreen({ onStart }: Props) {
       emoji="🇮🇱"
       title="ישראל שלי"
       description="בחר קטגוריה ובחן את הידע שלך!"
-      categories={CATEGORIES}
-      categoryClassName={cat => `py-3 px-2 rounded-xl font-bold text-sm transition-opacity shadow hover:opacity-90 ${CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
+      categories={ISRAEL_CATEGORIES}
+      categoryClassName={cat => `py-3 px-2 rounded-xl font-bold text-sm transition-opacity shadow hover:opacity-90 ${ISRAEL_CATEGORY_COLORS[cat] ?? 'bg-gray-400 text-white'}`}
       onStart={onStart}
     />
   );

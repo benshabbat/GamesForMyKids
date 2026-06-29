@@ -31,5 +31,5 @@ export const ENGLISH_WORDS: EnglishWord[] = [
   { id: 20, category: 'מספרים',  emoji: '⭐', hebrew: 'כוכב',     english: 'star',     wrongOptions: ['moon', 'sun', 'sky'] },
 ];
 
-export const CATEGORIES = ['הכל', 'חיות', 'אוכל', 'גוף', 'בית', 'צבעים', 'מספרים'] as const;
-export type EnglishCategory = typeof CATEGORIES[number];
+export const ENGLISH_CATEGORIES = ['הכל', 'חיות', 'אוכל', 'גוף', 'בית', 'צבעים', 'מספרים'] as const;
+export type EnglishCategory = typeof ENGLISH_CATEGORIES[number];

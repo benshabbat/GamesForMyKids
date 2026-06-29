@@ -1,6 +1,6 @@
 'use client';
 import { useState, useCallback, useRef, useEffect } from 'react';
-import { MAZE_WORDS, type DifficultyLevel } from '@/lib/constants/wordMazeWords';
+import { MAZE_WORDS, type MazeDifficulty } from '@/lib/constants/wordMazeWords';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 
 export const GRID_SIZE = 13;
@@ -78,7 +78,7 @@ export function useWordMaze() {
   const [targetWord, setTargetWord] = useState('');
   const [nextLetterIndex, setNextLetterIndex] = useState(0);
   const [score, setScore] = useState(0);
-  const [level, setLevel] = useState<DifficultyLevel>('easy');
+  const [level, setLevel] = useState<MazeDifficulty>('easy');
   const [wordsCompleted, setWordsCompleted] = useState(0);
   const [bouncing, setBouncing] = useState(false);
 
@@ -89,7 +89,7 @@ export function useWordMaze() {
   const targetWordRef = useRef('');
   const phaseRef = useRef<Phase>('menu');
 
-  const startGame = useCallback((lvl?: DifficultyLevel) => {
+  const startGame = useCallback((lvl?: MazeDifficulty) => {
     const actualLevel = lvl ?? level;
     const wordList = MAZE_WORDS[actualLevel];
     const word = wordList[Math.floor(Math.random() * wordList.length)] ?? wordList[0] ?? '';
@@ -167,7 +167,7 @@ export function useWordMaze() {
   }, [movePlayer]);
 
   const nextLevel = useCallback(() => {
-    const nextLvl: DifficultyLevel = level === 'easy' ? 'medium' : level === 'medium' ? 'hard' : 'easy';
+    const nextLvl: MazeDifficulty = level === 'easy' ? 'medium' : level === 'medium' ? 'hard' : 'easy';
     setLevel(nextLvl);
     startGame(nextLvl);
   }, [level, startGame]);

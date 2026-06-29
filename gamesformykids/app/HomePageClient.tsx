@@ -20,7 +20,7 @@ import JokeOfTheDay from "@/components/marketing/JokeOfTheDay";
 import FactOfTheDay from "@/components/marketing/FactOfTheDay";
 import RiddleOfTheDay from "@/components/marketing/RiddleOfTheDay";
 import CategoryJumpBar from "@/components/marketing/CategoryJumpBar";
-import ContentTypeTabBar, { type ContentType } from "@/components/marketing/ContentTypeTabBar";
+import ContentTypeTabBar, { type TabContentType } from "@/components/marketing/ContentTypeTabBar";
 import ContentTypeGrid from "@/components/marketing/ContentTypeGrid";
 import HolidayLane from "@/components/marketing/HolidayLane";
 import ChildProfileSwitcher from "@/components/marketing/ChildProfileSwitcher";
@@ -30,7 +30,7 @@ const SESSION_KEY = 'home-content-tab';
 
 export default function HomePageClient() {
   const { isLoading, shouldShowLoader, handleLoadingComplete } = useHomePage();
-  const [activeTab, setActiveTab] = useState<ContentType>('games');
+  const [activeTab, setActiveTab] = useState<TabContentType>('games');
 
   useEffect(() => {
     const saved = sessionStorage.getItem(SESSION_KEY);
@@ -39,7 +39,7 @@ export default function HomePageClient() {
     }
   }, []);
 
-  function handleTabChange(tab: ContentType) {
+  function handleTabChange(tab: TabContentType) {
     setActiveTab(tab);
     sessionStorage.setItem(SESSION_KEY, tab);
   }
