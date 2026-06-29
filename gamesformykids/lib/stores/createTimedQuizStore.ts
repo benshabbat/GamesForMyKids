@@ -25,98 +25,83 @@ interface TimedQuizActions<Level> {
   startGame: (level: Level) => void;
   selectAnswer: (val: number) => void;
   advance: () => void;
+  tick: () => void;
   goMenu: () => void;
 }
 
 export function createTimedQuizStore<Level, Question extends { answer: number }>(
   config: TimedQuizConfig<Level, Question>
 ) {
-  let timerRef: ReturnType<typeof setInterval> | null = null;
+  const useStore = makeStore<TimedQuizState<Level, Question> & TimedQuizActions<Level>>('TimedQuizStore', (set, get) => ({
+    phase: 'menu',
+    level: config.initialLevel,
+    question: null,
+    questionNum: 0,
+    score: 0,
+    correct: 0,
+    selected: null,
+    isCorrect: null,
+    timeLeft: config.timePerQuestion,
 
-  function clearTimer() {
-    if (timerRef) { clearInterval(timerRef); timerRef = null; }
-  }
+    startGame: (lv: Level) => {
+      set({
+        phase: 'playing',
+        level: lv,
+        question: config.generateQuestion(lv),
+        questionNum: 0,
+        score: 0,
+        correct: 0,
+        selected: null,
+        isCorrect: null,
+        timeLeft: config.timePerQuestion,
+      });
+    },
 
-  const useStore = makeStore<TimedQuizState<Level, Question> & TimedQuizActions<Level>>('TimedQuizStore', (set, get) => {
-    function startTimer() {
-      clearTimer();
-      if (typeof window === 'undefined') return;
-      timerRef = setInterval(() => {
-        const { timeLeft, selected } = get();
-        if (selected !== null) { clearTimer(); return; }
-        if (timeLeft <= 1) {
-          clearTimer();
-          set({ selected: -1, isCorrect: false, timeLeft: 0 });
-        } else {
-          set({ timeLeft: timeLeft - 1 });
-        }
-      }, 1000);
-    }
+    selectAnswer: (val: number) => {
+      const { selected, question, timeLeft, score, correct } = get();
+      if (selected !== null || !question) return;
+      const ok = val === question.answer;
+      set({
+        selected: val,
+        isCorrect: ok,
+        score: ok ? config.calcScore(score, timeLeft) : score,
+        correct: ok ? correct + 1 : correct,
+      });
+    },
 
-    return {
-      phase: 'menu',
-      level: config.initialLevel,
-      question: null,
-      questionNum: 0,
-      score: 0,
-      correct: 0,
-      selected: null,
-      isCorrect: null,
-      timeLeft: config.timePerQuestion,
-
-      startGame: (lv: Level) => {
-        clearTimer();
+    advance: () => {
+      const { questionNum, level } = get();
+      const next = questionNum + 1;
+      if (next >= config.questionsPerGame) {
+        set({ phase: 'result' });
+      } else {
         set({
-          phase: 'playing',
-          level: lv,
-          question: config.generateQuestion(lv),
-          questionNum: 0,
-          score: 0,
-          correct: 0,
+          questionNum: next,
+          question: config.generateQuestion(level),
           selected: null,
           isCorrect: null,
           timeLeft: config.timePerQuestion,
         });
-        startTimer();
-      },
+      }
+    },
 
-      selectAnswer: (val: number) => {
-        const { selected, question, timeLeft, score, correct } = get();
-        if (selected !== null || !question) return;
-        clearTimer();
-        const ok = val === question.answer;
-        set({
-          selected: val,
-          isCorrect: ok,
-          score: ok ? config.calcScore(score, timeLeft) : score,
-          correct: ok ? correct + 1 : correct,
-        });
-      },
+    tick: () => {
+      const { timeLeft, selected, phase } = get();
+      if (phase !== 'playing' || selected !== null) return;
+      if (timeLeft <= 1) {
+        set({ selected: -1, isCorrect: false, timeLeft: 0 });
+      } else {
+        set({ timeLeft: timeLeft - 1 });
+      }
+    },
 
-      advance: () => {
-        const { questionNum, level } = get();
-        const next = questionNum + 1;
-        if (next >= config.questionsPerGame) {
-          clearTimer();
-          set({ phase: 'result' });
-        } else {
-          set({
-            questionNum: next,
-            question: config.generateQuestion(level),
-            selected: null,
-            isCorrect: null,
-            timeLeft: config.timePerQuestion,
-          });
-          startTimer();
-        }
-      },
+    goMenu: () => {
+      set({ phase: 'menu' });
+    },
+  }));
 
-      goMenu: () => {
-        clearTimer();
-        set({ phase: 'menu' });
-      },
-    };
-  });
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  const stopTimer = () => {};
 
-  return { useStore, stopTimer: clearTimer };
+  return { useStore, stopTimer };
 }

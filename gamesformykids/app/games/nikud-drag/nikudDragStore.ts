@@ -9,12 +9,14 @@ interface NikudDragState {
   score: number;
   feedback: 'correct' | 'wrong' | null;
   shuffledOptions: NikudOption[];
+  autoAdvance: boolean;
 }
 
 interface NikudDragActions {
   startGame: () => void;
   selectNikud: (nikudId: string) => void;
   nextQuestion: () => void;
+  clearFeedback: () => void;
   reset: () => void;
 }
 
@@ -29,6 +31,7 @@ export const useNikudDragStore = create<NikudDragState & NikudDragActions>((set,
   score: 0,
   feedback: null,
   shuffledOptions: shuffleOptions(),
+  autoAdvance: false,
 
   startGame: () => {
     const questions = [...NIKUD_QUESTIONS].sort(() => Math.random() - 0.5).slice(0, 10);
@@ -39,6 +42,7 @@ export const useNikudDragStore = create<NikudDragState & NikudDragActions>((set,
       score: 0,
       feedback: null,
       shuffledOptions: shuffleOptions(),
+      autoAdvance: false,
     });
   },
 
@@ -49,26 +53,24 @@ export const useNikudDragStore = create<NikudDragState & NikudDragActions>((set,
     if (!question) return;
 
     const isCorrect = nikudId === question.targetNikudId;
-    set({ feedback: isCorrect ? 'correct' : 'wrong', score: isCorrect ? score + 1 : score });
-
-    setTimeout(() => {
-      if (isCorrect) {
-        get().nextQuestion();
-      } else {
-        set({ feedback: null });
-      }
-    }, 1000);
+    set({
+      feedback: isCorrect ? 'correct' : 'wrong',
+      score: isCorrect ? score + 1 : score,
+      autoAdvance: isCorrect,
+    });
   },
 
   nextQuestion: () => {
     const { questions, questionIndex } = get();
     const next = questionIndex + 1;
     if (next >= questions.length) {
-      set({ phase: 'result', feedback: null });
+      set({ phase: 'result', feedback: null, autoAdvance: false });
       return;
     }
-    set({ questionIndex: next, feedback: null, shuffledOptions: shuffleOptions() });
+    set({ questionIndex: next, feedback: null, shuffledOptions: shuffleOptions(), autoAdvance: false });
   },
+
+  clearFeedback: () => set({ feedback: null }),
 
   reset: () => set({
     phase: 'idle',
@@ -77,5 +79,6 @@ export const useNikudDragStore = create<NikudDragState & NikudDragActions>((set,
     score: 0,
     feedback: null,
     shuffledOptions: shuffleOptions(),
+    autoAdvance: false,
   }),
 }));
