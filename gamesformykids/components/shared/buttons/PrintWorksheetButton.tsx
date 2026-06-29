@@ -29,10 +29,9 @@ function buildWorksheetHtml(items: BaseGameItem[], title: string): string {
   <meta charset="UTF-8">
   <title>דף עבודה — ${safeTitle}</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;700&display=swap');
     * { box-sizing: border-box; }
     body {
-      font-family: 'Rubik', Arial, sans-serif;
+      font-family: Rubik, 'Segoe UI', Arial, sans-serif;
       direction: rtl;
       margin: 0;
       padding: 20px;
