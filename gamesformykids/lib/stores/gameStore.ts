@@ -13,7 +13,6 @@ import { makePersistStore } from './createStore';
 export interface ActiveGameState {
   /** סוג המשחק הפעיל כרגע (null = לא במשחק) */
   gameType: string | null;
-  isPlaying: boolean;
   score: number;
   level: number;
   /** חותמת זמן התחלת המשחק (ms) */
@@ -43,7 +42,6 @@ export interface GameActions {
 
 const INITIAL_ACTIVE: ActiveGameState = {
   gameType: null,
-  isPlaying: false,
   score: 0,
   level: 1,
   startedAt: null,
@@ -67,7 +65,7 @@ export const useGameStore = makePersistStore<ActiveGameState & GameStats & GameA
 
     startGame: (gameType) =>
       set(
-        { gameType, isPlaying: true, score: 0, level: 1, startedAt: Date.now() },
+        { gameType, score: 0, level: 1, startedAt: Date.now() },
         false,
         'game/startGame'
       ),

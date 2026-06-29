@@ -71,8 +71,7 @@ export const useFindInSceneStore = create<State & Actions>((set, get) => ({
     } else {
       set({ wrongId: objectId });
       setTimeout(() => {
-        const { wrongId } = useFindInSceneStore.getState();
-        if (wrongId === objectId) useFindInSceneStore.setState({ wrongId: null });
+        if (get().wrongId === objectId) set({ wrongId: null });
       }, 600);
       return 'wrong';
     }
@@ -89,6 +88,15 @@ export const useFindInSceneStore = create<State & Actions>((set, get) => ({
   },
 
   resetGame: () => {
-    set({ phase: 'menu', foundIds: new Set(), wrongId: null, timeLeft: 60, score: 0 });
+    set({
+      phase: 'menu',
+      scene: INITIAL_SCENE,
+      prompt: INITIAL_PROMPT,
+      targetIds: buildTargetIds(INITIAL_SCENE, INITIAL_PROMPT),
+      foundIds: new Set(),
+      wrongId: null,
+      timeLeft: 60,
+      score: 0,
+    });
   },
 }));

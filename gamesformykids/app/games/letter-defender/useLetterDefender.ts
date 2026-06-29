@@ -12,7 +12,8 @@ export function useLetterDefender() {
   const targetWord     = useLetterDefenderStore(s => s.targetWord);
   const enemies        = useLetterDefenderStore(s => s.enemies);
   const enemiesToSpawn = useLetterDefenderStore(s => s.enemiesToSpawn);
-  const { tick, spawnNext, advanceWave } = useLetterDefenderStore();
+  const lastShotCount  = useLetterDefenderStore(s => s.lastShotCount);
+  const { tick, spawnNext, pruneDying, advanceWave } = useLetterDefenderStore();
 
   // TTS: announce target word at start of each wave
   useEffect(() => {
@@ -36,6 +37,13 @@ export function useLetterDefender() {
     }, SPAWN_MS);
     return () => clearInterval(id);
   }, [phase, enemiesToSpawn, spawnNext]);
+
+  // Remove dying enemies after their death animation (600 ms)
+  useEffect(() => {
+    if (lastShotCount === 0) return;
+    const id = setTimeout(pruneDying, 600);
+    return () => clearTimeout(id);
+  }, [lastShotCount, pruneDying]);
 
   // Wave completion: all enemies dead and none left to spawn
   useEffect(() => {
