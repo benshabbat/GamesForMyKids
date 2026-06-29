@@ -1,6 +1,6 @@
 'use client';
 import type { BodyCategory } from '@/lib/quiz/data/body';
-import { BODY_CATEGORIES, CATEGORY_GRADIENT_COLORS, CATEGORY_LABELS } from '@/lib/quiz/data/body';
+import { BODY_CATEGORIES, CATEGORY_GRADIENT_COLORS, BODY_CATEGORY_LABELS } from '@/lib/quiz/data/body';
 import QuizCategoryMenuScreen from '@/components/game/quiz/QuizCategoryMenuScreen';
 
 interface Props {
@@ -18,7 +18,7 @@ export default function HumanBodyMenuScreen({ onStart }: Props) {
       description="גלה את הפלאות של גוף האדם!"
       categories={BODY_CATEGORIES}
       categoryClassName={cat => `py-3 px-4 rounded-xl font-bold text-white shadow-md active:scale-95 transition-transform bg-gradient-to-r ${CATEGORY_GRADIENT_COLORS[cat] ?? 'from-gray-400 to-gray-600'} ${cat === 'הכל' ? 'col-span-2' : ''}`}
-      categoryLabel={cat => CATEGORY_LABELS[cat]}
+      categoryLabel={cat => BODY_CATEGORY_LABELS[cat]}
       gridCols={2}
       onStart={onStart}
     />

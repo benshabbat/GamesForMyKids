@@ -40,7 +40,7 @@ export const TRIVIA_QUESTIONS: TriviaQuestion[] = [
   { id: 'g4', category: 'גוף האדם', question: 'כמה שיניים יש לאדם בוגר?', answers: ['20', '28-32', '40', '16'], correctIndex: 1, funFact: 'שיניות חלב הן 20, שיניות קבועות הן 32 (כולל בינה)!' },
 ];
 
-export const CATEGORIES: TriviaCategory[] = ['טבע', 'מדע', 'היסטוריה', 'חלל', 'בעלי חיים', 'גוף האדם'];
-export const CATEGORY_EMOJIS: Record<TriviaCategory, string> = {
+export const TRIVIA_CATEGORIES: TriviaCategory[] = ['טבע', 'מדע', 'היסטוריה', 'חלל', 'בעלי חיים', 'גוף האדם'];
+export const TRIVIA_CATEGORY_EMOJIS: Record<TriviaCategory, string> = {
   'טבע': '🌿', 'מדע': '🔬', 'היסטוריה': '📜', 'חלל': '🚀', 'בעלי חיים': '🐘', 'גוף האדם': '🫀'
 };

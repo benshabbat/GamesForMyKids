@@ -3,7 +3,7 @@ import { useState } from 'react';
 import {
   TRIVIA_CAT_CATEGORIES,
   TRIVIA_CAT_DIFFICULTIES,
-  CATEGORY_EMOJIS,
+  TRIVIA_CAT_CATEGORY_EMOJIS,
   DIFFICULTY_EMOJIS,
   DIFFICULTY_COLORS,
   type TriviaCatCategory,
@@ -31,7 +31,7 @@ export default function TriviaCategoryPicker({ onStart }: Props) {
                 onClick={() => setSelectedCategory(cat)}
                 className="flex flex-col items-center gap-2 p-4 rounded-2xl border-2 border-amber-200 hover:border-amber-400 hover:bg-amber-50 transition-[border-color,background-color,transform] active:scale-95 bg-white"
               >
-                <span className="text-3xl">{CATEGORY_EMOJIS[cat]}</span>
+                <span className="text-3xl">{TRIVIA_CAT_CATEGORY_EMOJIS[cat]}</span>
                 <span className="font-bold text-gray-700">{cat}</span>
               </button>
             ))}
@@ -50,7 +50,7 @@ export default function TriviaCategoryPicker({ onStart }: Props) {
         >
           ← חזרה לנושאים
         </button>
-        <div className="text-5xl mb-3">{CATEGORY_EMOJIS[selectedCategory]}</div>
+        <div className="text-5xl mb-3">{TRIVIA_CAT_CATEGORY_EMOJIS[selectedCategory]}</div>
         <h2 className="text-2xl font-bold text-amber-800 mb-2">{selectedCategory}</h2>
         <p className="text-amber-600 mb-6">בחר רמת קושי:</p>
         <div className="flex flex-col gap-3">

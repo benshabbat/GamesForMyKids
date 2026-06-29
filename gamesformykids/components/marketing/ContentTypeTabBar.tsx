@@ -1,8 +1,8 @@
 'use client';
 
-export type ContentType = 'games' | 'creative' | 'riddles' | 'tools';
+export type TabContentType = 'games' | 'creative' | 'riddles' | 'tools';
 
-const TABS: { id: ContentType; label: string; emoji: string; color: string }[] = [
+const TABS: { id: TabContentType; label: string; emoji: string; color: string }[] = [
   { id: 'games',    label: 'משחקים', emoji: '🎮', color: 'from-blue-500 to-indigo-600' },
   { id: 'creative', label: 'יצירה',  emoji: '🎨', color: 'from-pink-500 to-purple-600' },
   { id: 'riddles',  label: 'חידות',  emoji: '🤣', color: 'from-yellow-500 to-orange-500' },
@@ -10,11 +10,11 @@ const TABS: { id: ContentType; label: string; emoji: string; color: string }[] =
 ];
 
 interface Props {
-  active: ContentType;
-  onChange: (tab: ContentType) => void;
+  active: TabContentType;
+  onChange: (tab: TabContentType) => void;
 }
 
-export default function ContentTypeTabBar({ active, onChange }: Props) {
+export default function TabContentTypeTabBar({ active, onChange }: Props) {
   return (
     <div className="max-w-6xl mx-auto px-4 py-4" dir="rtl">
       <div className="flex gap-2 overflow-x-auto pb-1 scrollbar-none">

@@ -1,9 +1,9 @@
 'use client';
 import { useWordMaze } from './useWordMaze';
 import WordMazeCanvas from './components/WordMazeCanvas';
-import type { DifficultyLevel } from '@/lib/constants/wordMazeWords';
+import type { MazeDifficulty } from '@/lib/constants/wordMazeWords';
 
-const LEVEL_LABELS: Record<DifficultyLevel, string> = {
+const LEVEL_LABELS: Record<MazeDifficulty, string> = {
   easy: 'קל (3 אותיות)',
   medium: 'בינוני (4 אותיות)',
   hard: 'קשה (5 אותיות)',
@@ -28,7 +28,7 @@ export default function WordMazeClient() {
           <h1 className="text-3xl font-extrabold text-amber-800">מבוך מילים</h1>
           <p className="text-gray-600">נווט במבוך ואסוף אותיות בסדר הנכון כדי לאיית מילה!</p>
           <div className="space-y-3">
-            {(['easy', 'medium', 'hard'] as DifficultyLevel[]).map((lvl) => (
+            {(['easy', 'medium', 'hard'] as MazeDifficulty[]).map((lvl) => (
               <button key={lvl} onClick={() => startGame(lvl)}
                 className="w-full bg-linear-to-br from-amber-400 to-orange-500 text-white font-bold py-3 rounded-2xl shadow-lg active:scale-95 transition-transform">
                 {LEVEL_LABELS[lvl]}

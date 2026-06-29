@@ -98,13 +98,13 @@ export const JOKES: Joke[] = [
   { id: 80, category: 'school',  emoji: '🔦', setup: 'למה הפנס הביא מטריה לבית ספר?',      punchline: 'כי שמע שיהיה מבחן ב׳אור׳! ☔' },
 ];
 
-export const CATEGORY_LABELS: Record<JokeCategory, string> = {
+export const JOKE_CATEGORY_LABELS: Record<JokeCategory, string> = {
   animals: '🐾 בעלי חיים',
   school:  '📚 בית ספר',
   food:    '🍕 אוכל',
 };
 
-export const CATEGORY_COLORS: Record<JokeCategory, string> = {
+export const JOKE_CATEGORY_COLORS: Record<JokeCategory, string> = {
   animals: 'from-green-400 to-emerald-500',
   school:  'from-blue-400 to-indigo-500',
   food:    'from-orange-400 to-amber-500',

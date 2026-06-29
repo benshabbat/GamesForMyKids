@@ -1,6 +1,6 @@
 'use client';
 import { QuizQuestionShell } from '@/components/game/quiz';
-import { CATEGORY_EMOJIS, DIFFICULTY_EMOJIS, type TriviaCatQuestion, type TriviaCatDifficulty } from '@/lib/quiz/data/trivia-categories';
+import { TRIVIA_CAT_CATEGORY_EMOJIS, DIFFICULTY_EMOJIS, type TriviaCatQuestion, type TriviaCatDifficulty } from '@/lib/quiz/data/trivia-categories';
 
 interface Props {
   current: TriviaCatQuestion;
@@ -25,7 +25,7 @@ export default function TriviaCategoriesQuestion({ current, choices, correctLabe
     >
       <div className="flex items-center justify-between mb-2">
         <span className="text-sm font-bold text-amber-700">
-          {CATEGORY_EMOJIS[current.category]} {current.category}
+          {TRIVIA_CAT_CATEGORY_EMOJIS[current.category]} {current.category}
         </span>
         <div className="flex items-center gap-2">
           <span className="text-xs text-amber-600">{DIFFICULTY_EMOJIS[difficulty]}</span>

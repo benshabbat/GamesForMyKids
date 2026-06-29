@@ -39,7 +39,7 @@ export const CATEGORY_GRADIENT_COLORS: Partial<Record<BodyCategory, string>> = {
   'איברים פנימיים': 'from-red-400 to-red-600',
 };
 
-export const CATEGORY_LABELS: Record<BodyCategory, string> = {
+export const BODY_CATEGORY_LABELS: Record<BodyCategory, string> = {
   'הכל':            '🦴 הכל',
   'ראש':            '🧠 ראש',
   'גוף':            '💪 גוף',

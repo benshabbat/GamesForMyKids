@@ -130,7 +130,7 @@ export const TRIVIA_CAT_QUESTIONS: TriviaCatQuestion[] = [
 export const TRIVIA_CAT_CATEGORIES: TriviaCatCategory[] = ['טבע', 'מדע', 'ישראל', 'בעלי חיים', 'חגים', 'ספורט'];
 export const TRIVIA_CAT_DIFFICULTIES: TriviaCatDifficulty[] = ['קל', 'בינוני', 'קשה'];
 
-export const CATEGORY_EMOJIS: Record<TriviaCatCategory, string> = {
+export const TRIVIA_CAT_CATEGORY_EMOJIS: Record<TriviaCatCategory, string> = {
   'טבע': '🌿',
   'מדע': '🔬',
   'ישראל': '🇮🇱',

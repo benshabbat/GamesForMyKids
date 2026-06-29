@@ -18,7 +18,7 @@ export const SHAPE_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 
 // ─── Colored shapes ────────────────────────────────────────────────────────
 
-export interface ColoredShapeItem extends BaseGameItem {
+export interface ColoredShapeGameItem extends BaseGameItem {
   readonly shape: string;
   readonly colorName?: string;
   readonly svgPath?: string;
@@ -27,7 +27,7 @@ export interface ColoredShapeItem extends BaseGameItem {
   readonly tailwindClass?: string;
 }
 
-export const COLORED_SHAPES_CONSTANTS: Record<string, ColoredShapeItem> = {
+export const COLORED_SHAPES_CONSTANTS: Record<string, ColoredShapeGameItem> = {
   RED_CIRCLE: { name: "red_circle", hebrew: "עיגול אדום", english: "Red Circle", emoji: "🔴", color: "bg-gradient-to-br from-red-400 to-red-600", sound: [440, 550, 660], shape: "circle", shapeHebrew: "עיגול", svg: "circle", value: "#ef4444", tailwindClass: "bg-red-500" },
   BLUE_CIRCLE: { name: "blue_circle", hebrew: "עיגול כחול", english: "Blue Circle", emoji: "🔵", color: "bg-gradient-to-br from-blue-400 to-blue-600", sound: [523, 659, 784], shape: "circle", shapeHebrew: "עיגול", svg: "circle", value: "#3b82f6", tailwindClass: "bg-blue-500" },
   GREEN_CIRCLE: { name: "green_circle", hebrew: "עיגול ירוק", english: "Green Circle", emoji: "🟢", color: "bg-gradient-to-br from-green-400 to-green-600", sound: [349, 440, 523], shape: "circle", shapeHebrew: "עיגול", svg: "circle", value: "#10b981", tailwindClass: "bg-green-500" },

@@ -2,9 +2,9 @@
 import { useMemo, useState, useEffect } from 'react';
 import GameCard from '@/components/game/GameCard';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
-import type { ContentType } from './ContentTypeTabBar';
+import type { TabContentType } from './ContentTypeTabBar';
 
-const CONTENT_IDS: Record<Exclude<ContentType, 'games'>, string[]> = {
+const CONTENT_IDS: Record<Exclude<TabContentType, 'games'>, string[]> = {
   creative: [
     'drawing', 'coloring', 'color-mix', 'art-craft', 'building', 'puzzles',
     'melody-maker', 'craft-guide', 'avatar-maker', 'tetris', 'puppet-story',
@@ -21,17 +21,17 @@ const CONTENT_IDS: Record<Exclude<ContentType, 'games'>, string[]> = {
   ],
 };
 
-const TAB_TITLES: Record<Exclude<ContentType, 'games'>, { title: string; subtitle: string }> = {
+const TAB_TITLES: Record<Exclude<TabContentType, 'games'>, { title: string; subtitle: string }> = {
   creative: { title: '🎨 יצירה ואומנות', subtitle: 'ציור, יצירה, מוזיקה ועוד' },
   riddles:  { title: '🤣 חידות וטריוויה', subtitle: 'חידות, ניחושים ושאלות' },
   tools:    { title: '🎲 כלים חינוכיים', subtitle: 'כלים שימושיים לכיתה ולבית' },
 };
 
 interface Props {
-  contentType: Exclude<ContentType, 'games'>;
+  contentType: Exclude<TabContentType, 'games'>;
 }
 
-export default function ContentTypeGrid({ contentType }: Props) {
+export default function TabContentTypeGrid({ contentType }: Props) {
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => { setHydrated(true); }, []);
 
