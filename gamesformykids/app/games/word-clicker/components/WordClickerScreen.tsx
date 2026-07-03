@@ -4,7 +4,7 @@ import { useWordClickerStore, type FloatingLetter } from '../wordClickerStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 export default function WordClickerScreen() {
-  const { words, wordIndex, currentLetterIndex, score, total, floatingLetters, feedback, tapLetter } =
+  const { words, wordIndex, currentLetterIndex, score, floatingLetters, feedback, wordComplete, tapLetter, clearFeedback, clearShaking } =
     useWordClickerStore();
   const word = words[wordIndex] ?? '';
 
@@ -14,6 +14,20 @@ export default function WordClickerScreen() {
     }
   }, [wordIndex, feedback, word, currentLetterIndex]);
 
+  // Clear partial-word correct feedback after 600 ms (word-complete feedback stays until nextWord)
+  useEffect(() => {
+    if (feedback !== 'correct' || wordComplete) return;
+    const id = setTimeout(clearFeedback, 600);
+    return () => clearTimeout(id);
+  }, [feedback, wordComplete, clearFeedback]);
+
+  // Clear wrong feedback and shaking state after 500 ms
+  useEffect(() => {
+    if (feedback !== 'wrong') return;
+    const id = setTimeout(clearShaking, 500);
+    return () => clearTimeout(id);
+  }, [feedback, clearShaking]);
+
   const progress = word.length > 0 ? (currentLetterIndex / word.length) * 100 : 0;
 
   return (
@@ -21,7 +35,7 @@ export default function WordClickerScreen() {
       <div className="w-full max-w-md">
         {/* Score */}
         <div className="flex justify-between items-center mb-4 px-1">
-          <span className="text-pink-700 font-bold text-sm">{total + 1}/{words.length}</span>
+          <span className="text-pink-700 font-bold text-sm">{wordIndex + 1}/{words.length}</span>
           <span className="text-pink-800 font-black text-lg">⭐ {score}</span>
         </div>
 

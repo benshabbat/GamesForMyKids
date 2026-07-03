@@ -77,7 +77,7 @@ export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('Quiz
       },
 
       goToMenu: () =>
-        set({ phase: 'menu', selected: null, isCorrect: null }, false, 'quiz/goToMenu'),
+        set({ ...INITIAL_STATE }, false, 'quiz/goToMenu'),
 
       restartQuiz: () =>
         set(

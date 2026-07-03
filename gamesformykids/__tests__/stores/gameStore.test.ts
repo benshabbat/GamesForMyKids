@@ -11,7 +11,6 @@ import { useGameStore } from '@/lib/stores/gameStore';
 
 const INITIAL_ACTIVE = {
   gameType: null,
-  isPlaying: false,
   score: 0,
   level: 1,
   startedAt: null,
@@ -31,11 +30,11 @@ beforeEach(() => {
 
 describe('gameStore', () => {
   describe('startGame', () => {
-    it('sets gameType and isPlaying=true', () => {
+    it('sets gameType (isPlaying derived as gameType !== null)', () => {
       useGameStore.getState().startGame('animals');
       const s = useGameStore.getState();
       expect(s.gameType).toBe('animals');
-      expect(s.isPlaying).toBe(true);
+      expect(s.gameType !== null).toBe(true);
     });
 
     it('resets score and level to starting values', () => {
@@ -104,7 +103,6 @@ describe('gameStore', () => {
       useGameStore.getState().startGame('animals');
       useGameStore.getState().endGame();
       const s = useGameStore.getState();
-      expect(s.isPlaying).toBe(false);
       expect(s.gameType).toBeNull();
       expect(s.startedAt).toBeNull();
     });
@@ -122,7 +120,6 @@ describe('gameStore', () => {
       useGameStore.getState().startGame('animals');
       useGameStore.getState().resetGame();
       const s = useGameStore.getState();
-      expect(s.isPlaying).toBe(false);
       expect(s.gameType).toBeNull();
       expect(s.totalGamesPlayed).toBe(5);
       expect(s.totalScore).toBe(500);
@@ -137,7 +134,7 @@ describe('gameStore', () => {
       const s = useGameStore.getState();
       expect(s.totalGamesPlayed).toBe(0);
       expect(s.highScores).toEqual({});
-      expect(s.isPlaying).toBe(true);
+      expect(s.gameType).toBe('animals');
     });
   });
 });

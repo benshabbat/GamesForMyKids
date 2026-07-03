@@ -4,7 +4,7 @@ import { useNikudDragStore } from '../nikudDragStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 export default function NikudDragScreen() {
-  const { questions, questionIndex, score, shuffledOptions, feedback, selectNikud } =
+  const { questions, questionIndex, score, shuffledOptions, feedback, autoAdvance, selectNikud, nextQuestion, clearFeedback } =
     useNikudDragStore();
   const question = questions[questionIndex];
   if (!question) return null;
@@ -14,6 +14,22 @@ export default function NikudDragScreen() {
   useEffect(() => {
     void speakHebrew(question.ttsText);
   }, [questionIndex, question.ttsText]);
+
+  // Advance to next question after correct answer (1 s delay so feedback is visible)
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (!autoAdvance) return;
+    const id = setTimeout(() => nextQuestion(), 1000);
+    return () => clearTimeout(id);
+  }, [autoAdvance, nextQuestion]);
+
+  // Clear wrong feedback after 1 s so the player can try again
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  useEffect(() => {
+    if (feedback !== 'wrong') return;
+    const id = setTimeout(clearFeedback, 1000);
+    return () => clearTimeout(id);
+  }, [feedback, clearFeedback]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-linear-to-br from-violet-100 via-purple-50 to-indigo-100 p-4" dir="rtl">

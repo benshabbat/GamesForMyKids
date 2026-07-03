@@ -16,15 +16,17 @@ interface WordClickerState {
   wordIndex: number;
   currentLetterIndex: number;
   score: number;
-  total: number;
   floatingLetters: FloatingLetter[];
   feedback: 'correct' | 'wrong' | null;
+  wordComplete: boolean;
 }
 
 interface WordClickerActions {
   startGame: () => void;
   tapLetter: (id: string) => void;
   nextWord: () => void;
+  clearFeedback: () => void;
+  clearShaking: () => void;
   reset: () => void;
 }
 
@@ -69,9 +71,9 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
   wordIndex: 0,
   currentLetterIndex: 0,
   score: 0,
-  total: 0,
   floatingLetters: [],
   feedback: null,
+  wordComplete: false,
 
   startGame: () => {
     const words = [...WORD_LIST].sort(() => Math.random() - 0.5).slice(0, 8);
@@ -82,9 +84,9 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
       wordIndex: 0,
       currentLetterIndex: 0,
       score: 0,
-      total: 0,
       floatingLetters: buildFloatingLetters(firstWord),
       feedback: null,
+      wordComplete: false,
     });
   },
 
@@ -98,13 +100,10 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
 
     if (tapped.letter === expectedLetter) {
       const nextIndex = currentLetterIndex + 1;
-      const wordComplete = nextIndex >= word.length;
+      const wordDone = nextIndex >= word.length;
 
-      if (wordComplete) {
-        set({ feedback: 'correct', score: score + 1, total: get().total + 1 });
-        setTimeout(() => {
-          get().nextWord();
-        }, 1200);
+      if (wordDone) {
+        set({ feedback: 'correct', score: score + 1, wordComplete: true });
       } else {
         const updatedLetters = floatingLetters.map(l => ({
           ...l,
@@ -112,27 +111,20 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
           shaking: false,
         }));
         set({ currentLetterIndex: nextIndex, floatingLetters: updatedLetters, feedback: 'correct' });
-        setTimeout(() => set({ feedback: null }), 600);
       }
     } else {
       const updatedLetters = floatingLetters.map(l =>
         l.id === id ? { ...l, shaking: true } : l
       );
       set({ floatingLetters: updatedLetters, feedback: 'wrong' });
-      setTimeout(() => {
-        set(s => ({
-          floatingLetters: s.floatingLetters.map(l => ({ ...l, shaking: false })),
-          feedback: null,
-        }));
-      }, 500);
     }
   },
 
   nextWord: () => {
-    const { words, wordIndex, total } = get();
+    const { words, wordIndex } = get();
     const nextWordIndex = wordIndex + 1;
     if (nextWordIndex >= words.length) {
-      set({ phase: 'result', total: total });
+      set({ phase: 'result', wordComplete: false, feedback: null });
       return;
     }
     const nextWord = words[nextWordIndex] ?? '';
@@ -141,8 +133,16 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
       currentLetterIndex: 0,
       floatingLetters: buildFloatingLetters(nextWord),
       feedback: null,
+      wordComplete: false,
     });
   },
+
+  clearFeedback: () => set({ feedback: null }),
+
+  clearShaking: () => set(s => ({
+    floatingLetters: s.floatingLetters.map(l => ({ ...l, shaking: false })),
+    feedback: null,
+  })),
 
   reset: () => set({
     phase: 'idle',
@@ -150,8 +150,8 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
     wordIndex: 0,
     currentLetterIndex: 0,
     score: 0,
-    total: 0,
     floatingLetters: [],
     feedback: null,
+    wordComplete: false,
   }),
 }));

@@ -16,6 +16,7 @@ interface TimedMathStore<Level, Q> {
   startGame: (level: Level) => void;
   selectAnswer: (val: number) => void;
   advance: () => void;
+  tick: () => void;
   goMenu: () => void;
 }
 
@@ -61,7 +62,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
   const {
     phase, level, question, questionNum, score, correct,
     selected, isCorrect, timeLeft,
-    startGame, selectAnswer, advance, goMenu,
+    startGame, selectAnswer, advance, tick, goMenu,
   } = config.useStore();
 
   useEffect(() => {
@@ -69,6 +70,13 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
     return config.stopTimer;
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // Drive the countdown from the component so the timer is tied to the lifecycle
+  useEffect(() => {
+    if (phase !== 'playing' || selected !== null) return;
+    const id = setInterval(tick, 1000);
+    return () => clearInterval(id);
+  }, [phase, selected, tick]);
 
   if (phase === 'menu') {
     const menuCard: MenuCardConfig = {

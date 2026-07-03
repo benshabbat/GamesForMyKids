@@ -81,6 +81,7 @@ interface MarketState {
   feedback: 'none' | 'correct' | 'wrong';
   totalCustomers: number;
   nextCustomerId: number;
+  confirming: boolean;
 }
 
 interface MarketActions {
@@ -103,6 +104,7 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
   feedback: 'none',
   totalCustomers: 10,
   nextCustomerId: 1,
+  confirming: false,
 
   startGame: (difficulty) => {
     const customer = buildCustomer(difficulty, 1);
@@ -116,6 +118,7 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
       feedback: 'none',
       totalCustomers: 10,
       nextCustomerId: 2,
+      confirming: false,
     });
   },
 
@@ -136,18 +139,18 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
   },
 
   confirmSale: () => {
-    const { customer, cart, score, customersServed, difficulty, totalCustomers, nextCustomerId } = get();
-    if (!customer) return;
+    const { customer, cart, score, customersServed, difficulty, totalCustomers, nextCustomerId, confirming } = get();
+    if (!customer || confirming) return;
 
     const cartCount = cart[customer.order.item.id] ?? 0;
     const correct = cartCount === customer.order.count;
 
-    set({ feedback: correct ? 'correct' : 'wrong', score: correct ? score + 1 : score });
+    set({ feedback: correct ? 'correct' : 'wrong', score: correct ? score + 1 : score, confirming: true });
 
     setTimeout(() => {
       const served = customersServed + 1;
       if (served >= totalCustomers) {
-        set({ phase: 'result', customersServed: served, feedback: 'none' });
+        set({ phase: 'result', customersServed: served, feedback: 'none', confirming: false });
         return;
       }
       const next = buildCustomer(difficulty, nextCustomerId);
@@ -157,6 +160,7 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
         feedback: 'none',
         customersServed: served,
         nextCustomerId: nextCustomerId + 1,
+        confirming: false,
       });
     }, 1200);
   },
@@ -185,5 +189,5 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
   },
 
   endGame: () => set({ phase: 'result' }),
-  restart: () => set({ phase: 'menu', customer: null, cart: {}, score: 0, customersServed: 0, feedback: 'none' }),
+  restart: () => set({ phase: 'menu', customer: null, cart: {}, score: 0, customersServed: 0, feedback: 'none', confirming: false }),
 }));

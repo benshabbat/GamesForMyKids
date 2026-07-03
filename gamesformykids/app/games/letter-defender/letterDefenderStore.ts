@@ -48,6 +48,7 @@ interface State {
   towers: Tower[];
   targetWord: string;
   enemiesToSpawn: string[];
+  lastShotCount: number;
 }
 interface Actions {
   startGame: () => void;
@@ -55,6 +56,7 @@ interface Actions {
   toggleTower: (row: number, col: number) => void;
   spawnNext: () => void;
   tick: () => void;
+  pruneDying: () => void;
   advanceWave: () => void;
 }
 
@@ -69,6 +71,7 @@ const INITIAL: State = {
   towers: [],
   targetWord: WAVE_DATA[0]?.targetWord ?? '',
   enemiesToSpawn: [],
+  lastShotCount: 0,
 };
 
 function buildInitialWave(waveIndex: number): Partial<State> {
@@ -154,13 +157,11 @@ export const useLetterDefenderStore = create<State & Actions>((set, get) => ({
       return;
     }
 
-    set({ lives, score, enemies: surviving });
+    set({ lives, score, enemies: surviving, lastShotCount: shot.size });
+  },
 
-    if (shot.size > 0) {
-      setTimeout(() => {
-        set(s => ({ enemies: s.enemies.filter(e => !e.dying) }));
-      }, 600);
-    }
+  pruneDying: () => {
+    set(s => ({ enemies: s.enemies.filter(e => !e.dying), lastShotCount: 0 }));
   },
 
   advanceWave: () => {

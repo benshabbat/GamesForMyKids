@@ -102,7 +102,7 @@ export function getCanvasPosition(
   const rect = canvas.getBoundingClientRect();
   // canvas.width is the physical pixel buffer; divide out DPR so we return logical coords.
   // ctx.scale(dpr, dpr) is already applied — passing physical coords would double-scale.
-  const dpr = window.devicePixelRatio || 1;
+  const dpr = (typeof window !== 'undefined' ? window.devicePixelRatio : 1) || 1;
   const scaleX = (canvas.width / rect.width) / dpr;
   const scaleY = (canvas.height / rect.height) / dpr;
   let clientX: number, clientY: number;
