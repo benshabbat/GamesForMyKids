@@ -1,4 +1,6 @@
 'use client';
+import { useEffect } from 'react';
+import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { useLetterMergeStore, ALEF_BET } from '../letterMergeStore';
 
 const LETTER_COLORS: Record<number, string> = {
@@ -32,7 +34,13 @@ function letterColor(letter: string): string {
 }
 
 export default function LetterMergeScreen() {
-  const { columns, nextLetterVal, score, dropLetter } = useLetterMergeStore();
+  const { columns, nextLetterVal, score, speakText, dropLetter, clearSpeakText } = useLetterMergeStore();
+
+  useEffect(() => {
+    if (!speakText) return;
+    void speakHebrew(speakText);
+    clearSpeakText();
+  }, [speakText, clearSpeakText]);
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-linear-to-br from-blue-100 to-purple-100 p-3" dir="rtl">

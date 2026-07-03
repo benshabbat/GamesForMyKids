@@ -128,6 +128,6 @@ export const useWordSearchStore = create<State & Actions>((set, get) => ({
   },
 
   resetGame: () => {
-    set({ phase: 'menu', found: new Set(), score: 0 });
+    set({ phase: 'menu', theme: WORD_SETS[0]!, grid: [], placed: [], found: new Set(), score: 0 });
   },
 }));

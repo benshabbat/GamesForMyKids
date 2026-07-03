@@ -1,6 +1,5 @@
 'use client';
 import { create } from 'zustand';
-import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 export const ALEF_BET = ['א','ב','ג','ד','ה','ו','ז','ח','ט','י','כ','ל','מ','נ','ס','ע','פ','צ','ק','ר','ש','ת'];
 const LETTER_NAMES: Record<string, string> = {
@@ -42,11 +41,13 @@ interface LetterMergeState {
   maxLetterReached: string;
   won: boolean;
   lastMerged: string | null;
+  speakText: string | null;
 }
 interface LetterMergeActions {
   startGame: () => void;
   dropLetter: (colIndex: number) => void;
   reset: () => void;
+  clearSpeakText: () => void;
 }
 
 export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>((set, get) => ({
@@ -57,6 +58,7 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
   maxLetterReached: 'א',
   won: false,
   lastMerged: null,
+  speakText: null,
 
   startGame: () => set({
     phase: 'playing',
@@ -66,6 +68,7 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
     maxLetterReached: 'א',
     won: false,
     lastMerged: null,
+    speakText: null,
   }),
 
   dropLetter: (colIndex: number) => {
@@ -93,7 +96,6 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
           totalScore += (mergedIdx + 1) * 10;
           if (mergedIdx > ALEF_BET.indexOf(newMax)) newMax = merged;
           if (merged === 'ת') { won = true; merging = false; }
-          void speakHebrew(LETTER_NAMES[merged] ?? merged);
         }
       }
     }
@@ -107,6 +109,7 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
       score: totalScore,
       maxLetterReached: newMax,
       lastMerged: lastMergedLetter,
+      speakText: lastMergedLetter ? (LETTER_NAMES[lastMergedLetter] ?? lastMergedLetter) : null,
       ...(won || gameOver ? { phase: 'result', won } : {}),
     });
   },
@@ -119,5 +122,8 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
     maxLetterReached: 'א',
     won: false,
     lastMerged: null,
+    speakText: null,
   }),
+
+  clearSpeakText: () => set({ speakText: null }),
 }));

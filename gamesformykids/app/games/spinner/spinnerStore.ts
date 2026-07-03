@@ -1,5 +1,5 @@
 'use client';
-import { create } from 'zustand';
+import { makePersistStore } from '@/lib/stores/createStore';
 
 export type SegmentPreset = 'letters' | 'numbers' | 'colors' | 'animals';
 
@@ -17,8 +17,6 @@ export const PRESET_LABELS: Record<SegmentPreset, string> = {
   animals: '🐾 חיות',
 };
 
-const STORAGE_KEY = 'spinner-segments';
-
 interface SpinnerState {
   segments: string[];
   result: string | null;
@@ -35,37 +33,30 @@ interface SpinnerActions {
   toggleEditing: () => void;
 }
 
-export const useSpinnerStore = create<SpinnerState & SpinnerActions>((set, get) => ({
-  segments: PRESETS.letters,
-  result: null,
-  isEditing: false,
+export const useSpinnerStore = makePersistStore<SpinnerState & SpinnerActions>(
+  'SpinnerStore',
+  'spinner-segments',
+  (set, get) => ({
+    segments: PRESETS.letters,
+    result: null,
+    isEditing: false,
 
-  setSegments: (segments) => {
-    if (typeof window !== 'undefined') {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(segments));
-    }
-    set({ segments });
-  },
-  addSegment: (text) => {
-    const segments = [...get().segments, text.trim()].filter(Boolean);
-    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(segments));
-    set({ segments });
-  },
-  removeSegment: (index) => {
-    const segments = get().segments.filter((_, i) => i !== index);
-    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(segments));
-    set({ segments });
-  },
-  editSegment: (index, text) => {
-    const segments = get().segments.map((s, i) => (i === index ? text : s));
-    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(segments));
-    set({ segments });
-  },
-  applyPreset: (preset) => {
-    const segments = PRESETS[preset];
-    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEY, JSON.stringify(segments));
-    set({ segments, result: null });
-  },
-  setResult: (result) => set({ result }),
-  toggleEditing: () => set((s) => ({ isEditing: !s.isEditing })),
-}));
+    setSegments: (segments) => set({ segments }, false, 'spinner/setSegments'),
+    addSegment: (text) => {
+      const segments = [...get().segments, text.trim()].filter(Boolean);
+      set({ segments }, false, 'spinner/addSegment');
+    },
+    removeSegment: (index) => {
+      const segments = get().segments.filter((_, i) => i !== index);
+      set({ segments }, false, 'spinner/removeSegment');
+    },
+    editSegment: (index, text) => {
+      const segments = get().segments.map((s, i) => (i === index ? text : s));
+      set({ segments }, false, 'spinner/editSegment');
+    },
+    applyPreset: (preset) => set({ segments: PRESETS[preset], result: null }, false, 'spinner/applyPreset'),
+    setResult: (result) => set({ result }, false, 'spinner/setResult'),
+    toggleEditing: () => set((s) => ({ isEditing: !s.isEditing }), false, 'spinner/toggleEditing'),
+  }),
+  { partialize: (s) => ({ segments: s.segments }) },
+);
