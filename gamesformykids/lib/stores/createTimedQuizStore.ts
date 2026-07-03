@@ -100,7 +100,6 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
     },
   }));
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
   const stopTimer = () => {};
 
   return { useStore, stopTimer };
