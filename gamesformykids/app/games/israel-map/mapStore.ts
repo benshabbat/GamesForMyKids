@@ -74,6 +74,7 @@ export const useMapStore = create<State & Actions>((set, get) => ({
   resetGame: () =>
     set({
       phase: 'menu',
+      level: 1,
       queue: [],
       current: null,
       foundIds: [],

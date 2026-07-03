@@ -126,7 +126,7 @@ export const useNumberMergeStore = create<NumberMergeState & NumberMergeActions>
     set({ phase: 'result', gameOver: true, highScore: Math.max(score, highScore) });
   },
 
-  restart: () => set({ phase: 'menu', balls: [], score: 0, gameOver: false }),
+  restart: () => set({ phase: 'menu', difficulty: 'easy', balls: [], nextId: 1, dropX: 160, nextValue: 1, score: 0, targetScore: TARGET_SCORES.easy, gameOver: false, mergeFlash: null }),
 }));
 
 function randomValue(): number {

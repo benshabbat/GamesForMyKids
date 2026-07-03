@@ -1,5 +1,4 @@
 'use client';
-import { useEffect } from 'react';
 import { usePictureDictionaryStore } from './pictureDictionaryStore';
 import type { BrowseMode } from './pictureDictionaryStore';
 import DictionaryBrowse from './components/DictionaryBrowse';
@@ -48,12 +47,8 @@ function CollectionTab() {
 }
 
 export default function PictureDictionaryClient() {
-  const { browseMode, setBrowseMode, expandedItem, searchQuery, setSearchQuery, initCollection } =
+  const { browseMode, setBrowseMode, expandedItem, searchQuery, setSearchQuery } =
     usePictureDictionaryStore();
-
-  useEffect(() => {
-    initCollection();
-  }, [initCollection]);
 
   return (
     <div

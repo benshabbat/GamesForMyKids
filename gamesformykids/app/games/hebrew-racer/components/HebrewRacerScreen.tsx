@@ -13,8 +13,8 @@ function shuffle<T>(arr: T[]): T[] {
 export default function HebrewRacerScreen() {
   const {
     phase, lives, checkpoint, score,
-    currentQuestion,
-    triggerQuestion, answerQuestion, resumeRacing,
+    currentQuestion, speakText,
+    triggerQuestion, answerQuestion, resumeRacing, clearSpeakText,
   } = useHebrewRacerStore();
 
   const [choices, setChoices] = useState<string[]>([]);
@@ -40,6 +40,13 @@ export default function HebrewRacerScreen() {
     return () => clearTimeout(t);
   }, [phase, resumeRacing]);
 
+  // Speak TTS text triggered by store actions
+  useEffect(() => {
+    if (!speakText) return;
+    void speakHebrew(speakText);
+    clearSpeakText();
+  }, [speakText, clearSpeakText]);
+
   const replayAudio = useCallback(() => {
     if (currentQuestion) void speakHebrew(currentQuestion.question);
   }, [currentQuestion]);
@@ -52,7 +59,7 @@ export default function HebrewRacerScreen() {
   const progressPct = Math.round((checkpoint / TOTAL_CHECKPOINTS) * 100);
 
   return (
-    <div className="min-h-screen flex flex-col bg-gradient-to-b from-sky-400 to-sky-200 select-none" dir="rtl">
+    <div className="min-h-screen flex flex-col bg-linear-to-b from-sky-400 to-sky-200 select-none" dir="rtl">
       {/* HUD */}
       <div className="flex justify-between items-center px-4 py-2 bg-sky-600 bg-opacity-60">
         <div className="flex gap-1">

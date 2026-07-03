@@ -1,5 +1,5 @@
 'use client';
-import { create } from 'zustand';
+import { makePersistStore } from '@/lib/stores/createStore';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
 import type { BaseGameItem } from '@/lib/types/core/base';
 
@@ -78,26 +78,6 @@ export function buildDictionary(): DictionaryItem[] {
   return items;
 }
 
-const COLLECTION_KEY = 'picture-dictionary-collection';
-
-function loadCollection(): DictionaryItem[] {
-  if (typeof window === 'undefined') return [];
-  try {
-    const raw = localStorage.getItem(COLLECTION_KEY);
-    return raw ? (JSON.parse(raw) as DictionaryItem[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function saveCollection(items: DictionaryItem[]): void {
-  try {
-    localStorage.setItem(COLLECTION_KEY, JSON.stringify(items));
-  } catch {
-    // ignore storage errors
-  }
-}
-
 export type BrowseMode = 'letter' | 'category' | 'search' | 'collection';
 
 interface State {
@@ -117,35 +97,34 @@ interface Actions {
   expandItem: (item: DictionaryItem) => void;
   closeExpanded: () => void;
   toggleCollection: (item: DictionaryItem) => void;
-  initCollection: () => void;
 }
 
-export const usePictureDictionaryStore = create<State & Actions>((set, get) => ({
-  browseMode: 'letter',
-  selectedLetter: 'א',
-  selectedCategory: null,
-  searchQuery: '',
-  expandedItem: null,
-  collection: [],
+export const usePictureDictionaryStore = makePersistStore<State & Actions>(
+  'PictureDictionaryStore',
+  'picture-dictionary-collection',
+  (set, get) => ({
+    browseMode: 'letter',
+    selectedLetter: 'א',
+    selectedCategory: null,
+    searchQuery: '',
+    expandedItem: null,
+    collection: [],
 
-  setBrowseMode: (mode) => set({ browseMode: mode, expandedItem: null }),
-  selectLetter: (letter) => set({ selectedLetter: letter }),
-  selectCategory: (category) => set({ selectedCategory: category }),
-  setSearchQuery: (q) => set({ searchQuery: q }),
-  expandItem: (item) => set({ expandedItem: item }),
-  closeExpanded: () => set({ expandedItem: null }),
+    setBrowseMode: (mode) => set({ browseMode: mode, expandedItem: null }),
+    selectLetter: (letter) => set({ selectedLetter: letter }),
+    selectCategory: (category) => set({ selectedCategory: category }),
+    setSearchQuery: (q) => set({ searchQuery: q }),
+    expandItem: (item) => set({ expandedItem: item }),
+    closeExpanded: () => set({ expandedItem: null }),
 
-  toggleCollection: (item) => {
-    const { collection } = get();
-    const exists = collection.some((c) => c.hebrew === item.hebrew);
-    const next = exists
-      ? collection.filter((c) => c.hebrew !== item.hebrew)
-      : collection.length < 50 ? [...collection, item] : collection;
-    saveCollection(next);
-    set({ collection: next });
-  },
-
-  initCollection: () => {
-    set({ collection: loadCollection() });
-  },
-}));
+    toggleCollection: (item) => {
+      const { collection } = get();
+      const exists = collection.some((c) => c.hebrew === item.hebrew);
+      const next = exists
+        ? collection.filter((c) => c.hebrew !== item.hebrew)
+        : collection.length < 50 ? [...collection, item] : collection;
+      set({ collection: next });
+    },
+  }),
+  { partialize: (s) => ({ collection: s.collection }) },
+);

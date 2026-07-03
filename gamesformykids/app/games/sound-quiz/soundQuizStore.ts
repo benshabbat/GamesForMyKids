@@ -42,5 +42,5 @@ export const useSoundQuizStore = create<SoundQuizState>((set) => ({
   })),
   nextQuestion: (clip, choices) => set({ current: clip, choices, choicesRevealed: false, lastCorrect: null }),
   endGame: () => set({ phase: 'result' }),
-  reset: () => set({ phase: 'menu', current: null, choices: [], score: 0, total: 0, lastCorrect: null }),
+  reset: () => set({ phase: 'menu', category: 'all', current: null, choices: [], choicesRevealed: false, score: 0, total: 0, lastCorrect: null }),
 }));

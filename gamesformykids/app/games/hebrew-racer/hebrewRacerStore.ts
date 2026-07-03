@@ -1,6 +1,5 @@
 'use client';
 import { create } from 'zustand';
-import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { RACER_QUESTIONS, TOTAL_CHECKPOINTS, type RacerQuestion } from './hebrewRacerData';
 
 const MAX_LIVES = 3;
@@ -16,6 +15,7 @@ interface HebrewRacerState {
   currentQuestion: RacerQuestion | null;
   usedQuestionIds: number[];
   feedback: 'correct' | 'wrong' | null;
+  speakText: string | null;
 }
 
 interface HebrewRacerActions {
@@ -24,6 +24,7 @@ interface HebrewRacerActions {
   answerQuestion: (choice: string) => void;
   resumeRacing: () => void;
   reset: () => void;
+  clearSpeakText: () => void;
 }
 
 function pickQuestion(usedIds: number[]): RacerQuestion {
@@ -41,6 +42,7 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
   currentQuestion: null,
   usedQuestionIds: [],
   feedback: null,
+  speakText: null,
 
   startGame: () => set({
     phase: 'racing',
@@ -51,16 +53,17 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
     currentQuestion: null,
     usedQuestionIds: [],
     feedback: null,
+    speakText: null,
   }),
 
   triggerQuestion: () => {
     const { usedQuestionIds } = get();
     const q = pickQuestion(usedQuestionIds);
-    void speakHebrew(q.question);
     set({
       phase: 'question',
       currentQuestion: q,
       usedQuestionIds: [...usedQuestionIds, q.id],
+      speakText: q.question,
     });
   },
 
@@ -75,8 +78,6 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
     const won = newCheckpoint >= TOTAL_CHECKPOINTS;
     const lost = newLives <= 0;
 
-    void speakHebrew(isCorrect ? 'כל הכבוד!' : 'אוי, לא נכון');
-
     const newPhase: Phase = (won || lost) ? 'result' : (isCorrect ? 'jumping' : 'crashing');
 
     set({
@@ -86,6 +87,7 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
       score: newScore,
       won,
       feedback: isCorrect ? 'correct' : 'wrong',
+      speakText: isCorrect ? 'כל הכבוד!' : 'אוי, לא נכון',
     });
   },
 
@@ -107,5 +109,8 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
     currentQuestion: null,
     usedQuestionIds: [],
     feedback: null,
+    speakText: null,
   }),
+
+  clearSpeakText: () => set({ speakText: null }),
 }));

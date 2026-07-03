@@ -51,6 +51,8 @@ export const useLetterTraceStore = create<LetterTraceState & LetterTraceActions>
   restart: () =>
     set({
       phase: 'menu',
+      difficulty: 'guided',
+      letters: [...HEBREW_LETTER_PATHS],
       currentIndex: 0,
       score: 0,
       total: 0,
