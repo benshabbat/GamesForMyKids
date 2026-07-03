@@ -8,6 +8,8 @@ import { GameCompletionCelebration } from '@/components/game/shared/GameCompleti
 import { useGameRating } from '@/hooks/shared/social/useGameRating';
 import { printCertificate } from '@/lib/utils/game/printCertificate';
 import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
+import WhatsAppShareButton from '@/components/shared/buttons/WhatsAppShareButton';
+import ShareCardButton from '@/components/shared/buttons/ShareCardButton';
 
 interface Props {
   onRestart: () => void;
@@ -65,6 +67,13 @@ export function QuizResultScreen({ onRestart, theme, title = 'כל הכבוד!',
         >
           שחק שוב
         </button>
+        <WhatsAppShareButton text={`${emoji} השגתי ${score} נקודות (${pct}%)! בואו לשחק גם אתם 🎮`} />
+        <ShareCardButton
+          gameEmoji={emoji}
+          gameTitle={title}
+          score={score}
+          pct={pct}
+        />
         {showCertificate && (
           <button
             onClick={() => printCertificate({ emoji, title, scorePercent: pct })}
