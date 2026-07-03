@@ -10,6 +10,7 @@ import RealPhotoToggleButton from '../buttons/RealPhotoToggleButton';
 import PrintWorksheetButton from '../buttons/PrintWorksheetButton';
 import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
+import { DifficultyPicker } from '@/components/game/shared/DifficultyPicker';
 
 export default function AutoStartScreen() {
   const { config, speakItemName, gameType, items, startGame, lastMistakeItems, startMistakeReview } = useUniversalGame();
@@ -65,7 +66,9 @@ export default function AutoStartScreen() {
       }}
       customOnStart={studyMode ? handleStartWithStudy : undefined}
       extraControls={
-        <div className="flex justify-center gap-3 mt-3 flex-wrap">
+        <div className="flex flex-col items-center gap-3 mt-3">
+          <DifficultyPicker />
+          <div className="flex justify-center gap-3 flex-wrap">
           <button
             onClick={() => setStudyMode(v => !v)}
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-[background-color,border-color,box-shadow,color] border-2 ${
@@ -99,6 +102,7 @@ export default function AutoStartScreen() {
               🔁 תרגל טעויות ({lastMistakeItems.length})
             </button>
           )}
+          </div>
         </div>
       }
     />

@@ -7,6 +7,7 @@ import { useGameRating } from '@/hooks/shared/social/useGameRating';
 import { printCertificate } from '@/lib/utils/game/printCertificate';
 import { getNextGameInCategory } from '@/lib/utils/game/getNextGameInCategory';
 import WhatsAppShareButton from '@/components/shared/buttons/WhatsAppShareButton';
+import ShareCardButton from '@/components/shared/buttons/ShareCardButton';
 import { useCategoryCompletion } from '@/hooks/shared/progress/useCategoryCompletion';
 import { getActiveHoliday } from '@/lib/constants/holidayLanes';
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
@@ -139,6 +140,14 @@ export default function GameResultCard({
             </button>
             <WhatsAppShareButton text={shareText} />
           </>
+        )}
+        {gameType && score !== undefined && (
+          <ShareCardButton
+            gameEmoji={emoji}
+            gameTitle={title}
+            score={score}
+            pct={scorePercent}
+          />
         )}
         {showCertificate && (
           <button
