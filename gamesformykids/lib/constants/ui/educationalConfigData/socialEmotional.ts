@@ -62,37 +62,4 @@ export const socialEmotionalConfigs: Partial<Record<string, GameUIConfig>> = {
       description: "הרכיבו פאזלים צבעוניים ומהנים! פיתוח ריכוז, חשיבה מרחבית וסבלנות לגיל 3-8.",
     },
   },
-
-  feelings: {
-    title: "😊 משחק רגשות 😢",
-    subTitle: "למד להכיר ולזהות רגשות!",
-    itemsTitle: "הרגשות שנלמד:",
-    itemsDescription: "לחץ על רגש כדי לשמוע את השם שלו!",
-    steps: [
-      { icon: "👀", title: "1. תראה", description: "איזה רגש אני מציג" },
-      { icon: "🎤", title: "2. תשמע", description: "את שם הרגש" },
-      { icon: "👆", title: "3. תלחץ", description: "על הרגש הנכון" },
-    ],
-    colors: {
-      background: "linear-gradient(135deg, #ffecd2 0%, #fcb69f 25%, #ff9a9e 50%, #fecfef 75%, #fecfef 100%)",
-      header: "text-white",
-      subHeader: "text-pink-100",
-      itemsDescription: "text-pink-100",
-      button: { from: "pink", to: "rose" },
-      stepsBg: "bg-pink-100 bg-opacity-90",
-    },
-    grid: {
-      className: "flex flex-wrap justify-center gap-4",
-    },
-    challengeTitle: "איזה רגש ראית?",
-    challengeIcon: "😊😢😡😴",
-    challengeDescription: "בחר את הרגש הנכון!",
-    itemLabel: "רגש",
-    tip: "💡 טיפ: תראה את הרגש!",
-    tipDescription: "לחץ על הסמל למעלה כדי לראות שוב, או על הרגשות למטה לשמוע את השמות",
-    metadata: {
-      keywords: "רגשות, זיהוי רגשות, אינטליגנציה רגשית, גיל 3-7, פנים, הבעות פנים, חינוך רגשי",
-      description: "למדו לזהות ולקרוא שמות לרגשות! שמחה, עצב, כעס, פחד — חינוך רגשי חיוני לגיל 3-7.",
-    },
-  },
 };

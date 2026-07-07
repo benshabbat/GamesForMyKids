@@ -38,7 +38,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments","puzzles","drawing","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos","color-mix","puppet-story","melody-maker","craft-guide","avatar-maker"],
+    gameIds: ["instruments","puzzles","drawing","coloring","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos","color-mix","puppet-story","melody-maker","craft-guide","avatar-maker"],
   },
   nature: {
     title: "טבע ואוכל",
@@ -94,7 +94,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Microscope,
     color: "bg-cyan-500",
     gradient: "from-cyan-400 to-cyan-600",
-    gameIds: ["recycling","dinosaurs","space-adventure","virtual-reality","new-professions","climate-planet","science","life-cycles"],
+    gameIds: ["recycling","dinosaurs","virtual-reality","new-professions","climate-planet","science","life-cycles"],
   },
   holidays: {
     title: "חגים ועונות",
