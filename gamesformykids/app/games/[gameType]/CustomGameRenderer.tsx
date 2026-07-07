@@ -5,7 +5,7 @@ import dynamic from 'next/dynamic';
 import type { ComponentType } from 'react';
 import CanvasGameSkeleton from '@/components/ui/CanvasGameSkeleton';
 
-const GAME_CLIENTS: Record<string, ComponentType> = {
+const GAME_CLIENTS = {
   arithmetic:        dynamic(() => import('../arithmetic/ArithmeticGameClient'),              { ssr: false }),
   'balloon-pop':     dynamic(() => import('../balloon-pop/BalloonPopClient'),                 { ssr: false }),
   'brick-breaker':   dynamic(() => import('../brick-breaker/BrickBreakerClient'),             { ssr: false }),
@@ -95,10 +95,12 @@ const GAME_CLIENTS: Record<string, ComponentType> = {
   'hebrew-racer':          dynamic(() => import('../hebrew-racer/HebrewRacerClient'),                   { ssr: false }),
 };
 
+export type CustomGameId = keyof typeof GAME_CLIENTS;
+
 interface Props { gameType: string; }
 
 export default function CustomGameRenderer({ gameType }: Props) {
-  const Component = GAME_CLIENTS[gameType];
+  const Component = (GAME_CLIENTS as Record<string, ComponentType>)[gameType];
   if (!Component) return null;
   return (
     <Suspense fallback={<CanvasGameSkeleton />}>

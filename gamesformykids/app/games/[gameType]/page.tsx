@@ -42,7 +42,7 @@ export default async function UniversalGamePage({ params }: PageProps) {
     />
   );
 
-  if (CUSTOM_GAME_TYPES.has(actualGameType)) {
+  if ((CUSTOM_GAME_TYPES as ReadonlySet<string>).has(actualGameType)) {
     return (
       <>
         {jsonLdScript}

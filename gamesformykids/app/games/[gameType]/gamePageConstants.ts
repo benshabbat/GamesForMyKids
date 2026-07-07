@@ -1,4 +1,5 @@
 import type { GameType } from '@/lib/types/core/base';
+import type { CustomGameId } from './CustomGameRenderer';
 
 // ─── רשימת משחקים תומכים ─────────────────────────────────────────────────────
 
@@ -120,7 +121,7 @@ export const SUPPORTED_GAMES = [
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
-export const CUSTOM_GAME_TYPES = new Set([
+export const CUSTOM_GAME_TYPES = new Set<CustomGameId>([
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
   'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
@@ -128,15 +129,11 @@ export const CUSTOM_GAME_TYPES = new Set([
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
   'stack', 'taki', 'tetris', 'true-false', 'tzedakah', 'whack-a-mole',
   'word-builder', 'word-scramble', 'maze', 'letter-defender', 'puppet-story', 'number-slide', 'snakes-ladders',
-
-
   'escape-room', 'robot-coder', 'find-in-scene', 'hangman', 'choose-adventure', 'picture-dictionary', 'word-search', 'israel-map', 'kids-songs', 'melody-maker', 'kids-encyclopedia', 'age-calculator', 'craft-guide', 'jokes-browser', 'word-maze', 'avatar-maker', 'sound-quiz', 'spinner', 'team-picker', 'dice', 'timer', 'letter-race', 'drag-sort', 'answer-cannon', 'typing-race', 'word-fishing', 'letter-grow', 'letter-slingshot', 'syllable-drums', 'dress-up', 'letter-bubble-shooter', 'letter-slicer', 'cooking-game', 'spot-the-difference', 'letter-trace', 'market-game', 'crossword', 'number-merge',
   'word-clicker',
   'nikud-drag',
   'letter-merge',
   'hebrew-racer',
-
-
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────
