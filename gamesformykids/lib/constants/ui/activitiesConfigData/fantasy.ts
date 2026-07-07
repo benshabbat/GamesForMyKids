@@ -34,39 +34,6 @@ export const fantasyConfigs: Partial<Record<string, GameUIConfig>> = {
     },
   },
 
-  "space-adventure": {
-    title: "🚀 משחק הרפתקאות בחלל 🌌",
-    subTitle: "טוס אל הכוכבים וגלה את החלל!",
-    itemsTitle: "עצמי החלל שנלמד:",
-    itemsDescription: "לחץ על עצם כדי לשמוע עליו!",
-    steps: [
-      { icon: "👀", title: "1. תראה", description: "איזה עצם חלל אני מציג" },
-      { icon: "🎤", title: "2. תשמע", description: "את השם שלו" },
-      { icon: "👆", title: "3. תלחץ", description: "על העצם הנכון" },
-    ],
-    colors: {
-      background: "linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%)",
-      header: "text-white",
-      subHeader: "text-blue-100",
-      itemsDescription: "text-blue-100",
-      button: { from: "indigo", to: "purple" },
-      stepsBg: "bg-indigo-100 bg-opacity-90",
-    },
-    grid: {
-      className: "flex flex-wrap justify-center gap-4",
-    },
-    challengeTitle: "איזה עצם חלל שמעת?",
-    challengeIcon: "🚀🌌⭐🪐",
-    challengeDescription: "בחר את העצם הנכון!",
-    itemLabel: "עצם חלל",
-    tip: "💡 טיפ: תשמע את השם!",
-    tipDescription: "לחץ על הסמל למעלה כדי לשמוע שוב, או על עצמי החלל למטה לשמוע את השמות",
-    metadata: {
-      keywords: "חלל, כוכבי לכת, חללית, גלקסיה, חקר חלל, גיל 5-10, אסטרונומיה לילדים",
-      description: "טוסו לחלל וגלו כוכבי לכת וכוכבים! חללית, גלקסיה ועוד — לגיל 5-10.",
-    },
-  },
-
   "superheroes": {
     title: "🦸 משחק גיבורי על ⚡",
     subTitle: "למד על כוחות סופר!",
