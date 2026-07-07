@@ -18,6 +18,7 @@ export default function GameMainContent() {
       if (item) game.handleItemClick(item);
     },
     keyboardEnabled,
+    'grid-cols-2 md:grid-cols-4',
   );
 
   return (

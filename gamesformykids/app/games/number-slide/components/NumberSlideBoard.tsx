@@ -38,6 +38,7 @@ interface Props {
 export default function NumberSlideBoard({ grid, onTouchStart, onTouchEnd }: Props) {
   return (
     <div
+      dir="ltr"
       className="grid grid-cols-4 gap-2 p-3 rounded-2xl bg-gray-300 select-none touch-none"
       style={{ width: 280, height: 280 }}
       onTouchStart={onTouchStart}
