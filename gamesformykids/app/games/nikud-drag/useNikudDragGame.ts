@@ -15,7 +15,7 @@ export function useNikudDragGame() {
   const [wrongFlash, setWrongFlash] = useState(false);
   const retryTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const choices = useMemo(() => shuffle(NIKUD_OPTIONS), [current]);
+  const choices = useMemo(() => (current ? shuffle(NIKUD_OPTIONS) : []), [current]);
 
   const startGame = useCallback(() => {
     setWrongFlash(false);

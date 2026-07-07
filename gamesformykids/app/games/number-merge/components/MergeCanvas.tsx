@@ -256,7 +256,7 @@ export default function MergeCanvas() {
     const rawX = (e.clientX - rect.left) * scaleX;
     const clampedX = Math.max(WALL_LEFT + 20, Math.min(WALL_RIGHT - 20, rawX));
     useNumberMergeStore.getState().setDropX(clampedX);
-  }, []);
+  }, [canvasRef]);
 
   const handleDrop = useCallback(() => {
     if (dropCooldownRef.current) return;
