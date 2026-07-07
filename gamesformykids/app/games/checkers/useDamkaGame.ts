@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useDamkaStore } from './damkaStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 export type { Side, GamePhase, Cell, Board, Pos, DamkaMove } from './damkaStore';
 
 const _useStore = createShallowHook(useDamkaStore);
@@ -13,23 +14,15 @@ export function useDamkaGame() {
   const state = _useStore();
   const { saveGameResultRef } = useGameCompletion('checkers');
 
-  const startTimeRef = useRef(0);
-  const prevPhaseRef = useRef(state.phase);
-  const aiTimerRef   = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Track game start/end for session stats
-  useEffect(() => {
-    const prev = prevPhaseRef.current;
-    const curr = state.phase;
-    prevPhaseRef.current = curr;
-
-    if (curr === 'playing' && prev !== 'playing') {
-      startTimeRef.current = Date.now();
-    } else if ((curr === 'won' || curr === 'lost') && prev === 'playing') {
-      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-      saveGameResultRef.current({ score: state.playerScore, level: 1, durationSeconds });
-    }
-  }, [state.phase]); // eslint-disable-line react-hooks/exhaustive-deps
+  usePhaseGameCompletion(
+    state.phase,
+    saveGameResultRef,
+    () => ({ score: state.playerScore, level: 1 }),
+    ['won', 'lost'],
+  );
 
   // Schedule AI move after player's turn with a short think delay
   useEffect(() => {

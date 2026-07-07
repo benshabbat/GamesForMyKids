@@ -1,5 +1,6 @@
 'use client';
 import { useCharityCoinGame } from '../useCharityCoinGame';
+import { StatBox } from '@/components/game/shared/StatBox';
 
 export default function CharityGameHeader() {
   const { score, gameTime, collectedCoins, isMobile } =
@@ -46,20 +47,29 @@ export default function CharityGameHeader() {
           isMobile ? 'p-4' : 'p-6'
         }`}>
           <div className={`flex items-center justify-center ${isMobile ? 'gap-4' : 'gap-8'}`}>
-            <div className="text-center">
-              <div className={`font-bold text-blue-600 mb-1 ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{score}</div>
-              <div className={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>💰 ניקוד</div>
-            </div>
+            <StatBox
+              value={score}
+              label="💰 ניקוד"
+              bgClass="bg-transparent"
+              textClass={`font-bold text-blue-600 ${isMobile ? 'text-2xl' : 'text-3xl'}`}
+              labelClass={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}
+            />
             <div className={`bg-gray-300 ${isMobile ? 'w-px h-8' : 'w-px h-12'}`}></div>
-            <div className="text-center">
-              <div className={`font-bold text-red-500 mb-1 ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{gameTime}</div>
-              <div className={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>⏰ זמן</div>
-            </div>
+            <StatBox
+              value={gameTime}
+              label="⏰ זמן"
+              bgClass="bg-transparent"
+              textClass={`font-bold text-red-500 ${isMobile ? 'text-2xl' : 'text-3xl'}`}
+              labelClass={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}
+            />
             <div className={`bg-gray-300 ${isMobile ? 'w-px h-8' : 'w-px h-12'}`}></div>
-            <div className="text-center">
-              <div className={`font-bold text-green-600 mb-1 ${isMobile ? 'text-2xl' : 'text-3xl'}`}>{collectedCoins}</div>
-              <div className={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}>🪙 מטבעות</div>
-            </div>
+            <StatBox
+              value={collectedCoins}
+              label="🪙 מטבעות"
+              bgClass="bg-transparent"
+              textClass={`font-bold text-green-600 ${isMobile ? 'text-2xl' : 'text-3xl'}`}
+              labelClass={`font-semibold text-gray-600 ${isMobile ? 'text-xs' : 'text-sm'}`}
+            />
           </div>
         </div>
       </div>

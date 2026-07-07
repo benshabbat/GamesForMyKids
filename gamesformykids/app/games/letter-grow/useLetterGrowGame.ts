@@ -276,10 +276,9 @@ export function useLetterGrowGame() {
   }, [canvasRef]);
 
   const target = roundLettersRef.current[roundIdx];
-  const heartStr = '❤️'.repeat(lives) + '🖤'.repeat(MAX_LIVES - lives);
 
   return {
     phase, lives, catchCount, score, roundIdx, evolveInfo, hurtFlash,
-    target, heartStr, canvasRef, startGame, handlePointerMove,
+    target, canvasRef, startGame, handlePointerMove,
   };
 }

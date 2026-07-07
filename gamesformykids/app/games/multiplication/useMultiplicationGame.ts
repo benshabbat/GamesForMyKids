@@ -1,30 +1,15 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { createPhaseGameHook } from '@/hooks/shared/progress/createPhaseGameHook';
 import { useMultiplicationGameStore } from './multiplicationGameStore';
 import { LEVELS, QUESTIONS_PER_LEVEL, TIME_PER_QUESTION } from './data/tables';
-import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+
+const _useBase = createPhaseGameHook(
+  useMultiplicationGameStore,
+  'multiplication',
+  (s) => ({ score: s.score, level: typeof s.level === 'number' ? s.level : 1 }),
+);
 
 export function useMultiplicationGame() {
-  const store = useMultiplicationGameStore();
-  const { saveGameResultRef } = useGameCompletion('multiplication');
-  const startTimeRef = useRef<number>(0);
-
-  // Record start time when game begins
-  useEffect(() => {
-    if (store.phase === 'playing') {
-      startTimeRef.current = Date.now();
-    }
-  }, [store.phase]);
-
-  // Persist result when game ends
-  useEffect(() => {
-    if (store.phase === 'result') {
-      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-      const level = typeof store.level === 'number' ? store.level : 1;
-      saveGameResultRef.current({ score: store.score, level, durationSeconds });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [store.phase]);
-
+  const store = _useBase();
   return { ...store, totalQuestions: QUESTIONS_PER_LEVEL, levels: LEVELS, timePerQuestion: TIME_PER_QUESTION };
 }

@@ -1,10 +1,12 @@
 'use client';
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useQuizSession } from '@/lib/quiz/useQuizSession';
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { shuffle } from '@/lib/utils';
 
 export type Zone = 'head' | 'neck' | 'torso' | 'hands' | 'legs' | 'feet';
 export type Category = 'daily' | 'seasonal' | 'professions';
-export type Phase = 'menu' | 'playing' | 'result';
 
 export interface ClothingItem {
   name: string;
@@ -50,9 +52,8 @@ export const CATEGORY_LABELS: Record<Category, string> = {
 
 export const QUESTIONS_PER_GAME = 8;
 
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
+const ADVANCE_DELAY_MS = 1300;
+const RETRY_DELAY_MS = 900;
 
 export function buildChoices(correct: ClothingItem, pool: ClothingItem[]): ClothingItem[] {
   const others = shuffle(pool.filter(c => c.name !== correct.name)).slice(0, 3);
@@ -60,82 +61,48 @@ export function buildChoices(correct: ClothingItem, pool: ClothingItem[]): Cloth
 }
 
 export function useDressUpGame() {
-  const [phase, setPhase]         = useState<Phase>('menu');
-  const [questions, setQuestions] = useState<ClothingItem[]>([]);
-  const [qIdx, setQIdx]           = useState(0);
-  const [choices, setChoices]     = useState<ClothingItem[]>([]);
-  const [dressed, setDressed]     = useState<Partial<Record<Zone, ClothingItem>>>({});
-  const [score, setScore]         = useState(0);
-  const [feedback, setFeedback]   = useState<'correct' | 'wrong' | null>(null);
-  const timerRef      = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { phase, current, begin, answer, reset } = useQuizSession<ClothingItem>('dress-up');
+  const [dressed, setDressed] = useState<Partial<Record<Zone, ClothingItem>>>({});
+  const [wrongFlash, setWrongFlash] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Refs for stale-closure–free selectAnswer
-  const feedbackRef   = useRef<'correct' | 'wrong' | null>(null);
-  const questionsRef  = useRef<ClothingItem[]>([]);
-  const qIdxRef       = useRef(0);
+  const choices = useMemo(() => current ? buildChoices(current, CLOTHING) : [], [current]);
 
-  feedbackRef.current  = feedback;
-  questionsRef.current = questions;
-  qIdxRef.current      = qIdx;
+  // Speak the prompt whenever a new question loads
+  useEffect(() => {
+    if (!current) return;
+    const id = setTimeout(() => speakHebrew(current.prompt), 300);
+    return () => clearTimeout(id);
+  }, [current]);
 
   const startGame = useCallback(() => {
-    const qs = shuffle(CLOTHING).slice(0, QUESTIONS_PER_GAME);
-    setQuestions(qs);
-    questionsRef.current = qs;
-    setQIdx(0);
-    qIdxRef.current = 0;
-    setScore(0);
     setDressed({});
-    setFeedback(null);
-    feedbackRef.current = null;
-    const first = qs[0]!;
-    setChoices(buildChoices(first, CLOTHING));
-    setPhase('playing');
-    setTimeout(() => speakHebrew(first.prompt), 400);
-  }, []);
+    setWrongFlash(false);
+    begin(shuffle(CLOTHING).slice(0, QUESTIONS_PER_GAME));
+  }, [begin]);
 
   const selectAnswer = useCallback((item: ClothingItem) => {
-    const current = questionsRef.current[qIdxRef.current];
-    if (feedbackRef.current || !current) return;
-    if (timerRef.current) clearTimeout(timerRef.current);
-
+    if (!current || wrongFlash) return;
     if (item.name === current.name) {
-      setFeedback('correct');
-      feedbackRef.current = 'correct';
-      setScore(s => s + 1);
       setDressed(d => ({ ...d, [current.zone]: current }));
+      answer(item.name, true);
       speakHebrew(`כן! ${current.hebrew}!`);
-      timerRef.current = setTimeout(() => {
-        const next = qIdxRef.current + 1;
-        if (next >= questionsRef.current.length) {
-          setPhase('result');
-        } else {
-          const nextQ = questionsRef.current[next]!;
-          setQIdx(next);
-          qIdxRef.current = next;
-          setChoices(buildChoices(nextQ, CLOTHING));
-          setFeedback(null);
-          feedbackRef.current = null;
-          setTimeout(() => speakHebrew(nextQ.prompt), 300);
-        }
-      }, 1300);
+      timerRef.current = setTimeout(() => useQuizGameStore.getState().nextQuestion(), ADVANCE_DELAY_MS);
     } else {
-      setFeedback('wrong');
-      feedbackRef.current = 'wrong';
+      setWrongFlash(true);
       speakHebrew('לא נכון, נסה שוב!');
-      timerRef.current = setTimeout(() => {
-        setFeedback(null);
-        feedbackRef.current = null;
-      }, 900);
+      timerRef.current = setTimeout(() => setWrongFlash(false), RETRY_DELAY_MS);
     }
-  }, []);
+  }, [current, wrongFlash, answer]);
+
+  const restart = useCallback(() => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setDressed({});
+    setWrongFlash(false);
+    reset(shuffle(CLOTHING).slice(0, QUESTIONS_PER_GAME));
+  }, [reset]);
 
   useEffect(() => () => { if (timerRef.current) clearTimeout(timerRef.current); }, []);
 
-  return {
-    phase, questions, qIdx, choices, dressed, score, feedback,
-    startGame, selectAnswer,
-    current: questions[qIdx],
-    ZONE_ORDER, ZONE_PLACEHOLDER, ZONE_LABEL, CATEGORY_LABELS, QUESTIONS_PER_GAME,
-  };
+  return { phase, current, choices, dressed, wrongFlash, startGame, selectAnswer, restart };
 }
