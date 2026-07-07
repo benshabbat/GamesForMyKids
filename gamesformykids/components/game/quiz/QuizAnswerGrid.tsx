@@ -33,6 +33,7 @@ export function QuizAnswerGrid({
     choices.length,
     (idx) => onSelect(choices[idx]!),
     enabled,
+    cols,
   );
 
   const gridClass = cols === 1
