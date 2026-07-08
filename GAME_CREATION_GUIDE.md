@@ -14,7 +14,11 @@
 
 כל המשחקים מוגשים ממסלול יחיד: `app/games/[gameType]/page.tsx`
 
-הפלטפורמה תומכת בשלושה סוגי משחקים:
+> **הערה:** מדריך זה מכסה את שני הזרמים העיקריים (כרטיסים ומותאם אישית) בצורה מפורטת ונרטיבית.
+> ל-**חמשת** הסגנונות המלאים (כולל שלוש רמות של משחקי חידון) וטבלת ההחלטה המעודכנת ביותר,
+> ראו `CLAUDE.md` בשורש הפרויקט — הוא מקור האמת הטכני ומתעדכן יחד עם הקוד.
+
+הפלטפורמה תומכת בשלושה זרמי-על של משחקים:
 
 ### 1. משחקי כרטיסים (Card Games)
 - משחקי זיהוי פריטים (צבעים, חיות, פירות וכו')
@@ -44,7 +48,7 @@
 
 ```typescript
 // lib/constants/gameData/myCategory.ts
-import { BaseGameItem } from "@/lib/types/base";
+import { BaseGameItem } from "@/lib/types/core/base";
 
 export const MY_GAME_CONSTANTS: Record<string, BaseGameItem> = {
   ITEM1: {
@@ -101,13 +105,13 @@ export const GAME_ITEMS_MAP = {
 
 ### שלב 2: הוספה לרישום המשחקים
 
-עדכן את `lib/registry/gamesRegistry.ts`:
+עדכן את הקובץ המתאים תחת `lib/registry/registryData/batch<N>.ts` (הרישום מפוצל לכמה קבצי batch — בחר את זה שהכי הגיוני תמטית, או את האחרון אם לא בטוחים):
 
 ```typescript
 // בתחילת הקובץ
 import { YourIcon } from "lucide-react"; // בחר אייקון מתאים
 
-// בתוך GAMES_REGISTRY
+// בתוך מערך הרשומות של קובץ ה-batch
 {
   id: "my-game",
   title: "המשחק שלי",
@@ -122,10 +126,11 @@ import { YourIcon } from "lucide-react"; // בחר אייקון מתאים
 
 ### שלב 3: הוספת הגדרות UI
 
-עדכן את `lib/constants/ui/gameConfigs.ts`:
+עדכן את קובץ הקבוצה המתאים תחת `lib/constants/ui/` (הקובץ מפוצל לפי נושא: `gameConfigs.educational.ts`, `gameConfigs.nature.ts`, `gameConfigs.home-life.ts`, `gameConfigs.activities.ts`, `gameConfigs.advanced.ts`, `gameConfigs.photo-quiz.ts`):
 
 ```typescript
-export const GAME_UI_CONFIGS: Record<GameType, GameUIConfig> = {
+// לדוגמה בתוך gameConfigs.nature.ts
+export const NATURE_GAME_CONFIGS = {
   // ... הגדרות קיימות
   'my-game': {
     title: 'המשחק שלי',
@@ -171,7 +176,7 @@ export const SUPPORTED_GAMES = [
 
 ### שלב 6: הוספה לגריד הקטגוריות
 
-עדכן את `components/marketing/CategorizedGamesGrid.tsx` כדי שהמשחק יופיע בדף הבית תחת הקטגוריה הנכונה.
+עדכן את `lib/constants/gameCategories.ts` — הוסף את מזהה המשחק למערך `gameIds` של הקטגוריה המתאימה, כדי שהמשחק יופיע בדף הבית (הרכיב `components/marketing/CategorizedGamesGrid.tsx` רק מציג את הנתונים מהקובץ הזה, לא צריך לגעת בו).
 
 ## � יצירת משחק מותאם אישית (Custom Game)
 
@@ -180,13 +185,13 @@ export const SUPPORTED_GAMES = [
 
 ### שלב 1: יצירת Zustand store
 
-השתמש ב-`makeStore` / `makePersistStore` מ-`@/lib/stores/storeFactory`:
+בדקו קודם אם `createChallengeStore` (ב-`lib/stores/utils/createChallengeStore.ts`) מתאים למשחק — הוא factory מוכן למשחקי אתגר/ניקוד. אם לא, השתמשו ב-`makeStore` / `makePersistStore` מ-`@/lib/stores/createStore.ts`:
 
 ```typescript
 // app/games/my-game/myGameStore.ts
 'use client';
 
-import { makeStore } from '@/lib/stores/storeFactory';
+import { makeStore } from '@/lib/stores/createStore';
 
 interface MyGameState {
   score: number;
@@ -338,7 +343,7 @@ function MyGameHeader() {
 ## 🔊 הוספת צלילים
 
 ```typescript
-import { useGameAudio } from "@/hooks/shared/ui/useGameAudio";
+import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 
 function MyGameComponent() {
   const { playSound, speak } = useGameAudio();
@@ -424,13 +429,13 @@ npm start
 ### משחק כרטיסים
 
 ```
-lib/constants/gameData/myCategory.ts   # נתוני הפריטים
-lib/constants/gameItemsMap.ts          # הוסף ערך
-lib/registry/gamesRegistry.ts         # הוסף רשומה
-lib/types/core/base.ts                # הוסף ל-GameType
-lib/constants/ui/gameConfigs.ts       # הוסף הגדרות UI
-app/games/[gameType]/gamePageConstants.ts  # הוסף ל-SUPPORTED_GAMES
-components/marketing/CategorizedGamesGrid.tsx  # הוסף לקטגוריה
+lib/constants/gameData/myCategory.ts        # נתוני הפריטים
+lib/constants/gameItemsMap.ts               # הוסף ערך
+lib/registry/registryData/batch<N>.ts       # הוסף רשומה
+lib/types/core/base.ts                      # הוסף ל-GameType
+lib/constants/ui/gameConfigs.<group>.ts     # הוסף הגדרות UI (educational/nature/home-life/activities/advanced/photo-quiz)
+app/games/[gameType]/gamePageConstants.ts   # הוסף ל-SUPPORTED_GAMES
+lib/constants/gameCategories.ts             # הוסף למערך gameIds של הקטגוריה
 ```
 
 ### משחק מותאם (Custom)
@@ -447,8 +452,12 @@ app/games/my-game/
 # עדכן גם:
 app/games/[gameType]/CustomGameRenderer.tsx   # הוסף dynamic import
 app/games/[gameType]/gamePageConstants.ts     # הוסף ל-SUPPORTED_GAMES + CUSTOM_GAME_TYPES
-lib/registry/gamesRegistry.ts                # הוסף רשומה
+lib/registry/registryData/batch<N>.ts        # הוסף רשומה
 lib/types/core/base.ts                       # הוסף ל-GameType
 ```
+
+### משחק חידון (Quiz)
+
+משחקי חידון (Style B/C/E) לא מכוסים במדריך זה בפירוט — יש להם שלושה תת-סגנונות (נתונים בלבד / factory מותאם / רכיב עצמאי מורכב) עם קבצי רישום נפרדים תחת `lib/quiz/registry/`. ראו את "Style B/C/E" ב-`CLAUDE.md` לצ'קליסט המלא והעדכני.
 
 בהצלחה ביצירת המשחק החדש! 🎉

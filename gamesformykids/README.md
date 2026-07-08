@@ -7,11 +7,11 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 ## Overview
 
-160+ educational games across 15 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
+214 educational games across 13 categories — Hebrew letters, math, nature, creativity, holidays, arcade, board games and more. Fully responsive with mobile-first design and Hebrew text-to-speech throughout.
 
 ## Features
 
-- **160+ Games**  covering all key early-childhood learning areas
+- **214 Games**  covering all key early-childhood learning areas
 - **Daily Featured Game**  smart algorithm recommends a game each day
 - **Age Recommendations**  grouped for ages 2-3, 3-4, and 4-5
 - **Hebrew TTS**  full audio pronunciation via Web Speech API
@@ -21,23 +21,23 @@ An interactive educational games platform for children aged 2-5, featuring full 
 
 ## Game Categories
 
-| Category | Examples |
-|----------|---------|
-| Basic Learning | Hebrew Letters, Numbers, Colors, Shapes, Advanced Colors |
-| Math & Numbers | Counting, Math, Arithmetic, Multiplication, Fractions, Sequences |
-| Language & Words | Spelling, Word Builder, Word Scramble, Opposites, English Words |
-| Nature & Animals | Animals, Birds, Bugs & Insects, Dinosaurs, Ocean Life, Dog Breeds, Cat Breeds |
-| Food & Health | Fruits, Vegetables, Healthy Food, World Food, Medicine |
-| World & Geography | Geography, Capitals, Continents, Israel, Flags, Transport, Solar System |
-| Home & Life | House, Clothing, Professions, Family, Tzedakah |
-| Creativity & Arts | Instruments, Drawing, Building, Art & Craft, Puzzles, Famous Paintings |
-| Science & Thinking | Science, Recycling, Climate, Space, Logic Games, True/False, Trivia |
-| Health & Emotions | Emotions, Emotional Social, Body Movements, Road Safety |
-| Holidays & Religion | Jewish Holidays, Holidays, Tzadikim, Seasons & Holidays |
-| Trivia & Quizzes | Sports Quiz, Soccer, NBA Teams, Car Brands, Superheroes, Magic Fairy Tales |
-| Arcade Games | Flappy Bird, Snake, Dino Runner, Space Defender, Pong, Frogger, Tetris, Reflex |
-| Board & Card Games | Memory, Simon Says, Taki, Checkers, Chess, Shesh-Besh |
-| Advanced Themes | Advanced Colors, Advanced Weather, Color Mix, Shapes 3D, Camping |
+Categories and their game lists live in `lib/constants/gameCategories.ts` (source of truth — a game can belong to more than one category).
+
+| Category | Games | Examples |
+|----------|------:|---------|
+| Basic Learning | 20 | Hebrew Letters, Numbers, Colors, Shapes, Nikud, Phonics |
+| Creativity & Arts | 19 | Instruments, Drawing, Building, Tetris, Famous Paintings |
+| Nature & Food | 16 | Animals, Birds, Ocean Life, Dinosaurs, Dog/Cat Breeds |
+| World & Transport | 19 | Geography, Capitals, Continents, Israel, Flags, Solar System |
+| Home & Life | 13 | House Items, Clothing, Professions, Family, Tzedakah |
+| Math & Thinking | 21 | Counting, Math, Arithmetic, Multiplication, Fractions, Sequences |
+| Special Games | 9 | Memory, Bubbles, Emotions, Sports, Soccer, NBA Teams |
+| Health & Safety | 7 | Medicine, Road Safety, Body Parts, Human Body |
+| Science & Technology | 7 | Recycling, Dinosaurs, Virtual Reality, Climate & Planet |
+| Holidays & Seasons | 8 | Jewish Holidays, Holidays, Tzadikim, Seasons & Holidays |
+| Innovative Games | 11 | Sound Imitation, Visual Logic, Spinner, Team Picker, Dice |
+| Arcade Games | 33 | Flappy Bird, Snake, Dino Runner, Pong, Frogger, Chess, Shesh-Besh |
+| Educational Games | 39 | Trivia, Spelling, Riddles, Word Scramble, Crossword, Clock |
 
 ## Installation
 
@@ -54,7 +54,7 @@ Open [http://localhost:3000](http://localhost:3000)
 
 | Technology | Purpose |
 |------------|---------|
-| **Next.js 15** | App Router, Server Components, Turbopack |
+| **Next.js 16** | App Router, Server Components, Turbopack |
 | **React 19** | Latest stable React with concurrent features |
 | **TypeScript** | Strict type safety |
 | **Tailwind CSS 4** | Responsive styling |
@@ -63,6 +63,8 @@ Open [http://localhost:3000](http://localhost:3000)
 | **Web Speech API** | Hebrew TTS |
 | **Lucide React** | Icon system |
 | **Supabase** | Optional auth (guest mode works without it) |
+| **Sentry** | Error monitoring |
+| **Vitest / Playwright** | Unit + component tests / E2E tests |
 | **PWA / Service Worker** | Offline support |
 
 ## Project Structure
@@ -96,12 +98,13 @@ gamesformykids/
  lib/
     constants/
       gameData/               # Item data per game group
-      ui/gameConfigs.ts       # Per-game UI config
-    registry/gamesRegistry.ts # Single source of truth for game metadata
+      gameCategories.ts       # Category -> gameIds mapping (home page grid)
+      ui/gameConfigs.*.ts     # Per-game UI config, split by group
+    registry/registryData/batch*.ts # Single source of truth for game metadata
     types/core/base.ts        # GameType union
-    stores/                   # Zustand stores (shared/global only)
-    quiz/                     # Quiz hooks + factory functions
-    providers/                # React context providers (GameTypeProvider, etc.)
+    stores/                   # Zustand stores + createStore.ts (makeStore/makePersistStore)
+    quiz/                     # Quiz hooks, data, and registries (generic/custom/complex)
+    providers/                # React context providers (GameTypeProvider, AuthProvider)
  public/                      # manifest.json, sw.js, icons
 ```
 
@@ -112,7 +115,7 @@ All games are served from a single route: `app/games/[gameType]/page.tsx`
 | Game kind | How it renders | Examples |
 |-----------|---------------|----------|
 | **Card games** | `UltimateGamePage` via `GameTypeProvider` + `GameLogicSync` | colors, animals, math |
-| **Quiz games** | `UltimateGamePage` → `QuizGameRouter` | geography, science, spelling |
+| **Quiz games** | `UltimateGamePage` → `QuizGameRouter` (`components/game/quiz/`) | geography, science, spelling |
 | **Custom games** | `CustomGameRenderer` → per-game client component | memory, chess, tetris, drawing |
 
 ## Adding a New Game
@@ -120,12 +123,12 @@ All games are served from a single route: `app/games/[gameType]/page.tsx`
 1. Add item data to `lib/constants/gameData/*.ts`
 2. Export from `lib/constants/gameItemsMap.ts`
 3. Add to `GameType` union in `lib/types/core/base.ts`
-4. Add entry in `lib/registry/gamesRegistry.ts`
+4. Add entry in `lib/registry/registryData/batch<N>.ts`
 5. Add to `SUPPORTED_GAMES` (and `CUSTOM_GAME_TYPES` if custom) in `app/games/[gameType]/gamePageConstants.ts`
-6. Add UI config in `lib/constants/ui/gameConfigs.ts`
-7. Add to category in `components/marketing/CategorizedGamesGrid.tsx`
+6. Add UI config in the relevant `lib/constants/ui/gameConfigs.<group>.ts`
+7. Add the game id to a category's `gameIds` in `lib/constants/gameCategories.ts`
 
-See `../GAME_CREATION_GUIDE.md` for full instructions.
+See `CLAUDE.md` for the full, current step-by-step checklist per game style (it supersedes `GAME_CREATION_GUIDE.md` for anything that conflicts).
 
 ## Auth & Supabase
 
@@ -155,7 +158,7 @@ Chrome 90+, Firefox 88+, Safari 14+, Edge 90+, iOS Safari 14+
 
 ## License
 
-MIT  see [LICENSE](../LICENSE)
+MIT. (No `LICENSE` file is currently checked into the repository — add one if you need to make this explicit for downstream users.)
 
 ## Contact
 

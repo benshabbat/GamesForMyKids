@@ -7,13 +7,15 @@
 - **TetrisGame.tsx** - משחק הטטריס הראשי
 - **GameBoard.tsx** - לוח המשחק
 - **AnimatedBackground.tsx** - רקע מונפש
-- **LoadingScreen.tsx** - מסך טעינה
 - **NextPieceDisplay.tsx** - תצוגת החלק הבא
 - **TouchControls.tsx** - בקרי מגע למובייל
-- **InfoPanels.tsx** - פאנלי מידע (ניקוד, רמה וכו')
+- **useTouchControls.ts** - הוק ללוגיקת בקרות המגע
+- **InfoPanels.tsx** - פאנלי מידע (`MobileInfoPanel`, `DesktopInfoPanel`)
+
+מסך הטעינה נשאב מהרכיב המשותף `@/components/layout` (`LoadingScreen`), לא מקובץ מקומי.
 
 ## שימוש:
 
 ```tsx
-import { TetrisGame, GameBoard } from '@/components/game/tetris';
+import { TetrisGame, GameBoard } from '@/app/games/tetris/components';
 ```

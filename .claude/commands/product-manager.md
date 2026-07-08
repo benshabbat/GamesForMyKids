@@ -27,7 +27,7 @@ grep -r "GameType" gamesformykids/lib/types/core/base.ts -n
 # All supported games
 cat gamesformykids/app/games/\[gameType\]/gamePageConstants.ts
 # Games appearing on home page
-grep -A 3 "category\|group\|Category" gamesformykids/components/marketing/CategorizedGamesGrid.tsx | head -80
+grep -A 3 "title:\|description:\|gameIds:" gamesformykids/lib/constants/gameCategories.ts | head -80
 ```
 
 ### 1b. Open GitHub issues
@@ -46,7 +46,7 @@ gh pr list --repo benshabbat/GamesForMyKids --state merged --limit 30 \
 
 ### 1d. Game categories on home page
 
-Read `gamesformykids/components/marketing/CategorizedGamesGrid.tsx` to understand how games are grouped.
+Read `gamesformykids/lib/constants/gameCategories.ts` to understand how games are grouped (it's the data source — `CategorizedGamesGrid.tsx` just renders it).
 
 ---
 

@@ -50,7 +50,7 @@ ls gamesformykids/lib/quiz/data/
 grep -r "title:\|subTitle:\|challengeTitle:" gamesformykids/lib/constants/ui/ --include="*.ts" -A 1
 
 # Category grid — see which category the existing similar game is in
-grep -n "'<candidate-id>'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx
+grep -n "'<candidate-id>'" gamesformykids/lib/constants/gameCategories.ts
 ```
 
 For each candidate, read its data file to understand what content it covers:

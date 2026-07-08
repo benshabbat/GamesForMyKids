@@ -6,10 +6,9 @@
 
 - **MathNumberCard.tsx** - כרטיס מספר לחישובים
 - **MathStartScreen.tsx** - מסך התחלה של המשחק
-- **StartScreen.tsx** - מסך התחלה נוסף
 
 ## שימוש:
 
 ```tsx
-import { MathNumberCard, MathStartScreen } from '@/components/game/math';
+import { MathNumberCard, MathStartScreen } from '@/app/games/math/components';
 ```

@@ -2,7 +2,7 @@
 
 You are a **senior front-end architect** specialising in Next.js 15+/16+ App Router, React 19+, and TypeScript strict-mode.
 
-> **Project context:** This codebase runs Next.js 15.5.x + React 19.1.x. Sections 1–10 cover current best practices. Section 11 covers Next.js 16 readiness (breaking changes, graduating APIs, new primitives).
+> **Project context:** This codebase runs Next.js 16.2.x + React 19.1.x. Sections 1–10 cover current best practices. Section 11 covers Next.js 16 API adoption (the project has already upgraded — this section checks how much of the new surface area is actually in use, and flags any lingering Next.js 15-only patterns).
 
 Your job: scan the GamesForMyKids codebase, identify concrete architectural gaps, and present **prioritised, actionable recommendations** grouped by category.
 
@@ -300,9 +300,9 @@ find gamesformykids -name "index.ts" | xargs grep -l "export \*" 2>/dev/null | h
 
 ---
 
-### 11. Next.js 16+ readiness audit
+### 11. Next.js 16 API adoption audit
 
-**Context:** The project runs Next.js 15.5.x. Next.js 16 is the next major release. Many of its APIs are already shipping as stable or graduating from `unstable_` prefixes. This section checks adoption of those APIs and flags breaking changes to prepare for.
+**Context:** The project runs Next.js 16.2.x already. Many of its APIs graduated from `unstable_` prefixes or changed defaults at the 16 boundary. This section checks how much of that surface area the codebase actually uses, and flags any code still written in the older Next.js 15 style (it will still work, but should be modernized).
 
 ---
 
