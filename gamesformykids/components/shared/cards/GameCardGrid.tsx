@@ -104,10 +104,16 @@ export function GameCardGrid<T extends GameItemType>({
             {renderCustomCard ? (
               renderCustomCard(item, isCorrect)
             ) : (
-              <div
+              <button
+                type="button"
                 onClick={() => handleItemClick(item)}
+                aria-label={
+                  'hebrew' in item ? String(itemObj.hebrew)
+                  : 'digit' in item ? String(itemObj.digit)
+                  : itemKey
+                }
                 className={`
-                  aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow]
+                  w-full aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow]
                   duration-300 hover:scale-110 shadow-xl hover:shadow-2xl
                   bg-linear-to-br from-gray-400 to-gray-600
                   border-8 border-white
@@ -142,7 +148,7 @@ export function GameCardGrid<T extends GameItemType>({
                     </div>
                   )}
                 </div>
-              </div>
+              </button>
             )}
           </div>
         );

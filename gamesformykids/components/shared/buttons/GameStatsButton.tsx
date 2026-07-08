@@ -14,6 +14,7 @@ export default function GameStatsButton() {
         transition-[transform,colors] duration-200 font-bold flex items-center gap-2
       "
       title="הצג סטטיסטיקות מפורטות"
+      aria-label="הצג סטטיסטיקות מפורטות"
     >
       📊 {Math.round(currentAccuracy)}%
     </button>
