@@ -49,6 +49,7 @@ export default function ChallengeBox({
         className={`font-bold mb-4 cursor-pointer hover:scale-110 transition-transform ${iconColor}`}
         style={{ fontSize: "4rem" }}
         onClick={handleSpeak}
+        aria-hidden="true"
       >
         {icon}
       </div>

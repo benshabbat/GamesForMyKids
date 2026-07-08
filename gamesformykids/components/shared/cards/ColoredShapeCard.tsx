@@ -25,13 +25,15 @@ export default function ColoredShapeCard({
   const ShapeComponent = SHAPE_ICON_MAP[item.svg as keyof typeof SHAPE_ICON_MAP];
 
   return (
-    <div
+    <button
+      type="button"
       onClick={() => handleItemClick(item)}
+      aria-label={item.hebrew}
       className={`
-        relative group bg-white rounded-3xl p-8 shadow-xl 
-        hover:shadow-2xl hover:scale-105 
-        transform transition-[transform,box-shadow] duration-300 cursor-pointer 
-        border-2 border-gray-100 hover:border-gray-200
+        relative group bg-white rounded-3xl p-8 shadow-xl
+        hover:shadow-2xl hover:scale-105
+        transform transition-[transform,box-shadow] duration-300 cursor-pointer
+        border-2 border-gray-100 hover:border-gray-200 w-full
         ${className}
       `}
     >
@@ -89,6 +91,6 @@ export default function ColoredShapeCard({
           background: `linear-gradient(45deg, ${item.value}, transparent)`
         }}
       />
-    </div>
+    </button>
   );
 }
