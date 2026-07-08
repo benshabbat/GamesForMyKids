@@ -10,13 +10,13 @@
 
 ```bash
 cd gamesformykids
-npm run lint        # ESLint
-npm run typecheck   # tsc --noEmit
-npm run test        # Vitest unit tests
+npx tsc --noEmit    # Typecheck (there is no "typecheck" npm script — this is what CI runs)
+npx eslint . --max-warnings=0   # Lint (matches CI; `npm run lint` also works locally)
+npm test -- --run   # Vitest unit tests
 npm run build       # next build (full production build)
 ```
 
-Run all four before opening a PR to catch issues early.
+Run all four before opening a PR to catch issues early — these are exactly the commands the "Typecheck, Lint & Test" CI job runs.
 
 ## Workflow
 

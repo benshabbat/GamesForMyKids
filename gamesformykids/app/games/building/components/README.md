@@ -1,96 +1,54 @@
 # Building Game Components
 
-This directory contains the modular components for the Building Game.
+This directory contains the modular components for the Building Game. State is managed by a **Zustand store** (`useBuildingStore`, composed from slices), not React Context — components read state via store selectors instead of props drilling or a context provider.
 
-## Components
+## Structure
 
-# Building Game Components
+Components are grouped into three subfolders:
 
-This directory contains the modular components for the Building Game. All components use the **BuildingContext** to avoid props drilling.
+```
+components/
+├── canvas/     # BlockRenderer, BlockShape, BuildingCanvas, EmptyCanvasWelcome
+├── controls/   # ActionButtons, ColorPicker, SettingsPanel, ShapeCreator
+└── ui/         # BuildingGameHeader, BuildingGameInstructions, ParticleSystem
+```
 
-## Context-Based Architecture
+### canvas/
+- **BuildingCanvas** - main canvas for building blocks; handles drag and drop, shows `EmptyCanvasWelcome` when empty
+- **BlockRenderer** - renders individual blocks/shapes, handles rotation and dragging (rotation button on hover, double-click to rotate 90°)
+- **BlockShape** - SVG shape primitives (including the heart shape, built from bezier curves with gradient fills)
+- **EmptyCanvasWelcome** - welcome message shown when the canvas is empty
 
-All components access state and functions through `useBuildingContext()` hook, eliminating the need for props drilling.
+### controls/
+- **ColorPicker** - color palette selection, shows the current color
+- **ShapeCreator** - available shapes + tool selection (normal, magic, rainbow)
+- **ActionButtons** - game action buttons (magic shuffle, clear, undo, redo) via the store's history slice
+- **SettingsPanel** - sound/grid/animation toggles, save functionality
 
-## Components
+### ui/
+- **BuildingGameHeader** - game title, score, and achievements
+- **BuildingGameInstructions** - game instructions and help
+- **ParticleSystem** - particle effects for visual feedback
 
-### ColorPicker
-- Displays a color palette for selection
-- Shows the currently selected color
-- **No props needed** - uses BuildingContext
+## State — Zustand store
 
-### ShapeCreator
-- Shows available shapes to create
-- Includes tool selection (normal, magic, rainbow)
-- **No props needed** - uses BuildingContext
+`app/games/building/store/buildingStore.ts` composes the store from slices: `blockSlice`, `blockDragSlice`, `historySlice`, `particleSlice`, `achievementSlice`, `settingsSlice`.
 
-### ActionButtons
-- Contains game action buttons (magic shuffle, clear, undo, redo)
-- Handles history management
-- **No props needed** - uses BuildingContext
+```tsx
+import { useBuildingStore } from '@/app/games/building/store/buildingStore';
 
-### SettingsPanel
-- Game settings toggle buttons
-- Sound, grid, animation controls
-- Save functionality
-- **No props needed** - uses BuildingContext
-
-### BlockRenderer
-- Renders individual blocks/shapes
-- Handles rotation, dragging, and interactions
-- Includes rotation button on hover
-- **Minimal props**: Only receives `block` object
-
-### ParticleSystem
-- Renders particle effects
-- Simple component for visual feedback
-- **No props needed** - uses BuildingContext
-
-### GameHeader
-- Displays game title, score, and achievements
-- **No props needed** - uses BuildingContext
-
-### BuildingCanvas
-- Main canvas for building blocks
-- Handles drag and drop interactions
-- Shows welcome message when empty
-- **No props needed** - uses BuildingContext
-
-### EmptyCanvasWelcome
-- Welcome message shown when canvas is empty
-- **No props needed** - pure presentation component
-
-### GameInstructions
-- Displays game instructions and help
-- **No props needed** - pure presentation component
-
-## Features Added
-
-### Rotation Controls
-- **Rotation Button**: Each block has a rotation button (⟲) that appears on hover
-- **Double Click**: Double-clicking a block rotates it by 90°
-- **Precision Rotation**: The rotation button rotates by 45° increments
-
-### Enhanced Heart Shape ✨
-The heart shape has been completely redesigned with:
-- **SVG-based rendering** for crisp, scalable graphics
-- **Gradient fills** with depth and dimension
-- **Smooth bezier curves** for natural heart shape
-- **Subtle highlights** for 3D appearance
-- **Optimized performance** with unique IDs for each heart
-- **Perfect symmetry** and balanced proportions
-- Proper positioning and scaling
+function MyComponent() {
+  const blocks = useBuildingStore((s) => s.blocks);
+  const createBlock = useBuildingStore((s) => s.createBlock);
+  // ...
+}
+```
 
 ## Usage
 
-Import all components from the index file:
+Import components from the local barrel:
 ```tsx
-import { 
-  ColorPicker, 
-  ShapeCreator, 
-  ActionButtons, 
-  SettingsPanel, 
-  BlockRenderer, 
-  ParticleSystem 
-} from '@/components/game/building';
+import { BuildingCanvas } from '@/app/games/building/components/canvas';
+import { ColorPicker, ActionButtons } from '@/app/games/building/components/controls';
+import { BuildingGameHeader } from '@/app/games/building/components/ui';
 ```

@@ -46,8 +46,8 @@ grep -o "'[^']*'" gamesformykids/app/games/\[gameType\]/CustomGameRenderer.tsx |
 grep '"id":' gamesformykids/lib/registry/registryData/batch*.ts | grep -o '"[^"]*"' | tr -d '"'
 grep 'available:' gamesformykids/lib/registry/registryData/batch*.ts | head -200
 
-# 1h — Category grid IDs
-grep -o "'[^']*'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx | tr -d "'"
+# 1h — Category grid IDs (gameCategories.ts holds the gameIds arrays; CategorizedGamesGrid.tsx only renders them)
+grep -o "'[^']*'" gamesformykids/lib/constants/gameCategories.ts | tr -d "'"
 
 # 1i — UI config keys (Style A)
 grep -rn "^\s*'[^']*':" gamesformykids/lib/constants/ui/ --include="gameConfigs*.ts" | grep -o "'[^']*':" | tr -d "':'
@@ -78,7 +78,7 @@ For each game, compare against the batch data collected in Phase 1.
 | **R1** GameType union | `lib/types/core/base.ts` | ID present | ❌ TS errors will occur |
 | **R2** SUPPORTED_GAMES | `gamePageConstants.ts` | ID in array | ❌ Route returns 404 |
 | **R3** Registry entry | `batch*.ts` | `id` found with `available: true` and correct `href: "/games/<id>"` | ⚠️ Hidden from home page |
-| **R4** Category grid | `CategorizedGamesGrid.tsx` | ID present | ⚠️ Not browseable from home page |
+| **R4** Category grid | `gameCategories.ts` | ID present in a category's `gameIds` | ⚠️ Not browseable from home page |
 
 ---
 

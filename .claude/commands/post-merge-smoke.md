@@ -83,7 +83,7 @@ grep "'<id>'" gamesformykids/app/games/\[gameType\]/gamePageConstants.ts
 grep '"id": "<id>"' gamesformykids/lib/registry/registryData/batch*.ts
 
 # 4. Category grid
-grep "'<id>'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx
+grep "'<id>'" gamesformykids/lib/constants/gameCategories.ts
 
 # 5. GAME_ITEMS_MAP (Style A only) or quiz registry (Style B/C)
 grep "'<id>'" gamesformykids/lib/constants/gameItemsMap.ts 2>/dev/null || \

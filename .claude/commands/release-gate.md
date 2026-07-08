@@ -77,7 +77,7 @@ GAME_ID="<id>"
 echo "=== GameType ===" && grep "'$GAME_ID'" gamesformykids/lib/types/core/base.ts
 echo "=== SUPPORTED_GAMES ===" && grep "'$GAME_ID'" gamesformykids/app/games/\[gameType\]/gamePageConstants.ts
 echo "=== Registry batch ===" && grep -r "'$GAME_ID'" gamesformykids/lib/registry/registryData/
-echo "=== Category grid ===" && grep "'$GAME_ID'" gamesformykids/components/marketing/CategorizedGamesGrid.tsx
+echo "=== Category grid ===" && grep "'$GAME_ID'" gamesformykids/lib/constants/gameCategories.ts
 ```
 
 Also check style-specific registrations:

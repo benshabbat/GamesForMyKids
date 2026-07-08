@@ -63,7 +63,7 @@ These files are modified by almost every game-addition PR — they're the most l
 | `app/games/[gameType]/gamePageConstants.ts` | Every game adds to SUPPORTED_GAMES |
 | `lib/constants/gameItemsMap.ts` | Every Style A game adds an entry |
 | `lib/registry/registryData/batch*.ts` | Every game adds a registry entry |
-| `components/marketing/CategorizedGamesGrid.tsx` | Every game adds to a category array |
+| `lib/constants/gameCategories.ts` | Every game adds to a category's `gameIds` array |
 
 ---
 

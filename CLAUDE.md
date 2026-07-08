@@ -18,7 +18,7 @@ Before writing any new code, run these checks. The project has rich shared infra
 | A new Zustand store | `createChallengeStore\|makeStore\|makePersistStore` in `lib/stores/` |
 | A new quiz hook | `useGenericQuizGame\|createCategoryIndexQuizHook` in `lib/quiz/` |
 | A new quiz game component | `makeQuizGame\|GenericQuizGame` in `lib/quiz/` |
-| A new "start screen" component | `GenericStartScreen\|UltimateStartScreen` in `components/game/` |
+| A new "start screen" component | `GenericStartScreen` in `components/shared/screens/`, `UltimateStartScreen` in `components/game/universal/ultimate-game/` |
 | A new canvas game loop | `useCanvasLoop\|useCanvasReady` in `hooks/canvas/` |
 | A new score/progress bar | `GameResultCard\|ProgressDisplay\|LivesDisplay` in `components/` |
 | A new celebration/feedback | `GameCompletionCelebration\|CelebrationBox\|feedbackUtils` |

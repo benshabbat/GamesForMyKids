@@ -36,7 +36,7 @@ This project has these ownership areas:
 | **Core infrastructure** | `app/games/[gameType]/`, `lib/types/core/base.ts` | Lead developer |
 | **Game data** | `lib/constants/gameData/`, `lib/quiz/data/` | Content creator or any developer |
 | **UI config** | `lib/constants/ui/gameConfigs*.ts` | Any developer |
-| **Registry** | `lib/registry/`, `CategorizedGamesGrid.tsx` | Any developer |
+| **Registry** | `lib/registry/`, `lib/constants/gameCategories.ts` | Any developer |
 | **Shared stores** | `lib/stores/` | Lead developer |
 | **Shared hooks** | `hooks/shared/` | Lead developer |
 | **Shared components** | `components/shared/`, `components/game/shared/` | Lead developer |

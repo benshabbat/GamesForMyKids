@@ -1,70 +1,75 @@
-# Hebrew Letters Context
+# Hebrew Letters Components
 
-קונטקסט ייעודי עבור משחק תרגול האותיות העבריות שמצמצם props drilling ומספק ניהול מצב מרכזי.
+רכיבי משחק תרגול האותיות העבריות. הסטייט חי ב-**Zustand store** (`useHebrewLettersStore`), לא ב-React Context — אין Provider, אין props drilling; רכיבים קוראים ישירות מה-store דרך selectors.
 
-## מה כלול
+## מבנה
 
-### HebrewLettersContext
-קונטקסט ראשי שמכיל:
-- **מצב ציור (Drawing State)**: ניהול כלי הציור במסך הכתיבה
-- **מצב תרגול (Practice State)**: מעקב אחר השלבים והתקדמות
-- **התקדמות אותיות**: מעקב אחר אותיות שהושלמו
-- **הגדרות**: צבעים, עובי קווים, שלבי תרגול
+הרכיבים מפוצלים לארבע תיקיות תחת `components/`:
 
-### useHebrewLetters Hook
-הוק ראשי לגישה לקונטקסט:
-```tsx
-const {
-  currentLetter,
-  setCurrentLetter,
-  drawingState,
-  updateDrawingState,
-  practiceState,
-  updatePracticeState,
-  // ... עוד פונקציות
-} = useHebrewLetters();
+```
+components/
+├── canvas/     # WritingCanvas ומסך הכתיבה
+├── hub/        # דף הבית של המשחק — בחירת אות
+├── practice/   # מסך תרגול אות בודדת (שלבים)
+└── stats/      # מסכי סטטיסטיקה והתקדמות
 ```
 
-### useHebrewLetterPractice Hook
-הוק מותאם אישית לטיפול בלוגיקת תרגול אות ספציפית:
+### canvas/
+- **WritingCanvas** - קנבס הכתיבה הראשי
+- **LetterGuideOverlay** - שכבת הנחיה חזותית מעל האות
+- **CanvasToolbar**, **CanvasColorPicker**, **CanvasStrokeWidthPicker** - בקרות ציור
+- **CanvasDrawArea** - אזור הציור עצמו
+- (פנימי, לא מיוצא מה-barrel: `WritingCanvasContext.tsx`, `useWritingCanvas.ts`, `useLetterGuideOverlay.ts`)
+
+### hub/
+- **HebrewLettersHub** - מסך הבית של המשחק (בחירת אות לתרגול)
+- **HubHeader**, **HubInstructions**, **HubFunFacts** - חלקי הדף הראשי
+- **LettersGrid** - גריד כל האותיות
+- **HebrewLetterProgress** - אינדיקטור התקדמות לאות בודדת:
+  ```tsx
+  <HebrewLetterProgress letter={letterData} showName={true} size="lg" />
+  ```
+
+### practice/
+- **HebrewLetterPractice** - מסך תרגול האות (מנהל את השלבים)
+- **LetterIntroStep**, **LetterTracingStep**, **LetterWritingStep** - שלבי התרגול
+- **LetterFunFacts**, **LetterEncouragement** - משוב וטריוויה
+- (פנימי: `useLetterEncouragement.ts`)
+
+### stats/
+- **HebrewLettersStats** - סטטיסטיקות כלליות של התקדמות במשחק
+- **StatsGrid**, **StatsProgressBar**, **StatsAchievement** - רכיבי תצוגה
+- (קבצים נוספים בתיקייה שלא ב-barrel: `LetterSpecificStats.tsx`, `PracticeHistoryList.tsx`, `StatPanelCard.tsx`)
+
+## State — Zustand store
+
+`app/games/hebrew-letters/store/hebrewLettersStore.ts` מרכיב את ה-store מ-slices: `letterSlice`, `audioSlice`, `drawingSlice`, `practiceSlice`, `statsSlice`.
+
 ```tsx
-const {
-  currentStepInfo,
-  initializeLetter,
-  completeCurrentStep,
-  getCurrentInstructions,
-  // ... עוד פונקציות
-} = useHebrewLetterPractice(letterData);
+import { useHebrewLettersStore } from '@/app/games/hebrew-letters/store/hebrewLettersStore';
+
+function MyComponent() {
+  const currentLetter = useHebrewLettersStore((s) => s.currentLetter);
+  const practiceState = useHebrewLettersStore((s) => s.practiceState);
+  // ...
+}
 ```
 
-## רכיבים
-
-### HebrewLetterProgress
-רכיב להצגת התקדמות אות עם אינדיקטור חזותי:
-```tsx
-<HebrewLetterProgress 
-  letter={letterData} 
-  showName={true} 
-  size="lg" 
-/>
-```
-
-### HebrewLettersStats
-רכיב להצגת סטטיסטיקות כלליות של התקדמות במשחק.
-
-### WritingCanvas
-קנבס לכתיבה שמשתמש בקונטקסט לניהול מצב הציור.
+יש גם `useHebrewLetterPractice` (ב-`app/games/hebrew-letters/hooks/useHebrewLetterPractice.ts`) — הוק ללוגיקת תרגול אות ספציפית שעוטף קריאות ל-store.
 
 ## שימוש
 
-1. **עטיפה בפרובדיר**: עטפו את הרכיבים ב-`HebrewLettersProvider`
-2. **השתמשו בהוקים**: `useHebrewLetters` ו-`useHebrewLetterPractice`
-3. **אין צורך להעביר props**: הרכיבים מקבלים את המידע מהקונטקסט
+```tsx
+import { HebrewLettersHub } from '@/app/games/hebrew-letters/components/hub';
+import { HebrewLetterPractice } from '@/app/games/hebrew-letters/components/practice';
+import { WritingCanvas } from '@/app/games/hebrew-letters/components/canvas';
+import { HebrewLettersStats } from '@/app/games/hebrew-letters/components/stats';
+```
 
 ## יתרונות
 
-- ✅ **אין Props Drilling**: כל הנתונים זמינים דרך הקונטקסט
-- ✅ **ניהול מצב מרכזי**: כל הלוגיקה במקום אחד
-- ✅ **קוד נקי יותר**: רכיבים פשוטים יותר
+- ✅ **אין Props Drilling**: כל הנתונים זמינים דרך ה-store
+- ✅ **ניהול מצב מרכזי**: כל הלוגיקה במקום אחד, מפוצלת ל-slices קריאים
+- ✅ **בחירתיות (selectors)**: רכיבים נרנדרים מחדש רק כשהחלק הרלוונטי ב-state משתנה
 - ✅ **שימוש חוזר**: הוקים ורכיבים ניתנים לשימוש חוזר
 - ✅ **טיפוסים בטוחים**: תמיכה מלאה ב-TypeScript

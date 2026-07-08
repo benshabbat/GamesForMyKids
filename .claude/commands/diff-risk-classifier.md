@@ -31,7 +31,7 @@ Group files by layer:
 |-------|---------|---------------|
 | Game data | `lib/constants/gameData/*.ts` | Low — data-only changes |
 | UI config | `lib/constants/ui/gameConfigs*.ts` | Low |
-| Registry | `lib/registry/`, `CategorizedGamesGrid.tsx` | Medium — affects all pages |
+| Registry | `lib/registry/`, `lib/constants/gameCategories.ts` | Medium — affects all pages |
 | Types | `lib/types/` | High — TypeScript contract changes |
 | Shared stores | `lib/stores/` | High — affects multiple games |
 | Shared hooks | `hooks/shared/` | High — cross-game impact |

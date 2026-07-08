@@ -108,7 +108,7 @@ Files changed: <N>
 
 | File | Lines changed | Concern |
 |------|--------------|---------|
-| components/marketing/CategorizedGamesGrid.tsx | +87 / -3 | Unexpected large diff — verify no accidental whitespace reformat |
+| lib/constants/gameCategories.ts | +87 / -3 | Unexpected large diff — verify no accidental whitespace reformat |
 
 ---
 
