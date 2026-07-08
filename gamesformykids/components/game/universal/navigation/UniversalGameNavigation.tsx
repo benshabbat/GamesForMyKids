@@ -74,7 +74,7 @@ export default function UniversalGameNavigation({
 
         {currentGame && (
           <div
-            className="bg-black/20 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-xl text-sm md:text-base font-medium"
+            className="bg-gray-900/90 backdrop-blur-sm text-white px-3 py-1 md:px-4 md:py-2 rounded-xl text-sm md:text-base font-medium"
             aria-current="page"
           >
             {currentGame.title}
