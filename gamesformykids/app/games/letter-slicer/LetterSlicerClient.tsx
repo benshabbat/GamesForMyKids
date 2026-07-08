@@ -1,5 +1,6 @@
 'use client';
 import { useLetterSlicerGame, HEARTS_MAX, type Difficulty } from './useLetterSlicerGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function LetterSlicerClient() {
   const {
@@ -84,11 +85,7 @@ export default function LetterSlicerClient() {
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
-        <div className="flex gap-1 text-2xl">
-          {Array.from({ length: HEARTS_MAX }, (_, i) => (
-            <span key={i}>{i < hearts ? '❤️' : '🖤'}</span>
-          ))}
-        </div>
+        <LivesDisplay lives={hearts} max={HEARTS_MAX} size="text-2xl" />
         {target ? (
           <div className="bg-yellow-400/90 text-slate-900 font-bold px-4 py-1 rounded-full text-lg shadow">
             ✂️ {target}

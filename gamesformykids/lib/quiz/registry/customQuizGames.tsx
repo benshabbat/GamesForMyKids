@@ -10,6 +10,10 @@ import { useRiddlesProGame } from '@/lib/quiz/useRiddlesProGame';
 import { useTriviaCategoriesGame } from '@/lib/quiz/useTriviaCategoriesGame';
 import { useCityBuilderGame } from '@/lib/quiz/useCityBuilderGame';
 import { useWordWheelGame } from '@/lib/quiz/useWordWheelGame';
+import { useSoundQuizGame } from '@/app/games/sound-quiz/useSoundQuizGame';
+import type { SoundCategory } from '@/app/games/sound-quiz/data/soundClips';
+import { useNikudDragGame } from '@/app/games/nikud-drag/useNikudDragGame';
+import { useDressUpGame, type ClothingItem, type Zone } from '@/app/games/dress-up/useDressUpGame';
 
 // Hooks — small, kept static so tree-shaking inlines only what's used
 import { useClockGame } from '@/lib/quiz/useClockGame';
@@ -67,6 +71,10 @@ const DivisionQuestion     = dynamic(() => import('@/components/game/quiz/screen
 const StoryBuilderQuestion = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderQuestion'), { loading: () => <QuizGameSkeleton /> });
 const StoryBuilderResult   = dynamic(() => import('@/components/game/quiz/screens/StoryBuilderResult'), { loading: () => <QuizGameSkeleton /> });
 const CityBuilderStage     = dynamic(() => import('@/components/game/quiz/screens/CityBuilderStage'),   { loading: () => <QuizGameSkeleton /> });
+const SoundQuizMenuScreen  = dynamic(() => import('@/app/games/sound-quiz/components/SoundQuizMenuScreen'), { loading: () => <QuizGameSkeleton /> });
+const SoundQuizQuestion    = dynamic(() => import('@/app/games/sound-quiz/components/SoundQuizQuestion'), { loading: () => <QuizGameSkeleton /> });
+const NikudDragQuestion    = dynamic(() => import('@/app/games/nikud-drag/components/NikudDragQuestion'), { loading: () => <QuizGameSkeleton /> });
+const DressUpQuestion      = dynamic(() => import('@/app/games/dress-up/components/DressUpQuestion'), { loading: () => <QuizGameSkeleton /> });
 
 /**
  * Games built with makeQuizGame — custom hooks + lazy-loaded screen components.
@@ -250,6 +258,76 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
       menu:     <QuizMenuScreen emoji="🎡" title="ספין של מילים" description="סובב את הגלגל וגלה אות — אחר כך מצא מילה שמתחילה בה!" theme="violet" buttonLabel="🌀 בואו לסובב!" onStart={startGame} />,
       question: current ? <WordWheelQuestion current={current} choices={choices as string[]} onSelect={selectAnswer} /> : null,
       result:   <QuizResultScreen onRestart={restart} theme="violet" title="כל הכבוד!" />,
+    }),
+  ),
+
+  'sound-quiz': makeQuizGame(
+    useSoundQuizGame,
+    ({ current, choicesRevealed, startGame, playSound, replaySound, selectAnswer, restart }) => ({
+      menu:     <SoundQuizMenuScreen onStart={startGame as (cat: SoundCategory | 'all') => void} />,
+      question: current ? <SoundQuizQuestion current={current} choicesRevealed={choicesRevealed as boolean} onPlaySound={playSound as () => void} onReplaySound={replaySound as () => void} onSelect={selectAnswer} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="teal" title="כל הכבוד!" />,
+    }),
+  ),
+
+  'nikud-drag': makeQuizGame(
+    useNikudDragGame,
+    ({ current, choices, wrongFlash, startGame, selectNikud, restart, replay }) => ({
+      menu:     <QuizMenuScreen emoji="🔤" title="ניקוד חי" description="שמע הברה — בחר את הניקוד הנכון!" theme="violet" buttonLabel="בואו נתחיל!" onStart={startGame} />,
+      question: current ? <NikudDragQuestion current={current} choices={choices} wrongFlash={wrongFlash as boolean} onSelect={selectNikud as (id: string) => void} onReplay={replay as () => void} /> : null,
+      result:   <QuizResultScreen onRestart={restart} theme="violet" />,
+    }),
+  ),
+
+  'dress-up': makeQuizGame(
+    useDressUpGame,
+    ({ current, choices, dressed, wrongFlash, startGame, selectAnswer, restart }) => ({
+      menu: (
+        <QuizMenuScreen
+          emoji="👗"
+          title="לבוש את הדמות"
+          description="הקשב לשם הבגד ובחר את הנכון!"
+          theme="rose"
+          buttonLabel="🎮 התחל!"
+          preview={
+            <div className="flex gap-4 text-lg text-purple-500 flex-wrap justify-center">
+              <span>👕 יומיומי</span>
+              <span>🧥 עונתי</span>
+              <span>🎓 מקצועי</span>
+            </div>
+          }
+          onStart={startGame}
+        />
+      ),
+      question: current ? (
+        <DressUpQuestion
+          current={current}
+          choices={choices as ClothingItem[]}
+          dressed={dressed as Partial<Record<Zone, ClothingItem>>}
+          wrongFlash={wrongFlash as boolean}
+          onSelect={selectAnswer}
+        />
+      ) : null,
+      result: (
+        <QuizResultScreen
+          onRestart={restart}
+          theme="rose"
+          headerContent={
+            <div className="mb-2">
+              <div className="text-6xl mb-2">🧑</div>
+              <p className="text-purple-700 font-bold mb-2 text-sm">הדמות שלך:</p>
+              <div className="flex flex-wrap gap-2 justify-center">
+                {Object.values(dressed as Partial<Record<Zone, ClothingItem>>).map((item) => (
+                  <span key={item.name} className="text-3xl" title={item.hebrew}>{item.emoji}</span>
+                ))}
+                {Object.values(dressed as Partial<Record<Zone, ClothingItem>>).length === 0 && (
+                  <span className="text-gray-400 text-sm">אין פריטים</span>
+                )}
+              </div>
+            </div>
+          }
+        />
+      ),
     }),
   ),
 };

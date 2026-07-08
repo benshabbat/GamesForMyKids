@@ -1,6 +1,7 @@
 'use client';
 import { useCannonGame } from './useCannonGame';
 import { CANNON_QUESTIONS } from './cannonQuestions';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function CannonClient() {
   const {
@@ -8,8 +9,6 @@ export default function CannonClient() {
     canvasRef, startGame, handlePointerDown, handlePointerMove, handlePointerUp,
     MAX_LIVES,
   } = useCannonGame();
-
-  const heartStr = '❤️'.repeat(lives) + '🖤'.repeat(MAX_LIVES - lives);
 
   if (phase === 'menu') {
     return (
@@ -67,7 +66,7 @@ export default function CannonClient() {
   return (
     <div className="min-h-screen bg-blue-900 flex flex-col" dir="rtl">
       <div className="flex items-center justify-between px-4 py-2 bg-blue-950/70 text-white z-10">
-        <div className="text-lg font-bold">{heartStr}</div>
+        <LivesDisplay lives={lives} max={MAX_LIVES} size="text-lg" />
         <div className="text-lg font-bold bg-yellow-400/20 px-3 py-1 rounded-lg text-yellow-300">
           🎯 {score}
         </div>

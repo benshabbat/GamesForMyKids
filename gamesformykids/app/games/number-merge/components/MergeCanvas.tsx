@@ -2,6 +2,7 @@
 import { useRef, useEffect, useCallback } from 'react';
 import { useNumberMergeStore, Ball, RADIUS_FOR_VALUE } from '../numberMergeStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 
 const CANVAS_W = 320;
 const CANVAS_H = 480;
@@ -166,12 +167,11 @@ function drawWalls(ctx: CanvasRenderingContext2D) {
 }
 
 export default function MergeCanvas() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const ballsRef = useRef<Ball[]>([]);
-  const animRef = useRef<number>(0);
+  const frameCountRef = useRef(0);
   const dropCooldownRef = useRef(false);
 
-  const { balls, dropX, nextValue, phase, addScore, setBalls, triggerMergeFlash, endGame } = useNumberMergeStore();
+  const { balls, dropX, nextValue, addScore, setBalls, triggerMergeFlash, endGame } = useNumberMergeStore();
 
   // Sync store balls → ref on external changes (drop)
   useEffect(() => {
@@ -185,83 +185,69 @@ export default function MergeCanvas() {
     speakHebrew(`${heA} ועוד ${heB} שווה ${heR}!`);
   }, []);
 
-  useEffect(() => {
-    if (phase !== 'playing') return;
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
+  const tick = useCallback((ctx: CanvasRenderingContext2D) => {
+    // Physics step
+    const { balls: newBalls, merges } = stepPhysics(ballsRef.current);
+    ballsRef.current = newBalls;
+    frameCountRef.current++;
 
-    let frameCount = 0;
-
-    function loop() {
-      if (!ctx) return;
-      // Physics step
-      const { balls: newBalls, merges } = stepPhysics(ballsRef.current);
-      ballsRef.current = newBalls;
-      frameCount++;
-
-      // Handle merges
-      for (const m of merges) {
-        const half = Math.floor(m.value / 2);
-        const score = m.value * 10;
-        addScore(score);
-        announceEquation(half, half, m.value);
-        triggerMergeFlash(m.x, m.y, m.value);
-      }
-
-      // Check overflow (ball reaches top)
-      const overflow = newBalls.some(b => b.y - b.radius <= 10 && Math.abs(b.vy) < 0.5);
-      if (overflow) {
-        endGame();
-        return;
-      }
-
-      // Sync store periodically (every 10 frames) to avoid re-render storm
-      if (frameCount % 10 === 0) {
-        setBalls(newBalls.map(b => ({ ...b })));
-      }
-
-      // Draw
-      ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
-      // Background
-      ctx.fillStyle = '#FFF8E1';
-      ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
-      drawWalls(ctx);
-
-      // Drop indicator line
-      ctx.setLineDash([4, 4]);
-      ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(dropX, 0);
-      ctx.lineTo(dropX, FLOOR_Y);
-      ctx.stroke();
-      ctx.setLineDash([]);
-
-      // Preview ball at top
-      const previewR = RADIUS_FOR_VALUE(nextValue);
-      const previewColor = NUMBER_COLORS[nextValue] ?? '#999';
-      ctx.globalAlpha = 0.5;
-      ctx.beginPath();
-      ctx.arc(dropX, previewR + 2, previewR, 0, Math.PI * 2);
-      ctx.fillStyle = previewColor;
-      ctx.fill();
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${Math.max(10, previewR * 0.85)}px Arial`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(String(nextValue), dropX, previewR + 2);
-      ctx.globalAlpha = 1;
-
-      for (const b of newBalls) drawBall(ctx, b);
-
-      animRef.current = requestAnimationFrame(loop);
+    // Handle merges
+    for (const m of merges) {
+      const half = Math.floor(m.value / 2);
+      const score = m.value * 10;
+      addScore(score);
+      announceEquation(half, half, m.value);
+      triggerMergeFlash(m.x, m.y, m.value);
     }
 
-    animRef.current = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(animRef.current);
-  }, [phase, dropX, nextValue, addScore, setBalls, triggerMergeFlash, endGame, announceEquation]);
+    // Check overflow (ball reaches top)
+    const overflow = newBalls.some(b => b.y - b.radius <= 10 && Math.abs(b.vy) < 0.5);
+    if (overflow) {
+      endGame();
+      return;
+    }
+
+    // Sync store periodically (every 10 frames) to avoid re-render storm
+    if (frameCountRef.current % 10 === 0) {
+      setBalls(newBalls.map(b => ({ ...b })));
+    }
+
+    // Draw
+    ctx.clearRect(0, 0, CANVAS_W, CANVAS_H);
+    // Background
+    ctx.fillStyle = '#FFF8E1';
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
+    drawWalls(ctx);
+
+    // Drop indicator line
+    ctx.setLineDash([4, 4]);
+    ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(dropX, 0);
+    ctx.lineTo(dropX, FLOOR_Y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Preview ball at top
+    const previewR = RADIUS_FOR_VALUE(nextValue);
+    const previewColor = NUMBER_COLORS[nextValue] ?? '#999';
+    ctx.globalAlpha = 0.5;
+    ctx.beginPath();
+    ctx.arc(dropX, previewR + 2, previewR, 0, Math.PI * 2);
+    ctx.fillStyle = previewColor;
+    ctx.fill();
+    ctx.fillStyle = '#fff';
+    ctx.font = `bold ${Math.max(10, previewR * 0.85)}px Arial`;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(String(nextValue), dropX, previewR + 2);
+    ctx.globalAlpha = 1;
+
+    for (const b of newBalls) drawBall(ctx, b);
+  }, [dropX, nextValue, addScore, setBalls, triggerMergeFlash, endGame, announceEquation]);
+
+  const canvasRef = useCanvasLoop(tick);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     const rect = canvasRef.current?.getBoundingClientRect();
@@ -270,7 +256,7 @@ export default function MergeCanvas() {
     const rawX = (e.clientX - rect.left) * scaleX;
     const clampedX = Math.max(WALL_LEFT + 20, Math.min(WALL_RIGHT - 20, rawX));
     useNumberMergeStore.getState().setDropX(clampedX);
-  }, []);
+  }, [canvasRef]);
 
   const handleDrop = useCallback(() => {
     if (dropCooldownRef.current) return;

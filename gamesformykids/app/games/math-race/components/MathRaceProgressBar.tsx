@@ -1,5 +1,7 @@
 'use client';
 
+import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
+
 interface Props {
   timeLeft: number;
   score: number;
@@ -15,14 +17,11 @@ export default function MathRaceProgressBar({ timeLeft, score, streak, gameTime 
         <span>🏆 {score}</span>
         {streak >= 2 && <span className="text-yellow-500">🔥×{streak}</span>}
       </div>
-      <div className="bg-white rounded-full h-3 shadow-inner">
-        <div
-          className={`h-3 rounded-full transition-[width] duration-1000 ${
-            timeLeft > 10 ? 'bg-blue-500' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-orange-400'
-          }`}
-          style={{ width: `${(timeLeft / gameTime) * 100}%` }}
-        />
-      </div>
+      <TimerProgressBar
+        pct={(timeLeft / gameTime) * 100}
+        trackClass="h-3 bg-white shadow-inner"
+        barClass={timeLeft > 10 ? 'bg-blue-500' : timeLeft > 5 ? 'bg-yellow-400' : 'bg-orange-400'}
+      />
     </div>
   );
 }

@@ -1,10 +1,11 @@
 'use client';
-import { useLetterGrowGame, ROUNDS_PER_GAME, CATCHES_TO_EVOLVE } from './useLetterGrowGame';
+import { useLetterGrowGame, ROUNDS_PER_GAME, CATCHES_TO_EVOLVE, MAX_LIVES } from './useLetterGrowGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function LetterGrowClient() {
   const {
-    phase, catchCount, score, roundIdx, evolveInfo, hurtFlash,
-    target, heartStr, canvasRef, startGame, handlePointerMove,
+    phase, lives, catchCount, score, roundIdx, evolveInfo, hurtFlash,
+    target, canvasRef, startGame, handlePointerMove,
   } = useLetterGrowGame();
 
   if (phase === 'menu') {
@@ -80,7 +81,7 @@ export default function LetterGrowClient() {
   return (
     <div className={`min-h-screen bg-indigo-950 flex flex-col transition-colors ${hurtFlash ? 'bg-red-900' : ''}`} dir="rtl">
       <div className="flex items-center justify-between px-4 py-2 bg-indigo-950/80 text-white z-10">
-        <div className="text-lg">{heartStr}</div>
+        <LivesDisplay lives={lives} max={MAX_LIVES} size="text-lg" />
         <div className="flex flex-col items-center">
           {target && (
             <div className="text-2xl font-bold text-yellow-300">{target.letter}</div>

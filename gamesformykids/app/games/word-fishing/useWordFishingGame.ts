@@ -180,12 +180,11 @@ export function useWordFishingGame() {
     return () => ro.disconnect();
   }, [canvasRef, loadWave]);
 
-  const heartStr = '❤️'.repeat(lives) + '🖤'.repeat(MAX_LIVES - lives);
   const totalWaves = FISHING_WAVES.length;
 
   return {
     phase, score, lives, question, feedback, wave,
-    feedbackTimerRef, heartStr, totalWaves,
+    feedbackTimerRef, totalWaves,
     canvasRef, startGame, handlePointerDown,
   };
 }

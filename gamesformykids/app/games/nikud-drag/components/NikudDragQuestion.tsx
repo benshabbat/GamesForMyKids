@@ -1,42 +1,35 @@
 'use client';
 import { useEffect } from 'react';
-import { useNikudDragStore } from '../nikudDragStore';
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import type { NikudQuestion, NikudOption } from '../nikudDragData';
 
-export default function NikudDragScreen() {
-  const { questions, questionIndex, score, shuffledOptions, feedback, autoAdvance, selectNikud, nextQuestion, clearFeedback } =
-    useNikudDragStore();
-  const question = questions[questionIndex];
-  if (!question) return null;
+interface Props {
+  current: NikudQuestion;
+  choices: NikudOption[];
+  wrongFlash: boolean;
+  onSelect: (nikudId: string) => void;
+  onReplay: () => void;
+}
 
-  // Speak the target syllable when a new question loads
-  // eslint-disable-next-line react-hooks/rules-of-hooks
+export default function NikudDragQuestion({ current, choices, wrongFlash, onSelect, onReplay }: Props) {
+  const index = useQuizGameStore((s) => s.index);
+  const total = useQuizGameStore((s) => s.total);
+  const score = useQuizGameStore((s) => s.score);
+  const isCorrect = useQuizGameStore((s) => s.isCorrect);
+
   useEffect(() => {
-    void speakHebrew(question.ttsText);
-  }, [questionIndex, question.ttsText]);
+    void speakHebrew(current.ttsText);
+  }, [current.id, current.ttsText]);
 
-  // Advance to next question after correct answer (1 s delay so feedback is visible)
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    if (!autoAdvance) return;
-    const id = setTimeout(() => nextQuestion(), 1000);
-    return () => clearTimeout(id);
-  }, [autoAdvance, nextQuestion]);
-
-  // Clear wrong feedback after 1 s so the player can try again
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  useEffect(() => {
-    if (feedback !== 'wrong') return;
-    const id = setTimeout(clearFeedback, 1000);
-    return () => clearTimeout(id);
-  }, [feedback, clearFeedback]);
+  const feedback = isCorrect === true ? 'correct' : wrongFlash ? 'wrong' : null;
 
   return (
     <div className="min-h-screen flex flex-col items-center bg-linear-to-br from-violet-100 via-purple-50 to-indigo-100 p-4" dir="rtl">
       <div className="w-full max-w-sm">
         {/* Header */}
         <div className="flex justify-between items-center mb-5 px-1">
-          <span className="text-violet-600 text-sm font-bold">{questionIndex + 1}/{questions.length}</span>
+          <span className="text-violet-600 text-sm font-bold">{index + 1}/{total}</span>
           <span className="text-violet-800 font-black text-lg">⭐ {score}</span>
         </div>
 
@@ -48,14 +41,14 @@ export default function NikudDragScreen() {
               feedback === 'correct' ? 'text-green-500' : 'text-violet-700'
             }`}
           >
-            {feedback === 'correct' ? question.syllable : question.consonant}
+            {feedback === 'correct' ? current.syllable : current.consonant}
           </div>
 
           {feedback && (
             <div className={`mt-3 text-xl font-bold ${
               feedback === 'correct' ? 'text-green-600' : 'text-red-500'
             }`}>
-              {feedback === 'correct' ? `✅ ${question.syllable}! נכון!` : '❌ לא נכון, נסה שוב'}
+              {feedback === 'correct' ? `✅ ${current.syllable}! נכון!` : '❌ לא נכון, נסה שוב'}
             </div>
           )}
 
@@ -68,7 +61,7 @@ export default function NikudDragScreen() {
 
         {/* Replay audio */}
         <button
-          onClick={() => void speakHebrew(question.ttsText)}
+          onClick={onReplay}
           className="w-full mb-4 bg-violet-100 hover:bg-violet-200 text-violet-700 font-bold py-3 rounded-2xl transition-all"
         >
           🔊 שמע שוב
@@ -76,18 +69,18 @@ export default function NikudDragScreen() {
 
         {/* Nikud options */}
         <div className="grid grid-cols-5 gap-2">
-          {shuffledOptions.map((opt) => (
+          {choices.map((opt) => (
             <button
               key={opt.id}
-              onClick={() => selectNikud(opt.id)}
+              onClick={() => onSelect(opt.id)}
               disabled={!!feedback}
               className={`
                 flex flex-col items-center justify-center py-3 px-1 rounded-2xl shadow-sm
                 transition-all active:scale-90 font-black text-center
-                ${feedback === 'correct' && opt.id === question.targetNikudId
+                ${feedback === 'correct' && opt.id === current.targetNikudId
                   ? 'bg-green-400 text-white scale-110'
                   : 'bg-white text-violet-700 hover:bg-violet-50'}
-                ${feedback === 'wrong' && opt.id === question.targetNikudId
+                ${feedback === 'wrong' && opt.id === current.targetNikudId
                   ? 'bg-green-100 border-2 border-green-400'
                   : ''}
                 disabled:opacity-60

@@ -1,10 +1,11 @@
 'use client';
-import { useWordFishingGame } from './useWordFishingGame';
+import { useWordFishingGame, MAX_LIVES } from './useWordFishingGame';
+import LivesDisplay from '@/components/game/shared/LivesDisplay';
 
 export default function WordFishingClient() {
   const {
-    phase, score, question, feedback, wave,
-    feedbackTimerRef, heartStr, totalWaves,
+    phase, score, lives, question, feedback, wave,
+    feedbackTimerRef, totalWaves,
     canvasRef, startGame, handlePointerDown,
   } = useWordFishingGame();
 
@@ -63,7 +64,7 @@ export default function WordFishingClient() {
   return (
     <div className="min-h-screen bg-blue-900 flex flex-col" dir="rtl">
       <div className="flex items-center justify-between px-4 py-2 bg-blue-950/70 text-white z-10">
-        <div className="text-lg">{heartStr}</div>
+        <LivesDisplay lives={lives} max={MAX_LIVES} size="text-lg" />
         <div className="text-sm text-blue-300">גל {wave + 1}/{totalWaves}</div>
         <div className="text-lg font-bold bg-yellow-400/20 px-3 py-1 rounded-lg text-yellow-300">
           🎣 {score}
