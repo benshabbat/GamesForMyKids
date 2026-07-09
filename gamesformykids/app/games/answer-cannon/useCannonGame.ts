@@ -1,7 +1,9 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { CANNON_QUESTIONS, type CannonQuestion } from './cannonQuestions';
+import { shuffle } from '@/lib/utils/game/cardUtils';
 
 const MAX_LIVES = 3;
 const BUBBLE_SPEED = 0.06;
@@ -16,15 +18,6 @@ type Bubble = { id: number; x: number; y: number; label: string; isCorrect: bool
 type Bullet = { x: number; y: number; vx: number; vy: number };
 
 const BUBBLE_COLORS = ['#f97316', '#8b5cf6', '#0ea5e9', '#10b981'];
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T; a[i] = a[j] as T; a[j] = tmp;
-  }
-  return a;
-}
 
 export function useCannonGame() {
   const [phase, setPhase] = useState<'menu' | 'playing' | 'result'>('menu');
@@ -228,31 +221,26 @@ export function useCannonGame() {
     }
   }, [advanceQuestion, spawnBubbles]));
 
+  const computeAimAngle = (e: React.PointerEvent<HTMLCanvasElement>, rect: DOMRect) => {
+    const cannonX = rect.width * CANNON_X_RATIO;
+    const cannonY = rect.height - CANNON_Y_OFFSET;
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+    const ang = Math.atan2(my - cannonY, mx - cannonX);
+    return Math.max(-Math.PI + 0.1, Math.min(-0.1, ang));
+  };
+
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     if (phaseRef.current !== 'playing') return;
     if (bulletRef.current) return;
     e.currentTarget.setPointerCapture(e.pointerId);
     aimingRef.current = true;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const cannonX = rect.width * CANNON_X_RATIO;
-    const cannonY = rect.height - CANNON_Y_OFFSET;
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    let ang = Math.atan2(my - cannonY, mx - cannonX);
-    ang = Math.max(-Math.PI + 0.1, Math.min(-0.1, ang));
-    cannonAngleRef.current = ang;
+    cannonAngleRef.current = computeAimAngle(e, e.currentTarget.getBoundingClientRect());
   }, []);
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
     if (!aimingRef.current || phaseRef.current !== 'playing') return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const cannonX = rect.width * CANNON_X_RATIO;
-    const cannonY = rect.height - CANNON_Y_OFFSET;
-    const mx = e.clientX - rect.left;
-    const my = e.clientY - rect.top;
-    let ang = Math.atan2(my - cannonY, mx - cannonX);
-    ang = Math.max(-Math.PI + 0.1, Math.min(-0.1, ang));
-    cannonAngleRef.current = ang;
+    cannonAngleRef.current = computeAimAngle(e, e.currentTarget.getBoundingClientRect());
   }, []);
 
   const handlePointerUp = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -271,15 +259,7 @@ export function useCannonGame() {
     };
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [canvasRef]);
+  useCanvasResize(canvasRef);
 
   return {
     phase, score, lives, displayQuestion, feedback,

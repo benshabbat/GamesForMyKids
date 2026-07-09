@@ -1,7 +1,9 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
 
 type Level = { letter: string; correct: string; wrong: [string, string] };
 
@@ -44,15 +46,6 @@ export type Phase = 'menu' | 'aiming' | 'flying' | 'feedback' | 'result';
 type Box = { x: number; y: number; word: string; isCorrect: boolean; popped: boolean };
 type Ball = { x: number; y: number; vx: number; vy: number };
 type DragState = { active: boolean; dx: number; dy: number };
-
-function shuffled<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T; a[i] = a[j] as T; a[j] = tmp;
-  }
-  return a;
-}
 
 export function useSlingshotGame() {
   const [phase, setPhase] = useState<Phase>('menu');
@@ -323,15 +316,7 @@ export function useSlingshotGame() {
     setPhase('flying');
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [canvasRef]);
+  useCanvasResize(canvasRef);
 
   const currentLevel = gameLevelsRef.current[levelIdx];
 

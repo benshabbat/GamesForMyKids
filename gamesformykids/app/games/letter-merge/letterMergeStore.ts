@@ -50,26 +50,23 @@ interface LetterMergeActions {
   clearSpeakText: () => void;
 }
 
-export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>((set, get) => ({
-  phase: 'idle',
-  columns: [[], [], [], [], []],
-  nextLetterVal: randomStartLetter(),
-  score: 0,
-  maxLetterReached: 'א',
-  won: false,
-  lastMerged: null,
-  speakText: null,
-
-  startGame: () => set({
-    phase: 'playing',
-    columns: [[], [], [], [], []],
+function freshBoardState() {
+  return {
+    columns: [[], [], [], [], []] as string[][],
     nextLetterVal: randomStartLetter(),
     score: 0,
     maxLetterReached: 'א',
     won: false,
     lastMerged: null,
     speakText: null,
-  }),
+  };
+}
+
+export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>((set, get) => ({
+  phase: 'idle',
+  ...freshBoardState(),
+
+  startGame: () => set({ phase: 'playing', ...freshBoardState() }),
 
   dropLetter: (colIndex: number) => {
     const { columns, nextLetterVal, score, maxLetterReached } = get();
@@ -114,16 +111,7 @@ export const useLetterMergeStore = create<LetterMergeState & LetterMergeActions>
     });
   },
 
-  reset: () => set({
-    phase: 'idle',
-    columns: [[], [], [], [], []],
-    nextLetterVal: randomStartLetter(),
-    score: 0,
-    maxLetterReached: 'א',
-    won: false,
-    lastMerged: null,
-    speakText: null,
-  }),
+  reset: () => set({ phase: 'idle', ...freshBoardState() }),
 
   clearSpeakText: () => set({ speakText: null }),
 }));

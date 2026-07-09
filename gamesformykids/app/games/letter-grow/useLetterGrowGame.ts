@@ -1,7 +1,9 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
 
 const LETTER_WORDS = [
   { letter: 'א', word: 'אריה', emoji: '🦁' },
@@ -47,15 +49,6 @@ type FallingLetter = { id: number; x: number; y: number; vy: number; letter: str
 export type LetterWord = typeof LETTER_WORDS[number];
 
 let _nextId = 0;
-
-function shuffled<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T; a[i] = a[j] as T; a[j] = tmp;
-  }
-  return a;
-}
 
 export function useLetterGrowGame() {
   const [phase, setPhase] = useState<'menu' | 'playing' | 'evolving' | 'result'>('menu');
@@ -265,15 +258,7 @@ export function useLetterGrowGame() {
     bucketXRef.current = Math.max(0.05, Math.min(0.95, (e.clientX - rect.left) / rect.width));
   }, []);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [canvasRef]);
+  useCanvasResize(canvasRef);
 
   const target = roundLettersRef.current[roundIdx];
 

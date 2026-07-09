@@ -2,6 +2,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { MAZE_WORDS, type MazeDifficulty } from '@/lib/constants/wordMazeWords';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { shuffle } from '@/lib/utils/game/cardUtils';
 
 export const GRID_SIZE = 13;
 export const CELL_SIZE = 34;
@@ -14,17 +15,6 @@ export interface LetterCell {
   letter: string;
   index: number;
   collected: boolean;
-}
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T;
-    a[i] = a[j] as T;
-    a[j] = tmp;
-  }
-  return a;
 }
 
 function generateMaze(): Grid {

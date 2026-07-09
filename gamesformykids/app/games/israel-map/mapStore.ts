@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
-import { LOCATIONS, shuffleArray, type Location } from './data/locations';
+import { LOCATIONS, type Location } from './data/locations';
+import { shuffleArray } from '@/lib/utils/game/cardUtils';
 
 export type Phase = 'menu' | 'playing' | 'result';
 
