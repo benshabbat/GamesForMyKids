@@ -1,6 +1,7 @@
 'use client';
 
 import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { DashboardCardSkeleton } from './DashboardCardSkeleton';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -9,12 +10,11 @@ export function ActivitySummaryCard() {
 
   if (loading) {
     return (
-      <div className="bg-white rounded-2xl shadow-md p-6 animate-pulse">
-        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
-        <div className="grid grid-cols-3 gap-4">
-          {[...Array(3)].map((_, i) => <div key={i} className="h-16 bg-gray-100 rounded" />)}
-        </div>
-      </div>
+      <DashboardCardSkeleton
+        rows={3}
+        rowClassName="h-16 bg-gray-100 rounded"
+        rowsWrapperClassName="grid grid-cols-3 gap-4"
+      />
     );
   }
   const now = Date.now();

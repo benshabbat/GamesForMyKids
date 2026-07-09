@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
 import type { GameProgress } from '@/hooks/shared/progress/useGameProgress';
 import { getGameLabel } from './gameLabels';
+import { DashboardCardSkeleton } from './DashboardCardSkeleton';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
@@ -24,10 +25,11 @@ export function RecommendedGameCard() {
 
   if (loading) {
     return (
-      <div className="bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl shadow-md p-6 animate-pulse">
-        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
-        <div className="h-16 bg-white/50 rounded" />
-      </div>
+      <DashboardCardSkeleton
+        containerClassName="bg-gradient-to-br from-pink-100 to-purple-100 rounded-2xl shadow-md p-6"
+        rows={1}
+        rowClassName="h-16 bg-white/50 rounded"
+      />
     );
   }
 

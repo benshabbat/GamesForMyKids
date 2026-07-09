@@ -1,19 +1,13 @@
 'use client';
 
 import { useAchievements } from '@/hooks/shared/progress/useAchievements';
+import { DashboardCardSkeleton } from './DashboardCardSkeleton';
 
 export function RecentAchievementsCard() {
   const { achievements, loading } = useAchievements();
 
   if (loading) {
-    return (
-      <div className="bg-white rounded-2xl shadow-md p-6 animate-pulse">
-        <div className="h-4 bg-gray-200 rounded w-1/2 mb-4" />
-        <div className="space-y-3">
-          {[...Array(3)].map((_, i) => <div key={i} className="h-8 bg-gray-100 rounded" />)}
-        </div>
-      </div>
-    );
+    return <DashboardCardSkeleton />;
   }
 
   const recent = [...achievements]
