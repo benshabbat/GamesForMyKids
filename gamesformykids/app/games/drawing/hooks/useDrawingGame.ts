@@ -9,6 +9,7 @@
 
 import { useState, useCallback, useEffect } from 'react';
 import { useDrawingStore } from '../store/drawingStore';
+import { formatGameTime } from '@/lib/utils/game/gameUtils';
 
 export interface GameSettings {
   difficulty: 'easy' | 'medium' | 'hard';
@@ -90,13 +91,6 @@ export const useDrawingGame = () => {
     }
   };
 
-  // פורמט זמן למציג
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = seconds % 60;
-    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
   // נושאי ציור זמינים
   const availableThemes = [
     { id: 'free-draw', name: 'ציור חופשי', description: 'צייר מה שתרצה!' },
@@ -134,7 +128,7 @@ export const useDrawingGame = () => {
     difficultySettings,
     
     // Utilities
-    formatTime,
+    formatTime: formatGameTime,
     handleGameEnd
   };
 };
