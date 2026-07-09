@@ -140,7 +140,7 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
   },
 
   confirmSale: () => {
-    const { customer, cart, score, customersServed, difficulty, totalCustomers, nextCustomerId, confirming } = get();
+    const { customer, cart, score, confirming } = get();
     if (!customer || confirming) return;
 
     const cartCount = cart[customer.order.item.id] ?? 0;
