@@ -89,6 +89,7 @@ interface MarketActions {
   addToCart: (itemId: string) => void;
   removeFromCart: (itemId: string) => void;
   confirmSale: () => void;
+  advanceCustomer: () => void;
   tickTimer: () => void;
   endGame: () => void;
   restart: () => void;
@@ -139,30 +140,33 @@ export const useMarketStore = create<MarketState & MarketActions>((set, get) => 
   },
 
   confirmSale: () => {
-    const { customer, cart, score, customersServed, difficulty, totalCustomers, nextCustomerId, confirming } = get();
+    const { customer, cart, score, confirming } = get();
     if (!customer || confirming) return;
 
     const cartCount = cart[customer.order.item.id] ?? 0;
     const correct = cartCount === customer.order.count;
 
     set({ feedback: correct ? 'correct' : 'wrong', score: correct ? score + 1 : score, confirming: true });
+  },
 
-    setTimeout(() => {
-      const served = customersServed + 1;
-      if (served >= totalCustomers) {
-        set({ phase: 'result', customersServed: served, feedback: 'none', confirming: false });
-        return;
-      }
-      const next = buildCustomer(difficulty, nextCustomerId);
-      set({
-        customer: next,
-        cart: {},
-        feedback: 'none',
-        customersServed: served,
-        nextCustomerId: nextCustomerId + 1,
-        confirming: false,
-      });
-    }, 1200);
+  advanceCustomer: () => {
+    const { customersServed, difficulty, totalCustomers, nextCustomerId, confirming } = get();
+    if (!confirming) return;
+
+    const served = customersServed + 1;
+    if (served >= totalCustomers) {
+      set({ phase: 'result', customersServed: served, feedback: 'none', confirming: false });
+      return;
+    }
+    const next = buildCustomer(difficulty, nextCustomerId);
+    set({
+      customer: next,
+      cart: {},
+      feedback: 'none',
+      customersServed: served,
+      nextCustomerId: nextCustomerId + 1,
+      confirming: false,
+    });
   },
 
   tickTimer: () => {

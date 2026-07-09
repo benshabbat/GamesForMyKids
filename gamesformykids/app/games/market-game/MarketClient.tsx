@@ -28,11 +28,18 @@ function numberWord(n: number): string {
 
 export default function MarketClient() {
   const {
-    phase, customer, cart, score, customersServed, totalCustomers, feedback, difficulty,
-    startGame, addToCart, removeFromCart, confirmSale, tickTimer, restart,
+    phase, customer, cart, score, customersServed, totalCustomers, feedback, difficulty, confirming,
+    startGame, addToCart, removeFromCart, confirmSale, advanceCustomer, tickTimer, restart,
   } = useMarketStore();
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // Advance to the next customer a beat after showing sale feedback
+  useEffect(() => {
+    if (!confirming) return;
+    const timeout = setTimeout(() => advanceCustomer(), 1200);
+    return () => clearTimeout(timeout);
+  }, [confirming, advanceCustomer]);
 
   useEffect(() => {
     if (phase === 'playing' && customer) {

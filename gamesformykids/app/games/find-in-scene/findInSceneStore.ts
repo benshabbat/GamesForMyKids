@@ -18,6 +18,7 @@ interface State {
 interface Actions {
   startRound: (sceneId: string, promptIdx?: number) => void;
   tapObject: (objectId: string) => 'correct' | 'wrong' | 'already';
+  clearWrong: (objectId: string) => void;
   tick: () => void;
   resetGame: () => void;
 }
@@ -70,11 +71,12 @@ export const useFindInSceneStore = create<State & Actions>((set, get) => ({
       return 'correct';
     } else {
       set({ wrongId: objectId });
-      setTimeout(() => {
-        if (get().wrongId === objectId) set({ wrongId: null });
-      }, 600);
       return 'wrong';
     }
+  },
+
+  clearWrong: (objectId) => {
+    if (get().wrongId === objectId) set({ wrongId: null });
   },
 
   tick: () => {

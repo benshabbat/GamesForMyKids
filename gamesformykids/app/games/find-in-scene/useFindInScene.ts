@@ -13,7 +13,7 @@ export function useFindInScene() {
   const wrongId   = useFindInSceneStore(s => s.wrongId);
   const timeLeft  = useFindInSceneStore(s => s.timeLeft);
   const score     = useFindInSceneStore(s => s.score);
-  const { startRound, tapObject, tick, resetGame } = useFindInSceneStore();
+  const { startRound, tapObject, clearWrong, tick, resetGame } = useFindInSceneStore();
 
   // Countdown timer
   useEffect(() => {
@@ -21,6 +21,13 @@ export function useFindInScene() {
     const interval = setInterval(() => tick(), 1000);
     return () => clearInterval(interval);
   }, [phase, tick]);
+
+  // Clear the "wrong tap" shake flag after a short delay
+  useEffect(() => {
+    if (!wrongId) return;
+    const timeout = setTimeout(() => clearWrong(wrongId), 600);
+    return () => clearTimeout(timeout);
+  }, [wrongId, clearWrong]);
 
   // Announce prompt when round starts
   useEffect(() => {
