@@ -128,5 +128,9 @@ export default withSentryConfig(analyzed, {
   // Upload source maps only when SENTRY_AUTH_TOKEN is set (production CI/CD)
   authToken: process.env.SENTRY_AUTH_TOKEN ?? "",
   widenClientFileUpload: true,
-  disableLogger: true,
+  webpack: {
+    treeshake: {
+      removeDebugLogging: true,
+    },
+  },
 });
