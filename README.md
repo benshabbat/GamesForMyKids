@@ -240,7 +240,7 @@ At a high level, adding a game touches:
 
 ## License
 
-MIT License. (No `LICENSE` file is currently checked into the repository — add one if you need to make this explicit for downstream users.)
+MIT License. See [LICENSE](LICENSE).
 
 ---
 

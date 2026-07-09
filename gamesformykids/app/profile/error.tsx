@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import * as Sentry from '@sentry/nextjs';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -11,6 +12,7 @@ interface ErrorProps {
 export default function ProfileError({ error, reset }: ErrorProps) {
   useEffect(() => {
     console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

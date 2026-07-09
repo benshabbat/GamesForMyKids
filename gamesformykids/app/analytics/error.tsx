@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import * as Sentry from '@sentry/nextjs';
 
 interface ErrorProps {
   error: Error & { digest?: string };
@@ -10,6 +11,7 @@ interface ErrorProps {
 export default function AnalyticsError({ error, reset }: ErrorProps) {
   useEffect(() => {
     console.error(error);
+    Sentry.captureException(error);
   }, [error]);
 
   return (

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import Link from 'next/link';
+import * as Sentry from '@sentry/nextjs';
 
 interface Props {
   error?: Error & { digest?: string };
@@ -27,7 +28,10 @@ export default function GameErrorScreen({
   resetLabel = 'נסה שוב',
 }: Props) {
   useEffect(() => {
-    if (error) console.error(error);
+    if (error) {
+      console.error(error);
+      Sentry.captureException(error);
+    }
   }, [error]);
 
   return (
