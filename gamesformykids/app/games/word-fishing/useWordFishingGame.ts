@@ -2,6 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { FISHING_WAVES, type FishingWave } from './wordFishingData';
+import { shuffle } from '@/lib/utils/game/cardUtils';
 
 export const MAX_LIVES = 3;
 const FISH_RADIUS = 48;
@@ -17,15 +18,6 @@ type Fish = {
 const FISH_COLORS = ['#0ea5e9', '#8b5cf6', '#f97316', '#10b981', '#f43f5e'];
 
 function rng(seed: number) { return ((seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff; }
-
-function shuffle<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T; a[i] = a[j] as T; a[j] = tmp;
-  }
-  return a;
-}
 
 function spawnFish(wave: FishingWave, W: number, H: number): Fish[] {
   const items = shuffle([wave.target, ...wave.distractors]);

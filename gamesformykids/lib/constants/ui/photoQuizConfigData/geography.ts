@@ -1,5 +1,15 @@
 import type { GameUIConfig } from '../gameUIConfig.types';
 
+const GEOGRAPHY_COLORS: GameUIConfig['colors'] = {
+  background: 'linear-gradient(135deg, #0d9488 0%, #0891b2 100%)',
+  header: 'text-white',
+  subHeader: 'text-teal-100',
+  itemsDescription: 'text-teal-100',
+  button: { from: 'teal', to: 'cyan' },
+  stepsBg: 'bg-teal-100 bg-opacity-90',
+};
+const GEOGRAPHY_GRID: GameUIConfig['grid'] = { className: 'grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto' };
+
 export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
   'geography-flags': {
     title: '🚩 דגלי העולם',
@@ -11,15 +21,8 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
       { icon: '🌍', title: '2. תזהה', description: 'לאיזו מדינה שייך הדגל?' },
       { icon: '👆', title: '3. תבחר', description: 'לחץ על שם המדינה הנכונה' },
     ],
-    colors: {
-      background: 'linear-gradient(135deg, #0d9488 0%, #0891b2 100%)',
-      header: 'text-white',
-      subHeader: 'text-teal-100',
-      itemsDescription: 'text-teal-100',
-      button: { from: 'teal', to: 'cyan' },
-      stepsBg: 'bg-teal-100 bg-opacity-90',
-    },
-    grid: { className: 'grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto' },
+    colors: GEOGRAPHY_COLORS,
+    grid: GEOGRAPHY_GRID,
     challengeTitle: 'לאיזו מדינה שייך הדגל הזה?',
     challengeIcon: '🚩',
     challengeDescription: 'זהה את הדגל ובחר את שם המדינה!',
@@ -42,15 +45,8 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
       { icon: '🏛️', title: '2. תחשוב', description: 'מה הבירה של המדינה?' },
       { icon: '👆', title: '3. תבחר', description: 'לחץ על הבירה הנכונה' },
     ],
-    colors: {
-      background: 'linear-gradient(135deg, #0d9488 0%, #0891b2 100%)',
-      header: 'text-white',
-      subHeader: 'text-teal-100',
-      itemsDescription: 'text-teal-100',
-      button: { from: 'teal', to: 'cyan' },
-      stepsBg: 'bg-teal-100 bg-opacity-90',
-    },
-    grid: { className: 'grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto' },
+    colors: GEOGRAPHY_COLORS,
+    grid: GEOGRAPHY_GRID,
     challengeTitle: 'מה הבירה של המדינה?',
     challengeIcon: '🏛️',
     challengeDescription: 'ראה את הדגל ושם המדינה, ובחר את הבירה!',
@@ -73,15 +69,8 @@ export const geographyConfigs: Partial<Record<string, GameUIConfig>> = {
       { icon: '🌍', title: '2. תחשוב', description: 'באיזו יבשת היא נמצאת?' },
       { icon: '👆', title: '3. תבחר', description: 'לחץ על היבשת הנכונה' },
     ],
-    colors: {
-      background: 'linear-gradient(135deg, #0d9488 0%, #0891b2 100%)',
-      header: 'text-white',
-      subHeader: 'text-teal-100',
-      itemsDescription: 'text-teal-100',
-      button: { from: 'teal', to: 'cyan' },
-      stepsBg: 'bg-teal-100 bg-opacity-90',
-    },
-    grid: { className: 'grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto' },
+    colors: GEOGRAPHY_COLORS,
+    grid: GEOGRAPHY_GRID,
     challengeTitle: 'באיזו יבשת נמצאת המדינה?',
     challengeIcon: '🌍',
     challengeDescription: 'ראה את הדגל ושם המדינה, ובחר את היבשת!',

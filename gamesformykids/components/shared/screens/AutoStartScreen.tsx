@@ -10,7 +10,6 @@ import RealPhotoToggleButton from '../buttons/RealPhotoToggleButton';
 import PrintWorksheetButton from '../buttons/PrintWorksheetButton';
 import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
-import { DifficultyPicker } from '@/components/game/shared/DifficultyPicker';
 
 export default function AutoStartScreen() {
   const { config, speakItemName, gameType, items, startGame, lastMistakeItems, startMistakeReview } = useUniversalGame();
@@ -67,7 +66,6 @@ export default function AutoStartScreen() {
       customOnStart={studyMode ? handleStartWithStudy : undefined}
       extraControls={
         <div className="flex flex-col items-center gap-3 mt-3">
-          <DifficultyPicker />
           <div className="flex justify-center gap-3 flex-wrap">
           <button
             onClick={() => setStudyMode(v => !v)}

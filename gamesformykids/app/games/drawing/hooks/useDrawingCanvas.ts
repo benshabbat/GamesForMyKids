@@ -82,6 +82,19 @@ export const useDrawingCanvas = () => {
     return { x, y };
   };
 
+  // מחיל על ה-ctx את מצב המכחול/מחק הנוכחי מהסטור
+  const applyBrushSettings = (ctx: CanvasRenderingContext2D) => {
+    const { isErasing, eraserSize, brushSize, currentColor } = useDrawingStore.getState();
+    if (isErasing) {
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.lineWidth = eraserSize;
+    } else {
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.strokeStyle = currentColor;
+      ctx.lineWidth = brushSize;
+    }
+  };
+
   // התחלת ציור — קורא state עדכני מהסטור ישירות למניעת stale closure
   const startDrawing = (
     e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
@@ -94,15 +107,7 @@ export const useDrawingCanvas = () => {
     const ctx = ctxRef.current;
     if (!ctx) return;
 
-    const { isErasing, eraserSize, brushSize, currentColor } = useDrawingStore.getState();
-    if (isErasing) {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.lineWidth = eraserSize;
-    } else {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = currentColor;
-      ctx.lineWidth = brushSize;
-    }
+    applyBrushSettings(ctx);
     ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(x, y);
@@ -119,16 +124,7 @@ export const useDrawingCanvas = () => {
     const ctx = ctxRef.current;
     if (!ctx) return;
 
-    const { isErasing, eraserSize, currentColor, brushSize } = useDrawingStore.getState();
-    if (isErasing) {
-      ctx.globalCompositeOperation = 'destination-out';
-      ctx.lineWidth = eraserSize;
-    } else {
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.strokeStyle = currentColor;
-      ctx.lineWidth = brushSize;
-    }
-
+    applyBrushSettings(ctx);
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
     ctx.lineTo(x, y);

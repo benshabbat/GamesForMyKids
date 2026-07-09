@@ -1,7 +1,9 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
 
 type DrumWord = { word: string; letters: string[] };
 
@@ -38,15 +40,6 @@ export type BeatScore = 'perfect' | 'good' | 'miss';
 export type TapFeedback = { text: string; ok: boolean };
 
 let _id = 0;
-
-function shuffled<T>(arr: T[]): T[] {
-  const a = [...arr];
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    const tmp = a[i] as T; a[i] = a[j] as T; a[j] = tmp;
-  }
-  return a;
-}
 
 const CIRCLE_COLORS = ['#f43f5e', '#f97316', '#eab308', '#22c55e', '#0ea5e9', '#8b5cf6'];
 
@@ -278,15 +271,7 @@ export function useDrumsGame() {
     }
   }, [advanceWord, finishWord]));
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const resize = () => { canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight; };
-    resize();
-    const ro = new ResizeObserver(resize);
-    ro.observe(canvas);
-    return () => ro.disconnect();
-  }, [canvasRef]);
+  useCanvasResize(canvasRef);
 
   const wordObj = wordListRef.current[wordIdx];
   const letters = wordObj?.letters ?? currentLetters;

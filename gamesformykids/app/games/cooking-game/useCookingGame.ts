@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { shuffle } from '@/lib/utils/game/cardUtils';
 
 interface Ingredient { name: string; emoji: string; label: string; plural: string; }
 
@@ -52,8 +53,6 @@ export function countWord(n: number): string {
   const words = ['', 'אחד', 'שניים', 'שלושה', 'ארבעה', 'חמישה'];
   return words[n] ?? String(n);
 }
-
-function shuffle<T>(arr: T[]): T[] { return [...arr].sort(() => Math.random() - 0.5); }
 
 const SHELF_SIZE = 6;
 export type Phase = 'menu' | 'cooking' | 'step-done' | 'recipe-done' | 'game-done';

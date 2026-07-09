@@ -36,7 +36,24 @@ interface ColoringActions {
 
 export const useColoringStore = makeStore<ColoringState & ColoringActions>(
   'ColoringStore',
-  (set, get) => ({
+  (set, get) => {
+    /** מעדכן allFills+doneImages עבור התמונה הנוכחית ובודק אם הושלמה */
+    const applyFill = (updated: Record<string, string>, colorableIds: string[], actionName: string) => {
+      const { currentImage } = get();
+      const isDone = colorableIds.every((rid) => updated[rid]);
+      set(
+        (state) => ({
+          allFills: { ...state.allFills, [currentImage]: updated },
+          doneImages: isDone
+            ? { ...state.doneImages, [currentImage]: true }
+            : state.doneImages,
+        }),
+        false,
+        actionName,
+      );
+    };
+
+    return {
       currentImage: 'cat',
       selectedColor: PALETTE_COLORS[0].hex,
       allFills: EMPTY_FILLS,
@@ -50,34 +67,14 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       selectRegion: (id, colorableIds) => {
         const { selectedColor, currentImage, allFills } = get();
         const updated = { ...allFills[currentImage], [id]: selectedColor };
-        const isDone = colorableIds.every((rid) => updated[rid]);
-        set(
-          (state) => ({
-            allFills: { ...state.allFills, [currentImage]: updated },
-            doneImages: isDone
-              ? { ...state.doneImages, [currentImage]: true }
-              : state.doneImages,
-          }),
-          false,
-          'selectRegion',
-        );
+        applyFill(updated, colorableIds, 'selectRegion');
       },
 
       fillGroup: (memberIds, colorableIds) => {
         const { selectedColor, currentImage, allFills } = get();
         const updates = Object.fromEntries(memberIds.map((id) => [id, selectedColor]));
         const updated = { ...allFills[currentImage], ...updates };
-        const isDone = colorableIds.every((rid) => updated[rid]);
-        set(
-          (state) => ({
-            allFills: { ...state.allFills, [currentImage]: updated },
-            doneImages: isDone
-              ? { ...state.doneImages, [currentImage]: true }
-              : state.doneImages,
-          }),
-          false,
-          'fillGroup',
-        );
+        applyFill(updated, colorableIds, 'fillGroup');
       },
 
       clearImage: () => {
@@ -91,5 +88,6 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
           'clearImage',
         );
       },
-  }),
+    };
+  },
 );
