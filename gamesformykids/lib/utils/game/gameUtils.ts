@@ -19,6 +19,15 @@ export function delay(ms: number): Promise<void> {
 }
 
 /**
+ * מפרמט שניות לתצוגת שעון "M:SS" (בלי אפס מוביל בדקות)
+ */
+export function formatGameTime(seconds: number): string {
+  const mins = Math.floor(seconds / 60);
+  const secs = seconds % 60;
+  return `${mins}:${secs.toString().padStart(2, '0')}`;
+}
+
+/**
  * מספר שלם אקראי בטווח [min, max] (כולל קצוות)
  */
 export function randInt(min: number, max: number): number {

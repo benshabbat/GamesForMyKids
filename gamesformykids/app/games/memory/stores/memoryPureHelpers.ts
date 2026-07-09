@@ -3,12 +3,9 @@
  * Extracted from useMemoryStore.ts where they lived as store actions
  * despite having no access to Zustand state.
  */
+import { formatGameTime } from '@/lib/utils/game/gameUtils';
 
-export function formatTime(seconds: number): string {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-}
+export const formatTime = formatGameTime;
 
 export function getTimeColor(timeLeft: number): string {
   if (timeLeft <= 10) return 'text-red-500';

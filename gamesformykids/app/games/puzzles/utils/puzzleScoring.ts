@@ -1,4 +1,5 @@
 import type { PuzzlePiece } from './puzzleTypes';
+import { formatGameTime } from '@/lib/utils/game/gameUtils';
 
 export const isPieceInCorrectPosition = (
   piece: PuzzlePiece,
@@ -15,11 +16,7 @@ export const calculateCompletionPercentage = (
   return Math.round((completedPieces / totalPieces) * 100);
 };
 
-export const formatTime = (seconds: number): string => {
-  const mins = Math.floor(seconds / 60);
-  const secs = seconds % 60;
-  return `${mins}:${secs.toString().padStart(2, '0')}`;
-};
+export const formatTime = formatGameTime;
 
 export const calculateFinalScore = (
   baseScore: number,
