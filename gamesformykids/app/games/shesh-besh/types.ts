@@ -15,3 +15,6 @@ export type TurnSnapshot = {
   barComputer: number;
   dice: Die[];
 };
+
+/** A move currently in flight visually — real state commits only once this clears. */
+export type AnimatingMove = { from: number; to: number; side: Side };
