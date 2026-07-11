@@ -464,3 +464,14 @@ body {
   transition-duration: 0.01ms !important;
   scroll-behavior: auto !important;
 }
+
+/* ═══════════════════════════════════════════════════════
+   Dyslexia-friendly reading mode
+   Wider letter/line spacing + a plainer font for easier reading.
+   Activated by [data-dyslexia-mode] on <html>
+   ═══════════════════════════════════════════════════════ */
+[data-dyslexia-mode="true"] {
+  letter-spacing: 0.04em;
+  line-height: 1.7;
+  font-family: Verdana, Tahoma, Arial, sans-serif;
+}
