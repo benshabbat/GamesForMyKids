@@ -8,6 +8,7 @@ import { AudioSection } from '@/components/settings/AudioSection';
 import { AppearanceSection } from '@/components/settings/AppearanceSection';
 import { AccountSection } from '@/components/settings/AccountSection';
 import { ColorblindSection } from '@/components/settings/ColorblindSection';
+import { DyslexiaSection } from '@/components/settings/DyslexiaSection';
 import { AvatarSection } from '@/components/settings/AvatarSection';
 import { ScreenTimeSection } from '@/components/settings/ScreenTimeSection';
 import { AgeFilterSection } from '@/components/settings/AgeFilterSection';
@@ -77,6 +78,7 @@ export default function SettingsClient() {
             disabled={saving}
           />
           <ColorblindSection />
+          <DyslexiaSection />
           <SoundThemeSection />
           <AvatarSection />
           <AgeFilterSection />
