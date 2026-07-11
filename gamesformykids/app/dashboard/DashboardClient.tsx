@@ -4,6 +4,7 @@ import { useAuth } from '@/hooks/shared/auth/useAuth';
 import Link from 'next/link';
 import { DashboardHeader } from './components/DashboardHeader';
 import { ActivitySummaryCard } from './components/ActivitySummaryCard';
+import { WeeklyInsightCard } from './components/WeeklyInsightCard';
 import { MostPlayedCard } from './components/MostPlayedCard';
 import { ScoreSummaryCard } from './components/ScoreSummaryCard';
 import { RecentAchievementsCard } from './components/RecentAchievementsCard';
@@ -48,6 +49,7 @@ export default function DashboardClient() {
         <div className="space-y-6">
           <ActivitySummaryCard />
           <div className="grid md:grid-cols-2 gap-6">
+            <WeeklyInsightCard />
             <MostPlayedCard />
             <ScoreSummaryCard />
             <ScoreHistoryCard />
