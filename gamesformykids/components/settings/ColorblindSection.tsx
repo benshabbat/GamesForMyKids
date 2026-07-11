@@ -4,6 +4,7 @@ import { SectionContainer } from './SectionContainer';
 
 const CB_KEY = 'gfk_colorblind';
 const RM_KEY = 'gfk_reduced_motion';
+const HC_KEY = 'gfk_high_contrast';
 
 function Toggle({ enabled, onToggle, label }: { enabled: boolean; onToggle: () => void; label: string }) {
   return (
@@ -24,6 +25,7 @@ function Toggle({ enabled, onToggle, label }: { enabled: boolean; onToggle: () =
 export function ColorblindSection() {
   const [colorblind, setColorblind] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
+  const [highContrast, setHighContrast] = useState(false);
 
   useEffect(() => {
     try {
@@ -35,6 +37,10 @@ export function ColorblindSection() {
       const rm = localStorage.getItem(RM_KEY) === 'true' || osReducedMotion;
       setReducedMotion(rm);
       document.documentElement.dataset.reducedMotion = rm ? 'true' : '';
+
+      const hc = localStorage.getItem(HC_KEY) === 'true';
+      setHighContrast(hc);
+      document.documentElement.dataset.highContrast = hc ? 'true' : '';
     } catch {}
   }, []);
 
@@ -56,6 +62,15 @@ export function ColorblindSection() {
     } catch {}
   };
 
+  const toggleHighContrast = () => {
+    const next = !highContrast;
+    setHighContrast(next);
+    try {
+      if (next) { localStorage.setItem(HC_KEY, 'true'); document.documentElement.dataset.highContrast = 'true'; }
+      else { localStorage.removeItem(HC_KEY); document.documentElement.dataset.highContrast = ''; }
+    } catch {}
+  };
+
   return (
     <SectionContainer title="נגישות" emoji="♿">
       <div className="space-y-3">
@@ -72,6 +87,13 @@ export function ColorblindSection() {
             <p className="text-sm text-gray-500">מבטל אנימציות ומעברים (מומלץ לרגישות חושית ו-ADHD)</p>
           </div>
           <Toggle enabled={reducedMotion} onToggle={toggleReducedMotion} label="הפחת תנועה" />
+        </div>
+        <div className="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-200">
+          <div>
+            <p className="font-medium text-gray-800">ניגודיות גבוהה ⬛⬜</p>
+            <p className="text-sm text-gray-500">מגביר ניגודיות רקע/טקסט ומדגיש מסגרות סביב כפתורים וכרטיסים</p>
+          </div>
+          <Toggle enabled={highContrast} onToggle={toggleHighContrast} label="הפעל ניגודיות גבוהה" />
         </div>
       </div>
     </SectionContainer>

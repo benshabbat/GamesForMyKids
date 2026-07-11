@@ -475,3 +475,24 @@ body {
   line-height: 1.7;
   font-family: Verdana, Tahoma, Arial, sans-serif;
 }
+
+/* ═══════════════════════════════════════════════════════
+   High-contrast mode — for low-vision users
+   Activated by [data-high-contrast] on <html>
+   ═══════════════════════════════════════════════════════ */
+[data-high-contrast="true"] body {
+  background: #ffffff !important;
+  color: #000000 !important;
+}
+
+[data-high-contrast="true"] button,
+[data-high-contrast="true"] a,
+[data-high-contrast="true"] [role="button"] {
+  outline: 2px solid #000000 !important;
+  outline-offset: 2px;
+}
+
+[data-high-contrast="true"] [class*="bg-gradient-to-"],
+[data-high-contrast="true"] [style*="linear-gradient"] {
+  filter: contrast(1.3) saturate(1.2);
+}
