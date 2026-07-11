@@ -49,10 +49,11 @@ function Footer() {
 
           {/* Section links */}
           <div className="flex flex-wrap justify-center gap-3 md:gap-5 text-sm mt-5 md:mt-6">
-            <Link href="/tools"    className="text-teal-600 hover:text-teal-800 font-medium transition-colors">🎲 כלי כיתה</Link>
-            <Link href="/creative" className="text-purple-600 hover:text-purple-800 font-medium transition-colors">🎨 יצירה</Link>
-            <Link href="/riddles"  className="text-orange-600 hover:text-orange-800 font-medium transition-colors">🤣 חידות</Link>
-            <Link href="/"         className="text-blue-600 hover:text-blue-800 font-medium transition-colors">🎮 משחקים</Link>
+            <Link href="/tools"          className="text-teal-600 hover:text-teal-800 font-medium transition-colors">🎲 כלי כיתה</Link>
+            <Link href="/creative"       className="text-purple-600 hover:text-purple-800 font-medium transition-colors">🎨 יצירה</Link>
+            <Link href="/riddles"        className="text-orange-600 hover:text-orange-800 font-medium transition-colors">🤣 חידות</Link>
+            <Link href="/learning-paths" className="text-indigo-600 hover:text-indigo-800 font-medium transition-colors">🗺️ מסלולי למידה</Link>
+            <Link href="/"               className="text-blue-600 hover:text-blue-800 font-medium transition-colors">🎮 משחקים</Link>
           </div>
           
           {/* Developer credit */}
