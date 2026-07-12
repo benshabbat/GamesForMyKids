@@ -20,14 +20,14 @@ export function PieceStack({ count, isPlayer, isTop }: PieceStackProps) {
   const textColor = isPlayer ? 'text-white drop-shadow-sm' : 'text-slate-700';
 
   return (
-    <div className={['flex items-center gap-[2px]', isTop ? 'flex-col' : 'flex-col-reverse'].join(' ')}>
+    <div className={['flex items-center gap-[3%] w-full', isTop ? 'flex-col' : 'flex-col-reverse'].join(' ')}>
       {Array.from({ length: visible }).map((_, i) => {
         const isTopPiece = isTop ? i === 0 : i === visible - 1;
         return (
           <div
             key={i}
             className={[
-              'w-7 h-[17px] rounded-full border-2 flex items-center justify-center',
+              'w-[78%] aspect-[28/17] rounded-full border-2 flex items-center justify-center mx-auto',
               'relative overflow-hidden shadow-[0_2px_6px_rgba(0,0,0,0.75)]',
               disc,
             ].join(' ')}
@@ -35,7 +35,7 @@ export function PieceStack({ count, isPlayer, isTop }: PieceStackProps) {
             {/* Specular highlight */}
             <div className={['absolute inset-0 rounded-full', shine].join(' ')} />
             {count > 1 && isTopPiece && (
-              <span className={['relative z-10 text-[9px] font-black leading-none', textColor].join(' ')}>
+              <span className={['relative z-10 text-[clamp(7px,1.8vw,11px)] font-black leading-none', textColor].join(' ')}>
                 {count}
               </span>
             )}

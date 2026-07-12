@@ -10,10 +10,11 @@ import type { Side } from '../types';
 const TOP_POINTS = [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
 const BOT_POINTS = [12, 11, 10,  9,  8,  7,  6,  5,  4,  3,  2,  1];
 
-const PIECE_W = 28;
-const PIECE_H = 17;
+// Natural board proportions (12 points @ 1 unit + bar 0.33 + tray 0.53 wide; 2 point-rows + label row tall).
+const BOARD_ASPECT = '584 / 272';
+const PIECE_ASPECT = 17 / 28; // matches PieceStack's disc aspect ratio
 
-type Flight = { x1: number; y1: number; x2: number; y2: number; side: Side; key: string };
+type Flight = { x1: number; y1: number; x2: number; y2: number; w: number; h: number; side: Side; key: string };
 
 export function GameBoard() {
   const { points, barPlayer, barComputer, selected, validMoves, selectPoint, animatingMove } = useGameBoard();
@@ -42,11 +43,16 @@ export function GameBoard() {
     const boardBox = boardRef.current.getBoundingClientRect();
     const fromBox = fromEl.getBoundingClientRect();
     const toBox = toEl.getBoundingClientRect();
+    // Size the flying disc relative to the actual rendered slot size, so it matches
+    // the board at any viewport width instead of a fixed pixel size.
+    const w = Math.max(14, Math.min(fromBox.width, toBox.width) * 0.7);
+    const h = w * PIECE_ASPECT;
     setFlight({
-      x1: fromBox.left - boardBox.left + fromBox.width / 2 - PIECE_W / 2,
-      y1: fromBox.top - boardBox.top + fromBox.height / 2 - PIECE_H / 2,
-      x2: toBox.left - boardBox.left + toBox.width / 2 - PIECE_W / 2,
-      y2: toBox.top - boardBox.top + toBox.height / 2 - PIECE_H / 2,
+      x1: fromBox.left - boardBox.left + fromBox.width / 2 - w / 2,
+      y1: fromBox.top - boardBox.top + fromBox.height / 2 - h / 2,
+      x2: toBox.left - boardBox.left + toBox.width / 2 - w / 2,
+      y2: toBox.top - boardBox.top + toBox.height / 2 - h / 2,
+      w, h,
       side: animatingMove.side,
       key: `${animatingMove.from}-${animatingMove.to}-${animatingMove.side}-${Date.now()}`,
     });
@@ -72,25 +78,29 @@ export function GameBoard() {
   return (
     /* Walnut outer frame */
     <div
-      className="rounded-2xl p-[7px] shadow-[0_24px_64px_rgba(0,0,0,0.9)] ring-1 ring-black/60"
+      className="w-full rounded-2xl p-[1.2%] shadow-[0_24px_64px_rgba(0,0,0,0.9)] ring-1 ring-black/60"
       style={{ background: 'linear-gradient(155deg,#92400e 0%,#3b1505 45%,#92400e 100%)' }}
     >
-      {/* Felt surface */}
-      <div ref={boardRef} className="relative flex bg-[#0b3d1b] rounded-xl overflow-hidden border border-black/40">
+      {/* Felt surface — fixed aspect ratio so it scales fluidly with the wrapper's width */}
+      <div
+        ref={boardRef}
+        className="relative flex w-full bg-[#0b3d1b] rounded-xl overflow-hidden border border-black/40"
+        style={{ aspectRatio: BOARD_ASPECT }}
+      >
 
         {/* Left quad: 13–18 top / 12–7 bottom */}
-        <div className="flex flex-col">
-          <div className="flex">
+        <div className="flex flex-col h-full" style={{ flex: '480 480 0%' }}>
+          <div className="flex" style={{ flex: '120 120 0%' }}>
             {TOP_POINTS.slice(0, 6).map(i => (
               <BoardPoint key={i} idx={i} pt={displayPoints[i]!} isTop
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} registerRef={registerPointRef(i)} />
             ))}
           </div>
-          <div className="flex-1 flex items-center justify-center min-h-[2rem]">
-            <span className="text-[9px] text-amber-700/40 font-bold select-none">← מחשב</span>
+          <div className="flex items-center justify-center" style={{ flex: '32 32 0%' }}>
+            <span className="text-[clamp(6px,1.4vw,10px)] text-amber-700/40 font-bold select-none">← מחשב</span>
           </div>
-          <div className="flex">
+          <div className="flex" style={{ flex: '120 120 0%' }}>
             {BOT_POINTS.slice(0, 6).map(i => (
               <BoardPoint key={i} idx={i} pt={displayPoints[i]!} isTop={false}
                 isSelected={selected === i} isTarget={validTargets.has(i)}
@@ -109,18 +119,18 @@ export function GameBoard() {
         />
 
         {/* Right quad: 19–24 top / 6–1 bottom */}
-        <div className="flex flex-col">
-          <div className="flex">
+        <div className="flex flex-col h-full" style={{ flex: '480 480 0%' }}>
+          <div className="flex" style={{ flex: '120 120 0%' }}>
             {TOP_POINTS.slice(6).map(i => (
               <BoardPoint key={i} idx={i} pt={displayPoints[i]!} isTop
                 isSelected={selected === i} isTarget={validTargets.has(i)}
                 onClick={() => selectPoint(i)} registerRef={registerPointRef(i)} />
             ))}
           </div>
-          <div className="flex-1 flex items-center justify-center min-h-[2rem]">
-            <span className="text-[9px] text-amber-700/40 font-bold select-none">אתה →</span>
+          <div className="flex items-center justify-center" style={{ flex: '32 32 0%' }}>
+            <span className="text-[clamp(6px,1.4vw,10px)] text-amber-700/40 font-bold select-none">אתה →</span>
           </div>
-          <div className="flex">
+          <div className="flex" style={{ flex: '120 120 0%' }}>
             {BOT_POINTS.slice(6).map(i => (
               <BoardPoint key={i} idx={i} pt={displayPoints[i]!} isTop={false}
                 isSelected={selected === i} isTarget={validTargets.has(i)}
@@ -148,7 +158,7 @@ export function GameBoard() {
             transition={{ duration: PIECE_MOVE_MS / 1000, ease: 'easeInOut' }}
             className="absolute top-0 left-0 z-30 pointer-events-none rounded-full border-2 shadow-[0_4px_10px_rgba(0,0,0,0.8)]"
             style={{
-              width: PIECE_W, height: PIECE_H,
+              width: flight.w, height: flight.h,
               ...(flight.side === 'player'
                 ? { background: 'linear-gradient(to bottom right, #fda4af, #f43f5e, #881337)', borderColor: 'rgba(254,205,211,0.6)' }
                 : { background: 'linear-gradient(to bottom right, #ffffff, #f1f5f9, #94a3b8)', borderColor: 'rgba(255,255,255,0.7)' }),
