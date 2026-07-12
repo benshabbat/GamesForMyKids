@@ -5,6 +5,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   POLICE: {
     name: "police",
     hebrew: "שוטר",
+    hebrewNikud: "שׁוֹטֵר",
     english: "Police",
     emoji: "👮",
     color: "bg-gradient-to-br from-blue-500 to-blue-700",
@@ -12,6 +13,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   FIREFIGHTER: {
     name: "firefighter",
     hebrew: "כבאי",
+    hebrewNikud: "כַּבַּאי",
     english: "Firefighter",
     emoji: "🧑‍🚒",
     color: "bg-gradient-to-br from-red-500 to-orange-600",
@@ -19,6 +21,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   DOCTOR: {
     name: "doctor",
     hebrew: "רופא",
+    hebrewNikud: "רוֹפֵא",
     english: "Doctor",
     emoji: "👨‍⚕️",
     color: "bg-gradient-to-br from-green-400 to-teal-500",
@@ -26,6 +29,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   AMBULANCE: {
     name: "ambulance",
     hebrew: "אמבולנס",
+    hebrewNikud: "אַמְבּוּלַנְס",
     english: "Ambulance",
     emoji: "🚑",
     color: "bg-gradient-to-br from-red-400 to-red-600",
@@ -33,6 +37,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   HELMET: {
     name: "helmet",
     hebrew: "קסדה",
+    hebrewNikud: "קַסְדָּה",
     english: "Helmet",
     emoji: "⛑️",
     color: "bg-gradient-to-br from-yellow-400 to-orange-500",
@@ -40,6 +45,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   SEATBELT: {
     name: "seatbelt",
     hebrew: "חגורת בטיחות",
+    hebrewNikud: "חֲגוֹרַת בְּטִיחוּת",
     english: "Seatbelt",
     emoji: "🔒",
     color: "bg-gradient-to-br from-gray-500 to-gray-700",
@@ -47,6 +53,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   FIRE_EXTINGUISHER: {
     name: "fire-extinguisher",
     hebrew: "מטף",
+    hebrewNikud: "מַטָּף",
     english: "Fire Extinguisher",
     emoji: "🧯",
     color: "bg-gradient-to-br from-red-600 to-rose-700",
@@ -54,6 +61,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   FIRST_AID: {
     name: "first-aid",
     hebrew: "עזרה ראשונה",
+    hebrewNikud: "עֶזְרָה רִאשׁוֹנָה",
     english: "First Aid",
     emoji: "🩹",
     color: "bg-gradient-to-br from-pink-400 to-rose-500",
@@ -61,6 +69,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   PHONE_EMERGENCY: {
     name: "phone-emergency",
     hebrew: "טלפון חירום",
+    hebrewNikud: "טֶלֶפוֹן חֵרוּם",
     english: "Emergency Phone",
     emoji: "📞",
     color: "bg-gradient-to-br from-indigo-500 to-purple-600",
@@ -68,6 +77,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   TRAFFIC_LIGHT: {
     name: "traffic-light",
     hebrew: "רמזור",
+    hebrewNikud: "רַמְזוֹר",
     english: "Traffic Light",
     emoji: "🚦",
     color: "bg-gradient-to-br from-green-500 to-emerald-600",
@@ -75,6 +85,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   CROSSWALK: {
     name: "crosswalk",
     hebrew: "מעבר חציה",
+    hebrewNikud: "מַעֲבַר חֲצִיָּה",
     english: "Crosswalk",
     emoji: "🚶",
     color: "bg-gradient-to-br from-slate-400 to-slate-600",
@@ -82,6 +93,7 @@ export const PERSONAL_SAFETY_ITEMS: Record<string, BaseGameItem> = {
   LIFEGUARD: {
     name: "lifeguard",
     hebrew: "מציל",
+    hebrewNikud: "מַצִּיל",
     english: "Lifeguard",
     emoji: "🏊",
     color: "bg-gradient-to-br from-cyan-400 to-blue-500",
