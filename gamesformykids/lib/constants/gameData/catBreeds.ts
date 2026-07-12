@@ -6,16 +6,16 @@ import { BaseGameItem } from "@/lib/types/core/base";
  * ===============================================
  */
 export const CAT_BREEDS_ITEMS: BaseGameItem[] = [
-  { name: "persian",         hebrew: "חתול פרסי",       english: "Persian Cat",       emoji: "🐱", color: "bg-white" },
-  { name: "siamese",         hebrew: "חתול סיאמי",      english: "Siamese Cat",       emoji: "🐱", color: "bg-stone-200" },
-  { name: "maine-coon",      hebrew: "מיין קון",        english: "Maine Coon",         emoji: "🐱", color: "bg-amber-700" },
-  { name: "bengal",          hebrew: "חתול בנגל",       english: "Bengal Cat",        emoji: "🐱", color: "bg-amber-500" },
-  { name: "ragdoll",         hebrew: "ראגדול",          english: "Ragdoll",            emoji: "🐱", color: "bg-stone-100" },
-  { name: "british-short",   hebrew: "בריטי שיער קצר",  english: "British Shorthair", emoji: "🐱", color: "bg-gray-400" },
-  { name: "scottish-fold",   hebrew: "סקוטי פולד",      english: "Scottish Fold",     emoji: "🐱", color: "bg-amber-300" },
-  { name: "sphynx",          hebrew: "ספינקס",          english: "Sphynx",             emoji: "🐱", color: "bg-rose-300" },
-  { name: "abyssinian",      hebrew: "אביסינית",        english: "Abyssinian",        emoji: "🐱", color: "bg-amber-600" },
-  { name: "russian-blue",    hebrew: "רוסי כחול",       english: "Russian Blue",      emoji: "🐱", color: "bg-slate-400" },
-  { name: "norwegian-forest",hebrew: "חתול יער נורווגי",english: "Norwegian Forest",  emoji: "🐱", color: "bg-orange-700" },
-  { name: "burmese",         hebrew: "בורמזי",          english: "Burmese",            emoji: "🐱", color: "bg-amber-800" },
+  { name: "persian",         hebrew: "חתול פרסי",       hebrewNikud: "חָתוּל פַּרְסִי",             english: "Persian Cat",       emoji: "🐱", color: "bg-white" },
+  { name: "siamese",         hebrew: "חתול סיאמי",      hebrewNikud: "חָתוּל סִיאָמִי",             english: "Siamese Cat",       emoji: "🐱", color: "bg-stone-200" },
+  { name: "maine-coon",      hebrew: "מיין קון",        hebrewNikud: "מֵיְין קוּן",                 english: "Maine Coon",         emoji: "🐱", color: "bg-amber-700" },
+  { name: "bengal",          hebrew: "חתול בנגל",       hebrewNikud: "חָתוּל בֶּנְגָּל",             english: "Bengal Cat",        emoji: "🐱", color: "bg-amber-500" },
+  { name: "ragdoll",         hebrew: "ראגדול",          hebrewNikud: "רַגְדוֹל",                    english: "Ragdoll",            emoji: "🐱", color: "bg-stone-100" },
+  { name: "british-short",   hebrew: "בריטי שיער קצר",  hebrewNikud: "בְּרִיטִי שֵׂעָר קָצָר",       english: "British Shorthair", emoji: "🐱", color: "bg-gray-400" },
+  { name: "scottish-fold",   hebrew: "סקוטי פולד",      hebrewNikud: "סְקוֹטִי פוֹלְד",             english: "Scottish Fold",     emoji: "🐱", color: "bg-amber-300" },
+  { name: "sphynx",          hebrew: "ספינקס",          hebrewNikud: "סְפִינְקְס",                  english: "Sphynx",             emoji: "🐱", color: "bg-rose-300" },
+  { name: "abyssinian",      hebrew: "אביסינית",        hebrewNikud: "אֲבִיסִינִית",                english: "Abyssinian",        emoji: "🐱", color: "bg-amber-600" },
+  { name: "russian-blue",    hebrew: "רוסי כחול",       hebrewNikud: "רוּסִי כָּחֹל",               english: "Russian Blue",      emoji: "🐱", color: "bg-slate-400" },
+  { name: "norwegian-forest",hebrew: "חתול יער נורווגי",hebrewNikud: "חָתוּל יַעַר נוֹרְוֶגִי",      english: "Norwegian Forest",  emoji: "🐱", color: "bg-orange-700" },
+  { name: "burmese",         hebrew: "בורמזי",          hebrewNikud: "בּוּרְמֶזִי",                 english: "Burmese",            emoji: "🐱", color: "bg-amber-800" },
 ];

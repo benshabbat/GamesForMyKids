@@ -38,11 +38,11 @@ export const BODY_PARTS_CONSTANTS: Record<string, BaseGameItem> = {
  * ===============================================
  */
 export const SENSES_CONSTANTS: Record<string, BaseGameItem> = {
-  SIGHT: { name: "sight", hebrew: "ראייה", english: "Sight", emoji: "👀", color: "bg-blue-500", sound: [440, 550, 660] },
-  HEARING: { name: "hearing", hebrew: "שמיעה", english: "Hearing", emoji: "👂", color: "bg-orange-400", sound: [392, 494, 587] },
-  SMELL: { name: "smell", hebrew: "ריח", english: "Smell", emoji: "👃", color: "bg-pink-300", sound: [349, 440, 523] },
-  TASTE: { name: "taste", hebrew: "טעם", english: "Taste", emoji: "👅", color: "bg-red-400", sound: [523, 659, 784] },
-  TOUCH: { name: "touch", hebrew: "מגע", english: "Touch", emoji: "✋", color: "bg-yellow-500", sound: [294, 370, 440] },
+  SIGHT: { name: "sight", hebrew: "ראייה", hebrewNikud: "רְאִיָּה", english: "Sight", emoji: "👀", color: "bg-blue-500", sound: [440, 550, 660] },
+  HEARING: { name: "hearing", hebrew: "שמיעה", hebrewNikud: "שְׁמִיעָה", english: "Hearing", emoji: "👂", color: "bg-orange-400", sound: [392, 494, 587] },
+  SMELL: { name: "smell", hebrew: "ריח", hebrewNikud: "רֵיחַ", english: "Smell", emoji: "👃", color: "bg-pink-300", sound: [349, 440, 523] },
+  TASTE: { name: "taste", hebrew: "טעם", hebrewNikud: "טַעַם", english: "Taste", emoji: "👅", color: "bg-red-400", sound: [523, 659, 784] },
+  TOUCH: { name: "touch", hebrew: "מגע", hebrewNikud: "מַגָּע", english: "Touch", emoji: "✋", color: "bg-yellow-500", sound: [294, 370, 440] },
 };
 
 /**
@@ -51,16 +51,16 @@ export const SENSES_CONSTANTS: Record<string, BaseGameItem> = {
  * ===============================================
  */
 export const BODY_ACTIONS_CONSTANTS: Record<string, BaseGameItem> = {
-  WALK: { name: "walk", hebrew: "ללכת", english: "Walk", emoji: "🚶", color: "bg-green-500", sound: [440, 550, 660] },
-  RUN: { name: "run", hebrew: "לרוץ", english: "Run", emoji: "🏃", color: "bg-red-500", sound: [392, 494, 587] },
-  JUMP: { name: "jump", hebrew: "לקפץ", english: "Jump", emoji: "🤸", color: "bg-purple-500", sound: [349, 440, 523] },
-  SIT: { name: "sit", hebrew: "לשבת", english: "Sit", emoji: "🪑", color: "bg-brown-500", sound: [523, 659, 784] },
-  STAND: { name: "stand", hebrew: "לעמוד", english: "Stand", emoji: "🧍", color: "bg-blue-400", sound: [294, 370, 440] },
-  SLEEP: { name: "sleep", hebrew: "לישון", english: "Sleep", emoji: "😴", color: "bg-purple-300", sound: [330, 415, 494] },
-  EAT: { name: "eat", hebrew: "לאכול", english: "Eat", emoji: "🍽️", color: "bg-orange-400", sound: [587, 698, 784] },
-  DRINK: { name: "drink", hebrew: "לשתות", english: "Drink", emoji: "🥤", color: "bg-blue-300", sound: [196, 247, 294] },
-  SMILE: { name: "smile", hebrew: "לחייך", english: "Smile", emoji: "😊", color: "bg-yellow-400", sound: [659, 831, 988] },
-  CRY: { name: "cry", hebrew: "לבכות", english: "Cry", emoji: "😢", color: "bg-blue-600", sound: [277, 349, 415] },
+  WALK: { name: "walk", hebrew: "ללכת", hebrewNikud: "לָלֶכֶת", english: "Walk", emoji: "🚶", color: "bg-green-500", sound: [440, 550, 660] },
+  RUN: { name: "run", hebrew: "לרוץ", hebrewNikud: "לָרוּץ", english: "Run", emoji: "🏃", color: "bg-red-500", sound: [392, 494, 587] },
+  JUMP: { name: "jump", hebrew: "לקפץ", hebrewNikud: "לִקְפֹּץ", english: "Jump", emoji: "🤸", color: "bg-purple-500", sound: [349, 440, 523] },
+  SIT: { name: "sit", hebrew: "לשבת", hebrewNikud: "לָשֶׁבֶת", english: "Sit", emoji: "🪑", color: "bg-brown-500", sound: [523, 659, 784] },
+  STAND: { name: "stand", hebrew: "לעמוד", hebrewNikud: "לַעֲמֹד", english: "Stand", emoji: "🧍", color: "bg-blue-400", sound: [294, 370, 440] },
+  SLEEP: { name: "sleep", hebrew: "לישון", hebrewNikud: "לִישֹׁן", english: "Sleep", emoji: "😴", color: "bg-purple-300", sound: [330, 415, 494] },
+  EAT: { name: "eat", hebrew: "לאכול", hebrewNikud: "לֶאֱכֹל", english: "Eat", emoji: "🍽️", color: "bg-orange-400", sound: [587, 698, 784] },
+  DRINK: { name: "drink", hebrew: "לשתות", hebrewNikud: "לִשְׁתּוֹת", english: "Drink", emoji: "🥤", color: "bg-blue-300", sound: [196, 247, 294] },
+  SMILE: { name: "smile", hebrew: "לחייך", hebrewNikud: "לְחַיֵּךְ", english: "Smile", emoji: "😊", color: "bg-yellow-400", sound: [659, 831, 988] },
+  CRY: { name: "cry", hebrew: "לבכות", hebrewNikud: "לִבְכּוֹת", english: "Cry", emoji: "😢", color: "bg-blue-600", sound: [277, 349, 415] },
 };
 
 // ייצוא רשימות והגדרות
