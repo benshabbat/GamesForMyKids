@@ -96,6 +96,11 @@ export function AdvancedCard({
   const hebrewIsSameAsEmoji = displayedEmoji && displayedEmoji === resolvedHebrew;
 
   const displayDigit = digit || item?.digit;
+  // For number items: the emoji is a keycap glyph of the same digit (e.g. "1️⃣") — only show once
+  const digitIsSameAsEmoji =
+    !!displayedEmoji &&
+    !!displayDigit &&
+    displayedEmoji.replace(/[️⃣]/g, "") === String(displayDigit);
 
   return (
     <button
