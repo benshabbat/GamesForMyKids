@@ -1,6 +1,6 @@
-import type { Side, GamePhase, Die, PointState, SimpleMove, TurnSnapshot } from './types';
+import type { Side, GamePhase, Die, PointState, SimpleMove, TurnSnapshot, AnimatingMove } from './types';
 
-export type { Side, GamePhase, Die, PointState, SimpleMove, TurnSnapshot };
+export type { Side, GamePhase, Die, PointState, SimpleMove, TurnSnapshot, AnimatingMove };
 
 // ─────────────────────── State / Actions types ───────────────
 export interface SheshState {
@@ -17,6 +17,7 @@ export interface SheshState {
   selected: number | null;
   validMoves: SimpleMove[];
   turnHistory: TurnSnapshot[];
+  animatingMove: AnimatingMove | null;
 }
 
 export interface SheshActions {
@@ -37,4 +38,5 @@ export const INIT: SheshState = {
   message: '',
   selected: null, validMoves: [],
   turnHistory: [],
+  animatingMove: null,
 };

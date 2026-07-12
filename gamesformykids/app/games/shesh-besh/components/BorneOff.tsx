@@ -3,11 +3,13 @@ interface BorneOffProps {
   compCount: number;
   onBearOff: () => void;
   isBearOffTarget: boolean;
+  playerRef?: (el: HTMLButtonElement | null) => void;
+  computerRef?: (el: HTMLDivElement | null) => void;
 }
 
 const TOTAL = 15;
 
-export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }: BorneOffProps) {
+export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, playerRef, computerRef }: BorneOffProps) {
   return (
     <div
       className="flex flex-col items-center justify-between border-l-2 border-amber-900/60 px-1.5 py-3 w-16 h-full gap-2 relative"
@@ -20,7 +22,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }:
       />
 
       {/* Computer borne off */}
-      <div className="relative z-10 flex flex-col items-center gap-1.5 w-full">
+      <div ref={computerRef} className="relative z-10 flex flex-col items-center gap-1.5 w-full">
         <span className="text-[8px] text-gray-400 font-bold">מחשב</span>
         <div className="flex flex-wrap gap-[3px] justify-center w-full">
           {Array.from({ length: TOTAL }).map((_, i) => (
@@ -41,6 +43,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget }:
 
       {/* Player borne off — clickable bear-off target */}
       <button
+        ref={playerRef}
         onClick={onBearOff}
         aria-label="bear off"
         className={[

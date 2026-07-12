@@ -3,6 +3,8 @@ interface BarProps {
   compBar: number;
   isSelected: boolean;
   onClickPlayer: () => void;
+  playerRef?: (el: HTMLButtonElement | null) => void;
+  computerRef?: (el: HTMLDivElement | null) => void;
 }
 
 const disc = (isPlayer: boolean) =>
@@ -10,7 +12,7 @@ const disc = (isPlayer: boolean) =>
     ? 'bg-gradient-to-br from-rose-300 via-rose-500 to-rose-800 border-rose-200/60'
     : 'bg-gradient-to-br from-white via-slate-100 to-slate-400 border-white/70';
 
-export function Bar({ playerBar, compBar, isSelected, onClickPlayer }: BarProps) {
+export function Bar({ playerBar, compBar, isSelected, onClickPlayer, playerRef, computerRef }: BarProps) {
   return (
     <div
       className="flex flex-col items-center justify-between w-10 border-x-2 border-amber-900/60 relative"
@@ -23,7 +25,7 @@ export function Bar({ playerBar, compBar, isSelected, onClickPlayer }: BarProps)
       />
 
       {/* Computer bar pieces (top) */}
-      <div className="relative z-10 flex flex-col items-center gap-[3px] pt-2 flex-1 justify-start">
+      <div ref={computerRef} className="relative z-10 flex flex-col items-center gap-[3px] pt-2 flex-1 justify-start">
         {Array.from({ length: Math.min(compBar, 5) }).map((_, i) => (
           <div key={i} className={['w-[26px] h-[15px] rounded-full border-2 shadow-[0_2px_5px_rgba(0,0,0,.7)]', disc(false)].join(' ')} />
         ))}
@@ -39,6 +41,7 @@ export function Bar({ playerBar, compBar, isSelected, onClickPlayer }: BarProps)
 
       {/* Player bar pieces (bottom) — clickable */}
       <button
+        ref={playerRef}
         onClick={onClickPlayer}
         aria-label="bar player"
         className={[

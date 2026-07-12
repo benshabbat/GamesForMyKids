@@ -5,6 +5,7 @@ import { INIT } from './sheshBeshTypes';
 import { createTimer } from './sheshBeshTimer';
 import { runComputerTurn } from './sheshBeshAI';
 import { executePlayerMove } from './sheshBeshPlayerMove';
+import { PIECE_MOVE_MS } from './sheshBeshAnimation';
 import {
   rollDie, expandDice, makeInitialPoints,
   computeValidMoves,
@@ -28,12 +29,21 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
       );
     }
 
-    function execPlayerMove(move: SimpleMove) {
+    function commitPlayerMove(move: SimpleMove) {
       const result = executePlayerMove(get(), move);
-      set(result.next as Partial<SheshState & SheshActions>);
+      set({ ...result.next, animatingMove: null } as Partial<SheshState & SheshActions>);
       if (result.kind === 'computer-turn') {
         scheduleComputerTurn();
       }
+    }
+
+    // Shows the piece sliding to its destination first, then commits the real state change.
+    function animateAndCommitPlayerMove(move: SimpleMove) {
+      set({
+        animatingMove: { from: move.from, to: move.to, side: 'player' },
+        selected: null, validMoves: [],
+      } as Partial<SheshState & SheshActions>);
+      timer.schedule(() => commitPlayerMove(move), PIECE_MOVE_MS);
     }
 
     return {
@@ -57,7 +67,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
 
       rollDice() {
         const s = get();
-        if (s.phase !== 'rolling' || s.currentTurn !== 'player') return;
+        if (s.phase !== 'rolling' || s.currentTurn !== 'player' || s.animatingMove) return;
         const d1 = rollDie(), d2 = rollDie();
         const dice = expandDice(d1, d2);
         const moves = computeValidMoves(s.points, s.barPlayer, s.barComputer, dice, 'player');
@@ -78,7 +88,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
             dice, rolledDice: [d1, d2], phase: 'moving', turnHistory: [],
             message: `הטלת ${d1}-${d2}. מהלך יחיד — מבצע אוטומטית...`,
           } as Partial<SheshState & SheshActions>);
-          timer.schedule(() => execPlayerMove(moves[0]!), 700);
+          timer.schedule(() => animateAndCommitPlayerMove(moves[0]!), 300);
           return;
         }
         set({
@@ -89,13 +99,13 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
 
       selectPoint(pointIdx: number) {
         const s = get();
-        if (s.phase !== 'moving' || s.currentTurn !== 'player') return;
+        if (s.phase !== 'moving' || s.currentTurn !== 'player' || s.animatingMove) return;
 
         // ── Bear-off zone (0): destination only ───────────────────────────────
         if (pointIdx === 0) {
           if (s.selected !== null) {
             const move = s.validMoves.find(m => m.to === 0);
-            if (move) execPlayerMove(move);
+            if (move) animateAndCommitPlayerMove(move);
           }
           return;
         }
@@ -103,7 +113,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
         // ── Execute move if pointIdx is a valid destination for the selected piece ──
         if (s.selected !== null) {
           const move = s.validMoves.find(m => m.to === pointIdx);
-          if (move) { execPlayerMove(move); return; }
+          if (move) { animateAndCommitPlayerMove(move); return; }
         }
 
         // ── Does this point have the player's own pieces? ─────────────────────
@@ -130,7 +140,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
             // Only one destination — execute automatically
             const uniqueDests = new Set(fromHere.map(m => m.to));
             if (uniqueDests.size === 1) {
-              execPlayerMove(fromHere[0]!);
+              animateAndCommitPlayerMove(fromHere[0]!);
               return;
             }
             set({ selected: pointIdx, validMoves: fromHere, message: 'לאיזו נקודה לזוז?' } as Partial<SheshState & SheshActions>);
@@ -146,7 +156,7 @@ export const useSheshBeshStore = makeStore<SheshState & SheshActions>(
 
       undoMove() {
         const s = get();
-        if (s.phase !== 'moving' || s.currentTurn !== 'player' || s.turnHistory.length === 0) return;
+        if (s.phase !== 'moving' || s.currentTurn !== 'player' || s.animatingMove || s.turnHistory.length === 0) return;
         const newHistory = [...s.turnHistory];
         const prev = newHistory.pop();
         if (!prev) return;

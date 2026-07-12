@@ -8,14 +8,16 @@ interface BoardPointProps {
   isSelected: boolean;
   isTarget: boolean;
   onClick: () => void;
+  registerRef?: (el: HTMLButtonElement | null) => void;
 }
 
-export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick }: BoardPointProps) {
+export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick, registerRef }: BoardPointProps) {
   // Alternating deep crimson / warm parchment — classic backgammon palette
   const fillColor = idx % 2 === 0 ? '#7f1d1d' : '#e8d0a0';
 
   return (
     <button
+      ref={registerRef}
       onClick={onClick}
       tabIndex={0}
       aria-label={`point ${idx}`}
