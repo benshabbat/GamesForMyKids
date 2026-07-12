@@ -1,7 +1,19 @@
+import { useMemo } from "react";
 import { useMemoryStore } from "../stores/useMemoryStore";
+import { getWinAchievements } from "../stores/memoryDisplayHelpers";
 
 export default function WinAchievements() {
-  const achievements = useMemoryStore((s) => s.getWinAchievements());
+  const score = useMemoryStore((s) => s.gameStats.score);
+  const moves = useMemoryStore((s) => s.gameStats.moves);
+  const streak = useMemoryStore((s) => s.gameStats.streak);
+  const perfectMatches = useMemoryStore((s) => s.gameStats.perfectMatches);
+  const timeLeft = useMemoryStore((s) => s.timeLeft);
+  const totalPairs = useMemoryStore((s) => s.getDifficultyConfig().pairs);
+
+  const achievements = useMemo(
+    () => getWinAchievements(score, moves, streak, perfectMatches, timeLeft, totalPairs),
+    [score, moves, streak, perfectMatches, timeLeft, totalPairs],
+  );
 
   if (achievements.length === 0) return null;
 

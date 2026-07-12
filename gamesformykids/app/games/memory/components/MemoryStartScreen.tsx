@@ -32,6 +32,7 @@ export default function MemoryStartScreen() {
       title="משחק הזיכרון"
       description="מצאו את הזוגות הזהים על הלוח!"
       gradientClass="from-pink-100 via-purple-100 to-indigo-200"
+      buttonClass="from-purple-500 to-pink-500"
       hint={hint}
       onStart={handleStart}
       startLabel="🧠 התחל!"
