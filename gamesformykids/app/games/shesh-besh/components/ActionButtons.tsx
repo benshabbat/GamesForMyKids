@@ -7,26 +7,26 @@ export function ActionButtons() {
   return (
     <>
       {/* Status message */}
-      <div className="h-7 flex items-center justify-center w-full">
+      <div className="min-h-8 tablet:min-h-9 flex items-center justify-center w-full">
         {message && (
-          <p className="text-amber-200/80 text-xs font-medium bg-black/50 border border-amber-900/40 rounded-full py-1 px-5 text-center max-w-xs truncate">
+          <p className="text-amber-200/80 text-xs tablet:text-sm font-medium bg-black/50 border border-amber-900/40 rounded-full py-1.5 px-5 text-center max-w-sm truncate">
             {message}
           </p>
         )}
       </div>
 
       {/* Roll / Undo buttons */}
-      <div className="h-12 flex items-center justify-center gap-3">
+      <div className="min-h-14 flex items-center justify-center gap-3">
         {phase === 'rolling' && currentTurn === 'player' && (
           <button
             onClick={rollDice}
             className={[
               'relative bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400',
-              'active:scale-95 text-gray-900 font-extrabold px-10 py-3 rounded-xl',
+              'active:scale-95 text-gray-900 font-extrabold px-10 tablet:px-14 py-3.5 tablet:py-4 rounded-xl',
               'shadow-[0_4px_0_#92400e,0_6px_20px_rgba(251,191,36,0.3)]',
               'hover:shadow-[0_4px_0_#92400e,0_6px_24px_rgba(251,191,36,0.4)]',
               'active:shadow-[0_1px_0_#92400e] active:translate-y-[3px]',
-              'transition duration-150 text-base',
+              'transition duration-150 text-base tablet:text-lg min-h-11',
             ].join(' ')}
           >
             🎲 הטל קובייות
@@ -37,7 +37,7 @@ export function ActionButtons() {
             onClick={undoMove}
             className={[
               'bg-slate-700 hover:bg-slate-600 active:scale-95 text-slate-200 font-bold',
-              'px-5 py-2.5 rounded-xl transition duration-150 text-sm',
+              'px-5 py-3 rounded-xl transition duration-150 text-sm min-h-11',
               'border border-slate-500 shadow-[0_3px_0_#0f172a]',
               'active:shadow-none active:translate-y-[2px]',
             ].join(' ')}

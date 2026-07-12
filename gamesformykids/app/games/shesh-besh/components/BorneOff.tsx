@@ -12,8 +12,8 @@ const TOTAL = 15;
 export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, playerRef, computerRef }: BorneOffProps) {
   return (
     <div
-      className="flex flex-col items-center justify-between border-l-2 border-amber-900/60 px-1.5 py-3 w-16 h-full gap-2 relative"
-      style={{ background: 'linear-gradient(180deg,#92400e 0%,#3b1505 50%,#92400e 100%)' }}
+      className="flex flex-col items-center justify-between border-l-2 border-amber-900/60 px-1.5 py-3 h-full gap-2 relative"
+      style={{ flex: '64 64 0%', background: 'linear-gradient(180deg,#92400e 0%,#3b1505 50%,#92400e 100%)' }}
     >
       {/* Wood-grain lines */}
       <div
@@ -23,12 +23,12 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, p
 
       {/* Computer borne off */}
       <div ref={computerRef} className="relative z-10 flex flex-col items-center gap-1.5 w-full">
-        <span className="text-[8px] text-gray-400 font-bold">מחשב</span>
+        <span className="text-[clamp(7px,1.6vw,10px)] text-gray-400 font-bold">מחשב</span>
         <div className="flex flex-wrap gap-[3px] justify-center w-full">
           {Array.from({ length: TOTAL }).map((_, i) => (
             <div
               key={i}
-              className={`w-3 h-[8px] rounded-full transition-colors ${
+              className={`w-[clamp(7px,2vw,13px)] aspect-[3/2] rounded-full transition-colors ${
                 i < compCount
                   ? 'bg-gradient-to-br from-white to-slate-300 shadow-sm'
                   : 'bg-black/40'
@@ -36,7 +36,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, p
             />
           ))}
         </div>
-        <span className="text-gray-300 text-[11px] font-extrabold leading-none">{compCount}/15</span>
+        <span className="text-gray-300 text-[clamp(9px,2.2vw,13px)] font-extrabold leading-none">{compCount}/15</span>
       </div>
 
       <div className="relative z-10 w-3/4 border-t border-amber-700/40" />
@@ -55,7 +55,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, p
           {Array.from({ length: TOTAL }).map((_, i) => (
             <div
               key={i}
-              className={`w-3 h-[8px] rounded-full transition-colors ${
+              className={`w-[clamp(7px,2vw,13px)] aspect-[3/2] rounded-full transition-colors ${
                 i < playerCount
                   ? 'bg-gradient-to-br from-rose-300 to-rose-600 shadow-sm shadow-rose-900/50'
                   : 'bg-black/40'
@@ -63,8 +63,8 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, p
             />
           ))}
         </div>
-        <span className="text-rose-300 text-[11px] font-extrabold leading-none">{playerCount}/15</span>
-        <span className="text-[8px] text-rose-400/70 font-bold">
+        <span className="text-rose-300 text-[clamp(9px,2.2vw,13px)] font-extrabold leading-none">{playerCount}/15</span>
+        <span className="text-[clamp(7px,1.6vw,10px)] text-rose-400/70 font-bold">
           {isBearOffTarget ? '✓ צא' : 'שלך'}
         </span>
       </button>

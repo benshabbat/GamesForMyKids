@@ -17,7 +17,7 @@ export function DieChip({ face, used }: DieChipProps) {
   const dots = DOT_POSITIONS[face] ?? [];
   return (
     <div className={[
-      'w-11 h-11 rounded-xl border-2 p-1.5 transition duration-300 select-none',
+      'w-12 h-12 tablet:w-14 tablet:h-14 rounded-xl border-2 p-1.5 transition duration-300 select-none',
       used
         ? 'bg-gray-800 border-gray-700 opacity-25 scale-90'
         : 'bg-white border-gray-200 scale-100 shadow-[0_4px_0_#111,0_2px_10px_rgba(0,0,0,0.6)]',
@@ -30,7 +30,7 @@ export function DieChip({ face, used }: DieChipProps) {
           return (
             <div key={i} className="flex items-center justify-center">
               {hasDot && (
-                <div className={`w-2 h-2 rounded-full ${used ? 'bg-gray-500' : 'bg-gray-900'}`} />
+                <div className={`w-2 h-2 tablet:w-2.5 tablet:h-2.5 rounded-full ${used ? 'bg-gray-500' : 'bg-gray-900'}`} />
               )}
             </div>
           );

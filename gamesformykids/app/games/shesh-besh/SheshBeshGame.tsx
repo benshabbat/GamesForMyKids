@@ -20,7 +20,7 @@ export default function SheshBeshGame() {
       {(phase === 'won' || phase === 'lost') && <GameOverScreen />}
 
       {isPlaying && (
-        <div className="flex flex-col items-center gap-2 w-full" style={{ maxWidth: 580 }}>
+        <div className="flex flex-col items-center gap-2 w-full" style={{ maxWidth: 720 }}>
           <Scoreboard />
           <GameBoard />
           <ActionButtons />
