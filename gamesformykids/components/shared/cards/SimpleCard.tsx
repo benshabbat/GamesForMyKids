@@ -1,6 +1,7 @@
 import { Volume2 } from "lucide-react";
 import { ComponentTypes } from "@/lib/types";
 import { useAudioSettingsStore } from "@/lib/stores/audioSettingsStore";
+import { shadowClasses, borderWidthClasses } from "./cardStyleMaps";
 
 type SimpleCardProps = Pick<
   ComponentTypes.UnifiedCardProps,
@@ -62,7 +63,7 @@ export function SimpleCard({
       type="button"
       className={`
         ${sizeClasses[size]} ${shapeClasses[shape]}
-        shadow-${shadow} ${color} ${textColor} border-${borderWidth} ${borderColor}
+        ${shadowClasses[shadow] ?? "shadow-lg"} ${color} ${textColor} ${borderWidthClasses[borderWidth] ?? "border-4"} ${borderColor}
         transform ${hoverEffect === "scale" ? "hover:scale-110" : ""}
         transition-[transform,box-shadow] duration-300 cursor-pointer
         flex flex-col items-center justify-center p-2
