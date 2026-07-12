@@ -1,5 +1,5 @@
 import { BaseGameItem } from "@/lib/types/core/base";
-import { createGameConfig, createItemsList, createPronunciationDictionary } from "@/lib/constants/core";
+import { createGameConfig, createItemsList } from "@/lib/constants/core";
 
 export const LETTER_CONSTANTS: Record<string, BaseGameItem> = {
   ALEF: { name: "alef", hebrew: "א", english: "A", emoji: "א", color: "", sound: [440, 550, 660] },
@@ -27,5 +27,32 @@ export const LETTER_CONSTANTS: Record<string, BaseGameItem> = {
 };
 
 export const ALL_LETTERS = createItemsList(LETTER_CONSTANTS);
-export const LETTER_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(LETTER_CONSTANTS);
+
+// Reading out the bare glyph (e.g. "ב") often comes out unclear or silent in Hebrew TTS,
+// since several letters are also one-letter words/prefixes. Speak the full letter name instead.
+export const LETTER_HEBREW_PRONUNCIATIONS: Record<string, string> = {
+  alef: "אָלֶף",
+  bet: "בֵּית",
+  gimel: "גִּימֶל",
+  dalet: "דָּלֶת",
+  hey: "הֵא",
+  vav: "וָאו",
+  zayin: "זַיִן",
+  het: "חֵת",
+  tet: "טֵת",
+  yud: "יוֹד",
+  kaf: "כַּף",
+  lamed: "לָמֶד",
+  mem: "מֵם",
+  nun: "נוּן",
+  samech: "סָמֶך",
+  ayin: "עַיִן",
+  pey: "פֵּא",
+  tzadi: "צַדִּי",
+  kuf: "קוֹף",
+  resh: "רֵישׁ",
+  shin: "שִׁין",
+  tav: "תָּו",
+};
+
 export const LETTER_GAME_CONSTANTS = createGameConfig(6, 2, 3);
