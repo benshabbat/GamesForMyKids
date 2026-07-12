@@ -1,7 +1,7 @@
 import { AnimalData } from '@/lib/types/games';
 import { MEMORY_GAME_ANIMALS, MEMORY_GAME_CONSTANTS } from '@/lib/constants';
 import { DifficultyLevel, MemoryCard, GameStats, MemoryPhase } from '../types/memory';
-import { DifficultyOption, PerformanceLevel, WinAchievement } from '../types/memoryDisplay';
+import { DifficultyOption, PerformanceLevel } from '../types/memoryDisplay';
 
 // ─── Initial values ───────────────────────────────────────────────────────────
 
@@ -93,7 +93,6 @@ export interface MemoryStoreActions {
   getFormattedTimeLeft: () => string;
   getTimeColor: () => string;
   getPerformanceLevel: () => PerformanceLevel;
-  getWinAchievements: () => WinAchievement[];
 }
 
 // ─── Initial store state ──────────────────────────────────────────────────────

@@ -7,7 +7,7 @@ import {
 import { MEMORY_GAME_ANIMALS } from '@/lib/constants/gameData/natureData/animals';
 import { MEMORY_GAME_CONSTANTS } from '@/lib/constants/gameData/special';
 import { MemoryCard } from '../types/memory';
-import { getDifficultyOptions, getPerformanceLevel, getWinAchievements } from './memoryDisplayHelpers';
+import { getDifficultyOptions, getPerformanceLevel } from './memoryDisplayHelpers';
 import {
   MemoryStoreState,
   MemoryStoreActions,
@@ -92,12 +92,6 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
     getPerformanceLevel: () => {
       const { gameStats, timeLeft } = get();
       return getPerformanceLevel(gameStats.score, gameStats.moves, timeLeft, formatTime);
-    },
-
-    getWinAchievements: () => {
-      const { gameStats, timeLeft, getGameProgress } = get();
-      const { totalPairs } = getGameProgress();
-      return getWinAchievements(gameStats.score, gameStats.moves, gameStats.streak, gameStats.perfectMatches, timeLeft, totalPairs);
     },
 
     // ─── Timer actions ───────────────────────────────────────────────────────
