@@ -17,8 +17,8 @@ const COLORS = [
 export default function MathGameCard({ item, onClick }: GameItemCardProps) {
   const currentChallenge = useGameSessionStore((s) => s.currentChallenge);
   const emoji = currentChallenge?.emoji || "⭐";
-  const count = Number(item.name);
-  const colorIndex = Math.abs(count) % COLORS.length;
+  const count = Number(item.digit ?? item.name);
+  const colorIndex = Number.isFinite(count) ? Math.abs(count) % COLORS.length : 0;
   const { bg, hover, border } = COLORS[colorIndex]!;
 
   // Clamp emoji repetitions to avoid huge grids
