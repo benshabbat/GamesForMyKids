@@ -9,7 +9,7 @@ export default function RecentlyPlayedRow() {
   if (items.length === 0) return null;
 
   return (
-    <div dir="rtl" className="mx-4 mt-3">
+    <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">
       <p className="text-sm font-bold text-gray-600 dark:text-gray-300 mb-2 px-1">🕓 שיחקת לאחרונה</p>
       <div className="overflow-x-auto scrollbar-hide">
         <div className="flex gap-2 min-w-max pb-1">

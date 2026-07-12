@@ -18,7 +18,7 @@ export default function CategoriesView() {
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-5 md:mb-8">
         בחר קטגוריה 📚
       </h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4 lg:gap-6">

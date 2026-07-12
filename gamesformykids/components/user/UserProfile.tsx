@@ -44,26 +44,26 @@ export function UserProfile() {
       <button onClick={toggleMenu} className="flex items-center space-x-2 space-x-reverse">
         <Image src={avatarSrc} alt="תמונת פרופיל" width={32} height={32}
           className="w-8 h-8 rounded-full border-2 border-purple-300" />
-        <span className="text-sm text-gray-700 hidden sm:block">{displayName}</span>
+        <span className="text-sm text-gray-700 dark:text-gray-200 hidden sm:block">{displayName}</span>
       </button>
 
       {isMenuOpen && (
-        <div className="absolute start-0 mt-2 w-48 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+        <div className="absolute start-0 mt-2 w-48 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
           <div className="py-1">
-            <div className="px-4 py-2 text-sm text-gray-700 border-b">
+            <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200 border-b dark:border-gray-700">
               <div className="font-medium">{user.user_metadata?.full_name || L.defaultName}</div>
-              <div className="text-gray-500">{user.email}</div>
+              <div className="text-gray-500 dark:text-gray-400">{user.email}</div>
             </div>
             <Link href={R.profile} onClick={closeMenu}
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
               {L.profile}
             </Link>
             <Link href={R.settings} onClick={closeMenu}
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              className="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
               {L.settings}
             </Link>
             <button onClick={handleSignOut}
-              className="block w-full text-start px-4 py-2 text-sm text-red-600 hover:bg-gray-100">
+              className="block w-full text-start px-4 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-gray-100 dark:hover:bg-gray-700">
               {L.signOut}
             </button>
           </div>

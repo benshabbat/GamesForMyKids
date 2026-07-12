@@ -23,8 +23,8 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
     return (
       <div className="text-center py-16" dir="rtl">
         <div className="text-5xl mb-4">🔍</div>
-        <p className="text-xl font-bold text-gray-600 mb-2">לא נמצאו משחקים</p>
-        <p className="text-gray-400 text-sm">נסה מילות חיפוש שונות או קטגוריה אחרת</p>
+        <p className="text-xl font-bold text-gray-600 dark:text-gray-300 mb-2">לא נמצאו משחקים</p>
+        <p className="text-gray-400 dark:text-gray-500 text-sm">נסה מילות חיפוש שונות או קטגוריה אחרת</p>
       </div>
     );
   }
@@ -32,7 +32,7 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
   if (!hydrated) {
     return (
       <div>
-        <div className="h-9 w-48 bg-gray-200 animate-pulse rounded-xl mx-auto mb-6" />
+        <div className="h-9 w-48 bg-gray-200 dark:bg-gray-700 animate-pulse rounded-xl mx-auto mb-6" />
         <GameCardSkeletonGrid count={12} />
       </div>
     );
@@ -40,7 +40,7 @@ export default function AllGamesView({ games: gamesProp, isFiltered = false }: P
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-5 md:mb-8">
         {isFiltered
           ? `נמצאו ${games.length} משחקים`
           : `כל המשחקים (${games.length})`}

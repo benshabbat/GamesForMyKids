@@ -16,25 +16,27 @@ export default function ContinueBanner() {
   if (!reg) return null;
 
   return (
-    <div dir="rtl" className="mx-4 mt-3 rounded-2xl bg-linear-to-l from-purple-500 to-indigo-600 text-white shadow-lg flex items-center gap-3 px-4 py-3">
-      {avatarEmoji ? (
-        <span className="text-3xl">{avatarEmoji}</span>
-      ) : (
-        <span className="text-3xl">{reg.emoji}</span>
-      )}
-      <div className="flex-1 min-w-0">
-        <p className="text-xs opacity-80 font-medium">ממשיכים מאיפה שעצרת</p>
-        <p className="font-bold truncate">{reg.title}</p>
+    <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">
+      <div className="rounded-2xl bg-linear-to-l from-purple-500 to-indigo-600 text-white shadow-lg flex items-center gap-3 px-4 py-3">
+        {avatarEmoji ? (
+          <span className="text-3xl">{avatarEmoji}</span>
+        ) : (
+          <span className="text-3xl">{reg.emoji}</span>
+        )}
+        <div className="flex-1 min-w-0">
+          <p className="text-xs opacity-80 font-medium">ממשיכים מאיפה שעצרת</p>
+          <p className="font-bold truncate">{reg.title}</p>
+        </div>
+        <Link
+          href={reg.href}
+          className="shrink-0 bg-white text-purple-600 font-bold text-sm px-4 py-1.5 rounded-xl hover:bg-purple-50 active:scale-95 transition-transform"
+        >
+          ▶ המשך
+        </Link>
+        <button onClick={dismiss} aria-label="סגור" className="shrink-0 opacity-70 hover:opacity-100">
+          <X className="w-4 h-4" />
+        </button>
       </div>
-      <Link
-        href={reg.href}
-        className="shrink-0 bg-white text-purple-600 font-bold text-sm px-4 py-1.5 rounded-xl hover:bg-purple-50 active:scale-95 transition-transform"
-      >
-        ▶ המשך
-      </Link>
-      <button onClick={dismiss} aria-label="סגור" className="shrink-0 opacity-70 hover:opacity-100">
-        <X className="w-4 h-4" />
-      </button>
     </div>
   );
 }

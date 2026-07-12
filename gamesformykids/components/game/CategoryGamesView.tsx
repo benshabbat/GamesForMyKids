@@ -62,19 +62,19 @@ export default function CategoryGamesView() {
       <div className="text-center mb-4 md:mb-6">
         <button
           onClick={backToCategories}
-          className="mb-3 md:mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 text-gray-700 rounded-full font-medium transition-colors text-sm md:text-base"
+          className="mb-3 md:mb-4 px-4 py-2 bg-gray-200 hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-full font-medium transition-colors text-sm md:text-base"
         >
           חזור לקטגוריות →
         </button>
-        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 mb-1 md:mb-2">
+        <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-100 mb-1 md:mb-2">
           {category.title}
         </h2>
-        <p className="text-sm md:text-lg text-gray-600 mb-2 md:mb-3 hidden sm:block">
+        <p className="text-sm md:text-lg text-gray-600 dark:text-gray-400 mb-2 md:mb-3 hidden sm:block">
           {category.description}
         </p>
         <div className="flex flex-wrap items-center justify-center gap-3 mb-1">
-          <div className="inline-block bg-blue-100 rounded-full px-3 py-1 md:px-4 md:py-2">
-            <span className="text-blue-800 font-semibold text-sm md:text-base">
+          <div className="inline-block bg-blue-100 dark:bg-blue-900/40 rounded-full px-3 py-1 md:px-4 md:py-2">
+            <span className="text-blue-800 dark:text-blue-200 font-semibold text-sm md:text-base">
               {categoryGames.length} משחקים
               ({availableGames.length} זמינים)
             </span>
@@ -103,8 +103,8 @@ export default function CategoryGamesView() {
         ) : (
           <div className="col-span-full text-center py-8 md:py-12">
             <div className="text-5xl md:text-6xl mb-3 md:mb-4">🎮</div>
-            <h3 className="text-xl md:text-2xl font-bold text-gray-600 mb-2">אין עדיין משחקים בקטגוריה זו</h3>
-            <p className="text-gray-500 text-sm md:text-base">המשחקים בקטגוריה זו עדיין בפיתוח</p>
+            <h3 className="text-xl md:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">אין עדיין משחקים בקטגוריה זו</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">המשחקים בקטגוריה זו עדיין בפיתוח</p>
           </div>
         )}
       </div>

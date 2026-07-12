@@ -4,10 +4,10 @@ export function GameCardSkeleton() {
   return (
     <div
       aria-hidden="true"
-      className="rounded-2xl md:rounded-3xl shadow-lg overflow-hidden bg-gray-200 animate-pulse"
+      className="rounded-2xl md:rounded-3xl shadow-lg overflow-hidden bg-gray-200 dark:bg-gray-700 animate-pulse"
       style={{ minHeight: '140px' }}
     >
-      <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300" />
+      <div className="h-full w-full bg-gradient-to-br from-gray-200 to-gray-300 dark:from-gray-700 dark:to-gray-600" />
     </div>
   );
 }
