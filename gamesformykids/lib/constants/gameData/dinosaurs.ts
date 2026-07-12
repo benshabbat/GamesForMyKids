@@ -11,18 +11,18 @@ import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } f
  * ===============================================
  */
 export const DINOSAURS_CONSTANTS: Record<string, BaseGameItem> = {
-  TRICERATOPS: { name: "triceratops", hebrew: "טריצרטופס", english: "Triceratops", emoji: "🦕", color: "bg-green-600", sound: [440, 550, 660], funFact: "לטריצרטופס היו שלושה קרניים ומגן עצום על הראש!" },
-  TYRANNOSAURUS: { name: "tyrannosaurus", hebrew: "טירנוזאורוס רקס", english: "Tyrannosaurus Rex", emoji: "🦖", color: "bg-red-600", sound: [392, 494, 587], funFact: "ל-T-Rex היו שיניים באורך 30 ס\"מ!" },
-  STEGOSAURUS: { name: "stegosaurus", hebrew: "סטגוזאורוס", english: "Stegosaurus", emoji: "🦕", color: "bg-orange-600", sound: [349, 440, 523], funFact: "למרות גודלו, מוח הסטגוזאורוס היה קטן כאגוז אוסטרלי!" },
-  BRACHIOSAURUS: { name: "brachiosaurus", hebrew: "ברכיוזאורוס", english: "Brachiosaurus", emoji: "🦕", color: "bg-amber-700", sound: [523, 659, 784], funFact: "הברכיוזאורוס היה גבוה כמו בניין בן 4 קומות!" },
-  VELOCIRAPTOR: { name: "velociraptor", hebrew: "ולוסירפטור", english: "Velociraptor", emoji: "🦖", color: "bg-gray-700", sound: [294, 370, 440], funFact: "הולוסירפטור האמיתי היה קטן כתרנגול — לא כמו בסרטים!" },
-  DIPLODOCUS: { name: "diplodocus", hebrew: "דיפלודוקוס", english: "Diplodocus", emoji: "🦕", color: "bg-green-500", sound: [330, 415, 494], funFact: "הדיפלודוקוס היה מהדינוזאורים הארוכים ביותר — 27 מטר!" },
-  PTERANODON: { name: "pteranodon", hebrew: "פטרנודון", english: "Pteranodon", emoji: "🦅", color: "bg-blue-500", sound: [587, 698, 784], funFact: "הפטרנודון לא דינוזאור — זחלן מעופף שחי באותה תקופה!" },
-  ANKYLOSAURUS: { name: "ankylosaurus", hebrew: "אנקילוזאורוס", english: "Ankylosaurus", emoji: "🦕", color: "bg-gray-600", sound: [196, 247, 294], funFact: "האנקילוזאורוס היה מכוסה שריון עצם כמו טנק חי!" },
-  SPINOSAURUS: { name: "spinosaurus", hebrew: "ספינוזאורוס", english: "Spinosaurus", emoji: "🦖", color: "bg-purple-600", sound: [659, 831, 988], funFact: "הספינוזאורוס היה גדול מהטירנוזאורוס רקס!" },
-  ALLOSAURUS: { name: "allosaurus", hebrew: "אלוזאורוס", english: "Allosaurus", emoji: "🦖", color: "bg-red-500", sound: [277, 349, 415], funFact: "האלוזאורוס ציד הרבה לפני הטירנוזאורוס — לפני 150 מיליון שנה!" },
-  PARASAUROLOPHUS: { name: "parasaurolophus", hebrew: "פרזאורולופוס", english: "Parasaurolophus", emoji: "🦕", color: "bg-yellow-500", sound: [415, 523, 622], funFact: "הציצית הארוכה על ראש הפרזאורולופוס הפיקה צלילים כמו חצוצרה!" },
-  COMPSOGNATHUS: { name: "compsognathus", hebrew: "קומפסוגנתוס", english: "Compsognathus", emoji: "🦖", color: "bg-green-300", sound: [220, 277, 330], funFact: "הקומפסוגנתוס היה אחד הדינוזאורים הקטנים — בגודל תרנגול!" },
+  TRICERATOPS: { name: "triceratops", hebrew: "טריצרטופס", hebrewNikud: "טְרִיצֶרָטוֹפְּס", english: "Triceratops", emoji: "🦕", color: "bg-green-600", sound: [440, 550, 660], funFact: "לטריצרטופס היו שלושה קרניים ומגן עצום על הראש!" },
+  TYRANNOSAURUS: { name: "tyrannosaurus", hebrew: "טירנוזאורוס רקס", hebrewNikud: "טִירָנוֹזָאוּרוּס רֶקְס", english: "Tyrannosaurus Rex", emoji: "🦖", color: "bg-red-600", sound: [392, 494, 587], funFact: "ל-T-Rex היו שיניים באורך 30 ס\"מ!" },
+  STEGOSAURUS: { name: "stegosaurus", hebrew: "סטגוזאורוס", hebrewNikud: "סְטֶגוֹזָאוּרוּס", english: "Stegosaurus", emoji: "🦕", color: "bg-orange-600", sound: [349, 440, 523], funFact: "למרות גודלו, מוח הסטגוזאורוס היה קטן כאגוז אוסטרלי!" },
+  BRACHIOSAURUS: { name: "brachiosaurus", hebrew: "ברכיוזאורוס", hebrewNikud: "בְּרַכְיוֹזָאוּרוּס", english: "Brachiosaurus", emoji: "🦕", color: "bg-amber-700", sound: [523, 659, 784], funFact: "הברכיוזאורוס היה גבוה כמו בניין בן 4 קומות!" },
+  VELOCIRAPTOR: { name: "velociraptor", hebrew: "ולוסירפטור", hebrewNikud: "וֶלוֹסִירַפְּטוֹר", english: "Velociraptor", emoji: "🦖", color: "bg-gray-700", sound: [294, 370, 440], funFact: "הולוסירפטור האמיתי היה קטן כתרנגול — לא כמו בסרטים!" },
+  DIPLODOCUS: { name: "diplodocus", hebrew: "דיפלודוקוס", hebrewNikud: "דִּיפְּלוֹדוֹקוּס", english: "Diplodocus", emoji: "🦕", color: "bg-green-500", sound: [330, 415, 494], funFact: "הדיפלודוקוס היה מהדינוזאורים הארוכים ביותר — 27 מטר!" },
+  PTERANODON: { name: "pteranodon", hebrew: "פטרנודון", hebrewNikud: "פְּטֶרָנוֹדוֹן", english: "Pteranodon", emoji: "🦅", color: "bg-blue-500", sound: [587, 698, 784], funFact: "הפטרנודון לא דינוזאור — זחלן מעופף שחי באותה תקופה!" },
+  ANKYLOSAURUS: { name: "ankylosaurus", hebrew: "אנקילוזאורוס", hebrewNikud: "אַנְקִילוֹזָאוּרוּס", english: "Ankylosaurus", emoji: "🦕", color: "bg-gray-600", sound: [196, 247, 294], funFact: "האנקילוזאורוס היה מכוסה שריון עצם כמו טנק חי!" },
+  SPINOSAURUS: { name: "spinosaurus", hebrew: "ספינוזאורוס", hebrewNikud: "סְפִּינוֹזָאוּרוּס", english: "Spinosaurus", emoji: "🦖", color: "bg-purple-600", sound: [659, 831, 988], funFact: "הספינוזאורוס היה גדול מהטירנוזאורוס רקס!" },
+  ALLOSAURUS: { name: "allosaurus", hebrew: "אלוזאורוס", hebrewNikud: "אָלוֹזָאוּרוּס", english: "Allosaurus", emoji: "🦖", color: "bg-red-500", sound: [277, 349, 415], funFact: "האלוזאורוס ציד הרבה לפני הטירנוזאורוס — לפני 150 מיליון שנה!" },
+  PARASAUROLOPHUS: { name: "parasaurolophus", hebrew: "פרזאורולופוס", hebrewNikud: "פָּרָזָאוּרוֹלוֹפוּס", english: "Parasaurolophus", emoji: "🦕", color: "bg-yellow-500", sound: [415, 523, 622], funFact: "הציצית הארוכה על ראש הפרזאורולופוס הפיקה צלילים כמו חצוצרה!" },
+  COMPSOGNATHUS: { name: "compsognathus", hebrew: "קומפסוגנתוס", hebrewNikud: "קוֹמְפְּסוֹגְנָתוּס", english: "Compsognathus", emoji: "🦖", color: "bg-green-300", sound: [220, 277, 330], funFact: "הקומפסוגנתוס היה אחד הדינוזאורים הקטנים — בגודל תרנגול!" },
 };
 
 /**
@@ -31,14 +31,14 @@ export const DINOSAURS_CONSTANTS: Record<string, BaseGameItem> = {
  * ===============================================
  */
 export const DINOSAUR_TYPES_CONSTANTS: Record<string, BaseGameItem> = {
-  HERBIVORE: { name: "herbivore", hebrew: "צמחוני", english: "Herbivore", emoji: "🌿", color: "bg-green-400", sound: [440, 550, 660] },
-  CARNIVORE: { name: "carnivore", hebrew: "טורף", english: "Carnivore", emoji: "🥩", color: "bg-red-500", sound: [392, 494, 587] },
-  OMNIVORE: { name: "omnivore", hebrew: "אוכל הכל", english: "Omnivore", emoji: "🍽️", color: "bg-orange-400", sound: [349, 440, 523] },
-  FLYING: { name: "flying", hebrew: "מעופף", english: "Flying", emoji: "🦅", color: "bg-blue-400", sound: [523, 659, 784] },
-  SWIMMING: { name: "swimming", hebrew: "שוחה", english: "Swimming", emoji: "🏊", color: "bg-cyan-500", sound: [294, 370, 440] },
-  LARGE: { name: "large", hebrew: "גדול", english: "Large", emoji: "📏", color: "bg-purple-500", sound: [330, 415, 494] },
-  SMALL: { name: "small", hebrew: "קטן", english: "Small", emoji: "🔍", color: "bg-yellow-400", sound: [587, 698, 784] },
-  ARMORED: { name: "armored", hebrew: "משוריין", english: "Armored", emoji: "🛡️", color: "bg-gray-600", sound: [196, 247, 294] },
+  HERBIVORE: { name: "herbivore", hebrew: "צמחוני", hebrewNikud: "צִמְחוֹנִי", english: "Herbivore", emoji: "🌿", color: "bg-green-400", sound: [440, 550, 660] },
+  CARNIVORE: { name: "carnivore", hebrew: "טורף", hebrewNikud: "טוֹרֵף", english: "Carnivore", emoji: "🥩", color: "bg-red-500", sound: [392, 494, 587] },
+  OMNIVORE: { name: "omnivore", hebrew: "אוכל הכל", hebrewNikud: "אוֹכֵל הַכֹּל", english: "Omnivore", emoji: "🍽️", color: "bg-orange-400", sound: [349, 440, 523] },
+  FLYING: { name: "flying", hebrew: "מעופף", hebrewNikud: "מְעוֹפֵף", english: "Flying", emoji: "🦅", color: "bg-blue-400", sound: [523, 659, 784] },
+  SWIMMING: { name: "swimming", hebrew: "שוחה", hebrewNikud: "שׂוֹחֶה", english: "Swimming", emoji: "🏊", color: "bg-cyan-500", sound: [294, 370, 440] },
+  LARGE: { name: "large", hebrew: "גדול", hebrewNikud: "גָּדוֹל", english: "Large", emoji: "📏", color: "bg-purple-500", sound: [330, 415, 494] },
+  SMALL: { name: "small", hebrew: "קטן", hebrewNikud: "קָטָן", english: "Small", emoji: "🔍", color: "bg-yellow-400", sound: [587, 698, 784] },
+  ARMORED: { name: "armored", hebrew: "משוריין", hebrewNikud: "מְשֻׁרְיָן", english: "Armored", emoji: "🛡️", color: "bg-gray-600", sound: [196, 247, 294] },
 };
 
 /**
@@ -47,12 +47,12 @@ export const DINOSAUR_TYPES_CONSTANTS: Record<string, BaseGameItem> = {
  * ===============================================
  */
 export const PREHISTORIC_PERIODS_CONSTANTS: Record<string, BaseGameItem> = {
-  TRIASSIC: { name: "triassic", hebrew: "טריאס", english: "Triassic", emoji: "🌋", color: "bg-red-400", sound: [440, 550, 660] },
-  JURASSIC: { name: "jurassic", hebrew: "יורה", english: "Jurassic", emoji: "🦕", color: "bg-green-500", sound: [392, 494, 587] },
-  CRETACEOUS: { name: "cretaceous", hebrew: "קרטיקון", english: "Cretaceous", emoji: "🦖", color: "bg-brown-500", sound: [349, 440, 523] },
-  PALEOZOIC: { name: "paleozoic", hebrew: "פלאוזואיקון", english: "Paleozoic", emoji: "🐟", color: "bg-blue-400", sound: [523, 659, 784] },
-  MESOZOIC: { name: "mesozoic", hebrew: "מזוזואיקון", english: "Mesozoic", emoji: "🦴", color: "bg-orange-400", sound: [294, 370, 440] },
-  CENOZOIC: { name: "cenozoic", hebrew: "קנוזואיקון", english: "Cenozoic", emoji: "🐘", color: "bg-yellow-500", sound: [330, 415, 494] },
+  TRIASSIC: { name: "triassic", hebrew: "טריאס", hebrewNikud: "טְרִיאָס", english: "Triassic", emoji: "🌋", color: "bg-red-400", sound: [440, 550, 660] },
+  JURASSIC: { name: "jurassic", hebrew: "יורה", hebrewNikud: "יוּרָה", english: "Jurassic", emoji: "🦕", color: "bg-green-500", sound: [392, 494, 587] },
+  CRETACEOUS: { name: "cretaceous", hebrew: "קרטיקון", hebrewNikud: "קְרֶטִיקוֹן", english: "Cretaceous", emoji: "🦖", color: "bg-brown-500", sound: [349, 440, 523] },
+  PALEOZOIC: { name: "paleozoic", hebrew: "פלאוזואיקון", hebrewNikud: "פָּלֵאוֹזוֹאִיקוֹן", english: "Paleozoic", emoji: "🐟", color: "bg-blue-400", sound: [523, 659, 784] },
+  MESOZOIC: { name: "mesozoic", hebrew: "מזוזואיקון", hebrewNikud: "מֶזוֹזוֹאִיקוֹן", english: "Mesozoic", emoji: "🦴", color: "bg-orange-400", sound: [294, 370, 440] },
+  CENOZOIC: { name: "cenozoic", hebrew: "קנוזואיקון", hebrewNikud: "קֶנוֹזוֹאִיקוֹן", english: "Cenozoic", emoji: "🐘", color: "bg-yellow-500", sound: [330, 415, 494] },
 };
 
 /**
@@ -61,16 +61,16 @@ export const PREHISTORIC_PERIODS_CONSTANTS: Record<string, BaseGameItem> = {
  * ===============================================
  */
 export const FOSSILS_CONSTANTS: Record<string, BaseGameItem> = {
-  FOSSIL: { name: "fossil", hebrew: "מאובן", english: "Fossil", emoji: "🦴", color: "bg-brown-400", sound: [440, 550, 660] },
-  SKELETON: { name: "skeleton", hebrew: "שלד", english: "Skeleton", emoji: "💀", color: "bg-gray-300", sound: [392, 494, 587] },
-  BONE: { name: "bone", hebrew: "עצם", english: "Bone", emoji: "🦴", color: "bg-white", sound: [349, 440, 523] },
-  TOOTH: { name: "tooth", hebrew: "שן", english: "Tooth", emoji: "🦷", color: "bg-gray-100", sound: [523, 659, 784] },
-  CLAW: { name: "claw", hebrew: "טופר", english: "Claw", emoji: "🦅", color: "bg-black", sound: [294, 370, 440] },
-  EXCAVATION: { name: "excavation", hebrew: "חפירה", english: "Excavation", emoji: "⛏️", color: "bg-brown-600", sound: [330, 415, 494] },
-  PALEONTOLOGIST: { name: "paleontologist", hebrew: "פלאונטולוג", english: "Paleontologist", emoji: "👨‍🔬", color: "bg-blue-500", sound: [587, 698, 784] },
-  MUSEUM: { name: "museum", hebrew: "מוזיאון", english: "Museum", emoji: "🏛️", color: "bg-purple-400", sound: [196, 247, 294] },
-  AMBER: { name: "amber", hebrew: "ענבר", english: "Amber", emoji: "🟡", color: "bg-yellow-600", sound: [659, 831, 988] },
-  SEDIMENT: { name: "sediment", hebrew: "משקע", english: "Sediment", emoji: "🪨", color: "bg-gray-500", sound: [277, 349, 415] },
+  FOSSIL: { name: "fossil", hebrew: "מאובן", hebrewNikud: "מְאֻבָּן", english: "Fossil", emoji: "🦴", color: "bg-brown-400", sound: [440, 550, 660] },
+  SKELETON: { name: "skeleton", hebrew: "שלד", hebrewNikud: "שֶׁלֶד", english: "Skeleton", emoji: "💀", color: "bg-gray-300", sound: [392, 494, 587] },
+  BONE: { name: "bone", hebrew: "עצם", hebrewNikud: "עֶצֶם", english: "Bone", emoji: "🦴", color: "bg-white", sound: [349, 440, 523] },
+  TOOTH: { name: "tooth", hebrew: "שן", hebrewNikud: "שֵׁן", english: "Tooth", emoji: "🦷", color: "bg-gray-100", sound: [523, 659, 784] },
+  CLAW: { name: "claw", hebrew: "טופר", hebrewNikud: "טוֹפֶר", english: "Claw", emoji: "🦅", color: "bg-black", sound: [294, 370, 440] },
+  EXCAVATION: { name: "excavation", hebrew: "חפירה", hebrewNikud: "חֲפִירָה", english: "Excavation", emoji: "⛏️", color: "bg-brown-600", sound: [330, 415, 494] },
+  PALEONTOLOGIST: { name: "paleontologist", hebrew: "פלאונטולוג", hebrewNikud: "פָּלֵאוֹנְטוֹלוֹג", english: "Paleontologist", emoji: "👨‍🔬", color: "bg-blue-500", sound: [587, 698, 784] },
+  MUSEUM: { name: "museum", hebrew: "מוזיאון", hebrewNikud: "מוּזֵיאוֹן", english: "Museum", emoji: "🏛️", color: "bg-purple-400", sound: [196, 247, 294] },
+  AMBER: { name: "amber", hebrew: "ענבר", hebrewNikud: "עִנְבָּר", english: "Amber", emoji: "🟡", color: "bg-yellow-600", sound: [659, 831, 988] },
+  SEDIMENT: { name: "sediment", hebrew: "משקע", hebrewNikud: "מִשְׁקָע", english: "Sediment", emoji: "🪨", color: "bg-gray-500", sound: [277, 349, 415] },
 };
 
 // ייצוא רשימות והגדרות

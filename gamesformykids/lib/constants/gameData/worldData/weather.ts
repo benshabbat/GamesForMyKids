@@ -2,16 +2,16 @@ import { BaseGameItem } from "@/lib/types/core/base";
 import { createItemsList, createPronunciationDictionary, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 export const WEATHER_CONSTANTS: Record<string, BaseGameItem> = {
-  SUNNY: { name: "sunny", hebrew: "שמש", english: "Sunny", emoji: "☀️", color: "bg-yellow-500", sound: [392, 494, 587] },
-  RAINY: { name: "rainy", hebrew: "גשום", english: "Rainy", emoji: "🌧️", color: "bg-blue-500", sound: [523, 659, 784] },
-  CLOUDY: { name: "cloudy", hebrew: "מעונן", english: "Cloudy", emoji: "☁️", color: "bg-gray-500", sound: [294, 370, 440] },
-  SNOWY: { name: "snowy", hebrew: "שלג", english: "Snowy", emoji: "❄️", color: "bg-cyan-500", sound: [659, 831, 988] },
-  STORMY: { name: "stormy", hebrew: "סערה", english: "Stormy", emoji: "⛈️", color: "bg-purple-600", sound: [196, 247, 294] },
-  WINDY: { name: "windy", hebrew: "רוח", english: "Windy", emoji: "💨", color: "bg-teal-500", sound: [349, 440, 523] },
-  PARTLY_CLOUDY: { name: "partly_cloudy", hebrew: "חלקית מעונן", english: "Partly Cloudy", emoji: "⛅", color: "bg-orange-400", sound: [330, 415, 494] },
-  FOGGY: { name: "foggy", hebrew: "ערפילי", english: "Foggy", emoji: "🌫️", color: "bg-gray-400", sound: [220, 277, 330] },
-  HOT: { name: "hot", hebrew: "חם", english: "Hot", emoji: "🔥", color: "bg-red-600", sound: [440, 550, 660] },
-  COLD: { name: "cold", hebrew: "קר", english: "Cold", emoji: "🧊", color: "bg-blue-300", sound: [262, 330, 392] },
+  SUNNY: { name: "sunny", hebrew: "שמש", hebrewNikud: "שֶׁמֶשׁ", english: "Sunny", emoji: "☀️", color: "bg-yellow-500", sound: [392, 494, 587] },
+  RAINY: { name: "rainy", hebrew: "גשום", hebrewNikud: "גָּשׁוּם", english: "Rainy", emoji: "🌧️", color: "bg-blue-500", sound: [523, 659, 784] },
+  CLOUDY: { name: "cloudy", hebrew: "מעונן", hebrewNikud: "מְעֻנָּן", english: "Cloudy", emoji: "☁️", color: "bg-gray-500", sound: [294, 370, 440] },
+  SNOWY: { name: "snowy", hebrew: "שלג", hebrewNikud: "שֶׁלֶג", english: "Snowy", emoji: "❄️", color: "bg-cyan-500", sound: [659, 831, 988] },
+  STORMY: { name: "stormy", hebrew: "סערה", hebrewNikud: "סְעָרָה", english: "Stormy", emoji: "⛈️", color: "bg-purple-600", sound: [196, 247, 294] },
+  WINDY: { name: "windy", hebrew: "רוח", hebrewNikud: "רוּחַ", english: "Windy", emoji: "💨", color: "bg-teal-500", sound: [349, 440, 523] },
+  PARTLY_CLOUDY: { name: "partly_cloudy", hebrew: "חלקית מעונן", hebrewNikud: "חֶלְקִית מְעֻנָּן", english: "Partly Cloudy", emoji: "⛅", color: "bg-orange-400", sound: [330, 415, 494] },
+  FOGGY: { name: "foggy", hebrew: "ערפילי", hebrewNikud: "עַרְפִלִּי", english: "Foggy", emoji: "🌫️", color: "bg-gray-400", sound: [220, 277, 330] },
+  HOT: { name: "hot", hebrew: "חם", hebrewNikud: "חַם", english: "Hot", emoji: "🔥", color: "bg-red-600", sound: [440, 550, 660] },
+  COLD: { name: "cold", hebrew: "קר", hebrewNikud: "קַר", english: "Cold", emoji: "🧊", color: "bg-blue-300", sound: [262, 330, 392] },
 };
 
 export const ALL_WEATHERS = createItemsList(WEATHER_CONSTANTS);

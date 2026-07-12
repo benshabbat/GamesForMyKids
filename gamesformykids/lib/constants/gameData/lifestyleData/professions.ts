@@ -19,18 +19,18 @@ export const PROFESSION_CONSTANTS: Record<string, ProfessionItem> = {
 export const ALL_PROFESSIONS = Object.values(PROFESSION_CONSTANTS);
 
 export const PROFESSION_HEBREW_PRONUNCIATIONS: Record<string, string> = {
-  doctor: "רופאה",
-  teacher: "מורה",
-  firefighter: "כבאית",
-  police: "שוטרת",
-  chef: "טבחית",
-  pilot: "טייסת",
-  engineer: "מהנדסת",
-  artist: "אמנית",
-  farmer: "חקלאית",
-  musician: "מוזיקאית",
-  veterinarian: "וטרינרית",
-  dentist: "רופאת שיניים",
+  doctor: "רוֹפְאָה",
+  teacher: "מוֹרָה",
+  firefighter: "כַּבָּאִית",
+  police: "שׁוֹטֶרֶת",
+  chef: "טַבָּחִית",
+  pilot: "טַיֶּסֶת",
+  engineer: "מְהַנְדֶּסֶת",
+  artist: "אָמָּנִית",
+  farmer: "חַקְלָאִית",
+  musician: "מוּזִיקָאִית",
+  veterinarian: "וֶטֶרִינָרִית",
+  dentist: "רוֹפְאַת שִׁנַּיִם",
 };
 
 export const PROFESSION_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
