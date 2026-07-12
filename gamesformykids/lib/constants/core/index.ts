@@ -94,8 +94,10 @@ export const createItemsList = <T extends BaseGameItem>(constants: Record<string
 export const createPronunciationDictionary = <T extends BaseGameItem>(
   constants: Record<string, T>
 ): Record<string, string> => {
+  // hebrewNikud (when present) gives the TTS engine explicit vowel points,
+  // which disambiguates Hebrew words that would otherwise be mispronounced.
   return Object.fromEntries(
-    Object.values(constants).map(item => [item.name, item.hebrew])
+    Object.values(constants).map(item => [item.name, item.hebrewNikud || item.hebrew])
   );
 };
 
