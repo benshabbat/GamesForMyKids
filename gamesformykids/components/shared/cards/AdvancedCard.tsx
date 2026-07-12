@@ -152,7 +152,7 @@ export function AdvancedCard({
               <div className="text-3xl mb-2">{icon}</div>
             )}
 
-            {displayDigit && (
+            {displayDigit && !digitIsSameAsEmoji && (
               <div className={`${advancedSizeClasses[size]} font-bold mb-2`}>
                 {displayDigit}
               </div>
