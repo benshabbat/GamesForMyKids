@@ -54,7 +54,7 @@ export default function AutoStartScreen() {
             variant="simple"
             item={item}
             hebrewText={item.hebrew || ''}
-            color={item.color || '#000'}
+            color={item.color}
             icon={<span className="text-3xl">{item.emoji || '🎯'}</span>}
             shape="circle"
             size="large"

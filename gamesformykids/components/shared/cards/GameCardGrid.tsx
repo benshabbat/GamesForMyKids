@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useEffect } from 'react';
 import { ComponentTypes } from "@/lib/types";
 import { useGridFillers } from "@/hooks";
 
@@ -29,6 +29,15 @@ export function GameCardGrid<T extends GameItemType>({
   const [tooltipKey, setTooltipKey] = useState<string | null>(null);
   const longPressRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const hoverRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const itemRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  // Keep real DOM/AT focus in sync with the virtual arrow-key focus ring,
+  // so Tab order and arrow-key navigation don't visibly disagree.
+  useEffect(() => {
+    if (typeof focusedIdx === 'number' && focusedIdx >= 0) {
+      itemRefs.current[focusedIdx]?.focus();
+    }
+  }, [focusedIdx]);
 
   const getTooltipHandlers = useCallback((key: string) => ({
     onMouseEnter: () => { hoverRef.current = setTimeout(() => setTooltipKey(key), 200); },
@@ -89,7 +98,10 @@ export function GameCardGrid<T extends GameItemType>({
         return (
           <div
             key={itemKey}
-            className={`relative ${isFocused ? 'ring-4 ring-blue-400 ring-offset-2 rounded-3xl' : ''}`}
+            ref={(el) => { itemRefs.current[idx] = el; }}
+            tabIndex={-1}
+            aria-current={isFocused ? 'true' : undefined}
+            className={`relative outline-none ${isFocused ? 'ring-4 ring-blue-400 ring-offset-2 rounded-3xl' : ''}`}
             {...(englishLabel ? getTooltipHandlers(itemKey) : {})}
           >
             {tooltipKey === itemKey && englishLabel && (

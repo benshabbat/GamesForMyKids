@@ -2,6 +2,7 @@
 
 import { useState, ComponentType } from "react";
 import { GameItemCardProps } from "@/lib/types/components/cards";
+import { useAudioSettingsStore } from "@/lib/stores/audioSettingsStore";
 import {
   PHOTO_CARD_CONFIGS,
   PhotoCardConfig,
@@ -16,10 +17,13 @@ interface PhotoGameCardProps extends GameItemCardProps {
 
 function PhotoGameCard({ item, onClick, isSelected, config }: PhotoGameCardProps) {
   const [imageError, setImageError] = useState(false);
+  const showNikud = useAudioSettingsStore((s) => s.showNikud);
+  const showEnglish = useAudioSettingsStore((s) => s.showEnglish);
 
   const imageUrl = config.imageUrls[item.name];
   const cardBg = config.cardBgMap?.[item.name] ?? config.cardBg;
   const border = isSelected ? config.selectedBorder : config.defaultBorder;
+  const resolvedHebrew = showNikud && item.hebrewNikud ? item.hebrewNikud : item.hebrew;
 
   return (
     <button
@@ -55,8 +59,16 @@ function PhotoGameCard({ item, onClick, isSelected, config }: PhotoGameCardProps
         <span
           className={`text-xs md:text-sm font-bold ${config.labelText} text-center block leading-tight`}
         >
-          {item.hebrew}
+          {resolvedHebrew}
         </span>
+        {showEnglish && item.english && (
+          <span
+            className={`text-xs ${config.labelText} text-center block leading-tight opacity-80`}
+            dir="ltr"
+          >
+            {item.english}
+          </span>
+        )}
       </div>
     </button>
   );
