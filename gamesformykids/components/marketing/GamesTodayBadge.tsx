@@ -17,12 +17,12 @@ export default function GamesTodayBadge() {
     : null;
 
   return (
-    <div dir="rtl" className="mx-4 mt-2 flex items-center gap-2">
+    <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-2 flex items-center gap-2">
       <span className="text-sm font-bold text-gray-600 dark:text-gray-300">
         🔥 היום שיחקת {count} משחקים
       </span>
       {milestoneText && (
-        <span className="text-xs bg-yellow-100 text-yellow-700 font-bold px-2 py-0.5 rounded-full">
+        <span className="text-xs bg-yellow-100 dark:bg-yellow-900/40 text-yellow-700 dark:text-yellow-300 font-bold px-2 py-0.5 rounded-full">
           {milestoneText}
         </span>
       )}

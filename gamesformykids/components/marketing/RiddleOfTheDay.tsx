@@ -24,35 +24,37 @@ export default function RiddleOfTheDay() {
   }
 
   return (
-    <div dir="rtl" className="mx-4 mt-3 rounded-2xl bg-linear-to-l from-violet-500 to-purple-600 text-white shadow-lg overflow-hidden">
-      <div className="px-4 py-3">
-        <p className="text-xs opacity-80 font-bold mb-2">🤔 חידה של היום</p>
-        <div className="flex items-start gap-3">
-          <span className="text-4xl shrink-0 leading-none mt-0.5">{riddle.emoji}</span>
-          <div className="flex-1 min-w-0">
-            <p className="font-bold text-sm leading-snug">{riddle.riddle}</p>
+    <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">
+      <div className="rounded-2xl bg-linear-to-l from-violet-500 to-purple-600 text-white shadow-lg overflow-hidden">
+        <div className="px-4 py-3">
+          <p className="text-xs opacity-80 font-bold mb-2">🤔 חידה של היום</p>
+          <div className="flex items-start gap-3">
+            <span className="text-4xl shrink-0 leading-none mt-0.5">{riddle.emoji}</span>
+            <div className="flex-1 min-w-0">
+              <p className="font-bold text-sm leading-snug">{riddle.riddle}</p>
 
-            {revealed ? (
-              <div className="mt-2 animate-fade-in-up">
-                <p className="text-sm font-semibold bg-white/20 rounded-xl px-3 py-2 leading-snug">
-                  ✅ {riddle.answer}
-                </p>
+              {revealed ? (
+                <div className="mt-2 animate-fade-in-up">
+                  <p className="text-sm font-semibold bg-white/20 rounded-xl px-3 py-2 leading-snug">
+                    ✅ {riddle.answer}
+                  </p>
+                  <button
+                    onClick={shareWhatsApp}
+                    className="mt-2 flex items-center gap-1.5 bg-green-500 hover:bg-green-600 active:scale-95 transition-transform text-white text-xs font-bold px-3 py-1.5 rounded-xl"
+                  >
+                    <span>📲</span>
+                    <span>שתף בוואצאפ</span>
+                  </button>
+                </div>
+              ) : (
                 <button
-                  onClick={shareWhatsApp}
-                  className="mt-2 flex items-center gap-1.5 bg-green-500 hover:bg-green-600 active:scale-95 transition-transform text-white text-xs font-bold px-3 py-1.5 rounded-xl"
+                  onClick={reveal}
+                  className="mt-2 shrink-0 bg-white text-purple-600 font-bold text-sm px-4 py-1.5 rounded-xl hover:bg-purple-50 active:scale-95 transition-transform"
                 >
-                  <span>📲</span>
-                  <span>שתף בוואצאפ</span>
+                  גלה תשובה 👇
                 </button>
-              </div>
-            ) : (
-              <button
-                onClick={reveal}
-                className="mt-2 shrink-0 bg-white text-purple-600 font-bold text-sm px-4 py-1.5 rounded-xl hover:bg-purple-50 active:scale-95 transition-transform"
-              >
-                גלה תשובה 👇
-              </button>
-            )}
+              )}
+            </div>
           </div>
         </div>
       </div>

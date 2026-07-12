@@ -49,7 +49,7 @@ export function GameSearchBar({
           <button
             onClick={onClear}
             aria-label="נקה חיפוש"
-            className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute end-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
@@ -61,7 +61,7 @@ export function GameSearchBar({
         <div className="flex justify-center">
           <button
             onClick={() => setAgeRange('all')}
-            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 text-purple-700 text-xs font-semibold hover:bg-purple-200 transition-colors"
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-xs font-semibold hover:bg-purple-200 dark:hover:bg-purple-900/60 transition-colors"
             aria-label="הסר סינון גיל"
           >
             <span>🔧</span>

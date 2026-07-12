@@ -17,14 +17,14 @@ export default function FavoritesView() {
 
   return (
     <div>
-      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 mb-5 md:mb-8">
+      <h2 className="text-2xl md:text-3xl font-bold text-center text-gray-800 dark:text-gray-100 mb-5 md:mb-8">
         ⭐ המשחקים המועדפים שלי ({favoriteGames.length})
       </h2>
       {favoriteGames.length === 0 ? (
         <div className="text-center py-12 md:py-16">
           <div className="text-6xl mb-4">⭐</div>
-          <h3 className="text-xl md:text-2xl font-bold text-gray-600 mb-2">עדיין אין משחקים מועדפים</h3>
-          <p className="text-gray-500 text-sm md:text-base">
+          <h3 className="text-xl md:text-2xl font-bold text-gray-600 dark:text-gray-300 mb-2">עדיין אין משחקים מועדפים</h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm md:text-base">
             לחץ על הכוכב ⭐ על משחק כלשהו כדי להוסיף אותו לכאן
           </p>
         </div>

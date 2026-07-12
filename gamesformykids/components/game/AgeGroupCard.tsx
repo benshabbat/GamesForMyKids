@@ -9,13 +9,13 @@ export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
 
   if (!ageGroup) return null;
   return (
-    <div className="bg-white rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
+    <div className="bg-white dark:bg-gray-800 rounded-2xl p-4 md:p-6 shadow-lg hover:shadow-xl transition-shadow duration-300">
       {/* Header — horizontal on mobile, centered on desktop */}
       <div className="flex items-center gap-3 sm:flex-col sm:items-center sm:text-center mb-3 md:mb-4">
         <div className="text-4xl sm:mb-1">{ageGroup.icon}</div>
         <div>
-          <h3 className="text-base md:text-xl font-bold text-gray-800 mb-0.5">{ageGroup.title}</h3>
-          <p className="text-xs text-gray-600 sm:hidden md:block">{ageGroup.description}</p>
+          <h3 className="text-base md:text-xl font-bold text-gray-800 dark:text-gray-100 mb-0.5">{ageGroup.title}</h3>
+          <p className="text-xs text-gray-600 dark:text-gray-400 sm:hidden md:block">{ageGroup.description}</p>
         </div>
       </div>
 
@@ -23,29 +23,29 @@ export default function AgeGroupCard({ ageKey }: { ageKey: string }) {
         {ageGroup.recommendedGames.length > 0 ? (
           ageGroup.recommendedGames.map((game) => (
             <Link key={game.id} href={game.href} prefetch={false}>
-              <div className="flex items-center p-2.5 md:p-3 bg-gradient-to-r from-gray-50 to-gray-100/50 rounded-xl hover:from-purple-50 hover:to-blue-50 transition-shadow duration-300 cursor-pointer shadow-sm hover:shadow-md border border-gray-100">
+              <div className="flex items-center p-2.5 md:p-3 bg-gradient-to-r from-gray-50 to-gray-100/50 dark:from-gray-700 dark:to-gray-700/50 rounded-xl hover:from-purple-50 hover:to-blue-50 dark:hover:from-gray-600 dark:hover:to-gray-600 transition-shadow duration-300 cursor-pointer shadow-sm hover:shadow-md border border-gray-100 dark:border-gray-600">
                 <div className="flex-shrink-0 ms-3">
-                  <div className="bg-gradient-to-br from-purple-100 to-blue-100 p-1.5 rounded-lg">
-                    <game.icon className="w-6 h-6 md:w-7 md:h-7 text-purple-600" />
+                  <div className="bg-gradient-to-br from-purple-100 to-blue-100 dark:from-purple-900/50 dark:to-blue-900/50 p-1.5 rounded-lg">
+                    <game.icon className="w-6 h-6 md:w-7 md:h-7 text-purple-600 dark:text-purple-300" />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
-                  <h4 className="font-semibold text-gray-800 text-base">{game.title}</h4>
-                  <p className="text-sm text-gray-500 sm:hidden md:block">{game.description}</p>
+                  <h4 className="font-semibold text-gray-800 dark:text-gray-100 text-base">{game.title}</h4>
+                  <p className="text-sm text-gray-500 dark:text-gray-400 sm:hidden md:block">{game.description}</p>
                 </div>
               </div>
             </Link>
           ))
         ) : (
-          <div className="text-center py-4 text-gray-500">
+          <div className="text-center py-4 text-gray-500 dark:text-gray-400">
             <div className="text-2xl mb-2">🔄</div>
             <p className="text-sm">משחקים בהכנה...</p>
           </div>
         )}
       </div>
 
-      <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-200">
-        <div className="flex items-center justify-center gap-3 text-xs text-gray-500">
+      <div className="mt-3 md:mt-4 pt-3 md:pt-4 border-t border-gray-200 dark:border-gray-700">
+        <div className="flex items-center justify-center gap-3 text-xs text-gray-500 dark:text-gray-400">
           <div className="flex items-center">
             <Users className="w-3.5 h-3.5 ms-1" />
             <span>מותאם לגיל</span>

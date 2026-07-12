@@ -11,10 +11,10 @@ export function FeatureHighlights() {
       <div className="max-w-4xl mx-auto mb-4 md:mb-8 hidden md:block">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 px-4">
           {FEATURES.map(({ emoji, ariaLabel, title, description }) => (
-            <div key={title} className="bg-white/70 rounded-2xl p-4 shadow-md">
+            <div key={title} className="bg-white/70 dark:bg-gray-800/70 rounded-2xl p-4 shadow-md">
               <div className="text-3xl mb-2" role="img" aria-label={ariaLabel}>{emoji}</div>
-              <h2 className="font-bold text-purple-800">{title}</h2>
-              <p className="text-sm text-purple-600">{description}</p>
+              <h2 className="font-bold text-purple-800 dark:text-purple-300">{title}</h2>
+              <p className="text-sm text-purple-600 dark:text-purple-400">{description}</p>
             </div>
           ))}
         </div>
@@ -23,7 +23,7 @@ export function FeatureHighlights() {
       {/* Mobile: compact badges */}
       <div className="flex justify-center gap-2 md:hidden mb-2">
         {FEATURES.map(({ emoji, title }) => (
-          <span key={title} className="bg-white/70 rounded-full px-3 py-1 text-xs font-bold text-purple-700 shadow-sm">
+          <span key={title} className="bg-white/70 dark:bg-gray-800/70 rounded-full px-3 py-1 text-xs font-bold text-purple-700 dark:text-purple-300 shadow-sm">
             {emoji} {title}
           </span>
         ))}
