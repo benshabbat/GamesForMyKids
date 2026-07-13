@@ -65,7 +65,9 @@ export type AutoGameType =
   | 'geography-capitals'
   | 'geography-continents'
   | 'visual-opposites'
-  | 'english-cards';
+  | 'english-cards'
+  | 'coins-match'
+  | 'hebrew-script';
 
 // Reads items from the store at hook-call time — no static game data imported here.
 const g = (type: AutoGameType): AnyGameHookFn =>
@@ -152,6 +154,8 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'geography-continents': useGeographyContinentsGame,
   'visual-opposites':     g('visual-opposites'),
   'english-cards':        g('english-cards'),
+  'coins-match':          g('coins-match'),
+  'hebrew-script':        g('hebrew-script'),
 };
 
 export type GameHookType = AnyGameHookFn;

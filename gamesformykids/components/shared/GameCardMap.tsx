@@ -123,6 +123,8 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'number-words': DefaultGameCard,
   'visual-opposites': DefaultGameCard,
   'english-cards': DefaultGameCard,
+  'coins-match': DefaultGameCard,
+  'hebrew-script': DefaultGameCard,
 };
 
 /**
