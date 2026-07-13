@@ -139,7 +139,7 @@ export type GameType =
   | 'math-race' | 'number-bubbles' | 'skip-counting' | 'division'
   // Memory & puzzle
   | 'memory' | 'bubbles' | 'puzzles' | 'building' | 'tetris'
-  | 'drawing' | 'coloring'
+  | 'drawing' | 'coloring' | 'dot-to-dot'
   // Expanded topic games
   | 'sports' | 'kitchen' | 'body-parts' | 'family' | 'dinosaurs'
   | 'world-food' | 'recycling' | 'medicine' | 'nature-sounds'

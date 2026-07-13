@@ -29,6 +29,7 @@ import {
   Pencil,
   Grid2x2,
   Hash,
+  Dot,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -633,5 +634,18 @@ export const gamesRegistryBatch5: GameRegistration[] = [
     available: true,
     order: 222,
     ageMin: 6,
+  },
+  {
+    id: "dot-to-dot",
+    title: "נקודה לנקודה",
+    description: "חבר בין הנקודות לפי הסדר וגלה תמונה מפתיעה!",
+    icon: Dot,
+    emoji: "🔢",
+    color: "bg-purple-400 hover:bg-purple-500",
+    href: "/games/dot-to-dot",
+    available: true,
+    order: 223,
+    ageMin: 4,
+    contentType: "creative" as const,
   },
 ];
