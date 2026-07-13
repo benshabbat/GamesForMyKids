@@ -5,6 +5,7 @@
  */
 import { makeStore } from '@/lib/stores/createStore';
 import { PALETTE_COLORS, IMAGES, type ImageId } from '../constants';
+import { IMAGE_COMPONENTS } from '../components/imageComponents';
 
 export type { ImageId };
 export { PALETTE_COLORS, IMAGES };
@@ -15,7 +16,7 @@ type AllFills = Record<ImageId, Record<string, string>>;
 
 const EMPTY_FILLS: AllFills = {
   cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
-  star: {}, balloon: {}, robot: {}, dog: {}, boat: {},
+  star: {}, balloon: {}, robot: {}, dog: {}, boat: {}, forest: {},
 };
 
 // ── Store ─────────────────────────────────────────────────────────────────────
@@ -25,6 +26,10 @@ interface ColoringState {
   selectedColor: string;
   allFills: AllFills;
   doneImages: Record<ImageId, boolean>;
+  /** dataURL snapshot per flood-fill image, so switching pictures doesn't lose progress */
+  floodFillSnapshots: Partial<Record<ImageId, string>>;
+  /** imperative reset registered by the currently-mounted FloodFillCanvas */
+  floodFillClear: () => void;
 }
 
 interface ColoringActions {
@@ -33,6 +38,8 @@ interface ColoringActions {
   /** מצבע אזור מיד בצבע הנבחר */
   selectRegion: (id: string, colorableIds: string[]) => void;  /** מצבע קבוצת אזורים בצבע הנבחר */
   fillGroup: (memberIds: string[], colorableIds: string[]) => void;  clearImage: () => void;
+  registerFloodFillClear: (fn: () => void) => void;
+  saveFloodFillSnapshot: (id: ImageId, dataUrl: string) => void;
 }
 
 export const useColoringStore = makeStore<ColoringState & ColoringActions>(
@@ -60,8 +67,10 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       allFills: EMPTY_FILLS,
       doneImages: {
         cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false,
-        star: false, balloon: false, robot: false, dog: false, boat: false,
+        star: false, balloon: false, robot: false, dog: false, boat: false, forest: false,
       },
+      floodFillSnapshots: {},
+      floodFillClear: () => {},
 
       selectImage: (id) =>
         set({ currentImage: id }, false, 'selectImage'),
@@ -83,15 +92,37 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
 
       clearImage: () => {
         const { currentImage } = get();
+        if (IMAGE_COMPONENTS[currentImage].kind === 'floodfill') {
+          get().floodFillClear();
+          set(
+            (state) => {
+              const next = { ...state.floodFillSnapshots };
+              delete next[currentImage];
+              return { floodFillSnapshots: next };
+            },
+            false,
+            'clearImage/floodfill',
+          );
+          return;
+        }
         set(
           (state) => ({
             allFills: { ...state.allFills, [currentImage]: {} },
             doneImages: { ...state.doneImages, [currentImage]: false },
           }),
           false,
-          'clearImage',
+          'clearImage/regions',
         );
       },
+
+      registerFloodFillClear: (fn) => set({ floodFillClear: fn }, false, 'registerFloodFillClear'),
+
+      saveFloodFillSnapshot: (id, dataUrl) =>
+        set(
+          (state) => ({ floodFillSnapshots: { ...state.floodFillSnapshots, [id]: dataUrl } }),
+          false,
+          'saveFloodFillSnapshot',
+        ),
     };
   },
 );

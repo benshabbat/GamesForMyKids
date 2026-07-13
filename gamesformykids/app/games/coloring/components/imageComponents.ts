@@ -1,4 +1,4 @@
-import type { ImageId } from '../store/coloringStore';
+import type { ImageId } from '../constants';
 import type { ImageComponentType, ImageMeta } from '../types';
 
 import { CatImage, catRegions, catRegionNames } from './images/cat';
@@ -18,53 +18,54 @@ import { BoatImage, boatRegions, boatRegionNames } from './images/boat';
 export type { ImageComponentType, ImageMeta };
 
 export const IMAGE_COMPONENTS: Record<ImageId, ImageMeta> = {
-  cat: { Component: CatImage, regions: catRegions, names: catRegionNames },
+  cat: { kind: 'regions', Component: CatImage, regions: catRegions, names: catRegionNames },
   house: {
-    Component: HouseImage, regions: houseRegions, names: houseRegionNames,
+    kind: 'regions', Component: HouseImage, regions: houseRegions, names: houseRegionNames,
     groups: [{ id: 'house-windows-all', name: 'כל החלונות', members: ['house-window-left', 'house-window-right'] }],
   },
   sun: {
-    Component: SunImage, regions: sunRegions, names: sunRegionNames,
+    kind: 'regions', Component: SunImage, regions: sunRegions, names: sunRegionNames,
     groups: [{ id: 'sun-rays-all', name: 'כל הקרניים', members: SUN_RAY_IDS }],
   },
   butterfly: {
-    Component: ButterflyImage, regions: butterflyRegions, names: butterflyRegionNames,
+    kind: 'regions', Component: ButterflyImage, regions: butterflyRegions, names: butterflyRegionNames,
     groups: [
       { id: 'butterfly-wings-top', name: 'כנפיים עליונות', members: ['butterfly-wing-top-left', 'butterfly-wing-top-right'] },
       { id: 'butterfly-wings-bottom', name: 'כנפיים תחתונות', members: ['butterfly-wing-bottom-left', 'butterfly-wing-bottom-right'] },
     ],
   },
   flower: {
-    Component: FlowerImage, regions: flowerRegions, names: flowerRegionNames,
+    kind: 'regions', Component: FlowerImage, regions: flowerRegions, names: flowerRegionNames,
     groups: [{ id: 'flower-petals-all', name: 'כל העלים', members: ['flower-petal-0', 'flower-petal-60', 'flower-petal-120', 'flower-petal-180', 'flower-petal-240', 'flower-petal-300'] }],
   },
-  fish: { Component: FishImage, regions: fishRegions, names: fishRegionNames },
+  fish: { kind: 'regions', Component: FishImage, regions: fishRegions, names: fishRegionNames },
   tree: {
-    Component: TreeImage, regions: treeRegions, names: treeRegionNames,
+    kind: 'regions', Component: TreeImage, regions: treeRegions, names: treeRegionNames,
     groups: [{ id: 'tree-crown-all', name: 'כל הכתר', members: ['tree-crown-left', 'tree-crown-right', 'tree-crown-top'] }],
   },
   car: {
-    Component: CarImage, regions: carRegions, names: carRegionNames,
+    kind: 'regions', Component: CarImage, regions: carRegions, names: carRegionNames,
     groups: [
       { id: 'car-windows-all', name: 'כל החלונות', members: ['car-window-left', 'car-window-right'] },
       { id: 'car-wheels-all', name: 'כל הגלגלים', members: ['car-wheel-left', 'car-wheel-right'] },
     ],
   },
-  star: { Component: StarImage, regions: starRegions, names: starRegionNames },
+  star: { kind: 'regions', Component: StarImage, regions: starRegions, names: starRegionNames },
   balloon: {
-    Component: BalloonImage, regions: balloonRegions, names: balloonRegionNames,
+    kind: 'regions', Component: BalloonImage, regions: balloonRegions, names: balloonRegionNames,
     groups: [{ id: 'balloons-all', name: 'כל הבלונים', members: ['balloon-left', 'balloon-right'] }],
   },
   robot: {
-    Component: RobotImage, regions: robotRegions, names: robotRegionNames,
+    kind: 'regions', Component: RobotImage, regions: robotRegions, names: robotRegionNames,
     groups: [{ id: 'robot-arms-all', name: 'כל הידיים', members: ['robot-arm-left', 'robot-arm-right'] }],
   },
   dog: {
-    Component: DogImage, regions: dogRegions, names: dogRegionNames,
+    kind: 'regions', Component: DogImage, regions: dogRegions, names: dogRegionNames,
     groups: [{ id: 'dog-ears-all', name: 'כל האוזניים', members: ['dog-ear-left', 'dog-ear-right'] }],
   },
   boat: {
-    Component: BoatImage, regions: boatRegions, names: boatRegionNames,
+    kind: 'regions', Component: BoatImage, regions: boatRegions, names: boatRegionNames,
     groups: [{ id: 'boat-sails-all', name: 'כל המפרשים', members: ['boat-sail-main', 'boat-sail-small'] }],
   },
+  forest: { kind: 'floodfill', src: '/images/coloring-scenes/forest.svg', width: 800, height: 800 },
 };

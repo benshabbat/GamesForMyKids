@@ -1,0 +1,51 @@
+<svg viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg">
+  <rect width="800" height="800" fill="#ffffff"/>
+
+  <!-- ground line: separates sky (top) from grass (bottom); touches both edges -->
+  <path d="M0,580 Q200,540 400,560 T800,550" fill="none" stroke="#000000" stroke-width="6"/>
+
+  <!-- sun -->
+  <circle cx="650" cy="120" r="60" fill="#ffffff" stroke="#000000" stroke-width="5"/>
+  <line x1="650" y1="35" x2="650" y2="10" stroke="#000000" stroke-width="4"/>
+  <line x1="650" y1="205" x2="650" y2="230" stroke="#000000" stroke-width="4"/>
+  <line x1="565" y1="120" x2="540" y2="120" stroke="#000000" stroke-width="4"/>
+  <line x1="735" y1="120" x2="760" y2="120" stroke="#000000" stroke-width="4"/>
+  <line x1="590" y1="60" x2="572" y2="42" stroke="#000000" stroke-width="4"/>
+  <line x1="710" y1="180" x2="728" y2="198" stroke="#000000" stroke-width="4"/>
+
+  <!-- cloud A -->
+  <path d="M90,110 Q70,90 90,70 Q95,40 130,45 Q145,20 175,35 Q205,25 210,55
+           Q235,60 225,85 Q235,110 205,115 Q195,135 165,120 Q140,135 115,120
+           Q90,130 90,110 Z" fill="#ffffff" stroke="#000000" stroke-width="5"/>
+
+  <!-- cloud B -->
+  <path d="M440,80 Q425,65 440,50 Q445,30 470,35 Q485,15 510,28 Q530,20 535,42
+           Q555,48 545,68 Q555,85 530,88 Q522,102 500,92 Q480,105 460,92
+           Q440,98 440,80 Z" fill="#ffffff" stroke="#000000" stroke-width="5"/>
+
+  <!-- tree -->
+  <rect x="160" y="455" width="44" height="115" rx="6" fill="#ffffff" stroke="#000000" stroke-width="5"/>
+  <path d="M110,460 Q70,430 85,390 Q65,360 95,325 Q90,285 140,275 Q160,240 210,255
+           Q250,230 280,270 Q315,275 305,320 Q335,345 310,380 Q325,415 285,435
+           Q290,465 245,460 Q220,480 180,465 Q145,485 110,460 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="5"/>
+
+  <!-- bush -->
+  <path d="M600,640 Q585,615 610,600 Q615,575 650,580 Q675,565 695,585 Q720,580 715,605
+           Q735,615 715,635 Q720,655 690,650 Q670,665 640,655 Q615,665 600,640 Z"
+        fill="#ffffff" stroke="#000000" stroke-width="5"/>
+
+  <!-- flower -->
+  <path d="M320,700 Q305,680 320,665 Q315,645 340,645 Q350,625 375,635 Q395,620 410,640
+           Q430,635 425,660 Q445,670 425,685 Q430,705 405,700 Q400,720 375,710
+           Q355,725 335,710 Q310,715 320,700 Z" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+  <circle cx="372" cy="672" r="14" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+
+  <!-- owl -->
+  <polygon points="500,635 490,600 515,630" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+  <polygon points="580,635 590,600 565,630" fill="#ffffff" stroke="#000000" stroke-width="4"/>
+  <ellipse cx="540" cy="690" rx="55" ry="65" fill="#ffffff" stroke="#000000" stroke-width="5"/>
+  <circle cx="520" cy="655" r="10" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+  <circle cx="560" cy="655" r="10" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+  <polygon points="533,662 547,662 540,677" fill="#ffffff" stroke="#000000" stroke-width="3"/>
+</svg>
