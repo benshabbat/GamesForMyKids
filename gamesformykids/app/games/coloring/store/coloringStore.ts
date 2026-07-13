@@ -15,6 +15,7 @@ type AllFills = Record<ImageId, Record<string, string>>;
 
 const EMPTY_FILLS: AllFills = {
   cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
+  star: {}, balloon: {}, robot: {}, dog: {}, boat: {},
 };
 
 // ── Store ─────────────────────────────────────────────────────────────────────
@@ -57,7 +58,10 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       currentImage: 'cat',
       selectedColor: PALETTE_COLORS[0].hex,
       allFills: EMPTY_FILLS,
-      doneImages: { cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false },
+      doneImages: {
+        cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false,
+        star: false, balloon: false, robot: false, dog: false, boat: false,
+      },
 
       selectImage: (id) =>
         set({ currentImage: id }, false, 'selectImage'),
