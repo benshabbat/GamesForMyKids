@@ -124,6 +124,9 @@ export async function loadGameItems(gameType: GameType): Promise<BaseGameItem[]>
     case 'number-words':       return (await import('./gameData/numberWords')).NUMBER_WORDS;
     case 'visual-opposites':   return (await import('./gameData/oppositeItems')).OPPOSITES_ITEMS;
     case 'english-cards':      return (await import('./gameData/englishFirst')).ENGLISH_FIRST_ITEMS;
+    case 'personal-safety':    return (await import('./gameData/personalSafety')).ALL_PERSONAL_SAFETY;
+    case 'coins-match':        return (await import('./gameData/coins')).ISRAELI_COINS;
+    case 'hebrew-script':      return (await import('./gameData/hebrewScript')).HEBREW_SCRIPT_ITEMS;
 
     // newGames.ts (mixed exports — use extractItems boundary)
     case 'world-food': return extractItems(await import('./gameData/newGames'), 'WORLD_FOOD_ITEMS');
