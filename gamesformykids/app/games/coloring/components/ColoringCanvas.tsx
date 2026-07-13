@@ -9,7 +9,11 @@ const MIN_ZOOM = 1;
 const MAX_ZOOM = 2.5;
 const ZOOM_STEP = 0.25;
 
-export function ColoringCanvas() {
+interface ColoringCanvasProps {
+  isFullscreen?: boolean;
+}
+
+export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
   const currentImage = useColoringStore((s) => s.currentImage);
   const fills = useColoringStore((s) => s.allFills[s.currentImage]);
   const showDone = useColoringStore((s) => s.doneImages[s.currentImage]);
@@ -70,7 +74,7 @@ export function ColoringCanvas() {
         )}
       </div>
 
-      <div className="overflow-auto rounded-2xl" style={{ maxHeight: '65vh' }}>
+      <div className="overflow-auto rounded-2xl" style={{ maxHeight: isFullscreen ? '80vh' : '65vh' }}>
         {meta.kind === 'regions' ? (
           <div className="mx-auto aspect-square" style={{ width: `${zoom * 320}px` }}>
             <meta.Component fills={fills} onFill={(id) => selectRegion(id, meta.regions)} />
