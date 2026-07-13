@@ -9,6 +9,11 @@ import { FlowerImage, flowerRegions, flowerRegionNames } from './images/flower';
 import { FishImage, fishRegions, fishRegionNames } from './images/fish';
 import { TreeImage, treeRegions, treeRegionNames } from './images/tree';
 import { CarImage, carRegions, carRegionNames } from './images/car';
+import { StarImage, starRegions, starRegionNames } from './images/star';
+import { BalloonImage, balloonRegions, balloonRegionNames } from './images/balloon';
+import { RobotImage, robotRegions, robotRegionNames } from './images/robot';
+import { DogImage, dogRegions, dogRegionNames } from './images/dog';
+import { BoatImage, boatRegions, boatRegionNames } from './images/boat';
 
 export type { ImageComponentType, ImageMeta };
 
@@ -44,5 +49,22 @@ export const IMAGE_COMPONENTS: Record<ImageId, ImageMeta> = {
       { id: 'car-windows-all', name: 'כל החלונות', members: ['car-window-left', 'car-window-right'] },
       { id: 'car-wheels-all', name: 'כל הגלגלים', members: ['car-wheel-left', 'car-wheel-right'] },
     ],
+  },
+  star: { Component: StarImage, regions: starRegions, names: starRegionNames },
+  balloon: {
+    Component: BalloonImage, regions: balloonRegions, names: balloonRegionNames,
+    groups: [{ id: 'balloons-all', name: 'כל הבלונים', members: ['balloon-left', 'balloon-right'] }],
+  },
+  robot: {
+    Component: RobotImage, regions: robotRegions, names: robotRegionNames,
+    groups: [{ id: 'robot-arms-all', name: 'כל הידיים', members: ['robot-arm-left', 'robot-arm-right'] }],
+  },
+  dog: {
+    Component: DogImage, regions: dogRegions, names: dogRegionNames,
+    groups: [{ id: 'dog-ears-all', name: 'כל האוזניים', members: ['dog-ear-left', 'dog-ear-right'] }],
+  },
+  boat: {
+    Component: BoatImage, regions: boatRegions, names: boatRegionNames,
+    groups: [{ id: 'boat-sails-all', name: 'כל המפרשים', members: ['boat-sail-main', 'boat-sail-small'] }],
   },
 };
