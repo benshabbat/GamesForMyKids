@@ -17,6 +17,7 @@ const GAME_CLIENTS = {
   'color-tap':       dynamic(() => import('../color-tap/ColorTapClient'),                     { ssr: false }),
   coloring:          dynamic(() => import('../coloring/ColoringGameClient')),
   'dino-runner':     dynamic(() => import('../dino-runner/DinoRunnerClient'),                 { ssr: false }),
+  'dot-to-dot':      dynamic(() => import('../dot-to-dot/DotToDotClient'),                   { ssr: false }),
   drawing:           dynamic(() => import('../drawing/components/DrawingGameClient'),          { ssr: false }),
   'emoji-math':      dynamic(() => import('../emoji-math/EmojiMathClient'),                   { ssr: false }),
   'flappy-bird':     dynamic(() => import('../flappy-bird/FlappyBirdClient'),                 { ssr: false }),

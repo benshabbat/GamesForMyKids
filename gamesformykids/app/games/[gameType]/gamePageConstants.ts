@@ -29,7 +29,7 @@ export const SUPPORTED_GAMES = [
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
-  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
+  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner', 'dot-to-dot',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',
@@ -123,7 +123,7 @@ export type SupportedGameType = typeof SUPPORTED_GAMES[number];
 
 export const CUSTOM_GAME_TYPES = new Set<CustomGameId>([
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
-  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner',
+  'catch-fruit', 'checkers', 'chess', 'color-tap', 'coloring', 'dino-runner', 'dot-to-dot',
   'drawing', 'emoji-math', 'flappy-bird', 'frogger', 'hebrew-letters', 'jumper',
   'math-race', 'memory', 'meteor-dodge', 'multiplication', 'number-bubbles', 'pong',
   'puzzles', 'reflex', 'shesh-besh', 'simon', 'snake', 'space-defender',

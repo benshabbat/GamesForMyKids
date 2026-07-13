@@ -38,7 +38,7 @@ export const GAME_CATEGORIES: Record<string, GameCategory> = {
     icon: Palette,
     color: "bg-purple-500",
     gradient: "from-purple-400 to-purple-600",
-    gameIds: ["instruments","puzzles","drawing","coloring","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos","color-mix","puppet-story","melody-maker","craft-guide","avatar-maker"],
+    gameIds: ["instruments","puzzles","drawing","coloring","dot-to-dot","building","tetris","magic-fairy-tales","circus-show","logic-games","art-craft","superheroes","fairy-tale-chars","famous-paintings","tech-logos","color-mix","puppet-story","melody-maker","craft-guide","avatar-maker"],
   },
   nature: {
     title: "טבע ואוכל",
