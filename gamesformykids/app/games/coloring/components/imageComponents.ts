@@ -68,4 +68,5 @@ export const IMAGE_COMPONENTS: Record<ImageId, ImageMeta> = {
     groups: [{ id: 'boat-sails-all', name: 'כל המפרשים', members: ['boat-sail-main', 'boat-sail-small'] }],
   },
   forest: { kind: 'floodfill', src: '/images/coloring-scenes/forest.svg', width: 800, height: 800 },
+  'forest-friends': { kind: 'floodfill', src: '/images/coloring-scenes/forest-friends.png', width: 1408, height: 768 },
 };

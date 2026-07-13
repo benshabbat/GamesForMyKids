@@ -60,7 +60,7 @@ export function ColoringCanvas() {
           </div>
         </>
       ) : (
-        <div className="w-full aspect-square max-w-xs mx-auto">
+        <div className="w-full mx-auto" style={{ aspectRatio: `${meta.width} / ${meta.height}` }}>
           <FloodFillCanvas key={currentImage} imageId={currentImage} meta={meta} />
         </div>
       )}
