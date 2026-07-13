@@ -16,7 +16,7 @@ type AllFills = Record<ImageId, Record<string, string>>;
 
 const EMPTY_FILLS: AllFills = {
   cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
-  star: {}, balloon: {}, robot: {}, dog: {}, boat: {}, forest: {},
+  star: {}, balloon: {}, robot: {}, dog: {}, boat: {}, forest: {}, 'forest-friends': {},
 };
 
 // ── Store ─────────────────────────────────────────────────────────────────────
@@ -67,7 +67,7 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       allFills: EMPTY_FILLS,
       doneImages: {
         cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false,
-        star: false, balloon: false, robot: false, dog: false, boat: false, forest: false,
+        star: false, balloon: false, robot: false, dog: false, boat: false, forest: false, 'forest-friends': false,
       },
       floodFillSnapshots: {},
       floodFillClear: () => {},

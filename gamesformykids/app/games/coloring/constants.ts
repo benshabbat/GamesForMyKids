@@ -26,7 +26,7 @@ export const PALETTE_COLORS = [
 ] as const;
 
 export type ImageId = 'cat' | 'house' | 'sun' | 'butterfly' | 'flower' | 'fish' | 'tree' | 'car'
-  | 'star' | 'balloon' | 'robot' | 'dog' | 'boat' | 'forest';
+  | 'star' | 'balloon' | 'robot' | 'dog' | 'boat' | 'forest' | 'forest-friends';
 
 export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'cat', title: 'חתול', emoji: '🐱' },
@@ -43,4 +43,5 @@ export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'dog', title: 'כלב', emoji: '🐶' },
   { id: 'boat', title: 'סירה', emoji: '⛵' },
   { id: 'forest', title: 'יער קסום', emoji: '🌲' },
+  { id: 'forest-friends', title: 'יער החברים', emoji: '🦊' },
 ];
