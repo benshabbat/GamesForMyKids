@@ -6,6 +6,9 @@ import { floodFill, hexToRgba } from '../lib/floodFill';
 import type { FloodFillImageMeta } from '../types';
 import type { ImageId } from '../constants';
 
+/** Max undo steps kept in memory per mounted scene (dataURL snapshots). */
+const MAX_HISTORY = 15;
+
 interface FloodFillCanvasProps {
   imageId: ImageId;
   meta: FloodFillImageMeta;
@@ -13,9 +16,18 @@ interface FloodFillCanvasProps {
 
 export function FloodFillCanvas({ imageId, meta }: FloodFillCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const historyRef = useRef<string[]>([]);
   const selectedColor = useColoringStore((s) => s.selectedColor);
   const registerFloodFillClear = useColoringStore((s) => s.registerFloodFillClear);
+  const registerFloodFillUndo = useColoringStore((s) => s.registerFloodFillUndo);
+  const setFloodFillCanUndo = useColoringStore((s) => s.setFloodFillCanUndo);
   const saveFloodFillSnapshot = useColoringStore((s) => s.saveFloodFillSnapshot);
+
+  const pushHistory = (dataUrl: string) => {
+    historyRef.current.push(dataUrl);
+    if (historyRef.current.length > MAX_HISTORY) historyRef.current.shift();
+    setFloodFillCanUndo(true);
+  };
 
   // Load the pristine source (or a saved snapshot) once on mount.
   useEffect(() => {
@@ -30,12 +42,29 @@ export function FloodFillCanvas({ imageId, meta }: FloodFillCanvasProps) {
       img.src = src;
     };
 
+    historyRef.current = [];
+    setFloodFillCanUndo(false);
+
     const snapshot = useColoringStore.getState().floodFillSnapshots[imageId];
     drawSrc(snapshot ?? meta.src);
 
-    registerFloodFillClear(() => drawSrc(meta.src));
+    registerFloodFillClear(() => {
+      if (canvasRef.current) pushHistory(canvasRef.current.toDataURL('image/png'));
+      drawSrc(meta.src);
+    });
 
-    return () => registerFloodFillClear(() => {});
+    registerFloodFillUndo(() => {
+      const previous = historyRef.current.pop();
+      if (!previous) return;
+      setFloodFillCanUndo(historyRef.current.length > 0);
+      drawSrc(previous);
+      saveFloodFillSnapshot(imageId, previous);
+    });
+
+    return () => {
+      registerFloodFillClear(() => {});
+      registerFloodFillUndo(() => {});
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [imageId]);
 
@@ -53,6 +82,8 @@ export function FloodFillCanvas({ imageId, meta }: FloodFillCanvasProps) {
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const changed = floodFill(imageData, x, y, hexToRgba(selectedColor));
     if (!changed) return;
+
+    pushHistory(canvas.toDataURL('image/png'));
 
     ctx.putImageData(imageData, 0, 0);
     saveFloodFillSnapshot(imageId, canvas.toDataURL('image/png'));
