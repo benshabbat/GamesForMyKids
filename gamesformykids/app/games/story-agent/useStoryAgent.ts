@@ -11,9 +11,34 @@ export function useStoryAgent() {
   const [current, setCurrent] = useState<StoryResponse | null>(null);
   const [pointsAwarded, setPointsAwarded] = useState<number | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageLoading, setImageLoading] = useState(false);
 
   const historyRef = useRef<HistoryEntry[]>([]);
   const lastChoiceRef = useRef<string | undefined>(undefined);
+  const imageRequestIdRef = useRef(0);
+
+  const fetchImage = useCallback(async (prompt: string) => {
+    const requestId = ++imageRequestIdRef.current;
+    setImageUrl(null);
+    setImageLoading(true);
+    try {
+      const res = await fetch('/api/story-agent/image', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prompt }),
+      });
+      const data: { success: boolean; imageDataUrl?: string } = await res.json();
+      if (requestId !== imageRequestIdRef.current) return;
+      if (data.success && data.imageDataUrl) {
+        setImageUrl(data.imageDataUrl);
+      }
+    } catch {
+      // Illustration is decorative — a failure here shouldn't block the story.
+    } finally {
+      if (requestId === imageRequestIdRef.current) setImageLoading(false);
+    }
+  }, []);
 
   const requestNext = useCallback(async (userChoice: string | undefined) => {
     lastChoiceRef.current = userChoice;
@@ -41,11 +66,12 @@ export function useStoryAgent() {
         setPointsAwarded(data.actionData.newPointsBalance);
       }
       setPhase(data.agentResponse.isEnding ? 'ending' : 'story');
+      fetchImage(data.agentResponse.imagePrompt);
     } catch {
       setError('בעיה בחיבור לשרת, נסה שוב');
       setPhase('error');
     }
-  }, []);
+  }, [fetchImage]);
 
   const startStory = useCallback(() => {
     historyRef.current = [];
@@ -65,11 +91,25 @@ export function useStoryAgent() {
   const returnToMenu = useCallback(() => {
     historyRef.current = [];
     lastChoiceRef.current = undefined;
+    imageRequestIdRef.current++;
     setPhase('menu');
     setCurrent(null);
     setPointsAwarded(null);
     setError(null);
+    setImageUrl(null);
+    setImageLoading(false);
   }, []);
 
-  return { phase, current, pointsAwarded, error, startStory, choose, retry, returnToMenu };
+  return {
+    phase,
+    current,
+    pointsAwarded,
+    error,
+    imageUrl,
+    imageLoading,
+    startStory,
+    choose,
+    retry,
+    returnToMenu,
+  };
 }
