@@ -26,7 +26,10 @@ export const PALETTE_COLORS = [
 ] as const;
 
 export type ImageId = 'cat' | 'house' | 'sun' | 'butterfly' | 'flower' | 'fish' | 'tree' | 'car'
-  | 'star' | 'balloon' | 'robot' | 'dog' | 'boat' | 'forest' | 'forest-friends';
+  | 'star' | 'balloon' | 'robot' | 'dog' | 'boat' | 'forest' | 'forest-friends'
+  | 'fruits' | 'superheroes-team' | 'lion' | 'woodland-park' | 'superheroes-kids'
+  | 'superheroes-team-2' | 'elephant' | 'jungle-animals' | 'jungle-animals-2' | 'giraffe'
+  | 'princess-garden' | 'woodland-friends' | 'princess-library' | 'princess-picnic' | 'jungle-panda';
 
 export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'cat', title: 'חתול', emoji: '🐱' },
@@ -44,4 +47,19 @@ export const IMAGES: { id: ImageId; title: string; emoji: string }[] = [
   { id: 'boat', title: 'סירה', emoji: '⛵' },
   { id: 'forest', title: 'יער קסום', emoji: '🌲' },
   { id: 'forest-friends', title: 'יער החברים', emoji: '🦊' },
+  { id: 'fruits', title: 'פירות טעימים', emoji: '🍓' },
+  { id: 'superheroes-team', title: 'גיבורי-על', emoji: '🦸' },
+  { id: 'lion', title: 'אריה', emoji: '🦁' },
+  { id: 'woodland-park', title: 'פארק ביער', emoji: '🐿️' },
+  { id: 'superheroes-kids', title: 'גיבורי-על צעירים', emoji: '🦸‍♀️' },
+  { id: 'superheroes-team-2', title: 'גיבורי-על 2', emoji: '🦹' },
+  { id: 'elephant', title: 'פיל', emoji: '🐘' },
+  { id: 'jungle-animals', title: 'חיות ג\'ונגל', emoji: '🐒' },
+  { id: 'jungle-animals-2', title: 'חיות ג\'ונגל 2', emoji: '🦓' },
+  { id: 'giraffe', title: 'ג\'ירפה', emoji: '🦒' },
+  { id: 'princess-garden', title: 'נסיכה בגן קסום', emoji: '👸' },
+  { id: 'woodland-friends', title: 'חברים ביער', emoji: '🦔' },
+  { id: 'princess-library', title: 'ספריית הנסיכה', emoji: '📚' },
+  { id: 'princess-picnic', title: 'פיקניק נסיכות', emoji: '🧺' },
+  { id: 'jungle-panda', title: 'ג\'ונגל עם פנדה', emoji: '🐼' },
 ];
