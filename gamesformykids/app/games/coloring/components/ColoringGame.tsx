@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ColoringHeader } from './ColoringHeader';
 import { ColoringImageSelector } from './ColoringImageSelector';
+import { ColoringGeneratedPanel } from './ColoringGeneratedPanel';
 import { ColoringCanvas } from './ColoringCanvas';
 import { ColoringPalette } from './ColoringPalette';
 import { ColoringActions } from './ColoringActions';
@@ -32,6 +33,7 @@ export default function ColoringGame() {
       <div className="max-w-lg mx-auto">
         <ColoringHeader />
         <ColoringImageSelector />
+        <ColoringGeneratedPanel />
         <div
           ref={areaRef}
           className={
