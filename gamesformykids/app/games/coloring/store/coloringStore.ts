@@ -17,6 +17,9 @@ type AllFills = Record<ImageId, Record<string, string>>;
 const EMPTY_FILLS: AllFills = {
   cat: {}, house: {}, sun: {}, butterfly: {}, flower: {}, fish: {}, tree: {}, car: {},
   star: {}, balloon: {}, robot: {}, dog: {}, boat: {}, forest: {}, 'forest-friends': {},
+  fruits: {}, 'superheroes-team': {}, lion: {}, 'woodland-park': {}, 'superheroes-kids': {},
+  'superheroes-team-2': {}, elephant: {}, 'jungle-animals': {}, 'jungle-animals-2': {}, giraffe: {},
+  'princess-garden': {}, 'woodland-friends': {}, 'princess-library': {}, 'princess-picnic': {}, 'jungle-panda': {},
 };
 
 /** Max undo steps kept per image, for either picture kind. */
@@ -96,6 +99,9 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       doneImages: {
         cat: false, house: false, sun: false, butterfly: false, flower: false, fish: false, tree: false, car: false,
         star: false, balloon: false, robot: false, dog: false, boat: false, forest: false, 'forest-friends': false,
+        fruits: false, 'superheroes-team': false, lion: false, 'woodland-park': false, 'superheroes-kids': false,
+        'superheroes-team-2': false, elephant: false, 'jungle-animals': false, 'jungle-animals-2': false, giraffe: false,
+        'princess-garden': false, 'woodland-friends': false, 'princess-library': false, 'princess-picnic': false, 'jungle-panda': false,
       },
       fillHistory: {},
       floodFillSnapshots: {},
