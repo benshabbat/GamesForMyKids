@@ -37,9 +37,19 @@ This is a straight-line dot-to-dot, exactly like a printed kids' worksheet — n
 5. **`closed: true`** for essentially everything (a full outline reads better than an open zigzag) unless the user specifically wants an open-path shape.
 6. If you want to *compute* points instead of hand-placing them (e.g. a star, a polygon, a spiral), simple polar-coordinate math (`x = cx + r*cos(θ), y = cy + r*sin(θ)`) is fine and matches how the existing `star` entry was built — show your reasoning in the points you pick, don't guess-and-check blindly.
 
+## Tracing from a reference image
+
+If the user gives you (or points you at) a source picture — a coloring-page illustration, a photo, anything with a clear outline — instead of inventing points from scratch:
+
+1. Save the source image into `app/games/dot-to-dot/reference-images/<id>.png` (create the folder if it doesn't exist yet). This folder is for your own reference only — it is never imported or shipped by the game engine.
+2. View the image and read off the outline's key vertices in the image's own pixel space (displayed-image coordinates), walking it in one continuous direction.
+3. Convert to the picture's `0 0 300 300` viewBox with a single uniform scale factor (don't stretch X and Y independently, or the shape distorts): `scale = min(300 / imageWidth, 300 / imageHeight)`, then center the shorter axis with an offset so the shape sits in the middle of the box.
+4. Sanity-check the result before committing to it: write the point list as a small standalone SVG `<polygon>` (a scratch HTML file is fine), screenshot it (e.g. via a quick Playwright script, matching this repo's e2e tooling), and view the screenshot — confirm it actually reads as the intended subject before adding it to `pictures.ts`. Don't skip this step and assume the coordinates are right; a raw straight-line trace is easy to get subtly wrong (wrong walk order, a stray Y-flip, wings that come out lopsided).
+5. It's fine to go a little over the usual 8-16 point range (up to ~20) when a reference image has distinct features worth preserving (e.g. antennae, ears, a forked tail) — the source image is the source of truth for what's recognizable, not the point-count guideline.
+
 ## Task loop for "prepare one page"
 
-1. If the user didn't name a specific subject, ask (or pick one that's clearly missing from the current lineup — check existing `theme`/`id` values first via Grep so you don't duplicate `star`, `rocket`, `cat`, `fish`, `sailboat`, `car`).
+1. If the user didn't name a specific subject, ask (or pick one that's clearly missing from the current lineup — check existing `theme`/`id` values first via Grep so you don't duplicate `star`, `rocket`, `cat`, `fish`, `sailboat`, `car`, `butterfly`).
 2. Author the `DotToDotPicture` object (id, title, emoji, theme, viewBox, points, closed) and append it to `DOT_TO_DOT_PICTURES` in `app/games/dot-to-dot/data/pictures.ts`. If the subject needs a new theme not in `DotToDotTheme`/`DOT_TO_DOT_THEMES` (`app/games/dot-to-dot/types.ts` + `data/pictures.ts`), add it there too — but confirm with the user first since it's a small scope expansion beyond "one picture."
 3. Run `cd gamesformykids && npx tsc --noEmit` — zero errors.
 4. Report back: the picture's `id`/`title`/`theme`, point count, and a one-line description of the silhouette shape traced (so the user can sanity-check it without opening a browser).
