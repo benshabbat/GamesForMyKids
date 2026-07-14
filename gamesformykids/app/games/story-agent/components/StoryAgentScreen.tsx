@@ -9,6 +9,8 @@ interface Props {
   current: StoryResponse | null;
   pointsAwarded: number | null;
   error: string | null;
+  imageUrl: string | null;
+  imageLoading: boolean;
   onChoice: (choice: string) => void;
   onRetry: () => void;
   onMenu: () => void;
@@ -19,6 +21,8 @@ export default function StoryAgentScreen({
   current,
   pointsAwarded,
   error,
+  imageUrl,
+  imageLoading,
   onChoice,
   onRetry,
   onMenu,
@@ -82,7 +86,20 @@ export default function StoryAgentScreen({
 
           {(phase === 'story' || phase === 'ending') && current && (
             <>
-              <div className="text-7xl">{phase === 'ending' ? '🎉' : '📜'}</div>
+              {imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element -- data: URI, next/image can't optimize it
+                <img
+                  src={imageUrl}
+                  alt=""
+                  className="w-full aspect-square rounded-2xl object-cover bg-indigo-50"
+                />
+              ) : imageLoading ? (
+                <div className="w-full aspect-square rounded-2xl bg-indigo-50 flex items-center justify-center animate-pulse">
+                  <span className="text-5xl">🎨</span>
+                </div>
+              ) : (
+                <div className="text-7xl">{phase === 'ending' ? '🎉' : '📜'}</div>
+              )}
               <p className="text-xl text-gray-700 text-center leading-relaxed font-medium">
                 {current.storyText}
               </p>
