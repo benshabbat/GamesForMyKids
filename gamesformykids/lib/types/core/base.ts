@@ -300,4 +300,6 @@ export type GameType =
   // Word clicker — tap floating letters in order to spell target Hebrew words
   | 'word-clicker'
   // Hebrew racer — obstacle course with Hebrew Q&A to jump over barriers
-  | 'hebrew-racer';
+  | 'hebrew-racer'
+  // Story agent — Gemini-powered interactive story that adapts to the child's choices
+  | 'story-agent';

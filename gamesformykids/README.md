@@ -142,6 +142,16 @@ NEXT_PUBLIC_SUPABASE_URL=https://xxx.supabase.co
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your-anon-key
 ```
 
+## Story Agent (Gemini)
+
+The `/api/story-agent` route (interactive AI story game) requires a Gemini API key:
+
+```env
+GEMINI_API_KEY=your-gemini-api-key
+```
+
+Get a key at [Google AI Studio](https://aistudio.google.com/apikey).
+
 ## Scripts
 
 ```bash
