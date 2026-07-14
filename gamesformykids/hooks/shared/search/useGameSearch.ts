@@ -1,10 +1,12 @@
 'use client';
-import { useState, useEffect, useMemo, useCallback } from 'react';
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { GamesRegistry, GameRegistration } from '@/lib/registry/gamesRegistry';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { useHomePageStore } from '@/lib/stores';
 import { useAgeFilterStore, isAgeAppropriate } from '@/lib/stores/ageFilterStore';
+
+const URL_SYNC_DEBOUNCE_MS = 300;
 
 export function useGameSearch() {
   const router = useRouter();
@@ -12,6 +14,7 @@ export function useGameSearch() {
   const ageRange = useAgeFilterStore((s) => s.ageRange);
   const [query, setQueryState] = useState('');
   const [activeCat, setActiveCatState] = useState<string | null>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
@@ -23,7 +26,14 @@ export function useGameSearch() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const updateURL = useCallback(
+  // Clear any pending debounced URL sync on unmount.
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
+  const writeURL = useCallback(
     (q: string, cat: string | null) => {
       const params = new URLSearchParams();
       if (q) params.set('q', q);
@@ -35,6 +45,17 @@ export function useGameSearch() {
       router.replace(url, { scroll: false });
     },
     [router],
+  );
+
+  // Debounced so fast typing doesn't push a router.replace on every keystroke.
+  const updateURL = useCallback(
+    (q: string, cat: string | null) => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => {
+        writeURL(q, cat);
+      }, URL_SYNC_DEBOUNCE_MS);
+    },
+    [writeURL],
   );
 
   const setQuery = useCallback(
@@ -58,8 +79,9 @@ export function useGameSearch() {
   const clearFilters = useCallback(() => {
     setQueryState('');
     setActiveCatState(null);
-    updateURL('', null);
-  }, [updateURL]);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    writeURL('', null);
+  }, [writeURL]);
 
   const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
 

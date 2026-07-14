@@ -25,6 +25,7 @@ const CategorizedGamesGrid = () => {
         onCatChange={setActiveCat}
         hasFilter={hasFilter}
         onClear={clearFilters}
+        resultsCount={filteredGames.length}
       />
       <CategoryNavigation />
       {!selectedCategory && !showAllGames && !showFavorites && <CategoriesView />}
