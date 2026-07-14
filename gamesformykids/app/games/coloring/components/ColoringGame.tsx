@@ -34,21 +34,25 @@ export default function ColoringGame() {
         <ColoringImageSelector />
         <div
           ref={areaRef}
-          className={`relative ${
+          className={
             isFullscreen
-              ? 'bg-gradient-to-br from-pink-100 via-yellow-50 to-blue-100 p-6 overflow-auto flex flex-col items-center justify-center gap-4'
-              : ''
-          }`}
+              ? 'fixed inset-0 z-40 bg-gradient-to-br from-pink-100 via-yellow-50 to-blue-100 flex flex-col p-2'
+              : 'relative'
+          }
         >
           <button
             onClick={toggleFullscreen}
             aria-label={isFullscreen ? 'צא ממסך מלא' : 'מסך מלא'}
-            className="absolute top-2 left-2 z-20 w-9 h-9 rounded-full text-lg border-2 border-purple-300 bg-white text-purple-700 hover:bg-purple-50 active:scale-95 transition shadow-md"
+            className="absolute top-2 left-2 z-50 w-9 h-9 rounded-full text-lg border-2 border-purple-300 bg-white text-purple-700 hover:bg-purple-50 active:scale-95 transition shadow-md"
           >
             {isFullscreen ? '⤦' : '⛶'}
           </button>
-          <div className={isFullscreen ? 'w-full max-w-lg' : ''}>
+
+          <div className={isFullscreen ? 'flex-1 min-h-0' : ''}>
             <ColoringCanvas isFullscreen={isFullscreen} />
+          </div>
+
+          <div className={isFullscreen ? 'shrink-0' : ''}>
             <ColoringPalette />
             <ColoringActions />
           </div>
