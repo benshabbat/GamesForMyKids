@@ -4,7 +4,18 @@ import StoryAgentMenu from './components/StoryAgentMenu';
 import StoryAgentScreen from './components/StoryAgentScreen';
 
 export default function StoryAgentClient() {
-  const { phase, current, pointsAwarded, error, startStory, choose, retry, returnToMenu } = useStoryAgent();
+  const {
+    phase,
+    current,
+    pointsAwarded,
+    error,
+    imageUrl,
+    imageLoading,
+    startStory,
+    choose,
+    retry,
+    returnToMenu,
+  } = useStoryAgent();
 
   if (phase === 'menu') {
     return <StoryAgentMenu onStart={startStory} />;
@@ -16,6 +27,8 @@ export default function StoryAgentClient() {
       current={current}
       pointsAwarded={pointsAwarded}
       error={error}
+      imageUrl={imageUrl}
+      imageLoading={imageLoading}
       onChoice={choose}
       onRetry={retry}
       onMenu={returnToMenu}
