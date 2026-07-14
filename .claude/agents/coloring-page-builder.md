@@ -127,6 +127,14 @@ Use this instead of the regions pattern when a picture is too detailed to hand-a
 
 Do not touch `lib/floodFill.ts` or `components/FloodFillCanvas.tsx` for a new scene — they're generic. Only touch them if the *algorithm* needs to change (e.g. tolerance tuning) or you're adding a genuinely new interaction (per-stroke undo, completion detection) — confirm with the user first, these are explicit v1 non-goals.
 
+## Undo
+
+Both picture kinds support "↩️ בטל" (undo), via `coloringStore.undo()`, which branches on `IMAGE_COMPONENTS[currentImage].kind` exactly like `clearImage()` does:
+- **Regions:** `fillHistory: Partial<Record<ImageId, Record<string,string>[]>>` in the store is a per-image undo stack (capped at `MAX_HISTORY = 20`) — `applyFill` (used by both `selectRegion`/`fillGroup`) and `clearImage` each push the *pre-change* `allFills[currentImage]` onto it before mutating, so undo can restore an accidental clear, not just the last single-region fill.
+- **Flood-fill:** history lives as a local `historyRef` (dataURL stack, capped at `MAX_HISTORY = 15`) inside the currently-mounted `FloodFillCanvas`, not in the store — mirrors how `floodFillClear` already works. `registerFloodFillUndo` follows the exact same callback-registration idiom as `registerFloodFillClear`. A reactive `floodFillCanUndo` boolean in the store lets `ColoringActions`'s button disable itself correctly for this mode (region mode instead derives `canUndo` directly from `fillHistory[currentImage]?.length`, since that lives in the store already).
+
+Adding a new picture (either kind) requires **no changes** to make undo work — it's generic infrastructure, same as flood-fill's `clear`.
+
 ## Scaling to a large picture library (many templates, gallery-style)
 
 If asked to grow this into something closer to a large coloring-book site (dozens/hundreds of templates, searchable gallery, categories) rather than a handful of hand-picked pictures — **stop and confirm with the user before restructuring**, this is a bigger architectural change:
@@ -137,6 +145,6 @@ If asked to grow this into something closer to a large coloring-book site (dozen
 ## Before reporting done
 1. `cd gamesformykids && npx tsc --noEmit` — zero TS errors.
 2. `npm run build` — zero build errors.
-3. **Regions picture:** new picture appears in the selector, every region fills on click, any group button fills all its members, the "כל הכבוד" celebration triggers once every region has a fill, "צבע שוב" resets it.
-4. **Flood-fill scene:** new scene appears in the selector; clicking inside an enclosed shape fills only that shape; clicking exactly on a black outline is a no-op; re-clicking an already-filled shape with a new color re-floods it without leaking into neighbors; a shape adjacent to a differently-filled shape doesn't bleed across their shared outline; "🗑️ נקה" resets the scene to pristine blank line art; filling a few shapes then switching to another picture and back preserves the flood-fill progress.
+3. **Regions picture:** new picture appears in the selector, every region fills on click, any group button fills all its members, the "כל הכבוד" celebration triggers once every region has a fill, "צבע שוב"/"🗑️ נקה" resets it, "↩️ בטל" undoes fills one step at a time and disables itself when there's nothing left to undo, and can also undo a "🗑️ נקה" clear.
+4. **Flood-fill scene:** new scene appears in the selector; clicking inside an enclosed shape fills only that shape; clicking exactly on a black outline is a no-op; re-clicking an already-filled shape with a new color re-floods it without leaking into neighbors; a shape adjacent to a differently-filled shape doesn't bleed across their shared outline; "🗑️ נקה" resets the scene to pristine blank line art; "↩️ בטל" undoes the last fill (or restores a "🗑️ נקה" clear) and disables itself with nothing to undo; filling a few shapes then switching to another picture and back preserves the flood-fill progress (but resets the undo history for that scene, by design).
 5. Don't touch `app/games/drawing/` — freehand drawing is a separate game/store, not this one.
