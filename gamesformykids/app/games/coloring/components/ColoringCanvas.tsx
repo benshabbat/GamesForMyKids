@@ -29,8 +29,14 @@ export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
   const zoomIn = () => setZoom((z) => Math.min(MAX_ZOOM, +(z + ZOOM_STEP).toFixed(2)));
   const zoomOut = () => setZoom((z) => Math.max(MIN_ZOOM, +(z - ZOOM_STEP).toFixed(2)));
 
+  // In fullscreen, the picture should use as much of the screen as possible: base
+  // (zoom=1) size fits within ~85% of viewport width or ~78% of viewport height,
+  // whichever the picture's own aspect ratio makes the tighter constraint.
+  const ratio = meta.kind === 'floodfill' ? meta.width / meta.height : 1;
+  const fullscreenWidth = `calc(min(85vw, 78vh * ${ratio}) * ${zoom})`;
+
   return (
-    <div className="relative bg-white rounded-3xl shadow-xl p-4 mb-4 border-4 border-purple-200">
+    <div className={isFullscreen ? 'relative h-full flex flex-col' : 'relative bg-white rounded-3xl shadow-xl p-4 mb-4 border-4 border-purple-200'}>
       {showDone && (
         <div className="absolute inset-0 bg-white/90 rounded-3xl flex flex-col items-center justify-center z-10">
           <div className="text-6xl mb-2">🌟</div>
@@ -44,7 +50,7 @@ export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
         </div>
       )}
 
-      <div className="flex items-center justify-center gap-2 mb-3">
+      <div className={isFullscreen ? 'flex items-center justify-center gap-2 py-1 shrink-0' : 'flex items-center justify-center gap-2 mb-3'}>
         <button
           onClick={zoomOut}
           disabled={zoom <= MIN_ZOOM}
@@ -74,22 +80,31 @@ export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
         )}
       </div>
 
-      <div className="overflow-auto rounded-2xl" style={{ maxHeight: isFullscreen ? '80vh' : '65vh' }}>
+      <div
+        className={isFullscreen ? 'flex-1 min-h-0 overflow-auto flex items-center justify-center' : 'overflow-auto rounded-2xl'}
+        style={!isFullscreen ? { maxHeight: '65vh' } : undefined}
+      >
         {meta.kind === 'regions' ? (
-          <div className="mx-auto aspect-square" style={{ width: `${zoom * 320}px` }}>
+          <div
+            className="aspect-square shrink-0"
+            style={{ width: isFullscreen ? fullscreenWidth : `${zoom * 320}px` }}
+          >
             <meta.Component fills={fills} onFill={(id) => selectRegion(id, meta.regions)} />
           </div>
         ) : (
           <div
-            className="mx-auto"
-            style={{ width: `${zoom * 100}%`, aspectRatio: `${meta.width} / ${meta.height}` }}
+            className="shrink-0"
+            style={{
+              width: isFullscreen ? fullscreenWidth : `${zoom * 100}%`,
+              aspectRatio: `${meta.width} / ${meta.height}`,
+            }}
           >
             <FloodFillCanvas key={currentImage} imageId={currentImage} meta={meta} />
           </div>
         )}
       </div>
 
-      {meta.kind === 'regions' && (
+      {meta.kind === 'regions' && !isFullscreen && (
         <div className="flex flex-wrap gap-2 justify-center mt-3">
           {/* Group buttons – fill all members at once */}
           {meta.groups?.map(({ id, name, members }) => (
