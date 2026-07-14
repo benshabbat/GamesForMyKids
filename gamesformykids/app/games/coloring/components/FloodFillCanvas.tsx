@@ -4,13 +4,13 @@ import { useEffect, useRef } from 'react';
 import { useColoringStore } from '../store/coloringStore';
 import { floodFill, hexToRgba } from '../lib/floodFill';
 import type { FloodFillImageMeta } from '../types';
-import type { ImageId } from '../constants';
 
 /** Max undo steps kept in memory per mounted scene (dataURL snapshots). */
 const MAX_HISTORY = 15;
 
 interface FloodFillCanvasProps {
-  imageId: ImageId;
+  /** Any string key (a static ImageId, or a custom/generated picture's own id). */
+  imageId: string;
   meta: FloodFillImageMeta;
 }
 

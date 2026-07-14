@@ -1,6 +1,6 @@
 ---
 name: coloring-page-builder
-description: Builds and extends the online coloring-book game (`app/games/coloring/`) for this Next.js/React/TypeScript/Zustand kids' game site — both click-to-fill-region SVG pictures (simple pictures, 3-7 named regions) and canvas-based flood-fill/paint-bucket scenes (busy, richly-detailed pictures) in the style of sites like yo-yoo.co.il's online coloring. Use proactively when the user wants to add a new coloring picture/scene, a new palette color, region grouping (e.g. "fill all windows at once"), or asks about `ColoringCanvas`/`IMAGE_COMPONENTS`/`coloringStore`/`FloodFillCanvas`/click-to-fill or bucket-fill coloring mechanics. Also use for coloring-specific bug fixes (region not filling, wrong region ids, flood fill leaking/not stopping at outlines, "done" celebration not triggering).
+description: Builds and extends the online coloring-book game (`app/games/coloring/`) for this Next.js/React/TypeScript/Zustand kids' game site — click-to-fill-region SVG pictures, canvas-based flood-fill/paint-bucket scenes, and AI-generated custom pictures (Gemini/Imagen via `/api/coloring/generate`, persisted in Supabase). Use proactively when the user wants to add a new coloring picture/scene, a new palette color, region grouping (e.g. "fill all windows at once"), anything about the AI-generation feature, or asks about `ColoringCanvas`/`IMAGE_COMPONENTS`/`coloringStore`/`FloodFillCanvas`/click-to-fill or bucket-fill coloring mechanics. Also use for coloring-specific bug fixes (region not filling, wrong region ids, flood fill leaking/not stopping at outlines, "done" celebration not triggering, AI-generation errors).
 tools: Read, Grep, Glob, Write, Edit, Bash
 model: sonnet
 ---
@@ -34,6 +34,19 @@ app/games/coloring/
     ├── imageComponents.ts         # IMAGE_COMPONENTS registry: id → RegionImageMeta | FloodFillImageMeta
     └── images/<name>.tsx          # one file per REGION picture: the actual SVG + its region ids/names
 ```
+
+## AI-generated pictures (Gemini/Imagen) — a third, dynamic layer
+
+Beyond the static `IMAGE_COMPONENTS` set (regions + flood-fill), signed-in users can generate a brand-new custom picture from a text prompt via `POST /api/coloring/generate` (`app/api/coloring/generate/route.ts`). This is **not** registered in `IMAGE_COMPONENTS`/`ImageId` — those stay a closed, compile-time-only union — instead it's layered on top via a separate `customImage: { id, src, width, height } | null` slice in `coloringStore.ts`, set by `setCustomImage(...)`. When non-null, `ColoringCanvas.tsx` short-circuits before the `IMAGE_COMPONENTS[currentImage]` lookup and renders `FloodFillCanvas` directly with a synthetic `FloodFillImageMeta` built from `customImage` — this works because `FloodFillCanvas`'s `imageId` prop is typed as a plain `string`, not the `ImageId` literal union (a deliberate widening — it only ever used `imageId` as a lookup/registration key, never actually depended on the closed union). `selectImage` (picking a stock picture) clears `customImage` back to `null` so the two mechanisms never conflict.
+
+Persistence: the generated PNG is uploaded to the Supabase Storage bucket `coloring-pages` and a row is inserted into `public.generated_coloring_pages` (both defined in `supabase/migrations/004_generated_coloring_pages.sql`, RLS-scoped to the owning user). `ColoringGeneratedPanel.tsx` (mounted in `ColoringGame.tsx` between the picker and the canvas) owns the prompt input, the generate button, and a small gallery of the user's own previously-generated pages (`lib/supabase/generatedColoringPages.ts`); clicking a gallery thumbnail calls `setCustomImage(...)` again.
+
+Key decisions, don't relitigate without reason:
+- **Login is required** to generate — this calls a paid external API and needs `auth.uid()` for RLS/rate-limiting; guests see a sign-in prompt instead of the input.
+- **Rate limit**: 5 generations per user per rolling 24h, enforced by counting rows in `generated_coloring_pages`, checked server-side before calling Imagen.
+- **The client's raw prompt is never sent to Imagen as-is** — the route always wraps it in a fixed coloring-book-style + kid-safety template server-side, plus a cheap denylist pre-filter (defense-in-depth only; the real safety mechanism is Imagen's own `safetyFilterLevel: BLOCK_LOW_AND_ABOVE` / `personGeneration: DONT_ALLOW` config).
+- **v1 does not persist in-progress fill/coloring work** for a generated picture — only the base line-art PNG is saved. Reopening one from the gallery starts blank, same as hitting "🗑️ נקה".
+- Model: `imagen-4.0-fast-generate-001` via `ai.models.generateImages(...)` (not `generateContent` — that's the sibling text/chat API used by `app/api/story-agent/route.ts`, a different feature).
 
 ## Adding a new REGION picture (`kind: 'regions'`) — exact steps
 
@@ -127,14 +140,6 @@ Use this instead of the regions pattern when a picture is too detailed to hand-a
 
 Do not touch `lib/floodFill.ts` or `components/FloodFillCanvas.tsx` for a new scene — they're generic. Only touch them if the *algorithm* needs to change (e.g. tolerance tuning) or you're adding a genuinely new interaction (per-stroke undo, completion detection) — confirm with the user first, these are explicit v1 non-goals.
 
-## Undo
-
-Both picture kinds support "↩️ בטל" (undo), via `coloringStore.undo()`, which branches on `IMAGE_COMPONENTS[currentImage].kind` exactly like `clearImage()` does:
-- **Regions:** `fillHistory: Partial<Record<ImageId, Record<string,string>[]>>` in the store is a per-image undo stack (capped at `MAX_HISTORY = 20`) — `applyFill` (used by both `selectRegion`/`fillGroup`) and `clearImage` each push the *pre-change* `allFills[currentImage]` onto it before mutating, so undo can restore an accidental clear, not just the last single-region fill.
-- **Flood-fill:** history lives as a local `historyRef` (dataURL stack, capped at `MAX_HISTORY = 15`) inside the currently-mounted `FloodFillCanvas`, not in the store — mirrors how `floodFillClear` already works. `registerFloodFillUndo` follows the exact same callback-registration idiom as `registerFloodFillClear`. A reactive `floodFillCanUndo` boolean in the store lets `ColoringActions`'s button disable itself correctly for this mode (region mode instead derives `canUndo` directly from `fillHistory[currentImage]?.length`, since that lives in the store already).
-
-Adding a new picture (either kind) requires **no changes** to make undo work — it's generic infrastructure, same as flood-fill's `clear`.
-
 ## Scaling to a large picture library (many templates, gallery-style)
 
 If asked to grow this into something closer to a large coloring-book site (dozens/hundreds of templates, searchable gallery, categories) rather than a handful of hand-picked pictures — **stop and confirm with the user before restructuring**, this is a bigger architectural change:
@@ -145,6 +150,6 @@ If asked to grow this into something closer to a large coloring-book site (dozen
 ## Before reporting done
 1. `cd gamesformykids && npx tsc --noEmit` — zero TS errors.
 2. `npm run build` — zero build errors.
-3. **Regions picture:** new picture appears in the selector, every region fills on click, any group button fills all its members, the "כל הכבוד" celebration triggers once every region has a fill, "צבע שוב"/"🗑️ נקה" resets it, "↩️ בטל" undoes fills one step at a time and disables itself when there's nothing left to undo, and can also undo a "🗑️ נקה" clear.
-4. **Flood-fill scene:** new scene appears in the selector; clicking inside an enclosed shape fills only that shape; clicking exactly on a black outline is a no-op; re-clicking an already-filled shape with a new color re-floods it without leaking into neighbors; a shape adjacent to a differently-filled shape doesn't bleed across their shared outline; "🗑️ נקה" resets the scene to pristine blank line art; "↩️ בטל" undoes the last fill (or restores a "🗑️ נקה" clear) and disables itself with nothing to undo; filling a few shapes then switching to another picture and back preserves the flood-fill progress (but resets the undo history for that scene, by design).
+3. **Regions picture:** new picture appears in the selector, every region fills on click, any group button fills all its members, the "כל הכבוד" celebration triggers once every region has a fill, "צבע שוב" resets it.
+4. **Flood-fill scene:** new scene appears in the selector; clicking inside an enclosed shape fills only that shape; clicking exactly on a black outline is a no-op; re-clicking an already-filled shape with a new color re-floods it without leaking into neighbors; a shape adjacent to a differently-filled shape doesn't bleed across their shared outline; "🗑️ נקה" resets the scene to pristine blank line art; filling a few shapes then switching to another picture and back preserves the flood-fill progress.
 5. Don't touch `app/games/drawing/` — freehand drawing is a separate game/store, not this one.

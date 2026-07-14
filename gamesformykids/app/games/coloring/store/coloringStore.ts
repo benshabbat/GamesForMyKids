@@ -22,6 +22,14 @@ const EMPTY_FILLS: AllFills = {
 /** Max undo steps kept per image, for either picture kind. */
 const MAX_HISTORY = 20;
 
+/** A Gemini-generated (or otherwise custom) flood-fill picture, layered on top of the static IMAGE_COMPONENTS set. */
+export interface CustomImage {
+  id: string;
+  src: string;
+  width: number;
+  height: number;
+}
+
 // ── Store ─────────────────────────────────────────────────────────────────────
 
 interface ColoringState {
@@ -31,13 +39,15 @@ interface ColoringState {
   doneImages: Record<ImageId, boolean>;
   /** region-mode undo stack: previous allFills[image] states, most recent last */
   fillHistory: Partial<Record<ImageId, Record<string, string>[]>>;
-  /** dataURL snapshot per flood-fill image, so switching pictures doesn't lose progress */
-  floodFillSnapshots: Partial<Record<ImageId, string>>;
+  /** dataURL snapshot per flood-fill image (static or custom), so switching pictures doesn't lose progress */
+  floodFillSnapshots: Partial<Record<string, string>>;
   /** imperative reset/undo registered by the currently-mounted FloodFillCanvas */
   floodFillClear: () => void;
   floodFillUndo: () => void;
   /** reactive flag so the Undo button can disable itself in flood-fill mode */
   floodFillCanUndo: boolean;
+  /** non-null when viewing a Gemini-generated picture instead of a static one */
+  customImage: CustomImage | null;
 }
 
 interface ColoringActions {
@@ -51,7 +61,8 @@ interface ColoringActions {
   registerFloodFillClear: (fn: () => void) => void;
   registerFloodFillUndo: (fn: () => void) => void;
   setFloodFillCanUndo: (can: boolean) => void;
-  saveFloodFillSnapshot: (id: ImageId, dataUrl: string) => void;
+  saveFloodFillSnapshot: (id: string, dataUrl: string) => void;
+  setCustomImage: (img: CustomImage | null) => void;
 }
 
 export const useColoringStore = makeStore<ColoringState & ColoringActions>(
@@ -91,9 +102,12 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       floodFillClear: () => {},
       floodFillUndo: () => {},
       floodFillCanUndo: false,
+      customImage: null,
 
       selectImage: (id) =>
-        set({ currentImage: id }, false, 'selectImage'),
+        set({ currentImage: id, customImage: null }, false, 'selectImage'),
+
+      setCustomImage: (img) => set({ customImage: img }, false, 'setCustomImage'),
 
       selectColor: (hex) => set({ selectedColor: hex }, false, 'selectColor'),
 
@@ -111,13 +125,14 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       },
 
       clearImage: () => {
-        const { currentImage } = get();
-        if (IMAGE_COMPONENTS[currentImage].kind === 'floodfill') {
+        const { currentImage, customImage } = get();
+        if (customImage || IMAGE_COMPONENTS[currentImage].kind === 'floodfill') {
+          const key = customImage?.id ?? currentImage;
           get().floodFillClear();
           set(
             (state) => {
               const next = { ...state.floodFillSnapshots };
-              delete next[currentImage];
+              delete next[key];
               return { floodFillSnapshots: next };
             },
             false,
@@ -141,8 +156,8 @@ export const useColoringStore = makeStore<ColoringState & ColoringActions>(
       },
 
       undo: () => {
-        const { currentImage } = get();
-        if (IMAGE_COMPONENTS[currentImage].kind === 'floodfill') {
+        const { currentImage, customImage } = get();
+        if (customImage || IMAGE_COMPONENTS[currentImage].kind === 'floodfill') {
           get().floodFillUndo();
           return;
         }
