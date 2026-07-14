@@ -152,6 +152,15 @@ GEMINI_API_KEY=your-gemini-api-key
 
 Get a key at [Google AI Studio](https://aistudio.google.com/apikey).
 
+## AI-Generated Coloring Pages (Gemini)
+
+The `/api/coloring/generate` route (custom coloring pages from a text prompt) reuses the same `GEMINI_API_KEY` above, plus a dedicated Supabase Storage bucket and table created by `supabase/migrations/004_generated_coloring_pages.sql`:
+
+- Storage bucket `coloring-pages` (public read, per-user write via RLS)
+- Table `public.generated_coloring_pages` (one row per generated page, RLS-scoped to its owner)
+
+Apply the migration against your Supabase project before using this feature. Generation requires a signed-in user (guests are shown a sign-in prompt instead).
+
 ## Scripts
 
 ```bash

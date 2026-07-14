@@ -15,16 +15,20 @@ interface ColoringCanvasProps {
 
 export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
   const currentImage = useColoringStore((s) => s.currentImage);
+  const customImage = useColoringStore((s) => s.customImage);
   const fills = useColoringStore((s) => s.allFills[s.currentImage]);
-  const showDone = useColoringStore((s) => s.doneImages[s.currentImage]);
+  const showDone = useColoringStore((s) => !s.customImage && s.doneImages[s.currentImage]);
   const selectRegion = useColoringStore((s) => s.selectRegion);
   const fillGroup = useColoringStore((s) => s.fillGroup);
   const clearImage = useColoringStore((s) => s.clearImage);
 
-  const meta = IMAGE_COMPONENTS[currentImage];
+  const meta = customImage
+    ? ({ kind: 'floodfill', src: customImage.src, width: customImage.width, height: customImage.height } as const)
+    : IMAGE_COMPONENTS[currentImage];
+  const canvasKey = customImage?.id ?? currentImage;
 
   const [zoom, setZoom] = useState(1);
-  useEffect(() => setZoom(1), [currentImage]);
+  useEffect(() => setZoom(1), [canvasKey]);
 
   const zoomIn = () => setZoom((z) => Math.min(MAX_ZOOM, +(z + ZOOM_STEP).toFixed(2)));
   const zoomOut = () => setZoom((z) => Math.max(MIN_ZOOM, +(z - ZOOM_STEP).toFixed(2)));
@@ -99,7 +103,7 @@ export function ColoringCanvas({ isFullscreen = false }: ColoringCanvasProps) {
               aspectRatio: `${meta.width} / ${meta.height}`,
             }}
           >
-            <FloodFillCanvas key={currentImage} imageId={currentImage} meta={meta} />
+            <FloodFillCanvas key={canvasKey} imageId={canvasKey} meta={meta} />
           </div>
         )}
       </div>

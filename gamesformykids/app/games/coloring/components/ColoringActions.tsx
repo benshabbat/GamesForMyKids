@@ -5,12 +5,14 @@ import { IMAGE_COMPONENTS } from './imageComponents';
 
 export function ColoringActions() {
   const currentImage = useColoringStore((s) => s.currentImage);
+  const customImage = useColoringStore((s) => s.customImage);
   const clearImage = useColoringStore((s) => s.clearImage);
   const undo = useColoringStore((s) => s.undo);
   const regionHistoryLength = useColoringStore((s) => s.fillHistory[s.currentImage]?.length ?? 0);
   const floodFillCanUndo = useColoringStore((s) => s.floodFillCanUndo);
 
-  const canUndo = IMAGE_COMPONENTS[currentImage].kind === 'regions' ? regionHistoryLength > 0 : floodFillCanUndo;
+  const canUndo =
+    !customImage && IMAGE_COMPONENTS[currentImage].kind === 'regions' ? regionHistoryLength > 0 : floodFillCanUndo;
 
   return (
     <div className="flex gap-3 justify-center">
