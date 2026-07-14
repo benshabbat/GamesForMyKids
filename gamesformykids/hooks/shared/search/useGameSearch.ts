@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect, useMemo, useCallback, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 import { GamesRegistry, GameRegistration } from '@/lib/registry/gamesRegistry';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { useHomePageStore } from '@/lib/stores';
@@ -9,7 +8,6 @@ import { useAgeFilterStore, isAgeAppropriate } from '@/lib/stores/ageFilterStore
 const URL_SYNC_DEBOUNCE_MS = 300;
 
 export function useGameSearch() {
-  const router = useRouter();
   const showAllGamesView = useHomePageStore((s) => s.showAllGamesView);
   const ageRange = useAgeFilterStore((s) => s.ageRange);
   const [query, setQueryState] = useState('');
@@ -33,19 +31,27 @@ export function useGameSearch() {
     };
   }, []);
 
-  const writeURL = useCallback(
-    (q: string, cat: string | null) => {
-      const params = new URLSearchParams();
-      if (q) params.set('q', q);
-      if (cat) params.set('cat', cat);
-      const search = params.toString();
-      const url = search
-        ? `${window.location.pathname}?${search}`
-        : window.location.pathname;
-      router.replace(url, { scroll: false });
-    },
-    [router],
-  );
+  // Writes the URL directly via the native History API instead of
+  // next/navigation's router.replace(). This route never needs a server
+  // re-render for `q`/`cat` (filtering is entirely client-side via
+  // filteredGames below) — it's purely for shareable/bookmarkable links and
+  // back/forward support. Next's router.replace(url, { scroll: false })
+  // still resets window.scrollY to 0 a few hundred ms after the call in
+  // this app's Next 16 setup (verified live: the reset lands right after
+  // router.replace's internal history.replaceState, well after any
+  // content-height change, so it isn't a layout-driven scroll clamp — it's
+  // the router itself, and `scroll: false` doesn't suppress it here).
+  // Bypassing the router for this URL-only sync avoids that reset entirely.
+  const writeURL = useCallback((q: string, cat: string | null) => {
+    const params = new URLSearchParams();
+    if (q) params.set('q', q);
+    if (cat) params.set('cat', cat);
+    const search = params.toString();
+    const url = search
+      ? `${window.location.pathname}?${search}`
+      : window.location.pathname;
+    window.history.replaceState(window.history.state, '', url);
+  }, []);
 
   // Debounced so fast typing doesn't push a router.replace on every keystroke.
   const updateURL = useCallback(
