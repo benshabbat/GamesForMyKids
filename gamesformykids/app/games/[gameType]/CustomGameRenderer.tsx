@@ -91,6 +91,7 @@ const GAME_CLIENTS = {
   'word-clicker':          dynamic(() => import('../word-clicker/WordClickerClient'),                   { ssr: false }),
   'letter-merge':          dynamic(() => import('../letter-merge/LetterMergeClient'),                   { ssr: false }),
   'hebrew-racer':          dynamic(() => import('../hebrew-racer/HebrewRacerClient'),                   { ssr: false }),
+  'story-agent':           dynamic(() => import('../story-agent/StoryAgentClient'),                     { ssr: false }),
 };
 
 export type CustomGameId = keyof typeof GAME_CLIENTS;

@@ -30,6 +30,7 @@ import {
   Grid2x2,
   Hash,
   Dot,
+  Sparkles,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -647,5 +648,17 @@ export const gamesRegistryBatch5: GameRegistration[] = [
     order: 223,
     ageMin: 4,
     contentType: "creative" as const,
+  },
+  {
+    id: "story-agent",
+    title: "סיפור קסום",
+    description: "סיפור אינטראקטיבי חדש בכל פעם — בינה מלאכותית ממשיכה את העלילה לפי הבחירות שלך!",
+    icon: Sparkles,
+    emoji: "🪄",
+    color: "bg-indigo-500 hover:bg-indigo-600",
+    href: "/games/story-agent",
+    available: true,
+    order: 224,
+    ageMin: 6,
   },
 ];

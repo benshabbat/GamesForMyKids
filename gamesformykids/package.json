@@ -25,6 +25,7 @@
     "migrate:all-data": "node scripts/migrate-all-data.mjs"
   },
   "dependencies": {
+    "@google/genai": "^2.11.0",
     "@radix-ui/react-slot": "^1.2.3",
     "@sentry/nextjs": "^10.52.0",
     "@supabase/ssr": "^0.6.1",
