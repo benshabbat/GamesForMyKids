@@ -66,7 +66,6 @@ import { EXOTIC_BIRDS_ITEMS } from "@/lib/constants/gameData/exoticBirds";
 import { BUTTERFLIES_ITEMS } from "@/lib/constants/gameData/butterflies";
 import { ALL_PERSONAL_SAFETY } from "@/lib/constants/gameData/personalSafety";
 import { ISRAELI_COINS } from "@/lib/constants/gameData/coins";
-import { HEBREW_SCRIPT_ITEMS } from "@/lib/constants/gameData/hebrewScript";
 
 import { GameType, BaseGameItem } from "@/lib/types/core/base";
 
@@ -170,5 +169,4 @@ export const GAME_ITEMS_MAP: Partial<Record<GameType, BaseGameItem[]>> = {
   "english-cards": ENGLISH_FIRST_ITEMS, // ✅ משחק אנגלית ראשונה
   "personal-safety": ALL_PERSONAL_SAFETY, // ✅ משחק בטיחות אישית
   "coins-match": ISRAELI_COINS, // ✅ משחק מטבעות ישראליים
-  "hebrew-script": HEBREW_SCRIPT_ITEMS, // ✅ משחק זיהוי אותיות כתב
 } as const;

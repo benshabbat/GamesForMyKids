@@ -25,7 +25,6 @@ export const SUPPORTED_GAMES = [
   'spatial-concepts', 'number-words',
   'visual-opposites', 'english-cards',
   'coins-match',
-  'hebrew-script',
 
   // ── משחקים מותאמים (CustomGameRenderer) ──────────────────────────────────
   'arithmetic', 'balloon-pop', 'brick-breaker', 'bubbles', 'building',
