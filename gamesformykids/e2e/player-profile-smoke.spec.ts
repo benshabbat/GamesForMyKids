@@ -86,7 +86,6 @@ const GAME_IDS = [
   "visual-opposites",
   "english-cards",
   "coins-match",
-  "hebrew-script",
   "arithmetic",
   "balloon-pop",
   "brick-breaker",

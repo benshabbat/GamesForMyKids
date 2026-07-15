@@ -67,7 +67,6 @@ export type AutoGameType =
   | 'visual-opposites'
   | 'english-cards'
   | 'coins-match'
-  | 'hebrew-script'
   | 'personal-safety';
 
 // Reads items from the store at hook-call time — no static game data imported here.
@@ -156,7 +155,6 @@ export const GAME_HOOKS_MAP: Record<AutoGameType, AnyGameHookFn> = {
   'visual-opposites':     g('visual-opposites'),
   'english-cards':        g('english-cards'),
   'coins-match':          g('coins-match'),
-  'hebrew-script':        g('hebrew-script'),
   'personal-safety':      g('personal-safety'),
 };
 

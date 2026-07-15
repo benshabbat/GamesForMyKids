@@ -124,7 +124,6 @@ export const GameCardMap: Partial<Record<GameType, ComponentType<GameItemCardPro
   'visual-opposites': DefaultGameCard,
   'english-cards': DefaultGameCard,
   'coins-match': DefaultGameCard,
-  'hebrew-script': DefaultGameCard,
   'personal-safety': DefaultGameCard,
 };
 

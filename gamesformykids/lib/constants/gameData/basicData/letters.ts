@@ -24,6 +24,12 @@ export const LETTER_CONSTANTS: Record<string, BaseGameItem> = {
   RESH: { name: "resh", hebrew: "ר", english: "R", emoji: "ר", color: "", sound: [156, 196, 233] },
   SHIN: { name: "shin", hebrew: "ש", english: "SH", emoji: "ש", color: "", sound: [147, 185, 220] },
   TAV: { name: "tav", hebrew: "ת", english: "T", emoji: "ת", color: "", sound: [139, 175, 208] },
+  // Final (sofit) forms — used at the end of a word
+  KAF_SOFIT: { name: "kaf-sofit", hebrew: "ך", english: "K", emoji: "ך", color: "", sound: [262, 330, 392] },
+  MEM_SOFIT: { name: "mem-sofit", hebrew: "ם", english: "M", emoji: "ם", color: "", sound: [233, 294, 349] },
+  NUN_SOFIT: { name: "nun-sofit", hebrew: "ן", english: "N", emoji: "ן", color: "", sound: [220, 277, 330] },
+  PEY_SOFIT: { name: "pey-sofit", hebrew: "ף", english: "P", emoji: "ף", color: "", sound: [185, 233, 277] },
+  TZADI_SOFIT: { name: "tzadi-sofit", hebrew: "ץ", english: "TZ", emoji: "ץ", color: "", sound: [175, 220, 262] },
 };
 
 export const ALL_LETTERS = createItemsList(LETTER_CONSTANTS);
@@ -53,6 +59,11 @@ export const LETTER_HEBREW_PRONUNCIATIONS: Record<string, string> = {
   resh: "רֵישׁ",
   shin: "שִׁין",
   tav: "תָּו",
+  "kaf-sofit": "כַּף סוֹפִית",
+  "mem-sofit": "מֵם סוֹפִית",
+  "nun-sofit": "נוּן סוֹפִית",
+  "pey-sofit": "פֵּא סוֹפִית",
+  "tzadi-sofit": "צָדִי סוֹפִית",
 };
 
 export const LETTER_GAME_CONSTANTS = createGameConfig(6, 2, 3);

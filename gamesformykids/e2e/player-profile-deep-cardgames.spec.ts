@@ -96,8 +96,7 @@ const GAME_IDS = [
   "visual-opposites",
   "english-cards",
   "personal-safety",
-  "coins-match",
-  "hebrew-script"
+  "coins-match"
 ] as const;
 
 // ChallengeBox wraps the word in curly quotes (“...” via &ldquo;/&rdquo;) — strip

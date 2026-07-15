@@ -6,7 +6,6 @@ import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { LETTER_HEBREW_PRONUNCIATIONS } from "@/lib/constants/gameData/basicData/letters";
 import { ADVANCED_COLORS_PRONUNCIATIONS } from "@/lib/constants/gameData/basicData/colors";
 import { COINS_PRONUNCIATIONS } from "@/lib/constants/gameData/coins";
-import { HEBREW_SCRIPT_PRONUNCIATIONS } from "@/lib/constants/gameData/hebrewScript";
 import { BODY_MOVEMENTS_PRONUNCIATIONS } from "@/lib/constants/gameData/innovativeData/bodyMovements";
 import { CLIMATE_PLANET_PRONUNCIATIONS } from "@/lib/constants/gameData/innovativeData/climatePlanet";
 import { EMOTIONAL_SOCIAL_PRONUNCIATIONS } from "@/lib/constants/gameData/innovativeData/emotionalSocial";
@@ -25,7 +24,6 @@ const PRONUNCIATION_OVERRIDES: Partial<Record<GameType, Record<string, string>>>
   letters: LETTER_HEBREW_PRONUNCIATIONS,
   'advanced-colors': ADVANCED_COLORS_PRONUNCIATIONS,
   'coins-match': COINS_PRONUNCIATIONS,
-  'hebrew-script': HEBREW_SCRIPT_PRONUNCIATIONS,
   'body-movements': BODY_MOVEMENTS_PRONUNCIATIONS,
   'climate-planet': CLIMATE_PLANET_PRONUNCIATIONS,
   'emotional-social': EMOTIONAL_SOCIAL_PRONUNCIATIONS,
