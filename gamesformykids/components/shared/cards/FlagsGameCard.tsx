@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import { GameItemCardProps } from "@/lib/types/components/cards";
 
 const NAME_TO_CODE: Record<string, string> = {
@@ -49,13 +50,13 @@ export default function FlagsGameCard({ item, onClick, isSelected }: GameItemCar
       `}
     >
       {/* Flag image */}
-      <div className="flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
+      <div className="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl">
+        <Image
           src={flagUrl}
           alt={item.english || item.name}
-          className="w-full h-full object-cover rounded-xl"
-          loading="lazy"
+          fill
+          sizes="(max-width: 768px) 33vw, 160px"
+          className="object-cover rounded-xl"
           referrerPolicy="no-referrer"
         />
       </div>

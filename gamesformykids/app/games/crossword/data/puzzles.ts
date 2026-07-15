@@ -1,5 +1,3 @@
-'use client';
-
 export interface CrosswordClue {
   number: number;
   direction: 'across' | 'down';

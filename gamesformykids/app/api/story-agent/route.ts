@@ -32,7 +32,6 @@ export interface StoryAgentResponse {
 
 async function awardPointsToUser(points: number) {
   // TODO: replace with real DB update, e.g. Supabase RPC
-  console.log(`[Story Agent] Awarding ${points} points to user`);
   return { status: 'success', newPointsBalance: points };
 }
 
