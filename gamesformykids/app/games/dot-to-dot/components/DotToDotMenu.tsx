@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Image from 'next/image';
 import { DOT_TO_DOT_THEMES, getPicturesByTheme } from '../data/pictures';
 import type { DotToDotTheme } from '../types';
 import DotToDotPrintButton from './DotToDotPrintButton';
@@ -40,7 +41,13 @@ export default function DotToDotMenu({ onSelectPicture }: Props) {
         {pictures.map((p) => (
           <div key={p.id} className="bg-white rounded-2xl shadow-lg p-4 flex flex-col items-center gap-2">
             <button onClick={() => onSelectPicture(p.id)} className="flex flex-col items-center gap-2 w-full">
-              <span className="text-5xl">{p.emoji}</span>
+              {p.imageSrc ? (
+                <div className="relative w-20 h-20 rounded-xl overflow-hidden bg-gray-50">
+                  <Image src={p.imageSrc} alt={p.title} fill sizes="80px" className="object-contain" />
+                </div>
+              ) : (
+                <span className="text-5xl">{p.emoji}</span>
+              )}
               <span className="font-bold text-purple-900">{p.title}</span>
               <span className="text-xs text-gray-500">{p.points.length} נקודות</span>
             </button>
