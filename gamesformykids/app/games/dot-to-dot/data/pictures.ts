@@ -82,6 +82,22 @@ export const DOT_TO_DOT_PICTURES: DotToDotPicture[] = [
       { x: 190, y: 105 }, { x: 230, y: 130 }, { x: 260, y: 160 }, { x: 260, y: 200 },
     ],
   },
+  {
+    id: 'butterfly',
+    title: 'פרפר',
+    emoji: '🦋',
+    theme: 'animals',
+    viewBox: '0 0 300 300',
+    closed: true,
+    // Traced from reference-images/butterfly.png (curly antennae + 4 patterned wing lobes).
+    points: [
+      { x: 138, y: 118 }, { x: 125, y: 93 }, { x: 144, y: 113 }, { x: 174, y: 94 },
+      { x: 162, y: 118 }, { x: 200, y: 91 }, { x: 237, y: 103 }, { x: 234, y: 133 },
+      { x: 200, y: 142 }, { x: 222, y: 148 }, { x: 240, y: 181 }, { x: 210, y: 199 },
+      { x: 150, y: 203 }, { x: 90, y: 199 }, { x: 63, y: 181 }, { x: 78, y: 148 },
+      { x: 101, y: 142 }, { x: 66, y: 133 }, { x: 29, y: 103 }, { x: 66, y: 91 },
+    ],
+  },
 ];
 
 export function getPicturesByTheme(theme: DotToDotTheme): DotToDotPicture[] {
