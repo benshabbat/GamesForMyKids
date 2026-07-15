@@ -1,12 +1,17 @@
 'use client';
 import { useRef, useState, type ChangeEvent, type MouseEvent } from 'react';
 import Image from 'next/image';
-import { Upload } from 'lucide-react';
+import { Upload, Wand2 } from 'lucide-react';
 import { DOT_TO_DOT_THEMES } from '../data/pictures';
 import type { DotPoint, DotToDotTheme } from '../types';
+import { buildSilhouetteMask, resampleClosedPolygon, scaleToViewBox, traceOuterContour } from './contourTrace';
 
 const VIEW_SIZE = 300;
 const DISPLAY_WIDTH = 500;
+const MAX_WORKING_DIMENSION = 500;
+const MIN_DOTS = 8;
+const MAX_DOTS = 60;
+const DEFAULT_DOTS = 20;
 
 function buildPictureCode(opts: {
   id: string;
@@ -32,8 +37,8 @@ function buildPictureCode(opts: {
 
 export default function DotToDotEditorClient() {
   const inputRef = useRef<HTMLInputElement>(null);
+  const imgElRef = useRef<HTMLImageElement | null>(null);
   const [imageDataUrl, setImageDataUrl] = useState<string | null>(null);
-  const [imageAspect, setImageAspect] = useState(1);
   const [points, setPoints] = useState<DotPoint[]>([]);
   const [closed, setClosed] = useState(true);
   const [id, setId] = useState('');
@@ -41,6 +46,11 @@ export default function DotToDotEditorClient() {
   const [emoji, setEmoji] = useState('');
   const [theme, setTheme] = useState<DotToDotTheme>('animals');
   const [copied, setCopied] = useState(false);
+
+  const [rawContour, setRawContour] = useState<DotPoint[] | null>(null);
+  const [rawSize, setRawSize] = useState<{ width: number; height: number } | null>(null);
+  const [dotCount, setDotCount] = useState(DEFAULT_DOTS);
+  const [isDetecting, setIsDetecting] = useState(false);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -50,9 +60,11 @@ export default function DotToDotEditorClient() {
       const dataUrl = ev.target?.result as string;
       const img = new window.Image();
       img.onload = () => {
+        imgElRef.current = img;
         setImageDataUrl(dataUrl);
-        setImageAspect(img.naturalWidth / img.naturalHeight);
         setPoints([]);
+        setRawContour(null);
+        setRawSize(null);
       };
       img.src = dataUrl;
     };
@@ -66,6 +78,43 @@ export default function DotToDotEditorClient() {
     const x = Math.round(relX * VIEW_SIZE);
     const y = Math.round(relY * VIEW_SIZE);
     setPoints((prev) => [...prev, { x, y }]);
+  };
+
+  const applyDotCount = (contour: DotPoint[], size: { width: number; height: number }, count: number) => {
+    const resampled = resampleClosedPolygon(contour, count);
+    setPoints(scaleToViewBox(resampled, size.width, size.height));
+  };
+
+  const handleAutoDetect = () => {
+    const img = imgElRef.current;
+    if (!img) return;
+    setIsDetecting(true);
+    try {
+      const scale = Math.min(1, MAX_WORKING_DIMENSION / Math.max(img.naturalWidth, img.naturalHeight));
+      const workW = Math.max(1, Math.round(img.naturalWidth * scale));
+      const workH = Math.max(1, Math.round(img.naturalHeight * scale));
+      const canvas = document.createElement('canvas');
+      canvas.width = workW;
+      canvas.height = workH;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return;
+      ctx.drawImage(img, 0, 0, workW, workH);
+      const imageData = ctx.getImageData(0, 0, workW, workH);
+      const mask = buildSilhouetteMask(imageData);
+      const contour = traceOuterContour(mask, workW, workH);
+      const size = { width: workW, height: workH };
+      setRawContour(contour);
+      setRawSize(size);
+      setClosed(true);
+      applyDotCount(contour, size, dotCount);
+    } finally {
+      setIsDetecting(false);
+    }
+  };
+
+  const handleDotCountChange = (count: number) => {
+    setDotCount(count);
+    if (rawContour && rawSize) applyDotCount(rawContour, rawSize, count);
   };
 
   const handleCopy = () => {
@@ -95,8 +144,11 @@ export default function DotToDotEditorClient() {
           <div
             onClick={handleImageClick}
             className="relative bg-white rounded-2xl shadow-xl overflow-hidden cursor-crosshair"
-            style={{ width: DISPLAY_WIDTH, aspectRatio: imageAspect }}
+            style={{ width: DISPLAY_WIDTH, height: DISPLAY_WIDTH }}
           >
+            {/* Square, matching the real game board's aspect-square — object-contain
+                letterboxes non-square source images exactly as they'll appear in-game,
+                so the SVG overlay's 0-300 square viewBox lines up pixel-for-pixel. */}
             <Image src={imageDataUrl} alt="תמונת מקור" fill unoptimized className="object-contain pointer-events-none" />
             <svg viewBox={`0 0 ${VIEW_SIZE} ${VIEW_SIZE}`} className="absolute inset-0 w-full h-full pointer-events-none">
               {points.slice(1).map((p, i) => (
@@ -123,6 +175,28 @@ export default function DotToDotEditorClient() {
                 </g>
               ))}
             </svg>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-center gap-3">
+            <button
+              onClick={handleAutoDetect}
+              disabled={isDetecting}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white disabled:opacity-50 transition-all"
+            >
+              <Wand2 className="w-4 h-4" />
+              {isDetecting ? 'מזהה...' : 'זיהוי קווי מתאר אוטומטי'}
+            </button>
+            <label className="flex items-center gap-2 text-sm text-indigo-200 px-2">
+              כמות נקודות: {dotCount}
+              <input
+                type="range"
+                min={MIN_DOTS}
+                max={MAX_DOTS}
+                value={dotCount}
+                onChange={(e) => handleDotCountChange(Number(e.target.value))}
+                className="w-32"
+              />
+            </label>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-3">
