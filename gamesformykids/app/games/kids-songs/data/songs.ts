@@ -1,5 +1,3 @@
-'use client';
-
 export type ComprehensionQuestion = {
   question: string;
   options: [string, string, string, string];

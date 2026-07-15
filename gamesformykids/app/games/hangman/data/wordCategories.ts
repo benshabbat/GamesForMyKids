@@ -1,5 +1,3 @@
-'use client';
-
 export type WordEntry = {
   word: string;
   hint: string;
