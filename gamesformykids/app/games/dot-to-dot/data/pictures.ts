@@ -89,7 +89,8 @@ export const DOT_TO_DOT_PICTURES: DotToDotPicture[] = [
     theme: 'animals',
     viewBox: '0 0 300 300',
     closed: true,
-    // Traced from reference-images/butterfly.png (curly antennae + 4 patterned wing lobes).
+    imageSrc: '/images/dot-to-dot/butterfly.png',
+    // Traced from public/images/dot-to-dot/butterfly.png (curly antennae + 4 patterned wing lobes).
     points: [
       { x: 138, y: 118 }, { x: 125, y: 93 }, { x: 144, y: 113 }, { x: 174, y: 94 },
       { x: 162, y: 118 }, { x: 200, y: 91 }, { x: 237, y: 103 }, { x: 234, y: 133 },

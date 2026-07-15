@@ -14,4 +14,6 @@ export interface DotToDotPicture {
   points: DotPoint[];
   /** Whether the last point connects back to the first to close the outline. */
   closed: boolean;
+  /** Path under /public to the real source illustration, if one exists. */
+  imageSrc?: string;
 }

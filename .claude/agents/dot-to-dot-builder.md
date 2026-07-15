@@ -21,6 +21,7 @@ export interface DotToDotPicture {
   viewBox: string;       // keep '0 0 300 300' unless you have a reason to deviate
   points: DotPoint[];    // ordered — index+1 is the printed/clicked dot number
   closed: boolean;       // true = last dot auto-connects back to the first (silhouette outline)
+  imageSrc?: string;     // '/images/dot-to-dot/<id>.png' — set this if you have a real source image (see below)
 }
 ```
 
@@ -41,11 +42,12 @@ This is a straight-line dot-to-dot, exactly like a printed kids' worksheet — n
 
 If the user gives you (or points you at) a source picture — a coloring-page illustration, a photo, anything with a clear outline — instead of inventing points from scratch:
 
-1. Save the source image into `app/games/dot-to-dot/reference-images/<id>.png` (create the folder if it doesn't exist yet). This folder is for your own reference only — it is never imported or shipped by the game engine.
-2. View the image and read off the outline's key vertices in the image's own pixel space (displayed-image coordinates), walking it in one continuous direction.
-3. Convert to the picture's `0 0 300 300` viewBox with a single uniform scale factor (don't stretch X and Y independently, or the shape distorts): `scale = min(300 / imageWidth, 300 / imageHeight)`, then center the shorter axis with an offset so the shape sits in the middle of the box.
-4. Sanity-check the result before committing to it: write the point list as a small standalone SVG `<polygon>` (a scratch HTML file is fine), screenshot it (e.g. via a quick Playwright script, matching this repo's e2e tooling), and view the screenshot — confirm it actually reads as the intended subject before adding it to `pictures.ts`. Don't skip this step and assume the coordinates are right; a raw straight-line trace is easy to get subtly wrong (wrong walk order, a stray Y-flip, wings that come out lopsided).
-5. It's fine to go a little over the usual 8-16 point range (up to ~20) when a reference image has distinct features worth preserving (e.g. antennae, ears, a forked tail) — the source image is the source of truth for what's recognizable, not the point-count guideline.
+1. Save the source image into `public/images/dot-to-dot/<id>.png` (create the folder if it doesn't exist yet). This location is **not** internal-only — the game actually serves it: as the picture's thumbnail in `DotToDotMenu.tsx`, as a "here's what you're drawing" guide next to the board while playing, and as the reveal image on completion (all three are wired in `DotToDotClient.tsx`/`DotToDotMenu.tsx` off the `imageSrc` field, gated so pictures without one keep the emoji-only look). Set `imageSrc: '/images/dot-to-dot/<id>.png'` on the picture entry so these show up.
+2. Alternatively, there's a dedicated point-placement editor at `/games/dot-to-dot/editor` — upload the image there and click to place points directly on it (it overlays the same numbered-dot/line visual as the real game), then copy the exported `DotToDotPicture` code out. Prefer this over eyeballing pixel coordinates by hand when the tool is available; fall back to steps 3-5 below if you can't run the dev server.
+3. If tracing by hand: view the image and read off the outline's key vertices in the image's own pixel space (displayed-image coordinates), walking it in one continuous direction.
+4. Convert to the picture's `0 0 300 300` viewBox with a single uniform scale factor (don't stretch X and Y independently, or the shape distorts): `scale = min(300 / imageWidth, 300 / imageHeight)`, then center the shorter axis with an offset so the shape sits in the middle of the box.
+5. Sanity-check the result before committing to it: write the point list as a small standalone SVG `<polygon>` (a scratch HTML file is fine), screenshot it (e.g. via a quick Playwright script, matching this repo's e2e tooling), and view the screenshot — confirm it actually reads as the intended subject before adding it to `pictures.ts`. Don't skip this step and assume the coordinates are right; a raw straight-line trace is easy to get subtly wrong (wrong walk order, a stray Y-flip, wings that come out lopsided).
+6. It's fine to go a little over the usual 8-16 point range (up to ~20) when a reference image has distinct features worth preserving (e.g. antennae, ears, a forked tail) — the source image is the source of truth for what's recognizable, not the point-count guideline.
 
 ## Task loop for "prepare one page"
 
