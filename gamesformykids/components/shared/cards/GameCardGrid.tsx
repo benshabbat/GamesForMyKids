@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { ComponentTypes } from "@/lib/types";
 import { useGridFillers } from "@/hooks";
+import { aspectClasses, borderRadiusClasses, hoverClasses, shadowClasses } from "./cardStyleMaps";
 
 type GameItemType = ComponentTypes.GameItemType;
 type GameCardGridProps<T extends GameItemType> = ComponentTypes.GameCardGridProps<T>;
@@ -125,8 +126,8 @@ export function GameCardGrid<T extends GameItemType>({
                   : itemKey
                 }
                 className={`
-                  w-full aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow]
-                  duration-300 hover:scale-110 shadow-xl hover:shadow-2xl
+                  w-full ${aspectClasses.square} ${borderRadiusClasses['3xl']} cursor-pointer transition-[transform,box-shadow]
+                  duration-300 ${hoverClasses.scale} ${shadowClasses.xl} ${hoverClasses.glow}
                   bg-linear-to-br from-gray-400 to-gray-600
                   border-8 border-white
                   ${isCorrect ? "ring-4 ring-green-400 ring-offset-4" : ""}

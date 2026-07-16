@@ -18,6 +18,7 @@ export const animationClasses: Record<string, string> = {
 
 export const hoverClasses: Record<string, string> = {
   scale: 'hover:scale-110',
+  'scale-sm': 'hover:scale-105',
   lift: 'hover:-translate-y-2',
   glow: 'hover:shadow-2xl',
   none: '',

@@ -74,7 +74,7 @@ export default function WordClickerScreen() {
         {/* Feedback banner */}
         {feedback && (
           <div className={`text-center font-black text-xl mb-3 py-2 rounded-xl ${
-            feedback === 'correct' ? 'bg-green-100 text-green-700' : 'bg-amber-50 text-amber-700'
+            feedback === 'correct' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
           }`}>
             {feedback === 'correct' ? '✅ נכון!' : '💙 נסה שוב!'}
           </div>

@@ -111,23 +111,28 @@ export default function IsraelSVG({ current, foundIds, allLocations, onTap, last
       {/* Current target marker */}
       {current && (
         <g>
+          {/* fill/stroke use currentColor driven by the text-green-600/text-red-600
+              classes below so the [data-colorblind="true"] CSS override in globals.css
+              (which remaps those exact classes to the Paul Tol palette) applies here too —
+              a raw hex fill/stroke would be invisible to that override. */}
           <circle
             cx={current.x}
             cy={current.y}
             r={current.radius}
-            fill={lastResult === 'correct' ? '#bbf7d0' : lastResult === 'wrong' ? '#fecaca' : 'none'}
-            stroke={lastResult === 'correct' ? '#16a34a' : lastResult === 'wrong' ? '#dc2626' : 'none'}
+            fill={lastResult === 'correct' || lastResult === 'wrong' ? 'currentColor' : 'none'}
+            stroke={lastResult === 'correct' || lastResult === 'wrong' ? 'currentColor' : 'none'}
             strokeWidth="1.5"
             opacity="0.5"
+            className={lastResult === 'correct' ? 'text-green-600' : lastResult === 'wrong' ? 'text-red-600' : ''}
           />
           <circle
             cx={current.x}
             cy={current.y}
             r={5}
-            fill={lastResult === 'wrong' ? '#fca5a5' : '#fde68a'}
-            stroke={lastResult === 'wrong' ? '#dc2626' : '#d97706'}
+            fill={lastResult === 'wrong' ? 'currentColor' : '#fde68a'}
+            stroke={lastResult === 'wrong' ? 'currentColor' : '#d97706'}
             strokeWidth="1.5"
-            className="animate-pulse"
+            className={`animate-pulse ${lastResult === 'wrong' ? 'text-red-600' : ''}`}
           />
         </g>
       )}

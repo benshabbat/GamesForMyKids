@@ -11,7 +11,7 @@ export default function SoccerQuestionCard() {
       <div className="text-6xl mb-3">{currentQuestion.emoji}</div>
       <p className="text-lg font-bold text-gray-800 leading-relaxed">{currentQuestion.question}</p>
       {isAnswered && (
-        <div className={`mt-4 p-3 rounded-xl text-sm leading-relaxed ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-orange-100 text-orange-800'}`}>
+        <div className={`mt-4 p-3 rounded-xl text-sm leading-relaxed ${isCorrect ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>
           <p className="font-bold">
             {isCorrect ? '✅ שאל אחד!' : `❌ התשובה: ${currentQuestion.answers[currentQuestion.correctIndex]}`}
           </p>
