@@ -26,9 +26,9 @@ export function useRobotCoder() {
   // Speak feedback on phase change
   useEffect(() => {
     if (phase === 'success') {
-      speakHebrew(`${level.targetWord}! כל הכבוד!`);
+      speakHebrew(`${level.targetWord}! כָּל הַכָּבוֹד!`);
     } else if (phase === 'fail') {
-      speakHebrew('לא הצלחנו — בוא ננסה שוב!');
+      speakHebrew('לֹא הִצְלַחְנוּ — בּוֹא נְנַסֶּה שׁוּב!');
     }
   }, [phase, level.targetWord]);
 

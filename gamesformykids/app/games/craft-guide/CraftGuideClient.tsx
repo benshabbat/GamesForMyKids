@@ -15,7 +15,7 @@ export default function CraftGuideClient() {
   useEffect(() => {
     if (phase === 'materials' && project) {
       const matList = project.materials.join(', ');
-      speakHebrew(`נהדר! ל${project.name} תצטרך: ${matList}. לחץ על התחל כשאתה מוכן!`);
+      speakHebrew(`נֶהְדָּר! לְ${project.name} תִּצְטָרֵךְ: ${matList}. לְחַץ עַל הַתְחֵל כְּשֶׁאַתָּה מוּכָן!`);
     }
   }, [phase, project]);
 

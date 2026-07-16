@@ -110,7 +110,7 @@ export default function IsraelMapClient() {
       {/* Repeat TTS button */}
       {current && phase === 'playing' && (
         <button
-          onClick={() => speakHebrew(`לחץ על ${current.name}`)}
+          onClick={() => speakHebrew(`לְחַץ עַל ${current.name}`)}
           className="mt-4 bg-white border-2 border-blue-400 text-blue-700 px-6 py-2 rounded-xl font-medium hover:bg-blue-50 transition-colors"
         >
           🔊 שמע שוב

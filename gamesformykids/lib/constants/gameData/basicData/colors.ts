@@ -21,18 +21,18 @@ export const COLOR_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 // Advanced colors — gוunים and special colors
 
 export const ADVANCED_COLORS_CONSTANTS: Record<string, BaseGameItem> = {
-  TURQUOISE: { name: "turquoise", hebrew: "טורקיז", english: "Turquoise", emoji: "🟡", color: "bg-cyan-400", sound: [659, 784, 831] },
-  MAGENTA: { name: "magenta", hebrew: "מגנטה", english: "Magenta", emoji: "🟣", color: "bg-fuchsia-500", sound: [554, 659, 740] },
-  CORAL: { name: "coral", hebrew: "אלמוג", english: "Coral", emoji: "🪸", color: "bg-orange-300", sound: [494, 554, 622] },
-  AMBER: { name: "amber", hebrew: "ענבר", english: "Amber", emoji: "🟨", color: "bg-yellow-600", sound: [440, 523, 587] },
-  EMERALD: { name: "emerald", hebrew: "אמרלד", english: "Emerald", emoji: "🟢", color: "bg-emerald-500", sound: [392, 440, 494] },
-  RUBY: { name: "ruby", hebrew: "רובי", english: "Ruby", emoji: "🔴", color: "bg-red-600", sound: [740, 831, 880] },
-  SAPPHIRE: { name: "sapphire", hebrew: "ספיר", english: "Sapphire", emoji: "🔵", color: "bg-blue-600", sound: [349, 392, 440] },
-  LAVENDER: { name: "lavender", hebrew: "לבנדר", english: "Lavender", emoji: "🟣", color: "bg-purple-300", sound: [622, 698, 784] },
-  BURGUNDY: { name: "burgundy", hebrew: "בורגונדי", english: "Burgundy", emoji: "🍷", color: "bg-red-800", sound: [311, 349, 392] },
-  OLIVE: { name: "olive", hebrew: "זית", english: "Olive", emoji: "🫒", color: "bg-green-600", sound: [277, 311, 349] },
-  IVORY: { name: "ivory", hebrew: "שנהב", english: "Ivory", emoji: "🤍", color: "bg-yellow-50", sound: [831, 880, 988] },
-  PLATINUM: { name: "platinum", hebrew: "פלטינום", english: "Platinum", emoji: "⚪", color: "bg-gray-300", sound: [247, 277, 311] }
+  TURQUOISE: { name: "turquoise", hebrew: "טורקיז", hebrewNikud: "טוּר-קִיז", english: "Turquoise", emoji: "🟡", color: "bg-cyan-400", sound: [659, 784, 831] },
+  MAGENTA: { name: "magenta", hebrew: "מגנטה", hebrewNikud: "מַ-גֶ-נְטָה", english: "Magenta", emoji: "🟣", color: "bg-fuchsia-500", sound: [554, 659, 740] },
+  CORAL: { name: "coral", hebrew: "אלמוג", hebrewNikud: "אַל-מוֹג", english: "Coral", emoji: "🪸", color: "bg-orange-300", sound: [494, 554, 622] },
+  AMBER: { name: "amber", hebrew: "ענבר", hebrewNikud: "עַנְ-בָר", english: "Amber", emoji: "🟨", color: "bg-yellow-600", sound: [440, 523, 587] },
+  EMERALD: { name: "emerald", hebrew: "אמרלד", hebrewNikud: "אַמְ-רַלד", english: "Emerald", emoji: "🟢", color: "bg-emerald-500", sound: [392, 440, 494] },
+  RUBY: { name: "ruby", hebrew: "רובי", hebrewNikud: "רוּ-בִי", english: "Ruby", emoji: "🔴", color: "bg-red-600", sound: [740, 831, 880] },
+  SAPPHIRE: { name: "sapphire", hebrew: "ספיר", hebrewNikud: "סַ-פִּיר", english: "Sapphire", emoji: "🔵", color: "bg-blue-600", sound: [349, 392, 440] },
+  LAVENDER: { name: "lavender", hebrew: "לבנדר", hebrewNikud: "לַ-בֶנְ-דֶר", english: "Lavender", emoji: "🟣", color: "bg-purple-300", sound: [622, 698, 784] },
+  BURGUNDY: { name: "burgundy", hebrew: "בורגונדי", hebrewNikud: "בּוּר-גוּן-דִי", english: "Burgundy", emoji: "🍷", color: "bg-red-800", sound: [311, 349, 392] },
+  OLIVE: { name: "olive", hebrew: "זית", hebrewNikud: "זַ-יִת", english: "Olive", emoji: "🫒", color: "bg-green-600", sound: [277, 311, 349] },
+  IVORY: { name: "ivory", hebrew: "שנהב", hebrewNikud: "שֶׁן-הָב", english: "Ivory", emoji: "🤍", color: "bg-yellow-50", sound: [831, 880, 988] },
+  PLATINUM: { name: "platinum", hebrew: "פלטינום", hebrewNikud: "פְּלַ-טִי-נוּם", english: "Platinum", emoji: "⚪", color: "bg-gray-300", sound: [247, 277, 311] }
 };
 
 export const ADVANCED_COLORS_ITEMS = createItemsList(ADVANCED_COLORS_CONSTANTS);

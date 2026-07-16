@@ -93,7 +93,7 @@ export function useCookingGame() {
     setTapped(0);
     buildShelf(step.ingredient);
     const ing = ingredientLabel(step.ingredient, step.count);
-    setTimeout(() => speakHebrew(`הוסף ${countWord(step.count)} ${ing}!`), 200);
+    setTimeout(() => speakHebrew(`הוֹסֵף ${countWord(step.count)} ${ing}!`), 200);
   }, [buildShelf]);
 
   const startGame = useCallback(() => {
@@ -118,7 +118,7 @@ export function useCookingGame() {
 
     if (key !== step.ingredient) {
       setWrongFlash(true);
-      speakHebrew('לא נכון, נסה שוב!');
+      speakHebrew('לֹא נָכוֹן, נַסֵּה שׁוּב!');
       if (timerRef.current) clearTimeout(timerRef.current);
       timerRef.current = setTimeout(() => setWrongFlash(false), 600);
       return;
@@ -130,12 +130,12 @@ export function useCookingGame() {
 
     if (newTapped < step.count) {
       const remaining = step.count - newTapped;
-      speakHebrew(`עוד ${countWord(remaining)}!`);
+      speakHebrew(`עוֹד ${countWord(remaining)}!`);
       return;
     }
 
     const ing = INGREDIENTS[step.ingredient];
-    speakHebrew(`כן! ${ing ? ingredientLabel(step.ingredient, step.count) : ''}!`);
+    speakHebrew(`כֵּן! ${ing ? ingredientLabel(step.ingredient, step.count) : ''}!`);
     setScore(s => s + 10 * step.count);
     setPhase('step-done');
     phaseRef.current = 'step-done';
@@ -151,7 +151,7 @@ export function useCookingGame() {
       } else {
         setPhase('recipe-done');
         phaseRef.current = 'recipe-done';
-        setTimeout(() => speakHebrew(`הכנת ${recipe.name}! מעולה!`), 100);
+        setTimeout(() => speakHebrew(`הֵכַנְתָּ ${recipe.name}! מְעֻלֶּה!`), 100);
       }
     }, 1200);
   }, [beginStep]);

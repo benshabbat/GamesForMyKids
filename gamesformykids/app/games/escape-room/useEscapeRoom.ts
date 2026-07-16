@@ -16,7 +16,7 @@ export function useEscapeRoom() {
 
   const handleStart = (roomId: string) => {
     startGame(roomId);
-    speakHebrew('בואו נפרוץ את החדר!');
+    speakHebrew('בּוֹאוּ נִפְרֹץ אֶת הַחֶדֶר!');
   };
 
   const handleClickHotspot = (hotspotId: string) => {
@@ -35,11 +35,11 @@ export function useEscapeRoom() {
     if (isCorrect) {
       const latestDigit = state.revealedDigits[state.revealedDigits.length - 1];
       const msg = state.phase === 'result'
-        ? 'פרצת את החדר! כל הכבוד!'
-        : `נכון! ספרה ${latestDigit} התגלתה!`;
+        ? 'פָּרַצְתָּ אֶת הַחֶדֶר! כָּל הַכָּבוֹד!'
+        : `נָכוֹן! סִפְרָה ${latestDigit} הִתְגַּלְּתָה!`;
       speakHebrew(msg);
     } else {
-      speakHebrew('לא נכון — נסה שוב!');
+      speakHebrew('לֹא נָכוֹן — נַסֵּה שׁוּב!');
     }
     return isCorrect;
   };

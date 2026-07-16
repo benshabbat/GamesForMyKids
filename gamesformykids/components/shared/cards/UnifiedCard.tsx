@@ -53,7 +53,7 @@ export default function UnifiedCard({
     showSoundIcon !== undefined ? showSoundIcon : !hideSoundIcon;
 
   const handleAudioClick = async () => {
-    const textToSpeak = hebrewText || item?.hebrew || name;
+    const textToSpeak = hebrewText || item?.hebrewNikud || item?.hebrew || name;
     if (textToSpeak && autoSpeak) await speakHebrew(textToSpeak);
     if (onSpeak) onSpeak();
   };

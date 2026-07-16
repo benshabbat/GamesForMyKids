@@ -12,7 +12,7 @@ export default function DictionaryCard({ item }: Props) {
   const isSaved = collection.some((c) => c.hebrew === item.hebrew);
 
   const handleSpeak = () => {
-    speakHebrew(item.hebrew);
+    speakHebrew(item.hebrewNikud || item.hebrew);
   };
 
   return (

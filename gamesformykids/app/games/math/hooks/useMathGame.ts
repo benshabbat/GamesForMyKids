@@ -82,10 +82,10 @@ export function useMathGame() {
   const speakMathQuestion = async (challenge: MathChallenge): Promise<void> => {
     if (!speechEnabled) return;
     try {
-      const operationText = challenge.operator === '+' ? 'ועוד' : 'פחות';
+      const operationText = challenge.operator === '+' ? 'וְעוֹד' : 'פָּחוֹת';
       await speakHebrew(`${challenge.operand1} ${challenge.itemPlural} ${operationText} ${challenge.operand2} ${challenge.itemPlural}, `);
       await delay(500);
-      await speakHebrew(`כמה ${challenge.itemPlural} יש?`);
+      await speakHebrew(`כַּמָּה ${challenge.itemPlural} יֵשׁ?`);
     } catch (error) {
       console.error("שגיאה בהשמעת השאלה:", error);
     }

@@ -96,9 +96,9 @@ export function useRiddlesProGame(): RiddlesProState {
     setLastPoints(isCorrect ? points : null);
     if (isCorrect) {
       setScore(s => s + points);
-      speakHebrew(`נכון! ${current.answer}! קיבלת ${points} נקודות`);
+      speakHebrew(`נָכוֹן! ${current.answer}! קִבַּלְתָּ ${points} נְקֻדּוֹת`);
     } else {
-      speakHebrew(`לא נכון — התשובה היא ${current.answer}`);
+      speakHebrew(`לֹא נָכוֹן — הַתְּשׁוּבָה הִיא ${current.answer}`);
     }
     sessionIdxRef.current += 1;
     setTimeout(loadNext, 1800);

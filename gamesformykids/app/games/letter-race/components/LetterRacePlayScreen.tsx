@@ -30,7 +30,7 @@ export default function LetterRacePlayScreen() {
         feedback === 'wrong'   ? 'bg-amber-50 ring-4 ring-amber-400' : ''
       }`}>
         <button
-          onClick={() => speakHebrew(`באיזו אות מתחיל ${q.word}?`)}
+          onClick={() => speakHebrew(`בְּאֵיזוֹ אוֹת מַתְחִיל ${q.word}?`)}
           className="text-6xl mb-3 block mx-auto leading-none hover:scale-110 transition-transform"
           aria-label={`שמע: ${q.word}`}
         >

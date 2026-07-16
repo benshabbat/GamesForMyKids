@@ -14,7 +14,7 @@ export function useIsraelMap() {
 
   useEffect(() => {
     if (current && phase === 'playing') {
-      speakHebrew(`לחץ על ${current.name}`);
+      speakHebrew(`לְחַץ עַל ${current.name}`);
     }
   }, [current, phase]);
 
@@ -30,7 +30,7 @@ export function useIsraelMap() {
         lastResult: 'correct',
       }));
       setFeedback('correct');
-      speakHebrew(`נכון! ${current.fact}`);
+      speakHebrew(`נָכוֹן! ${current.fact}`);
       feedbackTimerRef.current = setTimeout(() => {
         setFeedback(null);
         nextLocation();
@@ -38,7 +38,7 @@ export function useIsraelMap() {
     } else {
       useMapStore.setState((s) => ({ total: s.total + 1, lastResult: 'wrong' }));
       setFeedback('wrong');
-      speakHebrew(`נסה שוב — לחץ על ${current.name}`);
+      speakHebrew(`נַסֵּה שׁוּב — לְחַץ עַל ${current.name}`);
       feedbackTimerRef.current = setTimeout(() => {
         setFeedback(null);
         useMapStore.setState({ lastResult: null });

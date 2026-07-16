@@ -65,7 +65,7 @@ export default function CrosswordClient() {
     typeLetter(letter);
     const state = useCrosswordStore.getState();
     if (state.selectedClue && state.completedClues.has(state.selectedClue.number)) {
-      speakHebrew(`כל הכבוד! ${state.selectedClue.answer}!`);
+      speakHebrew(`כָּל הַכָּבוֹד! ${state.selectedClue.answer}!`);
     }
   }, [typeLetter]);
 

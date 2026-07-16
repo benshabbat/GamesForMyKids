@@ -59,7 +59,7 @@ export default function MarketClient() {
   const orderItemName = customer?.order.item.name;
   useEffect(() => {
     if (customerId && phase === 'playing' && customerName && orderCount !== undefined && orderItemName) {
-      const text = `${customerName} אומר: אני רוצה ${numberWord(orderCount)} ${orderItemName}!`;
+      const text = `${customerName} אוֹמֵר: אֲנִי רוֹצֶה ${numberWord(orderCount)} ${orderItemName}!`;
       setTimeout(() => speakHebrew(text), 300);
     }
   }, [customerId, phase, customerName, orderCount, orderItemName]);
@@ -150,7 +150,7 @@ export default function MarketClient() {
       {/* Customer + Order */}
       <div
         className="bg-white rounded-2xl p-4 mb-4 shadow-md border-2 border-orange-200 cursor-pointer flex items-center gap-4"
-        onClick={() => speakHebrew(`אני רוצה ${numberWord(customer.order.count)} ${customer.order.item.name}!`)}
+        onClick={() => speakHebrew(`אֲנִי רוֹצֶה ${numberWord(customer.order.count)} ${customer.order.item.name}!`)}
       >
         <div className="text-5xl">{customer.emoji}</div>
         <div>

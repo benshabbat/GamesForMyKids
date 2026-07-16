@@ -87,7 +87,7 @@ export const useHebrewRacerStore = create<HebrewRacerState & HebrewRacerActions>
       score: newScore,
       won,
       feedback: isCorrect ? 'correct' : 'wrong',
-      speakText: isCorrect ? 'כל הכבוד!' : 'אוי, לא נכון',
+      speakText: isCorrect ? 'כָּל הַכָּבוֹד!' : 'אוֹי, לֹא נָכוֹן',
     });
   },
 

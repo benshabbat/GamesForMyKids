@@ -18,7 +18,7 @@ export default function CraftStep({
   step, stepNumber, totalSteps, projectName, projectColor, onNext, onPrev, onBack,
 }: Props) {
   useEffect(() => {
-    speakHebrew(`שלב ${stepNumber}: ${step.instruction}`);
+    speakHebrew(`שָׁלָב ${stepNumber}: ${step.instruction}`);
   }, [stepNumber, step.instruction]);
 
   const progress = (stepNumber / totalSteps) * 100;
@@ -50,7 +50,7 @@ export default function CraftStep({
           <div className="text-8xl">{step.emoji}</div>
           <p className="text-xl font-semibold text-gray-800 leading-relaxed">{step.instruction}</p>
           <button
-            onClick={() => speakHebrew(`שלב ${stepNumber}: ${step.instruction}`)}
+            onClick={() => speakHebrew(`שָׁלָב ${stepNumber}: ${step.instruction}`)}
             className="text-blue-500 text-sm hover:text-blue-700 flex items-center gap-1 mx-auto"
           >
             🔊 שמע שוב
