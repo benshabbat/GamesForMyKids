@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { GameItemCardProps } from "@/lib/types/components/cards";
+import { aspectClasses, borderRadiusClasses, hoverClasses, shadowClasses } from "./cardStyleMaps";
 
 const NAME_TO_CODE: Record<string, string> = {
   france: "fr",
@@ -43,8 +44,8 @@ export default function FlagsGameCard({ item, onClick, isSelected }: GameItemCar
     <button
       onClick={() => onClick(item)}
       className={`
-        w-full aspect-square rounded-3xl cursor-pointer transition-[transform,box-shadow] duration-300
-        transform hover:scale-110 shadow-xl hover:shadow-2xl
+        w-full ${aspectClasses.square} ${borderRadiusClasses['3xl']} cursor-pointer transition-[transform,box-shadow] duration-300
+        transform ${hoverClasses.scale} ${shadowClasses.xl} ${hoverClasses.glow}
         bg-white flex flex-col items-center justify-center p-3 gap-2
         border-8 ${isSelected ? "border-green-400 ring-4 ring-green-400 ring-offset-4" : "border-white"}
       `}

@@ -27,7 +27,7 @@ export default function SceneCanvas({ scene, targetIds, foundIds, wrongId, onTap
               isFound
                 ? 'opacity-40 cursor-default scale-90'
                 : isWrong
-                ? 'animate-[shake_0.4s_ease-in-out]'
+                ? 'animate-[scene-shake_0.4s_ease-in-out]'
                 : isTarget
                 ? 'hover:scale-125 active:scale-110 cursor-pointer drop-shadow-[0_0_8px_rgba(251,191,36,0.8)]'
                 : 'hover:scale-115 active:scale-110 cursor-pointer'
@@ -48,7 +48,7 @@ export default function SceneCanvas({ scene, targetIds, foundIds, wrongId, onTap
       })}
 
       <style>{`
-        @keyframes shake {
+        @keyframes scene-shake {
           0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
           25% { transform: translate(calc(-50% + 6px), -50%) rotate(-6deg); }
           75% { transform: translate(calc(-50% - 6px), -50%) rotate(6deg); }

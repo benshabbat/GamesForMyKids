@@ -39,7 +39,7 @@ export default function ChessGameOver() {
         {/* Trophy / emoji */}
         <div
           className="text-8xl mb-4 inline-block"
-          style={{ animation: playerWon ? 'bounce 0.8s infinite alternate' : 'none' }}
+          style={{ animation: playerWon ? 'chess-victory-bounce 0.8s infinite alternate' : 'none' }}
         >
           {playerWon ? '🏆' : isDraw ? '🤝' : '😢'}
         </div>
@@ -90,7 +90,7 @@ export default function ChessGameOver() {
       </button>
 
       <style>{`
-        @keyframes bounce {
+        @keyframes chess-victory-bounce {
           from { transform: translateY(0) scale(1); }
           to { transform: translateY(-12px) scale(1.1); }
         }

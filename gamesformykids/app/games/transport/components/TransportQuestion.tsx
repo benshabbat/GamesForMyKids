@@ -31,7 +31,7 @@ export default function TransportQuestion({
           <div className="inline-block px-3 py-1 rounded-full text-sm font-bold text-white bg-blue-400 mb-3">{currentQuestion.type}</div>
           <p className="text-lg font-bold text-gray-800">{currentQuestion.question}</p>
           {answered && (
-            <div className={`mt-4 p-3 rounded-xl text-sm ${isCorrect ? 'bg-green-100 text-green-700 font-bold' : 'bg-orange-100 text-orange-700'}`}>
+            <div className={`mt-4 p-3 rounded-xl text-sm ${isCorrect ? 'bg-green-100 text-green-700 font-bold' : 'bg-red-100 text-red-700'}`}>
               {isCorrect ? '✅ מעולה!' : `❌ התשובה: ${currentQuestion.answers[currentQuestion.correctIndex]}`}
               <br /><span className="text-xs font-normal">💡 {currentQuestion.funFact}</span>
             </div>
