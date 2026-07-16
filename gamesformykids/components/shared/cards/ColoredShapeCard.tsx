@@ -8,6 +8,7 @@ import { Volume2 } from 'lucide-react';
 import { SHAPE_ICON_MAP } from '@/lib/constants/ui/shapes';
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { ComponentTypes } from '@/lib/types';
+import { hoverClasses } from './cardStyleMaps';
 
 type ColoredShapeCardProps = ComponentTypes.ColoredShapeCardProps;
 
@@ -31,7 +32,7 @@ export default function ColoredShapeCard({
       aria-label={item.hebrew}
       className={`
         relative group bg-white rounded-3xl p-8 shadow-xl
-        hover:shadow-2xl hover:scale-105
+        hover:shadow-2xl ${hoverClasses['scale-sm']}
         transform transition-[transform,box-shadow] duration-300 cursor-pointer
         border-2 border-gray-100 hover:border-gray-200 w-full
         ${className}

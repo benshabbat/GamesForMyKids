@@ -2,6 +2,7 @@
 
 import { useGameSessionStore } from "@/lib/stores/gameSessionStore";
 import { GameItemCardProps } from "@/lib/types/components/cards";
+import { hoverClasses } from "./cardStyleMaps";
 
 const COLORS = [
   { bg: "bg-orange-400", hover: "hover:bg-orange-500", border: "border-orange-300" },
@@ -32,7 +33,7 @@ export default function MathGameCard({ item, onClick }: GameItemCardProps) {
         border-4 rounded-3xl p-4 w-full aspect-square
         flex flex-col items-center justify-center gap-2
         shadow-lg hover:shadow-xl
-        transform hover:scale-105 active:scale-95
+        transform ${hoverClasses['scale-sm']} active:scale-95
         transition-[transform,box-shadow] duration-200 cursor-pointer
       `}
     >

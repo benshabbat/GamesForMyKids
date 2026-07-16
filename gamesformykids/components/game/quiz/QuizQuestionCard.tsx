@@ -57,7 +57,7 @@ export default function QuizQuestionCard({
       </div>
 
       {answered && (
-        <div className={`rounded-2xl p-4 mb-5 text-center font-bold text-lg ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
+        <div className={`rounded-2xl p-4 mb-5 text-center font-bold text-lg ${isCorrect ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
           {isCorrect ? correctMessage : `💙 התשובה הנכונה: "${answers[correctIndex]}"`}
         </div>
       )}

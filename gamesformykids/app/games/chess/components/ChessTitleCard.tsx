@@ -23,7 +23,7 @@ export default function ChessTitleCard() {
       <div className="relative z-10">
         <div
           className="text-7xl mb-3 inline-block"
-          style={{ animation: 'float 3s ease-in-out infinite', filter: 'drop-shadow(0 0 16px rgba(251,191,36,0.4))' }}
+          style={{ animation: 'chess-float 3s ease-in-out infinite', filter: 'drop-shadow(0 0 16px rgba(251,191,36,0.4))' }}
         >
           ♟
         </div>
@@ -46,7 +46,7 @@ export default function ChessTitleCard() {
       </div>
 
       <style>{`
-        @keyframes float {
+        @keyframes chess-float {
           0%, 100% { transform: translateY(0) rotate(-4deg); }
           50% { transform: translateY(-10px) rotate(4deg); }
         }
