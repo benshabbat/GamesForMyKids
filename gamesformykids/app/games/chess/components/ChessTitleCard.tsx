@@ -22,13 +22,13 @@ export default function ChessTitleCard() {
 
       <div className="relative z-10">
         <div
-          className="text-7xl mb-3 inline-block"
+          className="text-6xl mb-3 inline-block"
           style={{ animation: 'chess-float 3s ease-in-out infinite', filter: 'drop-shadow(0 0 16px rgba(251,191,36,0.4))' }}
         >
           ♟
         </div>
         <h1
-          className="text-5xl font-extrabold mb-2"
+          className="text-3xl font-extrabold mb-2"
           style={{
             background: 'linear-gradient(180deg, #fde68a 0%, #f59e0b 50%, #d97706 100%)',
             WebkitBackgroundClip: 'text',
