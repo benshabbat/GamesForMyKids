@@ -176,6 +176,48 @@ export function traceOuterContour(mask: Uint8Array, width: number, height: numbe
   return boundary;
 }
 
+function perpendicularDistance(p: DotPoint, a: DotPoint, b: DotPoint): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const lenSq = dx * dx + dy * dy;
+  if (lenSq === 0) return Math.hypot(p.x - a.x, p.y - a.y);
+  const t = ((p.x - a.x) * dx + (p.y - a.y) * dy) / lenSq;
+  const projX = a.x + t * dx;
+  const projY = a.y + t * dy;
+  return Math.hypot(p.x - projX, p.y - projY);
+}
+
+/**
+ * Ramer-Douglas-Peucker simplification of an (open) point path. A raw pixel-
+ * level trace can contain fine wiggly detail (e.g. a spiral antenna curl)
+ * whose perimeter is disproportionately large for its size — left unsimplified,
+ * even arc-length resampling would "spend" most of the dot budget on that tiny
+ * detail instead of the main silhouette. Removing it here first lets dots be
+ * spent where the shape actually needs them.
+ */
+export function simplifyPolygon(points: DotPoint[], epsilon: number): DotPoint[] {
+  if (points.length < 3 || epsilon <= 0) return points;
+
+  let maxDist = 0;
+  let maxIdx = 0;
+  const first = points[0]!;
+  const last = points[points.length - 1]!;
+  for (let i = 1; i < points.length - 1; i++) {
+    const d = perpendicularDistance(points[i]!, first, last);
+    if (d > maxDist) {
+      maxDist = d;
+      maxIdx = i;
+    }
+  }
+
+  if (maxDist > epsilon) {
+    const left = simplifyPolygon(points.slice(0, maxIdx + 1), epsilon);
+    const right = simplifyPolygon(points.slice(maxIdx), epsilon);
+    return [...left.slice(0, -1), ...right];
+  }
+  return [first, last];
+}
+
 /** Resample a closed polygon (last point implicitly connects to the first) to exactly targetCount points, evenly spaced by arc length. */
 export function resampleClosedPolygon(points: DotPoint[], targetCount: number): DotPoint[] {
   if (points.length === 0 || targetCount <= 0) return [];

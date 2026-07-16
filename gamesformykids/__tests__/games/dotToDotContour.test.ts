@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import {
   buildSilhouetteMask,
   traceOuterContour,
+  simplifyPolygon,
   resampleClosedPolygon,
   scaleToViewBox,
   type PixelData,
@@ -114,6 +115,44 @@ describe('traceOuterContour', () => {
     expect(Math.max(...xs)).toBeLessThanOrEqual(14);
     expect(Math.min(...ys)).toBeGreaterThanOrEqual(8);
     expect(Math.max(...ys)).toBeLessThanOrEqual(17);
+  });
+});
+
+describe('simplifyPolygon', () => {
+  it('drops a midpoint that lies on (or very near) the line between its neighbors', () => {
+    const points = [{ x: 0, y: 0 }, { x: 5, y: 0 }, { x: 10, y: 0 }];
+    expect(simplifyPolygon(points, 1)).toEqual([{ x: 0, y: 0 }, { x: 10, y: 0 }]);
+  });
+
+  it('keeps a point that deviates from the line by more than epsilon', () => {
+    const points = [{ x: 0, y: 0 }, { x: 5, y: 10 }, { x: 10, y: 0 }];
+    const simplified = simplifyPolygon(points, 1);
+    expect(simplified).toContainEqual({ x: 5, y: 10 });
+  });
+
+  it('removes a point once epsilon is larger than its deviation', () => {
+    const points = [{ x: 0, y: 0 }, { x: 5, y: 2 }, { x: 10, y: 0 }];
+    expect(simplifyPolygon(points, 5)).toEqual([{ x: 0, y: 0 }, { x: 10, y: 0 }]);
+  });
+
+  it('reduces a tight zigzag (mirroring a small spiral antenna) far more than a smooth run of the same length', () => {
+    // A jittery path bouncing between two nearby y-values (high perimeter for
+    // its small footprint, like the antenna curl) vs. a plain straight run
+    // covering the same span.
+    const zigzag = Array.from({ length: 20 }, (_, i) => ({ x: i, y: i % 2 === 0 ? 0 : 2 }));
+    const straight = Array.from({ length: 20 }, (_, i) => ({ x: i, y: 0 }));
+    const epsilon = 3;
+    const simplifiedZigzag = simplifyPolygon(zigzag, epsilon);
+    const simplifiedStraight = simplifyPolygon(straight, epsilon);
+    expect(simplifiedStraight).toHaveLength(2); // fully collinear, collapses to endpoints
+    expect(simplifiedZigzag.length).toBeLessThan(zigzag.length);
+  });
+
+  it('leaves short paths and non-positive epsilon unchanged', () => {
+    const points = [{ x: 0, y: 0 }, { x: 1, y: 1 }];
+    expect(simplifyPolygon(points, 5)).toEqual(points);
+    const triangle = [{ x: 0, y: 0 }, { x: 5, y: 5 }, { x: 10, y: 0 }];
+    expect(simplifyPolygon(triangle, 0)).toEqual(triangle);
   });
 });
 

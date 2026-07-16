@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Upload, Wand2 } from 'lucide-react';
 import { DOT_TO_DOT_THEMES } from '../data/pictures';
 import type { DotPoint, DotToDotTheme } from '../types';
-import { buildSilhouetteMask, resampleClosedPolygon, scaleToViewBox, traceOuterContour } from './contourTrace';
+import { buildSilhouetteMask, resampleClosedPolygon, scaleToViewBox, simplifyPolygon, traceOuterContour } from './contourTrace';
 
 const VIEW_SIZE = 300;
 const DISPLAY_WIDTH = 500;
@@ -12,6 +12,7 @@ const MAX_WORKING_DIMENSION = 500;
 const MIN_DOTS = 8;
 const MAX_DOTS = 60;
 const DEFAULT_DOTS = 20;
+const SIMPLIFY_EPSILON_RATIO = 0.03;
 
 function buildPictureCode(opts: {
   id: string;
@@ -101,7 +102,13 @@ export default function DotToDotEditorClient() {
       ctx.drawImage(img, 0, 0, workW, workH);
       const imageData = ctx.getImageData(0, 0, workW, workH);
       const mask = buildSilhouetteMask(imageData);
-      const contour = traceOuterContour(mask, workW, workH);
+      const rawTrace = traceOuterContour(mask, workW, workH);
+      // Smooth away fine wiggly detail (e.g. a spiral antenna curl) whose
+      // perimeter is disproportionately large for its size — otherwise even
+      // arc-length resampling "spends" most of the dot budget there instead
+      // of the main silhouette.
+      const epsilon = Math.max(1, Math.hypot(workW, workH) * SIMPLIFY_EPSILON_RATIO);
+      const contour = simplifyPolygon(rawTrace, epsilon);
       const size = { width: workW, height: workH };
       setRawContour(contour);
       setRawSize(size);
