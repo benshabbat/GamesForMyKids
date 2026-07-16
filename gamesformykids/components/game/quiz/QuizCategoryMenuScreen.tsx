@@ -47,7 +47,7 @@ export default function QuizCategoryMenuScreen<T extends string>({
     return (
       <div className={`min-h-screen bg-gradient-to-br ${gradient} flex flex-col items-center justify-center p-4`} dir="rtl">
         <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-md w-full text-center">
-          <div className="text-8xl mb-6">{emoji}</div>
+          <div className="text-6xl mb-6">{emoji}</div>
           <h1 className={`text-3xl font-bold ${titleColor} mb-2`}>{title}</h1>
           <p className="text-gray-500 mb-4">{description}</p>
           {grid}
@@ -58,8 +58,8 @@ export default function QuizCategoryMenuScreen<T extends string>({
 
   return (
     <div className={`min-h-screen bg-gradient-to-br ${gradient} flex flex-col items-center justify-center p-6`} dir="rtl">
-      <div className="text-8xl mb-4">{emoji}</div>
-      <h1 className={`text-4xl font-bold ${titleColor} mb-2`}>{title}</h1>
+      <div className="text-6xl mb-4">{emoji}</div>
+      <h1 className={`text-3xl font-bold ${titleColor} mb-2`}>{title}</h1>
       <p className="text-gray-600 mb-8 text-center">{description}</p>
       {grid}
     </div>

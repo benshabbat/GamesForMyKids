@@ -16,7 +16,7 @@ export default function DotToDotMenu({ onSelectPicture }: Props) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 to-purple-900 flex flex-col items-center p-6 gap-6" dir="rtl">
       <div className="text-6xl">🔢</div>
-      <h1 className="text-4xl font-black text-white text-center">נקודה לנקודה</h1>
+      <h1 className="text-3xl font-black text-white text-center">נקודה לנקודה</h1>
       <p className="text-lg text-indigo-200 text-center max-w-xs">
         חברו בין הנקודות לפי הסדר וגלו תמונה מפתיעה!
       </p>

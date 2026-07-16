@@ -7,7 +7,6 @@ import CharityBasket from './components/CharityBasket';
 import GameControls from './components/GameControls';
 import GameAreaBackground from './components/GameAreaBackground';
 import TzedakahGameInstructions from './components/TzedakahGameInstructions';
-import styles from './charity.module.css';
 
 const CharityCoinGame = () => {
   const { gameWidth, gameHeight, handleMouseMove, handleTouchMove, coins } = useCharityCoinGame();
@@ -21,7 +20,7 @@ const CharityCoinGame = () => {
 
         <div className="flex justify-center">
           <div
-            className={`relative bg-gradient-to-b from-sky-200 via-sky-300 to-blue-400 border-8 border-white rounded-3xl overflow-hidden shadow-2xl cursor-none touch-none ${styles.charityGameArea || 'charity-game-area'}`}
+            className="relative bg-gradient-to-b from-sky-200 via-sky-300 to-blue-400 border-8 border-white rounded-3xl overflow-hidden shadow-2xl cursor-none touch-none charity-game-area"
             style={{ width: gameWidth, height: gameHeight, touchAction: 'none' }}
             onMouseMove={handleMouseMove}
             onTouchMove={handleTouchMove}
