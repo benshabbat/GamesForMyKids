@@ -28,18 +28,7 @@ export default function DotToDotClient() {
 
       {phase === 'complete' && <GameCompletionCelebration />}
 
-      <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4">
-        <DotToDotBoard picture={picture} connected={connected} onDotClick={clickDot} />
-
-        {phase === 'playing' && picture.imageSrc && (
-          <div className="flex flex-col items-center gap-1 bg-white/10 rounded-2xl p-3">
-            <span className="text-xs text-indigo-200">לא בטוחים מה מציירים? ככה זה אמור להיראות:</span>
-            <div className="relative w-28 h-28 rounded-xl overflow-hidden bg-white">
-              <Image src={picture.imageSrc} alt={picture.title} fill sizes="112px" className="object-contain" />
-            </div>
-          </div>
-        )}
-      </div>
+      <DotToDotBoard picture={picture} connected={connected} onDotClick={clickDot} />
 
       {phase === 'complete' ? (
         <div className="flex flex-col items-center gap-3">
