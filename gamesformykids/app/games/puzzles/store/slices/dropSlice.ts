@@ -44,11 +44,11 @@ export const createDropSlice: StateCreator<PuzzleStore, [], [], DropSlice> = (se
 
     if (isCorrect) {
       showFeedback('כל הכבוד! החלק במקום הנכון! 🎉', 'success');
-      speak('כל הכבוד! החלק במקום הנכון!');
+      speak('כָּל הַכָּבוֹד! הַחֵלֶק בַּמָּקוֹם הַנָּכוֹן!');
       if (navigator.vibrate) navigator.vibrate(100);
     } else {
       showFeedback('לא במקום הנכון, אבל אפשר לנסות שוב 🔄', 'error');
-      speak('לא במקום הנכון, נסה למקום אחר');
+      speak('לֹא בַּמָּקוֹם הַנָּכוֹן, נַסֵּה לְמָקוֹם אַחֵר');
       if (navigator.vibrate) navigator.vibrate([50, 50, 50]);
     }
 
@@ -58,7 +58,7 @@ export const createDropSlice: StateCreator<PuzzleStore, [], [], DropSlice> = (se
     if (correctPieces === difficulty) {
       set({ isCompleted: true });
       showFeedback('מדהים! השלמת את הפאזל! 🎊', 'success');
-      speak('מדהים! השלמת את הפאזל בהצלחה!');
+      speak('מַדְהִים! הִשְׁלַמְתָּ אֶת הַפָּאזֶל בְּהַצְלָחָה!');
     }
 
     return isCorrect;

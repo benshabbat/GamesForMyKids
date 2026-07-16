@@ -42,7 +42,7 @@ export function useTimer() {
           intervalRef.current = null;
           setRunning(false);
           setDone(true);
-          speakHebrew('הזמן נגמר!');
+          speakHebrew('הַזְּמַן נִגְמַר!');
           return 0;
         }
         return r - 1;

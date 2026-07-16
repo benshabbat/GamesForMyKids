@@ -7,16 +7,16 @@ import type { BaseGameItem } from '@/lib/types/core/base';
  * and consumed from the store, consistent with all other card games.
  */
 export const COUNTING_ITEMS: BaseGameItem[] = [
-  { name: 'dog',        hebrew: 'כלב',     english: 'Dog',        emoji: '🐶', plural: 'כלבים',    color: 'bg-amber-400' },
-  { name: 'cat',        hebrew: 'חתול',    english: 'Cat',        emoji: '🐱', plural: 'חתולים',   color: 'bg-orange-400' },
-  { name: 'apple',      hebrew: 'תפוח',    english: 'Apple',      emoji: '🍎', plural: 'תפוחים',   color: 'bg-red-400' },
-  { name: 'star',       hebrew: 'כוכב',    english: 'Star',       emoji: '🌟', plural: 'כוכבים',   color: 'bg-yellow-400' },
-  { name: 'ball',       hebrew: 'כדור',    english: 'Ball',       emoji: '⚽', plural: 'כדורים',   color: 'bg-green-400' },
-  { name: 'flower',     hebrew: 'פרח',     english: 'Flower',     emoji: '🌸', plural: 'פרחים',    color: 'bg-pink-400' },
-  { name: 'balloon',    hebrew: 'בלון',    english: 'Balloon',    emoji: '🎈', plural: 'בלונים',   color: 'bg-blue-400' },
-  { name: 'butterfly',  hebrew: 'פרפר',    english: 'Butterfly',  emoji: '🦋', plural: 'פרפרים',   color: 'bg-purple-400' },
-  { name: 'orange',     hebrew: 'תפוז',    english: 'Orange',     emoji: '🍊', plural: 'תפוזים',   color: 'bg-orange-500' },
-  { name: 'teddy-bear', hebrew: 'דובי',    english: 'Teddy Bear', emoji: '🧸', plural: 'דובים',    color: 'bg-amber-600' },
-  { name: 'basketball', hebrew: 'כדורסל', english: 'Basketball', emoji: '🏀', plural: 'כדורי סל', color: 'bg-orange-600' },
-  { name: 'ribbon',     hebrew: 'סרט',     english: 'Ribbon',     emoji: '🎀', plural: 'סרטים',    color: 'bg-pink-600' },
+  { name: 'dog',        hebrew: 'כלב',     hebrewNikud: 'כֶּלֶב',     english: 'Dog',        emoji: '🐶', plural: 'כְּלָבִים',      color: 'bg-amber-400' },
+  { name: 'cat',        hebrew: 'חתול',    hebrewNikud: 'חָתוּל',    english: 'Cat',        emoji: '🐱', plural: 'חֲתוּלִים',     color: 'bg-orange-400' },
+  { name: 'apple',      hebrew: 'תפוח',    hebrewNikud: 'תַּפּוּחַ',   english: 'Apple',      emoji: '🍎', plural: 'תַּפּוּחִים',     color: 'bg-red-400' },
+  { name: 'star',       hebrew: 'כוכב',    hebrewNikud: 'כּוֹכָב',    english: 'Star',       emoji: '🌟', plural: 'כּוֹכָבִים',     color: 'bg-yellow-400' },
+  { name: 'ball',       hebrew: 'כדור',    hebrewNikud: 'כַּדּוּר',    english: 'Ball',       emoji: '⚽', plural: 'כַּדּוּרִים',     color: 'bg-green-400' },
+  { name: 'flower',     hebrew: 'פרח',     hebrewNikud: 'פֶּרַח',     english: 'Flower',     emoji: '🌸', plural: 'פְּרָחִים',      color: 'bg-pink-400' },
+  { name: 'balloon',    hebrew: 'בלון',    hebrewNikud: 'בָּלוֹן',    english: 'Balloon',    emoji: '🎈', plural: 'בָּלוֹנִים',     color: 'bg-blue-400' },
+  { name: 'butterfly',  hebrew: 'פרפר',    hebrewNikud: 'פַּרְפַּר',   english: 'Butterfly',  emoji: '🦋', plural: 'פַּרְפָּרִים',    color: 'bg-purple-400' },
+  { name: 'orange',     hebrew: 'תפוז',    hebrewNikud: 'תַּפּוּז',    english: 'Orange',     emoji: '🍊', plural: 'תַּפּוּזִים',     color: 'bg-orange-500' },
+  { name: 'teddy-bear', hebrew: 'דובי',    hebrewNikud: 'דֻּבִּי',    english: 'Teddy Bear', emoji: '🧸', plural: 'דֻּבִּים',      color: 'bg-amber-600' },
+  { name: 'basketball', hebrew: 'כדורסל', hebrewNikud: 'כַּדּוּרְסַל', english: 'Basketball', emoji: '🏀', plural: 'כַּדּוּרֵי סַל',  color: 'bg-orange-600' },
+  { name: 'ribbon',     hebrew: 'סרט',     hebrewNikud: 'סֶרֶט',     english: 'Ribbon',     emoji: '🎀', plural: 'סְרָטִים',      color: 'bg-pink-600' },
 ];

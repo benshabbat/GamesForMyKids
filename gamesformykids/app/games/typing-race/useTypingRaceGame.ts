@@ -2,6 +2,7 @@
 import { useEffect } from 'react';
 import { useTypingRaceStore } from './typingRaceStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { TYPING_WORD_PRONUNCIATIONS } from './typingWordBank';
 
 export function useTypingRaceGame() {
   const phase         = useTypingRaceStore(s => s.phase);
@@ -18,7 +19,7 @@ export function useTypingRaceGame() {
 
   useEffect(() => {
     if (phase === 'playing' && currentWord) {
-      speakHebrew(currentWord);
+      speakHebrew(TYPING_WORD_PRONUNCIATIONS[currentWord] ?? currentWord);
     }
   }, [phase, currentWord, currentIndex]);
 

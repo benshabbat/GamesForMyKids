@@ -74,7 +74,7 @@ export function useCountingGame() {
   const speakCountingQuestion = async (challenge: CountingChallenge): Promise<void> => {
     if (!speechEnabled) return;
     try {
-      await speakHebrew(`כמה ${challenge.itemPlural} יש?`);
+      await speakHebrew(`כַּמָּה ${challenge.itemPlural} יֵשׁ?`);
     } catch (error) {
       console.error("שגיאה בהשמעת השאלה:", error);
     }

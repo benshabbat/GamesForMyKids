@@ -3,22 +3,22 @@ import { createItemsList, DEFAULT_GAME_CONFIG } from "@/lib/constants/core";
 
 export const TOUCH_SENSES_CONSTANTS: Record<string, BaseGameItem> = {
   // מרקמים
-  SOFT_COTTON: { name: "soft_cotton", hebrew: "כותנה רכה", english: "Soft Cotton", emoji: "🤍", color: "bg-white", sound: [698, 784, 880] },
-  ROUGH_SANDPAPER: { name: "rough_sandpaper", hebrew: "נייר זכוכית מחוספס", english: "Rough Sandpaper", emoji: "🟫", color: "bg-yellow-700", sound: [196, 220, 247] },
-  SMOOTH_GLASS: { name: "smooth_glass", hebrew: "זכוכית חלקה", english: "Smooth Glass", emoji: "✨", color: "bg-blue-100", sound: [1046, 1175, 1319] },
-  BUMPY_BUBBLE: { name: "bumpy_bubble", hebrew: "בועות פיצוץ", english: "Bumpy Bubble Wrap", emoji: "🫧", color: "bg-cyan-300", sound: [440, 523, 622] },
+  SOFT_COTTON: { name: "soft_cotton", hebrew: "כותנה רכה", hebrewNikud: "כֻּתְנָה רַכָּה", english: "Soft Cotton", emoji: "🤍", color: "bg-white", sound: [698, 784, 880] },
+  ROUGH_SANDPAPER: { name: "rough_sandpaper", hebrew: "נייר זכוכית מחוספס", hebrewNikud: "נְיַר זְכוּכִית מְחֻסְפָּס", english: "Rough Sandpaper", emoji: "🟫", color: "bg-yellow-700", sound: [196, 220, 247] },
+  SMOOTH_GLASS: { name: "smooth_glass", hebrew: "זכוכית חלקה", hebrewNikud: "זְכוּכִית חֲלַקָּה", english: "Smooth Glass", emoji: "✨", color: "bg-blue-100", sound: [1046, 1175, 1319] },
+  BUMPY_BUBBLE: { name: "bumpy_bubble", hebrew: "בועות פיצוץ", hebrewNikud: "בּוּעוֹת פִּצּוּץ", english: "Bumpy Bubble Wrap", emoji: "🫧", color: "bg-cyan-300", sound: [440, 523, 622] },
 
   // טמפרטורות
-  ICE_COLD: { name: "ice_cold", hebrew: "קרח קר", english: "Ice Cold", emoji: "🧊", color: "bg-blue-200", sound: [349, 415, 494] },
-  WARM_SUN: { name: "warm_sun", hebrew: "שמש חמה", english: "Warm Sun", emoji: "☀️", color: "bg-yellow-400", sound: [523, 622, 740] },
-  COOL_BREEZE: { name: "cool_breeze", hebrew: "רוח קרירה", english: "Cool Breeze", emoji: "🌬️", color: "bg-blue-300", sound: [415, 494, 587] },
-  HOT_FIRE: { name: "hot_fire", hebrew: "אש לוהטת", english: "Hot Fire", emoji: "🔥", color: "bg-red-500", sound: [294, 330, 370] },
+  ICE_COLD: { name: "ice_cold", hebrew: "קרח קר", hebrewNikud: "קֶרַח קַר", english: "Ice Cold", emoji: "🧊", color: "bg-blue-200", sound: [349, 415, 494] },
+  WARM_SUN: { name: "warm_sun", hebrew: "שמש חמה", hebrewNikud: "שֶׁמֶשׁ חַמָּה", english: "Warm Sun", emoji: "☀️", color: "bg-yellow-400", sound: [523, 622, 740] },
+  COOL_BREEZE: { name: "cool_breeze", hebrew: "רוח קרירה", hebrewNikud: "רוּחַ קְרִירָה", english: "Cool Breeze", emoji: "🌬️", color: "bg-blue-300", sound: [415, 494, 587] },
+  HOT_FIRE: { name: "hot_fire", hebrew: "אש לוהטת", hebrewNikud: "אֵשׁ לוֹהֶטֶת", english: "Hot Fire", emoji: "🔥", color: "bg-red-500", sound: [294, 330, 370] },
 
   // חושי גוף
-  TICKLE_FEATHER: { name: "tickle_feather", hebrew: "נוצה מדגדגת", english: "Tickle Feather", emoji: "🪶", color: "bg-pink-300", sound: [784, 880, 988] },
-  HEAVY_WEIGHT: { name: "heavy_weight", hebrew: "משקל כבד", english: "Heavy Weight", emoji: "🏋️", color: "bg-gray-700", sound: [131, 147, 165] },
-  LIGHT_BALLOON: { name: "light_balloon", hebrew: "בלון קל", english: "Light Balloon", emoji: "🎈", color: "bg-red-300", sound: [659, 784, 931] },
-  VIBRATE_PHONE: { name: "vibrate_phone", hebrew: "רטט טלפון", english: "Vibrate Phone", emoji: "📳", color: "bg-purple-400", sound: [220, 220, 220] },
+  TICKLE_FEATHER: { name: "tickle_feather", hebrew: "נוצה מדגדגת", hebrewNikud: "נוֹצָה מְדַגְדֶּגֶת", english: "Tickle Feather", emoji: "🪶", color: "bg-pink-300", sound: [784, 880, 988] },
+  HEAVY_WEIGHT: { name: "heavy_weight", hebrew: "משקל כבד", hebrewNikud: "מִשְׁקָל כָּבֵד", english: "Heavy Weight", emoji: "🏋️", color: "bg-gray-700", sound: [131, 147, 165] },
+  LIGHT_BALLOON: { name: "light_balloon", hebrew: "בלון קל", hebrewNikud: "בַּלּוֹן קַל", english: "Light Balloon", emoji: "🎈", color: "bg-red-300", sound: [659, 784, 931] },
+  VIBRATE_PHONE: { name: "vibrate_phone", hebrew: "רטט טלפון", hebrewNikud: "רֶטֶט טֶלֶפוֹן", english: "Vibrate Phone", emoji: "📳", color: "bg-purple-400", sound: [220, 220, 220] },
 };
 
 export const TOUCH_SENSES_ITEMS = createItemsList(TOUCH_SENSES_CONSTANTS);

@@ -37,7 +37,7 @@ export const ROOMS: Room[] = [
         label: 'ספרייה',
         x: 12, y: 25,
         puzzle: {
-          question: 'מה ההפך של "קצר"?',
+          question: 'מָה הַהֶפֶךְ שֶׁל "קָצָר"?',
           answer: 'ארוך',
           wrongOptions: ['גדול', 'רחב', 'חזק'],
           digit: '7',
@@ -51,7 +51,7 @@ export const ROOMS: Room[] = [
         label: 'שעון',
         x: 48, y: 12,
         puzzle: {
-          question: 'כמה זה 6 + 4?',
+          question: 'כַּמָּה זֶה 6 + 4?',
           answer: '10',
           wrongOptions: ['8', '12', '9'],
           digit: '4',
@@ -65,7 +65,7 @@ export const ROOMS: Room[] = [
         label: 'חלון',
         x: 78, y: 20,
         puzzle: {
-          question: 'מה חי במים ויש לו קשקשים?',
+          question: 'מָה חַי בַּמַּיִם וְיֵשׁ לוֹ קַשְׂקַשִּׂים?',
           answer: 'דג',
           wrongOptions: ['כלב', 'ציפור', 'פרה'],
           digit: '2',
@@ -79,7 +79,7 @@ export const ROOMS: Room[] = [
         label: 'ארון',
         x: 88, y: 55,
         puzzle: {
-          question: 'כמה ימים יש בשבוע?',
+          question: 'כַּמָּה יָמִים יֵשׁ בְּשָׁבוּעַ?',
           answer: '7',
           wrongOptions: ['5', '6', '8'],
           digit: '9',
@@ -93,7 +93,7 @@ export const ROOMS: Room[] = [
         label: 'מיטה',
         x: 35, y: 68,
         puzzle: null,
-        funMessage: 'זמן לשינה? לא עכשיו — יש חדר לפרוץ!',
+        funMessage: 'זְמַן לִישׁוֹן? לֹא עַכְשָׁיו — יֵשׁ חֶדֶר לִפְרֹץ!',
       },
       {
         id: 'doll',
@@ -101,7 +101,7 @@ export const ROOMS: Room[] = [
         label: 'בובה',
         x: 60, y: 72,
         puzzle: null,
-        funMessage: 'הבובה מחייכת ואומרת: "אתה תצליח!"',
+        funMessage: 'הַבּוּבָּה מְחַיֶּיכֶת וְאוֹמֶרֶת: "אַתָּה תַּצְלִיחַ!"',
       },
       {
         id: 'lamp',
@@ -109,7 +109,7 @@ export const ROOMS: Room[] = [
         label: 'מנורה',
         x: 10, y: 58,
         puzzle: null,
-        funMessage: 'אוי — הנר דולק! אל תיכווה.',
+        funMessage: 'אוֹי — הַנֵּר דּוֹלֵק! אַל תִּכָּווֶה.',
       },
       {
         id: 'rug',
@@ -117,7 +117,7 @@ export const ROOMS: Room[] = [
         label: 'שטיח',
         x: 50, y: 85,
         puzzle: null,
-        funMessage: 'שטיח רך ונעים מתחת לרגליים.',
+        funMessage: 'שָׁטִיחַ רַךְ וְנָעִים מִתַּחַת לָרַגְלַיִם.',
       },
     ],
   },
@@ -133,7 +133,7 @@ export const ROOMS: Room[] = [
         label: 'לוח',
         x: 45, y: 10,
         puzzle: {
-          question: 'מה ההפך של "גדול"?',
+          question: 'מָה הַהֶפֶךְ שֶׁל "גָּדוֹל"?',
           answer: 'קטן',
           wrongOptions: ['שמח', 'מהיר', 'ארוך'],
           digit: '3',
@@ -147,7 +147,7 @@ export const ROOMS: Room[] = [
         label: 'שולחן מורה',
         x: 15, y: 60,
         puzzle: {
-          question: 'כמה זה 8 - 3?',
+          question: 'כַּמָּה זֶה 8 - 3?',
           answer: '5',
           wrongOptions: ['4', '6', '3'],
           digit: '8',
@@ -161,7 +161,7 @@ export const ROOMS: Room[] = [
         label: 'מפה',
         x: 82, y: 25,
         puzzle: {
-          question: 'מה בירת מדינת ישראל?',
+          question: 'מָה בִּירַת מְדִינַת יִשְׂרָאֵל?',
           answer: 'ירושלים',
           wrongOptions: ['תל-אביב', 'חיפה', 'באר-שבע'],
           digit: '1',
@@ -175,7 +175,7 @@ export const ROOMS: Room[] = [
         label: 'ספריית כיתה',
         x: 82, y: 70,
         puzzle: {
-          question: 'כמה חודשים יש בשנה?',
+          question: 'כַּמָּה חֳדָשִׁים יֵשׁ בְּשָׁנָה?',
           answer: '12',
           wrongOptions: ['10', '11', '13'],
           digit: '6',
@@ -189,7 +189,7 @@ export const ROOMS: Room[] = [
         label: 'גלובוס',
         x: 65, y: 18,
         puzzle: null,
-        funMessage: 'העולם גדול ומרתק! יש בו יותר מ-190 מדינות.',
+        funMessage: 'הָעוֹלָם גָּדוֹל וּמְרַתֵּק! יֵשׁ בּוֹ יוֹתֵר מ-190 מְדִינוֹת.',
       },
       {
         id: 'backpack',
@@ -197,7 +197,7 @@ export const ROOMS: Room[] = [
         label: 'תיק תלמיד',
         x: 30, y: 80,
         puzzle: null,
-        funMessage: 'תיק כבד... כנראה הרבה שיעורי בית בפנים.',
+        funMessage: 'תִּיק כָּבֵד... כַּנִּרְאֶה הַרְבֵּה שִׁעוּרֵי בַּיִת בִּפְנִים.',
       },
       {
         id: 'pencil',
@@ -205,7 +205,7 @@ export const ROOMS: Room[] = [
         label: 'עיפרון',
         x: 60, y: 75,
         puzzle: null,
-        funMessage: 'עיפרון חד ומוכן לכתיבה!',
+        funMessage: 'עִפָּרוֹן חַד וּמוּכָן לִכְתִיבָה!',
       },
       {
         id: 'window-class',
@@ -213,7 +213,7 @@ export const ROOMS: Room[] = [
         label: 'חלון כיתה',
         x: 10, y: 22,
         puzzle: null,
-        funMessage: 'מבחוץ נשמע קול ציפורים. איזה יום יפה!',
+        funMessage: 'מִבַּחוּץ נִשְׁמָע קוֹל צִפֳּרִים. אֵיזֶה יוֹם יָפֶה!',
       },
     ],
   },

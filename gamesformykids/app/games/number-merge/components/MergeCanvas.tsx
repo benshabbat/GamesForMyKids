@@ -182,7 +182,7 @@ export default function MergeCanvas() {
     const heA = HEBREW_NUMBERS[a] ?? String(a);
     const heB = HEBREW_NUMBERS[b] ?? String(b);
     const heR = HEBREW_NUMBERS[result] ?? String(result);
-    speakHebrew(`${heA} ועוד ${heB} שווה ${heR}!`);
+    speakHebrew(`${heA} וְעוֹד ${heB} שָׁוֶה ${heR}!`);
   }, []);
 
   const tick = useCallback((ctx: CanvasRenderingContext2D) => {

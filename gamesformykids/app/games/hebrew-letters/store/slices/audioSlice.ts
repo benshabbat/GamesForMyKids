@@ -35,7 +35,7 @@ export const createAudioSlice: StateCreator<HebrewLettersStore, [['zustand/devto
     if (!isAudioEnabled) return;
     const letterToSpeak = letter ?? currentLetter?.letter ?? '';
     const pronunciation = currentLetter?.pronunciation ?? letter ?? '';
-    speakText(`האות ${letterToSpeak}, ${pronunciation}`);
+    speakText(`הָאוֹת ${letterToSpeak}, ${pronunciation}`);
   },
 
   playEncouragementSound: () => {

@@ -35,7 +35,7 @@ export function useTeamPicker() {
     setTeams(result);
     let delay = 300;
     result.forEach((team, i) => {
-      setTimeout(() => speakHebrew(`קבוצה ${i + 1}: ${team.join(', ')}`), delay);
+      setTimeout(() => speakHebrew(`קְבוּצָה ${i + 1}: ${team.join(', ')}`), delay);
       delay += team.length * 600 + 800;
     });
   }, [namesInput, numTeams]);

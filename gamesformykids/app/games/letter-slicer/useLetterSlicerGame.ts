@@ -52,7 +52,7 @@ export function useLetterSlicerGame() {
     const t = pool[Math.floor(Math.random() * pool.length)]!.word;
     targetRef.current = t;
     setTarget(t);
-    speakHebrew(`חתוך את: ${t}`);
+    speakHebrew(`חֲתוֹךְ אֶת: ${t}`);
   }, []);
 
   const startGame = useCallback((d: Difficulty) => {
@@ -67,7 +67,7 @@ export function useLetterSlicerGame() {
   const endGame = useCallback(() => {
     phaseRef.current = 'result';
     setPhase('result');
-    setTimeout(() => speakHebrew(`כל הכבוד! קיבלת ${scoreRef.current} נקודות!`), 300);
+    setTimeout(() => speakHebrew(`כָּל הַכָּבוֹד! קִבַּלְתָּ ${scoreRef.current} נְקֻדּוֹת!`), 300);
   }, []);
 
   const canvasRef = useCanvasLoop(useCallback((ctx: CanvasRenderingContext2D, dt: number) => {
@@ -179,12 +179,12 @@ export function useLetterSlicerGame() {
         bubblesRef.current.splice(i, 1);
         scoreRef.current += 10; setScore(scoreRef.current);
         successTimer.current = 350;
-        speakHebrew(`כן! ${b.word}!`);
+        speakHebrew(`כֵּן! ${b.word}!`);
         targetRef.current = ''; setTarget('');
       } else {
         flashTimer.current = 400;
         heartsRef.current -= 1; setHearts(heartsRef.current);
-        speakHebrew('לא נכון!');
+        speakHebrew('לֹא נָכוֹן!');
         if (heartsRef.current <= 0) setTimeout(endGame, 500);
       }
       break;

@@ -8,20 +8,20 @@ import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
 type DrumWord = { word: string; letters: string[] };
 
 const DRUM_WORDS: DrumWord[] = [
-  { word: 'שלום', letters: ['ש', 'ל', 'ו', 'ם'] },
-  { word: 'חתול', letters: ['ח', 'ת', 'ו', 'ל'] },
-  { word: 'כלב', letters: ['כ', 'ל', 'ב'] },
-  { word: 'ספר', letters: ['ס', 'פ', 'ר'] },
-  { word: 'ילד', letters: ['י', 'ל', 'ד'] },
-  { word: 'שמש', letters: ['ש', 'מ', 'ש'] },
-  { word: 'ציפור', letters: ['צ', 'י', 'פ', 'ו', 'ר'] },
-  { word: 'אריה', letters: ['א', 'ר', 'י', 'ה'] },
-  { word: 'ארנב', letters: ['א', 'ר', 'נ', 'ב'] },
-  { word: 'ירח', letters: ['י', 'ר', 'ח'] },
-  { word: 'בית', letters: ['ב', 'י', 'ת'] },
-  { word: 'כיסא', letters: ['כ', 'י', 'ס', 'א'] },
-  { word: 'מים', letters: ['מ', 'י', 'מ'] },
-  { word: 'אהבה', letters: ['א', 'ה', 'ב', 'ה'] },
+  { word: 'שָׁלוֹם', letters: ['ש', 'ל', 'ו', 'ם'] },
+  { word: 'חָתוּל', letters: ['ח', 'ת', 'ו', 'ל'] },
+  { word: 'כֶּלֶב', letters: ['כ', 'ל', 'ב'] },
+  { word: 'סֵפֶר', letters: ['ס', 'פ', 'ר'] },
+  { word: 'יֶלֶד', letters: ['י', 'ל', 'ד'] },
+  { word: 'שֶׁמֶשׁ', letters: ['ש', 'מ', 'ש'] },
+  { word: 'צִפּוֹר', letters: ['צ', 'י', 'פ', 'ו', 'ר'] },
+  { word: 'אַרְיֵה', letters: ['א', 'ר', 'י', 'ה'] },
+  { word: 'אַרְנָב', letters: ['א', 'ר', 'נ', 'ב'] },
+  { word: 'יָרֵחַ', letters: ['י', 'ר', 'ח'] },
+  { word: 'בַּיִת', letters: ['ב', 'י', 'ת'] },
+  { word: 'כִּסֵּא', letters: ['כ', 'י', 'ס', 'א'] },
+  { word: 'מַיִם', letters: ['מ', 'י', 'מ'] },
+  { word: 'אַהֲבָה', letters: ['א', 'ה', 'ב', 'ה'] },
 ];
 
 export const WORDS_PER_GAME = 8;

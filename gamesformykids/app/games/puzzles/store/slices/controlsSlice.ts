@@ -13,13 +13,13 @@ export const createControlsSlice: StateCreator<PuzzleStore, [], [], ControlsSlic
   toggleHints: () => {
     const { showHints, speak } = get();
     set({ showHints: !showHints });
-    speak(!showHints ? 'רמזים מוצגים' : 'רמזים הוסתרו');
+    speak(!showHints ? 'רְמָזִים מוּצָגִים' : 'רְמָזִים הוּסְתְּרוּ');
   },
 
   toggleDebug: () => {
     const { showDebug, speak } = get();
     set({ showDebug: !showDebug });
-    speak(!showDebug ? 'מצב דיבוג פועל' : 'מצב דיבוג כבוי');
+    speak(!showDebug ? 'מַצַּב דִּיבּוּג פּוֹעֵל' : 'מַצַּב דִּיבּוּג כָּבוּי');
   },
 
   toggleHelp: () => set(s => ({ showHelp: !s.showHelp })),
@@ -27,11 +27,11 @@ export const createControlsSlice: StateCreator<PuzzleStore, [], [], ControlsSlic
   changeDifficulty: (newDifficulty) => {
     const { speak, image, initializeGame } = get();
     const name = newDifficulty === 4 ? 'קל' : newDifficulty === 9 ? 'בינוני' : newDifficulty === 16 ? 'קשה' : 'מומחה';
-    speak(`רמה חדשה נבחרה: ${name} עם ${newDifficulty} חלקים`);
+    speak(`רָמָה חֲדָשָׁה נִבְחֲרָה: ${name} עִם ${newDifficulty} חֲלָקִים`);
     set({ difficulty: newDifficulty });
     if (image) {
       initializeGame(image, newDifficulty);
-      speak(`המשחק התחיל מחדש ברמת ${name}`);
+      speak(`הַמִּשְׂחָק הִתְחִיל מֵחָדָשׁ בְּרָמַת ${name}`);
     }
   },
 });

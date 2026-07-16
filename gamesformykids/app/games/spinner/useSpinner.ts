@@ -73,7 +73,7 @@ export function useSpinner() {
         setIsSpinning(false);
         const winner = segments[winIndex] ?? '';
         setResult(winner);
-        if (winner) speakHebrew(`קיבלת: ${winner}!`);
+        if (winner) speakHebrew(`קִבַּלְתָּ: ${winner}!`);
       }
     }
 

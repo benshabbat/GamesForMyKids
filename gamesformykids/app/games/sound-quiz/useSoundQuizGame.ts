@@ -50,7 +50,7 @@ export function useSoundQuizGame() {
     if (!current) return;
     const correct = clip.id === current.clip.id;
     answer(clip.id, correct);
-    speakHebrew(correct ? `נכון! ${current.clip.name}` : `לא נכון. התשובה הנכונה היא ${current.clip.name}`);
+    speakHebrew(correct ? `נָכוֹן! ${current.clip.name}` : `לֹא נָכוֹן. הַתְּשׁוּבָה הַנְּכוֹנָה הִיא ${current.clip.name}`);
     setTimeout(() => useQuizGameStore.getState().nextQuestion(), ADVANCE_DELAY_MS);
   }, [current, answer]);
 

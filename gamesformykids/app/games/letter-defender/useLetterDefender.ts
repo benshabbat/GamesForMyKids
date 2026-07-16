@@ -18,7 +18,7 @@ export function useLetterDefender() {
   // TTS: announce target word at start of each wave
   useEffect(() => {
     if (phase === 'playing' && targetWord) {
-      speak(`הגן על המילה ${targetWord}!`);
+      speak(`הָגֵן עַל הַמִּלָּה ${targetWord}!`);
     }
   }, [wave, phase, targetWord]);
 

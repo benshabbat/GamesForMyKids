@@ -4,6 +4,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-10ag',
     hebrew: 'עשרה אגורות',
+    hebrewNikud: 'עֲשָׂרָה אֲגוֹרוֹת',
     english: '10 Agorot',
     emoji: '🪙',
     color: 'bg-gradient-to-br from-gray-300 to-gray-500',
@@ -12,6 +13,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-50ag',
     hebrew: 'חמישים אגורות',
+    hebrewNikud: 'חֲמִישִׁים אֲגוֹרוֹת',
     english: '50 Agorot',
     emoji: '🪙',
     color: 'bg-gradient-to-br from-gray-400 to-gray-600',
@@ -20,6 +22,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-1nis',
     hebrew: 'שקל אחד',
+    hebrewNikud: 'שֶׁקֶל אֶחָד',
     english: '1 Shekel',
     emoji: '💰',
     color: 'bg-gradient-to-br from-yellow-300 to-yellow-500',
@@ -28,6 +31,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-2nis',
     hebrew: 'שני שקלים',
+    hebrewNikud: 'שְׁנֵי שְׁקָלִים',
     english: '2 Shekels',
     emoji: '💰',
     color: 'bg-gradient-to-br from-yellow-400 to-amber-500',
@@ -36,6 +40,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-5nis',
     hebrew: 'חמישה שקלים',
+    hebrewNikud: 'חֲמִישָׁה שְׁקָלִים',
     english: '5 Shekels',
     emoji: '💰',
     color: 'bg-gradient-to-br from-amber-400 to-orange-500',
@@ -44,6 +49,7 @@ export const ISRAELI_COINS: BaseGameItem[] = [
   {
     name: 'coin-10nis',
     hebrew: 'עשרה שקלים',
+    hebrewNikud: 'עֲשָׂרָה שְׁקָלִים',
     english: '10 Shekels',
     emoji: '💎',
     color: 'bg-gradient-to-br from-amber-500 to-yellow-700',

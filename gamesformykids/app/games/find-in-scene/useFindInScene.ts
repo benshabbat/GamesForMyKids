@@ -35,7 +35,7 @@ export function useFindInScene() {
       speakHebrew(prompt.text);
     } else if (phase === 'result') {
       const won = foundIds.size >= targetIds.size;
-      speakHebrew(won ? 'מעולה! מצאת את כולם!' : 'נגמר הזמן — בוא ננסה שוב!');
+      speakHebrew(won ? 'מְעֻלֶּה! מָצָאתָ אֶת כֻּלָּם!' : 'נִגְמַר הַזְּמַן — בּוֹא נְנַסֶּה שׁוּב!');
     }
   }, [phase, prompt.text, foundIds.size, targetIds.size]);
 
