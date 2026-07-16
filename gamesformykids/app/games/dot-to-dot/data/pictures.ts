@@ -90,13 +90,16 @@ export const DOT_TO_DOT_PICTURES: DotToDotPicture[] = [
     viewBox: '0 0 300 300',
     closed: true,
     imageSrc: '/images/dot-to-dot/butterfly.png',
-    // Traced from public/images/dot-to-dot/butterfly.png (curly antennae + 4 patterned wing lobes).
+    // Auto-detected from public/images/dot-to-dot/butterfly.png via the
+    // dot-to-dot editor's outline-detection (contourTrace.ts): threshold,
+    // fill, trace the outer silhouette, simplify, and resample to 24 points.
     points: [
-      { x: 138, y: 118 }, { x: 125, y: 93 }, { x: 144, y: 113 }, { x: 174, y: 94 },
-      { x: 162, y: 118 }, { x: 200, y: 91 }, { x: 237, y: 103 }, { x: 234, y: 133 },
-      { x: 200, y: 142 }, { x: 222, y: 148 }, { x: 240, y: 181 }, { x: 210, y: 199 },
-      { x: 150, y: 203 }, { x: 90, y: 199 }, { x: 63, y: 181 }, { x: 78, y: 148 },
-      { x: 101, y: 142 }, { x: 66, y: 133 }, { x: 29, y: 103 }, { x: 66, y: 91 },
+      { x: 127, y: 90 }, { x: 146, y: 116 }, { x: 166, y: 93 }, { x: 174, y: 101 },
+      { x: 159, y: 109 }, { x: 172, y: 121 }, { x: 197, y: 100 }, { x: 229, y: 97 },
+      { x: 225, y: 126 }, { x: 214, y: 155 }, { x: 212, y: 177 }, { x: 200, y: 203 },
+      { x: 172, y: 202 }, { x: 154, y: 190 }, { x: 133, y: 192 }, { x: 110, y: 207 },
+      { x: 89, y: 187 }, { x: 95, y: 161 }, { x: 77, y: 138 }, { x: 68, y: 107 },
+      { x: 92, y: 96 }, { x: 118, y: 114 }, { x: 140, y: 121 }, { x: 130, y: 93 },
     ],
   },
 ];
