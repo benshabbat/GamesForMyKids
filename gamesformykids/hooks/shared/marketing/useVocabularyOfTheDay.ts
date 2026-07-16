@@ -46,7 +46,7 @@ export function useVocabularyOfTheDay() {
     setVisible(true);
 
     const speakTimer = setTimeout(() => {
-      speak(`המילה של היום היא ${item.hebrew}`).catch(() => {});
+      speak(`הַמִּלָּה שֶׁל הַיּוֹם הִיא ${item.hebrew}`).catch(() => {});
     }, 600);
 
     const hideTimer = setTimeout(() => setVisible(false), 4600);

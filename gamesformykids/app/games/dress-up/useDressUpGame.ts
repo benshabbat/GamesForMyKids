@@ -18,23 +18,23 @@ export interface ClothingItem {
 }
 
 export const CLOTHING: ClothingItem[] = [
-  { name: 'hat',        hebrew: 'כּוֹבַע',          prompt: 'שים כובע!',          emoji: '🧢', zone: 'head',   category: 'daily' },
-  { name: 'shirt',      hebrew: 'חוּלְצָה',          prompt: 'שים חולצה!',         emoji: '👕', zone: 'torso',  category: 'daily' },
-  { name: 'dress',      hebrew: 'שִׂמְלָה',          prompt: 'שים שמלה!',          emoji: '👗', zone: 'torso',  category: 'daily' },
-  { name: 'pants',      hebrew: 'מִכְנָסַיִם',        prompt: 'שים מכנסיים!',       emoji: '👖', zone: 'legs',   category: 'daily' },
-  { name: 'shoes',      hebrew: 'נַעֲלַיִם',          prompt: 'שים נעליים!',        emoji: '👟', zone: 'feet',   category: 'daily' },
-  { name: 'socks',      hebrew: 'גַּרְבַּיִם',        prompt: 'שים גרביים!',        emoji: '🧦', zone: 'feet',   category: 'daily' },
-  { name: 'coat',       hebrew: 'מְעִיל',            prompt: 'שים מעיל!',          emoji: '🧥', zone: 'torso',  category: 'seasonal' },
-  { name: 'scarf',      hebrew: 'צָעִיף',            prompt: 'שים צעיף!',          emoji: '🧣', zone: 'neck',   category: 'seasonal' },
-  { name: 'gloves',     hebrew: 'כְּפָפוֹת',          prompt: 'שים כפפות!',         emoji: '🧤', zone: 'hands',  category: 'seasonal' },
-  { name: 'boots',      hebrew: 'מַגָּפַיִם',          prompt: 'שים מגפיים!',        emoji: '👢', zone: 'feet',   category: 'seasonal' },
-  { name: 'sunglasses', hebrew: 'מִשְׁקְפֵי שֶׁמֶשׁ', prompt: 'שים משקפי שמש!',    emoji: '🕶️', zone: 'head',   category: 'seasonal' },
-  { name: 'umbrella',   hebrew: 'מִטְרִיָּה',          prompt: 'שים מטרייה!',        emoji: '☂️', zone: 'hands',  category: 'seasonal' },
-  { name: 'hard-hat',   hebrew: 'קַסְדָּה',           prompt: 'שים קסדה!',          emoji: '⛑️', zone: 'head',   category: 'professions' },
-  { name: 'graduation', hebrew: 'כּוֹבַע סִיּוּם',    prompt: 'שים כובע סיום!',     emoji: '🎓', zone: 'head',   category: 'professions' },
-  { name: 'lab-coat',   hebrew: 'חֲלוּק לָבָן',       prompt: 'שים חלוק לבן!',      emoji: '🥼', zone: 'torso',  category: 'professions' },
-  { name: 'backpack',   hebrew: 'תִּיק גַּב',          prompt: 'שים תיק גב!',        emoji: '🎒', zone: 'hands',  category: 'professions' },
-  { name: 'stethoscope',hebrew: 'סְטֶתוֹסְקוֹפ',      prompt: 'שים סטטוסקופ!',      emoji: '🩺', zone: 'neck',   category: 'professions' },
+  { name: 'hat',        hebrew: 'כּוֹבַע',          prompt: 'שִׂים כּוֹבַע!',          emoji: '🧢', zone: 'head',   category: 'daily' },
+  { name: 'shirt',      hebrew: 'חוּלְצָה',          prompt: 'שִׂים חֻלְצָה!',         emoji: '👕', zone: 'torso',  category: 'daily' },
+  { name: 'dress',      hebrew: 'שִׂמְלָה',          prompt: 'שִׂים שִׂמְלָה!',          emoji: '👗', zone: 'torso',  category: 'daily' },
+  { name: 'pants',      hebrew: 'מִכְנָסַיִם',        prompt: 'שִׂים מִכְנָסַיִם!',       emoji: '👖', zone: 'legs',   category: 'daily' },
+  { name: 'shoes',      hebrew: 'נַעֲלַיִם',          prompt: 'שִׂים נַעֲלַיִם!',        emoji: '👟', zone: 'feet',   category: 'daily' },
+  { name: 'socks',      hebrew: 'גַּרְבַּיִם',        prompt: 'שִׂים גַּרְבַּיִם!',        emoji: '🧦', zone: 'feet',   category: 'daily' },
+  { name: 'coat',       hebrew: 'מְעִיל',            prompt: 'שִׂים מְעִיל!',          emoji: '🧥', zone: 'torso',  category: 'seasonal' },
+  { name: 'scarf',      hebrew: 'צָעִיף',            prompt: 'שִׂים צָעִיף!',          emoji: '🧣', zone: 'neck',   category: 'seasonal' },
+  { name: 'gloves',     hebrew: 'כְּפָפוֹת',          prompt: 'שִׂים כְּפָפוֹת!',         emoji: '🧤', zone: 'hands',  category: 'seasonal' },
+  { name: 'boots',      hebrew: 'מַגָּפַיִם',          prompt: 'שִׂים מַגָּפַיִם!',        emoji: '👢', zone: 'feet',   category: 'seasonal' },
+  { name: 'sunglasses', hebrew: 'מִשְׁקְפֵי שֶׁמֶשׁ', prompt: 'שִׂים מִשְׁקְפֵי שֶׁמֶשׁ!',    emoji: '🕶️', zone: 'head',   category: 'seasonal' },
+  { name: 'umbrella',   hebrew: 'מִטְרִיָּה',          prompt: 'שִׂים מִטְרִיָּה!',        emoji: '☂️', zone: 'hands',  category: 'seasonal' },
+  { name: 'hard-hat',   hebrew: 'קַסְדָּה',           prompt: 'שִׂים קַסְדָּה!',          emoji: '⛑️', zone: 'head',   category: 'professions' },
+  { name: 'graduation', hebrew: 'כּוֹבַע סִיּוּם',    prompt: 'שִׂים כּוֹבַע סִיּוּם!',     emoji: '🎓', zone: 'head',   category: 'professions' },
+  { name: 'lab-coat',   hebrew: 'חֲלוּק לָבָן',       prompt: 'שִׂים חֲלוּק לָבָן!',      emoji: '🥼', zone: 'torso',  category: 'professions' },
+  { name: 'backpack',   hebrew: 'תִּיק גַּב',          prompt: 'שִׂים תִּיק גַּב!',        emoji: '🎒', zone: 'hands',  category: 'professions' },
+  { name: 'stethoscope',hebrew: 'סְטֶתוֹסְקוֹפ',      prompt: 'שִׂים סְטֶתוֹסְקוֹפּ!',      emoji: '🩺', zone: 'neck',   category: 'professions' },
 ];
 
 export const ZONE_ORDER: Zone[] = ['head', 'neck', 'torso', 'hands', 'legs', 'feet'];
@@ -86,11 +86,11 @@ export function useDressUpGame() {
     if (item.name === current.name) {
       setDressed(d => ({ ...d, [current.zone]: current }));
       answer(item.name, true);
-      speakHebrew(`כן! ${current.hebrew}!`);
+      speakHebrew(`כֵּן! ${current.hebrew}!`);
       timerRef.current = setTimeout(() => useQuizGameStore.getState().nextQuestion(), ADVANCE_DELAY_MS);
     } else {
       setWrongFlash(true);
-      speakHebrew('לא נכון, נסה שוב!');
+      speakHebrew('לֹא נָכוֹן, נַסֵּה שׁוּב!');
       timerRef.current = setTimeout(() => setWrongFlash(false), RETRY_DELAY_MS);
     }
   }, [current, wrongFlash, answer]);

@@ -10,10 +10,10 @@ import { getActiveHoliday } from '@/lib/constants/holidayLanes';
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 
 const CELEBRATION_PHRASES = [
-  'כל הכבוד! עשית עבודה מדהימה!',
-  'וואו! אתה פשוט מדהים!',
-  'יופי! הצלחת!',
-  'כל הכבוד! המשך כך!',
+  'כָּל הַכָּבוֹד! עָשִׂיתָ עֲבוֹדָה מַדְהִימָה!',
+  'וואו! אַתָּה פָּשׁוּט מַדְהִים!',
+  'יוֹפִי! הִצְלַחְתָּ!',
+  'כָּל הַכָּבוֹד! הַמְשֵׁךְ כָּךְ!',
 ] as const;
 
 function getSeasonalEmojis(): string[] {

@@ -19,18 +19,18 @@ export const WEATHER_HEBREW_PRONUNCIATIONS = createPronunciationDictionary(WEATH
 export const WEATHER_GAME_CONSTANTS = DEFAULT_GAME_CONFIG;
 
 export const ADVANCED_WEATHER_CONSTANTS: Record<string, BaseGameItem> = {
-  TORNADO: { name: "tornado", hebrew: "סופת טורנדו", english: "Tornado", emoji: "🌪️", color: "bg-gray-600", sound: [220, 330, 440] },
-  AURORA: { name: "aurora", hebrew: "זוהר צפוני", english: "Aurora", emoji: "🌌", color: "bg-purple-500", sound: [523, 659, 784] },
-  TYPHOON: { name: "typhoon", hebrew: "סופת טייפון", english: "Typhoon", emoji: "🌀", color: "bg-blue-700", sound: [196, 294, 392] },
-  HAIL: { name: "hail", hebrew: "ברד", english: "Hail", emoji: "🧊", color: "bg-cyan-400", sound: [659, 784, 880] },
-  MONSOON: { name: "monsoon", hebrew: "מונסון", english: "Monsoon", emoji: "🌧️", color: "bg-blue-500", sound: [330, 415, 523] },
-  BLIZZARD: { name: "blizzard", hebrew: "סופת שלגים", english: "Blizzard", emoji: "❄️", color: "bg-white", sound: [440, 554, 659] },
-  SANDSTORM: { name: "sandstorm", hebrew: "סופת חול", english: "Sandstorm", emoji: "🌪️", color: "bg-yellow-600", sound: [247, 311, 370] },
-  CYCLONE: { name: "cyclone", hebrew: "ציקלון", english: "Cyclone", emoji: "🌀", color: "bg-gray-500", sound: [185, 247, 311] },
-  DROUGHT: { name: "drought", hebrew: "בצורת", english: "Drought", emoji: "🏜️", color: "bg-orange-400", sound: [294, 370, 440] },
-  HUMIDITY: { name: "humidity", hebrew: "לחות גבוהה", english: "High Humidity", emoji: "💧", color: "bg-blue-300", sound: [415, 523, 622] },
-  FROST: { name: "frost", hebrew: "כפור", english: "Frost", emoji: "❄️", color: "bg-blue-100", sound: [622, 740, 831] },
-  LIGHTNING: { name: "lightning", hebrew: "ברק", english: "Lightning", emoji: "⚡", color: "bg-yellow-400", sound: [740, 831, 988] },
+  TORNADO: { name: "tornado", hebrew: "סופת טורנדו", hebrewNikud: "טוֹר-נָ-דוֹ", english: "Tornado", emoji: "🌪️", color: "bg-gray-600", sound: [220, 330, 440] },
+  AURORA: { name: "aurora", hebrew: "זוהר צפוני", hebrewNikud: "אַו-רוֹ-רָה", english: "Aurora", emoji: "🌌", color: "bg-purple-500", sound: [523, 659, 784] },
+  TYPHOON: { name: "typhoon", hebrew: "סופת טייפון", hebrewNikud: "טַיי-פוּן", english: "Typhoon", emoji: "🌀", color: "bg-blue-700", sound: [196, 294, 392] },
+  HAIL: { name: "hail", hebrew: "ברד", hebrewNikud: "בָּרָד", english: "Hail", emoji: "🧊", color: "bg-cyan-400", sound: [659, 784, 880] },
+  MONSOON: { name: "monsoon", hebrew: "מונסון", hebrewNikud: "מוֹן-סוּן", english: "Monsoon", emoji: "🌧️", color: "bg-blue-500", sound: [330, 415, 523] },
+  BLIZZARD: { name: "blizzard", hebrew: "סופת שלגים", hebrewNikud: "בְּלִי-זַרד", english: "Blizzard", emoji: "❄️", color: "bg-white", sound: [440, 554, 659] },
+  SANDSTORM: { name: "sandstorm", hebrew: "סופת חול", hebrewNikud: "סוּ-פַת חוֹל", english: "Sandstorm", emoji: "🌪️", color: "bg-yellow-600", sound: [247, 311, 370] },
+  CYCLONE: { name: "cyclone", hebrew: "ציקלון", hebrewNikud: "צִי-קְלוֹן", english: "Cyclone", emoji: "🌀", color: "bg-gray-500", sound: [185, 247, 311] },
+  DROUGHT: { name: "drought", hebrew: "בצורת", hebrewNikud: "בְּצוֹ-רֶת", english: "Drought", emoji: "🏜️", color: "bg-orange-400", sound: [294, 370, 440] },
+  HUMIDITY: { name: "humidity", hebrew: "לחות גבוהה", hebrewNikud: "לַח-פַּנִי", english: "High Humidity", emoji: "💧", color: "bg-blue-300", sound: [415, 523, 622] },
+  FROST: { name: "frost", hebrew: "כפור", hebrewNikud: "כְּפוֹר", english: "Frost", emoji: "❄️", color: "bg-blue-100", sound: [622, 740, 831] },
+  LIGHTNING: { name: "lightning", hebrew: "ברק", hebrewNikud: "בָּרָק", english: "Lightning", emoji: "⚡", color: "bg-yellow-400", sound: [740, 831, 988] },
 };
 
 export const ADVANCED_WEATHER_ITEMS = createItemsList(ADVANCED_WEATHER_CONSTANTS);

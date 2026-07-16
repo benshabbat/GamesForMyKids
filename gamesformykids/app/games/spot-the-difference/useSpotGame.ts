@@ -144,7 +144,7 @@ export function useSpotGame() {
     setWrongIdx(null);
     setPhase('playing');
     const s = SCENES[idx]!;
-    setTimeout(() => speakHebrew(`מצא 5 הבדלים ב${s.name}!`), 300);
+    setTimeout(() => speakHebrew(`מְצָא 5 הֶבְדֵּלִים בְּ${s.name}!`), 300);
   }, []);
 
   const startGame = useCallback(() => {
@@ -179,19 +179,19 @@ export function useSpotGame() {
       setFound(newFound);
       const newScore = scoreRef.current + DIFF_POINTS;
       setScore(newScore);
-      speakHebrew(`כן! מצאת! ${diff.hint}`);
+      speakHebrew(`כֵּן! מָצָאתָ! ${diff.hint}`);
 
       if (newFound.size >= scene.diffs.length) {
         stopTimer();
         setTimeout(() => {
           setPhase('result');
-          speakHebrew('מדהים! מצאת את כל ה-5 הבדלים!');
+          speakHebrew('מַדְהִים! מָצָאתָ אֶת כָּל הַ-5 הֶבְדֵּלִים!');
         }, 600);
       }
     } else {
       setWrongIdx(index);
       setShake(true);
-      speakHebrew('לא הבדל כאן!');
+      speakHebrew('לֹא הֶבְדֵּל כָּאן!');
       if (flashRef.current) clearTimeout(flashRef.current);
       flashRef.current = setTimeout(() => {
         setWrongIdx(null);

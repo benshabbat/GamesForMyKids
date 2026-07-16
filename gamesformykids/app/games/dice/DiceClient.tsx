@@ -55,7 +55,7 @@ export default function DiceClient() {
       setRolling(false);
 
       const ttsText = newResults
-        .map((i) => `קיבלת: ${dice.tts[i]}`)
+        .map((i) => `קִבַּלְתָּ: ${dice.tts[i]}`)
         .join('. ');
       speakHebrew(ttsText);
     }, 600);

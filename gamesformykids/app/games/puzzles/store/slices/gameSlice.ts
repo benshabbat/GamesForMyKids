@@ -48,7 +48,7 @@ export const createGameSlice: StateCreator<PuzzleStore, [], [], GameSlice> = (se
         imageLoaded: true,
         difficulty: puzzle.gridSize,
       });
-      get().speak(`התחיל משחק ${puzzle.name}! בואו נתחיל לשחק`);
+      get().speak(`הִתְחִיל מִשְׂחָק ${puzzle.name}! בּוֹאוּ נַתְחִיל לְשַׂחֵק`);
     };
     img.onerror = () => get().showFeedback('שגיאה בטעינת התמונה', 'error');
     img.src = puzzle.imageUrl;
@@ -61,13 +61,13 @@ export const createGameSlice: StateCreator<PuzzleStore, [], [], GameSlice> = (se
     } else if (image) {
       initializeGame(image);
     }
-    speak('המשחק אופס');
+    speak('הַמִּשְׂחָק אֻפַּס');
   },
 
   shufflePieces: () => {
     const { pieces, speak } = get();
     set({ pieces: [...pieces].sort(() => Math.random() - 0.5) });
-    speak('החלקים עורבבו');
+    speak('הַחֲלָקִים עֻרְבְּבוּ');
   },
 
   handleImageUpload: (event) => {

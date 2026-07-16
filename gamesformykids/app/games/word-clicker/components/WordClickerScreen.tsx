@@ -1,6 +1,6 @@
 'use client';
 import { useEffect } from 'react';
-import { useWordClickerStore, type FloatingLetter } from '../wordClickerStore';
+import { useWordClickerStore, WORD_PRONUNCIATIONS, type FloatingLetter } from '../wordClickerStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 export default function WordClickerScreen() {
@@ -10,7 +10,7 @@ export default function WordClickerScreen() {
 
   useEffect(() => {
     if (feedback === 'correct' && currentLetterIndex === 0 && word) {
-      void speakHebrew(word);
+      void speakHebrew(WORD_PRONUNCIATIONS[word] ?? word);
     }
   }, [wordIndex, feedback, word, currentLetterIndex]);
 

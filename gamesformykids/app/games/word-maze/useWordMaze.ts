@@ -105,7 +105,7 @@ export function useWordMaze() {
     setTargetWord(word);
     setNextLetterIndex(0);
     setPhase('playing');
-    speakHebrew(`מצא את האותיות של המילה: ${chars.join(' ')}`);
+    speakHebrew(`מְצָא אֶת הָאוֹתִיּוֹת שֶׁל הַמִּלָּה: ${chars.join(' ')}`);
   }, [level]);
 
   const movePlayer = useCallback((dr: number, dc: number) => {
@@ -128,7 +128,7 @@ export function useWordMaze() {
 
         if (newNext === lettersRef.current.length) {
           phaseRef.current = 'win';
-          speakHebrew(targetWordRef.current + '! כל הכבוד!');
+          speakHebrew(targetWordRef.current + '! כָּל הַכָּבוֹד!');
           setScore(s => s + 1);
           setWordsCompleted(w => w + 1);
           setTimeout(() => setPhase('win'), 800);

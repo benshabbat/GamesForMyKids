@@ -11,18 +11,18 @@ export const SEL_WIDTH = 5;
 // ── Game data ─────────────────────────────────────────────────────────────────
 
 export const PALETTE_COLORS = [
-  { hex: '#FF4136', hebrew: 'אדום' },
-  { hex: '#FF851B', hebrew: 'כתום' },
-  { hex: '#FFDC00', hebrew: 'צהוב' },
-  { hex: '#2ECC40', hebrew: 'ירוק' },
-  { hex: '#0074D9', hebrew: 'כחול' },
-  { hex: '#B10DC9', hebrew: 'סגול' },
-  { hex: '#FF69B4', hebrew: 'ורוד' },
-  { hex: '#8B4513', hebrew: 'חום' },
-  { hex: '#AAAAAA', hebrew: 'אפור' },
-  { hex: '#111111', hebrew: 'שחור' },
-  { hex: '#7FDBFF', hebrew: 'תכלת' },
-  { hex: '#01FF70', hebrew: 'ירוק בהיר' },
+  { hex: '#FF4136', hebrew: 'אדום', hebrewNikud: 'אָדֹם' },
+  { hex: '#FF851B', hebrew: 'כתום', hebrewNikud: 'כָּתֹם' },
+  { hex: '#FFDC00', hebrew: 'צהוב', hebrewNikud: 'צָהֹב' },
+  { hex: '#2ECC40', hebrew: 'ירוק', hebrewNikud: 'יָרֹק' },
+  { hex: '#0074D9', hebrew: 'כחול', hebrewNikud: 'כָּחֹל' },
+  { hex: '#B10DC9', hebrew: 'סגול', hebrewNikud: 'סָגֹל' },
+  { hex: '#FF69B4', hebrew: 'ורוד', hebrewNikud: 'וָרֹד' },
+  { hex: '#8B4513', hebrew: 'חום', hebrewNikud: 'חוּם' },
+  { hex: '#AAAAAA', hebrew: 'אפור', hebrewNikud: 'אָפֹר' },
+  { hex: '#111111', hebrew: 'שחור', hebrewNikud: 'שָׁחֹר' },
+  { hex: '#7FDBFF', hebrew: 'תכלת', hebrewNikud: 'תְּכֵלֶת' },
+  { hex: '#01FF70', hebrew: 'ירוק בהיר', hebrewNikud: 'יָרֹק בָּהִיר' },
 ] as const;
 
 export type ImageId = 'cat' | 'house' | 'sun' | 'butterfly' | 'flower' | 'fish' | 'tree' | 'car'

@@ -61,7 +61,7 @@ export function useDragSortDrag() {
         const ok = placeItem(currentDrag.item.id, zone);
         const cat = currentLevel?.categories.find(c => c.id === zone);
         showToast(ok ? `✅ ${currentDrag.item.label} — ${cat?.label}!` : '❌ נסה שוב!', ok);
-        if (ok) speakHebrew(`כל הכבוד! ${currentDrag.item.label}`);
+        if (ok) speakHebrew(`כָּל הַכָּבוֹד! ${currentDrag.item.label}`);
       }
       setDrag(null);
       hoverZoneRef.current = null;

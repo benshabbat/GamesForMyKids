@@ -2,7 +2,7 @@
 import { useWordSearchStore } from './wordSearchStore';
 import SearchGrid from './components/SearchGrid';
 import GameResultCard from '@/components/game/shared/GameResultCard';
-import { WORD_SETS } from './data/wordSets';
+import { WORD_SETS, WORD_PRONUNCIATIONS } from './data/wordSets';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 
 export default function WordSearchClient() {
@@ -16,7 +16,7 @@ export default function WordSearchClient() {
     if (ok) {
       const { found: newFound, placed: ps } = useWordSearchStore.getState();
       const justFound = ps.find(pw => newFound.has(pw.word) && !found.has(pw.word));
-      if (justFound) speakHebrew(justFound.word);
+      if (justFound) speakHebrew(WORD_PRONUNCIATIONS[justFound.word] ?? justFound.word);
     }
     return ok;
   };

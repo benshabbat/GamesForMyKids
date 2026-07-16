@@ -36,6 +36,16 @@ const WORD_LIST = [
   'פיל', 'דג', 'סוס', 'דב', 'חתול',
 ];
 
+// Niqqud form of each word above, for correct TTS pronunciation only —
+// the plain WORD_LIST strings drive the letter-by-letter tap gameplay and must stay unpointed.
+export const WORD_PRONUNCIATIONS: Record<string, string> = {
+  'שמש': 'שֶׁמֶשׁ', 'ירח': 'יָרֵחַ', 'כלב': 'כֶּלֶב', 'פרח': 'פֶּרַח',
+  'גזר': 'גֶּזֶר', 'ספר': 'סֵפֶר', 'ילד': 'יֶלֶד', 'ים': 'יָם',
+  'שלום': 'שָׁלוֹם', 'תפוח': 'תַּפּוּחַ', 'ילדה': 'יַלְדָּה', 'ספינה': 'סְפִינָה',
+  'בית': 'בַּיִת', 'ענן': 'עָנָן', 'עץ': 'עֵץ',
+  'פיל': 'פִּיל', 'דג': 'דָּג', 'סוס': 'סוּס', 'דב': 'דֹּב', 'חתול': 'חָתוּל',
+};
+
 const EXTRA_LETTERS = 'אבגדהוזחטיכלמנסעפצקרשת';
 
 function buildFloatingLetters(word: string): FloatingLetter[] {
