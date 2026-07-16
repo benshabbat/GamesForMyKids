@@ -18,6 +18,8 @@ export default function DotToDotBoard({ picture, connected, onDotClick }: Props)
   const centroidX = points.reduce((sum, p) => sum + p.x, 0) / points.length;
   const centroidY = points.reduce((sum, p) => sum + p.y, 0) / points.length;
 
+  const [, , vbWidth, vbHeight] = picture.viewBox.split(' ').map(Number);
+
   return (
     <svg
       viewBox={picture.viewBox}
@@ -25,6 +27,15 @@ export default function DotToDotBoard({ picture, connected, onDotClick }: Props)
       role="img"
       aria-label={picture.title}
     >
+      {picture.imageSrc && (
+        <image
+          href={picture.imageSrc}
+          x={0} y={0}
+          width={vbWidth} height={vbHeight}
+          preserveAspectRatio="xMidYMid meet"
+        />
+      )}
+
       {segments.map(([a, b]) => (
         <line
           key={`${a}-${b}`}
