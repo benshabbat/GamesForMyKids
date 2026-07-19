@@ -117,6 +117,7 @@ export const SUPPORTED_GAMES = [
   'word-clicker',
   'hebrew-racer',
   'story-agent',
+  'candy-match',
 ] as const;
 
 export type SupportedGameType = typeof SUPPORTED_GAMES[number];
@@ -134,6 +135,7 @@ export const CUSTOM_GAME_TYPES = new Set<CustomGameId>([
   'letter-merge',
   'hebrew-racer',
   'story-agent',
+  'candy-match',
 ]);
 
 // ─── מיפוי URL → GameType ──────────────────────────────────────────────────────

@@ -302,4 +302,6 @@ export type GameType =
   // Hebrew racer — obstacle course with Hebrew Q&A to jump over barriers
   | 'hebrew-racer'
   // Story agent — Gemini-powered interactive story that adapts to the child's choices
-  | 'story-agent';
+  | 'story-agent'
+  // Candy match — swap adjacent candies to make matches of 3+ and clear the board
+  | 'candy-match';
