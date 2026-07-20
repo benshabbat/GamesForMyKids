@@ -4,44 +4,25 @@ import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import {
+  W, H, GRAVITY, JUMP_VY, PLAT_H, PLAYER_R, PLAT_GAP, INIT_PLATS,
+  type JumperState,
+} from './jumperConstants';
+import { makePlatform, generateInitial, drawJumperScene } from './jumperDraw';
 
-export const W = 300;
-export const H = 500;
-const GRAVITY = 0.32;
-const JUMP_VY = -10.5;
-const PLAT_W = 70;
-const PLAT_H = 12;
-const PLAYER_R = 15;
-const PLAT_GAP = 95;
-const INIT_PLATS = 14;
-
-import type { PhaseDead as Phase } from '@/lib/types';
-interface Platform { x: number; y: number; w: number; }
-
-let platId = 0;
-function makePlatform(y: number): Platform & { id: number } {
-  return { id: platId++, x: Math.random() * (W - PLAT_W), y, w: PLAT_W };
-}
-function generateInitial(): Array<Platform & { id: number }> {
-  const plats: Array<Platform & { id: number }> = [];
-  plats.push({ id: platId++, x: W / 2 - 55, y: H - 60, w: 110 });
-  for (let i = 1; i < INIT_PLATS; i++) {
-    plats.push(makePlatform(H - 60 - i * (PLAT_GAP * 0.75)));
-  }
-  return plats;
-}
+export { W, H } from './jumperConstants';
 
 const _useJumper = createCanvasArcadeHook({
   gameType: 'jumper',
   width: W,
   height: H,
-  initialState: () => ({
-    phase: 'menu' as Phase,
+  initialState: (): JumperState => ({
+    phase: 'menu',
     px: W / 2, py: H - 100,
     pvx: 0, pvy: 0,
     camY: 0,
     maxCamY: 0,
-    platforms: generateInitial() as Array<Platform & { id: number }>,
+    platforms: generateInitial(),
     score: 0, best: 0,
     frame: 0,
     leftDown: false, rightDown: false,
@@ -105,44 +86,7 @@ const _useJumper = createCanvasArcadeHook({
       }
     }
 
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#0c1445');
-    sky.addColorStop(1, '#1a237e');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    for (let i = 0; i < 30; i++) {
-      const sx = ((i * 97 + s.camY * 0.05) % W + W) % W;
-      const sy = ((i * 137) % H);
-      ctx.beginPath();
-      ctx.arc(sx, sy, 0.8, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    const s2 = s;
-    for (const p of s2.platforms) {
-      const drawY = p.y + s2.camY;
-      if (drawY > H + 10 || drawY < -PLAT_H - 5) continue;
-      ctx.fillStyle = '#4ade80';
-      ctx.fillRect(p.x, drawY, p.w, PLAT_H);
-      ctx.fillStyle = 'rgba(255,255,255,0.3)';
-      ctx.fillRect(p.x, drawY, p.w, 4);
-      ctx.fillStyle = '#16a34a';
-      ctx.fillRect(p.x, drawY + PLAT_H - 3, p.w, 3);
-    }
-
-    if (s2.phase === 'playing') {
-      ctx.font = `${PLAYER_R * 2.2}px serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('🦘', s2.px, s2.py);
-    }
-
-    ctx.font = 'bold 22px Arial';
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.textAlign = 'left';
-    ctx.fillText(`${s2.score}m`, 10, 30);
+    drawJumperScene(ctx, s);
   },
 });
 

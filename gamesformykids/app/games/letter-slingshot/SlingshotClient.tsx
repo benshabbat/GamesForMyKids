@@ -1,5 +1,6 @@
 'use client';
-import { useSlingshotGame, LEVELS_PER_GAME } from './useSlingshotGame';
+import { useSlingshotGame } from './useSlingshotGame';
+import { LEVELS_PER_GAME } from './slingshotLevels';
 
 export default function SlingshotClient() {
   const {

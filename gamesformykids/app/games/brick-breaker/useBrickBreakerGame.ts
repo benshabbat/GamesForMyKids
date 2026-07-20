@@ -4,32 +4,13 @@ import { useCallback, useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerStore } from './brickBreakerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import {
+  W, H, PAD_W, PAD_H, PAD_Y, BALL_R, ROW_COLORS,
+  type Phase, type BrickParticle,
+} from './brickBreakerConstants';
+import { makeBricks, brickRect, drawBrickBreakerScene } from './brickBreakerDraw';
 
-export const W = 360;
-export const H = 560;
-const PAD_W = 80;
-const PAD_H = 12;
-const PAD_Y = H - 50;
-const BALL_R = 8;
-const ROWS = 6;
-const COLS = 8;
-const BRICK_W = Math.floor((W - 20) / COLS);
-const BRICK_H = 20;
-const BRICK_PAD = 3;
-const BRICK_TOP = 50;
-
-const ROW_COLORS = [
-  ['#EF4444', '#DC2626'],
-  ['#F97316', '#EA580C'],
-  ['#EAB308', '#CA8A04'],
-  ['#22C55E', '#16A34A'],
-  ['#3B82F6', '#2563EB'],
-  ['#8B5CF6', '#7C3AED'],
-];
-
-import type { PhaseWonDead as Phase } from '@/lib/types';
-interface Brick { alive: boolean; row: number; }
-type BrickParticle = { x: number; y: number; vx: number; vy: number; life: number; color: string };
+export { W, H } from './brickBreakerConstants';
 
 /**
  * Bridge ref: populated by useBrickBreakerGame on mount, read by the draw callback.
@@ -37,42 +18,6 @@ type BrickParticle = { x: number; y: number; vx: number; vy: number; life: numbe
  * outside the component render cycle.
  */
 const _nextLevelRef: { current: ((level: number) => void) | null } = { current: null };
-
-// ── Gradient caches ──────────────────────────────────────────────────────────
-// Canvas gradients are tied to a specific rendering context — re-create them if
-// the context ever changes (canvas remount), but reuse across frames otherwise.
-let _gradCtx: CanvasRenderingContext2D | null = null;
-let _bgGradient: CanvasGradient | null = null;
-const _rowGradients: (CanvasGradient | null)[] = new Array(ROWS).fill(null);
-
-function ensureGradients(ctx: CanvasRenderingContext2D) {
-  if (ctx === _gradCtx) return; // already cached for this context
-  _gradCtx = ctx;
-
-  // Background
-  const bg = ctx.createLinearGradient(0, 0, 0, H);
-  bg.addColorStop(0, '#0f0c29'); bg.addColorStop(1, '#302b63');
-  _bgGradient = bg;
-
-  // Per-row brick gradients (vertical, normalised to x=0)
-  for (let row = 0; row < ROWS; row++) {
-    const y = BRICK_TOP + row * (BRICK_H + BRICK_PAD);
-    const rowColors = ROW_COLORS[row]!;
-    const g = ctx.createLinearGradient(0, y, 0, y + BRICK_H);
-    g.addColorStop(0, rowColors[0]!); g.addColorStop(1, rowColors[1]!);
-    _rowGradients[row] = g;
-  }
-}
-
-function makeBricks(): Brick[] {
-  return Array.from({ length: ROWS * COLS }, (_, i) => ({ alive: true, row: Math.floor(i / COLS) }));
-}
-
-function brickRect(i: number) {
-  const col = i % COLS, row = Math.floor(i / COLS);
-  const x = 10 + col * BRICK_W, y = BRICK_TOP + row * (BRICK_H + BRICK_PAD);
-  return { x, y, w: BRICK_W - BRICK_PAD, h: BRICK_H };
-}
 
 const _useBrickBreaker = createCanvasArcadeHook({
   gameType: 'brick-breaker',
@@ -138,30 +83,15 @@ const _useBrickBreaker = createCanvasArcadeHook({
       s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.04; return p.life > 0; });
     }
 
-    ensureGradients(ctx);
-    ctx.fillStyle = _bgGradient!; ctx.fillRect(0, 0, W, H);
-
-    for (let i = 0; i < s.bricks.length; i++) {
-      if (!s.bricks[i]!.alive) continue;
-      const { x, y, w, h } = brickRect(i);
-      ctx.fillStyle = _rowGradients[s.bricks[i]!.row]!;
-      ctx.beginPath(); ctx.roundRect(x, y, w, h, 4); ctx.fill();
-      ctx.fillStyle = 'rgba(255,255,255,0.2)'; ctx.beginPath(); ctx.roundRect(x + 2, y + 2, w - 4, 5, 3); ctx.fill();
-    }
-
-    for (const p of s.particles) { ctx.globalAlpha = p.life; ctx.fillStyle = p.color; ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI * 2); ctx.fill(); }
-    ctx.globalAlpha = 1;
-
-    const ballGlow = ctx.createRadialGradient(s.ballX, s.ballY, 0, s.ballX, s.ballY, BALL_R * 2.5);
-    ballGlow.addColorStop(0, 'rgba(255,255,255,0.4)'); ballGlow.addColorStop(1, 'rgba(255,255,255,0)');
-    ctx.fillStyle = ballGlow; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R * 2.5, 0, Math.PI * 2); ctx.fill();
-    ctx.fillStyle = 'white'; ctx.beginPath(); ctx.arc(s.ballX, s.ballY, BALL_R, 0, Math.PI * 2); ctx.fill();
-
-    const padGrad = ctx.createLinearGradient(s.padX, PAD_Y, s.padX + PAD_W, PAD_Y);
-    padGrad.addColorStop(0, '#60A5FA'); padGrad.addColorStop(0.5, '#93C5FD'); padGrad.addColorStop(1, '#60A5FA');
-    ctx.fillStyle = padGrad; ctx.beginPath(); ctx.roundRect(s.padX, PAD_Y, PAD_W, PAD_H, 6); ctx.fill();
-
-    if (s.phase === 'playing' && !s.launched) { ctx.fillStyle = 'rgba(255,255,255,0.7)'; ctx.font = '14px Arial'; ctx.textAlign = 'center'; ctx.fillText('הקש להשיק! 🏏', W / 2, PAD_Y - 20); }
+    drawBrickBreakerScene(ctx, {
+      bricks: s.bricks,
+      particles: s.particles,
+      ballX: s.ballX,
+      ballY: s.ballY,
+      padX: s.padX,
+      phase: s.phase,
+      launched: s.launched,
+    });
   },
 });
 

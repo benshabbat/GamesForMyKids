@@ -1,72 +1,9 @@
 'use client';
 
 import { create } from 'zustand';
-import { CROSSWORD_PUZZLES, type CrosswordPuzzle, type CrosswordClue } from './data/puzzles';
-
-export interface CellState {
-  letter: string;
-  correct: boolean | null;
-  blocked: boolean;
-  clueNumbers: number[];
-}
-
-export type Phase = 'menu' | 'playing' | 'result';
-
-interface CrosswordState {
-  phase: Phase;
-  puzzle: CrosswordPuzzle | null;
-  puzzleIndex: number;
-  grid: CellState[][];
-  selectedClue: CrosswordClue | null;
-  selectedCell: { row: number; col: number } | null;
-  score: number;
-  completedClues: Set<number>;
-}
-
-interface CrosswordActions {
-  startGame: (puzzleIndex?: number) => void;
-  selectClue: (clue: CrosswordClue) => void;
-  selectCell: (row: number, col: number) => void;
-  typeLetter: (letter: string) => void;
-  deleteLastLetter: () => void;
-  checkWord: () => void;
-  nextPuzzle: () => void;
-  restart: () => void;
-}
-
-function buildGrid(puzzle: CrosswordPuzzle): CellState[][] {
-  const size = puzzle.gridSize;
-  const grid: CellState[][] = Array.from({ length: size }, () =>
-    Array.from({ length: size }, () => ({
-      letter: '',
-      correct: null,
-      blocked: true,
-      clueNumbers: [],
-    }))
-  );
-
-  for (const clue of puzzle.clues) {
-    for (let i = 0; i < clue.answer.length; i++) {
-      const row = clue.direction === 'down' ? clue.row + i : clue.row;
-      const col = clue.direction === 'across' ? clue.col + i : clue.col;
-      if (row < size && col < size) {
-        const cell = grid[row]?.[col];
-        if (cell) {
-          cell.blocked = false;
-          if (i === 0) {
-            cell.clueNumbers = [...cell.clueNumbers, clue.number];
-          }
-        }
-      }
-    }
-  }
-
-  return grid;
-}
-
-function getCell(grid: CellState[][], row: number, col: number): CellState | null {
-  return grid[row]?.[col] ?? null;
-}
+import { CROSSWORD_PUZZLES } from './data/puzzles';
+import type { CrosswordState, CrosswordActions } from './crosswordTypes';
+import { buildGrid, getCell } from './crosswordLogic';
 
 export const useCrosswordStore = create<CrosswordState & CrosswordActions>((set, get) => ({
   phase: 'menu',

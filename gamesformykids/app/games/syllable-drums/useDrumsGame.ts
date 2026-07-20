@@ -4,44 +4,26 @@ import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
+import {
+  DRUM_WORDS,
+  WORDS_PER_GAME,
+  BEAT_INTERVAL_MS,
+  FALL_DURATION_MS,
+  HIT_FRAC,
+  PERFECT_WINDOW,
+  GOOD_WINDOW,
+  CIRCLE_R,
+  CIRCLE_COLORS,
+  type BeatCircle,
+  type BeatScore,
+  type TapFeedback,
+} from './drumsConstants';
+import { drawDrumsScene } from './drumsDraw';
 
-type DrumWord = { word: string; letters: string[] };
-
-const DRUM_WORDS: DrumWord[] = [
-  { word: 'שָׁלוֹם', letters: ['ש', 'ל', 'ו', 'ם'] },
-  { word: 'חָתוּל', letters: ['ח', 'ת', 'ו', 'ל'] },
-  { word: 'כֶּלֶב', letters: ['כ', 'ל', 'ב'] },
-  { word: 'סֵפֶר', letters: ['ס', 'פ', 'ר'] },
-  { word: 'יֶלֶד', letters: ['י', 'ל', 'ד'] },
-  { word: 'שֶׁמֶשׁ', letters: ['ש', 'מ', 'ש'] },
-  { word: 'צִפּוֹר', letters: ['צ', 'י', 'פ', 'ו', 'ר'] },
-  { word: 'אַרְיֵה', letters: ['א', 'ר', 'י', 'ה'] },
-  { word: 'אַרְנָב', letters: ['א', 'ר', 'נ', 'ב'] },
-  { word: 'יָרֵחַ', letters: ['י', 'ר', 'ח'] },
-  { word: 'בַּיִת', letters: ['ב', 'י', 'ת'] },
-  { word: 'כִּסֵּא', letters: ['כ', 'י', 'ס', 'א'] },
-  { word: 'מַיִם', letters: ['מ', 'י', 'מ'] },
-  { word: 'אַהֲבָה', letters: ['א', 'ה', 'ב', 'ה'] },
-];
-
-export const WORDS_PER_GAME = 8;
-const BEAT_INTERVAL_MS = 700;
-const FALL_DURATION_MS = 1400;
-const HIT_FRAC = 0.73;
-const PERFECT_WINDOW = 160;
-const GOOD_WINDOW = 340;
-const CIRCLE_R = 30;
-
-type BeatCircle = {
-  id: number; letter: string; y: number; vy: number; perfectTimeMs: number;
-  tapped: boolean; missed: boolean; ripple: number; rippleOk: boolean;
-};
-export type BeatScore = 'perfect' | 'good' | 'miss';
-export type TapFeedback = { text: string; ok: boolean };
+export { WORDS_PER_GAME } from './drumsConstants';
+export type { BeatScore, TapFeedback } from './drumsConstants';
 
 let _id = 0;
-
-const CIRCLE_COLORS = ['#f43f5e', '#f97316', '#eab308', '#22c55e', '#0ea5e9', '#8b5cf6'];
 
 export function useDrumsGame() {
   const [phase, setPhase] = useState<'menu' | 'playing' | 'result'>('menu');
@@ -55,7 +37,7 @@ export function useDrumsGame() {
   const phaseRef = useRef<'menu' | 'playing' | 'result'>('menu');
   const gameTimeRef = useRef(0);
   const wordIdxRef = useRef(0);
-  const wordListRef = useRef<DrumWord[]>([]);
+  const wordListRef = useRef<typeof DRUM_WORDS>([]);
   const circlesRef = useRef<BeatCircle[]>([]);
   const spawnQueueRef = useRef<Array<{ letter: string; spawnAt: number; colorIdx: number }>>([]);
   const spawnedCountRef = useRef(0);
@@ -203,72 +185,7 @@ export function useDrumsGame() {
 
     circlesRef.current = circlesRef.current.filter(c => c.y < H + 60 || c.ripple > 0);
 
-    const bg = ctx.createLinearGradient(0, 0, 0, H);
-    bg.addColorStop(0, '#0f172a');
-    bg.addColorStop(1, '#1e1b4b');
-    ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.strokeStyle = 'rgba(99,102,241,0.1)';
-    ctx.lineWidth = 1;
-    for (let y = 0; y < H; y += 60) {
-      ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
-    }
-
-    ctx.shadowColor = '#fbbf24';
-    ctx.shadowBlur = 20;
-    ctx.strokeStyle = '#fbbf24';
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.moveTo(W * 0.1, hitY);
-    ctx.lineTo(W * 0.9, hitY);
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-
-    ctx.font = '32px serif';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🥁', centerX, hitY + 28);
-
-    for (const c of circlesRef.current) {
-      const colorIdx = (c.letter.codePointAt(0) ?? 0) % CIRCLE_COLORS.length;
-      const color = CIRCLE_COLORS[colorIdx] ?? '#f43f5e';
-      const isClose = !c.tapped && !c.missed && Math.abs(c.y - hitY) < 60;
-
-      ctx.save();
-      ctx.translate(centerX, c.y);
-
-      if (c.ripple > 0) {
-        const prog = 1 - c.ripple / 500;
-        const rippleR = CIRCLE_R + prog * 40;
-        ctx.globalAlpha = 0.6 * (1 - prog);
-        ctx.beginPath();
-        ctx.arc(0, 0, rippleR, 0, Math.PI * 2);
-        ctx.strokeStyle = c.rippleOk ? '#4ade80' : '#f87171';
-        ctx.lineWidth = 3;
-        ctx.stroke();
-        ctx.globalAlpha = 1;
-      }
-
-      if (isClose) { ctx.shadowColor = color; ctx.shadowBlur = 20; }
-
-      ctx.beginPath();
-      ctx.arc(0, 0, CIRCLE_R, 0, Math.PI * 2);
-      ctx.fillStyle = c.tapped ? '#4ade80' : c.missed ? '#6b7280' : color;
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = 'rgba(255,255,255,0.7)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${CIRCLE_R}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(c.letter, 0, 2);
-
-      ctx.restore();
-    }
+    drawDrumsScene(ctx, W, H, hitY, centerX, circlesRef.current);
   }, [advanceWord, finishWord]));
 
   useCanvasResize(canvasRef);
