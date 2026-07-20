@@ -304,4 +304,6 @@ export type GameType =
   // Story agent — Gemini-powered interactive story that adapts to the child's choices
   | 'story-agent'
   // Candy match — swap adjacent candies to make matches of 3+ and clear the board
-  | 'candy-match';
+  | 'candy-match'
+  // Sudoku — fill the grid so every row, column, and box has no repeats
+  | 'sudoku';

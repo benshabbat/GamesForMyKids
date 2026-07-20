@@ -32,6 +32,7 @@ import {
   Hash,
   Dot,
   Sparkles,
+  Grid3x3,
 } from "lucide-react";
 import type { GameRegistration } from "@/lib/types/games/base";
 
@@ -673,5 +674,17 @@ export const gamesRegistryBatch5: GameRegistration[] = [
     available: true,
     order: 225,
     ageMin: 5,
+  },
+  {
+    id: "sudoku",
+    title: "סודוקו",
+    description: "מלאו כל שורה, עמודה וריבוע במספרים ללא חזרות — בגודל 6×6 או 9×9!",
+    icon: Grid3x3,
+    emoji: "🔢",
+    color: "bg-sky-500 hover:bg-sky-600",
+    href: "/games/sudoku",
+    available: true,
+    order: 226,
+    ageMin: 7,
   },
 ];
