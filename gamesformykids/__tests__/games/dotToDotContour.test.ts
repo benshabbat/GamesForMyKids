@@ -1,12 +1,11 @@
 import { describe, expect, it } from 'vitest';
+import { traceOuterContour } from '@/app/games/dot-to-dot/editor/contourTrace';
 import {
-  buildSilhouetteMask,
-  traceOuterContour,
   simplifyPolygon,
   resampleClosedPolygon,
   scaleToViewBox,
-  type PixelData,
-} from '@/app/games/dot-to-dot/editor/contourTrace';
+} from '@/app/games/dot-to-dot/editor/polygonSimplify';
+import { buildSilhouetteMask, type PixelData } from '@/app/games/dot-to-dot/editor/silhouetteMask';
 
 /** '#' = dark ink pixel, '.' = white background pixel. All rows must be equal length. */
 function makePixelData(rows: string[]): PixelData {

@@ -4,49 +4,24 @@ import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
+import {
+  LETTER_WORDS,
+  ROUNDS_PER_GAME,
+  CATCHES_TO_EVOLVE,
+  MAX_LIVES,
+  BUCKET_W,
+  BUCKET_H,
+  LETTER_RADIUS,
+  SPAWN_INTERVAL,
+  FALL_SPEED_MIN,
+  FALL_SPEED_MAX,
+  type FallingLetter,
+  type LetterWord,
+} from './letterGrowConstants';
+import { drawLetterGrowScene } from './letterGrowDraw';
 
-const LETTER_WORDS = [
-  { letter: 'א', word: 'אַרְיֵה', emoji: '🦁' },
-  { letter: 'ב', word: 'בַּיִת', emoji: '🏠' },
-  { letter: 'ג', word: 'גָּמָל', emoji: '🐪' },
-  { letter: 'ד', word: 'דָּג', emoji: '🐟' },
-  { letter: 'ה', word: 'הַר', emoji: '⛰️' },
-  { letter: 'ו', word: 'וֶרֶד', emoji: '🌹' },
-  { letter: 'ז', word: 'זְאֵב', emoji: '🐺' },
-  { letter: 'ח', word: 'חָתוּל', emoji: '🐱' },
-  { letter: 'ט', word: 'טָלֶה', emoji: '🐑' },
-  { letter: 'י', word: 'יָרֵחַ', emoji: '🌙' },
-  { letter: 'כ', word: 'כֶּלֶב', emoji: '🐶' },
-  { letter: 'ל', word: 'לֵב', emoji: '❤️' },
-  { letter: 'מ', word: 'מְכוֹנִית', emoji: '🚗' },
-  { letter: 'נ', word: 'נָחָשׁ', emoji: '🐍' },
-  { letter: 'ס', word: 'סוּס', emoji: '🐴' },
-  { letter: 'ע', word: 'עֵץ', emoji: '🌳' },
-  { letter: 'פ', word: 'פִּיל', emoji: '🐘' },
-  { letter: 'צ', word: 'צָב', emoji: '🐢' },
-  { letter: 'ק', word: 'קוֹף', emoji: '🐒' },
-  { letter: 'ר', word: 'רַכֶּבֶת', emoji: '🚂' },
-  { letter: 'ש', word: 'שֶׁמֶשׁ', emoji: '☀️' },
-  { letter: 'ת', word: 'תַּפּוּחַ', emoji: '🍎' },
-];
-
-export const ROUNDS_PER_GAME = 5;
-export const CATCHES_TO_EVOLVE = 5;
-export const MAX_LIVES = 3;
-const BUCKET_W = 90;
-const BUCKET_H = 26;
-const LETTER_RADIUS = 30;
-const SPAWN_INTERVAL = 1000;
-const FALL_SPEED_MIN = 0.14;
-const FALL_SPEED_MAX = 0.22;
-
-const LETTER_COLORS = [
-  '#f43f5e', '#f97316', '#eab308', '#22c55e',
-  '#0ea5e9', '#8b5cf6', '#ec4899', '#06b6d4',
-];
-
-type FallingLetter = { id: number; x: number; y: number; vy: number; letter: string; isTarget: boolean };
-export type LetterWord = typeof LETTER_WORDS[number];
+export { ROUNDS_PER_GAME, CATCHES_TO_EVOLVE, MAX_LIVES } from './letterGrowConstants';
+export type { LetterWord } from './letterGrowConstants';
 
 let _nextId = 0;
 
@@ -186,71 +161,8 @@ export function useLetterGrowGame() {
       }
     }
 
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#1e1b4b');
-    sky.addColorStop(0.6, '#312e81');
-    sky.addColorStop(1, '#1e3a5f');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    for (let i = 0; i < 30; i++) {
-      const sx = ((i * 137 + 23) % W);
-      const sy = ((i * 89 + 11) % (H * 0.7));
-      ctx.fillRect(sx, sy, 2, 2);
-    }
-
-    ctx.fillStyle = '#4c1d95';
-    ctx.fillRect(0, H - 8, W, 8);
-
-    for (const fl of fallingRef.current) {
-      const colorIdx = fl.letter.codePointAt(0)! % LETTER_COLORS.length;
-      const color = LETTER_COLORS[colorIdx] ?? '#f43f5e';
-      const isT = fl.isTarget;
-
-      ctx.save();
-      ctx.translate(fl.x, fl.y);
-      if (isT) { ctx.shadowColor = color; ctx.shadowBlur = 18; }
-      ctx.beginPath();
-      ctx.arc(0, 0, LETTER_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = isT ? color : 'rgba(100,100,120,0.7)';
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      ctx.strokeStyle = isT ? 'rgba(255,255,255,0.8)' : 'rgba(255,255,255,0.2)';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${LETTER_RADIUS}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(fl.letter, 0, 2);
-      ctx.restore();
-    }
-
-    ctx.save();
-    ctx.translate(bucketX, bucketY);
-    const bw2 = BUCKET_W / 2;
-    ctx.beginPath();
-    ctx.roundRect(-bw2, 0, BUCKET_W, BUCKET_H, 8);
-    ctx.fillStyle = '#fbbf24';
-    ctx.fill();
-    ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.arc(0, -6, bw2 - 8, Math.PI, 0);
-    ctx.strokeStyle = '#f59e0b';
-    ctx.lineWidth = 4;
-    ctx.stroke();
     const target = roundLettersRef.current[roundIdxRef.current];
-    if (target) {
-      ctx.fillStyle = '#1e1b4b';
-      ctx.font = `bold ${BUCKET_H - 6}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(target.letter, 0, BUCKET_H / 2);
-    }
-    ctx.restore();
+    drawLetterGrowScene(ctx, W, H, fallingRef.current, bucketX, bucketY, target);
   }, [spawnLetter, triggerEvolution]));
 
   const handlePointerMove = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {

@@ -1,6 +1,6 @@
 'use client';
 
-import type { CellState } from '../crosswordStore';
+import type { CellState } from '../crosswordTypes';
 import type { CrosswordClue, CrosswordPuzzle } from '../data/puzzles';
 
 interface Props {

@@ -2,7 +2,9 @@
 import { useRef, useState, type ChangeEvent, type MouseEvent } from 'react';
 import type { DotPoint, DotToDotTheme } from '../types';
 import { buildPictureCode } from './buildPictureCode';
-import { buildSilhouetteMask, resampleClosedPolygon, scaleToViewBox, simplifyPolygon, traceOuterContour } from './contourTrace';
+import { traceOuterContour } from './contourTrace';
+import { resampleClosedPolygon, scaleToViewBox, simplifyPolygon } from './polygonSimplify';
+import { buildSilhouetteMask } from './silhouetteMask';
 import { DEFAULT_DOTS, MAX_WORKING_DIMENSION, SIMPLIFY_EPSILON_RATIO, VIEW_SIZE } from './editorConstants';
 
 export function useDotToDotEditor() {

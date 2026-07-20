@@ -1,5 +1,6 @@
 'use client';
-import { useSpotGame, SCENES } from './useSpotGame';
+import { useSpotGame } from './useSpotGame';
+import { SCENES } from './data';
 
 export default function SpotClient() {
   const {

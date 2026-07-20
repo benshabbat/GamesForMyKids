@@ -4,20 +4,12 @@ import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { CANNON_QUESTIONS, type CannonQuestion } from './cannonQuestions';
 import { shuffle } from '@/lib/utils/game/cardUtils';
-
-const MAX_LIVES = 3;
-const BUBBLE_SPEED = 0.06;
-const BULLET_SPEED = 0.55;
-const BUBBLE_RADIUS = 46;
-const CANNON_X_RATIO = 0.5;
-const CANNON_Y_OFFSET = 80;
-const BARREL_LENGTH = 60;
-const BARREL_WIDTH = 14;
-
-type Bubble = { id: number; x: number; y: number; label: string; isCorrect: boolean; color: string };
-type Bullet = { x: number; y: number; vx: number; vy: number };
-
-const BUBBLE_COLORS = ['#f97316', '#8b5cf6', '#0ea5e9', '#10b981'];
+import {
+  MAX_LIVES, BUBBLE_SPEED, BULLET_SPEED, BUBBLE_RADIUS,
+  CANNON_X_RATIO, CANNON_Y_OFFSET, BARREL_LENGTH, BUBBLE_COLORS,
+  type Bubble, type Bullet,
+} from './cannonConstants';
+import { drawCannonScene } from './cannonRenderer';
 
 export function useCannonGame() {
   const [phase, setPhase] = useState<'menu' | 'playing' | 'result'>('menu');
@@ -146,79 +138,12 @@ export function useCannonGame() {
       if (feedbackTimerRef.current <= 0) setFeedback(null);
     }
 
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#1e3a5f');
-    sky.addColorStop(0.7, '#2563eb');
-    sky.addColorStop(1, '#1d4ed8');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = '#065f46';
-    ctx.fillRect(0, H - 50, W, 50);
-    ctx.fillStyle = '#059669';
-    ctx.fillRect(0, H - 54, W, 10);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.6)';
-    for (let i = 0; i < 30; i++) {
-      const sx = ((i * 137 + 50) % W);
-      const sy = ((i * 89 + 20) % (H * 0.6));
-      ctx.beginPath();
-      ctx.arc(sx, sy, 1.5, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    ctx.save();
-    ctx.direction = 'rtl';
-    for (const b of bubblesRef.current) {
-      ctx.shadowColor = 'rgba(0,0,0,0.3)';
-      ctx.shadowBlur = 10;
-      ctx.beginPath();
-      ctx.arc(b.x, b.y, BUBBLE_RADIUS, 0, Math.PI * 2);
-      ctx.fillStyle = b.color;
-      ctx.fill();
-      ctx.strokeStyle = 'rgba(255,255,255,0.5)';
-      ctx.lineWidth = 3;
-      ctx.stroke();
-      ctx.shadowBlur = 0;
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${b.label.length > 3 ? '16' : '20'}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(b.label, b.x, b.y);
-    }
-    ctx.restore();
-
-    ctx.fillStyle = '#374151';
-    ctx.beginPath();
-    ctx.arc(cannonX, cannonY, 22, 0, Math.PI * 2);
-    ctx.fill();
-    ctx.strokeStyle = '#6b7280';
-    ctx.lineWidth = 3;
-    ctx.stroke();
-
-    const angle = cannonAngleRef.current;
-    ctx.save();
-    ctx.translate(cannonX, cannonY);
-    ctx.rotate(angle);
-    ctx.fillStyle = '#1f2937';
-    ctx.beginPath();
-    ctx.roundRect(-BARREL_WIDTH / 2, -BARREL_LENGTH, BARREL_WIDTH, BARREL_LENGTH, 4);
-    ctx.fill();
-    ctx.strokeStyle = '#4b5563';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.restore();
-
-    if (bulletRef.current) {
-      const bul = bulletRef.current;
-      ctx.beginPath();
-      ctx.arc(bul.x, bul.y, 10, 0, Math.PI * 2);
-      ctx.fillStyle = '#fbbf24';
-      ctx.fill();
-      ctx.strokeStyle = '#f59e0b';
-      ctx.lineWidth = 2;
-      ctx.stroke();
-    }
+    drawCannonScene(ctx, {
+      W, H, cannonX, cannonY,
+      angle: cannonAngleRef.current,
+      bubbles: bubblesRef.current,
+      bullet: bulletRef.current,
+    });
   }, [advanceQuestion, spawnBubbles]));
 
   const computeAimAngle = (e: React.PointerEvent<HTMLCanvasElement>, rect: DOMRect) => {

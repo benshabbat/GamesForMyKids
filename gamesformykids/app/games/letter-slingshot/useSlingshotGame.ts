@@ -4,48 +4,14 @@ import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { shuffle as shuffled } from '@/lib/utils/game/cardUtils';
+import { LEVELS, LEVELS_PER_GAME, type Level } from './slingshotLevels';
+import {
+  GRAVITY, POWER, MAX_DRAG, BOX_W, BOX_H, BALL_R, SLING_X_FRAC, SLING_Y_FRAC,
+} from './slingshotConstants';
+import type { Phase, Box, Ball, DragState } from './slingshotConstants';
+import { drawSlingshotFrame } from './drawSlingshotFrame';
 
-type Level = { letter: string; correct: string; wrong: [string, string] };
-
-const LEVELS: Level[] = [
-  { letter: 'א', correct: 'אַרְיֵה', wrong: ['כֶּלֶב', 'סֵפֶר'] },
-  { letter: 'ב', correct: 'בַּיִת', wrong: ['יֶלֶד', 'מְכוֹנִית'] },
-  { letter: 'ג', correct: 'גָּמָל', wrong: ['פִּיל', 'כֶּלֶב'] },
-  { letter: 'ד', correct: 'דָּג', wrong: ['יָרֵחַ', 'שֶׁמֶשׁ'] },
-  { letter: 'ה', correct: 'הַר', wrong: ['יָם', 'כֶּלֶב'] },
-  { letter: 'ו', correct: 'וֶרֶד', wrong: ['כֶּלֶב', 'סֵפֶר'] },
-  { letter: 'ז', correct: 'זְאֵב', wrong: ['אַרְנָב', 'חָתוּל'] },
-  { letter: 'ח', correct: 'חָתוּל', wrong: ['כֶּלֶב', 'סֵפֶר'] },
-  { letter: 'ט', correct: 'טָלֶה', wrong: ['פָּרָה', 'סֵפֶר'] },
-  { letter: 'י', correct: 'יָרֵחַ', wrong: ['שֶׁמֶשׁ', 'כּוֹכָב'] },
-  { letter: 'כ', correct: 'כֶּלֶב', wrong: ['חָתוּל', 'אַרְנָב'] },
-  { letter: 'ל', correct: 'לֵב', wrong: ['יָדַיִם', 'כֶּלֶב'] },
-  { letter: 'מ', correct: 'מְכוֹנִית', wrong: ['אוֹטוֹבּוּס', 'רַכֶּבֶת'] },
-  { letter: 'נ', correct: 'נָחָשׁ', wrong: ['חָתוּל', 'כֶּלֶב'] },
-  { letter: 'ס', correct: 'סוּס', wrong: ['חֲמוֹר', 'פָּרָה'] },
-  { letter: 'ע', correct: 'עֵץ', wrong: ['פֶּרַח', 'שֶׁמֶשׁ'] },
-  { letter: 'פ', correct: 'פִּיל', wrong: ['גָּמָל', 'אַרְנָב'] },
-  { letter: 'צ', correct: 'צָב', wrong: ['נָחָשׁ', 'כֶּלֶב'] },
-  { letter: 'ק', correct: 'קוֹף', wrong: ['פִּיל', 'כֶּלֶב'] },
-  { letter: 'ר', correct: 'רַכֶּבֶת', wrong: ['מְכוֹנִית', 'אוֹטוֹבּוּס'] },
-  { letter: 'ש', correct: 'שֶׁמֶשׁ', wrong: ['יָרֵחַ', 'כּוֹכָב'] },
-  { letter: 'ת', correct: 'תַּפּוּחַ', wrong: ['סֵפֶר', 'כֶּלֶב'] },
-];
-
-export const LEVELS_PER_GAME = 8;
-const GRAVITY = 0.00055;
-const POWER = 0.006;
-const MAX_DRAG = 90;
-const BOX_W = 110;
-const BOX_H = 50;
-const BALL_R = 22;
-const SLING_X_FRAC = 0.22;
-const SLING_Y_FRAC = 0.55;
-
-export type Phase = 'menu' | 'aiming' | 'flying' | 'feedback' | 'result';
-type Box = { x: number; y: number; word: string; isCorrect: boolean; popped: boolean };
-type Ball = { x: number; y: number; vx: number; vy: number };
-type DragState = { active: boolean; dx: number; dy: number };
+export type { Phase };
 
 export function useSlingshotGame() {
   const [phase, setPhase] = useState<Phase>('menu');
@@ -164,118 +130,13 @@ export function useSlingshotGame() {
       }
     }
 
-    // ── Draw ────────────────────────────────────────────────────────────────
-    const sky = ctx.createLinearGradient(0, 0, 0, H);
-    sky.addColorStop(0, '#bfdbfe');
-    sky.addColorStop(1, '#93c5fd');
-    ctx.fillStyle = sky;
-    ctx.fillRect(0, 0, W, H);
-
-    ctx.fillStyle = '#16a34a';
-    ctx.fillRect(0, H * 0.88, W, H * 0.12);
-    ctx.fillStyle = '#15803d';
-    ctx.fillRect(0, H * 0.88, W, 6);
-
-    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    for (let i = 0; i < 3; i++) {
-      const cx = (W * 0.15 + i * W * 0.3) % W;
-      ctx.beginPath();
-      ctx.ellipse(cx, H * 0.12, 40, 20, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.beginPath();
-      ctx.ellipse(cx + 28, H * 0.12 + 5, 30, 15, 0, 0, Math.PI * 2);
-      ctx.fill();
-    }
-
-    ctx.strokeStyle = '#7c3aed';
-    ctx.lineWidth = 5;
-    ctx.lineCap = 'round';
-    ctx.beginPath();
-    ctx.moveTo(sx, sy + 30);
-    ctx.lineTo(sx, sy + 70);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(sx, sy + 30);
-    ctx.lineTo(sx - 18, sy - 25);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(sx, sy + 30);
-    ctx.lineTo(sx + 18, sy - 25);
-    ctx.stroke();
-
-    const bx = phase === 'aiming'
-      ? sx + Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dragRef.current.dx))
-      : ballRef.current.x;
-    const by = phase === 'aiming'
-      ? sy + Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dragRef.current.dy))
-      : ballRef.current.y;
-
-    if (phase === 'aiming' || phase === 'feedback') {
-      ctx.strokeStyle = '#c4b5fd';
-      ctx.lineWidth = 3;
-      ctx.beginPath();
-      ctx.moveTo(sx - 18, sy - 25);
-      ctx.lineTo(bx, by);
-      ctx.moveTo(sx + 18, sy - 25);
-      ctx.lineTo(bx, by);
-      ctx.stroke();
-    }
-
-    if (phase === 'aiming' && dragRef.current.active && (dragRef.current.dx !== 0 || dragRef.current.dy !== 0)) {
-      const clampedDx = Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dragRef.current.dx));
-      const clampedDy = Math.max(-MAX_DRAG, Math.min(MAX_DRAG, dragRef.current.dy));
-      const tvx = -clampedDx * POWER;
-      const tvy = -clampedDy * POWER;
-      ctx.fillStyle = 'rgba(124,58,237,0.5)';
-      for (let t = 50; t < 1500; t += 80) {
-        const tx = sx + tvx * t;
-        const ty = sy + tvy * t + 0.5 * GRAVITY * t * t;
-        if (tx > W || ty > H) break;
-        ctx.beginPath();
-        ctx.arc(tx, ty, 4, 0, Math.PI * 2);
-        ctx.fill();
-      }
-    }
-
-    for (const box of boxesRef.current) {
-      if (box.popped) {
-        ctx.fillStyle = box.isCorrect ? 'rgba(34,197,94,0.4)' : 'rgba(239,68,68,0.4)';
-        ctx.fillRect(box.x, box.y, BOX_W, BOX_H);
-      } else {
-        ctx.fillStyle = '#fef3c7';
-        ctx.strokeStyle = '#d97706';
-        ctx.lineWidth = 3;
-        ctx.beginPath();
-        ctx.roundRect(box.x, box.y, BOX_W, BOX_H, 8);
-        ctx.fill();
-        ctx.stroke();
-        ctx.fillStyle = '#1e1b4b';
-        ctx.font = `bold 18px Arial, sans-serif`;
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(box.word, box.x + BOX_W / 2, box.y + BOX_H / 2);
-      }
-    }
-
-    ctx.shadowColor = '#7c3aed';
-    ctx.shadowBlur = 12;
-    ctx.beginPath();
-    ctx.arc(bx, by, BALL_R, 0, Math.PI * 2);
-    ctx.fillStyle = '#7c3aed';
-    ctx.fill();
-    ctx.shadowBlur = 0;
-    ctx.strokeStyle = '#c4b5fd';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-
-    const currentLevel = gameLevelsRef.current[levelIdxRef.current];
-    if (currentLevel) {
-      ctx.fillStyle = '#fff';
-      ctx.font = `bold ${BALL_R}px Arial, sans-serif`;
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(currentLevel.letter, bx, by + 2);
-    }
+    drawSlingshotFrame(ctx, {
+      W, H, phase, sx, sy,
+      drag: dragRef.current,
+      ball: ballRef.current,
+      boxes: boxesRef.current,
+      currentLetter: gameLevelsRef.current[levelIdxRef.current]?.letter,
+    });
   }, [loadLevel]));
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
