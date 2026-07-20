@@ -56,6 +56,7 @@ const DIFFICULTY_MAP: Record<string, GameDifficulty> = {
   'catch-fruit': 3, 'space-defender': 3, 'whack-a-mole': 3,
   'brick-breaker': 3, 'balloon-pop': 3, frogger: 3, stack: 3,
   jumper: 3, 'color-tap': 3, 'meteor-dodge': 3, reflex: 3,
+  sudoku: 3,
   family: 2, transport: 2,
 };
 
