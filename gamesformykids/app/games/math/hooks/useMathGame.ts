@@ -5,6 +5,7 @@ import { BaseGameItem } from "@/lib/types/core/base";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 import { delay, getRandomItem } from "@/lib/utils/game/gameUtils";
+import { shuffle } from "@/lib/utils";
 import { MATH_GAME_CONSTANTS } from "@/lib/constants";
 import { useMathChallengeStore } from "@/lib/stores/mathChallengeStore";
 import { useNumericQuizRuntime } from "@/hooks/games/useNumericQuizRuntime";
@@ -58,10 +59,10 @@ function generateMathOptions(correctAnswer: number, level: number): number[] {
 
   const close = incorrectNumbers.filter(n => Math.abs(n - correctAnswer) <= 3 && n >= 0);
   const pool = close.length >= 3
-    ? close.sort(() => Math.random() - 0.5)
-    : [...close, ...incorrectNumbers.filter(n => n >= 0)].sort(() => Math.random() - 0.5);
+    ? shuffle(close)
+    : shuffle([...close, ...incorrectNumbers.filter(n => n >= 0)]);
 
-  return [...pool.slice(0, 3), correctAnswer].sort(() => Math.random() - 0.5);
+  return shuffle([...pool.slice(0, 3), correctAnswer]);
 }
 
 function toChallengeItem(challenge: MathChallenge): BaseGameItem {

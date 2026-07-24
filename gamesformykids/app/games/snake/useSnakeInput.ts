@@ -1,31 +1,27 @@
 'use client';
 
-import { useEffect, useRef, MutableRefObject } from 'react';
+import { useRef, MutableRefObject } from 'react';
 import { type Dir, type SnakeRefs, OPPOSITE_DIR } from './snakeConstants';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 /**
  * Registers keyboard and touch input handlers for the snake game.
  * Returns `{ handleTouchStart, handleTouchEnd, controlDir }`.
  */
 export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
-  // Keyboard
-  useEffect(() => {
-    const handle = (e: KeyboardEvent) => {
-      const s = st.current;
-      if (s.phase !== 'playing') return;
-      const map: Record<string, Dir> = {
-        ArrowUp: 'U', ArrowDown: 'D', ArrowLeft: 'L', ArrowRight: 'R',
-        w: 'U', s: 'D', a: 'L', d: 'R',
-      };
-      const newDir = map[e.key];
-      if (!newDir) return;
-      if (newDir !== OPPOSITE_DIR[s.dir]) s.nextDir = newDir;
-      e.preventDefault();
-    };
-    window.addEventListener('keydown', handle);
-    return () => window.removeEventListener('keydown', handle);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // On-screen D-pad (also used for keyboard input below)
+  const controlDir = (dir: Dir) => {
+    const s = st.current;
+    if (s.phase !== 'playing') return;
+    if (dir !== OPPOSITE_DIR[s.dir]) s.nextDir = dir;
+  };
+
+  useKeyboardControls({
+    ArrowUp: () => controlDir('U'), w: () => controlDir('U'),
+    ArrowDown: () => controlDir('D'), s: () => controlDir('D'),
+    ArrowLeft: () => controlDir('L'), a: () => controlDir('L'),
+    ArrowRight: () => controlDir('R'), d: () => controlDir('R'),
+  });
 
   // Touch
   const touchStart = useRef<{ x: number; y: number } | null>(null);
@@ -47,13 +43,6 @@ export function useSnakeInput(st: MutableRefObject<SnakeRefs>) {
     if (adx > ady) newDir = dx > 0 ? 'R' : 'L';
     else newDir = dy > 0 ? 'D' : 'U';
     if (newDir !== OPPOSITE_DIR[s.dir]) s.nextDir = newDir;
-  };
-
-  // On-screen D-pad
-  const controlDir = (dir: Dir) => {
-    const s = st.current;
-    if (s.phase !== 'playing') return;
-    if (dir !== OPPOSITE_DIR[s.dir]) s.nextDir = dir;
   };
 
   return { handleTouchStart, handleTouchEnd, controlDir };

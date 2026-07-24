@@ -2,7 +2,7 @@ import { makePersistStore } from '@/lib/stores/createStore';
 import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import type { ArithOp as Op, PhaseDead as Phase } from '@/lib/types';
-import { randInt as rnd } from '@/lib/utils';
+import { randInt as rnd, shuffle } from '@/lib/utils';
 
 const DIFFICULTY_TIME = { easy: 45, medium: 30, hard: 20 } as const;
 
@@ -32,7 +32,7 @@ export function makeQ(score: number): Question {
     const w = answer + rnd(-5, 5) * (level < 3 ? 1 : 2);
     if (w !== answer && w >= 0) wrong.add(w);
   }
-  return { text, answer, choices: [...wrong, answer].sort(() => Math.random() - 0.5) };
+  return { text, answer, choices: shuffle([...wrong, answer]) };
 }
 
 // ── Store ───────────────────────────────────────────────────────────────────

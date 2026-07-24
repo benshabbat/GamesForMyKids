@@ -11,8 +11,7 @@ export interface PatternQuestionWithChoices {
 }
 
 function buildQuestions(): PatternQuestionWithChoices[] {
-  return [...PATTERN_QUESTIONS]
-    .sort(() => Math.random() - 0.5)
+  return shuffle(PATTERN_QUESTIONS)
     .slice(0, QUESTIONS_PER_GAME)
     .map(q => ({ question: q, choices: shuffle([q.answer, ...q.wrongOptions]) }));
 }

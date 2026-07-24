@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { getRandomItem } from '@/lib/utils';
 
 export default function SurpriseMeButton() {
   const router = useRouter();
@@ -15,7 +16,7 @@ export default function SurpriseMeButton() {
     const available = GamesRegistry.getAllGameRegistrations().filter(g => g.available);
     if (available.length === 0) return;
 
-    const pick = available[Math.floor(Math.random() * available.length)]!;
+    const pick = getRandomItem(available)!;
 
     setTimeout(() => {
       setSpinning(false);

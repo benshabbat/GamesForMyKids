@@ -2,6 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { shuffle } from '@/lib/utils/game/cardUtils';
+import { getRandomItem } from '@/lib/utils';
 
 interface Ingredient { name: string; emoji: string; label: string; plural: string; }
 
@@ -98,7 +99,7 @@ export function useCookingGame() {
 
   const startGame = useCallback(() => {
     const order = Array.from({ length: RECIPES.length }, (_, i) => i);
-    const idx = order[Math.floor(Math.random() * order.length)]!;
+    const idx = getRandomItem(order)!;
     setRecipeIdx(idx);
     setStepIdx(0);
     setTapped(0);

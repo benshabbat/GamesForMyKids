@@ -1,6 +1,7 @@
 'use client';
 import { useState, useMemo, useRef, useEffect } from 'react';
 import type { Hotspot, Puzzle } from './puzzleData';
+import { shuffle } from '@/lib/utils';
 
 type Props = {
   hotspot: Hotspot;
@@ -20,7 +21,7 @@ export default function PuzzleOverlay({ hotspot, puzzle, hintsUsed, onAnswer, on
   useEffect(() => () => clearTimeout(dismissTimerRef.current), []);
 
   const choices = useMemo(
-    () => [puzzle.answer, ...puzzle.wrongOptions].sort(() => Math.random() - 0.5),
+    () => shuffle([puzzle.answer, ...puzzle.wrongOptions]),
     [puzzle],
   );
 

@@ -1,6 +1,7 @@
 import { makeStore } from '@/lib/stores/createStore';
 import type { PhaseResult as Phase } from '@/lib/types';
 import { WORD_PUZZLES, type WordPuzzle, shuffleLetters } from './data/words';
+import { shuffle } from '@/lib/utils';
 
 // ── Types ──────────────────────────────────────────────────────────────────
 
@@ -32,7 +33,7 @@ const INITIAL: WordBuilderState = {
 };
 
 function makePuzzles(): WordPuzzle[] {
-  return [...WORD_PUZZLES].sort(() => Math.random() - 0.5).slice(0, 10);
+  return shuffle(WORD_PUZZLES).slice(0, 10);
 }
 
 function loadLetters(word: string): AvailableLetter[] {

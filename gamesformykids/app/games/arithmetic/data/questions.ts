@@ -1,5 +1,5 @@
 import type { ArithOp as Operation } from '@/lib/types';
-import { randInt as rand } from '@/lib/utils';
+import { randInt as rand, getRandomItem, shuffle } from '@/lib/utils';
 export type { Operation };
 
 export interface ArithmeticLevel {
@@ -43,11 +43,11 @@ function unique(correct: number, count: number, near: number): number[] {
     const candidate = correct + delta;
     if (candidate !== correct && candidate >= 0) set.add(candidate);
   }
-  return Array.from(set).sort(() => Math.random() - 0.5);
+  return shuffle(Array.from(set));
 }
 
 export function generateQuestion(level: ArithmeticLevel): ArithmeticQuestion {
-  const op = level.operations[Math.floor(Math.random() * level.operations.length)]!;
+  const op = getRandomItem(level.operations)!;
   let a: number, b: number, answer: number;
   if (op === '×') {
     a = rand(1, level.maxNum); b = rand(1, level.maxNum); answer = a * b;

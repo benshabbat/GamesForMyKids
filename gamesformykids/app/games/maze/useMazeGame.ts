@@ -1,6 +1,6 @@
 'use client';
-import { useEffect } from 'react';
 import { useMazeStore } from './mazeStore';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export function useMazeGame() {
   const phase = useMazeStore(s => s.phase);
@@ -12,19 +12,12 @@ export function useMazeGame() {
   const nextLevel = useMazeStore(s => s.nextLevel);
   const reset = useMazeStore(s => s.reset);
 
-  useEffect(() => {
-    if (phase !== 'playing') return;
-    function handleKey(e: KeyboardEvent) {
-      switch (e.key) {
-        case 'ArrowUp':    e.preventDefault(); move('N'); break;
-        case 'ArrowDown':  e.preventDefault(); move('S'); break;
-        case 'ArrowLeft':  e.preventDefault(); move('W'); break;
-        case 'ArrowRight': e.preventDefault(); move('E'); break;
-      }
-    }
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [phase, move]);
+  useKeyboardControls({
+    ArrowUp: () => move('N'),
+    ArrowDown: () => move('S'),
+    ArrowLeft: () => move('W'),
+    ArrowRight: () => move('E'),
+  }, phase === 'playing');
 
   return { phase, level, starsCollectedThisLevel, totalStarsCollected, startGame, move, nextLevel, reset };
 }

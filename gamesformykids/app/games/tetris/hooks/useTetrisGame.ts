@@ -3,6 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { useTetrisStore } from '../store/tetrisStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 /**
  * הוק דק שמנהל רק את ה-side-effects של המשחק:
@@ -14,6 +15,7 @@ export const useTetrisGame = () => {
   const phase = useTetrisStore(s => s.phase);
   const level = useTetrisStore(s => s.level);
   const movePiece = useTetrisStore(s => s.movePiece);
+  const handleRotate = useTetrisStore(s => s.handleRotate);
 
   const { saveGameResultRef } = useGameCompletion('tetris');
   const startTimeRef = useRef(0);
@@ -57,29 +59,12 @@ export const useTetrisGame = () => {
     return () => clearInterval(gameLoop);
   }, [isPlaying, level, movePiece]);
 
-  // פקדי מקלדת — משתמש ב-getState() כדי להמנע מ-stale closures
-  useEffect(() => {
-    const handleKeyPress = (e: KeyboardEvent) => {
-      if (useTetrisStore.getState().phase !== 'playing') return;
-
-      // מנע גלילת מסך במהלך המשחק
-      if (['ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowUp', ' '].includes(e.key)) {
-        e.preventDefault();
-        e.stopPropagation();
-      }
-
-      const { movePiece: move, handleRotate } = useTetrisStore.getState();
-      switch (e.key) {
-        case 'ArrowLeft':  move(-1, 0); break;
-        case 'ArrowRight': move(1, 0);  break;
-        case 'ArrowDown':  move(0, 1);  break;
-        case 'ArrowUp':
-        case ' ':          handleRotate(); break;
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyPress);
-    return () => window.removeEventListener('keydown', handleKeyPress);
-    // [] intentional — handler uses getState() to avoid stale closures
-  }, []);
+  // פקדי מקלדת
+  useKeyboardControls({
+    ArrowLeft: () => movePiece(-1, 0),
+    ArrowRight: () => movePiece(1, 0),
+    ArrowDown: () => movePiece(0, 1),
+    ArrowUp: handleRotate,
+    ' ': handleRotate,
+  }, isPlaying);
 };

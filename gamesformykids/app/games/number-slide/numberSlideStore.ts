@@ -1,5 +1,6 @@
 'use client';
 import { create } from 'zustand';
+import { getRandomItem } from '@/lib/utils';
 
 export type Grid = number[][];
 export type Direction = 'left' | 'right' | 'up' | 'down';
@@ -21,7 +22,7 @@ function getEmpties(grid: Grid): [number, number][] {
 function spawnTile(grid: Grid): Grid {
   const empties = getEmpties(grid);
   if (empties.length === 0) return grid;
-  const pick = empties[Math.floor(Math.random() * empties.length)]!;
+  const pick = getRandomItem(empties)!;
   const value = Math.random() < 0.8 ? 1 : 2;
   const newGrid = grid.map(r => [...r]);
   newGrid[pick[0]]![pick[1]] = value;

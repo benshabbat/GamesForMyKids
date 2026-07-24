@@ -1,3 +1,5 @@
+import { shuffle } from '@/lib/utils';
+
 export interface MultiplicationQuestion {
   a: number;
   b: number;
@@ -18,7 +20,7 @@ export function generateQuestion(level: number): MultiplicationQuestion {
     if (wrong > 0 && wrong !== answer) wrongs.add(wrong);
   }
 
-  const choices = [answer, ...Array.from(wrongs)].sort(() => Math.random() - 0.5);
+  const choices = shuffle([answer, ...Array.from(wrongs)]);
   return { a, b, answer, choices };
 }
 

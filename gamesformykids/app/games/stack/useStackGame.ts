@@ -1,9 +1,10 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useStackStore } from './stackStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export const W = 300;
 export const H = 480;
@@ -135,13 +136,7 @@ export function useStackGame() {
   };
 
 
-  useEffect(() => {
-    const kd = (e: KeyboardEvent) => {
-      if (e.code === 'Space' || e.key === 'Enter') { e.preventDefault(); drop(); }
-    };
-    window.addEventListener('keydown', kd);
-    return () => window.removeEventListener('keydown', kd);
-  }, [drop]);
+  useKeyboardControls({ ' ': drop, Enter: drop });
 
   const { phase, best, score } = useStackStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score })));
 

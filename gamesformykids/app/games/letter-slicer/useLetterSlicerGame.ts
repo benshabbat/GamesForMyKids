@@ -2,6 +2,7 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { getRandomItem } from '@/lib/utils';
 
 const WORDS = [
   { word: 'כלב',    color: '#3b82f6' }, { word: 'חתול',   color: '#ef4444' },
@@ -49,7 +50,7 @@ export function useLetterSlicerGame() {
   const pickTarget = useCallback(() => {
     const pool = bubblesRef.current;
     if (!pool.length) return;
-    const t = pool[Math.floor(Math.random() * pool.length)]!.word;
+    const t = getRandomItem(pool)!.word;
     targetRef.current = t;
     setTarget(t);
     speakHebrew(`חֲתוֹךְ אֶת: ${t}`);
@@ -99,7 +100,7 @@ export function useLetterSlicerGame() {
 
     spawnTimer.current -= dt;
     if (spawnTimer.current <= 0 && bubblesRef.current.length < MAX_BUBBLES) {
-      const item = WORDS[Math.floor(Math.random() * WORDS.length)]!;
+      const item = getRandomItem(WORDS)!;
       const fromLeft = Math.random() < 0.5;
       const x = fromLeft ? -R : W + R;
       const y = H * (0.45 + Math.random() * 0.35);

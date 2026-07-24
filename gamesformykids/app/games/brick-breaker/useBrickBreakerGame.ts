@@ -1,9 +1,11 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useBrickBreakerStore } from './brickBreakerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useHeldKeyControls, useKeyboardControls } from '@/hooks/shared/game-controls';
+import { spawnParticles, updateParticles, getRandomItem } from '@/lib/utils';
 import {
   W, H, PAD_W, PAD_H, PAD_Y, BALL_R, ROW_COLORS,
   type Phase, type BrickParticle,
@@ -65,7 +67,10 @@ const _useBrickBreaker = createCanvasArcadeHook({
             const overlapTop = s.ballY + BALL_R - y, overlapBottom = y + h - (s.ballY - BALL_R);
             if (Math.min(overlapLeft, overlapRight) < Math.min(overlapTop, overlapBottom)) s.ballVX *= -1; else s.ballVY *= -1;
             const colors = ROW_COLORS[s.bricks[i]!.row]!;
-            for (let p = 0; p < 6; p++) s.particles.push({ x: x + w / 2, y: y + h / 2, vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5, life: 1, color: colors[Math.floor(Math.random() * colors.length)]! });
+            s.particles.push(...spawnParticles<BrickParticle>({
+              count: 6, x: x + w / 2, y: y + h / 2, speed: 5,
+              extra: () => ({ color: getRandomItem(colors) }),
+            }));
             useBrickBreakerStore.getState().setScore(s.score);
           }
         }
@@ -80,7 +85,7 @@ const _useBrickBreaker = createCanvasArcadeHook({
           else { _nextLevelRef.current?.(nextLevel); }
         }
       }
-      s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.15; p.life -= 0.04; return p.life > 0; });
+      s.particles = updateParticles(s.particles, { gravity: 0.15, decay: 0.04 });
     }
 
     drawBrickBreakerScene(ctx, {
@@ -136,27 +141,22 @@ export function useBrickBreakerGame() {
   const nudgeRight = () => { st.current.padX = Math.min(W - PAD_W, st.current.padX + 40); };
 
 
+  const heldRef = useRef({ left: false, right: false });
+  useHeldKeyControls({
+    ArrowLeft: { onDown: () => { heldRef.current.left = true; }, onUp: () => { heldRef.current.left = false; } },
+    ArrowRight: { onDown: () => { heldRef.current.right = true; }, onUp: () => { heldRef.current.right = false; } },
+  });
+  useKeyboardControls({ ' ': handleClick });
+
   useEffect(() => {
-    let left = false, right = false;
     const interval = setInterval(() => {
       const s = st.current;
       if (s.phase !== 'playing') return;
-      if (left) s.padX = Math.max(0, s.padX - 8);
-      if (right) s.padX = Math.min(W - PAD_W, s.padX + 8);
+      if (heldRef.current.left) s.padX = Math.max(0, s.padX - 8);
+      if (heldRef.current.right) s.padX = Math.min(W - PAD_W, s.padX + 8);
     }, 16);
-    const kd = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') left = true;
-      if (e.key === 'ArrowRight') right = true;
-      if (e.code === 'Space') { e.preventDefault(); handleClick(); }
-    };
-    const ku = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') left = false;
-      if (e.key === 'ArrowRight') right = false;
-    };
-    window.addEventListener('keydown', kd);
-    window.addEventListener('keyup', ku);
-    return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, [handleClick, st]);
+    return () => clearInterval(interval);
+  }, [st]);
 
   const { phase, score, best, lives, level } = useBrickBreakerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best, lives: s.lives, level: s.level })));
 

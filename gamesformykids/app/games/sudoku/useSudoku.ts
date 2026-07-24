@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useSudokuStore } from './sudokuStore';
 import { generatePuzzle } from './sudokuLogic';
 import { speak } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export function useSudoku() {
   const store = useSudokuStore();
@@ -32,31 +33,21 @@ export function useSudoku() {
   }, [phase]);
 
   // Keyboard: digits fill the selected cell, arrows move selection.
-  useEffect(() => {
-    if (phase !== 'playing') return;
-    const onKey = (e: KeyboardEvent) => {
-      const digit = Number(e.key);
-      if (digit >= 1 && digit <= size) {
-        e.preventDefault();
-        inputNumber(digit);
-        return;
-      }
-      if (!selected) return;
-      const { row, col } = selected;
-      const moves: Record<string, [number, number]> = {
-        ArrowUp: [-1, 0], ArrowDown: [1, 0], ArrowLeft: [0, -1], ArrowRight: [0, 1],
-      };
-      const move = moves[e.key];
-      if (move) {
-        e.preventDefault();
-        const nextRow = Math.min(size - 1, Math.max(0, row + move[0]));
-        const nextCol = Math.min(size - 1, Math.max(0, col + move[1]));
-        selectCell(nextRow, nextCol);
-      }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [phase, size, selected, selectCell, inputNumber]);
+  const moveSelection = (dr: number, dc: number) => {
+    if (!selected) return;
+    const nextRow = Math.min(size - 1, Math.max(0, selected.row + dr));
+    const nextCol = Math.min(size - 1, Math.max(0, selected.col + dc));
+    selectCell(nextRow, nextCol);
+  };
+  useKeyboardControls({
+    ...Object.fromEntries(
+      Array.from({ length: size }, (_, i) => [String(i + 1), () => inputNumber(i + 1)]),
+    ),
+    ArrowUp: () => moveSelection(-1, 0),
+    ArrowDown: () => moveSelection(1, 0),
+    ArrowLeft: () => moveSelection(0, -1),
+    ArrowRight: () => moveSelection(0, 1),
+  }, phase === 'playing');
 
   return store;
 }

@@ -1,9 +1,11 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSpaceDefenderStore, GAME_DURATION } from './spaceDefenderStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { getRandomItem } from '@/lib/utils';
+import { useHeldKeyControls, useKeyboardControls } from '@/hooks/shared/game-controls';
 import {
   W, H, SHIP_W, SHIP_H, BULLET_SPEED, BULLET_R, ASTEROID_EMOJIS,
   type Bullet, type Asteroid,
@@ -41,7 +43,7 @@ const _useSpaceDefender = createCanvasArcadeHook({
       s.nextAsteroid--;
       if (s.nextAsteroid <= 0) {
         const r = 16 + Math.random() * 20;
-        s.asteroids.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, speed: 1.5 + Math.random() * 2 + s.score / 500, r, emoji: ASTEROID_EMOJIS[Math.floor(Math.random() * ASTEROID_EMOJIS.length)]!, angle: 0, spin: (Math.random() - 0.5) * 0.06 });
+        s.asteroids.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, speed: 1.5 + Math.random() * 2 + s.score / 500, r, emoji: getRandomItem(ASTEROID_EMOJIS)!, angle: 0, spin: (Math.random() - 0.5) * 0.06 });
         s.nextAsteroid = Math.max(20, 55 - Math.floor(s.score / 100) * 3);
       }
       s.bullets = s.bullets.filter(b => { b.y -= BULLET_SPEED; return b.y > -10; });
@@ -129,27 +131,22 @@ export function useSpaceDefenderGame() {
     if (st.current.phase !== 'playing') startGame();
   };
 
+  const heldRef = useRef({ left: false, right: false });
+  useHeldKeyControls({
+    ArrowLeft: { onDown: () => { heldRef.current.left = true; }, onUp: () => { heldRef.current.left = false; } },
+    ArrowRight: { onDown: () => { heldRef.current.right = true; }, onUp: () => { heldRef.current.right = false; } },
+  });
+  useKeyboardControls({ ' ': shoot });
+
   useEffect(() => {
-    let leftDown = false, rightDown = false;
-    const kd = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') leftDown = true;
-      if (e.key === 'ArrowRight') rightDown = true;
-      if (e.code === 'Space') { e.preventDefault(); shoot(); }
-    };
-    const ku = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') leftDown = false;
-      if (e.key === 'ArrowRight') rightDown = false;
-    };
     const moveInterval = setInterval(() => {
       const s = st.current;
       if (s.phase !== 'playing') return;
-      if (leftDown) s.shipX = Math.max(SHIP_W / 2, s.shipX - 5);
-      if (rightDown) s.shipX = Math.min(W - SHIP_W / 2, s.shipX + 5);
+      if (heldRef.current.left) s.shipX = Math.max(SHIP_W / 2, s.shipX - 5);
+      if (heldRef.current.right) s.shipX = Math.min(W - SHIP_W / 2, s.shipX + 5);
     }, 16);
-    window.addEventListener('keydown', kd);
-    window.addEventListener('keyup', ku);
-    return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); clearInterval(moveInterval); };
-  }, [st, shoot]);
+    return () => clearInterval(moveInterval);
+  }, [st]);
 
   const { phase, best, score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 

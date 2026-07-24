@@ -1,3 +1,5 @@
+import { shuffle, getRandomItem } from '@/lib/utils';
+
 export interface SortingItem {
   name: string;
   emoji: string;
@@ -161,10 +163,10 @@ export interface SortingQuestion {
 }
 
 export function buildSortingQuestions(count: number): SortingQuestion[] {
-  const set = SORTING_SETS[Math.floor(Math.random() * SORTING_SETS.length)]!;
+  const set = getRandomItem(SORTING_SETS)!;
   const allItems: SortingQuestion[] = [
     ...set.categoryA.items.map(item => ({ item, itemCategory: 'A' as const, categoryA: set.categoryA, categoryB: set.categoryB })),
     ...set.categoryB.items.map(item => ({ item, itemCategory: 'B' as const, categoryA: set.categoryA, categoryB: set.categoryB })),
   ];
-  return allItems.sort(() => Math.random() - 0.5).slice(0, count);
+  return shuffle(allItems).slice(0, count);
 }

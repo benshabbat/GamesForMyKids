@@ -1,4 +1,5 @@
 import { type PuzzlePiece, type SimplePuzzlePiece } from './puzzleTypes';
+import { shuffle } from '@/lib/utils';
 
 /**
  * Creates puzzle pieces from an image
@@ -54,7 +55,7 @@ export const createPuzzlePieces = (
       }
     }
 
-    return type === 'simple' ? pieces.sort(() => Math.random() - 0.5) : pieces;
+    return type === 'simple' ? shuffle(pieces) : pieces;
   } catch (error) {
     console.error('Error in createPuzzlePieces:', error);
     return [];

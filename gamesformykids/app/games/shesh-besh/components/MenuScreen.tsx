@@ -1,54 +1,37 @@
+'use client';
+
+import GameMenuCard from '@/components/game/shared/GameMenuCard';
 import { useGameScores }  from '../hooks';
 import { useGameActions } from '../hooks';
 
 export function MenuScreen() {
   const { playerScore, computerScore } = useGameScores();
   const { startGame }                  = useGameActions();
-  return (
-    <div className="flex flex-col items-center gap-6 text-center max-w-sm w-full mt-6">
-      {/* Title */}
-      <div className="flex flex-col items-center gap-2">
-        <div className="text-6xl drop-shadow-2xl">🎲</div>
-        <h1 className="text-3xl font-extrabold text-amber-300 bg-gradient-to-b from-yellow-200 via-amber-300 to-amber-500 bg-clip-text text-transparent drop-shadow-lg">
-          שש-בש
-        </h1>
-        <p className="text-amber-200/70 text-sm">
-          משחק הקלאסי נגד המחשב
-        </p>
-      </div>
 
-      {/* Previous scores */}
+  return (
+    <GameMenuCard
+      emoji="🎲"
+      title="שש-בש"
+      description="המשחק הקלאסי נגד המחשב"
+      gradientClass="from-stone-950 via-amber-950 to-stone-950"
+      buttonClass="from-amber-300 to-amber-500"
+      onStart={startGame}
+      startLabel="🎮 התחל משחק"
+    >
       {(playerScore > 0 || computerScore > 0) && (
-        <div className="flex gap-3 text-sm font-bold">
-          <div className="flex items-center gap-2 bg-rose-950/70 border border-rose-800/60 rounded-xl px-4 py-2">
+        <div className="flex justify-center gap-3 text-sm font-bold mb-2">
+          <div className="flex items-center gap-2 bg-rose-100 dark:bg-rose-950/70 border border-rose-300 dark:border-rose-800/60 rounded-xl px-4 py-2">
             <div className="w-3 h-3 rounded-full bg-gradient-to-br from-rose-400 to-rose-600" />
-            <span className="text-rose-200">{playerScore} ניצחונות</span>
+            <span className="text-rose-700 dark:text-rose-200">{playerScore} ניצחונות</span>
           </div>
-          <div className="flex items-center gap-2 bg-slate-800/70 border border-slate-700/60 rounded-xl px-4 py-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-100 to-gray-300" />
-            <span className="text-slate-200">{computerScore} ניצחונות</span>
+          <div className="flex items-center gap-2 bg-slate-100 dark:bg-slate-800/70 border border-slate-300 dark:border-slate-700/60 rounded-xl px-4 py-2">
+            <div className="w-3 h-3 rounded-full bg-gradient-to-br from-gray-400 to-gray-600 dark:from-gray-100 dark:to-gray-300" />
+            <span className="text-slate-700 dark:text-slate-200">{computerScore} ניצחונות</span>
           </div>
         </div>
       )}
-
-      {/* Start button */}
-      <button
-        onClick={startGame}
-        className={[
-          'bg-gradient-to-b from-amber-300 to-amber-500 hover:from-amber-200 hover:to-amber-400',
-          'active:scale-95 text-gray-900 font-extrabold text-xl px-14 py-4 rounded-2xl',
-          'shadow-[0_6px_0_#92400e,0_8px_30px_rgba(251,191,36,0.35)]',
-          'hover:shadow-[0_6px_0_#92400e,0_8px_36px_rgba(251,191,36,0.45)]',
-          'active:shadow-[0_2px_0_#92400e] active:translate-y-[4px]',
-          'transition duration-150',
-        ].join(' ')}
-      >
-        🎮 התחל משחק
-      </button>
-
-      {/* Rules */}
-      <div className="bg-black/30 border border-amber-800/30 rounded-2xl p-4 text-sm w-full space-y-1.5">
-        <p className="font-bold text-amber-300 mb-2.5 text-center text-base">כיצד לשחק</p>
+      <div className="bg-amber-50 dark:bg-black/30 border border-amber-200 dark:border-amber-800/30 rounded-2xl p-4 text-sm w-full space-y-1.5">
+        <p className="font-bold text-amber-700 dark:text-amber-300 mb-2.5 text-center text-base">כיצד לשחק</p>
         {([
           ['🔴', 'אתה = אדום · זזים מ-24 ל-1'],
           ['⚪', 'מחשב = לבן · זזים מ-1 ל-24'],
@@ -57,12 +40,12 @@ export function MenuScreen() {
           ['🏠', 'מגרש הבית שלך: נקודות 1–6'],
           ['✅', 'כשכולם בבית — ניתן לצאת'],
         ] as [string, string][]).map(([icon, text]) => (
-          <div key={text} className="flex items-center gap-2 text-amber-200/75">
+          <div key={text} className="flex items-center gap-2 text-gray-600 dark:text-amber-200/75">
             <span className="text-base w-6 text-center">{icon}</span>
             <span>{text}</span>
           </div>
         ))}
       </div>
-    </div>
+    </GameMenuCard>
   );
 }

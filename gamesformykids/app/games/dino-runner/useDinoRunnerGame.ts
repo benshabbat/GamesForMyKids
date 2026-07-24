@@ -1,9 +1,11 @@
 'use client';
 
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useDinoRunnerStore } from './dinoRunnerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
+import { getRandomItem } from '@/lib/utils';
 
 export const W = 400;
 export const H = 220;
@@ -59,7 +61,7 @@ const _useDinoRunner = createCanvasArcadeHook({
           x: W + 20,
           w,
           h,
-          emoji: OBSTACLE_EMOJIS[Math.floor(Math.random() * OBSTACLE_EMOJIS.length)]!,
+          emoji: getRandomItem(OBSTACLE_EMOJIS)!,
         });
         s.nextObstacle = 60 + Math.random() * 80;
       }
@@ -159,13 +161,7 @@ export function useDinoRunnerGame() {
   }, [st]);
 
 
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.code === 'Space' || e.code === 'ArrowUp') { e.preventDefault(); jump(); }
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [jump]);
+  useKeyboardControls({ ' ': jump, ArrowUp: jump });
 
   const handleTap = (e?: React.MouseEvent | React.TouchEvent) => {
     e?.preventDefault();

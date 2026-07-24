@@ -1,6 +1,7 @@
 'use client';
 
 import { makeStore } from '@/lib/stores/createStore';
+import { shuffle } from '@/lib/utils';
 import {
   createShuffledMemoryCards,
 } from '@/lib/utils/game/gameUtils';
@@ -119,7 +120,7 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
       const currentDifficulty = targetDifficulty ?? state.difficulty;
       const config = MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS[currentDifficulty];
 
-      const shuffled = [...MEMORY_GAME_ANIMALS].sort(() => Math.random() - 0.5);
+      const shuffled = shuffle(MEMORY_GAME_ANIMALS);
       const animals = shuffled.slice(0, config.pairs);
       const genericCards = createShuffledMemoryCards(animals);
       const cards: MemoryCard[] = genericCards.map((card) => ({

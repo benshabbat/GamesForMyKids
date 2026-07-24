@@ -1,5 +1,6 @@
 'use client';
 import { create } from 'zustand';
+import { shuffle } from '@/lib/utils';
 
 export interface FloatingLetter {
   id: string;
@@ -60,7 +61,7 @@ function buildFloatingLetters(word: string): FloatingLetter[] {
 
   const distractors: FloatingLetter[] = [];
   const pool = EXTRA_LETTERS.split('').filter(l => !word.includes(l));
-  const shuffledPool = pool.sort(() => Math.random() - 0.5).slice(0, 3);
+  const shuffledPool = shuffle(pool).slice(0, 3);
   shuffledPool.forEach((letter, i) => {
     distractors.push({
       id: `d-${i}-${letter}`,
@@ -72,7 +73,7 @@ function buildFloatingLetters(word: string): FloatingLetter[] {
     });
   });
 
-  return [...wordLetters, ...distractors].sort(() => Math.random() - 0.5);
+  return shuffle([...wordLetters, ...distractors]);
 }
 
 export const useWordClickerStore = create<WordClickerState & WordClickerActions>((set, get) => ({
@@ -86,7 +87,7 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
   wordComplete: false,
 
   startGame: () => {
-    const words = [...WORD_LIST].sort(() => Math.random() - 0.5).slice(0, 8);
+    const words = shuffle(WORD_LIST).slice(0, 8);
     const firstWord = words[0] ?? WORD_LIST[0] ?? 'שמש';
     set({
       phase: 'playing',

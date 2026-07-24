@@ -3,6 +3,7 @@ import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial, DEFAULT_DIFFICULTY_LIVES } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
+import { shuffle } from '@/lib/utils';
 
 // ── Color data ──────────────────────────────────────────────────────────────
 
@@ -25,8 +26,8 @@ export interface Question {
 }
 
 function makeQuestion(): Question {
-  const shuffled = [...COLORS].sort(() => Math.random() - 0.5) as ColorItem[];
-  return { target: shuffled[0]!, options: shuffled.slice(0, 4).sort(() => Math.random() - 0.5) };
+  const shuffled = shuffle(COLORS) as ColorItem[];
+  return { target: shuffled[0]!, options: shuffle(shuffled.slice(0, 4)) };
 }
 
 // ── Store ───────────────────────────────────────────────────────────────────

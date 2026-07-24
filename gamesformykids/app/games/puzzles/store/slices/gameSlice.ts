@@ -4,6 +4,7 @@ import { createPuzzlePieces } from '../../utils/puzzleUtils';
 import type { SimplePuzzle } from '../../constants/simplePuzzlesData';
 import { MENU_RESET } from '../puzzleStoreConstants';
 import type { PuzzleStore } from '../puzzleStore';
+import { shuffle } from '@/lib/utils';
 export interface GameSlice {
   initializeGame: (img: HTMLImageElement, difficulty?: number) => void;
   initializeSimpleGame: (puzzle: SimplePuzzle) => void;
@@ -66,7 +67,7 @@ export const createGameSlice: StateCreator<PuzzleStore, [], [], GameSlice> = (se
 
   shufflePieces: () => {
     const { pieces, speak } = get();
-    set({ pieces: [...pieces].sort(() => Math.random() - 0.5) });
+    set({ pieces: shuffle(pieces) });
     speak('הַחֲלָקִים עֻרְבְּבוּ');
   },
 

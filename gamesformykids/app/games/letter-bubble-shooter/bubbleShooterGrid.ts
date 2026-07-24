@@ -1,4 +1,5 @@
 import { COLS, GRID_ROWS, R, DIA, LETTERS } from './bubbleShooterConstants';
+import { getRandomItem } from '@/lib/utils';
 
 export function bx(col: number, row: number, W: number): number {
   const offset = row % 2 === 1 ? R + 1 : 0;
@@ -10,7 +11,7 @@ export function colsInRow(row: number): number { return row % 2 === 0 ? COLS : C
 export function mkGrid(): (string | null)[][] {
   return Array.from({ length: GRID_ROWS }, (_, row) =>
     Array.from({ length: COLS }, (_, col) =>
-      col < colsInRow(row) && row < 5 ? LETTERS[Math.floor(Math.random() * LETTERS.length)]! : null
+      col < colsInRow(row) && row < 5 ? getRandomItem(LETTERS)! : null
     )
   );
 }
