@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useQuizGameStore } from '@/lib/stores';
 import type { LifeCycleQuestion } from '@/lib/quiz/data/life-cycles';
+import { shuffle } from '@/lib/utils';
 
 export function useLifeCyclesInteraction(current: LifeCycleQuestion, onComplete: () => void) {
   const [placed, setPlaced] = useState<number[]>([]);
@@ -13,7 +14,7 @@ export function useLifeCyclesInteraction(current: LifeCycleQuestion, onComplete:
 
   useEffect(() => {
     const indices: number[] = [0, 1, 2, 3];
-    setShuffled(indices.sort(() => Math.random() - 0.5));
+    setShuffled(shuffle(indices));
     setPlaced([]);
     setWrongIdx(null);
   }, [current.id]);

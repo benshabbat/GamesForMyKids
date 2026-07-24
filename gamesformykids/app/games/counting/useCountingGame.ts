@@ -5,6 +5,7 @@ import { BaseGameItem } from "@/lib/types/core/base";
 import { speakHebrew } from "@/lib/utils/speech/enhancedSpeechUtils";
 import { useGameAudio } from "@/hooks/shared/audio/useGameAudio";
 import { getRandomItem } from "@/lib/utils/game/gameUtils";
+import { shuffle } from "@/lib/utils";
 import { COUNTING_GAME_CONSTANTS } from "@/lib/constants";
 import { useCountingChallengeStore } from "@/lib/stores/countingChallengeStore";
 import { useNumericQuizRuntime } from "@/hooks/games/useNumericQuizRuntime";
@@ -40,11 +41,8 @@ function generateCountingChallenge(level: number, items: BaseGameItem[]): Counti
 function generateCountingOptions(correctAnswer: number, level: number): number[] {
   const maxCount = getMaxCount(level);
   const allNumbers = Array.from({ length: maxCount }, (_, i) => i + 1);
-  const incorrect = allNumbers
-    .filter(n => n !== correctAnswer)
-    .sort(() => Math.random() - 0.5)
-    .slice(0, 3);
-  return [...incorrect, correctAnswer].sort(() => Math.random() - 0.5);
+  const incorrect = shuffle(allNumbers.filter(n => n !== correctAnswer)).slice(0, 3);
+  return shuffle([...incorrect, correctAnswer]);
 }
 
 function toChallengeItem(challenge: CountingChallenge): BaseGameItem {

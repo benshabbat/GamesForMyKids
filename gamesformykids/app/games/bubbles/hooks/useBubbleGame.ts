@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { useBubblesStore, type BubbleData } from '../bubblesStore';
+import { getRandomItem } from '@/lib/utils';
 
 const BUBBLE_TYPES = [
   { color: '#FF6B6B', frequency: 261.63 },
@@ -28,7 +29,7 @@ export function useBubbleGame() {
     if (!gameContainerRef.current) return;
     const currentLevel = Math.floor(useBubblesStore.getState().poppedCount / 15) + 1;
     const containerWidth = gameContainerRef.current.offsetWidth;
-    const bubbleType = BUBBLE_TYPES[Math.floor(Math.random() * BUBBLE_TYPES.length)]!;
+    const bubbleType = getRandomItem(BUBBLE_TYPES)!;
     const size = 40 + Math.random() * 60;
 
     const newBubble: BubbleData = {

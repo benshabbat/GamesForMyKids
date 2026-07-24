@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { WORD_SETS, type WordSet } from './data/wordSets';
+import { getRandomItem } from '@/lib/utils';
 
 export const GRID_SIZE = 9;
 const HEBREW_FILL = 'אבגדהוזחטיכלמנסעפצקרשת';
@@ -53,7 +54,7 @@ function buildGrid(words: string[]): { grid: string[][]; placed: PlacedWord[] } 
     const letters = word.split('');
     let success = false;
     for (let attempt = 0; attempt < 100; attempt++) {
-      const dir = DIRECTIONS[Math.floor(Math.random() * DIRECTIONS.length)]!;
+      const dir = getRandomItem(DIRECTIONS)!;
       const row = Math.floor(Math.random() * GRID_SIZE);
       const col = Math.floor(Math.random() * GRID_SIZE);
       if (canPlace(grid, letters, row, col, dir)) {

@@ -1,8 +1,9 @@
 'use client';
-import { useState, useCallback, useRef, useEffect } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { MAZE_WORDS, type MazeDifficulty } from '@/lib/constants/wordMazeWords';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 import { shuffle } from '@/lib/utils/game/cardUtils';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export const GRID_SIZE = 13;
 export const CELL_SIZE = 34;
@@ -143,18 +144,12 @@ export function useWordMaze() {
   }, []);
 
   // Keyboard input
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.key)) return;
-      e.preventDefault();
-      if (e.key === 'ArrowUp')    movePlayer(-1, 0);
-      if (e.key === 'ArrowDown')  movePlayer(1, 0);
-      if (e.key === 'ArrowLeft')  movePlayer(0, -1);
-      if (e.key === 'ArrowRight') movePlayer(0, 1);
-    };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [movePlayer]);
+  useKeyboardControls({
+    ArrowUp: () => movePlayer(-1, 0),
+    ArrowDown: () => movePlayer(1, 0),
+    ArrowLeft: () => movePlayer(0, -1),
+    ArrowRight: () => movePlayer(0, 1),
+  });
 
   const nextLevel = useCallback(() => {
     const nextLvl: MazeDifficulty = level === 'easy' ? 'medium' : level === 'medium' ? 'hard' : 'easy';

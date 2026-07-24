@@ -6,3 +6,4 @@ export * from './feedbackUtils';
 export * from './gameMetadata';
 export * from './gameNavigation';
 export * from './getGameConfettiEmojis';
+export * from './particles';

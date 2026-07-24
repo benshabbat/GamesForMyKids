@@ -4,6 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 import { useTzedakahStore } from './tzedakahStore';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
 import { useRouter } from 'next/navigation';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export type { Coin } from './tzedakahStore';
 
@@ -51,15 +52,10 @@ export function useCharityCoinGame() {
     return () => clearInterval(id);
   }, [gameStarted, timerTick]);
 
-  useEffect(() => {
-    if (!gameStarted || isMobile) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft')  { e.preventDefault(); stepBasket(-1); }
-      if (e.key === 'ArrowRight') { e.preventDefault(); stepBasket(1); }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [gameStarted, isMobile, stepBasket]);
+  useKeyboardControls({
+    ArrowLeft: () => stepBasket(-1),
+    ArrowRight: () => stepBasket(1),
+  }, gameStarted && !isMobile);
 
   const nextGame = useMemo(() => {
     const all = GamesRegistry.getAllGameRegistrations()

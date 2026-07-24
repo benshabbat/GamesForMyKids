@@ -1,9 +1,9 @@
 'use client';
 
-import { useEffect } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useJumperStore } from './jumperStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useHeldKeyControls } from '@/hooks/shared/game-controls';
 import {
   W, H, GRAVITY, JUMP_VY, PLAT_H, PLAYER_R, PLAT_GAP, INIT_PLATS,
   type JumperState,
@@ -117,19 +117,12 @@ export function useJumperGame() {
   const releaseRight = () => { st.current.rightDown = false; };
 
 
-  useEffect(() => {
-    const kd = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft'  || e.key === 'a') st.current.leftDown  = true;
-      if (e.key === 'ArrowRight' || e.key === 'd') st.current.rightDown = true;
-    };
-    const ku = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft'  || e.key === 'a') st.current.leftDown  = false;
-      if (e.key === 'ArrowRight' || e.key === 'd') st.current.rightDown = false;
-    };
-    window.addEventListener('keydown', kd);
-    window.addEventListener('keyup', ku);
-    return () => { window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
-  }, [st]);
+  useHeldKeyControls({
+    ArrowLeft: { onDown: pressLeft, onUp: releaseLeft },
+    a: { onDown: pressLeft, onUp: releaseLeft },
+    ArrowRight: { onDown: pressRight, onUp: releaseRight },
+    d: { onDown: pressRight, onUp: releaseRight },
+  });
 
   const handleTouchMove = (e: React.TouchEvent<HTMLCanvasElement>) => {
     e.preventDefault();

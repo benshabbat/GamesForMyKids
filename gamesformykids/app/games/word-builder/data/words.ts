@@ -1,3 +1,5 @@
+import { shuffleArray } from '@/lib/utils';
+
 export interface WordPuzzle {
   id: string;
   word: string;       // Hebrew word
@@ -39,12 +41,9 @@ export const WORD_PUZZLES: WordPuzzle[] = [
 export function shuffleLetters(word: string): string[] {
   const letters = word.split('');
   // ensure shuffled order differs from original
-  const shuffled = [...letters];
+  let shuffled = letters;
   do {
-    for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [shuffled[i], shuffled[j]] = [shuffled[j]!, shuffled[i]!];
-    }
+    shuffled = shuffleArray(letters);
   } while (shuffled.join('') === word && word.length > 1);
   return shuffled;
 }

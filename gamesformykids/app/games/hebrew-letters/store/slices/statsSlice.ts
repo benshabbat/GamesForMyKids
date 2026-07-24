@@ -6,6 +6,7 @@ import {
   DEFAULT_LEARNING_STATS,
   ENCOURAGEMENT_MESSAGES,
 } from '../../constants/hebrewLettersConstants';
+import { getRandomItem } from '@/lib/utils';
 
 // Module-level ref lives here since showEncouragement/hideEncouragement manage it
 let encouragementTimerRef: ReturnType<typeof setTimeout> | null = null;
@@ -28,7 +29,7 @@ export const createStatsSlice: StateCreator<HebrewLettersStore, [['zustand/devto
     if (encouragementTimerRef) clearTimeout(encouragementTimerRef);
     const msg =
       message ??
-      ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)]!;
+      getRandomItem([...ENCOURAGEMENT_MESSAGES]);
     set(
       { encouragementState: { showEncouragement: true, currentMessage: msg, isStepCompleted: false } },
       false,

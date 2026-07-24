@@ -2,6 +2,7 @@
 import { useMemo } from 'react';
 import type { SNLQuestion } from '../data/questions';
 import { LADDERS, SNAKES } from '../snakesLaddersStore';
+import { shuffle } from '@/lib/utils';
 
 interface Props {
   question: SNLQuestion;
@@ -16,7 +17,7 @@ interface Props {
 export default function QuizPopup({ question, square, specialType, playerName, playerEmoji, isAI, onAnswer }: Props) {
   const choices = useMemo(() => {
     const all = [question.answer, ...question.wrongOptions];
-    return all.sort(() => Math.random() - 0.5);
+    return shuffle(all);
   }, [question]);
 
   const destination = specialType === 'ladder' ? LADDERS[square] : SNAKES[square];

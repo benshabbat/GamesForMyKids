@@ -1,9 +1,10 @@
 'use client';
 
-import { useCallback, useEffect, useRef } from 'react';
+import { useCallback, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 const CELL = 40;
 const COLS = 9;
@@ -148,18 +149,12 @@ export function useFroggerGame() {
   };
 
 
-  useEffect(() => {
-    const kd = (e: KeyboardEvent) => {
-      if (!['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'w', 'a', 's', 'd'].includes(e.key)) return;
-      e.preventDefault();
-      if (e.key === 'ArrowUp'    || e.key === 'w') moveFrog(0, -1);
-      if (e.key === 'ArrowDown'  || e.key === 's') moveFrog(0,  1);
-      if (e.key === 'ArrowLeft'  || e.key === 'a') moveFrog(-1, 0);
-      if (e.key === 'ArrowRight' || e.key === 'd') moveFrog(1, 0);
-    };
-    window.addEventListener('keydown', kd);
-    return () => window.removeEventListener('keydown', kd);
-  }, [moveFrog]);
+  useKeyboardControls({
+    ArrowUp: () => moveFrog(0, -1), w: () => moveFrog(0, -1),
+    ArrowDown: () => moveFrog(0, 1), s: () => moveFrog(0, 1),
+    ArrowLeft: () => moveFrog(-1, 0), a: () => moveFrog(-1, 0),
+    ArrowRight: () => moveFrog(1, 0), d: () => moveFrog(1, 0),
+  });
 
   const { phase, score, lives, best } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives, best: s.best })));
 

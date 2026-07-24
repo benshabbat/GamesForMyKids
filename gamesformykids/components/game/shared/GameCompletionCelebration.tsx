@@ -8,6 +8,7 @@ import { getGameConfettiEmojis } from '@/lib/utils/game/getGameConfettiEmojis';
 import { useAvatarEmoji } from '@/hooks/shared/user/useAvatarEmoji';
 import { getActiveHoliday } from '@/lib/constants/holidayLanes';
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
+import { getRandomItem } from '@/lib/utils';
 
 const CELEBRATION_PHRASES = [
   'כָּל הַכָּבוֹד! עָשִׂיתָ עֲבוֹדָה מַדְהִימָה!',
@@ -58,7 +59,7 @@ export function GameCompletionCelebration({ isPerfect = false }: Props) {
 
   useEffect(() => {
     playSuccessSound();
-    const phrase = CELEBRATION_PHRASES[Math.floor(Math.random() * CELEBRATION_PHRASES.length)]!;
+    const phrase = getRandomItem([...CELEBRATION_PHRASES]);
     speakHebrew(phrase);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setVisible(false);

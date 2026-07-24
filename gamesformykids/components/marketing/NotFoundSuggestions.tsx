@@ -3,10 +3,11 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { shuffle } from '@/lib/utils';
 
 function pickThree() {
   const all = GamesRegistry.getAllGameRegistrations().filter(g => g.available);
-  const shuffled = [...all].sort(() => Math.random() - 0.5);
+  const shuffled = shuffle(all);
   return shuffled.slice(0, 3);
 }
 

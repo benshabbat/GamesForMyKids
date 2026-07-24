@@ -3,12 +3,9 @@ import { useEffect, useState, useCallback } from 'react';
 import { useHebrewRacerStore } from '../hebrewRacerStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { TOTAL_CHECKPOINTS } from '../hebrewRacerData';
+import { shuffle, getRandomItem } from '@/lib/utils';
 
 const OBSTACLES = ['🪨', '🌵', '🏔️', '🚧', '🌊'];
-
-function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
-}
 
 export default function HebrewRacerScreen() {
   const {
@@ -18,7 +15,7 @@ export default function HebrewRacerScreen() {
   } = useHebrewRacerStore();
 
   const [choices, setChoices] = useState<string[]>([]);
-  const [obstacleEmoji] = useState(() => OBSTACLES[Math.floor(Math.random() * OBSTACLES.length)] ?? '🪨');
+  const [obstacleEmoji] = useState(() => getRandomItem(OBSTACLES));
 
   // Shuffle choices when a new question appears
   useEffect(() => {

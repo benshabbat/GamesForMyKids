@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { ROOMS, type Room, type Hotspot, type Puzzle } from './components/puzzleData';
+import { getRandomItem } from '@/lib/utils';
 
 type Phase = 'menu' | 'playing' | 'result';
 
@@ -88,7 +89,7 @@ export const useEscapeRoomStore = create<State & Actions>((set, get) => ({
     if (!activePuzzle || hintsUsed >= 3) return null;
     set({ hintsUsed: hintsUsed + 1 });
     const wrong = activePuzzle.puzzle.wrongOptions;
-    const eliminated = wrong[Math.floor(Math.random() * wrong.length)]!;
+    const eliminated = getRandomItem(wrong)!;
     return `הרמז: "${eliminated}" היא תשובה שגויה.`;
   },
 

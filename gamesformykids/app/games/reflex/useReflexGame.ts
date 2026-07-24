@@ -5,6 +5,7 @@ import { useReflexStore } from './reflexStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 import { TARGET_EMOJIS, getLifetime, getSpawnInterval } from './data/targets';
+import { getRandomItem } from '@/lib/utils';
 
 export type { Target } from './reflexStore';
 
@@ -37,7 +38,7 @@ export function useReflexGame() {
         id,
         x:        5 + Math.random() * 80,
         y:        10 + Math.random() * 70,
-        emoji:    TARGET_EMOJIS[Math.floor(Math.random() * TARGET_EMOJIS.length)]!,
+        emoji:    getRandomItem(TARGET_EMOJIS)!,
         lifetime: getLifetime(score),
         born:     Date.now(),
       };

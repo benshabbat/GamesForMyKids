@@ -4,6 +4,7 @@ import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSimonStore, BUTTONS } from './simonStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { getRandomItem } from '@/lib/utils';
 export type { ButtonId } from './simonStore';
 export { BUTTONS };
 
@@ -83,7 +84,7 @@ export function useSimonGame() {
 
     if (next >= seq.length) {
       setRoundScore(seq.length);
-      const nextBtn = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
+      const nextBtn = getRandomItem([...BUTTONS]).id;
       const newSeq = [...seq, nextBtn];
       setSequence(newSeq);
       setTimeout(() => runSequence(newSeq), 900);

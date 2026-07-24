@@ -2,6 +2,7 @@
 import { useState, useCallback, useRef } from 'react';
 import { RIDDLES_PRO, type RiddlePro } from './data/riddles-pro';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { shuffle } from '@/lib/utils';
 
 const SESSION_SIZE = 10;
 
@@ -26,12 +27,12 @@ export interface RiddlesProState {
 }
 
 function pickSession(): RiddlePro[] {
-  const shuffled = [...RIDDLES_PRO].sort(() => Math.random() - 0.5);
+  const shuffled = shuffle(RIDDLES_PRO);
   return shuffled.slice(0, SESSION_SIZE);
 }
 
 function makeChoices(riddle: RiddlePro): string[] {
-  return [riddle.answer, ...riddle.wrongOptions].sort(() => Math.random() - 0.5);
+  return shuffle([riddle.answer, ...riddle.wrongOptions]);
 }
 
 export function useRiddlesProGame(): RiddlesProState {

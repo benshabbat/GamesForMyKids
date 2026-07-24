@@ -3,7 +3,7 @@ import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import { setupLivesTimer } from '@/lib/stores/livesTimerHelpers';
 import { makeLivesInitial, DEFAULT_DIFFICULTY_LIVES } from '@/lib/stores/utils/sliceUtils';
 import type { LivesGameState } from '@/lib/types';
-import { randInt as rnd } from '@/lib/utils';
+import { randInt as rnd, shuffle, getRandomItem } from '@/lib/utils';
 
 // ── Question helpers ────────────────────────────────────────────────────────
 
@@ -16,7 +16,7 @@ export interface Question {
   choices: number[]; emojiA: string; emojiB: string;
 }
 
-function pickEmoji() { return EMOJIS[Math.floor(Math.random() * EMOJIS.length)]; }
+function pickEmoji() { return getRandomItem(EMOJIS); }
 
 export function makeQuestion(level: number): Question {
   const maxNum = Math.min(5 + level * 2, 15);
@@ -33,7 +33,7 @@ export function makeQuestion(level: number): Question {
     const w = answer + rnd(-3, 3);
     if (w !== answer && w >= 0 && w <= 20) wrong.add(w);
   }
-  const choices = [...wrong, answer].sort(() => Math.random() - 0.5);
+  const choices = shuffle([...wrong, answer]);
   const e1 = pickEmoji()!, e2 = op === '+' ? pickEmoji()! : e1;
   return { a, b, op, answer, choices, emojiA: e1, emojiB: e2 };
 }

@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { HEBREW_LETTER_PATHS, type HebrewLetterPath } from '@/lib/constants/gameData/hebrewLetterPaths';
+import { shuffle } from '@/lib/utils';
 
 export type TraceDifficulty = 'guided' | 'free';
 export type TracePhase = 'menu' | 'tracing' | 'result';
@@ -32,7 +33,7 @@ export const useLetterTraceStore = create<LetterTraceState & LetterTraceActions>
     set({
       phase: 'tracing',
       difficulty,
-      letters: [...HEBREW_LETTER_PATHS].sort(() => Math.random() - 0.5),
+      letters: shuffle(HEBREW_LETTER_PATHS),
       currentIndex: 0,
       score: 0,
       total: 0,

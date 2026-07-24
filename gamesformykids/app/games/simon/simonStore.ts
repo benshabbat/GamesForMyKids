@@ -1,5 +1,6 @@
 import { makePersistStore } from '@/lib/stores/createStore';
 import type { PhaseSimon as Phase } from '@/lib/types';
+import { getRandomItem } from '@/lib/utils';
 
 export const BUTTONS = [
   { id: 'red',    bg: 'bg-red-500',    active: 'bg-red-200',    label: '▲' },
@@ -48,7 +49,7 @@ export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonS
   setSequence:    (seq)   => set({ sequence: seq }, false, 'simon/setSequence'),
 
   initGame: () => {
-    const first = BUTTONS[Math.floor(Math.random() * BUTTONS.length)]!.id;
+    const first = getRandomItem([...BUTTONS]).id;
     const seq: ButtonId[] = [first];
     set({ ...INITIAL, sequence: seq, roundScore: 0 }, false, 'simon/initGame');
   },

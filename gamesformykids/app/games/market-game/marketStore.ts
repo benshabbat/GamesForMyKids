@@ -1,6 +1,7 @@
 'use client';
 
 import { create } from 'zustand';
+import { getRandomItem } from '@/lib/utils';
 
 export type Difficulty = 'easy' | 'medium' | 'hard';
 
@@ -41,7 +42,7 @@ const CUSTOMER_EMOJIS = ['👦', '👧', '👴', '👵', '🧒', '🧑', '👱',
 const CUSTOMER_NAMES = ['יעל', 'נועם', 'תום', 'מיה', 'ארי', 'לי', 'עדן', 'איתי'];
 
 function randomItem() {
-  return ITEMS[Math.floor(Math.random() * ITEMS.length)]!;
+  return getRandomItem(ITEMS)!;
 }
 
 function getMaxCount(difficulty: Difficulty) {

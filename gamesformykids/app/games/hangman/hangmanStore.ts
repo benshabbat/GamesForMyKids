@@ -1,6 +1,7 @@
 'use client';
 import { create } from 'zustand';
 import { WORD_CATEGORIES, CATEGORY_NAMES, type WordEntry } from './data/wordCategories';
+import { getRandomItem } from '@/lib/utils';
 
 const MAX_WRONG = 6;
 
@@ -27,7 +28,7 @@ interface Actions {
 }
 
 function pickRandom<T>(arr: T[]): T {
-  return arr[Math.floor(Math.random() * arr.length)]!;
+  return getRandomItem(arr);
 }
 
 export const useHangmanStore = create<State & Actions>((set, get) => ({

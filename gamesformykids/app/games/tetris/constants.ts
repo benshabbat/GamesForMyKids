@@ -1,4 +1,5 @@
 import { Piece } from './types';
+import { getRandomItem } from '@/lib/utils';
 
 // Game Constants
 export const BOARD_WIDTH = 10;
@@ -45,7 +46,7 @@ export const getRandomPiece = (): Piece => {
     throw new Error('No tetrominoes defined');
   }
   
-  const randomPiece = pieces[Math.floor(Math.random() * pieces.length)]!;
+  const randomPiece = getRandomItem(pieces)!;
   const pieceData = TETROMINOES[randomPiece];
   
   if (!pieceData || !pieceData.blocks || !pieceData.color) {

@@ -6,6 +6,7 @@ import { COLS, GRID_ROWS, R, DIA, SPEED, MIN_MATCH, LETTERS, COLORS } from './bu
 import type { Phase, FlyBubble, PopAnim } from './bubbleShooterConstants';
 import { bx, by, mkGrid, flood, snapToGrid, isGridClear, gridTooLow } from './bubbleShooterGrid';
 import { drawBubble } from './bubbleShooterRenderer';
+import { getRandomItem } from '@/lib/utils';
 
 export function useBubbleShooterGame() {
   const [phase, setPhase] = useState<Phase>('menu');
@@ -14,8 +15,8 @@ export function useBubbleShooterGame() {
 
   const gridRef = useRef<(string|null)[][]>(mkGrid());
   const flyRef = useRef<FlyBubble | null>(null);
-  const currentRef = useRef<string>(LETTERS[Math.floor(Math.random() * LETTERS.length)]!);
-  const nextRef = useRef<string>(LETTERS[Math.floor(Math.random() * LETTERS.length)]!);
+  const currentRef = useRef<string>(getRandomItem(LETTERS)!);
+  const nextRef = useRef<string>(getRandomItem(LETTERS)!);
   const aimRef = useRef<number>(-Math.PI / 2);
   const popsRef = useRef<PopAnim[]>([]);
   const scoreRef = useRef(0);
@@ -29,8 +30,8 @@ export function useBubbleShooterGame() {
   const startGame = useCallback(() => {
     gridRef.current = mkGrid();
     flyRef.current = null;
-    currentRef.current = LETTERS[Math.floor(Math.random() * LETTERS.length)]!;
-    nextRef.current = LETTERS[Math.floor(Math.random() * LETTERS.length)]!;
+    currentRef.current = getRandomItem(LETTERS)!;
+    nextRef.current = getRandomItem(LETTERS)!;
     aimRef.current = -Math.PI / 2;
     popsRef.current = [];
     scoreRef.current = 0;
@@ -71,7 +72,7 @@ export function useBubbleShooterGame() {
       vx: Math.cos(angle) * SPEED, vy: Math.sin(angle) * SPEED,
     };
     currentRef.current = nextRef.current;
-    nextRef.current = LETTERS[Math.floor(Math.random() * LETTERS.length)]!;
+    nextRef.current = getRandomItem(LETTERS)!;
   }, []);
 
   const handlePointer = useCallback((e: React.PointerEvent<HTMLElement>) => {

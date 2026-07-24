@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { usePongStore } from './pongStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useHeldKeyControls } from '@/hooks/shared/game-controls';
+import { spawnParticles, updateParticles, type BaseParticle } from '@/lib/utils';
 import type { PhaseResult as Phase } from '@/lib/types';
 
 export const W = 360;
@@ -22,13 +24,13 @@ const _usePong = createCanvasArcadeHook({
     playerX: W / 2 - PAD_W / 2, aiX: W / 2 - PAD_W / 2,
     ballX: W / 2, ballY: H / 2, ballVX: 3, ballVY: 4,
     playerScore: 0, aiScore: 0, frame: 0, startTime: 0,
-    particles: [] as { x: number; y: number; vx: number; vy: number; life: number }[],
+    particles: [] as BaseParticle[],
   }),
   onPointerX: (s, x) => { s.playerX = Math.max(0, Math.min(W - PAD_W, x - PAD_W / 2)); },
   draw: (ctx, s, _dt, saveRef) => {    s.frame++;
 
     function addParticles(x: number, y: number) {
-      for (let i = 0; i < 8; i++) s.particles.push({ x, y, vx: (Math.random() - 0.5) * 6, vy: (Math.random() - 0.5) * 6, life: 1 });
+      s.particles.push(...spawnParticles({ count: 8, x, y }));
     }
 
     function serveBall(direction: 1 | -1) {
@@ -65,7 +67,7 @@ const _usePong = createCanvasArcadeHook({
       if (s.ballY + BALL_R > H) { s.aiScore++; const aiWon = usePongStore.getState().aiScores(s.aiScore); if (aiWon) { s.phase = 'result'; saveRef.current({ score: s.playerScore, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); } else serveBall(-1); }
       if (s.ballY - BALL_R < 0) { s.playerScore++; const playerWon = usePongStore.getState().playerScores(s.playerScore); if (playerWon) { s.phase = 'result'; saveRef.current({ score: s.playerScore, level: 1, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); } else serveBall(1); }
 
-      s.particles = s.particles.filter(p => { p.x += p.vx; p.y += p.vy; p.vy += 0.08; p.life -= 0.05; return p.life > 0; });
+      s.particles = updateParticles(s.particles, { gravity: 0.08, decay: 0.05 });
     }
 
     ctx.fillStyle = '#0F172A'; ctx.fillRect(0, 0, W, H);
@@ -118,25 +120,20 @@ export function usePongGame() {
   };
 
 
+  const heldRef = useRef({ left: false, right: false });
+  useHeldKeyControls({
+    ArrowLeft: { onDown: () => { heldRef.current.left = true; }, onUp: () => { heldRef.current.left = false; } },
+    ArrowRight: { onDown: () => { heldRef.current.right = true; }, onUp: () => { heldRef.current.right = false; } },
+  });
+
   useEffect(() => {
-    let left = false, right = false;
     const interval = setInterval(() => {
       const s = st.current;
       if (s.phase !== 'playing') return;
-      if (left) s.playerX = Math.max(0, s.playerX - 8);
-      if (right) s.playerX = Math.min(W - PAD_W, s.playerX + 8);
+      if (heldRef.current.left) s.playerX = Math.max(0, s.playerX - 8);
+      if (heldRef.current.right) s.playerX = Math.min(W - PAD_W, s.playerX + 8);
     }, 16);
-    const kd = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') left = true;
-      if (e.key === 'ArrowRight') right = true;
-    };
-    const ku = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') left = false;
-      if (e.key === 'ArrowRight') right = false;
-    };
-    window.addEventListener('keydown', kd);
-    window.addEventListener('keyup', ku);
-    return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
+    return () => clearInterval(interval);
   }, [st]);
 
   const { phase, playerScore, aiScore } = usePongStore(useShallow(s => ({ phase: s.phase, playerScore: s.playerScore, aiScore: s.aiScore })));

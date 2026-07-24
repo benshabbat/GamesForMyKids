@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { useNumberSlideStore, type Direction } from './numberSlideStore';
+import { useNumberSlideStore } from './numberSlideStore';
 import { speak } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export function useNumberSlide() {
   const store = useNumberSlideStore();
@@ -18,18 +19,10 @@ export function useNumberSlide() {
   }, [lastMerges]);
 
   // Keyboard input
-  useEffect(() => {
-    const KEY_DIR: Record<string, Direction> = {
-      ArrowLeft: 'left', ArrowRight: 'right',
-      ArrowUp: 'up', ArrowDown: 'down',
-    };
-    const onKey = (e: KeyboardEvent) => {
-      const dir = KEY_DIR[e.key];
-      if (dir) { e.preventDefault(); slide(dir); }
-    };
-    window.addEventListener('keydown', onKey);
-    return () => window.removeEventListener('keydown', onKey);
-  }, [slide]);
+  useKeyboardControls({
+    ArrowLeft: () => slide('left'), ArrowRight: () => slide('right'),
+    ArrowUp: () => slide('up'), ArrowDown: () => slide('down'),
+  });
 
   const onTouchStart = (e: React.TouchEvent) => {
     const t = e.touches[0];

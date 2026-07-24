@@ -2,6 +2,7 @@ import { makePersistStore } from '@/lib/stores/createStore';
 import { setupGameTimer } from '@/lib/stores/gameTimerHelpers';
 import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 import type { PhaseDead as Phase } from '@/lib/types';
+import { shuffle, getRandomItem } from '@/lib/utils';
 
 export const GAME_TIME = 30;
 
@@ -64,17 +65,17 @@ export interface LetterQuestion {
 }
 
 export function makeLetterQ(): LetterQuestion {
-  const item = WORDS[Math.floor(Math.random() * WORDS.length)]!;
+  const item = getRandomItem(WORDS)!;
   const wrong = new Set<string>();
   while (wrong.size < 3) {
-    const l = HEBREW_LETTERS[Math.floor(Math.random() * HEBREW_LETTERS.length)]!;
+    const l = getRandomItem(HEBREW_LETTERS)!;
     if (l !== item.letter) wrong.add(l);
   }
   return {
     emoji: item.emoji,
     word: item.word,
     answer: item.letter,
-    choices: [...wrong, item.letter].sort(() => Math.random() - 0.5),
+    choices: shuffle([...wrong, item.letter]),
   };
 }
 

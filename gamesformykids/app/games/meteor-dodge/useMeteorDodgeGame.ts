@@ -1,9 +1,11 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { useHeldKeyControls } from '@/hooks/shared/game-controls';
+import { getRandomItem } from '@/lib/utils';
 
 export const W = 360;
 export const H = 560;
@@ -41,12 +43,12 @@ const _useMeteorDodge = createCanvasArcadeHook({
       s.nextMeteor--;
       if (s.nextMeteor <= 0) {
         const r = 14 + Math.random() * 20;
-        s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: METEOR_EMOJIS[Math.floor(Math.random() * METEOR_EMOJIS.length)]!, spin: (Math.random() - 0.5) * 0.1, angle: 0 });
+        s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: getRandomItem(METEOR_EMOJIS)!, spin: (Math.random() - 0.5) * 0.1, angle: 0 });
         s.nextMeteor = Math.max(15, Math.floor((50 - s.score / 20)));
       }
       s.nextStar--;
       if (s.nextStar <= 0) {
-        s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: STAR_EMOJIS[Math.floor(Math.random() * STAR_EMOJIS.length)]! });
+        s.stars.push({ id: uid++, x: 20 + Math.random() * (W - 40), y: -20, vy: 1.5 + Math.random(), emoji: getRandomItem(STAR_EMOJIS)! });
         s.nextStar = 100 + Math.random() * 100;
       }
 
@@ -139,19 +141,20 @@ export function useMeteorDodgeGame() {
   };
 
 
+  const heldRef = useRef({ left: false, right: false });
+  useHeldKeyControls({
+    ArrowLeft: { onDown: () => { heldRef.current.left = true; }, onUp: () => { heldRef.current.left = false; } },
+    ArrowRight: { onDown: () => { heldRef.current.right = true; }, onUp: () => { heldRef.current.right = false; } },
+  });
+
   useEffect(() => {
-    let left = false, right = false;
     const interval = setInterval(() => {
       const s = st.current;
       if (s.phase !== 'playing') return;
-      if (left) s.playerX = Math.max(PLAYER_R, s.playerX - 7);
-      if (right) s.playerX = Math.min(W - PLAYER_R, s.playerX + 7);
+      if (heldRef.current.left) s.playerX = Math.max(PLAYER_R, s.playerX - 7);
+      if (heldRef.current.right) s.playerX = Math.min(W - PLAYER_R, s.playerX + 7);
     }, 16);
-    const kd = (e: KeyboardEvent) => { if (e.key === 'ArrowLeft') left = true; if (e.key === 'ArrowRight') right = true; };
-    const ku = (e: KeyboardEvent) => { if (e.key === 'ArrowLeft') left = false; if (e.key === 'ArrowRight') right = false; };
-    window.addEventListener('keydown', kd);
-    window.addEventListener('keyup', ku);
-    return () => { clearInterval(interval); window.removeEventListener('keydown', kd); window.removeEventListener('keyup', ku); };
+    return () => clearInterval(interval);
   }, [st]);
 
   const nudgeLeft = () => {

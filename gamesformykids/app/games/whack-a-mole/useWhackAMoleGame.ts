@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useWhackAMoleStore, GAME_DURATION, MOLES, BAD } from './whackAMoleStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { getRandomItem } from '@/lib/utils';
 
 export type { HoleState } from './whackAMoleStore';
 export { GAME_DURATION } from './whackAMoleStore';
@@ -50,9 +51,9 @@ export function useWhackAMoleGame() {
         .map(({ i }) => i);
 
       if (emptyIdxs.length > 0) {
-        const idx   = emptyIdxs[Math.floor(Math.random() * emptyIdxs.length)]!;
+        const idx   = getRandomItem(emptyIdxs)!;
         const isBad = Math.random() < 0.15;
-        const val   = isBad ? BAD : MOLES[Math.floor(Math.random() * MOLES.length)]!;
+        const val   = isBad ? BAD : getRandomItem(MOLES)!;
         store.getState().showMole(idx, val, isBad);
 
         moleTimersRef.current[idx] = setTimeout(() => {

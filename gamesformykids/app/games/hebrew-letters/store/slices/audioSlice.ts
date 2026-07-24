@@ -6,6 +6,7 @@ import {
   ENCOURAGEMENT_MESSAGES,
   STEP_MESSAGES,
 } from '../../constants/hebrewLettersConstants';
+import { getRandomItem } from '@/lib/utils';
 
 export type AudioSlice = {
   isAudioEnabled: boolean;
@@ -41,7 +42,7 @@ export const createAudioSlice: StateCreator<HebrewLettersStore, [['zustand/devto
   playEncouragementSound: () => {
     const { isAudioEnabled, speakText } = get();
     if (!isAudioEnabled) return;
-    const msg = ENCOURAGEMENT_MESSAGES[Math.floor(Math.random() * ENCOURAGEMENT_MESSAGES.length)]!;
+    const msg = getRandomItem([...ENCOURAGEMENT_MESSAGES]);
     speakText(msg);
   },
 

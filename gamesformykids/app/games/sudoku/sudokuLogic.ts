@@ -1,3 +1,5 @@
+import { shuffle } from '@/lib/utils';
+
 export type Size = 6 | 9;
 export type Difficulty = 'easy' | 'medium' | 'hard';
 export type SudokuGrid = number[][];
@@ -12,15 +14,6 @@ export const SIZE_CONFIGS: Record<Size, SizeConfig> = {
   6: { boxRows: 2, boxCols: 3, clues: { easy: 22, medium: 17, hard: 13 } },
   9: { boxRows: 3, boxCols: 3, clues: { easy: 40, medium: 32, hard: 26 } },
 };
-
-function shuffle<T>(items: T[]): T[] {
-  const arr = [...items];
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [arr[i], arr[j]] = [arr[j]!, arr[i]!];
-  }
-  return arr;
-}
 
 function emptyGrid(size: Size): SudokuGrid {
   return Array.from({ length: size }, () => Array(size).fill(0));

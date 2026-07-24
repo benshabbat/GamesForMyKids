@@ -4,6 +4,7 @@ import { useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
+import { getRandomItem } from '@/lib/utils';
 
 export const W = 360;
 export const H = 520;
@@ -43,7 +44,7 @@ const _useCatchFruit = createCanvasArcadeHook({
       if (s.nextItem <= 0) {
         const isBad = Math.random() < 0.18;
         const emojis = isBad ? BAD_ITEMS : GOOD_FRUITS;
-        s.items.push({ id: idCounter++, x: FRUIT_R + Math.random() * (W - FRUIT_R * 2), y: -FRUIT_R, speed: 2.5 + Math.random() * 2 + s.frame / 600, emoji: emojis[Math.floor(Math.random() * emojis.length)]!, isBad });
+        s.items.push({ id: idCounter++, x: FRUIT_R + Math.random() * (W - FRUIT_R * 2), y: -FRUIT_R, speed: 2.5 + Math.random() * 2 + s.frame / 600, emoji: getRandomItem(emojis)!, isBad });
         s.nextItem = 35 + Math.random() * 30;
       }
       for (const item of s.items) item.y += item.speed;
