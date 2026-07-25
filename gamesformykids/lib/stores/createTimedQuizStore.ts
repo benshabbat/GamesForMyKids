@@ -4,7 +4,7 @@ import type { PhaseResult as Phase } from '@/lib/types';
 interface TimedQuizConfig<Level, Question extends { answer: number }> {
   initialLevel: Level;
   questionsPerGame: number;
-  timePerQuestion: number;
+  timePerQuestion: number | ((level: Level) => number);
   generateQuestion: (level: Level) => Question;
   calcScore: (currentScore: number, timeLeft: number) => number;
 }
@@ -19,6 +19,7 @@ interface TimedQuizState<Level, Question> {
   selected: number | null;
   isCorrect: boolean | null;
   timeLeft: number;
+  wrongQuestions: Question[];
 }
 
 interface TimedQuizActions<Level> {
@@ -32,6 +33,9 @@ interface TimedQuizActions<Level> {
 export function createTimedQuizStore<Level, Question extends { answer: number }>(
   config: TimedQuizConfig<Level, Question>
 ) {
+  const resolveTime = (lv: Level) =>
+    typeof config.timePerQuestion === 'function' ? config.timePerQuestion(lv) : config.timePerQuestion;
+
   const useStore = makeStore<TimedQuizState<Level, Question> & TimedQuizActions<Level>>('TimedQuizStore', (set, get) => ({
     phase: 'menu',
     level: config.initialLevel,
@@ -41,7 +45,8 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
     correct: 0,
     selected: null,
     isCorrect: null,
-    timeLeft: config.timePerQuestion,
+    timeLeft: resolveTime(config.initialLevel),
+    wrongQuestions: [],
 
     startGame: (lv: Level) => {
       set({
@@ -53,12 +58,13 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
         correct: 0,
         selected: null,
         isCorrect: null,
-        timeLeft: config.timePerQuestion,
+        timeLeft: resolveTime(lv),
+        wrongQuestions: [],
       });
     },
 
     selectAnswer: (val: number) => {
-      const { selected, question, timeLeft, score, correct } = get();
+      const { selected, question, timeLeft, score, correct, wrongQuestions } = get();
       if (selected !== null || !question) return;
       const ok = val === question.answer;
       set({
@@ -66,6 +72,7 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
         isCorrect: ok,
         score: ok ? config.calcScore(score, timeLeft) : score,
         correct: ok ? correct + 1 : correct,
+        wrongQuestions: ok ? wrongQuestions : [...wrongQuestions, question],
       });
     },
 
@@ -80,16 +87,21 @@ export function createTimedQuizStore<Level, Question extends { answer: number }>
           question: config.generateQuestion(level),
           selected: null,
           isCorrect: null,
-          timeLeft: config.timePerQuestion,
+          timeLeft: resolveTime(level),
         });
       }
     },
 
     tick: () => {
-      const { timeLeft, selected, phase } = get();
+      const { timeLeft, selected, phase, question, wrongQuestions } = get();
       if (phase !== 'playing' || selected !== null) return;
       if (timeLeft <= 1) {
-        set({ selected: -1, isCorrect: false, timeLeft: 0 });
+        set({
+          selected: -1,
+          isCorrect: false,
+          timeLeft: 0,
+          wrongQuestions: question ? [...wrongQuestions, question] : wrongQuestions,
+        });
       } else {
         set({ timeLeft: timeLeft - 1 });
       }
