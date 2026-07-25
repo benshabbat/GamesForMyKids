@@ -29,16 +29,16 @@ function MiniBoardPreview({ size }: { size: Size }) {
   const cells = Array.from({ length: size * size });
   return (
     <div
-      className="grid gap-px bg-sky-300 rounded p-0.5 mx-auto mb-1"
-      style={{ gridTemplateColumns: `repeat(${size}, 5px)` }}
+      className="grid gap-px bg-gray-700 rounded p-1 mx-auto mb-1 shadow-sm"
+      style={{ gridTemplateColumns: `repeat(${size}, 6px)` }}
     >
       {cells.map((_, i) => {
         const r = Math.floor(i / size);
         const c = i % size;
         const shade = (Math.floor(r / boxRows) + Math.floor(c / boxCols)) % 2 === 0
           ? 'bg-white'
-          : 'bg-sky-100';
-        return <div key={i} className={shade} style={{ width: 5, height: 5 }} />;
+          : 'bg-gray-300';
+        return <div key={i} className={shade} style={{ width: 6, height: 6 }} />;
       })}
     </div>
   );
