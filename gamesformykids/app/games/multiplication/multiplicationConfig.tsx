@@ -1,9 +1,17 @@
+import type { ReactNode } from 'react';
 import type { TimedMathConfig } from '@/components/game/shared/TimedMathGame';
 import { useMultiplicationGameStore, stopMultiplicationTimer } from './multiplicationGameStore';
 import {
   LEVELS, QUESTIONS_PER_LEVEL, MIXED_LEVEL, MultiplicationQuestion, getTimeForLevel,
 } from './data/tables';
 import { isLevelMastered } from './masteryStorage';
+
+// globals.css forces `direction: rtl` on every element (`* { direction: rtl }`), which
+// overrides inherited direction on any child — so equations need this on each element
+// that renders one, not just a shared ancestor.
+function Eq({ children }: { children: ReactNode }) {
+  return <span style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>{children}</span>;
+}
 
 export const MULTIPLICATION_CONFIG: TimedMathConfig<number, MultiplicationQuestion> = {
   useStore: useMultiplicationGameStore,
@@ -33,14 +41,13 @@ export const MULTIPLICATION_CONFIG: TimedMathConfig<number, MultiplicationQuesti
   ),
 
   renderLevelLabel: (lv) => (lv === MIXED_LEVEL ? 'תרגול מעורב' : `לוח ${lv}`),
-  renderEquation: (q) => (
-    <span dir="ltr" className="inline-flex items-center gap-3">
-      <span>{q.a} × {q.b}</span>
-      <span>= ?</span>
-    </span>
+  renderEquation: (q) => <Eq>{q.a} × {q.b} = ?</Eq>,
+  renderFeedbackText: (q, ok) => (
+    <>
+      {ok ? '✅ נכון! ' : '❌ '}
+      <Eq>{q.a} × {q.b} = {q.answer}</Eq>
+    </>
   ),
-  renderFeedbackText: (q, ok) =>
-    ok ? `✅ נכון! ${q.a} × ${q.b} = ${q.answer}` : `❌ ${q.a} × ${q.b} = ${q.answer}`,
   answerHoverClass: 'hover:border-purple-400 hover:bg-purple-50',
 
   renderResultTitle: (lv) => (lv === MIXED_LEVEL ? 'תרגול מעורב — סיום!' : `לוח ${lv} — סיום!`),
@@ -56,10 +63,10 @@ export const MULTIPLICATION_CONFIG: TimedMathConfig<number, MultiplicationQuesti
     return (
       <div className="mt-4 rounded-2xl bg-purple-50 p-4 text-right">
         <p className="font-bold text-purple-700 mb-2">כדאי לתרגל עוד:</p>
-        <div className="flex flex-wrap gap-2 justify-center" dir="ltr">
+        <div className="flex flex-wrap gap-2 justify-center">
           {unique.map((q) => (
             <span key={`${q.a}x${q.b}`} className="bg-white rounded-xl px-3 py-1 text-purple-700 font-bold shadow-sm">
-              {q.a} × {q.b} = {q.answer}
+              <Eq>{q.a} × {q.b} = {q.answer}</Eq>
             </span>
           ))}
         </div>
