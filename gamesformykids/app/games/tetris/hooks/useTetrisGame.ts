@@ -15,7 +15,6 @@ export const useTetrisGame = () => {
   const phase = useTetrisStore(s => s.phase);
   const level = useTetrisStore(s => s.level);
   const movePiece = useTetrisStore(s => s.movePiece);
-  const hardDrop = useTetrisStore(s => s.hardDrop);
   const handleRotate = useTetrisStore(s => s.handleRotate);
   const togglePause = useTetrisStore(s => s.togglePause);
 
@@ -70,7 +69,7 @@ export const useTetrisGame = () => {
     ArrowRight: () => movePiece(1, 0),
     ArrowDown: () => movePiece(0, 1),
     ArrowUp: handleRotate,
-    ' ': hardDrop,
+    ' ': handleRotate,
   }, isPlaying);
 
   // השהיה/המשך — פעיל גם במצב מושהה כדי לאפשר לחזור למשחק

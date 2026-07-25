@@ -66,21 +66,12 @@ function removeLines(board: Board, lines: number[]): Board {
   return remaining;
 }
 
-function dropDistance(piece: Piece, pos: Position, board: Board): number {
-  let dy = 0;
-  while (checkValidPosition(piece, { x: pos.x, y: pos.y + dy + 1 }, board)) {
-    dy++;
-  }
-  return dy;
-}
-
 // ── State & Actions types ──────────────────────────────────────────────────────
 
 interface TetrisActions {
   setLoaded: () => void;
   startNewGame: () => void;
   movePiece: (dx: number, dy: number) => void;
-  hardDrop: () => void;
   handleRotate: () => void;
   togglePause: () => void;
   goToStartScreen: () => void;
@@ -105,13 +96,13 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
   // Locks `piece` at `pos` into the board, then either advances immediately
   // (no lines cleared) or plays a brief flash on the full rows before
   // actually removing them and advancing.
-  function lockPiece(piece: Piece, pos: Position, bonusScore: number) {
+  function lockPiece(piece: Piece, pos: Position) {
     const { board, score, level, linesCleared } = get();
     const merged = mergePiece(piece, pos, board);
     const linesToClear = findFullLines(merged);
 
     if (linesToClear.length === 0) {
-      advanceToNextPiece(merged, score + bonusScore, level, linesCleared);
+      advanceToNextPiece(merged, score, level, linesCleared);
       return;
     }
 
@@ -122,7 +113,7 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
       if (get().phase !== 'playing' || get().clearingRows.length === 0) return;
 
       const clearedBoard = removeLines(merged, linesToClear);
-      const newScore = score + bonusScore + linesToClear.length * 100 * level;
+      const newScore = score + linesToClear.length * 100 * level;
       const newLevel = Math.floor(newScore / 1000) + 1;
       advanceToNextPiece(clearedBoard, newScore, newLevel, linesCleared + linesToClear.length);
     }, LINE_CLEAR_ANIMATION_MS);
@@ -186,17 +177,8 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
       }
 
       if (dy > 0) {
-        lockPiece(currentPiece, position, 0);
+        lockPiece(currentPiece, position);
       }
-    },
-
-    hardDrop: () => {
-      const { currentPiece, phase, position, board, clearingRows } = get();
-      if (!currentPiece || phase !== 'playing' || clearingRows.length > 0) return;
-
-      const dy = dropDistance(currentPiece, position, board);
-      // Small score bonus per row skipped, rewarding decisive drops.
-      lockPiece(currentPiece, { x: position.x, y: position.y + dy }, dy * 2);
     },
 
     handleRotate: () => {
