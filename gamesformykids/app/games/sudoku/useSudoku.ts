@@ -7,7 +7,10 @@ import { useKeyboardControls } from '@/hooks/shared/game-controls';
 
 export function useSudoku() {
   const store = useSudokuStore();
-  const { phase, size, difficulty, applyPuzzle, errorCell, clearError, selected, selectCell, inputNumber } = store;
+  const {
+    phase, size, difficulty, applyPuzzle, errorCell, clearError, lockedCell, clearLocked,
+    selected, selectCell, inputNumber,
+  } = store;
 
   // Generate the puzzle off the render that shows the "generating" spinner,
   // so the UI can paint before the (potentially slow) backtracking solver runs.
@@ -20,12 +23,21 @@ export function useSudoku() {
     return () => clearTimeout(timer);
   }, [phase, size, difficulty, applyPuzzle]);
 
-  // Clear the transient wrong-answer flash.
+  // Clear the transient wrong-answer flash. Held a bit longer than the CSS
+  // transition so a child has time to register cause and effect.
   useEffect(() => {
     if (!errorCell) return;
-    const timer = setTimeout(clearError, 500);
+    speak('אופס, נסה שוב');
+    const timer = setTimeout(clearError, 800);
     return () => clearTimeout(timer);
   }, [errorCell, clearError]);
+
+  // Clear the transient "can't overwrite this cell" flash.
+  useEffect(() => {
+    if (!lockedCell) return;
+    const timer = setTimeout(clearLocked, 500);
+    return () => clearTimeout(timer);
+  }, [lockedCell, clearLocked]);
 
   // Speak a congratulation when the puzzle is solved.
   useEffect(() => {
