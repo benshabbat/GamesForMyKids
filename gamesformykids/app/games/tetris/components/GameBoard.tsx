@@ -10,7 +10,6 @@ const GameBoard = ({ displayBoard }: GameBoardProps) => {
   const clearingRows = useTetrisStore(s => s.clearingRows);
   const movePiece = useTetrisStore(s => s.movePiece);
   const handleRotate = useTetrisStore(s => s.handleRotate);
-  const hardDrop = useTetrisStore(s => s.hardDrop);
   const touchStart = useRef<{ x: number; y: number } | null>(null);
 
   const onTouchStart = (e: React.TouchEvent) => {
@@ -37,7 +36,7 @@ const GameBoard = ({ displayBoard }: GameBoardProps) => {
     if (Math.abs(dx) > Math.abs(dy)) {
       movePiece(dx > 0 ? 1 : -1, 0);
     } else if (dy > 0) {
-      hardDrop();
+      movePiece(0, 1);
     }
   };
 

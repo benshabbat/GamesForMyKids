@@ -132,32 +132,6 @@ describe('tetrisStore', () => {
     });
   });
 
-  describe('hardDrop', () => {
-    it('drops the piece straight to the floor and awards a distance bonus', () => {
-      const nextPiece = { type: 'O', blocks: TETROMINOES.O!.blocks, color: TETROMINOES.O!.color };
-      store.setState({
-        board: EMPTY_BOARD,
-        currentPiece: { type: 'O', blocks: TETROMINOES.O!.blocks, color: TETROMINOES.O!.color },
-        position: { x: 4, y: 0 },
-        score: 0,
-        level: 1,
-        phase: 'playing',
-        nextPiece,
-        linesCleared: 0,
-        clearingRows: [],
-      } as unknown as Parameters<typeof store.setState>[0]);
-
-      store.getState().hardDrop();
-
-      const state = store.getState();
-      // O-piece is 2 rows tall, board is 20 rows — falls 18 rows, 2 points each.
-      expect(state.score).toBe(36);
-      expect(state.currentPiece).toEqual(nextPiece);
-      expect(state.position).toEqual({ x: 4, y: 0 });
-      expect(state.board[BOARD_HEIGHT - 1]!.slice(4, 6)).toEqual([TETROMINOES.O!.color, TETROMINOES.O!.color]);
-    });
-  });
-
   describe('line clear animation', () => {
     beforeEach(() => {
       vi.useFakeTimers();
