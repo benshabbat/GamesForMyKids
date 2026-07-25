@@ -24,6 +24,7 @@ interface State {
   mistakes: number;
   hintsLeft: number;
   errorCell: CellPos | null;
+  lockedCell: CellPos | null;
 }
 
 interface Actions {
@@ -33,6 +34,7 @@ interface Actions {
   inputNumber: (n: number) => void;
   useHint: () => void;
   clearError: () => void;
+  clearLocked: () => void;
   reset: () => void;
 }
 
@@ -49,6 +51,7 @@ export const useSudokuStore = create<State & Actions>((set) => ({
   mistakes: 0,
   hintsLeft: MAX_HINTS,
   errorCell: null,
+  lockedCell: null,
 
   chooseSetup: (size, difficulty) => {
     const { boxRows, boxCols } = SIZE_CONFIGS[size];
@@ -62,6 +65,7 @@ export const useSudokuStore = create<State & Actions>((set) => ({
     mistakes: 0,
     hintsLeft: MAX_HINTS,
     errorCell: null,
+    lockedCell: null,
   }),
 
   selectCell: (row, col) => set({ selected: { row, col } }),
@@ -69,8 +73,9 @@ export const useSudokuStore = create<State & Actions>((set) => ({
   inputNumber: (n) => set((state) => {
     if (state.phase !== 'playing' || !state.selected) return state;
     const { row, col } = state.selected;
-    if (state.given[row]?.[col]) return state;
-    if (state.puzzle[row]?.[col] !== 0) return state;
+    if (state.given[row]?.[col] || state.puzzle[row]?.[col] !== 0) {
+      return { ...state, lockedCell: { row, col } };
+    }
 
     if (state.solution[row]?.[col] === n) {
       const puzzle = state.puzzle.map((r) => [...r]);
@@ -79,10 +84,11 @@ export const useSudokuStore = create<State & Actions>((set) => ({
         ...state,
         puzzle,
         errorCell: null,
+        lockedCell: null,
         phase: isComplete(puzzle) ? 'won' : state.phase,
       };
     }
-    return { ...state, mistakes: state.mistakes + 1, errorCell: { row, col } };
+    return { ...state, mistakes: state.mistakes + 1, errorCell: { row, col }, lockedCell: null };
   }),
 
   useHint: () => set((state) => {
@@ -101,6 +107,7 @@ export const useSudokuStore = create<State & Actions>((set) => ({
   }),
 
   clearError: () => set({ errorCell: null }),
+  clearLocked: () => set({ lockedCell: null }),
 
   reset: () => set({
     phase: 'idle',
@@ -111,5 +118,6 @@ export const useSudokuStore = create<State & Actions>((set) => ({
     mistakes: 0,
     hintsLeft: MAX_HINTS,
     errorCell: null,
+    lockedCell: null,
   }),
 }));
