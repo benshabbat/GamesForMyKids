@@ -10,7 +10,7 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
   const isGameRunning = phase === 'playing';
   const isPaused = phase === 'paused';
   const gameOver = phase === 'gameover';
-  const { handleMove, handleRotate, handleHardDrop, handleTogglePause } = useTouchControls();
+  const { handleMove, handleRotate, startSoftDropHold, stopSoftDropHold, handleTogglePause } = useTouchControls();
 
   // פריסה למחשב
   if (isDesktop) {
@@ -77,16 +77,12 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
                 <span className="bg-gray-700 px-2 py-1 rounded">→</span>
               </div>
               <div className="flex justify-between">
-                <span>הזזה מטה:</span>
+                <span>הזזה מטה (החזק להורדה רציפה):</span>
                 <span className="bg-gray-700 px-2 py-1 rounded">↓</span>
               </div>
               <div className="flex justify-between">
                 <span>סיבוב:</span>
-                <span className="bg-gray-700 px-2 py-1 rounded">↑</span>
-              </div>
-              <div className="flex justify-between">
-                <span>נפילה מהירה:</span>
-                <span className="bg-gray-700 px-2 py-1 rounded">Space</span>
+                <span className="bg-gray-700 px-2 py-1 rounded">↑ / Space</span>
               </div>
               <div className="flex justify-between">
                 <span>השהיה:</span>
@@ -133,12 +129,17 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
           ⬅️
         </button>
         <button
-          onClick={handleHardDrop}
-          aria-label="הפל מיד"
-          className="bg-gradient-to-br from-red-400 to-red-600 text-white p-3 rounded-xl font-black text-sm shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
+          onTouchStart={startSoftDropHold}
+          onTouchEnd={stopSoftDropHold}
+          onTouchCancel={stopSoftDropHold}
+          onMouseDown={startSoftDropHold}
+          onMouseUp={stopSoftDropHold}
+          onMouseLeave={stopSoftDropHold}
+          aria-label="הזז מטה, החזק להורדה רציפה"
+          className="bg-gradient-to-br from-red-400 to-red-600 text-white p-3 rounded-xl font-black text-lg shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
           disabled={!isGameRunning}
         >
-          ⏬ צנח
+          ⬇️
         </button>
         <button
           onClick={() => handleMove(1, 0)}
@@ -177,7 +178,7 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
       {/* Control Instructions */}
       <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-3 mt-4 text-center border border-white/20">
         <p className="text-white/80 font-medium text-sm">
-          השתמש בכפתורים למעלה, בחיצי המקלדת או בהחלקת אצבע על הלוח 📱⌨️
+          לחיצה על ⬇️ מזיזה שורה אחת, החזקה מורידה ברצף 📱⌨️
         </p>
       </div>
     </div>
