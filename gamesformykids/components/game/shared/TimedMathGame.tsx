@@ -42,7 +42,7 @@ export interface TimedMathConfig<Level, Q extends { answer: number; choices: num
 
   renderLevelLabel: (lv: Level) => string;
   renderEquation: (q: Q) => ReactNode;
-  renderFeedbackText: (q: Q, isCorrect: boolean) => string;
+  renderFeedbackText: (q: Q, isCorrect: boolean) => ReactNode;
   answerHoverClass: string;
 
   renderResultTitle: (lv: Level) => string;
@@ -166,7 +166,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
       secondaryAction={{ label: '📋 רמות', onClick: goMenu }}
     >
       <div className={`${config.resultBg} rounded-2xl p-5`}>
-        <p className={`text-4xl font-black ${config.accentText700}`}>{correct} / {config.totalQuestions}</p>
+        <p className={`text-4xl font-black ${config.accentText700}`} style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>{correct} / {config.totalQuestions}</p>
         <p className={`${config.accentText500} text-sm mt-1`}>תשובות נכונות</p>
         <p className={`text-xl font-bold ${config.accentText700} mt-2`}>⭐ {score} נקודות</p>
         <div className="mt-2 h-3 bg-white/50 rounded-full">
