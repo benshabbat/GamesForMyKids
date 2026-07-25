@@ -46,6 +46,17 @@ export default function SudokuBoard({
           const rightBorder = (c + 1) % boxCols === 0 && c !== size - 1;
           const bottomBorder = (r + 1) % boxRows === 0 && r !== size - 1;
 
+          // Exactly one bg/text pair wins — never mix them, or Tailwind's
+          // cascade order (not class-list order) picks a winner and can
+          // leave entered digits low-contrast against the selected fill.
+          let bg = isGiven ? 'bg-gray-100' : 'bg-white';
+          let text = isGiven ? 'text-gray-900' : 'text-blue-700';
+          if (!isSelected && isSameValue) bg = 'bg-blue-200';
+          if (!isSelected && isPeer && !isSameValue) bg = 'bg-blue-50';
+          if (isSelected) { bg = 'bg-blue-400'; text = 'text-white'; }
+          if (isLocked && !isError) bg = 'bg-amber-200';
+          if (isError) bg = 'bg-red-300';
+
           return (
             <button
               key={`${r}-${c}`}
@@ -53,12 +64,10 @@ export default function SudokuBoard({
               aria-label={`שורה ${r + 1}, עמודה ${c + 1}${value !== 0 ? `, ${value}` : ''}`}
               className={[
                 'flex items-center justify-center font-bold transition-colors duration-150 border border-gray-300',
-                isGiven ? 'bg-gray-100 text-gray-900' : 'bg-white text-blue-700',
-                isSelected ? 'bg-blue-400 text-white ring-2 ring-inset ring-blue-700' : '',
-                !isSelected && isSameValue ? 'bg-blue-200' : '',
-                !isSelected && isPeer && !isSameValue ? 'bg-blue-50' : '',
-                isError ? 'bg-red-300 animate-pulse' : '',
-                isLocked && !isError ? 'bg-amber-200 animate-pulse' : '',
+                bg,
+                text,
+                isSelected ? 'ring-2 ring-inset ring-blue-700' : '',
+                isError || (isLocked && !isError) ? 'animate-pulse' : '',
                 rightBorder ? 'border-r-2 border-r-gray-700' : '',
                 bottomBorder ? 'border-b-2 border-b-gray-700' : '',
                 size === 9 ? 'text-lg' : 'text-2xl',
