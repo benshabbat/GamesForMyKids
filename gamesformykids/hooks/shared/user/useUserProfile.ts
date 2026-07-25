@@ -31,6 +31,7 @@ export interface UserProfile {
   avatar_url: string | null
   gender: 'male' | 'female' | null
   family_group_id: string | null
+  role: 'user' | 'admin'
   created_at: string
   updated_at: string
 }

@@ -3,7 +3,7 @@ import { Rubik } from 'next/font/google';
 import './globals.css';
 import ServiceWorkerRegistration from '@/components/analytics/ServiceWorkerRegistration';
 import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
-import { AuthProvider } from '@/lib/providers';
+import { AuthProvider, GameOverridesProvider } from '@/lib/providers';
 import NotificationToast from '@/components/ui/NotificationToast';
 import { OfflineBanner } from '@/components/ui/OfflineBanner';
 import HeadLinks from '@/components/layout/HeadLinks';
@@ -53,9 +53,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ServiceWorkerRegistration />
         <OfflineBanner />
         <AuthProvider>
-          {children}
-          <NotificationToast />
-          <SoundToggleButton />
+          <GameOverridesProvider>
+            {children}
+            <NotificationToast />
+            <SoundToggleButton />
+          </GameOverridesProvider>
         </AuthProvider>
       </body>
     </html>

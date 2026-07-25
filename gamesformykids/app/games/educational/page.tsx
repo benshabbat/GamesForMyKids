@@ -2,6 +2,8 @@ import { type Metadata } from 'next';
 import Link from 'next/link';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { setGameOverridesCache } from '@/lib/registry/gameOverrides';
+import { fetchGameOverridesServer } from '@/lib/supabase/gameOverrides';
 
 export const metadata: Metadata = {
   title: 'משחקים חינוכיים | GamesForMyKids',
@@ -15,11 +17,14 @@ export const metadata: Metadata = {
   alternates: { canonical: '/games/educational' },
 };
 
-export default function EducationalPage() {
+export default async function EducationalPage() {
+  setGameOverridesCache(await fetchGameOverridesServer());
+
   const category = GAME_CATEGORIES.educational!;
-  const games = category.gameIds
-    .map((id) => GamesRegistry.getGameById(id))
-    .filter((g): g is NonNullable<typeof g> => g !== undefined && g.available);
+  const categoryIds = new Set(category.gameIds);
+  const games = GamesRegistry.getAllGameRegistrations().filter(
+    (g) => categoryIds.has(g.id) && g.available
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-cyan-100">
