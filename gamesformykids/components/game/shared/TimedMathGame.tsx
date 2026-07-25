@@ -13,6 +13,7 @@ interface TimedMathStore<Level, Q> {
   selected: number | null;
   isCorrect: boolean | null;
   timeLeft: number;
+  wrongQuestions: Q[];
   startGame: (level: Level) => void;
   selectAnswer: (val: number) => void;
   advance: () => void;
@@ -25,7 +26,7 @@ export interface TimedMathConfig<Level, Q extends { answer: number; choices: num
   stopTimer: () => void;
   onMount?: () => void;
   totalQuestions: number;
-  timePerQuestion: number;
+  timePerQuestion: number | ((level: Level) => number);
 
   emoji: string;
   title: string;
@@ -52,6 +53,8 @@ export interface TimedMathConfig<Level, Q extends { answer: number; choices: num
   gradientBtn: string;
   resultBg: string;
   resultBar: string;
+  /** Optional list of missed questions rendered on the result screen. */
+  renderWrongList?: (wrong: Q[]) => ReactNode;
 }
 
 export default function TimedMathGame<Level, Q extends { answer: number; choices: number[] }>({
@@ -61,7 +64,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
 }) {
   const {
     phase, level, question, questionNum, score, correct,
-    selected, isCorrect, timeLeft,
+    selected, isCorrect, timeLeft, wrongQuestions,
     startGame, selectAnswer, advance, tick, goMenu,
   } = config.useStore();
 
@@ -102,14 +105,15 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
 
   if (phase === 'playing') {
     if (!question) return null;
-    const timePct = (timeLeft / config.timePerQuestion) * 100;
+    const timePerQ = typeof config.timePerQuestion === 'function' ? config.timePerQuestion(level) : config.timePerQuestion;
+    const timePct = (timeLeft / timePerQ) * 100;
     const timerColor = timePct > 60 ? 'bg-green-400' : timePct > 30 ? 'bg-yellow-400' : 'bg-red-400';
 
     return (
       <div className={`min-h-screen bg-gradient-to-br ${config.gradient} p-4`} dir="rtl">
         <div className="max-w-xl mx-auto">
           <div className="flex justify-between items-center mb-3">
-            <button onClick={goMenu} className={`${config.accentText500} text-sm ${config.accentBg100} rounded-full px-3 py-1`}>← חזור</button>
+            <button onClick={goMenu} className={`${config.accentText500} text-base font-bold ${config.accentBg100} rounded-full px-4 py-2 active:scale-95 transition-transform`}>← חזור</button>
             <span className={`font-bold ${config.accentText700}`}>{config.renderLevelLabel(level)} | שאלה {questionNum + 1}/{config.totalQuestions}</span>
             <span className={`font-bold ${config.accentText700}`}>⭐ {score}</span>
           </div>
@@ -169,6 +173,7 @@ export default function TimedMathGame<Level, Q extends { answer: number; choices
           <div className={`h-full ${config.resultBar} rounded-full`} style={{ width: `${pct}%` }} />
         </div>
       </div>
+      {wrongQuestions.length > 0 && config.renderWrongList?.(wrongQuestions)}
     </GameResultCard>
   );
 }
