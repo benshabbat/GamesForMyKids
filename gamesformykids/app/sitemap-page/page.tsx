@@ -1,6 +1,8 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { setGameOverridesCache } from '@/lib/registry/gameOverrides';
+import { fetchGameOverridesServer } from '@/lib/supabase/gameOverrides';
 import { hebrewLetters } from '@/app/games/hebrew-letters/constants/hebrewLetters';
 
 export const metadata: Metadata = {
@@ -12,7 +14,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SitemapPage() {
+export default async function SitemapPage() {
+  setGameOverridesCache(await fetchGameOverridesServer());
   const games = GamesRegistry.getAllGameRegistrations().filter(g => g.available);
 
   return (

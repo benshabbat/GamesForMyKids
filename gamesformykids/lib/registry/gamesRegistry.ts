@@ -3,17 +3,19 @@ import { createElement } from "react";
 import type { GameRegistration } from "@/lib/types/games/base";
 export type { GameRegistration };
 import { GAMES_REGISTRY } from "./gamesRegistryData";
+import { applyGameOverrides, getGameOverridesCache } from "./gameOverrides";
 
 // פונקציות עזר לעבודה עם המשחקים
 export class GamesRegistry {
-  // קבלת כל הרישומים המקוריים
+  // קבלת כל הרישומים המקוריים (מסונן/ממוין לפי game_overrides)
   static getAllGameRegistrations(): GameRegistration[] {
-    return GAMES_REGISTRY.sort((a, b) => a.order - b.order);
+    const sorted = [...GAMES_REGISTRY].sort((a, b) => a.order - b.order);
+    return applyGameOverrides(sorted, getGameOverridesCache());
   }
 
   // קבלת כל המשחקים ממוינים לפי סדר
   static getAllGames(): Game[] {
-    return GAMES_REGISTRY.sort((a, b) => a.order - b.order).map((game) => ({
+    return this.getAllGameRegistrations().map((game) => ({
       id: game.id,
       title: game.title,
       hebrew: game.title, // Same as title for now
@@ -33,7 +35,7 @@ export class GamesRegistry {
 
   // קבלת מספר המשחקים הזמינים
   static getAvailableGamesCount(): number {
-    return GAMES_REGISTRY.filter((game) => game.available).length;
+    return this.getAvailableGames().length;
   }
 
   // קבלת מספר כל המשחקים
