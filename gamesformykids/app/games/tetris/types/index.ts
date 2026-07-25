@@ -10,7 +10,7 @@ export interface Piece {
 
 export type Board = (string | number)[][];
 
-export type TetrisPhase = 'loading' | 'menu' | 'playing' | 'gameover';
+export type TetrisPhase = 'loading' | 'menu' | 'playing' | 'paused' | 'gameover';
 
 export interface TetrisGameState {
   board: Board;
@@ -21,6 +21,8 @@ export interface TetrisGameState {
   phase: TetrisPhase;
   nextPiece: Piece | null;
   linesCleared: number;
+  /** Row indices currently flashing before being removed from the board. */
+  clearingRows: number[];
 }
 
 export interface GameBoardProps {

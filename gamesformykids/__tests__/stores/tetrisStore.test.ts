@@ -1,6 +1,6 @@
-import { beforeEach, describe, expect, it } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { useTetrisStore } from '@/app/games/tetris/store/tetrisStore';
-import { BOARD_HEIGHT, BOARD_WIDTH, EMPTY_BOARD } from '@/app/games/tetris/constants';
+import { BOARD_HEIGHT, BOARD_WIDTH, EMPTY_BOARD, TETROMINOES } from '@/app/games/tetris/constants';
 
 const store = useTetrisStore;
 
@@ -89,6 +89,119 @@ describe('tetrisStore', () => {
       store.getState().startNewGame();
       store.getState().goToStartScreen();
       expect(store.getState().phase).toBe('menu');
+    });
+  });
+
+  describe('togglePause', () => {
+    it('pauses a playing game', () => {
+      store.getState().startNewGame();
+      store.getState().togglePause();
+      expect(store.getState().phase).toBe('paused');
+    });
+
+    it('resumes a paused game', () => {
+      store.getState().startNewGame();
+      store.getState().togglePause();
+      store.getState().togglePause();
+      expect(store.getState().phase).toBe('playing');
+    });
+
+    it('does nothing from menu or gameover', () => {
+      store.setState({ phase: 'gameover' } as unknown as Parameters<typeof store.setState>[0]);
+      store.getState().togglePause();
+      expect(store.getState().phase).toBe('gameover');
+    });
+  });
+
+  describe('handleRotate wall-kick', () => {
+    it('shifts the piece away from the wall when a plain rotation would go out of bounds', () => {
+      // T-piece already rotated once (3 rows x 2 cols), sitting flush against the right wall.
+      store.setState({
+        board: EMPTY_BOARD,
+        currentPiece: { type: 'T', blocks: [[1, 0], [1, 1], [1, 0]], color: TETROMINOES.T!.color },
+        position: { x: 8, y: 5 },
+        phase: 'playing',
+      } as unknown as Parameters<typeof store.setState>[0]);
+
+      store.getState().handleRotate();
+
+      const { currentPiece, position } = store.getState();
+      // Next rotation is 2 rows x 3 cols — doesn't fit at x=8, needs to kick left to x=7.
+      expect(currentPiece?.blocks).toEqual([[1, 1, 1], [0, 1, 0]]);
+      expect(position).toEqual({ x: 7, y: 5 });
+    });
+  });
+
+  describe('hardDrop', () => {
+    it('drops the piece straight to the floor and awards a distance bonus', () => {
+      const nextPiece = { type: 'O', blocks: TETROMINOES.O!.blocks, color: TETROMINOES.O!.color };
+      store.setState({
+        board: EMPTY_BOARD,
+        currentPiece: { type: 'O', blocks: TETROMINOES.O!.blocks, color: TETROMINOES.O!.color },
+        position: { x: 4, y: 0 },
+        score: 0,
+        level: 1,
+        phase: 'playing',
+        nextPiece,
+        linesCleared: 0,
+        clearingRows: [],
+      } as unknown as Parameters<typeof store.setState>[0]);
+
+      store.getState().hardDrop();
+
+      const state = store.getState();
+      // O-piece is 2 rows tall, board is 20 rows — falls 18 rows, 2 points each.
+      expect(state.score).toBe(36);
+      expect(state.currentPiece).toEqual(nextPiece);
+      expect(state.position).toEqual({ x: 4, y: 0 });
+      expect(state.board[BOARD_HEIGHT - 1]!.slice(4, 6)).toEqual([TETROMINOES.O!.color, TETROMINOES.O!.color]);
+    });
+  });
+
+  describe('line clear animation', () => {
+    beforeEach(() => {
+      vi.useFakeTimers();
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    it('flashes the completed row before removing it and advancing', () => {
+      const filledRow = new Array(BOARD_WIDTH).fill('gray').map((cell, x) => (x === 4 || x === 5 ? 0 : cell));
+      const board = EMPTY_BOARD.map((row, y) => (y === BOARD_HEIGHT - 1 ? filledRow : [...row]));
+      const nextPiece = { type: 'O', blocks: TETROMINOES.O!.blocks, color: 'yellow' };
+
+      store.setState({
+        board,
+        currentPiece: { type: 'O', blocks: TETROMINOES.O!.blocks, color: 'cyan' },
+        position: { x: 4, y: BOARD_HEIGHT - 2 },
+        score: 0,
+        level: 1,
+        phase: 'playing',
+        nextPiece,
+        linesCleared: 0,
+        clearingRows: [],
+      } as unknown as Parameters<typeof store.setState>[0]);
+
+      // The O-piece is already resting on the floor — one more down-move locks it in place.
+      store.getState().movePiece(0, 1);
+
+      let state = store.getState();
+      expect(state.clearingRows).toEqual([BOARD_HEIGHT - 1]);
+      expect(state.currentPiece).toBeNull();
+      expect(state.board[BOARD_HEIGHT - 1]!.every(cell => cell !== 0)).toBe(true);
+
+      vi.advanceTimersByTime(500);
+
+      state = store.getState();
+      expect(state.clearingRows).toEqual([]);
+      expect(state.linesCleared).toBe(1);
+      expect(state.score).toBe(100);
+      expect(state.currentPiece).toEqual(nextPiece);
+      expect(state.position).toEqual({ x: 4, y: 0 });
+      // Row above (only the piece's top half) shifts down into the cleared row's place.
+      expect(state.board[BOARD_HEIGHT - 1]).toEqual([0, 0, 0, 0, 'cyan', 'cyan', 0, 0, 0, 0]);
     });
   });
 });
