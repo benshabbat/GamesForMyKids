@@ -15,11 +15,14 @@ export const useTetrisGame = () => {
   const phase = useTetrisStore(s => s.phase);
   const level = useTetrisStore(s => s.level);
   const movePiece = useTetrisStore(s => s.movePiece);
+  const hardDrop = useTetrisStore(s => s.hardDrop);
   const handleRotate = useTetrisStore(s => s.handleRotate);
+  const togglePause = useTetrisStore(s => s.togglePause);
 
   const { saveGameResultRef } = useGameCompletion('tetris');
   const startTimeRef = useRef(0);
   const prevGameOverRef = useRef(false);
+  const prevPhaseRef = useRef(phase);
 
   // אופטימיזציה למובייל — התחלה לאחר טעינה מלאה
   useEffect(() => {
@@ -29,15 +32,17 @@ export const useTetrisGame = () => {
   }, []);
 
   const isPlaying = phase === 'playing';
+  const isPaused = phase === 'paused';
   const isGameOver = phase === 'gameover';
 
-  // מעקב אחר זמן תחילת המשחק
+  // מעקב אחר זמן תחילת המשחק — לא מתאפס בחזרה מהשהיה
   useEffect(() => {
-    if (isPlaying) {
+    if (isPlaying && prevPhaseRef.current !== 'paused') {
       startTimeRef.current = Date.now();
       prevGameOverRef.current = false;
     }
-  }, [isPlaying]);
+    prevPhaseRef.current = phase;
+  }, [phase, isPlaying]);
 
   // שמירת ניקוד בסיום המשחק
   useEffect(() => {
@@ -59,12 +64,19 @@ export const useTetrisGame = () => {
     return () => clearInterval(gameLoop);
   }, [isPlaying, level, movePiece]);
 
-  // פקדי מקלדת
+  // פקדי מקלדת בזמן משחק
   useKeyboardControls({
     ArrowLeft: () => movePiece(-1, 0),
     ArrowRight: () => movePiece(1, 0),
     ArrowDown: () => movePiece(0, 1),
     ArrowUp: handleRotate,
-    ' ': handleRotate,
+    ' ': hardDrop,
   }, isPlaying);
+
+  // השהיה/המשך — פעיל גם במצב מושהה כדי לאפשר לחזור למשחק
+  useKeyboardControls({
+    Escape: togglePause,
+    p: togglePause,
+    P: togglePause,
+  }, isPlaying || isPaused);
 };
