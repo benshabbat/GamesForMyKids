@@ -15,7 +15,7 @@ This codebase has rich shared infrastructure. Before writing anything that looks
 | A new quiz hook | `useGenericQuizGame\|createCategoryIndexQuizHook` in `lib/quiz/` |
 | A new quiz game component | `makeQuizGame\|GenericQuizGame` in `lib/quiz/` |
 | A new "start screen" component | `GenericStartScreen` in `components/shared/screens/`, `UltimateStartScreen` in `components/game/universal/ultimate-game/` |
-| A new canvas game loop | `useCanvasLoop\|useCanvasReady` in `hooks/canvas/` |
+| A new canvas game loop | `useCanvasLoop\|createCanvasArcadeHook\|useCanvasReady\|useCanvasResize` in `hooks/canvas/` — see also the [[canvas-arcade-patterns]] skill |
 | A new score/progress bar | `GameResultCard\|ProgressDisplay\|LivesDisplay` in `components/` |
 | A new celebration/feedback | `GameCompletionCelebration\|CelebrationBox\|feedbackUtils` |
 | A new card/grid layout | `SimpleCard\|AdvancedCard\|GameCardGrid\|PhotoGameCard` in `components/shared/cards/` |
