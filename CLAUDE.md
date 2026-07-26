@@ -13,9 +13,10 @@ All games are served from the single route `gamesformykids/app/games/[gameType]/
 | Adding/creating a new game, picking a game architecture style | [[game-creation]] (`.claude/skills/game-creation/`) |
 | Writing a new store, hook, component, or game data — anything that might already exist | [[dry-check]] (`.claude/skills/dry-check/`) |
 | Writing/editing Hebrew game content, quiz data, or pronunciation maps | [[hebrew-content-conventions]] (`.claude/skills/hebrew-content-conventions/`) |
+| Building/fixing a canvas + requestAnimationFrame arcade game (snake, pong, frogger, etc.) | [[canvas-arcade-patterns]] (`.claude/skills/canvas-arcade-patterns/`) |
 | Finishing work, opening a PR, reporting a task as done | [[pre-pr-checklist]] (`.claude/skills/pre-pr-checklist/`) |
 
-These are also available as slash commands and agents under `.claude/commands/` and `.claude/agents/` (73+ commands, 15 agents) for explicit invocation — e.g. `/game-scaffolder`, `/dry-guard`, `/pronunciation-qa`, `/game-qa`. The skills above are the auto-triggered, always-available versions of the same core workflows; reach for a specific command directly when its name is already known.
+These are also available as slash commands and agents under `.claude/commands/` and `.claude/agents/` (73+ commands, 17 agents) for explicit invocation — e.g. `/game-scaffolder`, `/dry-guard`, `/pronunciation-qa`, `/game-qa`, `arcade-canvas-builder`, `board-game-builder`. The skills above are the auto-triggered, always-available versions of the same core workflows; reach for a specific command directly when its name is already known.
 
 ## The one rule that doesn't fit a skill
 
