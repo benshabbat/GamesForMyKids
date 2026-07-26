@@ -25,7 +25,11 @@ export default function SudokuBoard({
     <div
       dir="ltr"
       className="grid bg-gray-700 rounded-xl p-1 select-none shadow-lg"
-      style={{ gridTemplateColumns: `repeat(${size}, ${cellSize})` }}
+      // globals.css forces `direction: rtl` on every element (`* { direction: rtl }`),
+      // which overrides the `dir="ltr"` attribute's implicit direction — without this
+      // inline override the grid flows right-to-left and box-boundary borders (computed
+      // for left-to-right column indices) land on the wrong side of each box.
+      style={{ gridTemplateColumns: `repeat(${size}, ${cellSize})`, direction: 'ltr' }}
     >
       {puzzle.map((row, r) =>
         row.map((value, c) => {
@@ -63,13 +67,24 @@ export default function SudokuBoard({
               onClick={() => onSelect(r, c)}
               aria-label={`שורה ${r + 1}, עמודה ${c + 1}${value !== 0 ? `, ${value}` : ''}`}
               className={[
-                'flex items-center justify-center font-bold transition-colors duration-150 border border-gray-300',
+                'flex items-center justify-center font-bold transition-colors duration-150',
                 bg,
                 text,
-                isSelected ? 'ring-2 ring-inset ring-blue-700' : '',
+                isSelected ? 'ring-2 ring-inset ring-blue-700 z-10' : '',
                 isError || (isLocked && !isError) ? 'animate-pulse' : '',
-                rightBorder ? 'border-r-2 border-r-gray-700' : '',
-                bottomBorder ? 'border-b-2 border-b-gray-700' : '',
+                // Each shared edge is drawn by exactly one cell (right/bottom only) so
+                // adjacent 1px borders never stack into an uneven 2px line, and box
+                // separators stay a clean, consistent 2px regardless of neighbors.
+                c !== size - 1
+                  ? rightBorder
+                    ? 'border-r-2 border-r-gray-700'
+                    : 'border-r border-r-gray-300'
+                  : '',
+                r !== size - 1
+                  ? bottomBorder
+                    ? 'border-b-2 border-b-gray-700'
+                    : 'border-b border-b-gray-300'
+                  : '',
                 size === 9 ? 'text-lg' : 'text-2xl',
               ].join(' ')}
               style={{ width: cellSize, height: cellSize }}
