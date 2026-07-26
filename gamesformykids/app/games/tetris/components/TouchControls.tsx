@@ -5,6 +5,15 @@ interface TouchControlsProps {
   isDesktop?: boolean;
 }
 
+// A single right-pointing chevron, rotated per direction — keeps the three
+// arrows visually identical (weight, proportions) instead of relying on
+// emoji glyphs that render inconsistently across platforms.
+const ArrowIcon = ({ className = '' }: { className?: string }) => (
+  <svg viewBox="0 0 24 24" className={className} fill="none" stroke="currentColor" strokeWidth={3.5} strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9 5l7 7-7 7" />
+  </svg>
+);
+
 const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
   const { phase, score, startNewGame: onStartGame } = useTetrisState();
   const isGameRunning = phase === 'playing';
@@ -123,10 +132,10 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
         <button
           onClick={() => handleMove(-1, 0)}
           aria-label="הזז שמאלה"
-          className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-3 rounded-xl font-black text-lg shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
+          className="flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600 text-white p-3 rounded-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
           disabled={!isGameRunning}
         >
-          ⬅️
+          <ArrowIcon className="w-7 h-7 rotate-180" />
         </button>
         <button
           onTouchStart={startSoftDropHold}
@@ -136,18 +145,18 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
           onMouseUp={stopSoftDropHold}
           onMouseLeave={stopSoftDropHold}
           aria-label="הזז מטה, החזק להורדה רציפה"
-          className="bg-gradient-to-br from-red-400 to-red-600 text-white p-3 rounded-xl font-black text-lg shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
+          className="flex items-center justify-center bg-gradient-to-br from-red-400 to-red-600 text-white p-3 rounded-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
           disabled={!isGameRunning}
         >
-          ⬇️
+          <ArrowIcon className="w-7 h-7 rotate-90" />
         </button>
         <button
           onClick={() => handleMove(1, 0)}
           aria-label="הזז ימינה"
-          className="bg-gradient-to-br from-blue-400 to-blue-600 text-white p-3 rounded-xl font-black text-lg shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
+          className="flex items-center justify-center bg-gradient-to-br from-blue-400 to-blue-600 text-white p-3 rounded-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-blue-300/30 touch-manipulation"
           disabled={!isGameRunning}
         >
-          ➡️
+          <ArrowIcon className="w-7 h-7" />
         </button>
       </div>
 
@@ -178,7 +187,7 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
       {/* Control Instructions */}
       <div className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-lg rounded-xl p-3 mt-4 text-center border border-white/20">
         <p className="text-white/80 font-medium text-sm">
-          לחיצה על ⬇️ מזיזה שורה אחת, החזקה מורידה ברצף 📱⌨️
+          לחיצה על כפתור מטה מזיזה שורה אחת, החזקה מורידה ברצף 📱⌨️
         </p>
       </div>
     </div>
