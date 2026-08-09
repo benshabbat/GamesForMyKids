@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
 import { createClient } from '@/lib/supabase/server';
 import { checkRateLimit, AI_RATE_LIMITS } from '@/lib/server/rateLimit';
-import { sanitisePrompt } from '@/lib/server/promptSafety';
+import { normaliseModelText } from '@/lib/server/promptSafety';
 import { sanitiseStoryHistory } from '@/lib/server/storyHistory';
 import { logError } from '@/lib/utils/errorUtils';
 
@@ -191,12 +191,14 @@ export async function POST(request: Request): Promise<NextResponse<StoryAgentRes
     const rawBody = (typeof body === 'object' && body !== null ? body : {}) as Partial<StoryAgentRequest>;
     const history = sanitiseStoryHistory(rawBody.history);
 
-    // A choice is free text that gets interpolated into the prompt, so it goes
-    // through the same sanitiser as any other model-bound user input.
+    // A choice gets interpolated into the prompt, so it's capped and normalised
+    // — but not denylisted. The text is one of the options the story model
+    // itself wrote a turn earlier, and the image-prompt denylist would reject
+    // ordinary story words: "דם" (blood) is a substring of "אדם" (person).
     const userChoice =
       rawBody.userChoice === undefined
         ? undefined
-        : sanitisePrompt(rawBody.userChoice, MAX_CHOICE_LENGTH) ?? undefined;
+        : normaliseModelText(rawBody.userChoice, MAX_CHOICE_LENGTH) ?? undefined;
 
     if (rawBody.userChoice !== undefined && userChoice === undefined) {
       return NextResponse.json(

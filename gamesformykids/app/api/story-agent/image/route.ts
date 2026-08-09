@@ -14,7 +14,9 @@ const IMAGE_MODEL = 'imagen-4.0-fast-generate-001';
 /**
  * The prompt arrives from the browser (it's the `imagePrompt` the story model
  * produced on the previous turn), which means a caller can send anything at
- * all — it is not trusted just because a model authored the original.
+ * all — it is not trusted just because a model authored the original. The
+ * denylist applies here, unlike the story text: the schema asks for this prompt
+ * in English, and it drives image generation rather than prose.
  */
 const MAX_PROMPT_LENGTH = 600;
 
