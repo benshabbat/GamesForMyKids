@@ -1,5 +1,6 @@
 'use client';
 
+import { createElement } from 'react';
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
 import { getQuizGameComponent } from '@/lib/quiz/quizGameRegistry';
 
@@ -11,8 +12,13 @@ export function QuizGameRouter() {
   const gameType = useGameTypeStore(s => s.currentGameType);
   if (!gameType) return null;
 
-  const GameComponent = getQuizGameComponent(gameType);
-  if (!GameComponent) return null;
+  // createElement rather than `<GameComponent />`: assigning a capitalized
+  // local from a call and rendering it as JSX reads as "component defined
+  // during render", which remounts the subtree on every render if the
+  // reference ever changes. This is a lookup in a module-level registry, so
+  // the reference is stable — createElement says that plainly.
+  const gameComponent = getQuizGameComponent(gameType);
+  if (!gameComponent) return null;
 
-  return <GameComponent />;
+  return createElement(gameComponent);
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { useMountTime } from '@/hooks/shared/utils/useMountTime';
 import { getGameLabel } from './gameLabels';
 import { DashboardCardSkeleton } from './DashboardCardSkeleton';
 
@@ -14,11 +15,12 @@ function formatMinutes(seconds: number) {
 
 export function MostPlayedCard() {
   const { progress, loading } = useGameProgress();
+  const now = useMountTime();
 
   if (loading) {
     return <DashboardCardSkeleton />;
   }
-  const now = Date.now();
+
   const recent = progress
     .filter((p) => now - new Date(p.last_played_at).getTime() < SEVEN_DAYS_MS)
     .sort((a, b) => b.total_play_time - a.total_play_time)

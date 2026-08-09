@@ -1,11 +1,11 @@
 'use client';
 
 import { useRef, useEffect } from 'react';
+import { useLatestRef } from '@/hooks/shared/utils/useLatestRef';
 
 export function useToastTimer(duration: number, onExpire?: () => void) {
   const barRef = useRef<HTMLDivElement>(null);
-  const onExpireRef = useRef(onExpire);
-  onExpireRef.current = onExpire;
+  const onExpireRef = useLatestRef(onExpire);
 
   useEffect(() => {
     if (!barRef.current || duration <= 0) return;
@@ -22,7 +22,7 @@ export function useToastTimer(duration: number, onExpire?: () => void) {
     if (duration <= 0) return;
     const id = setTimeout(() => onExpireRef.current?.(), duration);
     return () => clearTimeout(id);
-  }, [duration]);
+  }, [duration, onExpireRef]);
 
   return { barRef };
 }

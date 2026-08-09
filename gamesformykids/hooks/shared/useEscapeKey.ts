@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { useLatestRef } from './utils/useLatestRef';
 
 /**
  * Calls `onClose` when the Escape key is pressed, while the element is `enabled`.
@@ -7,8 +8,7 @@ import { useEffect, useRef } from 'react';
  * "Escape → go home" handler in useUniversalGameNavigation.
  */
 export function useEscapeKey(onClose: () => void, enabled: boolean) {
-  const onCloseRef = useRef(onClose);
-  onCloseRef.current = onClose;
+  const onCloseRef = useLatestRef(onClose);
 
   useEffect(() => {
     if (!enabled) return;
@@ -20,5 +20,5 @@ export function useEscapeKey(onClose: () => void, enabled: boolean) {
     };
     window.addEventListener('keydown', handler, true);
     return () => window.removeEventListener('keydown', handler, true);
-  }, [enabled]);
+  }, [enabled, onCloseRef]);
 }

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLatestRef } from '@/hooks/shared/utils/useLatestRef';
 
 const isDev = process.env.NODE_ENV === 'development';
 const PERF_HUD_STORAGE_KEY = 'canvasPerfHud';
@@ -22,8 +23,7 @@ export function useCanvasLoop(
   tick: (ctx: CanvasRenderingContext2D, dt: number) => void,
 ): React.RefObject<HTMLCanvasElement | null> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const tickRef   = useRef(tick);
-  tickRef.current = tick;
+  const tickRef   = useLatestRef(tick);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -84,7 +84,7 @@ export function useCanvasLoop(
       cancelAnimationFrame(rafId);
       if (isDev) window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [tickRef]);
 
   return canvasRef;
 }

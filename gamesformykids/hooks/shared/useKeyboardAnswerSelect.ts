@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { parseGridColsClass } from '@/hooks/shared/ui/useGridFillers';
+import { useLatestRef } from '@/hooks/shared/utils/useLatestRef';
 
 /**
  * Enables keyboard navigation for answer grids:
@@ -28,8 +29,7 @@ export function useKeyboardAnswerSelect(
   // -1 = no keyboard focus yet; ring only appears after first arrow/number key press
   const [focusedIdx, setFocusedIdx] = useState(-1);
   const focusedRef = useRef(-1);
-  const onSelectRef = useRef(onSelect);
-  onSelectRef.current = onSelect;
+  const onSelectRef = useLatestRef(onSelect);
 
   const breakpoints = typeof gridCols === 'string' ? parseGridColsClass(gridCols) : null;
   const staticCols = typeof gridCols === 'number' ? gridCols : null;
@@ -99,7 +99,7 @@ export function useKeyboardAnswerSelect(
 
     window.addEventListener('keydown', handleKey);
     return () => window.removeEventListener('keydown', handleKey);
-  }, [count, enabled]);
+  }, [count, enabled, onSelectRef]);
 
   return { focusedIdx };
 }

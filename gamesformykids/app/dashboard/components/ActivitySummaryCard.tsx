@@ -1,12 +1,14 @@
 'use client';
 
 import { useGameProgress } from '@/hooks/shared/progress/useGameProgress';
+import { useMountTime } from '@/hooks/shared/utils/useMountTime';
 import { DashboardCardSkeleton } from './DashboardCardSkeleton';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 
 export function ActivitySummaryCard() {
   const { progress, loading } = useGameProgress();
+  const now = useMountTime();
 
   if (loading) {
     return (
@@ -17,7 +19,7 @@ export function ActivitySummaryCard() {
       />
     );
   }
-  const now = Date.now();
+
   const gamesThisWeek = progress.filter(
     (p) => now - new Date(p.last_played_at).getTime() < SEVEN_DAYS_MS,
   ).length;
