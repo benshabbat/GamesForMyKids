@@ -7,6 +7,7 @@ import {
   getPrevGameInCategory,
   type NextGameInfo,
 } from "@/lib/utils/game/getNextGameInCategory";
+import { safeGetItem, safeSetItem } from "@/lib/utils/safeStorage";
 
 const SWIPE_THRESHOLD = 60;   // px horizontal movement required
 const SWIPE_MAX_VERT = 120;   // max vertical movement to still count as a swipe
@@ -16,9 +17,9 @@ function useFirstVisit() {
   const [seen, setSeen] = useState(false);
   useEffect(() => {
     const k = "gfk_swipe_hint_seen";
-    if (!localStorage.getItem(k)) {
+    if (!safeGetItem(k)) {
       setSeen(true);
-      localStorage.setItem(k, "1");
+      safeSetItem(k, "1");
     }
   }, []);
   return seen;

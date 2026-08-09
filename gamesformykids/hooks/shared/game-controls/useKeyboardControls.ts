@@ -1,12 +1,12 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { useLatestRef } from '../utils/useLatestRef';
 
 export function useKeyboardControls(
   bindings: Record<string, () => void>,
   enabled = true,
 ) {
-  const ref = useRef(bindings);
-  ref.current = bindings;
+  const ref = useLatestRef(bindings);
 
   useEffect(() => {
     if (!enabled) return;
@@ -21,5 +21,5 @@ export function useKeyboardControls(
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [enabled]);
+  }, [enabled, ref]);
 }

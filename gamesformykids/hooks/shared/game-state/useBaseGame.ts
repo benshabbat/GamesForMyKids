@@ -71,7 +71,10 @@ export function useBaseGame<T extends BaseGameItem = BaseGameItem>(config: UseBa
 
   // Supabase progress persistence — single atomic upsert per session
   const { saveGameResultRef } = useGameCompletion(gameType);
-  const sessionStartRef = useRef(Date.now());
+  // Set in the mount effect below, not here: `Date.now()` in a render body is
+  // impure, and the value would be overwritten before anything reads it anyway
+  // (the only reader is the effect's own cleanup).
+  const sessionStartRef = useRef(0);
 
   // Save on unmount (user navigates away mid-game).
   // Read saveGameResultRef.current at cleanup time so we always call the

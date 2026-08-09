@@ -55,6 +55,8 @@ export default function BubbleShooterClient() {
         onClick={handleTap}
       >
         <canvas
+          role="img"
+          aria-label="לוח משחק יורה הבועות"
           ref={canvasRef}
           className="w-full h-full touch-none cursor-crosshair"
           style={{ display: 'block' }}

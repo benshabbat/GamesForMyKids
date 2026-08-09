@@ -12,6 +12,7 @@
 
 "use client";
 
+import { createElement } from 'react';
 import { useUniversalGame } from '@/hooks/shared/game-state/useUniversalGame';
 import { useGameEffects } from '@/hooks/shared/game-state/useGameEffects';
 import { useGameTypeStore } from '@/lib/stores/gameTypeStore';
@@ -42,8 +43,10 @@ export function UltimateGamePage() {
 
   if (!gameType) return null;
 
-  const QuizComponent = getQuizGameComponent(gameType);
-  if (QuizComponent) return <QuizComponent />;
+  // createElement, not `<QuizComponent />` — see QuizGameRouter: this is a
+  // stable module-registry lookup, not a component defined during render.
+  const quizComponent = getQuizGameComponent(gameType);
+  if (quizComponent) return createElement(quizComponent);
 
   return <CardGamePage />;
 }

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { GoogleGenAI, ApiError, SafetyFilterLevel, PersonGeneration } from '@google/genai';
 import sharp from 'sharp';
 import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit, AI_RATE_LIMITS } from '@/lib/server/rateLimit';
+import { sanitisePrompt } from '@/lib/server/promptSafety';
 import { logError } from '@/lib/utils/errorUtils';
 
 const ai = new GoogleGenAI(
@@ -10,22 +12,6 @@ const ai = new GoogleGenAI(
 
 const MAX_PROMPT_LENGTH = 200;
 const DAILY_GENERATION_LIMIT = 5;
-
-/**
- * Cheap first-pass filter only — the real safety mechanism is Imagen's own
- * safetyFilterLevel/personGeneration config below. This just avoids spending
- * API quota on obviously inappropriate requests.
- */
-const DENYLIST = [
-  'nude', 'naked', 'sex', 'porn', 'gore', 'blood', 'kill', 'murder', 'weapon', 'gun', 'knife',
-  'suicide', 'drug', 'nazi',
-  'עירום', 'סקס', 'דם', 'להרוג', 'רצח', 'נשק', 'אקדח', 'סכין', 'אלימות',
-];
-
-function containsDenylistedTerm(text: string): boolean {
-  const lower = text.toLowerCase();
-  return DENYLIST.some((term) => lower.includes(term));
-}
 
 export interface GenerateColoringPageResponse {
   success: boolean;
@@ -45,19 +31,26 @@ export async function POST(request: Request): Promise<NextResponse<GenerateColor
       );
     }
 
-    const body = await request.json();
-    const rawPrompt = typeof body?.prompt === 'string' ? body.prompt.trim() : '';
+    // Burst guard on top of the daily cap below: the daily count is a single
+    // read-then-write, so a flood of parallel requests can slip past it before
+    // any of them have inserted a row.
+    const { allowed, retryAfterSeconds } = await checkRateLimit(
+      request,
+      user.id,
+      AI_RATE_LIMITS.coloringGenerate,
+    );
 
-    if (!rawPrompt) {
-      return NextResponse.json({ success: false, error: 'נא לתאר מה לצייר' }, { status: 400 });
-    }
-    if (rawPrompt.length > MAX_PROMPT_LENGTH) {
+    if (!allowed) {
       return NextResponse.json(
-        { success: false, error: 'התיאור ארוך מדי, נסו לקצר' },
-        { status: 400 },
+        { success: false, error: 'יותר מדי בקשות בזמן קצר, נסו שוב בעוד כמה דקות' },
+        { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } },
       );
     }
-    if (containsDenylistedTerm(rawPrompt)) {
+
+    const body = await request.json();
+    const rawPrompt = sanitisePrompt(body?.prompt, MAX_PROMPT_LENGTH);
+
+    if (!rawPrompt) {
       return NextResponse.json(
         { success: false, error: 'לא ניתן ליצור תמונה מהתיאור הזה, נסו תיאור אחר' },
         { status: 400 },

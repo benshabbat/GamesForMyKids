@@ -1,10 +1,19 @@
 import { NextResponse } from 'next/server';
 import { GoogleGenAI, Type } from '@google/genai';
+import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit, AI_RATE_LIMITS } from '@/lib/server/rateLimit';
+import { normaliseModelText } from '@/lib/server/promptSafety';
+import { sanitiseStoryHistory } from '@/lib/server/storyHistory';
 import { logError } from '@/lib/utils/errorUtils';
 
 const ai = new GoogleGenAI(
   process.env.GEMINI_API_KEY ? { apiKey: process.env.GEMINI_API_KEY } : {}
 );
+
+const MAX_CHOICE_LENGTH = 200;
+const MAX_POINTS_PER_STORY = 200;
+
+const GAME_TYPE = 'story-agent';
 
 // ── Types ──────────────────────────────────────────────────
 
@@ -28,11 +37,65 @@ export interface StoryAgentResponse {
   error?: string;
 }
 
+type SupabaseServerClient = Awaited<ReturnType<typeof createClient>>;
+
 // ── Local action executed server-side when story ends ──────
 
-async function awardPointsToUser(points: number) {
-  // TODO: replace with real DB update, e.g. Supabase RPC
-  return { status: 'success', newPointsBalance: points };
+/**
+ * Persists the points Gemini decided to award onto the child's story-agent
+ * progress row, and returns the new balance.
+ *
+ * Anonymous players get the celebration but nothing to persist to — the game is
+ * deliberately playable without an account, so this reports the awarded amount
+ * without a stored balance rather than failing the request.
+ *
+ * The award is clamped: `points` comes from a model function call, and a model
+ * is not a trustworthy source for a number that lands in the database.
+ */
+async function awardPointsToUser(
+  supabase: SupabaseServerClient,
+  userId: string | null,
+  points: number,
+): Promise<{ status: string; newPointsBalance: number }> {
+  const safePoints = Number.isFinite(points)
+    ? Math.min(Math.max(Math.round(points), 0), MAX_POINTS_PER_STORY)
+    : 0;
+
+  if (!userId) {
+    return { status: 'not-persisted', newPointsBalance: safePoints };
+  }
+
+  try {
+    const { data: existing } = await supabase
+      .from('game_progress')
+      .select('score, best_score')
+      .eq('user_id', userId)
+      .eq('game_type', GAME_TYPE)
+      .maybeSingle();
+
+    const newScore = (existing?.score ?? 0) + safePoints;
+
+    const { error } = await supabase.from('game_progress').upsert(
+      {
+        user_id: userId,
+        game_type: GAME_TYPE,
+        score: newScore,
+        last_score: safePoints,
+        best_score: Math.max(existing?.best_score ?? 0, safePoints),
+        last_played_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      },
+      { onConflict: 'user_id,game_type' },
+    );
+
+    if (error) throw error;
+
+    return { status: 'success', newPointsBalance: newScore };
+  } catch (error) {
+    // A points-write failure must not lose the child their story ending.
+    logError('[Story Agent] Failed to persist awarded points:', error);
+    return { status: 'not-persisted', newPointsBalance: safePoints };
+  }
 }
 
 // ── Gemini tool declaration ────────────────────────────────
@@ -104,11 +167,44 @@ function parseStoryResponse(text: string | undefined): StoryResponse {
 
 export async function POST(request: Request): Promise<NextResponse<StoryAgentResponse>> {
   try {
-    const body: StoryAgentRequest = await request.json();
-    const { history = [], userChoice } = body;
+    // The story game is intentionally playable without an account, so a missing
+    // session is fine here — the user id is only used to key the rate limit and
+    // to persist points when there's somewhere to persist them to.
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
+    const userId = user?.id ?? null;
 
-    if (!Array.isArray(history)) {
-      return NextResponse.json({ success: false, error: 'history must be an array' }, { status: 400 });
+    const { allowed, retryAfterSeconds } = await checkRateLimit(
+      request,
+      userId,
+      AI_RATE_LIMITS.storyAgent,
+    );
+
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: 'המספר סיפורים צריך לנוח רגע, נסו שוב בעוד כמה דקות' },
+        { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } },
+      );
+    }
+
+    const body: unknown = await request.json();
+    const rawBody = (typeof body === 'object' && body !== null ? body : {}) as Partial<StoryAgentRequest>;
+    const history = sanitiseStoryHistory(rawBody.history);
+
+    // A choice gets interpolated into the prompt, so it's capped and normalised
+    // — but not denylisted. The text is one of the options the story model
+    // itself wrote a turn earlier, and the image-prompt denylist would reject
+    // ordinary story words: "דם" (blood) is a substring of "אדם" (person).
+    const userChoice =
+      rawBody.userChoice === undefined
+        ? undefined
+        : normaliseModelText(rawBody.userChoice, MAX_CHOICE_LENGTH) ?? undefined;
+
+    if (rawBody.userChoice !== undefined && userChoice === undefined) {
+      return NextResponse.json(
+        { success: false, error: 'לא ניתן להמשיך עם הבחירה הזו, נסו אפשרות אחרת' },
+        { status: 400 },
+      );
     }
 
     const prompt = userChoice
@@ -136,7 +232,7 @@ export async function POST(request: Request): Promise<NextResponse<StoryAgentRes
       const call = functionCalls[0];
       if (call && call.name === 'awardPointsToUser') {
         const args = call.args as { points: number };
-        const actionData = await awardPointsToUser(args.points);
+        const actionData = await awardPointsToUser(supabase, userId, args.points);
         const agentResponse = parseStoryResponse(response.text);
         return NextResponse.json({
           success: true,
@@ -150,8 +246,12 @@ export async function POST(request: Request): Promise<NextResponse<StoryAgentRes
     const agentResponse = parseStoryResponse(response.text);
     return NextResponse.json({ success: true, agentResponse });
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    // Deliberately generic: the raw message can carry model/provider internals
+    // and stack detail, and this response is rendered straight to a child.
     logError('[Story Agent] Error:', error);
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: 'משהו השתבש בסיפור, נסו שוב' },
+      { status: 500 },
+    );
   }
 }

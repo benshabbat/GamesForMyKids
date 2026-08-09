@@ -1,6 +1,8 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
+import { useLatestRef } from '@/hooks/shared/utils/useLatestRef';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const isDev = process.env.NODE_ENV === 'development';
 const PERF_HUD_STORAGE_KEY = 'canvasPerfHud';
@@ -22,8 +24,7 @@ export function useCanvasLoop(
   tick: (ctx: CanvasRenderingContext2D, dt: number) => void,
 ): React.RefObject<HTMLCanvasElement | null> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const tickRef   = useRef(tick);
-  tickRef.current = tick;
+  const tickRef   = useLatestRef(tick);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -34,7 +35,7 @@ export function useCanvasLoop(
     let rafId  = 0;
     let last   = performance.now();
 
-    let hudOn         = isDev && window.localStorage.getItem(PERF_HUD_STORAGE_KEY) === '1';
+    let hudOn         = isDev && safeGetItem(PERF_HUD_STORAGE_KEY) === '1';
     let frameDts: number[] = [];
     let lastHudUpdate = last;
     let fps           = 0;
@@ -43,7 +44,7 @@ export function useCanvasLoop(
     function handleKeyDown(e: KeyboardEvent) {
       if (!(e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'p')) return;
       hudOn = !hudOn;
-      window.localStorage.setItem(PERF_HUD_STORAGE_KEY, hudOn ? '1' : '0');
+      safeSetItem(PERF_HUD_STORAGE_KEY, hudOn ? '1' : '0');
       frameDts = [];
     }
     if (isDev) window.addEventListener('keydown', handleKeyDown);
@@ -84,7 +85,7 @@ export function useCanvasLoop(
       cancelAnimationFrame(rafId);
       if (isDev) window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  }, [tickRef]);
 
   return canvasRef;
 }

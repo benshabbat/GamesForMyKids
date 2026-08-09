@@ -76,6 +76,9 @@ export default function MergeCanvas() {
 
   return (
     <canvas
+      role="application"
+      aria-label="לוח מיזוג המספרים — הקישו כדי להפיל מספר"
+      tabIndex={0}
       ref={canvasRef}
       width={CANVAS_W}
       height={CANVAS_H}

@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { useGameProgressStore } from '@/lib/stores/gameProgressStore';
 import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const DURATION = 60;
 const lsKey = (gt: string) => `gfk_speed_best_${gt}`;
@@ -19,7 +20,7 @@ export function useSpeedBurst(gameType: string) {
   const startAttemptsRef = useRef(0);
 
   useEffect(() => {
-    const stored = localStorage.getItem(lsKey(gameType));
+    const stored = safeGetItem(lsKey(gameType));
     if (stored) setPersonalBest(parseInt(stored, 10) || 0);
 
     const state = useGameProgressStore.getState();
@@ -38,10 +39,10 @@ export function useSpeedBurst(gameType: string) {
           setCorrect(c);
           setTotal(tot);
           if (c > 0) {
-            const stored = localStorage.getItem(lsKey(gameType));
+            const stored = safeGetItem(lsKey(gameType));
             const prev   = parseInt(stored ?? '0', 10) || 0;
             if (c > prev) {
-              localStorage.setItem(lsKey(gameType), String(c));
+              safeSetItem(lsKey(gameType), String(c));
               setPersonalBest(c);
             }
           }

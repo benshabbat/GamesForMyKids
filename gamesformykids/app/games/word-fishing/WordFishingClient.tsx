@@ -79,6 +79,9 @@ export default function WordFishingClient() {
         </div>
       )}
       <canvas
+        role="application"
+        aria-label="משחק דיג מילים — הקישו על הדג שנושא את המילה הנכונה"
+        tabIndex={0}
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-pointer"
         onPointerDown={handlePointerDown}

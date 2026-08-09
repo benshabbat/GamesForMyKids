@@ -44,8 +44,10 @@ jobs:
       - name: Lint
         run: npx eslint . --max-warnings=0
 
+      # --coverage so the thresholds in vitest.config.ts are enforced; without
+      # it they're inert and a deleted test costs nothing.
       - name: Test
-        run: npm test -- --run --reporter=verbose
+        run: npm test -- --run --coverage --reporter=verbose
 
   bundle-size:
     name: Bundle Size
@@ -76,7 +78,16 @@ jobs:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder.supabase.co' }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder' }}
 
+      # The gate. Without this the job only ever produced an artifact somebody
+      # had to remember to open, so a change that doubled a route's JS passed
+      # CI green. Budgets live in gamesformykids/bundle-budget.json.
+      - name: Check first-load JS budgets
+        run: node scripts/check-bundle-size.mjs
+
       - name: Upload bundle report
+        # Runs even when the budget check fails — that's exactly when someone
+        # needs the analyzer output to find out what grew.
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bundle-report

@@ -1,10 +1,17 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { useHebrewLettersStore } from '../../store/hebrewLettersStore';
 import { FADE_UP_ANIMATION } from '../../constants/hebrewLettersConstants';
 import { useLetterEncouragement } from './useLetterEncouragement';
+
+const FIREWORK_COUNT = 6;
+
+interface Fireworks {
+  origin: { x: number; y: number };
+  targets: { x: number; y: number }[];
+}
 
 export default function LetterEncouragement() {
   const currentLetter = useHebrewLettersStore((s) => s.currentLetter);
@@ -15,16 +22,23 @@ export default function LetterEncouragement() {
 
   const { showCompletion, encouragementState, getStepMessage } = useLetterEncouragement({ isCompleted });
 
-  const fireworkTargets = useMemo(
-    () => Array.from({ length: 6 }, () => ({
-      x: typeof window !== 'undefined' ? Math.random() * window.innerWidth : 0,
-      y: typeof window !== 'undefined' ? Math.random() * window.innerHeight : 0,
-    })),
-    // Deps are intentionally the trigger values, not used inside the callback —
-    // we want fresh random positions each time the firework effect fires.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [encouragementState.showEncouragement, showCompletion],
-  );
+  // Scattered in an effect rather than a useMemo: Math.random() and
+  // window.innerWidth are both impure reads, and a useMemo is not a guarantee
+  // that they run once — React may drop and recompute a memo at will, which
+  // would make the fireworks jump mid-animation. The effect re-rolls the
+  // positions exactly when a celebration starts, which is the intent the old
+  // "deps aren't really deps" comment was reaching for.
+  const [fireworks, setFireworks] = useState<Fireworks | null>(null);
+
+  useEffect(() => {
+    setFireworks({
+      origin: { x: window.innerWidth / 2, y: window.innerHeight / 2 },
+      targets: Array.from({ length: FIREWORK_COUNT }, () => ({
+        x: Math.random() * window.innerWidth,
+        y: Math.random() * window.innerHeight,
+      })),
+    });
+  }, [encouragementState.showEncouragement, showCompletion]);
 
   return (
     <>
@@ -65,23 +79,23 @@ export default function LetterEncouragement() {
       )}
 
       {/* אפקט זיקוקים */}
-      {(encouragementState.showEncouragement || showCompletion) && (
+      {/* Driven off `fireworks` rather than the flag alone: the positions are
+          only known after the effect runs, so there is one paint with nothing
+          to show — which is invisible at this scale and beats rendering
+          particles at coordinates that don't exist yet. */}
+      {(encouragementState.showEncouragement || showCompletion) && fireworks && (
         <div className="fixed inset-0 pointer-events-none z-40">
-          {[...Array(6)].map((_, i) => (
+          {fireworks.targets.map((target, i) => (
             <motion.div
               key={i}
               className="absolute w-2 h-2 bg-yellow-400 rounded-full"
-              initial={{ 
-                x: typeof window !== 'undefined' ? window.innerWidth / 2 : 0, 
-                y: typeof window !== 'undefined' ? window.innerHeight / 2 : 0,
-                scale: 0
-              }}
+              initial={{ x: fireworks.origin.x, y: fireworks.origin.y, scale: 0 }}
               animate={{
-                x: fireworkTargets[i]!.x,
-                y: fireworkTargets[i]!.y,
+                x: target.x,
+                y: target.y,
                 scale: [0, 1, 0]
               }}
-              transition={{ 
+              transition={{
                 duration: 2,
                 delay: i * 0.1,
                 ease: "easeOut"

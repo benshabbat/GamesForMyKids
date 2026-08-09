@@ -24,6 +24,7 @@ export default function LetterGuideOverlay() {
 
   return (
     <canvas
+      aria-hidden={true}
       ref={canvasRef}
       width={width}
       height={height}

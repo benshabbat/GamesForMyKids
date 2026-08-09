@@ -1,6 +1,7 @@
 'use client';
 import { useMemo } from 'react';
 import { useProgressTrackingStore } from '@/lib/stores/progressTrackingStore';
+import { useMountTime } from '@/hooks/shared/utils/useMountTime';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 
 const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
@@ -27,9 +28,9 @@ function findCategoryKey(gameType: string): string | undefined {
 /** Aggregates this week's sessions into per-category accuracy, surfacing the strongest and weakest categories. */
 export function useWeeklyInsight(): WeeklyInsight | null {
   const allSessions = useProgressTrackingStore((s) => s.allSessions);
+  const now = useMountTime();
 
   return useMemo(() => {
-    const now = Date.now();
     // session.accuracy is not reliably populated on save — derive from correct/total answers instead.
     const weekSessions = allSessions.filter(
       (s) => now - new Date(s.startTime).getTime() < SEVEN_DAYS_MS && s.totalAnswers > 0,
@@ -62,5 +63,5 @@ export function useWeeklyInsight(): WeeklyInsight | null {
     const recommendedGameId = GAME_CATEGORIES[weakest.categoryKey]!.gameIds[0]!;
 
     return { categories, strongest, weakest, recommendedGameId, gamesPlayedThisWeek: weekSessions.length };
-  }, [allSessions]);
+  }, [allSessions, now]);
 }

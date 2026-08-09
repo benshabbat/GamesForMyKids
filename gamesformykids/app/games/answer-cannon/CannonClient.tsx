@@ -83,6 +83,9 @@ export default function CannonClient() {
         לחץ, גרור וכוון — שחרר כדי לירות
       </div>
       <canvas
+        role="application"
+        aria-label="תותח התשובות — כוונו וירו לעבר התשובה הנכונה"
+        tabIndex={0}
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-crosshair"
         onPointerDown={handlePointerDown}

@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 interface BeforeInstallPromptEvent extends Event {
   prompt(): Promise<void>;
@@ -15,11 +16,11 @@ export function usePWAInstallBanner() {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    if (localStorage.getItem(DISMISSED_KEY)) return;
+    if (safeGetItem(DISMISSED_KEY)) return;
     if (window.matchMedia('(display-mode: standalone)').matches) return;
 
-    const count = parseInt(localStorage.getItem(VISIT_KEY) ?? '0', 10) + 1;
-    localStorage.setItem(VISIT_KEY, String(count));
+    const count = parseInt(safeGetItem(VISIT_KEY) ?? '0', 10) + 1;
+    safeSetItem(VISIT_KEY, String(count));
     if (count < MIN_VISITS) return;
 
     const handler = (e: Event) => {
@@ -40,7 +41,7 @@ export function usePWAInstallBanner() {
   };
 
   const dismiss = () => {
-    localStorage.setItem(DISMISSED_KEY, '1');
+    safeSetItem(DISMISSED_KEY, '1');
     setVisible(false);
   };
 

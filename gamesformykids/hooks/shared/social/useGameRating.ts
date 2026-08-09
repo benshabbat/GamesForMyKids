@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 type Rating = 'up' | 'down';
 
@@ -13,13 +14,13 @@ export function useGameRating(gameType: string | null | undefined) {
 
   useEffect(() => {
     if (!gameType) return;
-    const saved = localStorage.getItem(ratingKey(gameType));
+    const saved = safeGetItem(ratingKey(gameType));
     if (saved === 'up' || saved === 'down') setRating(saved);
   }, [gameType]);
 
   const rate = (value: Rating) => {
     if (!gameType || rating) return;
-    localStorage.setItem(ratingKey(gameType), value);
+    safeSetItem(ratingKey(gameType), value);
     setRating(value);
   };
 

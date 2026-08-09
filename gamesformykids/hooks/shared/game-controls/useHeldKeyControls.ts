@@ -1,5 +1,6 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
+import { useLatestRef } from '../utils/useLatestRef';
 
 interface HeldKeyBinding {
   onDown: () => void;
@@ -14,8 +15,7 @@ export function useHeldKeyControls(
   bindings: Record<string, HeldKeyBinding>,
   enabled = true,
 ) {
-  const ref = useRef(bindings);
-  ref.current = bindings;
+  const ref = useLatestRef(bindings);
 
   useEffect(() => {
     if (!enabled) return;
@@ -27,5 +27,5 @@ export function useHeldKeyControls(
       window.removeEventListener('keydown', onKeyDown);
       window.removeEventListener('keyup', onKeyUp);
     };
-  }, [enabled]);
+  }, [enabled, ref]);
 }

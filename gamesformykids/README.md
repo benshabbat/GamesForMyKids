@@ -161,6 +161,22 @@ The `/api/coloring/generate` route (custom coloring pages from a text prompt) re
 
 Apply the migration against your Supabase project before using this feature. Generation requires a signed-in user (guests are shown a sign-in prompt instead).
 
+## Rate limiting the AI routes
+
+`/api/story-agent`, `/api/story-agent/image` and `/api/coloring/generate` each cost money per call, so they're bounded by a shared sliding-window limiter (`lib/server/rateLimit.ts`). Signed-in callers are limited per user id; anonymous ones per hashed IP, which keeps the story game playable without an account.
+
+The limiter is backed by `public.api_rate_limit_events`, created by `supabase/migrations/006_api_rate_limit.sql`. Apply that migration, then set:
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+RATE_LIMIT_SALT=any-long-random-string
+```
+
+- `SUPABASE_SERVICE_ROLE_KEY` — the limiter writes to a table that no client may read or forge, so it needs to bypass RLS. Server-side only; never expose it to the browser.
+- `RATE_LIMIT_SALT` — salts the IP hash. Without it an IPv4 hash is trivially brute-forced, so set it in any environment that serves anonymous traffic.
+
+**The limiter fails open.** With no service-role key configured (local dev, CI, preview builds) requests pass through unlimited and a warning is logged — a limiter outage must never take the games down. Set both variables in production.
+
 ## Scripts
 
 ```bash
@@ -169,7 +185,15 @@ npm run build            # Production build
 npm run lint             # ESLint check
 npx tsc --noEmit         # Type check without emitting
 npm run test             # Run Vitest unit tests
+npm run bundle:report    # First-load JS per route (after a build)
+npm run bundle:check     # Same, but fails if a route is over budget
 ```
+
+### Bundle budgets
+
+`bundle-budget.json` holds a first-load JS ceiling (KB, gzipped) per app route, enforced in CI by the `Bundle Size` job. The budgets are ratchets set just above today's sizes, so any regression fails the build. If a route legitimately grows, raise its entry in the same commit — that way the increase gets reviewed instead of landing silently. When a route shrinks, lower its budget so the ratchet keeps working.
+
+The reported number is an upper bound (route entry chunks ∪ shared root chunks ∪ polyfills) and won't match Next's own "First Load JS" column — the two use different accounting. What matters is that it's computed identically every run.
 
 ## Browser Support
 

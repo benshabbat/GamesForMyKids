@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const LS_KEY = 'gfk_music_enabled';
 
@@ -58,7 +59,7 @@ function startAmbientLoop(ctx: AudioContext): () => void {
 export function useAmbientMusic() {
   const [enabled, setEnabled] = useState<boolean>(() => {
     if (typeof window === 'undefined') return false;
-    return localStorage.getItem(LS_KEY) === 'true';
+    return safeGetItem(LS_KEY) === 'true';
   });
 
   const ctxRef    = useRef<AudioContext | null>(null);
@@ -101,7 +102,7 @@ export function useAmbientMusic() {
   const toggle = useCallback(() => {
     setEnabled((v) => {
       const next = !v;
-      localStorage.setItem(LS_KEY, String(next));
+      safeSetItem(LS_KEY, String(next));
       return next;
     });
   }, []);

@@ -15,6 +15,9 @@ export default function DrawingCanvas() {
     <div className="flex-1">
       <div className={`bg-white rounded-2xl shadow-2xl p-6 touch-none ${styles.canvasContainer}`}>
         <canvas
+          role="application"
+          aria-label="לוח ציור חופשי"
+          tabIndex={0}
           ref={canvasRef}
           width={isMobileDevice ? 600 : 800}
           height={isMobileDevice ? 400 : 600}
