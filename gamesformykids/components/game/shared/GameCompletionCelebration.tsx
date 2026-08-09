@@ -6,6 +6,7 @@ import { useGameAudio } from '@/hooks/shared/audio/useGameAudio';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { getGameConfettiEmojis } from '@/lib/utils/game/getGameConfettiEmojis';
 import { useAvatarEmoji } from '@/hooks/shared/user/useAvatarEmoji';
+import { usePrefersReducedMotion } from '@/hooks/shared/ui/usePrefersReducedMotion';
 import { getActiveHoliday } from '@/lib/constants/holidayLanes';
 import { useAudioSettingsStore } from '@/lib/stores/audioSettingsStore';
 import { getRandomItem } from '@/lib/utils';
@@ -41,6 +42,7 @@ interface Props {
 
 export function GameCompletionCelebration({ isPerfect = false }: Props) {
   const [visible, setVisible] = useState(true);
+  const reducedMotion = usePrefersReducedMotion();
   const { playSuccessSound } = useGameAudio();
   const params = useParams();
   const gameType = typeof params?.gameType === 'string' ? params.gameType : undefined;
@@ -61,7 +63,9 @@ export function GameCompletionCelebration({ isPerfect = false }: Props) {
     playSuccessSound();
     const phrase = getRandomItem([...CELEBRATION_PHRASES]);
     speakHebrew(phrase);
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    // Sound and the spoken phrase still happen — reduced motion is about
+    // movement, not about muting the reward. Only the confetti is skipped.
+    if (reducedMotion) {
       setVisible(false);
       return;
     }

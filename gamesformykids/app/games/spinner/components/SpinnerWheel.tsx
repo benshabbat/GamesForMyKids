@@ -91,7 +91,14 @@ export default function SpinnerWheel({ segments, rotation, size = 320 }: Props) 
 
   return (
     <div className="relative inline-block select-none">
-      <canvas ref={canvasRef} width={size} height={size} className="rounded-full" />
+      <canvas
+        role="img"
+        aria-label="גלגל ההגרלה"
+        ref={canvasRef}
+        width={size}
+        height={size}
+        className="rounded-full"
+      />
       {/* Downward pointer fixed at top */}
       <div
         className="absolute left-1/2 -translate-x-1/2 pointer-events-none"

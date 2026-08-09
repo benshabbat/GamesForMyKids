@@ -81,6 +81,9 @@ export default function SlingshotClient() {
         </div>
       )}
       <canvas
+        role="application"
+        aria-label="רוגטקת אותיות — גררו כדי לכוון ולשגר"
+        tabIndex={0}
         ref={canvasRef}
         className="flex-1 w-full touch-none"
         style={{ cursor: phase === 'aiming' ? 'crosshair' : 'default' }}

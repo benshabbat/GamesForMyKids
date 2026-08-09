@@ -89,6 +89,8 @@ export default function MazeCanvas() {
 
   return (
     <canvas
+      role="img"
+      aria-label="לוח המבוך"
       ref={canvasRef}
       width={CANVAS_SIZE}
       height={CANVAS_SIZE}

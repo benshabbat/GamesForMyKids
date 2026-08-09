@@ -28,6 +28,9 @@ export default function CanvasDrawArea() {
   return (
     <div className="relative bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl p-2">
       <canvas
+        role="application"
+        aria-label="אזור כתיבת האות — ציירו את האות באצבע או בעכבר"
+        tabIndex={0}
         ref={canvasRef}
         width={width}
         height={height}

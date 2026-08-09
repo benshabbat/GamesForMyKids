@@ -91,6 +91,9 @@ export function FloodFillCanvas({ imageId, meta }: FloodFillCanvasProps) {
 
   return (
     <canvas
+      role="application"
+      aria-label="דף צביעה — הקישו על אזור כדי לצבוע אותו"
+      tabIndex={0}
       ref={canvasRef}
       width={meta.width}
       height={meta.height}

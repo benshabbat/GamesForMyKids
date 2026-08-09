@@ -82,7 +82,12 @@ export default function LetterSlicerClient() {
       onPointerDown={handlePointer}
       style={{ touchAction: 'none' }}
     >
-      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
+      <canvas
+        role="img"
+        aria-label="מסך משחק חיתוך האותיות"
+        ref={canvasRef}
+        className="absolute inset-0 w-full h-full"
+      />
 
       <div className="absolute top-3 inset-x-3 flex items-center justify-between pointer-events-none z-10">
         <LivesDisplay lives={hearts} max={HEARTS_MAX} size="text-2xl" />

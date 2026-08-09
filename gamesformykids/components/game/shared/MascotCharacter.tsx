@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useGameSessionStore } from '@/lib/stores/gameSessionStore';
+import { usePrefersReducedMotion } from '@/hooks/shared/ui/usePrefersReducedMotion';
 
 type MascotState = 'idle' | 'celebrate' | 'encourage';
 
@@ -44,7 +45,7 @@ const BUBBLE_MESSAGES: Record<MascotState, string | null> = {
 export default function MascotCharacter() {
   const [mascotState, setMascotState] = useState<MascotState>('idle');
   const [showBubble, setShowBubble] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
+  const reducedMotion = usePrefersReducedMotion();
   const prevCelebration = useRef(false);
   const prevWrong = useRef(0);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -76,13 +77,6 @@ export default function MascotCharacter() {
     };
   }, []);
 
-  useEffect(() => {
-    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
-    setReducedMotion(mql.matches);
-    const onChange = () => setReducedMotion(mql.matches);
-    mql.addEventListener('change', onChange);
-    return () => mql.removeEventListener('change', onChange);
-  }, []);
 
   const animation = reducedMotion
     ? mascotState === 'idle'

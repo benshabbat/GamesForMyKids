@@ -16,6 +16,9 @@ export default function LetterCanvas({ letter, difficulty, onComplete }: Props) 
   return (
     <div className="flex flex-col items-center gap-3">
       <canvas
+        role="application"
+        aria-label="אזור תרגול כתיבת האות"
+        tabIndex={0}
         ref={canvasRef}
         width={CANVAS_SIZE}
         height={CANVAS_SIZE}

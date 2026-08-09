@@ -99,6 +99,9 @@ export default function LetterGrowClient() {
         />
       </div>
       <canvas
+        role="application"
+        aria-label="משחק גידול האות — הזיזו את הסמן כדי לאסוף אותיות"
+        tabIndex={0}
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-none"
         style={{ touchAction: 'none' }}

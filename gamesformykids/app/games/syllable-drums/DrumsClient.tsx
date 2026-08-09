@@ -95,6 +95,9 @@ export default function DrumsClient() {
         </div>
       )}
       <canvas
+        role="application"
+        aria-label="משחק תופי ההברות — הקישו כשהעיגול מגיע לקו הזהב"
+        tabIndex={0}
         ref={canvasRef}
         className="flex-1 w-full touch-none cursor-pointer"
         onPointerDown={handleTap}

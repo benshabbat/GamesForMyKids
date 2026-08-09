@@ -95,6 +95,8 @@ export default function WordMazeCanvas({ gridRef, playerRef, lettersRef, bouncin
   const size = GRID_SIZE * CELL_SIZE;
   return (
     <canvas
+      role="img"
+      aria-label="לוח מבוך המילים"
       ref={canvasRef}
       width={size}
       height={size}
