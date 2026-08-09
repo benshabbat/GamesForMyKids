@@ -2,6 +2,7 @@
 
 import { useState, useCallback } from 'react';
 import { useChildProfileStore } from '@/lib/stores/childProfileStore';
+import { safeGetItem, safeRemoveItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const LS_KEY = 'gfk_avatar_emoji';
 
@@ -22,7 +23,7 @@ export function useAvatarEmoji() {
 
   const [localEmoji, setLocalEmojiState] = useState<string>(() => {
     if (typeof window === 'undefined') return '';
-    return localStorage.getItem(LS_KEY) ?? '';
+    return safeGetItem(LS_KEY) ?? '';
   });
 
   const activeProfile = profiles.find((p) => p.id === activeProfileId);
@@ -33,7 +34,7 @@ export function useAvatarEmoji() {
       updateProfile(activeProfileId, { emoji: e });
     } else {
       setLocalEmojiState(e);
-      localStorage.setItem(LS_KEY, e);
+      safeSetItem(LS_KEY, e);
     }
   }, [activeProfileId, activeProfile, updateProfile]);
 
@@ -42,7 +43,7 @@ export function useAvatarEmoji() {
       updateProfile(activeProfileId, { emoji: '' });
     } else {
       setLocalEmojiState('');
-      localStorage.removeItem(LS_KEY);
+      safeRemoveItem(LS_KEY);
     }
   }, [activeProfileId, activeProfile, updateProfile]);
 

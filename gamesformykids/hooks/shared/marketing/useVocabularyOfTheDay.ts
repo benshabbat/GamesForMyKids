@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
 import { speak } from '@/lib/utils/speech/speaker';
 import type { BaseGameItem } from '@/lib/types/core/base';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const STORAGE_KEY = 'votd_last_shown';
 
@@ -35,13 +36,13 @@ export function useVocabularyOfTheDay() {
 
   useEffect(() => {
     const today = getTodayKey();
-    const lastShown = localStorage.getItem(STORAGE_KEY);
+    const lastShown = safeGetItem(STORAGE_KEY);
     if (lastShown === today) return;
 
     const item = pickWordOfTheDay();
     if (!item) return;
 
-    localStorage.setItem(STORAGE_KEY, today);
+    safeSetItem(STORAGE_KEY, today);
     setWord(item);
     setVisible(true);
 

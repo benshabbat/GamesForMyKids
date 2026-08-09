@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { setUserMuted } from '@/lib/utils/speech/enhancedSpeechUtils';
+import { safeGetItem, safeSetItem } from '@/lib/utils/safeStorage';
 
 const STORAGE_KEY = 'sound_muted';
 
@@ -11,7 +12,7 @@ export function useSoundToggle() {
 
   useEffect(() => {
     setMounted(true);
-    const saved = localStorage.getItem(STORAGE_KEY) === 'true';
+    const saved = safeGetItem(STORAGE_KEY) === 'true';
     if (saved) {
       setMuted(true);
       setUserMuted(true);
@@ -22,7 +23,7 @@ export function useSoundToggle() {
     const newMuted = !muted;
     setMuted(newMuted);
     setUserMuted(newMuted);
-    localStorage.setItem(STORAGE_KEY, String(newMuted));
+    safeSetItem(STORAGE_KEY, String(newMuted));
     if (newMuted && typeof window !== 'undefined' && 'speechSynthesis' in window) {
       window.speechSynthesis.cancel();
     }
