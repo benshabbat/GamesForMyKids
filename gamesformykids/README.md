@@ -161,6 +161,22 @@ The `/api/coloring/generate` route (custom coloring pages from a text prompt) re
 
 Apply the migration against your Supabase project before using this feature. Generation requires a signed-in user (guests are shown a sign-in prompt instead).
 
+## Rate limiting the AI routes
+
+`/api/story-agent`, `/api/story-agent/image` and `/api/coloring/generate` each cost money per call, so they're bounded by a shared sliding-window limiter (`lib/server/rateLimit.ts`). Signed-in callers are limited per user id; anonymous ones per hashed IP, which keeps the story game playable without an account.
+
+The limiter is backed by `public.api_rate_limit_events`, created by `supabase/migrations/006_api_rate_limit.sql`. Apply that migration, then set:
+
+```env
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+RATE_LIMIT_SALT=any-long-random-string
+```
+
+- `SUPABASE_SERVICE_ROLE_KEY` — the limiter writes to a table that no client may read or forge, so it needs to bypass RLS. Server-side only; never expose it to the browser.
+- `RATE_LIMIT_SALT` — salts the IP hash. Without it an IPv4 hash is trivially brute-forced, so set it in any environment that serves anonymous traffic.
+
+**The limiter fails open.** With no service-role key configured (local dev, CI, preview builds) requests pass through unlimited and a warning is logged — a limiter outage must never take the games down. Set both variables in production.
+
 ## Scripts
 
 ```bash

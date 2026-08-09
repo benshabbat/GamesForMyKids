@@ -12,6 +12,9 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': fileURLToPath(new URL('.', import.meta.url)),
+      // `server-only` throws on import outside an RSC, which would make every
+      // server-side helper untestable. The real guard still applies in builds.
+      'server-only': fileURLToPath(new URL('./__tests__/stubs/server-only.ts', import.meta.url)),
     },
   },
 });

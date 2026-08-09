@@ -1,5 +1,8 @@
 import { NextResponse } from 'next/server';
-import { ApiError, GoogleGenAI } from '@google/genai';
+import { ApiError, GoogleGenAI, SafetyFilterLevel, PersonGeneration } from '@google/genai';
+import { createClient } from '@/lib/supabase/server';
+import { checkRateLimit, AI_RATE_LIMITS } from '@/lib/server/rateLimit';
+import { sanitisePrompt } from '@/lib/server/promptSafety';
 import { logError } from '@/lib/utils/errorUtils';
 
 const ai = new GoogleGenAI(
@@ -7,6 +10,13 @@ const ai = new GoogleGenAI(
 );
 
 const IMAGE_MODEL = 'imagen-4.0-fast-generate-001';
+
+/**
+ * The prompt arrives from the browser (it's the `imagePrompt` the story model
+ * produced on the previous turn), which means a caller can send anything at
+ * all — it is not trusted just because a model authored the original.
+ */
+const MAX_PROMPT_LENGTH = 600;
 
 export interface StoryImageRequest {
   prompt: string;
@@ -33,22 +43,52 @@ function fallbackImageDataUrl(): string {
 
 export async function POST(request: Request): Promise<NextResponse<StoryImageResponse>> {
   try {
-    const body: StoryImageRequest = await request.json();
-    const { prompt } = body;
+    const supabase = await createClient();
+    const { data: { user } } = await supabase.auth.getUser();
 
-    if (typeof prompt !== 'string' || !prompt.trim()) {
-      return NextResponse.json({ success: false, error: 'prompt is required' }, { status: 400 });
+    const { allowed, retryAfterSeconds } = await checkRateLimit(
+      request,
+      user?.id ?? null,
+      AI_RATE_LIMITS.storyImage,
+    );
+
+    if (!allowed) {
+      return NextResponse.json(
+        { success: false, error: 'יותר מדי איורים בזמן קצר, נסו שוב בעוד כמה דקות' },
+        { status: 429, headers: { 'Retry-After': String(retryAfterSeconds) } },
+      );
+    }
+
+    const body: unknown = await request.json();
+    const prompt = sanitisePrompt((body as Partial<StoryImageRequest> | null)?.prompt, MAX_PROMPT_LENGTH);
+
+    if (!prompt) {
+      return NextResponse.json({ success: false, error: 'לא ניתן לצייר את התיאור הזה' }, { status: 400 });
     }
 
     try {
       const response = await ai.models.generateImages({
         model: IMAGE_MODEL,
         prompt,
-        config: { numberOfImages: 1, aspectRatio: '1:1', outputMimeType: 'image/png' },
+        config: {
+          numberOfImages: 1,
+          aspectRatio: '1:1',
+          outputMimeType: 'image/png',
+          // Same guarantees the coloring route asks for: this image is shown to
+          // a 5-10 year old, so filter aggressively and never render people.
+          safetyFilterLevel: SafetyFilterLevel.BLOCK_LOW_AND_ABOVE,
+          personGeneration: PersonGeneration.DONT_ALLOW,
+          includeRaiReason: true,
+        },
       });
-      const base64 = response.generatedImages?.[0]?.image?.imageBytes;
+      const generated = response.generatedImages?.[0];
+      const base64 = generated?.image?.imageBytes;
       if (!base64) {
-        throw new Error('Model did not return image data');
+        // With BLOCK_LOW_AND_ABOVE in play an empty result is usually the safety
+        // filter doing its job, not a fault. The illustration is decorative, so
+        // show the placeholder rather than surfacing an error to the child.
+        logError('[Story Agent Image] Blocked or empty result', generated?.raiFilteredReason);
+        return NextResponse.json({ success: true, imageDataUrl: fallbackImageDataUrl(), isFallback: true });
       }
       return NextResponse.json({ success: true, imageDataUrl: `data:image/png;base64,${base64}` });
     } catch (genError) {
@@ -63,8 +103,9 @@ export async function POST(request: Request): Promise<NextResponse<StoryImageRes
       throw genError;
     }
   } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown error';
+    // Generic on purpose — see the story route: raw provider messages must not
+    // reach the browser.
     logError('[Story Agent Image] Error:', error);
-    return NextResponse.json({ success: false, error: message }, { status: 500 });
+    return NextResponse.json({ success: false, error: 'לא הצלחנו לצייר את האיור' }, { status: 500 });
   }
 }
