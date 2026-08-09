@@ -22,7 +22,9 @@
     "supabase:migrate": "node scripts/migrate-to-supabase.js",
     "supabase:migrate-es": "node scripts/migrate-to-supabase.mjs",
     "supabase:seed": "node scripts/migrate-to-supabase.js",
-    "migrate:all-data": "node scripts/migrate-all-data.mjs"
+    "migrate:all-data": "node scripts/migrate-all-data.mjs",
+    "bundle:check": "node scripts/check-bundle-size.mjs",
+    "bundle:report": "node scripts/check-bundle-size.mjs --report"
   },
   "dependencies": {
     "@google/genai": "^2.11.0",

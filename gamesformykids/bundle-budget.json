@@ -1,0 +1,8 @@
+{
+  "_comment": "First-load JS budgets in KB (gzipped), enforced by scripts/check-bundle-size.mjs in CI. 'default' applies to every app route without its own entry. These are ratchets, not targets: each sits just above today's measured size so a regression fails the build. When a route gets smaller, lower its budget in the same commit. Run `node scripts/check-bundle-size.mjs --report` after a build to see current numbers.",
+  "default": 400,
+  "routes": {
+    "/": 420,
+    "/games/[gameType]": 480
+  }
+}

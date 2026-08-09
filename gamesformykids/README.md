@@ -185,7 +185,15 @@ npm run build            # Production build
 npm run lint             # ESLint check
 npx tsc --noEmit         # Type check without emitting
 npm run test             # Run Vitest unit tests
+npm run bundle:report    # First-load JS per route (after a build)
+npm run bundle:check     # Same, but fails if a route is over budget
 ```
+
+### Bundle budgets
+
+`bundle-budget.json` holds a first-load JS ceiling (KB, gzipped) per app route, enforced in CI by the `Bundle Size` job. The budgets are ratchets set just above today's sizes, so any regression fails the build. If a route legitimately grows, raise its entry in the same commit — that way the increase gets reviewed instead of landing silently. When a route shrinks, lower its budget so the ratchet keeps working.
+
+The reported number is an upper bound (route entry chunks ∪ shared root chunks ∪ polyfills) and won't match Next's own "First Load JS" column — the two use different accounting. What matters is that it's computed identically every run.
 
 ## Browser Support
 
