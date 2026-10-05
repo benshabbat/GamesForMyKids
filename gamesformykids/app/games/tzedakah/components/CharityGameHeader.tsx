@@ -1,10 +1,12 @@
 'use client';
-import { useCharityCoinGame } from '../useCharityCoinGame';
+import { useTzedakahStore } from '../tzedakahStore';
 import { StatBox } from '@/components/game/shared/StatBox';
 
 export default function CharityGameHeader() {
-  const { score, gameTime, collectedCoins, isMobile } =
-    useCharityCoinGame();
+  const score          = useTzedakahStore((s) => s.score);
+  const gameTime       = useTzedakahStore((s) => s.gameTime);
+  const collectedCoins = useTzedakahStore((s) => s.collectedCoins);
+  const isMobile       = useTzedakahStore((s) => s.isMobile);
 
   return (
     <>
