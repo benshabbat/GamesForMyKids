@@ -2,11 +2,10 @@
 
 import styles from '../drawing.module.css';
 import { useDrawingStore } from '../store/drawingStore';
-import { useDrawingGame } from '../hooks/useDrawingGame';
 
 export default function DrawingTools() {
   const { brushSize, eraserSize, isErasing, setBrushSize, setEraserSize, toggleEraser, selectDrawMode, clearCanvas } = useDrawingStore();
-  const { isMobileDevice } = useDrawingGame();
+  const isMobileDevice = useDrawingStore((s) => s.isMobileDevice);
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6">
       <div className="text-lg font-bold text-gray-700 mb-4 text-center">🛠️ כלים</div>
