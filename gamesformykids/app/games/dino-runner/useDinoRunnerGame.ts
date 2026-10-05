@@ -163,7 +163,9 @@ export function useDinoRunnerGame() {
 
   useKeyboardControls({ ' ': jump, ArrowUp: jump });
 
-  const handleTap = (e?: React.MouseEvent | React.TouchEvent) => {
+  const handleTap = (e?: React.MouseEvent) => {
+    // Primary pointer only (left mouse button / touch / pen contact), not right/middle clicks.
+    if (e && e.button !== 0) return;
     e?.preventDefault();
     jump();
   };
