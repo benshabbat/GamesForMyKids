@@ -57,6 +57,8 @@ export interface BalloonPopActions {
   /** Called by the loop hook when time runs out or lives hit 0. */
   endGame: () => void;
   pop: (id: number) => void;
+  /** Abandon any run in progress (e.g. the player navigated away) and show the menu. */
+  resetToMenu: () => void;
   setDimensions: (w: number, h: number) => void;
 }
 
@@ -82,6 +84,8 @@ export const useBalloonPopStore = makePersistStore<BalloonPopState & BalloonPopA
         false,
         'balloon/startGame',
       ),
+
+    resetToMenu: () => set({ phase: 'menu', balloons: [] }, false, 'balloon/resetToMenu'),
 
     endGame: () => {
       const { score, best } = get();
