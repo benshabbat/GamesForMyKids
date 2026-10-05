@@ -3,7 +3,7 @@ import { useEmojiMathStore } from './emojiMathStore';
 import { createPhaseGameHook } from '@/hooks/shared/progress';
 
 export type { Op, Question } from './emojiMathStore';
-export { makeQuestion, TIME_PER_Q } from './emojiMathStore';
+export { makeQuestion, getTimePerQ } from './emojiMathStore';
 
 export const useEmojiMathGame = createPhaseGameHook(
   useEmojiMathStore,

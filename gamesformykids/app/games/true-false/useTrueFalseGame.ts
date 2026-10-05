@@ -5,7 +5,7 @@ import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 
 export type { Fact } from './trueFalseStore';
-export { FACTS, TIME_PER_Q } from './trueFalseStore';
+export { FACTS, getTimePerQ } from './trueFalseStore';
 
 const _useStore = createShallowHook(useTrueFalseStore);
 

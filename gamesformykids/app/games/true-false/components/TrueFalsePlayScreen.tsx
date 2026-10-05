@@ -1,5 +1,5 @@
 'use client';
-import { useTrueFalseGame, TIME_PER_Q } from '../useTrueFalseGame';
+import { useTrueFalseGame, getTimePerQ } from '../useTrueFalseGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
 import { KeyboardHint } from '@/components/game/shared/KeyboardHint';
@@ -38,7 +38,7 @@ export default function TrueFalsePlayScreen() {
         <div className="mt-4 bg-gray-100 rounded-full h-2">
           <div
             className="bg-gradient-to-r from-teal-400 to-cyan-500 h-2 rounded-full transition-[width] duration-1000"
-            style={{ width: `${(timeLeft / TIME_PER_Q) * 100}%` }}
+            style={{ width: `${(timeLeft / getTimePerQ()) * 100}%` }}
           />
         </div>
       </div>
