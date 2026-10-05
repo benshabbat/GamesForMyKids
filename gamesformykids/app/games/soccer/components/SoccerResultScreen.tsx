@@ -5,7 +5,11 @@ import { PitchBackground } from './SoccerShared';
 import SoccerScoreDisplay from './SoccerScoreDisplay';
 import SoccerResultActions from './SoccerResultActions';
 
-export default function SoccerResultScreen() {
+interface Props {
+  onRestart: () => void;
+}
+
+export default function SoccerResultScreen({ onRestart }: Props) {
   const { trophy, msg } = useSoccerResult();
 
   return (
@@ -14,7 +18,7 @@ export default function SoccerResultScreen() {
         <div className="text-9xl mb-4">{trophy}</div>
         <h2 className="text-4xl font-black text-white mb-3">{msg}</h2>
         <SoccerScoreDisplay />
-        <SoccerResultActions />
+        <SoccerResultActions onRestart={onRestart} />
       </div>
     </PitchBackground>
   );
