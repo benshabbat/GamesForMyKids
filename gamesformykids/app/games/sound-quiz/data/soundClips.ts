@@ -19,7 +19,7 @@ export const SOUND_CLIPS: SoundClip[] = [
   { id: 'a7',  name: 'כבש',     emoji: '🐑', soundText: 'מֵה מֵה',           category: 'animals' },
   { id: 'a8',  name: 'נחש',     emoji: '🐍', soundText: 'שששששש',            category: 'animals' },
   { id: 'a9',  name: 'ציפור',   emoji: '🐦', soundText: 'צ\'יק צ\'יק',      category: 'animals' },
-  { id: 'a10', name: 'פרא',     emoji: '🐴', soundText: 'אִיִיִי',           category: 'animals' },
+  { id: 'a10', name: 'סוס',     emoji: '🐴', soundText: 'אִיִיִי',           category: 'animals' },
   { id: 'a11', name: 'קוף',     emoji: '🐒', soundText: 'אוּ אוּ אָה',       category: 'animals' },
   { id: 'a12', name: 'אריה',    emoji: '🦁', soundText: 'רּוּוּאר',          category: 'animals' },
 
