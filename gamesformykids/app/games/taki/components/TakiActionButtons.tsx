@@ -3,7 +3,7 @@
 import { useTakiGame } from '../useTakiGame';
 
 export default function TakiActionButtons() {
-  const { currentTurn, inTakiSequence, needsColorChoice, deck, drawCard, closeTaki } = useTakiGame();
+  const { currentTurn, inTakiSequence, needsColorChoice, drawCard, closeTaki } = useTakiGame();
 
   if (currentTurn !== 'player') return null;
 
@@ -20,8 +20,7 @@ export default function TakiActionButtons() {
       {!inTakiSequence && !needsColorChoice && (
         <button
           onClick={drawCard}
-          disabled={deck.length === 0}
-          className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold px-4 py-2 rounded-xl shadow text-sm transition-transform hover:scale-105 active:scale-95"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl shadow text-sm transition-transform hover:scale-105 active:scale-95"
         >
           🂠 משוך קלף
         </button>
