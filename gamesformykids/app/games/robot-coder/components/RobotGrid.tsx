@@ -29,8 +29,8 @@ export default function RobotGrid({ level, robotPos, collectedLetters }: Props) 
 
   return (
     // Column 0 is the left-most cell so that → (col + 1) moves the robot visually right and the
-    // level hints ("ימינה") match. The inline direction guards against a global `* { direction: rtl }`.
-    <div dir="ltr" style={{ direction: 'ltr' }} className="flex flex-col gap-1 items-center">
+    // level hints ("ימינה") match.
+    <div dir="ltr" className="flex flex-col gap-1 items-center">
       {Array.from({ length: gridSize }, (_, row) => (
         <div key={row} className="flex gap-1">
           {Array.from({ length: gridSize }, (_, col) => {
