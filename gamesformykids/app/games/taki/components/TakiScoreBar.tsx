@@ -1,9 +1,11 @@
 'use client';
 
-import { useTakiGame } from '../useTakiGame';
+import { useTakiStore } from '../takiGameStore';
 
 export default function TakiScoreBar() {
-  const { playerScore, computerScore, currentTurn } = useTakiGame();
+  const playerScore   = useTakiStore((s) => s.playerScore);
+  const computerScore = useTakiStore((s) => s.computerScore);
+  const currentTurn    = useTakiStore((s) => s.currentTurn);
 
   return (
     <div className="flex justify-between items-center text-white text-sm font-semibold px-1">

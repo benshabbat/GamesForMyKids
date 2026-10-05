@@ -1,9 +1,13 @@
 'use client';
 
-import { useTakiGame } from '../useTakiGame';
+import { useTakiStore } from '../takiGameStore';
 
 export default function TakiActionButtons() {
-  const { currentTurn, inTakiSequence, needsColorChoice, drawCard, closeTaki } = useTakiGame();
+  const currentTurn      = useTakiStore((s) => s.currentTurn);
+  const inTakiSequence   = useTakiStore((s) => s.inTakiSequence);
+  const needsColorChoice = useTakiStore((s) => s.needsColorChoice);
+  const drawCard         = useTakiStore((s) => s.drawCard);
+  const closeTaki        = useTakiStore((s) => s.closeTaki);
 
   if (currentTurn !== 'player') return null;
 
