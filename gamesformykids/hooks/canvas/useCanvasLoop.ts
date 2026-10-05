@@ -1,6 +1,7 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
+import { useCanvasAttach } from './useCanvasAttach';
 
 const isDev = process.env.NODE_ENV === 'development';
 const PERF_HUD_STORAGE_KEY = 'canvasPerfHud';
@@ -8,7 +9,9 @@ const PERF_HUD_STORAGE_KEY = 'canvasPerfHud';
 /**
  * Manages the requestAnimationFrame lifecycle for a canvas game loop.
  *
- * Returns a canvasRef to attach to the <canvas> element.
+ * Returns a canvasRef to attach to the <canvas> element. The loop runs while
+ * that element is mounted — it is fine for the canvas to appear later than the
+ * hook (e.g. only in the 'playing' phase) or to be unmounted and re-mounted.
  * Calls `tick(ctx, dt)` every frame where dt is milliseconds since the
  * previous frame. The tick callback is stored in a ref so it may close
  * over game state without causing the effect to re-run.
@@ -25,9 +28,9 @@ export function useCanvasLoop(
   const tickRef   = useRef(tick);
   tickRef.current = tick;
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // Starts when the <canvas> element mounts (which may be after this hook's
+  // owner first renders) and stops when it unmounts.
+  useCanvasAttach(canvasRef, (canvas) => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
 
@@ -84,7 +87,7 @@ export function useCanvasLoop(
       cancelAnimationFrame(rafId);
       if (isDev) window.removeEventListener('keydown', handleKeyDown);
     };
-  }, []);
+  });
 
   return canvasRef;
 }

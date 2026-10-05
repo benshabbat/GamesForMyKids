@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasAttach } from '@/hooks/canvas/useCanvasAttach';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { COLS, GRID_ROWS, R, DIA, SPEED, MIN_MATCH, LETTERS, COLORS } from './bubbleShooterConstants';
 import type { Phase, FlyBubble, PopAnim } from './bubbleShooterConstants';
@@ -177,9 +178,7 @@ export function useBubbleShooterGame() {
     else if (gridTooLow(grid, GRID_ROWS - 1)) { setWon(false); setPhase('result'); }
   }, [placeBubble]));
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  useCanvasAttach(canvasRef, (canvas) => {
     const ro = new ResizeObserver(() => {
       const parent = canvas.parentElement;
       if (!parent) return;
@@ -188,7 +187,7 @@ export function useBubbleShooterGame() {
     });
     ro.observe(canvas.parentElement ?? canvas);
     return () => ro.disconnect();
-  }, [canvasRef]);
+  });
 
   return {
     phase, score, won, LETTERS, COLORS,

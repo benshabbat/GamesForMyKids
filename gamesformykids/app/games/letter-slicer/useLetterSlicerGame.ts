@@ -1,6 +1,7 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { getRandomItem } from '@/lib/utils';
 
@@ -155,16 +156,7 @@ export function useLetterSlicerGame() {
     });
   }, [pickTarget]));
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const obs = new ResizeObserver(entries => {
-      const e = entries[0]; if (!e) return;
-      canvas.width = e.contentRect.width; canvas.height = e.contentRect.height;
-    });
-    obs.observe(canvas);
-    return () => obs.disconnect();
-  }, [canvasRef]);
+  useCanvasResize(canvasRef);
 
   const handlePointer = useCallback((e: React.PointerEvent<HTMLElement>) => {
     if (phaseRef.current !== 'playing') return;
