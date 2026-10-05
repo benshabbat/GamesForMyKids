@@ -14,13 +14,20 @@ interface State {
   current: Location | null;
   foundIds: string[];
   score: number;
+  /** Locations completed so far (progress) — wrong taps do not count, they only retry. */
   total: number;
+  /** True once the current location has had a wrong tap, so it no longer scores. */
+  missedCurrent: boolean;
   lastResult: 'correct' | 'wrong' | null;
 }
 
 interface Actions {
   startGame: (level: 1 | 2) => void;
   checkTap: (svgX: number, svgY: number) => boolean;
+  /** The current location was tapped correctly: score it (first try only) and mark it done. */
+  markFound: () => void;
+  /** The current location was tapped wrongly: the child retries the same location. */
+  markMissed: () => void;
   nextLocation: () => void;
   resetGame: () => void;
 }
@@ -38,6 +45,7 @@ export const useMapStore = create<State & Actions>((set, get) => ({
   foundIds: [],
   score: 0,
   total: 0,
+  missedCurrent: false,
   lastResult: null,
 
   startGame: (level) => {
@@ -50,6 +58,7 @@ export const useMapStore = create<State & Actions>((set, get) => ({
       foundIds: [],
       score: 0,
       total: 0,
+      missedCurrent: false,
       lastResult: null,
     });
   },
@@ -62,6 +71,19 @@ export const useMapStore = create<State & Actions>((set, get) => ({
     return Math.sqrt(dx * dx + dy * dy) <= current.radius;
   },
 
+  markFound: () =>
+    set((s) => {
+      if (!s.current) return s;
+      return {
+        score: s.missedCurrent ? s.score : s.score + 1,
+        total: s.total + 1,
+        foundIds: [...s.foundIds, s.current.id],
+        lastResult: 'correct',
+      };
+    }),
+
+  markMissed: () => set({ missedCurrent: true, lastResult: 'wrong' }),
+
   nextLocation: () => {
     const { queue, total } = get();
     if (total >= QUESTIONS_PER_GAME || queue.length === 0) {
@@ -69,7 +91,7 @@ export const useMapStore = create<State & Actions>((set, get) => ({
       return;
     }
     const [next, ...rest] = queue;
-    set({ current: next ?? null, queue: rest, lastResult: null });
+    set({ current: next ?? null, queue: rest, missedCurrent: false, lastResult: null });
   },
 
   resetGame: () =>
@@ -81,6 +103,7 @@ export const useMapStore = create<State & Actions>((set, get) => ({
       foundIds: [],
       score: 0,
       total: 0,
+      missedCurrent: false,
       lastResult: null,
     }),
 }));

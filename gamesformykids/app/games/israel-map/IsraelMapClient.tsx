@@ -49,7 +49,7 @@ export default function IsraelMapClient() {
           scorePercent={pct}
         >
           <p className="text-center text-blue-700 font-medium mt-2">
-            מצאת {score} מתוך {QUESTIONS_PER_GAME} מקומות!
+            מצאת {score} מתוך {QUESTIONS_PER_GAME} מקומות בניסיון הראשון!
           </p>
         </GameResultCard>
       </div>
