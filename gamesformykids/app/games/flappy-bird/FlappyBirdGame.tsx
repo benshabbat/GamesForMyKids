@@ -14,7 +14,8 @@ export default function FlappyBirdGame() {
       className="min-h-screen bg-gradient-to-b from-sky-500 to-blue-700 flex flex-col items-center justify-center select-none"
       canvasClassName="rounded-3xl shadow-2xl cursor-pointer max-w-full"
       canvasStyle={{ maxHeight: '90vh', width: 'auto' }}
-      canvasProps={{ onClick: handleInput, onTouchStart: handleInput }}
+      // Pointer events only: touchstart + the synthesized click would flap twice per tap.
+      canvasProps={{ onPointerDown: handleInput }}
       overlays={<>
         {phase === 'menu' && (
           <CanvasMenuOverlay
