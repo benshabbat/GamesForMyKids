@@ -123,9 +123,9 @@ export const SCENES: Scene[] = [
       { id: 'p-snack',    emoji: '🧆', label: 'חָטִיף',       category: 'אוכל',     x: 78, y: 75 },
     ],
     prompts: [
-      { text: 'מְצָא 5 מִשְׂחָקִים', category: 'משחקים', count: 5 },
+      { text: 'מְצָא 6 מִשְׂחָקִים', category: 'משחקים', count: 6 },
       { text: 'מְצָא 4 בַּעֲלֵי חַיִּים', category: 'בעלי חיים', count: 4 },
-      { text: 'מְצָא 5 דִּבְרֵי טֶבַע', category: 'טבע', count: 5 },
+      { text: 'מְצָא 6 דִּבְרֵי טֶבַע', category: 'טבע', count: 6 },
     ],
   },
 ];
