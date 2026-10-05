@@ -79,6 +79,8 @@ export function useSnakeGame() {
       s.food = placeFood(newSnake);
       s.foodEmoji = EMOJIS[rnd(EMOJIS.length)]!;
       useGameProgressStore.getState().updateProgress({ score: s.score, level: s.level });
+      // endGame() records the high score from useGameStore's own score, so keep it in sync.
+      useGameStore.getState().updateProgress(s.score, s.level);
     }
 
     scheduleStep();
