@@ -7,7 +7,7 @@
 import { useCallback } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
-import { useAuthStore } from '@/lib/stores/authStore'
+import { useAuthStore, signOutIntentionally } from '@/lib/stores/authStore'
 
 interface AuthHookReturn {
   user: User | null
@@ -30,7 +30,7 @@ export function useAuth(): AuthHookReturn {
   const isGuest = useAuthStore((s) => s.isGuest)
 
   const signOut = useCallback(async () => {
-    if (isSupabaseConfigured) await supabase.auth.signOut().catch(() => {})
+    await signOutIntentionally()
     localStorage.removeItem('guestMode')
     useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: false, loading: false })
   }, [])

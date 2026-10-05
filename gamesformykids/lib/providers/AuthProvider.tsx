@@ -8,7 +8,7 @@
 import { useEffect, ReactNode } from 'react'
 import type { AuthChangeEvent, Session } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
-import { useAuthStore } from '@/lib/stores/authStore'
+import { useAuthStore, isIntentionalSignOut } from '@/lib/stores/authStore'
 import { useUIStore } from '@/lib/stores/uiStore'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           loading: false,
         })
 
-        if (event === 'SIGNED_OUT' && !isGuest) {
+        if (event === 'SIGNED_OUT' && !isGuest && !isIntentionalSignOut()) {
           useUIStore.getState().addNotification(
             'פג תוקף ההתחברות — אנא התחבר שוב כדי לשמור את ההתקדמות',
             'warning',
