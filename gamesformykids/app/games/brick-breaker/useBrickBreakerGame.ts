@@ -122,7 +122,7 @@ export function useBrickBreakerGame() {
   // progression. Clean up on unmount so a stale callback is never called.
   useEffect(() => {
     _nextLevelRef.current = startGame;
-    return () => { _nextLevelRef.current = null; };
+    return () => { if (_nextLevelRef.current === startGame) _nextLevelRef.current = null; };
   }, [startGame]);
 
   const handleClick = useCallback(() => {
