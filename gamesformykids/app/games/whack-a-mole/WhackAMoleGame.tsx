@@ -1,13 +1,19 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useWhackAMoleGame } from './useWhackAMoleGame';
 import WhackAMoleMenuScreen from './components/WhackAMoleMenuScreen';
 import WhackAMoleResultScreen from './components/WhackAMoleResultScreen';
 import WhackHUD from './components/WhackHUD';
 import WhackGrid from './components/WhackGrid';
+import { useWhackAMoleStore } from './whackAMoleStore';
 
 export default function WhackAMoleGame() {
   const { phase, bgColor, whack } = useWhackAMoleGame();
+
+  // The countdown interval lives at module level — stop it (and reset to the menu) when the
+  // player leaves, or it finishes silently and the next visit opens on a stale result.
+  useEffect(() => () => useWhackAMoleStore.getState().abandonGame(), []);
 
   if (phase === 'menu') return <WhackAMoleMenuScreen />;
   if (phase === 'result') return <WhackAMoleResultScreen />;
