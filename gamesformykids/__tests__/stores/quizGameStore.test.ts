@@ -109,12 +109,30 @@ describe('quizGameStore', () => {
       useQuizGameStore.getState().startQuiz('animals', 5);
       useQuizGameStore.getState().selectAnswer('a', true);
       useQuizGameStore.getState().nextQuestion();
-      useQuizGameStore.getState().restartQuiz();
+      useQuizGameStore.getState().restartQuiz('animals', 5);
       const s = useQuizGameStore.getState();
       expect(s.phase).toBe('playing');
       expect(s.index).toBe(0);
       expect(s.score).toBe(0);
       expect(s.selected).toBeNull();
+    });
+
+    it('applies the new gameType and total instead of keeping the previous ones', () => {
+      useQuizGameStore.getState().startQuiz('animals', 10);
+      useQuizGameStore.getState().restartQuiz('colors', 4);
+      const s = useQuizGameStore.getState();
+      expect(s.gameType).toBe('colors');
+      expect(s.total).toBe(4);
+    });
+
+    it('clears streaks from the previous run', () => {
+      useQuizGameStore.getState().startQuiz('animals', 5);
+      useQuizGameStore.getState().selectAnswer('a', true);
+      useQuizGameStore.getState().selectAnswer('b', true);
+      useQuizGameStore.getState().restartQuiz('animals', 5);
+      const s = useQuizGameStore.getState();
+      expect(s.streak).toBe(0);
+      expect(s.bestStreak).toBe(0);
     });
   });
 });
