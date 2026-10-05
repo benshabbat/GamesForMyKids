@@ -148,6 +148,10 @@ export function useSpaceDefenderGame() {
     return () => clearInterval(moveInterval);
   }, [st]);
 
+  // The store outlives this component (client-side navigation) but `st` restarts at
+  // 'menu' on every mount — reset the store when leaving so the two agree.
+  useEffect(() => () => { useSpaceDefenderStore.setState({ phase: 'menu' }); }, []);
+
   const { phase, best, score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 
   return { canvasRef, shoot, startGame, handleMouseMove, handleCanvasClick, handleTouchMove, handleTouchStart,

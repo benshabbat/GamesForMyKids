@@ -1,5 +1,5 @@
 'use client';
-import { useSpaceDefenderGame } from '../useSpaceDefenderGame';
+import { useSpaceDefenderStore } from '../spaceDefenderStore';
 import CanvasGameOverOverlay from '@/components/game/shared/CanvasGameOverOverlay';
 
 interface Props {
@@ -7,7 +7,10 @@ interface Props {
 }
 
 export default function SpaceDefenderResultOverlay({ onRestart }: Props) {
-  const { lives, score, best } = useSpaceDefenderGame();
+  // Read the store directly — calling useSpaceDefenderGame() here would start a second game instance.
+  const lives = useSpaceDefenderStore((s) => s.lives);
+  const score = useSpaceDefenderStore((s) => s.score);
+  const best  = useSpaceDefenderStore((s) => s.best);
   const outOfLives = lives === 0;
   return (
     <CanvasGameOverOverlay
