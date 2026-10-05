@@ -56,7 +56,7 @@ export default function GameAchievementSync() {
               game_type: a.gameType || null,
               metadata: {},
             }).then((row) => {
-              prependAchievement(row);
+              if (row) prependAchievement(row);
             }).catch(() => {});
           }).catch(() => {});
         } else {
