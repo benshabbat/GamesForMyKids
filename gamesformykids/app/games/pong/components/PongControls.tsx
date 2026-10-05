@@ -7,7 +7,7 @@ interface Props {
 
 export default function PongControls({ onNudgeLeft, onNudgeRight }: Props) {
   return (
-    <div className="mt-3 flex gap-4">
+    <div className="mt-3 flex gap-4" dir="ltr">
       <button
         onPointerDown={onNudgeLeft}
         className="bg-slate-700/80 text-white rounded-xl px-8 py-3 text-xl font-bold active:bg-slate-500 touch-none"

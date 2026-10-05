@@ -105,7 +105,7 @@ export default function WordMazeClient() {
         onMove={movePlayer}
       />
 
-      {/* Mobile arrow buttons — always LTR so arrows match canvas direction */}
+      {/* Mobile arrow buttons — LTR so arrows match canvas direction */}
       <div dir="ltr" className="mt-4 grid grid-cols-3 gap-2 w-36">
         <div />
         <button onClick={() => movePlayer(-1, 0)}

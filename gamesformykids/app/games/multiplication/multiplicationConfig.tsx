@@ -6,9 +6,8 @@ import {
 } from './data/tables';
 import { isLevelMastered } from './masteryStorage';
 
-// globals.css forces `direction: rtl` on every element (`* { direction: rtl }`), which
-// overrides inherited direction on any child — so equations need this on each element
-// that renders one, not just a shared ancestor.
+// Equations are rendered inside the RTL page; forcing LTR with bidi-override keeps
+// "7 × 8 = ?" from being reordered into "? = 8 × 7".
 function Eq({ children }: { children: ReactNode }) {
   return <span style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>{children}</span>;
 }

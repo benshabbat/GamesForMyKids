@@ -22,7 +22,8 @@ export function CanvasDPadControls({
   style = { width: 164 },
 }: CanvasDPadControlsProps) {
   return (
-    <div className={`${mt} grid grid-cols-3 gap-2`} style={style}>
+    // LTR so ◀ sits on the left — the page is RTL and would mirror the grid.
+    <div className={`${mt} grid grid-cols-3 gap-2`} style={style} dir="ltr">
       <div />
       <button onPointerDown={onUp} className={buttonClass} aria-label="למעלה">▲</button>
       <div />
