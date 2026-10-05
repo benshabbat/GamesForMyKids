@@ -9,6 +9,7 @@ import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import { useGridFillers } from "@/hooks";
 import { useAgeFilterStore, isAgeAppropriate } from "@/lib/stores/ageFilterStore";
 import { useChampionshipStore } from "@/lib/stores/championshipStore";
+import { useGameOverrides } from "@/hooks/shared/app/useGameOverrides";
 
 const MIN_GAMES_FOR_CHAMPIONSHIP = 3;
 
@@ -27,7 +28,8 @@ export default function CategoryGamesView() {
   const router = useRouter();
   const selectedCategory = useHomePageStore((s) => s.selectedCategory);
   const backToCategories = useHomePageStore((s) => s.backToCategories);
-  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const gameOverrides = useGameOverrides();
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(gameOverrides), [gameOverrides]);
   const ageRange = useAgeFilterStore((s) => s.ageRange);
   const { startChampionship } = useChampionshipStore();
 

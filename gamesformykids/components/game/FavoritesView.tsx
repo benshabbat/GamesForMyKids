@@ -5,10 +5,12 @@ import GameCard from "./GameCard";
 import { GamesRegistry } from "@/lib/registry/gamesRegistry";
 import { useFavoritesStore } from "@/lib/stores";
 import { useGridFillers } from "@/hooks";
+import { useGameOverrides } from "@/hooks/shared/app/useGameOverrides";
 
 export default function FavoritesView() {
   const favoriteIds = useFavoritesStore((s) => s.favoriteIds);
-  const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const gameOverrides = useGameOverrides();
+  const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(gameOverrides), [gameOverrides]);
   const favoriteGames = useMemo(
     () => allGames.filter((g) => favoriteIds.includes(g.id)),
     [allGames, favoriteIds],

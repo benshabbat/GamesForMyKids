@@ -4,6 +4,7 @@ import { GamesRegistry, GameRegistration } from '@/lib/registry/gamesRegistry';
 import { GAME_CATEGORIES } from '@/lib/constants/gameCategories';
 import { useHomePageStore } from '@/lib/stores';
 import { useAgeFilterStore, isAgeAppropriate } from '@/lib/stores/ageFilterStore';
+import { useGameOverrides } from '@/hooks/shared/app/useGameOverrides';
 
 const URL_SYNC_DEBOUNCE_MS = 300;
 
@@ -89,7 +90,8 @@ export function useGameSearch() {
     writeURL('', null);
   }, [writeURL]);
 
-  const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const gameOverrides = useGameOverrides();
+  const allGames = useMemo(() => GamesRegistry.getAllGameRegistrations(gameOverrides), [gameOverrides]);
 
   const filteredGames = useMemo((): GameRegistration[] => {
     let games = allGames.filter((g) => isAgeAppropriate(g.ageMin, ageRange));
