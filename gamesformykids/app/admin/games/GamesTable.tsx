@@ -53,6 +53,7 @@ export function GamesTable({ games }: { games: AdminGameRow[] }) {
         value={search}
         onChange={(e) => setSearch(e.target.value)}
         placeholder="חיפוש משחק..."
+        aria-label="חיפוש משחק"
         className="w-full mb-4 px-4 py-2 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-purple-400"
       />
 
@@ -84,6 +85,7 @@ export function GamesTable({ games }: { games: AdminGameRow[] }) {
                   <td className="py-2 px-2 text-gray-500">{g.playerCount}</td>
                   <td className="py-2 px-2">
                     <select
+                      aria-label={`סטטוס עבור ${g.title}`}
                       value={g.status}
                       disabled={busy}
                       onChange={(e) => handleStatusChange(g.id, e.target.value as GameOverrideStatus)}

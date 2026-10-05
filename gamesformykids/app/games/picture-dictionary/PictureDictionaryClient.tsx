@@ -89,6 +89,7 @@ export default function PictureDictionaryClient() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="חפש מילה בעברית או אנגלית..."
+            aria-label="חיפוש מילה בעברית או אנגלית"
             className="w-full px-4 py-3 rounded-2xl border-2 border-purple-200 focus:border-purple-400 outline-none text-lg font-semibold text-gray-700 bg-white shadow-sm"
             autoFocus
           />

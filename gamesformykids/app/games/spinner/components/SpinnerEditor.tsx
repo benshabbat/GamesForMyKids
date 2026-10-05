@@ -59,6 +59,7 @@ export default function SpinnerEditor({ segments, onAdd, onRemove, onEdit, onPre
               <>
                 <input
                   autoFocus
+                  aria-label={`עריכת קטע ${i + 1}`}
                   value={editingText}
                   onChange={(e) => setEditingText(e.target.value)}
                   onBlur={() => commitEdit(i)}
@@ -93,6 +94,7 @@ export default function SpinnerEditor({ segments, onAdd, onRemove, onEdit, onPre
           onChange={(e) => setNewText(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && handleAdd()}
           placeholder="הוסף קטע..."
+          aria-label="קטע חדש"
           className="flex-1 border border-gray-300 rounded-lg px-3 py-1.5 text-sm text-right focus:outline-none focus:border-indigo-400"
           dir="rtl"
         />

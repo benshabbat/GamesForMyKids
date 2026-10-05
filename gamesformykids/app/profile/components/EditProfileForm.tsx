@@ -12,6 +12,7 @@ export function EditProfileForm() {
         value={editingName}
         onChange={(e) => setEditingName(e.target.value)}
         placeholder="השם שלך"
+        aria-label="השם שלך"
         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
       />
       <div className="flex space-x-2 space-x-reverse">

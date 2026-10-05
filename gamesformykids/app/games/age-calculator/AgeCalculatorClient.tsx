@@ -38,8 +38,9 @@ export default function AgeCalculatorClient() {
           /* Input card */
           <div className="bg-white rounded-3xl shadow-xl p-6 space-y-5">
             <div className="space-y-2">
-              <label className="block text-lg font-bold text-gray-700">תאריך לידה:</label>
+              <label htmlFor="age-calculator-birthday" className="block text-lg font-bold text-gray-700">תאריך לידה:</label>
               <input
+                id="age-calculator-birthday"
                 type="date"
                 value={birthdayInput}
                 onChange={(e) => setBirthdayInput(e.target.value)}

@@ -32,8 +32,9 @@ export default function TeamPickerClient() {
       {!teams ? (
         <div className="bg-white rounded-2xl shadow-xl p-6 w-full max-w-md flex flex-col gap-4">
           <div>
-            <label className="block text-sm font-bold text-gray-700 mb-1">שמות המשתתפים (שורה לכל שם)</label>
+            <label htmlFor="team-picker-names" className="block text-sm font-bold text-gray-700 mb-1">שמות המשתתפים (שורה לכל שם)</label>
             <textarea
+              id="team-picker-names"
               value={namesInput}
               onChange={(e) => setNamesInput(e.target.value)}
               placeholder={'דן\nמיה\nרועי\nנועה\nיוני'}
