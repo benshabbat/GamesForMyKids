@@ -4,7 +4,6 @@ import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useSimonStore, BUTTONS } from './simonStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
-import { getRandomItem } from '@/lib/utils';
 export type { ButtonId } from './simonStore';
 export { BUTTONS };
 
@@ -13,7 +12,7 @@ import type { ButtonId } from './simonStore';
 
 export function useSimonGame() {
   const { phase, activeColor, playerIdx, best, roundScore, sequence, initGame,
-          setActiveColor, setPhase, setPlayerIdx, setRoundScore, setSequence, updateBest } =
+          setActiveColor, setPhase, setPlayerIdx } =
     useSimonStore(useShallow((s) => s));
 
   const flash = (id: ButtonId, ms: number): Promise<void> => {
@@ -66,28 +65,19 @@ export function useSimonGame() {
   }, [phase]);
 
   const handleTap = (id: string) => {
-    const { phase: currentPhase, playerIdx: idx, sequence: seq } = useSimonStore.getState();
-    if (currentPhase !== 'input') return;
+    const result = useSimonStore.getState().registerTap(id as ButtonId);
+    if (result === 'ignored') return;
 
     setActiveColor(id as ButtonId);
     setTimeout(() => setActiveColor(null), 180);
 
-    if (id !== seq[idx]) {
-      setPhase('dead');
-      updateBest(seq.length - 1);
-      setRoundScore(seq.length - 1);
-      return;
-    }
-
-    const next = idx + 1;
-    setPlayerIdx(next);
-
-    if (next >= seq.length) {
-      setRoundScore(seq.length);
-      const nextBtn = getRandomItem([...BUTTONS]).id;
-      const newSeq = [...seq, nextBtn];
-      setSequence(newSeq);
-      setTimeout(() => runSequence(newSeq), 900);
+    if (result === 'round-complete') {
+      // registerTap already flipped the phase to 'showing' (input is locked); replay after
+      // a short pause. Skip it if the game has since been left or ended.
+      setTimeout(() => {
+        const { phase: currentPhase, sequence: seq } = useSimonStore.getState();
+        if (currentPhase === 'showing') runSequence(seq);
+      }, 900);
     }
   };
 
