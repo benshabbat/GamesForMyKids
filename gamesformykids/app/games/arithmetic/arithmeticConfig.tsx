@@ -1,4 +1,5 @@
 import type { TimedMathConfig } from '@/components/game/shared/TimedMathGame';
+import { Equation } from '@/components/game/shared/Equation';
 import { useArithmeticGame } from './useArithmeticGame';
 import { useArithmeticGameStore, stopArithmeticTimer } from './arithmeticGameStore';
 import { LEVELS, LEVEL_EMOJIS, TIME_PER_QUESTION, ArithmeticLevel, ArithmeticQuestion } from './data/questions';
@@ -32,9 +33,13 @@ export const ARITHMETIC_CONFIG: TimedMathConfig<ArithmeticLevel, ArithmeticQuest
   levelButtonClass: 'p-5 rounded-2xl text-white font-bold text-lg shadow-lg hover:scale-105 active:scale-95 transition bg-gradient-to-br from-indigo-500 to-blue-600 text-start',
 
   renderLevelLabel: (lv) => lv.label,
-  renderEquation: (q) => `${q.a} ${q.op} ${q.b} = ?`,
-  renderFeedbackText: (q, ok) =>
-    ok ? `✅ נכון! ${q.a} ${q.op} ${q.b} = ${q.answer}` : `❌ ${q.a} ${q.op} ${q.b} = ${q.answer}`,
+  renderEquation: (q) => <Equation>{q.a} {q.op} {q.b} = ?</Equation>,
+  renderFeedbackText: (q, ok) => (
+    <>
+      {ok ? '✅ נכון! ' : '❌ '}
+      <Equation>{q.a} {q.op} {q.b} = {q.answer}</Equation>
+    </>
+  ),
   answerHoverClass: 'hover:border-indigo-400',
 
   renderResultTitle: (lv) => `${lv.label} — סיום!`,
