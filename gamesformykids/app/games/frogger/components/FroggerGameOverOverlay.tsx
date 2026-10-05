@@ -1,6 +1,7 @@
 'use client';
 
-import { useFroggerGame } from '../useFroggerGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useFroggerStore } from '../froggerStore';
 import CanvasGameOverOverlay from '@/components/game/shared/CanvasGameOverOverlay';
 
 interface Props {
@@ -8,7 +9,8 @@ interface Props {
 }
 
 export default function FroggerGameOverOverlay({ onRestart }: Props) {
-  const { score, best } = useFroggerGame();
+  // Read the store directly — calling useFroggerGame() here would start a second game instance.
+  const { score, best } = useFroggerStore(useShallow(s => ({ score: s.score, best: s.best })));
   return (
     <CanvasGameOverOverlay
       emoji="💀"

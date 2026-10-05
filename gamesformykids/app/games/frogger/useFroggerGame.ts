@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useFroggerStore } from './froggerStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -68,6 +68,7 @@ const _useFrogger = createCanvasArcadeHook({
             if (Math.abs(fx - cx) < CAR_W / 2 - 4) {
               s.lives--; s.dead = true; s.deadTimer = 55; s.fCol = 4; s.fRow = 8;
               if (s.lives <= 0) { s.phase = 'dead'; saveRef.current({ score: s.score, level: s.level, durationSeconds: Math.round((Date.now() - s.startTime) / 1000) }); useFroggerStore.getState().endGame(s.score); }
+              else { useFroggerStore.getState().setLives(s.lives); }
             }
           }
         }
@@ -155,6 +156,10 @@ export function useFroggerGame() {
     ArrowLeft: () => moveFrog(-1, 0), a: () => moveFrog(-1, 0),
     ArrowRight: () => moveFrog(1, 0), d: () => moveFrog(1, 0),
   });
+
+  // The store outlives this component (client-side navigation) but `st` restarts at
+  // 'menu' on every mount — reset the store when leaving so the two agree.
+  useEffect(() => () => { useFroggerStore.getState().resetToMenu(); }, []);
 
   const { phase, score, lives, best } = useFroggerStore(useShallow(s => ({ phase: s.phase, score: s.score, lives: s.lives, best: s.best })));
 
