@@ -3,7 +3,7 @@ import type { TzaddikStory } from '../types';
 export const MENACHEM_MENDEL_MI_VITEBSK_STORY: TzaddikStory = {
   id: 'the-alter-of-kelm',
   name: "הרב מנחם מנדל מוויטבסק",
-  years: 'תק"ל – תקנ"ח (1730–1788)',
+  years: 'ת"צ – תקמ"ח (1730–1788)',
   emoji: '🌿',
   color: 'from-lime-500 to-green-600',
   bgGradient: 'from-lime-50 to-green-100',

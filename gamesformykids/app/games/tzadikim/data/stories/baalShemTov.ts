@@ -3,7 +3,7 @@ import type { TzaddikStory } from '../types';
 export const BAAL_SHEM_TOV_STORY: TzaddikStory = {
   id: 'baal-shem-tov',
   name: 'הבעל שם טוב',
-  years: 'תנ"ח – ק"כ (1698–1760)',
+  years: 'תנ"ח – תק"כ (1698–1760)',
   emoji: '✨',
   color: 'from-blue-500 to-indigo-600',
   bgGradient: 'from-blue-50 to-indigo-100',
