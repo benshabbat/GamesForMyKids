@@ -1,12 +1,12 @@
 'use client';
 import { useWordMaze } from './useWordMaze';
 import WordMazeCanvas from './components/WordMazeCanvas';
-import type { MazeDifficulty } from '@/lib/constants/wordMazeWords';
+import { MAZE_WORD_LENGTH, type MazeDifficulty } from '@/lib/constants/wordMazeWords';
 
 const LEVEL_LABELS: Record<MazeDifficulty, string> = {
-  easy: 'קל (3 אותיות)',
-  medium: 'בינוני (4 אותיות)',
-  hard: 'קשה (5 אותיות)',
+  easy: `קל (${MAZE_WORD_LENGTH.easy} אותיות)`,
+  medium: `בינוני (${MAZE_WORD_LENGTH.medium} אותיות)`,
+  hard: `קשה (${MAZE_WORD_LENGTH.hard} אותיות)`,
 };
 
 export default function WordMazeClient() {
