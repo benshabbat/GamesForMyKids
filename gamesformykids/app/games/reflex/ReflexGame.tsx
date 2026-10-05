@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useReflexStore } from './reflexStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
@@ -14,6 +15,10 @@ export default function ReflexGame() {
   // which unmounts at the very moment the phase becomes 'result', so it never saw the end.
   const { saveGameResultRef } = useGameCompletion('reflex');
   usePhaseGameCompletion(phase, saveGameResultRef, () => ({ score: useReflexStore.getState().score, level: 1 }));
+
+  // The countdown interval lives at module level — stop it (and reset to the menu) when the
+  // player leaves, or it finishes silently and the next visit opens on a stale result.
+  useEffect(() => () => useReflexStore.getState().abandonGame(), []);
 
   if (phase === 'menu')    return <ReflexMenuScreen />;
   if (phase === 'playing') return <ReflexPlayScreen />;

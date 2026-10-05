@@ -22,6 +22,10 @@ export function useReflexGame() {
     }
 
     nextIdRef.current = 0;
+    // Pending "target disappeared" timers. They must not outlive the round: after the game ends
+    // they would keep counting misses on the result screen, and in the next round they would
+    // expire new targets that reuse the same ids.
+    const expiryTimers = new Set<ReturnType<typeof setTimeout>>();
 
     function spawnNext() {
       const store = useReflexStore.getState();
@@ -39,7 +43,11 @@ export function useReflexGame() {
       };
       store.addTarget(target);
 
-      setTimeout(() => useReflexStore.getState().expireTarget(id), target.lifetime);
+      const expiry = setTimeout(() => {
+        expiryTimers.delete(expiry);
+        useReflexStore.getState().expireTarget(id);
+      }, target.lifetime);
+      expiryTimers.add(expiry);
 
       spawnIdRef.current = setTimeout(spawnNext, getSpawnInterval(useReflexStore.getState().score));
     }
@@ -48,6 +56,8 @@ export function useReflexGame() {
 
     return () => {
       if (spawnIdRef.current) { clearTimeout(spawnIdRef.current); spawnIdRef.current = null; }
+      expiryTimers.forEach(clearTimeout);
+      expiryTimers.clear();
     };
   }, [state.phase]);
 
