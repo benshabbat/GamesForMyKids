@@ -19,10 +19,9 @@
   text-align: center;
 }
 
-/* RTL Support */
-* {
-  direction: rtl;
-}
+/* RTL Support — <html dir="rtl"> sets the direction and every element inherits it.
+   Don't force `direction` on `*` here: an author rule on every element overrides the
+   `dir` attribute, so `dir="ltr"` on boards, keypads and equations was silently ignored. */
 
 /* הפיכת חצים לכיוון נכון עבור RTL */
 .rtl-arrow-left {

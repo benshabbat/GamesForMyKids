@@ -82,8 +82,8 @@ export default function MazeClient() {
 
       <p className="text-xs text-indigo-400">הגע ל-🚪 כדי לסיים</p>
 
-      {/* D-pad for mobile */}
-      <div className="grid grid-cols-3 gap-2">
+      {/* D-pad for mobile — LTR so ◀ sits on the left */}
+      <div className="grid grid-cols-3 gap-2" dir="ltr">
         <div />
         <DPadBtn label="▲" onClick={() => move('N')} />
         <div />

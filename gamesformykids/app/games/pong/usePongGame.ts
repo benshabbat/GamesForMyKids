@@ -15,7 +15,7 @@ const PAD_H = 12;
 const BALL_R = 8;
 const AI_SPEED = 3.5;
 
-const _usePong = createCanvasArcadeHook({
+const usePongBase = createCanvasArcadeHook({
   gameType: 'pong',
   width: W,
   height: H,
@@ -95,7 +95,7 @@ const _usePong = createCanvasArcadeHook({
 });
 
 export function usePongGame() {
-  const { st, canvasRef, handlers } = _usePong();
+  const { st, canvasRef, handlers } = usePongBase();
 
 
   const startGame = () => {

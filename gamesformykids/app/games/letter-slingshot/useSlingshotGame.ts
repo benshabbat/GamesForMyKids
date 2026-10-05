@@ -59,7 +59,12 @@ export function useSlingshotGame() {
     const chosen = shuffled(LEVELS).slice(0, LEVELS_PER_GAME);
     gameLevelsRef.current = chosen;
     scoreRef.current = 0;
+    levelIdxRef.current = 0;
+    boxesRef.current = [];
+    feedbackTimerRef.current = 0;
+    dragRef.current = { active: false, dx: 0, dy: 0 };
     setScore(0);
+    setLevelIdx(0);
     phaseRef.current = 'aiming';
     setPhase('aiming');
   }, []);

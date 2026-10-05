@@ -30,6 +30,22 @@ export interface AuthActions {
   reset: () => void;
 }
 
+// True only while the user is deliberately signing out. AuthProvider reads it
+// to avoid showing the "session expired" toast for an intentional sign-out.
+let intentionalSignOut = false;
+export const isIntentionalSignOut = () => intentionalSignOut;
+
+/** Sign out of Supabase, flagging the resulting SIGNED_OUT event as user-initiated. */
+export async function signOutIntentionally(): Promise<void> {
+  if (!isSupabaseConfigured) return;
+  intentionalSignOut = true;
+  try {
+    await supabase.auth.signOut().catch(() => {});
+  } finally {
+    intentionalSignOut = false;
+  }
+}
+
 const INITIAL_STATE: AuthState = {
   user: null,
   session: null,
@@ -48,7 +64,7 @@ export const useAuthStore = makeStore<AuthState & AuthActions>('AuthStore', (set
       setAuthState: (state) => set(state, false, 'auth/setAuthState'),
 
       signOut: async () => {
-        if (isSupabaseConfigured) await supabase.auth.signOut().catch(() => {});
+        await signOutIntentionally();
         if (typeof localStorage !== 'undefined') localStorage.removeItem('guestMode');
         set({ user: null, session: null, isGuest: false, loading: false }, false, 'auth/signOut');
       },

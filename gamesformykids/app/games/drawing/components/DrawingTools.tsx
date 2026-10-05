@@ -2,11 +2,10 @@
 
 import styles from '../drawing.module.css';
 import { useDrawingStore } from '../store/drawingStore';
-import { useDrawingGame } from '../hooks/useDrawingGame';
 
 export default function DrawingTools() {
   const { brushSize, eraserSize, isErasing, setBrushSize, setEraserSize, toggleEraser, selectDrawMode, clearCanvas } = useDrawingStore();
-  const { isMobileDevice } = useDrawingGame();
+  const isMobileDevice = useDrawingStore((s) => s.isMobileDevice);
   return (
     <div className="bg-white rounded-2xl shadow-lg p-6">
       <div className="text-lg font-bold text-gray-700 mb-4 text-center">🛠️ כלים</div>
@@ -41,11 +40,12 @@ export default function DrawingTools() {
       {/* גודל מברשת */}
       {!isErasing && (
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-600 mb-3 text-center">
+          <label htmlFor="drawing-brush-size" className="block text-sm font-medium text-gray-600 mb-3 text-center">
             גודל מברשת: <span className="font-bold text-blue-600">{brushSize}px</span>
           </label>
           <div className="px-2">
             <input
+              id="drawing-brush-size"
               type="range"
               min="1"
               max={isMobileDevice ? "15" : "20"}
@@ -60,11 +60,12 @@ export default function DrawingTools() {
       {/* גודל מחק */}
       {isErasing && (
         <div className="mb-6">
-          <label className="block text-sm font-medium text-gray-600 mb-3 text-center">
+          <label htmlFor="drawing-eraser-size" className="block text-sm font-medium text-gray-600 mb-3 text-center">
             גודל מחק: <span className="font-bold text-orange-600">{eraserSize}px</span>
           </label>
           <div className="px-2">
             <input
+              id="drawing-eraser-size"
               type="range"
               min="5"
               max={isMobileDevice ? "30" : "40"}

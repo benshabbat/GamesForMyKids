@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
 import { useEmojiMathStore, TIME_PER_Q } from '@/app/games/emoji-math/emojiMathStore';
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 
 const store = useEmojiMathStore;
 
@@ -10,6 +11,8 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
+  useGameDifficulty.setState({ difficulty: 'medium' });
 });
 
 describe('emojiMathStore', () => {
@@ -112,6 +115,37 @@ describe('emojiMathStore', () => {
       expect(store.getState().feedback).toBe('correct');
       vi.advanceTimersByTime(900);
       expect(store.getState().feedback).toBeNull();
+    });
+  });
+
+  describe('difficulty', () => {
+    it('starts with the easy time and lives', () => {
+      useGameDifficulty.setState({ difficulty: 'easy' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(12);
+      expect(store.getState().lives).toBe(5);
+    });
+
+    it('keeps the difficulty time on later questions (not the medium default)', () => {
+      useGameDifficulty.setState({ difficulty: 'hard' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(5);
+      store.getState().tap(store.getState().q.answer);
+      vi.advanceTimersByTime(900);
+      expect(store.getState().feedback).toBeNull();
+      expect(store.getState().timeLeft).toBe(5);
+    });
+  });
+
+  describe('abandonGame', () => {
+    it('returns to the menu and stops the countdown so lives stop draining', () => {
+      vi.stubGlobal('window', {});
+      store.getState().startGame();
+      store.getState().abandonGame();
+      expect(store.getState().phase).toBe('menu');
+      vi.advanceTimersByTime(60_000);
+      expect(store.getState().lives).toBe(3);
+      expect(store.getState().phase).toBe('menu');
     });
   });
 });

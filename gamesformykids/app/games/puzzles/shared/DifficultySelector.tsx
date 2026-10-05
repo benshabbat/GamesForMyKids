@@ -11,6 +11,7 @@ export default function DifficultySelector({ variant = 'buttons' }: { variant?: 
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <span className="text-blue-800 font-bold text-lg">🎯 רמת קושי נוכחית:</span>
           <select
+            aria-label="רמת קושי"
             value={difficulty}
             onChange={(e) => changeDifficulty(Number(e.target.value))}
             className="px-4 py-3 border-2 border-blue-300 rounded-xl bg-white text-blue-800 font-semibold text-lg shadow-sm hover:shadow-md transition duration-200 focus:ring-2 focus:ring-blue-400"

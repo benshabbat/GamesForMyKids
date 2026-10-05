@@ -1,3 +1,5 @@
+import { getLocalDateKey, getYesterdayLocalDateKey } from './localDate';
+
 export interface LoginStreak {
   count: number;
   isNew: boolean;
@@ -10,13 +12,13 @@ export function getDailyLoginStreak(profileId?: string | null): LoginStreak {
   const STREAK_KEY = `gfk_login_streak${s}`;
   const LAST_DATE_KEY = `gfk_login_last_date${s}`;
   try {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = getLocalDateKey();
     const lastDate = localStorage.getItem(LAST_DATE_KEY);
     const streak = parseInt(localStorage.getItem(STREAK_KEY) ?? '0', 10);
 
     if (lastDate === today) return { count: streak, isNew: false };
 
-    const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+    const yesterday = getYesterdayLocalDateKey();
     const newStreak = lastDate === yesterday ? streak + 1 : 1;
 
     localStorage.setItem(LAST_DATE_KEY, today);

@@ -1,10 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { getLocalDateKey } from '@/lib/utils/engagement/localDate';
 
 type Rating = 'up' | 'down';
 
 function ratingKey(gameType: string): string {
-  const date = new Date().toISOString().slice(0, 10);
+  const date = getLocalDateKey();
   return `gfk_rating_${gameType}_${date}`;
 }
 

@@ -43,7 +43,8 @@ export default function EscapeRoomClient() {
     );
   }
 
-  if (phase === 'result' && room) {
+  // After the last puzzle, let its success overlay finish before showing the result.
+  if (phase === 'result' && room && !activePuzzle) {
     return (
       <GameResultCard
         emoji="🔓"

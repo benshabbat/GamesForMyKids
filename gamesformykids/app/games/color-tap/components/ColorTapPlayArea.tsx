@@ -1,5 +1,5 @@
 'use client';
-import { useColorTapGame, TIME_PER_Q } from '../useColorTapGame';
+import { useColorTapGame, getTimePerQ } from '../useColorTapGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
 import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
@@ -45,7 +45,7 @@ export default function ColorTapPlayArea() {
           <p className="text-4xl font-black text-gray-700">{question.target.name}</p>
         </div>
         <TimerProgressBar
-          pct={(timeLeft / TIME_PER_Q) * 100}
+          pct={(timeLeft / getTimePerQ()) * 100}
           trackClass="h-2 bg-gray-100 w-full mx-auto"
           barClass="bg-gradient-to-r from-pink-400 to-purple-500"
         />

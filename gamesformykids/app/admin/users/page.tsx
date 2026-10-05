@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/supabase/requireAdmin';
 import { createAdminClient } from '@/lib/supabase/adminClient';
+import { fetchAllRows } from '@/lib/supabase/fetchAllRows';
 import { UsersTable, type AdminUserRow } from './UsersTable';
 
 export const metadata: Metadata = {
@@ -11,24 +12,34 @@ export const metadata: Metadata = {
 export default async function AdminUsersPage() {
   const { supabase, user: currentUser } = await requireAdmin();
 
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, full_name, avatar_url, role, created_at')
-    .order('created_at', { ascending: false });
+  const profiles = await fetchAllRows((from, to) =>
+    supabase
+      .from('profiles')
+      .select('id, full_name, avatar_url, role, created_at')
+      .order('created_at', { ascending: false })
+      .order('id')
+      .range(from, to)
+  );
 
   // Ban status lives on auth.users, not profiles — needs the service-role client.
-  // perPage covers this app's user-scale; would need pagination if it ever grows large.
   const bannedIds = new Set<string>();
   try {
-    const { data: authUsers } = await createAdminClient().auth.admin.listUsers({ perPage: 1000 });
-    for (const u of authUsers?.users ?? []) {
-      if (u.banned_until && new Date(u.banned_until) > new Date()) bannedIds.add(u.id);
+    const admin = createAdminClient();
+    const perPage = 1000;
+    for (let page = 1; ; page++) {
+      const { data: authUsers, error } = await admin.auth.admin.listUsers({ page, perPage });
+      if (error) break;
+      const users = authUsers?.users ?? [];
+      for (const u of users) {
+        if (u.banned_until && new Date(u.banned_until) > new Date()) bannedIds.add(u.id);
+      }
+      if (users.length < perPage) break;
     }
   } catch {
     // Service role not configured yet — suspend status just won't show; role/delete still work.
   }
 
-  const rows: AdminUserRow[] = (profiles ?? []).map((p) => ({
+  const rows: AdminUserRow[] = profiles.map((p) => ({
     id: p.id,
     full_name: p.full_name,
     avatar_url: p.avatar_url,

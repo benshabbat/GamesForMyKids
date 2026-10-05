@@ -1,34 +1,22 @@
 'use client';
-import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useTrueFalseStore } from './trueFalseStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 
 export type { Fact } from './trueFalseStore';
-export { FACTS, TIME_PER_Q } from './trueFalseStore';
+export { FACTS, getTimePerQ } from './trueFalseStore';
 
-const _useStore = createShallowHook(useTrueFalseStore);
+const useStoreBase = createShallowHook(useTrueFalseStore);
 
 export function useTrueFalseGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('true-false');
-  const startTimeRef = useRef<number>(0);
 
-  // Record start time when game begins
-  useEffect(() => {
-    if (state.phase === 'playing') {
-      startTimeRef.current = Date.now();
-    }
-  }, [state.phase]);
-
-  // Persist result when game ends
-  useEffect(() => {
-    if (state.phase === 'dead') {
-      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-      saveGameResultRef.current({ score: state.score, level: 1, durationSeconds });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase]);
+  // Save once, on the playing → dead transition. Tracking the transition (rather than
+  // "phase === 'dead'") matters because the result screen also calls this hook: it mounts
+  // already in 'dead' and must not save a second, start-time-less result.
+  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }), ['dead']);
 
   return { ...state, q: state.deck[state.idx] };
 }

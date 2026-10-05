@@ -1,9 +1,15 @@
 'use client';
 
 import { useSoccerQuestion } from '../hooks/useSoccerQuestion';
+import type { SoccerQuestion } from '../data/soccer';
 
-export default function SoccerAnswerGrid() {
-  const { isAnswered, currentQuestion, answerClass, selectAnswer } = useSoccerQuestion();
+interface Props {
+  current: SoccerQuestion;
+  onSelect: (idx: number) => void;
+}
+
+export default function SoccerAnswerGrid({ current, onSelect }: Props) {
+  const { isAnswered, currentQuestion, answerClass } = useSoccerQuestion(current);
   if (!currentQuestion) return null;
 
   return (
@@ -11,7 +17,7 @@ export default function SoccerAnswerGrid() {
       {currentQuestion.answers.map((ans, idx) => (
         <button
           key={idx}
-          onClick={() => selectAnswer(idx)}
+          onClick={() => onSelect(idx)}
           disabled={isAnswered}
           className={answerClass(idx)}
         >

@@ -21,21 +21,25 @@ export default function MetadataForm({ id, title, emoji, theme, onIdChange, onTi
         value={id}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onIdChange(e.target.value)}
         placeholder="id (kebab-case)"
+        aria-label="מזהה התמונה (kebab-case)"
         className="rounded-xl px-3 py-2 text-sm bg-white/90"
       />
       <input
         value={title}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onTitleChange(e.target.value)}
         placeholder="כותרת בעברית"
+        aria-label="כותרת בעברית"
         className="rounded-xl px-3 py-2 text-sm bg-white/90"
       />
       <input
         value={emoji}
         onChange={(e: ChangeEvent<HTMLInputElement>) => onEmojiChange(e.target.value)}
         placeholder="אימוג'י"
+        aria-label="אימוג'י"
         className="rounded-xl px-3 py-2 text-sm bg-white/90"
       />
       <select
+        aria-label="נושא"
         value={theme}
         onChange={(e) => onThemeChange(e.target.value as DotToDotTheme)}
         className="rounded-xl px-3 py-2 text-sm bg-white/90"

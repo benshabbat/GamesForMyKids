@@ -3,7 +3,7 @@ import type { TakiGameState, TakiCard, CardColor } from './takiTypes';
 import { INITIAL_STATE } from './takiTypes';
 import { buildDeck } from './takiDeck';
 import { shuffle } from '@/lib/utils';
-import { canPlay, resolvePlayCard, resolveComputerTurn } from './takiLogic';
+import { canPlay, resolvePlayCard, resolveComputerTurn, drawCards } from './takiLogic';
 import { getColorName, getValueLabel } from './takiDisplay';
 
 // Re-export public API so components can keep their existing imports
@@ -70,10 +70,13 @@ export const useTakiStore = makeStore<TakiGameState & TakiGameActions>('TakiStor
     if (prev.phase !== 'playing' || prev.currentTurn !== 'player') return;
     if (prev.inTakiSequence) { set({ message: 'אתה בטאקי  שחק קלף או סגור' }); return; }
     if (prev.needsColorChoice) { set({ message: 'קודם בחר צבע!' }); return; }
-    if (prev.deck.length === 0) { set({ message: 'הקלחפה ריקה!' }); return; }
-    const newDeck = [...prev.deck];
-    const drawn = newDeck.pop();
-    if (!drawn) return;
+    const { drawn: drawnCards, deck: newDeck } = drawCards(prev.deck, 1, [...prev.playerHand, ...prev.computerHand, prev.topCard]);
+    const drawn = drawnCards[0];
+    if (!drawn) {
+      // Nothing left to draw even after reshuffling the discards — pass the turn instead of freezing
+      set({ ...prev, currentTurn: 'computer', turnId: prev.turnId + 1, message: 'אין קלפים למשיכה. תור המחשב...' });
+      return;
+    }
     set({ ...prev, deck: newDeck, playerHand: [...prev.playerHand, drawn], currentTurn: 'computer', turnId: prev.turnId + 1, message: `משכת קלף (${getColorName(drawn.color)} ${getValueLabel(drawn.value)}). תור המחשב...` });
   },
 

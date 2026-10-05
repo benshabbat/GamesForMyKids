@@ -196,7 +196,6 @@ export const useMemoryStore = makeStore<MemoryStoreState & MemoryStoreActions>(
           matchedPairs: outcome.matchedPairs,
           flippedCards: outcome.flippedCards,
           gameStats: outcome.gameStats,
-          lastMatchWasSuccess: outcome.isMatch,
           players: updatedPlayers,
           currentPlayer: nextPlayer,
         },

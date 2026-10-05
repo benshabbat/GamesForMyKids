@@ -1,5 +1,5 @@
 'use client';
-import { useEmojiMathGame, TIME_PER_Q } from '../useEmojiMathGame';
+import { useEmojiMathGame, getTimePerQ } from '../useEmojiMathGame';
 import LivesDisplay from '@/components/game/shared/LivesDisplay';
 import TimerProgressBar from '@/components/game/shared/TimerProgressBar';
 import { useKeyboardControls } from '@/hooks/shared/game-controls/useKeyboardControls';
@@ -63,7 +63,7 @@ export default function EmojiMathPlayArea() {
         </div>
         <p className="text-center text-4xl font-black text-gray-700">= ?</p>
         <TimerProgressBar
-          pct={(timeLeft / TIME_PER_Q) * 100}
+          pct={(timeLeft / getTimePerQ()) * 100}
           trackClass="mt-3 h-1.5 bg-gray-100"
           barClass="bg-gradient-to-r from-yellow-400 to-orange-500"
         />

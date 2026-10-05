@@ -20,7 +20,7 @@ export interface QuizGameActions {
   selectAnswer: (id: string, isCorrect: boolean) => void;
   nextQuestion: () => void;
   goToMenu: () => void;
-  restartQuiz: () => void;
+  restartQuiz: (gameType: string, total: number) => void;
 }
 
 const INITIAL_STATE: QuizGameState = {
@@ -79,9 +79,9 @@ export const useQuizGameStore = makeStore<QuizGameState & QuizGameActions>('Quiz
       goToMenu: () =>
         set({ ...INITIAL_STATE }, false, 'quiz/goToMenu'),
 
-      restartQuiz: () =>
+      restartQuiz: (gameType, total) =>
         set(
-          { phase: 'playing', index: 0, score: 0, streak: 0, bestStreak: 0, selected: null, isCorrect: null },
+          { phase: 'playing', gameType, index: 0, total, score: 0, streak: 0, bestStreak: 0, selected: null, isCorrect: null },
           false,
           'quiz/restartQuiz',
         ),

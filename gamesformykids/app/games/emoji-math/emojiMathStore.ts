@@ -44,6 +44,10 @@ export const TIME_PER_Q = 8;
 
 const DIFFICULTY_TIME_EM = { easy: 12, medium: TIME_PER_Q, hard: 5 } as const;
 
+/** Seconds allowed per question at the current difficulty — use as the denominator of the time bar. */
+export const getTimePerQ = () => DIFFICULTY_TIME_EM[useGameDifficulty.getState().difficulty];
+const getInitialLives = () => DEFAULT_DIFFICULTY_LIVES[useGameDifficulty.getState().difficulty];
+
 interface EmojiMathState extends LivesGameState {
   q:      Question;
   level:  number;
@@ -52,6 +56,8 @@ interface EmojiMathState extends LivesGameState {
 
 interface EmojiMathActions {
   startGame: () => void;
+  /** Player left the page mid-game: stop the timers and go back to the menu. */
+  abandonGame: () => void;
   tap:       (choice: number) => void;
 }
 
@@ -62,7 +68,7 @@ export const useEmojiMathStore = makePersistStore<EmojiMathState & EmojiMathActi
   'emoji-math-best',
   (set, get) => {
     const timer = setupLivesTimer({
-      name: 'EmojiMathStore', timePerQ: TIME_PER_Q, feedbackMs: 900, initialLives: 3,
+      name: 'EmojiMathStore', timePerQ: getTimePerQ, feedbackMs: 900, initialLives: getInitialLives,
       set, get,
       getNextUpdates: () => ({ q: makeQuestion(get().level) }),
     });
@@ -71,9 +77,12 @@ export const useEmojiMathStore = makePersistStore<EmojiMathState & EmojiMathActi
       ...INITIAL,
 
       startGame: () => {
-        const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ q: makeQuestion(1), level: 1, streak: 0 }));
-        set({ lives: DEFAULT_DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_EM[diff] });
+      },
+
+      abandonGame: () => {
+        timer.stop();
+        set({ phase: 'menu', feedback: null }, false, 'EmojiMathStore/abandonGame');
       },
 
       tap: (choice: number) => {

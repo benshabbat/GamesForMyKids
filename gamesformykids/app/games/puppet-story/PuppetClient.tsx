@@ -2,7 +2,7 @@
 import { usePuppetStore } from './puppetStore';
 import { CharacterPicker, SettingPicker } from './components/CharacterPicker';
 import PuppetStage from './components/PuppetStage';
-import { resolveText } from './data/storyTemplates';
+import PuppetQuestion from './components/PuppetQuestion';
 
 export default function PuppetClient() {
   const {
@@ -46,26 +46,16 @@ export default function PuppetClient() {
         const q = template.questions[questionIndex];
         if (!q) return null;
         return (
-          <div className="flex flex-col items-center gap-4 w-full max-w-sm" dir="rtl">
-            <p className="text-xs text-purple-500">שאלה {questionIndex + 1} מתוך {template.questions.length}</p>
-            <div className="bg-white rounded-2xl p-5 shadow w-full text-center">
-              <p className="text-5xl mb-3">🤔</p>
-              <p className="text-lg font-bold text-gray-800">
-                {resolveText(q.question, char1, char2, setting)}
-              </p>
-            </div>
-            <div className="grid grid-cols-2 gap-3 w-full">
-              {q.options.map((opt, i) => (
-                <button
-                  key={i}
-                  onClick={() => answerQuestion(i)}
-                  className="bg-white hover:bg-purple-50 active:scale-95 border-2 border-purple-200 text-gray-800 font-semibold text-sm px-3 py-3 rounded-2xl shadow transition text-center"
-                >
-                  {resolveText(opt, char1, char2, setting)}
-                </button>
-              ))}
-            </div>
-          </div>
+          <PuppetQuestion
+            key={questionIndex}
+            question={q}
+            questionNum={questionIndex + 1}
+            total={template.questions.length}
+            char1={char1}
+            char2={char2}
+            setting={setting}
+            onAnswer={answerQuestion}
+          />
         );
       })()}
 

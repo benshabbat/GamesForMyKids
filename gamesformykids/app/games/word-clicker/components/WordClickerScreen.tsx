@@ -8,11 +8,13 @@ export default function WordClickerScreen() {
     useWordClickerStore();
   const word = words[wordIndex] ?? '';
 
+  // Say the word once it has been built (currentLetterIndex stays on the last letter when the
+  // word completes, so it can't be used to detect completion).
   useEffect(() => {
-    if (feedback === 'correct' && currentLetterIndex === 0 && word) {
+    if (wordComplete && word) {
       void speakHebrew(WORD_PRONUNCIATIONS[word] ?? word);
     }
-  }, [wordIndex, feedback, word, currentLetterIndex]);
+  }, [wordComplete, word]);
 
   // Clear partial-word correct feedback after 600 ms (word-complete feedback stays until nextWord)
   useEffect(() => {
@@ -53,7 +55,7 @@ export default function WordClickerScreen() {
           </div>
 
           {/* Built letters so far */}
-          <div className="flex justify-center gap-1 mt-2 flex-row-reverse">
+          <div className="flex justify-center gap-1 mt-2">
             {word.split('').map((letter, i) => (
               <span
                 key={i}

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { testSpeech } from "@/lib/utils/speech/enhancedSpeechUtils";
 
-export default function ButtonCheckAudio() {
+export default function ButtonCheckAudio({ hintClassName = "text-gray-600" }: { hintClassName?: string }) {
   const [audioError, setAudioError] = useState(false);
 
   const handleTestSpeech = async () => {
@@ -20,7 +20,7 @@ export default function ButtonCheckAudio() {
       >
         🎤 בדיקת שמע
       </button>
-      <p className="text-sm text-gray-600 mt-2">
+      <p className={`text-sm mt-2 ${hintClassName}`}>
         לחץ לבדיקה אם אתה שומע &quot;בדיקה&quot;
       </p>
       {audioError && (

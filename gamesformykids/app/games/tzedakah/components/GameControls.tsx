@@ -1,9 +1,13 @@
 'use client';
-import { useCharityCoinGame } from '../useCharityCoinGame';
+import { useTzedakahStore } from '../tzedakahStore';
 
 export default function GameControls() {
-  const { gameStarted, gameTime, score, collectedCoins, isMobile, startGame } =
-    useCharityCoinGame();
+  const gameStarted    = useTzedakahStore((s) => s.gameStarted);
+  const gameTime       = useTzedakahStore((s) => s.gameTime);
+  const score          = useTzedakahStore((s) => s.score);
+  const collectedCoins = useTzedakahStore((s) => s.collectedCoins);
+  const isMobile       = useTzedakahStore((s) => s.isMobile);
+  const startGame      = useTzedakahStore((s) => s.startGame);
 
   return (
     <div className="flex justify-center mb-6">
@@ -18,7 +22,7 @@ export default function GameControls() {
         </button>
       )}
 
-      {gameTime <= 0 && score > 0 && (
+      {gameTime <= 0 && (
         <div className={`bg-gradient-to-r from-yellow-100 to-orange-100 border-4 border-yellow-400 rounded-2xl text-center shadow-2xl mx-auto ${
           isMobile ? 'p-4 max-w-sm' : 'p-6 max-w-md'
         }`}>

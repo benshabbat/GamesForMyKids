@@ -42,8 +42,8 @@ export default function GameAchievementSync() {
       const earned = checkAchievements(sessions, newSession, alreadyEarned);
 
       for (const a of earned) {
-        // Show toast notification
-        addNotification(`${a.icon} הישג חדש: ${a.name}! ${a.description}`, 'success');
+        const notify = () =>
+          addNotification(`${a.icon} הישג חדש: ${a.name}! ${a.description}`, 'success');
 
         if (user) {
           findAchievement(user.id, a.type, a.gameType).then((existing) => {
@@ -56,10 +56,14 @@ export default function GameAchievementSync() {
               game_type: a.gameType || null,
               metadata: {},
             }).then((row) => {
+              // Toast only for a genuinely new achievement (a null row means it already existed).
+              if (!row) return;
               prependAchievement(row);
+              notify();
             }).catch(() => {});
           }).catch(() => {});
         } else {
+          notify();
           saveLocalAchievementType(a.type);
         }
       }

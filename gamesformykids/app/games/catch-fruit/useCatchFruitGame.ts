@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useCatchFruitStore, GAME_DURATION } from './catchFruitStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
@@ -19,7 +19,7 @@ const GOOD_FRUITS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝', '�
 const BAD_ITEMS = ['💣', '☠️', '🪨'];
 let idCounter = 0;
 
-const _useCatchFruit = createCanvasArcadeHook({
+const useCatchFruitBase = createCanvasArcadeHook({
   gameType: 'catch-fruit',
   width: W,
   height: H,
@@ -109,7 +109,7 @@ const _useCatchFruit = createCanvasArcadeHook({
 });
 
 export function useCatchFruitGame() {
-  const { st, canvasRef } = _useCatchFruit();
+  const { st, canvasRef } = useCatchFruitBase();
 
 
   const dragging = useRef(false);
@@ -169,6 +169,11 @@ export function useCatchFruitGame() {
     st.current.basketX = Math.max(0, Math.min(W - BASKET_W, mx - BASKET_W / 2));
     if (st.current.phase !== 'playing') startGame();
   };
+
+  // The store outlives this component (client-side navigation) but `st` restarts at 'menu'
+  // on every mount. Without this a player who left mid-game came back to a 'playing' HUD
+  // with no start button, and mouse users had no way to start (only touch calls startGame).
+  useEffect(() => () => { useCatchFruitStore.setState({ phase: 'menu' }); }, []);
 
   const { phase, best, score, lives, timeLeft } = useCatchFruitStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 

@@ -2,9 +2,11 @@
 import { useState, useCallback, useMemo } from 'react';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 import { STORY_TEMPLATES, type StoryTemplate, type Blank } from './data/storyBuilderData';
+import { useQuizStoreReset } from '@/lib/quiz/useQuizSession';
 import { shuffle } from '@/lib/utils';
 
 export function useStoryBuilderGame() {
+  useQuizStoreReset('story-builder');
   const phase    = useQuizGameStore(s => s.phase);
   const index    = useQuizGameStore(s => s.index);
   const { startQuiz, selectAnswer, nextQuestion } = useQuizGameStore();

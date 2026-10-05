@@ -3,14 +3,17 @@ import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useNumberBubblesStore } from './numberBubblesStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 
 export type { Bubble } from './numberBubblesStore';
 export { BUBBLE_COLORS, makeBubbles } from './numberBubblesStore';
 
-const _useStore = createShallowHook(useNumberBubblesStore);
+const useStoreBase = createShallowHook(useNumberBubblesStore);
 
+// Installs the tick/flash timers and result saving — call from NumberBubblesGame only.
+// Child components read the store directly, otherwise every instance runs its own timers.
 export function useNumberBubblesGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('number-bubbles');
   const startTimeRef = useRef<number>(0);
 
@@ -33,14 +36,13 @@ export function useNumberBubblesGame() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.wrong]);
 
-  // Persist result on each level completion
-  useEffect(() => {
-    if (state.phase === 'results') {
-      const durationSeconds = Math.round(state.elapsed);
-      saveGameResultRef.current({ score: state.level, level: state.level, durationSeconds });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase, state.level]);
+  // Persist a result each time a level is completed (playing → results).
+  usePhaseGameCompletion(
+    state.phase,
+    saveGameResultRef,
+    () => ({ score: state.level, level: state.level }),
+    ['results'],
+  );
 
   return state;
 }

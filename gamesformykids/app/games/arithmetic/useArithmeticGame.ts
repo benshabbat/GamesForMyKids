@@ -2,7 +2,7 @@
 import { createPhaseGameHook } from '@/hooks/shared/progress/createPhaseGameHook';
 import { useArithmeticGameStore } from './arithmeticGameStore';
 
-const _useBase = createPhaseGameHook(
+const useBase = createPhaseGameHook(
   useArithmeticGameStore,
   'arithmetic',
   (s) => ({
@@ -14,5 +14,5 @@ const _useBase = createPhaseGameHook(
 );
 
 export function useArithmeticGame() {
-  return _useBase();
+  return useBase();
 }

@@ -41,7 +41,7 @@ export default function ChessGame() {
       <GameTutorial steps={CHESS_TUTORIAL} storageKey="gfk_tutorial_chess" />
       {phase === 'menu' && <ChessMenu />}
 
-      {phase === 'checkmate' && <ChessGameOver />}
+      {(phase === 'checkmate' || phase === 'stalemate') && <ChessGameOver />}
 
       {isPlaying && (
         <div className="relative z-10 flex flex-col items-center gap-2.5 w-full max-w-sm">

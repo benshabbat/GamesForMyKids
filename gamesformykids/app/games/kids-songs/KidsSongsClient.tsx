@@ -36,6 +36,7 @@ export default function KidsSongsClient() {
   if (phase === 'quiz') {
     return (
       <SongQuiz
+        key={currentQuestionIdx}
         song={currentSong}
         question={currentSong.questions[currentQuestionIdx as 0 | 1]}
         questionNum={currentQuestionIdx + 1}

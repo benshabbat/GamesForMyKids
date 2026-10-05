@@ -6,12 +6,12 @@ import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 export type { Side, GamePhase, Cell, Board, Pos, DamkaMove } from './damkaStore';
 
-const _useStore = createShallowHook(useDamkaStore);
+const useStoreBase = createShallowHook(useDamkaStore);
 
 const AI_DELAY_MS = 700;
 
 export function useDamkaGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('checkers');
 
   const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);

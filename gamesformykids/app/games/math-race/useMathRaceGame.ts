@@ -6,7 +6,7 @@ import { useMathRaceStore } from './mathRaceStore';
 export type { Question } from './mathRaceStore';
 export { makeQ, GAME_TIME } from './mathRaceStore';
 
-const _useBase = createPhaseGameHook(
+const useBase = createPhaseGameHook(
   useMathRaceStore,
   'math-race',
   (s) => ({ score: s.score, level: 1 }),
@@ -14,7 +14,7 @@ const _useBase = createPhaseGameHook(
 );
 
 export function useMathRaceGame() {
-  const state = _useBase();
+  const state = useBase();
   const accuracy = state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0;
 
   // Auto-advance to next question after feedback animation

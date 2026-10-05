@@ -39,6 +39,7 @@ function AddProfileModal({ onAdd, onClose }: { onAdd: (name: string, emoji: stri
             ref={inputRef}
             type="text"
             placeholder="שם הילד"
+            aria-label="שם הילד"
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={20}

@@ -14,6 +14,8 @@ export interface Ball {
   radius: number;
   merging: boolean;
   merged: boolean;
+  /** Physics ticks since this ball was dropped / created by a merge. */
+  age: number;
 }
 
 export interface NumberMergeState {
@@ -93,6 +95,7 @@ export const useNumberMergeStore = create<NumberMergeState & NumberMergeActions>
       radius,
       merging: false,
       merged: false,
+      age: 0,
     };
     set({
       balls: [...balls, newBall],

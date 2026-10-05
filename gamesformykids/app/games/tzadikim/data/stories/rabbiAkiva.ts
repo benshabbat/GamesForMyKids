@@ -3,7 +3,7 @@ import type { TzaddikStory } from '../types';
 export const RABBI_AKIVA_STORY: TzaddikStory = {
   id: 'rabbi-akiva',
   name: 'רבי עקיבא',
-  years: "כ\"ז לפנה\"ס – ק\"לה (±40–135 לספירה)",
+  years: 'בערך 50 – 135 לספירה',
   emoji: '📖',
   color: 'from-amber-500 to-orange-600',
   bgGradient: 'from-amber-50 to-orange-100',

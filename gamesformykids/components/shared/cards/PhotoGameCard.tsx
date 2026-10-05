@@ -44,7 +44,7 @@ function PhotoGameCard({ item, onClick, isSelected, config }: PhotoGameCardProps
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={imageUrl}
-            alt={item.english || item.name}
+            alt={item.hebrew || item.name}
             className={`w-full h-full ${config.objectFit === "cover" ? "object-cover" : "object-contain"}`}
             loading="lazy"
             referrerPolicy="no-referrer"

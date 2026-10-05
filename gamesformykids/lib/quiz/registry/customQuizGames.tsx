@@ -34,6 +34,7 @@ import { useLifeCyclesGame } from '@/lib/quiz/useLifeCyclesGame';
 import type { TriviaCatCategory, TriviaCatDifficulty } from '@/lib/quiz/data/trivia-categories';
 import type { NatureCategory } from '@/lib/quiz/data/nature';
 import { NATURE_CATEGORY_COLORS as NATURE_COLORS } from '@/lib/quiz/data/nature';
+import type { SoccerCategory } from '@/lib/quiz/data/soccer';
 import type { IsraelCategory } from '@/lib/quiz/data/israel';
 import { ISRAEL_CATEGORY_COLORS as ISRAEL_COLORS } from '@/lib/quiz/data/israel';
 
@@ -173,10 +174,10 @@ export const CUSTOM_QUIZ_GAMES: Record<string, ComponentType> = {
 
   'soccer': makeQuizGame(
     useSoccerGame,
-    ({ current }) => ({
-      menu:     <SoccerMenuScreen />,
-      question: current ? <SoccerQuestion /> : null,
-      result:   <SoccerResultScreen />,
+    ({ current, showGoal, startGame, selectAnswer, restart }) => ({
+      menu:     <SoccerMenuScreen onStart={startGame as (cat: SoccerCategory) => void} />,
+      question: current ? <SoccerQuestion current={current} showGoal={showGoal} onSelect={selectAnswer} /> : null,
+      result:   <SoccerResultScreen onRestart={restart} />,
     }),
   ),
 

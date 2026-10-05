@@ -120,6 +120,7 @@ export default function TimerClient() {
           min={0}
           max={99}
           placeholder="דק׳"
+          aria-label="דקות"
           value={customMin}
           onChange={(e) => setCustomMin(e.target.value)}
           className="w-14 text-center bg-white/20 text-white font-bold rounded-xl px-2 py-1.5 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/50"
@@ -130,6 +131,7 @@ export default function TimerClient() {
           min={0}
           max={59}
           placeholder="שנ׳"
+          aria-label="שניות"
           value={customSec}
           onChange={(e) => setCustomSec(e.target.value)}
           className="w-14 text-center bg-white/20 text-white font-bold rounded-xl px-2 py-1.5 placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/50"

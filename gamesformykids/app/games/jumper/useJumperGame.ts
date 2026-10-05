@@ -12,7 +12,7 @@ import { makePlatform, generateInitial, drawJumperScene } from './jumperDraw';
 
 export { W, H } from './jumperConstants';
 
-const _useJumper = createCanvasArcadeHook({
+const useJumperBase = createCanvasArcadeHook({
   gameType: 'jumper',
   width: W,
   height: H,
@@ -91,7 +91,7 @@ const _useJumper = createCanvasArcadeHook({
 });
 
 export function useJumperGame() {
-  const { st, canvasRef } = _useJumper();
+  const { st, canvasRef } = useJumperBase();
 
 
   const startGame = () => {
@@ -99,6 +99,9 @@ export function useJumperGame() {
     s.phase = 'playing';
     s.px = W / 2; s.py = H - 100;
     s.pvx = 0; s.pvy = JUMP_VY;
+    // The on-screen arrows unmount when the player dies, so a button held at that moment never
+    // sees its pointerup — clear the held state or the new run starts drifting.
+    s.leftDown = false; s.rightDown = false;
     s.camY = 0; s.maxCamY = 0;
     s.score = 0; s.frame = 0;
     s.platforms = generateInitial();

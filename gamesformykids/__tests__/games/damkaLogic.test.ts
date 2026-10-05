@@ -102,6 +102,25 @@ describe('damkaLogic', () => {
       expect(nb[2]![5]!.color).toBe('player');
     });
 
+    it('keeps the capturing piece when a four-jump loop ends on its starting square', () => {
+      const b = emptyBoard();
+      b[2]![3] = { color: 'player', isKing: false };
+      for (const [r, c] of [[3, 4], [5, 4], [5, 2], [3, 2]] as const) {
+        b[r]![c] = { color: 'computer', isKing: false };
+      }
+
+      const loop = getAllMoves(b, 'player').find(
+        (m) => m.from.row === m.to.row && m.from.col === m.to.col,
+      );
+      expect(loop).toBeDefined();
+      expect(loop!.captures).toHaveLength(4);
+
+      const nb = applyMove(b, loop!);
+      expect(nb[2]![3]).toEqual({ color: 'player', isKing: false });
+      expect(nb.flat().filter((c) => c.color === 'computer')).toHaveLength(0);
+      expect(nb.flat().filter((c) => c.color === 'player')).toHaveLength(1);
+    });
+
     it('promotes a player piece to king on reaching row 0', () => {
       const b = emptyBoard();
       b[1]![2] = { color: 'player', isKing: false };

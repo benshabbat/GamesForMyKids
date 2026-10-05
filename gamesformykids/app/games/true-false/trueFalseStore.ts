@@ -43,6 +43,10 @@ export const TIME_PER_Q = 6;
 
 const DIFFICULTY_TIME_TF = { easy: 10, medium: TIME_PER_Q, hard: 4 } as const;
 
+/** Seconds allowed per question at the current difficulty — use as the denominator of the time bar. */
+export const getTimePerQ = () => DIFFICULTY_TIME_TF[useGameDifficulty.getState().difficulty];
+const getInitialLives = () => DEFAULT_DIFFICULTY_LIVES[useGameDifficulty.getState().difficulty];
+
 interface TrueFalseState extends LivesGameState {
   deck: Fact[];
   idx:  number;
@@ -50,6 +54,8 @@ interface TrueFalseState extends LivesGameState {
 
 interface TrueFalseActions {
   startGame: () => void;
+  /** Player left the page mid-game: stop the timers and go back to the menu. */
+  abandonGame: () => void;
   answer:    (choice: boolean) => void;
 }
 
@@ -60,7 +66,7 @@ export const useTrueFalseStore = makePersistStore<TrueFalseState & TrueFalseActi
   'true-false-best',
   (set, get) => {
     const timer = setupLivesTimer({
-      name: 'TrueFalseStore', timePerQ: TIME_PER_Q, feedbackMs: 800, initialLives: 3,
+      name: 'TrueFalseStore', timePerQ: getTimePerQ, feedbackMs: 800, initialLives: getInitialLives,
       set, get,
       getNextUpdates: () => {
         const { deck, idx } = get();
@@ -78,9 +84,12 @@ export const useTrueFalseStore = makePersistStore<TrueFalseState & TrueFalseActi
 
       startGame: () => {
         const deck = shuffle(FACTS);
-        const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ deck, idx: 0 }));
-        set({ lives: DEFAULT_DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_TF[diff] });
+      },
+
+      abandonGame: () => {
+        timer.stop();
+        set({ phase: 'menu', feedback: null }, false, 'TrueFalseStore/abandonGame');
       },
 
       answer: (choice: boolean) => {

@@ -5,10 +5,12 @@ import { useTakiStore } from './takiGameStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 
-const _useStore = createShallowHook(useTakiStore);
+const useStoreBase = createShallowHook(useTakiStore);
 
+// Installs the computer-turn timer and result saving — call from TakiGame only.
+// Child components read the store directly, otherwise every instance schedules its own AI timer.
 export function useTakiGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('taki');
   const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

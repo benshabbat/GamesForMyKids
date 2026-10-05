@@ -36,6 +36,7 @@ export function SiblingLeaderboardCard() {
                 value={joinInput}
                 onChange={e => setJoinInput(e.target.value)}
                 placeholder="הכנס קוד קבוצה..."
+                aria-label="קוד קבוצה"
                 className="flex-1 border border-gray-300 rounded-xl px-3 py-2 text-sm text-right"
                 dir="ltr"
               />

@@ -1,9 +1,10 @@
 'use client';
 
 import { useSoccerQuestion } from '../hooks/useSoccerQuestion';
+import type { SoccerQuestion } from '../data/soccer';
 
-export default function SoccerQuestionCard() {
-  const { isAnswered, isCorrect, currentQuestion } = useSoccerQuestion();
+export default function SoccerQuestionCard({ current }: { current: SoccerQuestion }) {
+  const { isAnswered, isCorrect, currentQuestion } = useSoccerQuestion(current);
   if (!currentQuestion) return null;
 
   return (

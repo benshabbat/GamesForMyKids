@@ -26,7 +26,7 @@ export function CrosswordGrid({ grid, puzzle, selectedClue, selectedCell, onCell
     <div
       className="inline-grid gap-0.5 border-2 border-gray-800 rounded-lg overflow-hidden bg-gray-800"
       style={{ gridTemplateColumns: `repeat(${size}, 1fr)` }}
-      dir="ltr"
+      dir="rtl" // col 0 is the rightmost cell — across answers read right-to-left
     >
       {Array.from({ length: size }, (_, row) =>
         Array.from({ length: size }, (_, col) => {

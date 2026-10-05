@@ -38,6 +38,30 @@ describe('froggerStore', () => {
     });
   });
 
+  describe('setLives', () => {
+    it('updates the remaining lives while playing', () => {
+      store.getState().startPlaying();
+      store.getState().setLives(2);
+      expect(store.getState().lives).toBe(2);
+      expect(store.getState().phase).toBe('playing');
+    });
+  });
+
+  describe('resetToMenu', () => {
+    it('returns an in-progress game to the menu phase', () => {
+      store.getState().startPlaying();
+      store.getState().resetToMenu();
+      expect(store.getState().phase).toBe('menu');
+    });
+
+    it('keeps the best score', () => {
+      store.setState({ best: 80 } as unknown as Parameters<typeof store.setState>[0]);
+      store.getState().startPlaying();
+      store.getState().resetToMenu();
+      expect(store.getState().best).toBe(80);
+    });
+  });
+
   describe('endGame', () => {
     it('sets phase to dead and lives to 0', () => {
       store.getState().startPlaying();

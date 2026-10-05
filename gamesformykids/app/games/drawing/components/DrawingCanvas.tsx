@@ -2,13 +2,12 @@
 
 import styles from '../drawing.module.css';
 import { useDrawingCanvas } from '../hooks/useDrawingCanvas';
-import { useDrawingGame } from '../hooks/useDrawingGame';
 import { useDrawingStore } from '../store/drawingStore';
 import DrawingStatusBadge from './DrawingStatusBadge';
 
 export default function DrawingCanvas() {
   const { canvasRef, startDrawing, stopDrawing, draw } = useDrawingCanvas();
-  const { isMobileDevice } = useDrawingGame();
+  const isMobileDevice = useDrawingStore((s) => s.isMobileDevice);
   const { isErasing } = useDrawingStore();
 
   return (

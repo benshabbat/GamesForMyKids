@@ -80,8 +80,9 @@ export function applyMove(b: Board, move: DamkaMove): Board {
   const nb = cloneBoard(b);
   const piece = nb[move.from.row]![move.from.col]!;
   for (const cap of move.captures) nb[cap.row]![cap.col] = emptyCell();
-  nb[move.to.row]![move.to.col] = { ...piece };
+  // Clear the origin before placing the piece: a capture loop can end on its own start square
   nb[move.from.row]![move.from.col] = emptyCell();
+  nb[move.to.row]![move.to.col] = { ...piece };
   if (piece.color === 'player'   && move.to.row === 0) nb[move.to.row]![move.to.col]!.isKing = true;
   if (piece.color === 'computer' && move.to.row === 7) nb[move.to.row]![move.to.col]!.isKing = true;
   return nb;

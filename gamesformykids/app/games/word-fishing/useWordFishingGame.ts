@@ -1,6 +1,7 @@
 'use client';
-import { useState, useRef, useCallback, useEffect } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasAttach } from '@/hooks/canvas/useCanvasAttach';
 import { FISHING_WAVES, type FishingWave } from './wordFishingData';
 import { shuffle } from '@/lib/utils/game/cardUtils';
 
@@ -61,7 +62,9 @@ export function useWordFishingGame() {
     waveIdxRef.current = 0;
     livesRef.current = MAX_LIVES;
     scoreRef.current = 0;
-    setScore(0); setLives(MAX_LIVES); setWave(0);
+    fishRef.current = [];
+    feedbackTimerRef.current = 0;
+    setScore(0); setLives(MAX_LIVES); setWave(0); setFeedback(null);
     setQuestion(shuffled[0]?.question ?? '');
     phaseRef.current = 'playing'; setPhase('playing');
   }, []);
@@ -159,9 +162,7 @@ export function useWordFishingGame() {
     }
   }, [handleCatch]);
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  useCanvasAttach(canvasRef, (canvas) => {
     const resize = () => {
       canvas.width = canvas.offsetWidth; canvas.height = canvas.offsetHeight;
       if (phaseRef.current === 'playing') loadWave(waveIdxRef.current, canvas.width, canvas.height);
@@ -170,7 +171,7 @@ export function useWordFishingGame() {
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
     return () => ro.disconnect();
-  }, [canvasRef, loadWave]);
+  });
 
   const totalWaves = FISHING_WAVES.length;
 

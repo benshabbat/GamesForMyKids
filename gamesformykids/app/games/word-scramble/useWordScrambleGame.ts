@@ -6,7 +6,7 @@ import { createPhaseGameHook } from '@/hooks/shared/progress';
 export type { WordEntry, LetterSlot, PickedLetter } from './wordScrambleStore';
 export { WORD_LIST } from './wordScrambleStore';
 
-const _useBase = createPhaseGameHook(
+const useBase = createPhaseGameHook(
   useWordScrambleStore,
   'word-scramble',
   (s) => ({ score: s.score, level: 1 }),
@@ -14,7 +14,7 @@ const _useBase = createPhaseGameHook(
 );
 
 export function useWordScrambleGame() {
-  const game = _useBase();
+  const game = useBase();
 
   // Auto-advance to next word after correct answer animation
   useEffect(() => {

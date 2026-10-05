@@ -2,22 +2,17 @@
 import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useReflexStore } from './reflexStore';
-import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
-import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 import { TARGET_EMOJIS, getLifetime, getSpawnInterval } from './data/targets';
 import { getRandomItem } from '@/lib/utils';
 
 export type { Target } from './reflexStore';
 
-const _useStore = createShallowHook(useReflexStore);
+const useStoreBase = createShallowHook(useReflexStore);
 
 export function useReflexGame() {
-  const state = _useStore();
-  const { saveGameResultRef } = useGameCompletion('reflex');
+  const state = useStoreBase();
   const nextIdRef  = useRef(0);
   const spawnIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }));
 
   // Target spawner — runs while phase === 'playing'
   useEffect(() => {
@@ -27,6 +22,10 @@ export function useReflexGame() {
     }
 
     nextIdRef.current = 0;
+    // Pending "target disappeared" timers. They must not outlive the round: after the game ends
+    // they would keep counting misses on the result screen, and in the next round they would
+    // expire new targets that reuse the same ids.
+    const expiryTimers = new Set<ReturnType<typeof setTimeout>>();
 
     function spawnNext() {
       const store = useReflexStore.getState();
@@ -44,7 +43,11 @@ export function useReflexGame() {
       };
       store.addTarget(target);
 
-      setTimeout(() => useReflexStore.getState().expireTarget(id), target.lifetime);
+      const expiry = setTimeout(() => {
+        expiryTimers.delete(expiry);
+        useReflexStore.getState().expireTarget(id);
+      }, target.lifetime);
+      expiryTimers.add(expiry);
 
       spawnIdRef.current = setTimeout(spawnNext, getSpawnInterval(useReflexStore.getState().score));
     }
@@ -53,6 +56,8 @@ export function useReflexGame() {
 
     return () => {
       if (spawnIdRef.current) { clearTimeout(spawnIdRef.current); spawnIdRef.current = null; }
+      expiryTimers.forEach(clearTimeout);
+      expiryTimers.clear();
     };
   }, [state.phase]);
 

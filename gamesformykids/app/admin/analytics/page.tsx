@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/supabase/requireAdmin';
+import { fetchAllRows } from '@/lib/supabase/fetchAllRows';
 
 export const metadata: Metadata = {
   title: 'אנליטיקס | GamesForMyKids',
@@ -19,21 +20,26 @@ function StatCard({ title, value, emoji }: { title: string; value: string | numb
 export default async function AdminAnalyticsPage() {
   const { supabase } = await requireAdmin();
 
-  const [{ count: userCount }, { data: progress }, { data: achievements }] = await Promise.all([
+  const [{ count: userCount }, progress, { count: achievementCount }] = await Promise.all([
     supabase.from('profiles').select('id', { count: 'exact', head: true }),
-    supabase.from('game_progress').select('game_type, completed_levels, last_played_at, user_id'),
-    supabase.from('achievements').select('achievement_type, earned_at'),
+    fetchAllRows((from, to) =>
+      supabase.from('game_progress')
+        .select('game_type, completed_levels, last_played_at, user_id')
+        .order('id')
+        .range(from, to)
+    ),
+    supabase.from('achievements').select('id', { count: 'exact', head: true }),
   ]);
 
-  const totalGamesPlayed = (progress ?? []).reduce((sum, p) => sum + (p.completed_levels ?? 0), 0);
+  const totalGamesPlayed = progress.reduce((sum, p) => sum + (p.completed_levels ?? 0), 0);
 
   const playsByGame = new Map<string, number>();
-  for (const p of progress ?? []) {
+  for (const p of progress) {
     playsByGame.set(p.game_type, (playsByGame.get(p.game_type) ?? 0) + 1);
   }
   const mostPlayed = [...playsByGame.entries()].sort((a, b) => b[1] - a[1]).slice(0, 10);
 
-  const recentActivity = [...(progress ?? [])]
+  const recentActivity = [...progress]
     .filter((p) => p.last_played_at)
     .sort((a, b) => new Date(b.last_played_at).getTime() - new Date(a.last_played_at).getTime())
     .slice(0, 10);
@@ -44,7 +50,7 @@ export default async function AdminAnalyticsPage() {
         <StatCard title="משתמשים רשומים" value={userCount ?? 0} emoji="👤" />
         <StatCard title="רמות שהושלמו" value={totalGamesPlayed} emoji="🎮" />
         <StatCard title="סוגי משחקים ששוחקו" value={playsByGame.size} emoji="🕹️" />
-        <StatCard title="הישגים שהוענקו" value={(achievements ?? []).length} emoji="🏆" />
+        <StatCard title="הישגים שהוענקו" value={achievementCount ?? 0} emoji="🏆" />
       </div>
 
       <div className="grid md:grid-cols-2 gap-6">
