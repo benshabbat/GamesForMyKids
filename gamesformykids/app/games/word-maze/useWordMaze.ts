@@ -103,6 +103,8 @@ export function useWordMaze() {
     targetWordRef.current = word;
     phaseRef.current = 'playing';
 
+    // Remember the chosen level so "שוב!" replays it and "הבא!" advances from it.
+    setLevel(actualLevel);
     setTargetWord(word);
     setNextLetterIndex(0);
     setPhase('playing');
