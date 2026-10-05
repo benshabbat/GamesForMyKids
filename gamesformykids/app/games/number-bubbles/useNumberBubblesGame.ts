@@ -10,6 +10,8 @@ export { BUBBLE_COLORS, makeBubbles } from './numberBubblesStore';
 
 const useStoreBase = createShallowHook(useNumberBubblesStore);
 
+// Installs the tick/flash timers and result saving — call from NumberBubblesGame only.
+// Child components read the store directly, otherwise every instance runs its own timers.
 export function useNumberBubblesGame() {
   const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('number-bubbles');
@@ -34,9 +36,7 @@ export function useNumberBubblesGame() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.wrong]);
 
-  // Persist a result each time a level is completed (playing → results). Tracking the
-  // transition (rather than "phase === 'results'") matters because the result screen also
-  // calls this hook: it mounts already in 'results' and would save the same level again.
+  // Persist a result each time a level is completed (playing → results).
   usePhaseGameCompletion(
     state.phase,
     saveGameResultRef,
