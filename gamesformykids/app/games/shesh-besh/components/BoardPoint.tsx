@@ -15,14 +15,21 @@ export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick, regi
   // Alternating deep crimson / warm parchment — classic backgammon palette
   const fillColor = idx % 2 === 0 ? '#7f1d1d' : '#e8d0a0';
 
+  const label = [
+    `נקודה ${idx}`,
+    pt.player > 0 && `${pt.player} כלים שלך`,
+    pt.computer > 0 && `${pt.computer} כלים של המחשב`,
+    isTarget && 'אפשר להזיז לכאן',
+  ].filter(Boolean).join(', ');
+
   return (
     <button
       ref={registerRef}
       onClick={onClick}
-      tabIndex={0}
-      aria-label={`point ${idx}`}
+      aria-label={label}
+      aria-pressed={isSelected}
       className={[
-        'relative flex flex-col items-center flex-1 min-w-0 h-full cursor-pointer select-none outline-none',
+        'group relative flex flex-col items-center flex-1 min-w-0 h-full cursor-pointer select-none outline-none',
         'transition duration-150 overflow-hidden',
         isTop ? 'justify-start pt-[2%]' : 'justify-end pb-[2%]',
       ].join(' ')}
@@ -45,6 +52,8 @@ export function BoardPoint({ idx, pt, isTop, isSelected, isTarget, onClick, regi
       {isSelected && (
         <div className="absolute inset-0 bg-amber-400/25 ring-[3px] ring-inset ring-amber-400/90 pointer-events-none" />
       )}
+      {/* Keyboard focus indicator — an overlay, since the triangle and pieces would cover an outline/ring on the button itself */}
+      <div className="absolute inset-0 z-20 hidden group-focus-visible:block ring-[3px] ring-inset ring-sky-300 pointer-events-none" />
 
       {/* Point number */}
       <span className={[

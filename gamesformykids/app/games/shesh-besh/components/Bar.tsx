@@ -43,7 +43,8 @@ export function Bar({ playerBar, compBar, isSelected, onClickPlayer, playerRef, 
       <button
         ref={playerRef}
         onClick={onClickPlayer}
-        aria-label="bar player"
+        aria-label={`בר — ${playerBar} כלים שלך מחכים לחזור ללוח`}
+        aria-pressed={isSelected}
         className={[
           'relative z-10 flex flex-col-reverse items-center gap-[10%] pb-2 flex-1 justify-start w-full rounded transition',
           isSelected ? 'ring-2 ring-yellow-400 ring-inset bg-yellow-400/10' : '',
