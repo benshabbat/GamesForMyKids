@@ -73,6 +73,18 @@ describe('DiceClient while rolling', () => {
     expect(countButton(3).className).not.toContain('shadow-md');
   });
 
+  it('does not speak the result when the player leaves mid-roll', () => {
+    const { unmount } = render(<DiceClient />);
+
+    fireEvent.click(rollButton());
+    unmount();
+    act(() => {
+      vi.advanceTimersByTime(ROLL_MS);
+    });
+
+    expect(speakMock).not.toHaveBeenCalled();
+  });
+
   it('still lets the player switch type between rolls', () => {
     const { container } = render(<DiceClient />);
 

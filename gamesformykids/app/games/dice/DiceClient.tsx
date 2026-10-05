@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 type DiceType = 'numbers' | 'letters' | 'colors' | 'animals';
@@ -43,12 +43,17 @@ export default function DiceClient() {
   const [count, setCount] = useState(1);
   const [results, setResults] = useState<number[]>([]);
   const [rolling, setRolling] = useState(false);
+  const rollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Leaving mid-roll must not let the pending roll finish and speak the result on another page.
+  useEffect(() => () => { if (rollTimerRef.current) clearTimeout(rollTimerRef.current); }, []);
 
   const roll = useCallback(() => {
     if (rolling) return;
     setRolling(true);
 
-    setTimeout(() => {
+    rollTimerRef.current = setTimeout(() => {
+      rollTimerRef.current = null;
       const dice = DICE_TYPES[activeType];
       const newResults = Array.from({ length: count }, () => getRandom(dice.faces.length));
       setResults(newResults);
