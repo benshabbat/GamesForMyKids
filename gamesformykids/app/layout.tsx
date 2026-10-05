@@ -23,7 +23,9 @@ export const viewport = siteViewport;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="he" dir="rtl">
+    // The inline scripts below set the theme class and data-* flags on <html> before
+    // hydration, so its attributes intentionally differ from the server render.
+    <html lang="he" dir="rtl" suppressHydrationWarning>
       <head>
         <HeadLinks />
         <StructuredData />
