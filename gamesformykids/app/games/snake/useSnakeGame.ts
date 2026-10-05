@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useShallow } from 'zustand/react/shallow';
 import { useGameProgressStore, useGameStore } from '@/lib/stores';
 import { useSnakeStore } from './stores/useSnakeStore';
@@ -111,6 +111,15 @@ export function useSnakeGame() {
 
   const canvasRef = useSnakeDraw(st);
   const { handleTouchStart, handleTouchEnd, controlDir } = useSnakeInput(st);
+
+  // The Zustand stores outlive this component (client-side navigation) but `st` above
+  // starts at phase 'menu' on every mount. Reset the store when leaving mid-game so a
+  // returning player gets the menu instead of a 'playing' HUD with dead controls, and
+  // so the abandoned run isn't left flagged as an active game for the next one.
+  useEffect(() => () => {
+    useSnakeStore.getState().setPhase('menu');
+    useGameProgressStore.getState().setGameActive(false);
+  }, []);
 
   // ─── Store selectors ─────────────────────────────────────────────────────────
 
