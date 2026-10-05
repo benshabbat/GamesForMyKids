@@ -1,16 +1,10 @@
-import type { ReactNode } from 'react';
 import type { TimedMathConfig } from '@/components/game/shared/TimedMathGame';
+import { Equation as Eq } from '@/components/game/shared/Equation';
 import { useMultiplicationGameStore, stopMultiplicationTimer } from './multiplicationGameStore';
 import {
   LEVELS, QUESTIONS_PER_LEVEL, MIXED_LEVEL, MultiplicationQuestion, getTimeForLevel,
 } from './data/tables';
 import { isLevelMastered } from './masteryStorage';
-
-// Equations are rendered inside the RTL page; forcing LTR with bidi-override keeps
-// "7 × 8 = ?" from being reordered into "? = 8 × 7".
-function Eq({ children }: { children: ReactNode }) {
-  return <span style={{ direction: 'ltr', unicodeBidi: 'bidi-override' }}>{children}</span>;
-}
 
 export const MULTIPLICATION_CONFIG: TimedMathConfig<number, MultiplicationQuestion> = {
   useStore: useMultiplicationGameStore,
