@@ -1,5 +1,7 @@
 import { Ball, RADIUS_FOR_VALUE } from './numberMergeStore';
-import { DAMPING, FLOOR_Y, FRICTION, GRAVITY, WALL_LEFT, WALL_RIGHT } from './numberMergeCanvasConfig';
+import {
+  DAMPING, FLOOR_Y, FRICTION, GRAVITY, OVERFLOW_LINE_Y, OVERFLOW_SETTLE_TICKS, WALL_LEFT, WALL_RIGHT,
+} from './numberMergeCanvasConfig';
 
 function circlePair(a: Ball, b: Ball) {
   const dx = b.x - a.x;
@@ -39,6 +41,7 @@ function resolveCollision(balls: Ball[]): { balls: Ball[]; merges: { x: number; 
         radius: RADIUS_FOR_VALUE(newVal),
         merging: false,
         merged: false,
+        age: 0,
       };
       balls.push(merged);
       merges.push({ x: nx, y: ny, value: newVal });
@@ -56,6 +59,7 @@ function resolveCollision(balls: Ball[]): { balls: Ball[]; merges: { x: number; 
 export function stepPhysics(balls: Ball[]): { balls: Ball[]; merges: { x: number; y: number; value: number }[] } {
   // Apply gravity + velocity
   for (const b of balls) {
+    b.age += 1;
     b.vy += GRAVITY;
     b.x += b.vx;
     b.y += b.vy;
@@ -110,4 +114,18 @@ export function stepPhysics(balls: Ball[]): { balls: Ball[]; merges: { x: number
   }
 
   return resolveCollision(balls);
+}
+
+/**
+ * True when a settled ball is resting at the top of the board (game over).
+ *
+ * Only balls older than OVERFLOW_SETTLE_TICKS count: a ball that was just dropped
+ * starts at the top and would otherwise end the game on its first tick. No speed
+ * check on top of that — balls in a compressed column keep a high vy (observed
+ * 3-10 px/tick) so a "nearly stationary" test never fires for a real overflow,
+ * while a falling ball leaves the top zone within ~6 ticks, well inside the
+ * settle period.
+ */
+export function hasOverflow(balls: Ball[]): boolean {
+  return balls.some(b => b.age >= OVERFLOW_SETTLE_TICKS && b.y - b.radius <= OVERFLOW_LINE_Y);
 }
