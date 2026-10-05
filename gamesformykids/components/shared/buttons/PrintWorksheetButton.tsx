@@ -6,6 +6,8 @@ import type { BaseGameItem } from "@/lib/types/core/base";
 interface PrintWorksheetButtonProps {
   items: BaseGameItem[];
   title: string;
+  /** Background/border/text classes, so the chip can match the screen it sits on. */
+  colorClassName?: string;
 }
 
 function buildWorksheetHtml(items: BaseGameItem[], title: string): string {
@@ -91,7 +93,11 @@ function buildWorksheetHtml(items: BaseGameItem[], title: string): string {
 </html>`;
 }
 
-export default function PrintWorksheetButton({ items, title }: PrintWorksheetButtonProps) {
+export default function PrintWorksheetButton({
+  items,
+  title,
+  colorClassName = "bg-white/30 border-white/50 text-white hover:bg-white/40",
+}: PrintWorksheetButtonProps) {
   const handlePrint = () => {
     const win = window.open("", "_blank", "width=800,height=900");
     if (!win) return;
@@ -107,12 +113,12 @@ export default function PrintWorksheetButton({ items, title }: PrintWorksheetBut
       onClick={handlePrint}
       title="הדפס דף עבודה"
       aria-label="הדפס דף עבודה"
-      className="
+      className={`
         flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold
         transition-all border-2
-        bg-white/30 border-white/50 text-white hover:bg-white/40
+        ${colorClassName}
         select-none
-      "
+      `}
     >
       <Printer className="w-4 h-4" aria-hidden="true" />
       <span>הדפס</span>
