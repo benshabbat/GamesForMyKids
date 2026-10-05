@@ -107,6 +107,10 @@ export function resolvePlayCard(prev: TakiGameState, card: TakiCard): TakiGameSt
     const compHand = [...prev.computerHand, ...drawn];
     return { ...prev, playerHand: newHand, topCard: card, deck: newDeck, computerHand: compHand, effectiveColor: null, inTakiSequence: false, takiColor: null, needsColorChoice: false, currentTurn: 'computer', turnId: prev.turnId + 1, message: `+2! המחשב מושך 2 קלפים${takiMsg}` };
   }
+  if (prev.inTakiSequence && card.color === prev.takiColor) {
+    // Inside a Taki run: the child keeps the turn until pressing "סגור טאקי"
+    return { ...prev, playerHand: newHand, topCard: card, effectiveColor: null, needsColorChoice: false, currentTurn: 'player', message: `שיחקת ${getColorName(card.color)} ${card.value}. שחק עוד קלפים באותו צבע או לחץ "סגור טאקי"${takiMsg}` };
+  }
   return { ...prev, playerHand: newHand, topCard: card, effectiveColor: null, inTakiSequence: false, takiColor: null, needsColorChoice: false, currentTurn: 'computer', turnId: prev.turnId + 1, message: `שיחקת ${getColorName(card.color)} ${card.value}. תור המחשב...${takiMsg}` };
 }
 

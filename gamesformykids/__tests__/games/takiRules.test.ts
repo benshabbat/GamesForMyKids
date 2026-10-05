@@ -117,3 +117,62 @@ describe('resolvePlayCard with the draw pile', () => {
     expect(new Set(ids).size).toBe(ids.length);
   });
 });
+
+describe('resolvePlayCard inside a Taki sequence', () => {
+  const takiRed = card('red', 'taki');
+
+  function startSequence(): TakiGameState {
+    const hand = [takiRed, card('red', 2), card('red', 7), card('blue', 4)];
+    const state = makeState({ playerHand: hand, computerHand: [card('green', 1)], topCard: card('red', 1), currentTurn: 'player' });
+    return resolvePlayCard(state, takiRed);
+  }
+
+  it('starts a sequence on the player\'s own turn', () => {
+    const next = startSequence();
+    expect(next.inTakiSequence).toBe(true);
+    expect(next.takiColor).toBe('red');
+    expect(next.currentTurn).toBe('player');
+  });
+
+  it('keeps the sequence and the turn after a normal card of the taki colour', () => {
+    const afterTaki = startSequence();
+    const next = resolvePlayCard(afterTaki, card('red', 2));
+
+    expect(next.inTakiSequence).toBe(true);
+    expect(next.takiColor).toBe('red');
+    expect(next.currentTurn).toBe('player');
+    expect(next.turnId).toBe(afterTaki.turnId);
+    expect(next.topCard.id).toBe(card('red', 2).id);
+    expect(next.playerHand.map((c) => c.id)).not.toContain(card('red', 2).id);
+  });
+
+  it('allows several cards in a row', () => {
+    let s = startSequence();
+    s = resolvePlayCard(s, card('red', 2));
+    s = resolvePlayCard(s, card('red', 7));
+    expect(s.inTakiSequence).toBe(true);
+    expect(s.currentTurn).toBe('player');
+    expect(s.playerHand).toHaveLength(1);
+  });
+
+  it('still passes the turn after a normal card outside a sequence', () => {
+    const plain = makeState({
+      playerHand: [card('red', 2), card('red', 5)],
+      computerHand: [card('green', 1)],
+      topCard: card('red', 1),
+      currentTurn: 'player',
+    });
+    const after = resolvePlayCard(plain, card('red', 2));
+    expect(after.inTakiSequence).toBe(false);
+    expect(after.currentTurn).toBe('computer');
+  });
+
+  it('still wins when the last card is played inside the sequence', () => {
+    const afterTaki = resolvePlayCard(
+      makeState({ playerHand: [takiRed, card('red', 2)], computerHand: [card('green', 1)], topCard: card('red', 1), currentTurn: 'player' }),
+      takiRed,
+    );
+    const next = resolvePlayCard(afterTaki, card('red', 2));
+    expect(next.phase).toBe('won');
+  });
+});
