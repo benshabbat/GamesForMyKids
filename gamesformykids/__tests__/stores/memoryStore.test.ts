@@ -11,7 +11,6 @@ beforeEach(() => {
     isGamePaused: false,
     difficulty: 'easy',
     gameStats: { moves: 0, score: 0, perfectMatches: 0, streak: 0 },
-    lastMatchWasSuccess: false,
     cards: [],
     animals: [],
     flippedCards: [],
