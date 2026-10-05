@@ -9,9 +9,10 @@ export default function GameStatsButton() {
     <button
       onClick={() => setShowProgressModal(true)}
       className="
-        px-4 py-3 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg
-        hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105 
+        min-h-12 px-5 py-4 bg-gradient-to-r from-blue-500 to-indigo-500 text-white rounded-xl shadow-lg
+        hover:from-blue-600 hover:to-indigo-600 transform hover:scale-105
         transition-[transform,colors] duration-200 font-bold flex items-center gap-2
+        focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-blue-300
       "
       title="הצג סטטיסטיקות מפורטות"
       aria-label="הצג סטטיסטיקות מפורטות"
