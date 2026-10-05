@@ -5,10 +5,10 @@ import { useTakiStore } from './takiGameStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 
-const _useStore = createShallowHook(useTakiStore);
+const useStoreBase = createShallowHook(useTakiStore);
 
 export function useTakiGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('taki');
   const aiTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

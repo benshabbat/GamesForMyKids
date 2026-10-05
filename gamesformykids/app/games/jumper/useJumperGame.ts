@@ -12,7 +12,7 @@ import { makePlatform, generateInitial, drawJumperScene } from './jumperDraw';
 
 export { W, H } from './jumperConstants';
 
-const _useJumper = createCanvasArcadeHook({
+const useJumperBase = createCanvasArcadeHook({
   gameType: 'jumper',
   width: W,
   height: H,
@@ -91,7 +91,7 @@ const _useJumper = createCanvasArcadeHook({
 });
 
 export function useJumperGame() {
-  const { st, canvasRef } = _useJumper();
+  const { st, canvasRef } = useJumperBase();
 
 
   const startGame = () => {

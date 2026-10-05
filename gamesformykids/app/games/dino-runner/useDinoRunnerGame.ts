@@ -22,7 +22,7 @@ interface Obstacle { x: number; w: number; h: number; emoji: string; }
 
 const OBSTACLE_EMOJIS = ['🌵', '🪨', '🌴', '🌿', '🍄'];
 
-const _useDinoRunner = createCanvasArcadeHook({
+const useDinoRunnerBase = createCanvasArcadeHook({
   gameType: 'dino-runner',
   width: W,
   height: H,
@@ -134,7 +134,7 @@ const _useDinoRunner = createCanvasArcadeHook({
 });
 
 export function useDinoRunnerGame() {
-  const { st, canvasRef } = _useDinoRunner();
+  const { st, canvasRef } = useDinoRunnerBase();
 
 
   const jump = useCallback(() => {

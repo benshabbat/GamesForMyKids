@@ -7,10 +7,10 @@ import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameComp
 export type { Fact } from './trueFalseStore';
 export { FACTS, getTimePerQ } from './trueFalseStore';
 
-const _useStore = createShallowHook(useTrueFalseStore);
+const useStoreBase = createShallowHook(useTrueFalseStore);
 
 export function useTrueFalseGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('true-false');
 
   // Save once, on the playing → dead transition. Tracking the transition (rather than

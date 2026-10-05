@@ -6,7 +6,7 @@ import { useLetterRaceStore } from './letterRaceStore';
 export type { LetterQuestion } from './letterRaceStore';
 export { GAME_TIME } from './letterRaceStore';
 
-const _useBase = createPhaseGameHook(
+const useBase = createPhaseGameHook(
   useLetterRaceStore,
   'letter-race',
   (s) => ({ score: s.score, level: 1 }),
@@ -14,7 +14,7 @@ const _useBase = createPhaseGameHook(
 );
 
 export function useLetterRaceGame() {
-  const state = _useBase();
+  const state = useBase();
   const accuracy = state.total > 0 ? Math.round((state.correct / state.total) * 100) : 0;
 
   useEffect(() => {

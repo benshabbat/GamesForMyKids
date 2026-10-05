@@ -17,7 +17,7 @@ export { W, H } from './spaceDefenderConstants';
 
 let uid = 0;
 
-const _useSpaceDefender = createCanvasArcadeHook({
+const useSpaceDefenderBase = createCanvasArcadeHook({
   gameType: 'space-defender',
   width: W,
   height: H,
@@ -81,7 +81,7 @@ const _useSpaceDefender = createCanvasArcadeHook({
 });
 
 export function useSpaceDefenderGame() {
-  const { st, canvasRef } = _useSpaceDefender();
+  const { st, canvasRef } = useSpaceDefenderBase();
 
 
   const shoot = useCallback(() => {

@@ -21,7 +21,7 @@ export { W, H } from './brickBreakerConstants';
  */
 const _nextLevelRef: { current: ((level: number) => void) | null } = { current: null };
 
-const _useBrickBreaker = createCanvasArcadeHook({
+const useBrickBreakerBase = createCanvasArcadeHook({
   gameType: 'brick-breaker',
   width: W,
   height: H,
@@ -101,7 +101,7 @@ const _useBrickBreaker = createCanvasArcadeHook({
 });
 
 export function useBrickBreakerGame() {
-  const { st, canvasRef, handlers } = _useBrickBreaker();
+  const { st, canvasRef, handlers } = useBrickBreakerBase();
 
 
   const startGame = useCallback((level = 1) => {

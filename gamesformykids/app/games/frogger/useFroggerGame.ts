@@ -34,7 +34,7 @@ function makeLanes() {
   }));
 }
 
-const _useFrogger = createCanvasArcadeHook({
+const useFroggerBase = createCanvasArcadeHook({
   gameType: 'frogger',
   width: W,
   height: H,
@@ -111,7 +111,7 @@ const _useFrogger = createCanvasArcadeHook({
 });
 
 export function useFroggerGame() {
-  const { st, canvasRef } = _useFrogger();
+  const { st, canvasRef } = useFroggerBase();
 
 
   const startGame = () => {

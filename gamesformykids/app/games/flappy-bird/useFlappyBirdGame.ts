@@ -12,7 +12,7 @@ import { drawFlappyBirdScene } from './flappyBirdDraw';
 
 export { W, H } from './flappyBirdConstants';
 
-const _useFlappyBird = createCanvasArcadeHook({
+const useFlappyBirdBase = createCanvasArcadeHook({
   gameType: 'flappy-bird',
   width: W,
   height: H,
@@ -80,7 +80,7 @@ const _useFlappyBird = createCanvasArcadeHook({
 });
 
 export function useFlappyBirdGame() {
-  const { st, canvasRef } = _useFlappyBird();
+  const { st, canvasRef } = useFlappyBirdBase();
 
 
   const resetGame = () => {

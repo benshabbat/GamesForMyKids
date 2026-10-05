@@ -12,7 +12,7 @@
  * Usage
  * ─────
  * ```ts
- * const _useMyGame = createCanvasArcadeHook({
+ * const useMyGameBase = createCanvasArcadeHook({
  *   gameType:     'my-game',
  *   width:        400,
  *   height:       300,
@@ -22,7 +22,7 @@
  * });
  *
  * export function useMyGame() {
- *   const { st, canvasRef, saveGameResultRef, handlers } = _useMyGame();
+ *   const { st, canvasRef, saveGameResultRef, handlers } = useMyGameBase();
  *   const startGame = useCallback(() => {
  *     const s = st.current;
  *     s.phase = 'playing';

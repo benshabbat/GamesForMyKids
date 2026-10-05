@@ -4,14 +4,14 @@ import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useChessStore } from './store/useChessStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
 
-const _useStore = createShallowHook(useChessStore);
+const useStoreBase = createShallowHook(useChessStore);
 
 const TERMINAL_PHASES = ['checkmate', 'stalemate'] as const;
 // 'check' is still the same game in progress — only menu/terminal -> active starts a new timer
 const ACTIVE_PHASES = ['playing', 'check'] as const;
 
 export function useChessGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('chess');
 
   const startTimeRef = useRef(0);

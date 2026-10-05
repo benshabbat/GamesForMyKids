@@ -6,7 +6,7 @@ import { createCategoryIndexQuizHook } from './createCategoryIndexQuizHook';
 import { QUESTIONS_PER_GAME } from './constants';
 import { useSoccerGameStore } from '@/app/games/soccer/soccerGameStore';
 
-const _useSoccerQuiz = createCategoryIndexQuizHook({
+const useSoccerQuizBase = createCategoryIndexQuizHook({
   questions: SOCCER_QUESTIONS,
   gameType: 'soccer',
   questionsPerGame: QUESTIONS_PER_GAME,
@@ -16,7 +16,7 @@ const _useSoccerQuiz = createCategoryIndexQuizHook({
 });
 
 export function useSoccerGame() {
-  const quiz = _useSoccerQuiz();
+  const quiz = useSoccerQuizBase();
   const { showGoal, setShowGoal } = useSoccerGameStore();
 
   // Wrap selectAnswer to trigger the goal celebration on correct answers

@@ -19,7 +19,7 @@ const GOOD_FRUITS = ['🍎', '🍊', '🍋', '🍇', '🍓', '🍑', '🥝', '�
 const BAD_ITEMS = ['💣', '☠️', '🪨'];
 let idCounter = 0;
 
-const _useCatchFruit = createCanvasArcadeHook({
+const useCatchFruitBase = createCanvasArcadeHook({
   gameType: 'catch-fruit',
   width: W,
   height: H,
@@ -109,7 +109,7 @@ const _useCatchFruit = createCanvasArcadeHook({
 });
 
 export function useCatchFruitGame() {
-  const { st, canvasRef } = _useCatchFruit();
+  const { st, canvasRef } = useCatchFruitBase();
 
 
   const dragging = useRef(false);

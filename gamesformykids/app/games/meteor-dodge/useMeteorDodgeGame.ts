@@ -21,7 +21,7 @@ interface StarPick { id: number; x: number; y: number; vy: number; emoji: string
 
 let uid = 0;
 
-const _useMeteorDodge = createCanvasArcadeHook({
+const useMeteorDodgeBase = createCanvasArcadeHook({
   gameType: 'meteor-dodge',
   width: W,
   height: H,
@@ -121,7 +121,7 @@ const _useMeteorDodge = createCanvasArcadeHook({
 });
 
 export function useMeteorDodgeGame() {
-  const { st, canvasRef, handlers } = _useMeteorDodge();
+  const { st, canvasRef, handlers } = useMeteorDodgeBase();
 
 
 

@@ -7,10 +7,10 @@ import { getRandomItem } from '@/lib/utils';
 
 export type { Target } from './reflexStore';
 
-const _useStore = createShallowHook(useReflexStore);
+const useStoreBase = createShallowHook(useReflexStore);
 
 export function useReflexGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const nextIdRef  = useRef(0);
   const spawnIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 

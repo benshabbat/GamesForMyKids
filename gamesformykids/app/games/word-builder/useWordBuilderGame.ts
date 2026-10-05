@@ -4,7 +4,7 @@ import { useWordBuilderStore } from './wordBuilderStore';
 
 export type { WordPuzzle, AvailableLetter } from './wordBuilderStore';
 
-const _useBase = createPhaseGameHook(
+const useBase = createPhaseGameHook(
   useWordBuilderStore,
   'word-builder',
   (s) => ({ score: s.score, level: 1 }),
@@ -12,7 +12,7 @@ const _useBase = createPhaseGameHook(
 );
 
 export function useWordBuilderGame() {
-  const state = _useBase();
+  const state = useBase();
   return {
     ...state,
     current: state.puzzles[state.index],

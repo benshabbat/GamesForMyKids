@@ -8,10 +8,10 @@ import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameComp
 export type { Bubble } from './numberBubblesStore';
 export { BUBBLE_COLORS, makeBubbles } from './numberBubblesStore';
 
-const _useStore = createShallowHook(useNumberBubblesStore);
+const useStoreBase = createShallowHook(useNumberBubblesStore);
 
 export function useNumberBubblesGame() {
-  const state = _useStore();
+  const state = useStoreBase();
   const { saveGameResultRef } = useGameCompletion('number-bubbles');
   const startTimeRef = useRef<number>(0);
 

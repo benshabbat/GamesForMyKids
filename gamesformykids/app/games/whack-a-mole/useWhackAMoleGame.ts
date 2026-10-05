@@ -11,10 +11,10 @@ export { GAME_DURATION } from './whackAMoleStore';
 
 const GRID = 9;
 
-const _useStore = createShallowHook(useWhackAMoleStore);
+const useStoreBase = createShallowHook(useWhackAMoleStore);
 
 export function useWhackAMoleGame() {
-  const state    = _useStore();
+  const state    = useStoreBase();
   const store    = useWhackAMoleStore;
   const { saveGameResultRef } = useGameCompletion('whack-a-mole');
   const spawnRef       = useRef<ReturnType<typeof setTimeout> | null>(null);
