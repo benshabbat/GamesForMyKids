@@ -2,8 +2,6 @@
 import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useReflexStore } from './reflexStore';
-import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
-import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 import { TARGET_EMOJIS, getLifetime, getSpawnInterval } from './data/targets';
 import { getRandomItem } from '@/lib/utils';
 
@@ -13,11 +11,8 @@ const _useStore = createShallowHook(useReflexStore);
 
 export function useReflexGame() {
   const state = _useStore();
-  const { saveGameResultRef } = useGameCompletion('reflex');
   const nextIdRef  = useRef(0);
   const spawnIdRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }));
 
   // Target spawner — runs while phase === 'playing'
   useEffect(() => {
