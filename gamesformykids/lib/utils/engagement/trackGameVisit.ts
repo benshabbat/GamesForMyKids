@@ -1,4 +1,5 @@
 import { useChildProfileStore } from '@/lib/stores/childProfileStore';
+import { getLocalDateKey } from './localDate';
 
 export interface LastPlayedData {
   gameType: string;
@@ -44,7 +45,7 @@ export function trackGameVisit(gameType: string): void {
   prev.unshift({ gameType, timestamp: now });
   localStorage.setItem(keys.recent, JSON.stringify(prev.slice(0, 5)));
 
-  const today = new Date().toISOString().slice(0, 10);
+  const today = getLocalDateKey();
   let todayData: TodayCountData;
   try {
     todayData = JSON.parse(localStorage.getItem(keys.todayCount) ?? '{}') as TodayCountData;
@@ -85,7 +86,7 @@ export function getGamesTodayCount(profileId?: string | null): number {
   const id = profileId !== undefined ? profileId : activeId();
   try {
     const data = JSON.parse(localStorage.getItem(profileKeys(id).todayCount) ?? '{}') as TodayCountData;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = getLocalDateKey();
     return data.date === today ? (data.count ?? 0) : 0;
   } catch {
     return 0;

@@ -1,5 +1,6 @@
 'use client';
 import { useAgeCalculator } from './useAgeCalculator';
+import { getLocalDateKey } from '@/lib/utils/engagement/localDate';
 
 function plural(n: number, one: string, many: string) {
   return n === 1 ? `${n} ${one}` : `${n} ${many}`;
@@ -12,7 +13,7 @@ function formatBig(n: number) {
 export default function AgeCalculatorClient() {
   const { birthdayInput, setBirthdayInput, result, calculated, calculate, reset } = useAgeCalculator();
 
-  const today = new Date().toISOString().split('T')[0];
+  const today = getLocalDateKey();
 
   const shareText = result
     ? `אני בן/בת ${plural(result.years, 'שנה', 'שנים')}, ${plural(result.months, 'חודש', 'חודשים')} ו-${plural(result.days, 'יום', 'ימים')}! 🎂 זה ${formatBig(result.totalDays)} ימים! עוד ${result.daysUntilBirthday} ימים ליום ההולדת הבא!`

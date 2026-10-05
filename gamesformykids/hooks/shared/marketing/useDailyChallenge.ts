@@ -1,11 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { GamesRegistry } from '@/lib/registry/gamesRegistry';
+import { getLocalDateKey, getLocalDayIndex } from '@/lib/utils/engagement/localDate';
 
 const DONE_KEY = 'gfk_daily_challenge_done';
 
 function getTodayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return getLocalDateKey();
 }
 
 export function useDailyChallenge() {
@@ -18,7 +19,7 @@ export function useDailyChallenge() {
 
     const allGames = GamesRegistry.getAllGameRegistrations().filter((g) => g.available);
     if (allGames.length === 0) return;
-    const dayIndex = Math.floor(Date.now() / 86_400_000);
+    const dayIndex = getLocalDayIndex();
     setGameId(allGames[dayIndex % allGames.length]?.id ?? null);
   }, []);
 
