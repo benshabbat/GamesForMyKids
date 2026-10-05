@@ -60,7 +60,8 @@ export const useEscapeRoomStore = create<State & Actions>((set, get) => ({
 
   submitAnswer: (answer) => {
     const { activePuzzle, solvedIds, revealedDigits, room, score } = get();
-    if (!activePuzzle || !room) return false;
+    // Already solved (overlay is still showing its success message) — don't score twice.
+    if (!activePuzzle || !room || solvedIds.has(activePuzzle.hotspot.id)) return false;
 
     const isCorrect = answer === activePuzzle.puzzle.answer;
     if (isCorrect) {
@@ -69,10 +70,11 @@ export const useEscapeRoomStore = create<State & Actions>((set, get) => ({
       const newDigits = [...revealedDigits, activePuzzle.puzzle.digit];
       const puzzleHotspots = room.hotspots.filter(h => h.puzzle !== null);
       const allSolved = newSolved.size >= puzzleHotspots.length;
+      // activePuzzle stays set so PuzzleOverlay can show its success message;
+      // the overlay calls dismissOverlay when it is done.
       set({
         solvedIds: newSolved,
         revealedDigits: newDigits,
-        activePuzzle: null,
         score: score + (100 - get().hintsUsed * 5),
         phase: allSolved ? 'result' : 'playing',
       });
