@@ -62,7 +62,9 @@ export function useWordFishingGame() {
     waveIdxRef.current = 0;
     livesRef.current = MAX_LIVES;
     scoreRef.current = 0;
-    setScore(0); setLives(MAX_LIVES); setWave(0);
+    fishRef.current = [];
+    feedbackTimerRef.current = 0;
+    setScore(0); setLives(MAX_LIVES); setWave(0); setFeedback(null);
     setQuestion(shuffled[0]?.question ?? '');
     phaseRef.current = 'playing'; setPhase('playing');
   }, []);
