@@ -74,7 +74,9 @@ export function useAuth(): AuthHookReturn {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name: name || '' } },
+        // handle_new_user() copies raw_user_meta_data->>'full_name' into profiles
+        // (and UserProfile reads user_metadata.full_name); keep `name` for compatibility.
+        options: { data: { name: name || '', full_name: name?.trim() || null } },
       })
       return error ? { error: error.message } : {}
     } catch {
