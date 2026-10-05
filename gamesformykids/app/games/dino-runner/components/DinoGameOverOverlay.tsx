@@ -1,6 +1,7 @@
 'use client';
 
-import { useDinoRunnerGame } from '../useDinoRunnerGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useDinoRunnerStore } from '../dinoRunnerStore';
 import CanvasGameOverOverlay from '@/components/game/shared/CanvasGameOverOverlay';
 
 interface Props {
@@ -8,7 +9,9 @@ interface Props {
 }
 
 export default function DinoGameOverOverlay({ onRestart }: Props) {
-  const { score, best } = useDinoRunnerGame();
+  // Read the store directly: calling useDinoRunnerGame() here would spin up a second
+  // game instance with its own Space/ArrowUp listener that fights the real one.
+  const { score, best } = useDinoRunnerStore(useShallow(s => ({ score: s.score, best: s.best })));
   return (
     <CanvasGameOverOverlay
       emoji="😵"
