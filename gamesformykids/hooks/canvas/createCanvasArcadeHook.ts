@@ -57,10 +57,11 @@ export interface CanvasArcadeConfig<S extends { phase: string }> {
    */
   initialState: () => S;
   /**
-   * Game loop tick — called every animation frame.
+   * Game loop tick — called on a fixed 60 Hz step (see useCanvasLoop), so
+   * per-tick movement runs at the same speed on any display refresh rate.
    * @param ctx  2D canvas context
    * @param state  mutable game state (mutate directly — no setState)
-   * @param dt   milliseconds since the previous frame
+   * @param dt   milliseconds per tick — always ~16.67 (fixed step)
    * @param saveRef  ref from useGameCompletion — call `.current({score,level,durationSeconds})` on game-over
    */
   draw: (ctx: CanvasRenderingContext2D, state: S, dt: number, saveRef: ReturnType<typeof useGameCompletion>['saveGameResultRef']) => void;

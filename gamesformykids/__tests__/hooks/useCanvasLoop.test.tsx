@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, cleanup } from '@testing-library/react';
-import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
+import { useCanvasLoop, FIXED_STEP_MS } from '@/hooks/canvas/useCanvasLoop';
 import { useCanvasResize } from '@/hooks/canvas/useCanvasResize';
 
 // ── rAF / canvas / ResizeObserver stand-ins ───────────────────────────────────
@@ -10,9 +10,11 @@ let rafCallbacks: Map<number, FrameRequestCallback>;
 let nextRafId: number;
 let observed: Element[];
 let disconnected: number;
+let clock: number;
 
 /** Fires every pending requestAnimationFrame callback with the given timestamp. */
 function frame(now: number) {
+  clock = now;
   const pending = [...rafCallbacks.values()];
   rafCallbacks.clear();
   pending.forEach(cb => cb(now));
@@ -23,7 +25,9 @@ beforeEach(() => {
   nextRafId = 1;
   observed = [];
   disconnected = 0;
+  clock = 0;
 
+  vi.spyOn(performance, 'now').mockImplementation(() => clock);
   vi.stubGlobal('requestAnimationFrame', (cb: FrameRequestCallback) => {
     const id = nextRafId++;
     rafCallbacks.set(id, cb);
@@ -142,5 +146,79 @@ describe('useCanvasResize', () => {
 
     rerender(<ResizeHarness show />);
     expect(observed).toHaveLength(2);
+  });
+});
+
+// ── Fixed 60 Hz timestep ──────────────────────────────────────────────────────
+
+/** Runs `seconds` of animation frames at `hz` and returns the dt of every tick. */
+function runDisplay(hz: number, seconds: number, jitterMs = 0): number[] {
+  const dts: number[] = [];
+  render(<LoopHarness show tick={(_ctx, dt) => { dts.push(dt); }} />);
+  const frames = Math.round(hz * seconds);
+  for (let i = 1; i <= frames; i++) {
+    // Deterministic pseudo-jitter in [-jitterMs, +jitterMs]
+    const jitter = jitterMs * Math.sin(i * 12.9898);
+    frame((i * 1000) / hz + jitter);
+  }
+  return dts;
+}
+
+describe('useCanvasLoop fixed timestep', () => {
+  it('ticks once per frame, with a fixed dt, on a 60 Hz display', () => {
+    const dts = runDisplay(60, 10);
+    expect(dts).toHaveLength(600);
+    expect(dts.every(dt => dt === FIXED_STEP_MS)).toBe(true);
+  });
+
+  it('does not skip or double ticks on a 60 Hz display with frame-time jitter', () => {
+    const dts = runDisplay(60, 10, 1.5);
+    expect(dts).toHaveLength(600);
+  });
+
+  it.each([30, 75, 90, 120, 144, 240])('runs 60 ticks per second on a %i Hz display', (hz) => {
+    const dts = runDisplay(hz, 10);
+    expect(Math.abs(dts.length - 600)).toBeLessThanOrEqual(1);
+    expect(dts.every(dt => dt === FIXED_STEP_MS)).toBe(true);
+  });
+
+  it('runs 60 ticks per second on a 120 Hz display with jitter', () => {
+    const dts = runDisplay(120, 10, 1.5);
+    expect(Math.abs(dts.length - 600)).toBeLessThanOrEqual(2);
+  });
+
+  it('never passes a negative dt when the first frame timestamp precedes the start time', () => {
+    clock = 100;
+    const dts: number[] = [];
+    render(<LoopHarness show tick={(_ctx, dt) => { dts.push(dt); }} />);
+    frame(95);
+    frame(112);
+    expect(dts.every(dt => dt >= 0)).toBe(true);
+  });
+
+  it('does not replay a long pause (hidden tab) as game time', () => {
+    const dts: number[] = [];
+    render(<LoopHarness show tick={(_ctx, dt) => { dts.push(dt); }} />);
+    for (let i = 1; i <= 60; i++) frame(i * FIXED_STEP_MS);
+    expect(dts).toHaveLength(60);
+
+    frame(60 * FIXED_STEP_MS + 10_000);
+    expect(dts.length - 60).toBeLessThanOrEqual(1);
+  });
+
+  it('caps catch-up after a slow frame and drops the remaining backlog', () => {
+    const dts: number[] = [];
+    render(<LoopHarness show tick={(_ctx, dt) => { dts.push(dt); }} />);
+    let t = 0;
+    for (let i = 0; i < 30; i++) { t += FIXED_STEP_MS; frame(t); }
+    expect(dts).toHaveLength(30);
+
+    t += 120; // ~7 steps behind
+    frame(t);
+    expect(dts).toHaveLength(34); // capped at 4 ticks for the frame
+
+    t += FIXED_STEP_MS; // back to normal: the backlog is gone, exactly one tick
+    frame(t);
+    expect(dts).toHaveLength(35);
   });
 });
