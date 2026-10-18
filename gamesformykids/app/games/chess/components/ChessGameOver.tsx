@@ -4,9 +4,11 @@ import { useChessGame } from '../useChessGame';
 import ChessScoreCards from './ChessScoreCards';
 
 export default function ChessGameOver() {
-  const { message, startGame } = useChessGame();
-  const playerWon = message.includes('ניצחת');
-  const isDraw = message.includes('תיקו') || message.includes('פאט');
+  const { phase, turn, message, startGame } = useChessGame();
+  // Stalemate is a draw for both sides. On checkmate `turn` is never passed on,
+  // so it is still the side that delivered mate: white is the child.
+  const isDraw = phase === 'stalemate';
+  const playerWon = phase === 'checkmate' && turn === 'w';
 
   return (
     <div className="flex flex-col items-center gap-5 text-center w-full max-w-sm">

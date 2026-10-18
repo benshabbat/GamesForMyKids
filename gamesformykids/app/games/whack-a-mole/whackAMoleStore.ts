@@ -25,6 +25,8 @@ interface WhackAMoleState {
 
 interface WhackAMoleActions {
   startGame:  () => void;
+  /** Player left the page: stop the countdown (it is module-level) and go back to the menu. */
+  abandonGame: () => void;
   whack:      (idx: number) => void;
   showMole:   (idx: number, val: string, isBad: boolean) => void;
   hideMole:   (idx: number) => void;
@@ -60,6 +62,11 @@ export const useWhackAMoleStore = makePersistStore<WhackAMoleState & WhackAMoleA
         timer.stop();
         set({ ...freshState(get().best), phase: 'playing' }, false, 'whack/startGame');
         timer.start();
+      },
+
+      abandonGame: () => {
+        timer.stop();
+        set(freshState(get().best), false, 'whack/abandonGame');
       },
 
       whack: (idx: number) => {

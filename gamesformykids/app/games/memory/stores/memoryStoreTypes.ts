@@ -40,7 +40,6 @@ export interface MemoryStoreState {
   currentPlayer: 0 | 1;
 
   // Cards
-  lastMatchWasSuccess: boolean;
   cards: MemoryCard[];
   animals: AnimalData[];
   flippedCards: number[];
@@ -104,7 +103,6 @@ export const initialState: MemoryStoreState = {
   isGamePaused: false,
   difficulty: 'medium',
   gameStats: initialGameStats,
-  lastMatchWasSuccess: false,
   cards: [],
   animals: MEMORY_GAME_ANIMALS.slice(0, MEMORY_GAME_CONSTANTS.DIFFICULTY_LEVELS.medium.pairs),
   flippedCards: [],

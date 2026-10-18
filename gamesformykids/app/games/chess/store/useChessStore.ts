@@ -42,15 +42,16 @@ export const useChessStore = makeStore<ChessStore>('ChessStore', (set, get) => (
       const compMoves = getAllValidMoves(nb, 'b', nc, nep);
 
       if (compMoves.length === 0) {
-        const phrase = isInCheck(nb, 'b') ? 'שחמט!' : 'פאט!';
         const gaveCheck = isInCheck(nb, 'b');
         const record = buildRecord(move, pieceMoved, 'w', captured, gaveCheck, Math.floor(prev.moveHistory.length / 2) + 1);
         set({
           board: nb, castling: nc, enPassant: nep, lastMove: move,
           selected: null, validMoves: [],
-          phase: 'checkmate',
+          // On checkmate `turn` is left on the mover, so ChessGameOver reads the winner from it.
+          // No legal moves without check is stalemate: a draw, not a win.
+          phase: gaveCheck ? 'checkmate' : 'stalemate',
           playerScore: prev.playerScore + (gaveCheck ? 1 : 0),
-          message: `🏆 ${phrase} ניצחת!`,
+          message: gaveCheck ? '🏆 שחמט! ניצחת!' : '🤝 פאט! המשחק נגמר בתיקו',
           capturedByPlayer: captured ? [...prev.capturedByPlayer, captured] : prev.capturedByPlayer,
           moveHistory: [...prev.moveHistory, record],
         });

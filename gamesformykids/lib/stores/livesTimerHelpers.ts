@@ -11,12 +11,25 @@ import type { LivesGameState } from '@/lib/types';
 type LivesSet = (partial: Record<string, unknown>, replace?: false, name?: string) => void;
 type LivesGet = () => LivesGameState;
 
+/** A fixed value, or a function resolved each time it is needed (e.g. to follow the difficulty setting). */
+type MaybeLazy<T> = T | (() => T);
+
+function resolve<T>(value: MaybeLazy<T>): T {
+  return typeof value === 'function' ? (value as () => T)() : value;
+}
+
 export interface LivesTimerConfig {
   /** DevTools store name prefix used in action labels */
   name:         string;
-  timePerQ:     number;
+  /**
+   * Seconds allowed per question. Pass a function when it depends on something that can
+   * change between games (difficulty): it is re-read for every question, so the time is
+   * the same on question 2+ as on question 1.
+   */
+  timePerQ:     MaybeLazy<number>;
   feedbackMs:   number;
-  initialLives: number;
+  /** Lives at the start of a game. May be a function, like `timePerQ`. */
+  initialLives: MaybeLazy<number>;
   set:          LivesSet;
   get:          LivesGet;
   /**
@@ -40,7 +53,7 @@ export function setupLivesTimer(cfg: LivesTimerConfig) {
     clearFeedbackTimer();
     feedbackId = setTimeout(() => {
       if (get().phase !== 'playing') return;
-      set({ feedback: null, timeLeft: timePerQ, ...getNextUpdates() }, false, `${name}/nextQuestion`);
+      set({ feedback: null, timeLeft: resolve(timePerQ), ...getNextUpdates() }, false, `${name}/nextQuestion`);
       startCountdown();
     }, feedbackMs);
   }
@@ -57,8 +70,8 @@ export function setupLivesTimer(cfg: LivesTimerConfig) {
         const isDead   = newLives <= 0;
         set(
           isDead
-            ? { lives: newLives, feedback: 'wrong', timeLeft: timePerQ, phase: 'dead', best: Math.max(best, score) }
-            : { lives: newLives, feedback: 'wrong', timeLeft: timePerQ },
+            ? { lives: newLives, feedback: 'wrong', timeLeft: resolve(timePerQ), phase: 'dead', best: Math.max(best, score) }
+            : { lives: newLives, feedback: 'wrong', timeLeft: resolve(timePerQ) },
           false,
           `${name}/timeout`,
         );
@@ -80,11 +93,20 @@ export function setupLivesTimer(cfg: LivesTimerConfig) {
       clearFeedbackTimer();
       const { best } = get();
       set(
-        { phase: 'playing', score: 0, lives: initialLives, timeLeft: timePerQ, feedback: null, best, ...getInitialUpdates() },
+        { phase: 'playing', score: 0, lives: resolve(initialLives), timeLeft: resolve(timePerQ), feedback: null, best, ...getInitialUpdates() },
         false,
         `${name}/startGame`,
       );
       startCountdown();
+    },
+
+    /**
+     * Cancels the countdown and any pending feedback timer. The timers are module-level, so
+     * without this they keep running (and draining lives) after the player leaves the page.
+     */
+    stop() {
+      clearCountdown();
+      clearFeedbackTimer();
     },
 
     /** Mark a correct answer: add points, set feedback, schedule next question. */

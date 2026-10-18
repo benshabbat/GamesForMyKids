@@ -1,5 +1,6 @@
 'use client';
-import { useCatchFruitGame } from '../useCatchFruitGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useCatchFruitStore } from '../catchFruitStore';
 import CanvasGameOverOverlay from '@/components/game/shared/CanvasGameOverOverlay';
 
 interface Props {
@@ -7,7 +8,8 @@ interface Props {
 }
 
 export default function CatchFruitResultOverlay({ onRestart }: Props) {
-  const { score, best, lives } = useCatchFruitGame();
+  // Read the store directly — calling useCatchFruitGame() here would start a second game instance.
+  const { score, best, lives } = useCatchFruitStore(useShallow(s => ({ score: s.score, best: s.best, lives: s.lives })));
   return (
     <CanvasGameOverOverlay
       emoji={lives === 0 ? '💔' : '🎉'}

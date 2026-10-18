@@ -31,28 +31,45 @@ export async function fetchAchievements(
   return (data ?? []) as Achievement[];
 }
 
-/** Returns an existing achievement row if the user already has it, or null. */
+/**
+ * Returns an existing achievement row if the user already has it, or null.
+ * Cross-game achievements are stored with a NULL game_type, so an empty
+ * gameType is matched with `IS NULL` (`= ''` would never match them).
+ * Uses limit(1) + maybeSingle() so duplicate rows never turn into an error
+ * (`.single()` errors on 2+ rows, which made every later unlock insert again).
+ */
 export async function findAchievement(
   userId: string,
   achievementType: string,
   gameType: string,
 ): Promise<{ id: string } | null> {
-  const { data } = await supabase
+  let query = supabase
     .from('achievements')
     .select('id')
     .eq('user_id', userId)
-    .eq('achievement_type', achievementType)
-    .eq('game_type', gameType)
-    .single();
+    .eq('achievement_type', achievementType);
+
+  query = gameType
+    ? query.eq('game_type', gameType)
+    : query.is('game_type', null);
+
+  const { data } = await query.limit(1).maybeSingle();
 
   return data ?? null;
 }
 
-/** Insert a new achievement row and return it. */
+/** Postgres unique_violation — the achievement row already exists. */
+const UNIQUE_VIOLATION = '23505';
+
+/**
+ * Insert a new achievement row and return it.
+ * Returns null when the row already exists (unique violation), i.e. the
+ * achievement was already unlocked, so callers should not announce it again.
+ */
 export async function insertAchievement(
   userId: string,
   achievement: NewAchievement,
-): Promise<Achievement> {
+): Promise<Achievement | null> {
   const { data, error } = await supabase
     .from('achievements')
     .insert({
@@ -63,6 +80,7 @@ export async function insertAchievement(
     .select()
     .single();
 
+  if (error?.code === UNIQUE_VIOLATION) return null;
   if (error) throw error;
   return data as Achievement;
 }

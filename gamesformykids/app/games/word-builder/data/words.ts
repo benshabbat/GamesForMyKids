@@ -28,7 +28,7 @@ export const WORD_PUZZLES: WordPuzzle[] = [
   { id: 'pizza',      word: 'פיצה',        hint: 'אוכל איטלקי עגול', emoji: '🍕', category: 'אוכל' },
   { id: 'ice-cream',  word: 'גלידה',       hint: 'קרה ומתוקה',       emoji: '🍦', category: 'אוכל' },
   // צבעים
-  { id: 'red',        word: 'אדום',        hint: 'צבע גזר',          emoji: '🔴', category: 'צבעים' },
+  { id: 'red',        word: 'אדום',        hint: 'צבע עגבנייה',      emoji: '🔴', category: 'צבעים' },
   { id: 'blue',       word: 'כחול',        hint: 'צבע השמיים',       emoji: '🔵', category: 'צבעים' },
   { id: 'green',      word: 'ירוק',        hint: 'צבע עשב',          emoji: '🟢', category: 'צבעים' },
   { id: 'yellow',     word: 'צהוב',        hint: 'צבע בננה',         emoji: '🟡', category: 'צבעים' },

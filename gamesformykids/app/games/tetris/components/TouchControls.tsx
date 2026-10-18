@@ -138,12 +138,10 @@ const TouchControls = ({ isDesktop = false }: TouchControlsProps) => {
           <ArrowIcon className="w-7 h-7 rotate-180" />
         </button>
         <button
-          onTouchStart={startSoftDropHold}
-          onTouchEnd={stopSoftDropHold}
-          onTouchCancel={stopSoftDropHold}
-          onMouseDown={startSoftDropHold}
-          onMouseUp={stopSoftDropHold}
-          onMouseLeave={stopSoftDropHold}
+          onPointerDown={startSoftDropHold}
+          onPointerUp={stopSoftDropHold}
+          onPointerCancel={stopSoftDropHold}
+          onPointerLeave={stopSoftDropHold}
           aria-label="הזז מטה, החזק להורדה רציפה"
           className="flex items-center justify-center bg-gradient-to-br from-red-400 to-red-600 text-white p-3 rounded-xl shadow-2xl active:scale-95 transition-transform duration-150 border-2 border-red-300/30 touch-manipulation"
           disabled={!isGameRunning}

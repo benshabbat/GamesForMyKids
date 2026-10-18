@@ -1,9 +1,9 @@
 'use client';
 import GameMenuCard from '@/components/game/shared/GameMenuCard';
-import { useDrawingGame } from '../hooks/useDrawingGame';
+import { useDrawingStore } from '../store/drawingStore';
 
 export default function DrawingStartScreen() {
-  const { startGame } = useDrawingGame();
+  const startGame = useDrawingStore((s) => s.startGame);
 
   return (
     <GameMenuCard

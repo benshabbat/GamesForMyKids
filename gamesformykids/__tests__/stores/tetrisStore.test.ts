@@ -177,5 +177,70 @@ describe('tetrisStore', () => {
       // Row above (only the piece's top half) shifts down into the cleared row's place.
       expect(state.board[BOARD_HEIGHT - 1]).toEqual([0, 0, 0, 0, 'cyan', 'cyan', 0, 0, 0, 0]);
     });
+
+    describe('pausing during the flash', () => {
+      const nextPiece = { type: 'O', blocks: TETROMINOES.O!.blocks, color: 'yellow' };
+
+      // Locks an O-piece that completes the bottom row, leaving the store mid-flash.
+      beforeEach(() => {
+        const filledRow = new Array(BOARD_WIDTH).fill('gray').map((cell, x) => (x === 4 || x === 5 ? 0 : cell));
+        const board = EMPTY_BOARD.map((row, y) => (y === BOARD_HEIGHT - 1 ? filledRow : [...row]));
+
+        store.setState({
+          board,
+          currentPiece: { type: 'O', blocks: TETROMINOES.O!.blocks, color: 'cyan' },
+          position: { x: 4, y: BOARD_HEIGHT - 2 },
+          score: 0,
+          level: 1,
+          phase: 'playing',
+          nextPiece,
+          linesCleared: 0,
+          clearingRows: [],
+        } as unknown as Parameters<typeof store.setState>[0]);
+
+        store.getState().movePiece(0, 1);
+      });
+
+      it('keeps the clear frozen while paused', () => {
+        store.getState().togglePause();
+        vi.advanceTimersByTime(1000);
+
+        const state = store.getState();
+        expect(state.phase).toBe('paused');
+        expect(state.clearingRows).toEqual([BOARD_HEIGHT - 1]);
+        expect(state.currentPiece).toBeNull();
+        expect(state.linesCleared).toBe(0);
+      });
+
+      it('finishes the clear and spawns the next piece on resume (no freeze)', () => {
+        store.getState().togglePause();
+        vi.advanceTimersByTime(1000);
+        store.getState().togglePause();
+
+        const state = store.getState();
+        expect(state.phase).toBe('playing');
+        expect(state.clearingRows).toEqual([]);
+        expect(state.linesCleared).toBe(1);
+        expect(state.score).toBe(100);
+        expect(state.currentPiece).toEqual(nextPiece);
+        expect(state.position).toEqual({ x: 4, y: 0 });
+
+        // The piece must be movable again.
+        store.getState().movePiece(0, 1);
+        expect(store.getState().position).toEqual({ x: 4, y: 1 });
+      });
+
+      it('does not count the clear twice when resumed before the flash timer fires', () => {
+        vi.advanceTimersByTime(100);
+        store.getState().togglePause();
+        store.getState().togglePause();
+        vi.advanceTimersByTime(1000);
+
+        const state = store.getState();
+        expect(state.linesCleared).toBe(1);
+        expect(state.score).toBe(100);
+        expect(state.phase).toBe('playing');
+      });
+    });
   });
 });

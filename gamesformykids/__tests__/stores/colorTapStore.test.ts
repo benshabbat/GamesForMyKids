@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
 import { useColorTapStore, TIME_PER_Q } from '@/app/games/color-tap/colorTapStore';
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 
 const store = useColorTapStore;
 
@@ -14,6 +15,8 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
+  useGameDifficulty.setState({ difficulty: 'medium' });
 });
 
 describe('colorTapStore', () => {
@@ -127,6 +130,44 @@ describe('colorTapStore', () => {
       store.getState().handleTap(question.target);
       expect(store.getState().feedback).toBe('correct');
       vi.advanceTimersByTime(700);
+      expect(store.getState().feedback).toBeNull();
+    });
+  });
+
+  describe('difficulty', () => {
+    it('starts with the easy time and lives', () => {
+      useGameDifficulty.setState({ difficulty: 'easy' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(8);
+      expect(store.getState().lives).toBe(5);
+    });
+
+    it('keeps the difficulty time on later questions (not the medium default)', () => {
+      useGameDifficulty.setState({ difficulty: 'hard' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(3);
+      store.getState().handleTap(store.getState().question.target);
+      vi.advanceTimersByTime(700);
+      expect(store.getState().feedback).toBeNull();
+      expect(store.getState().timeLeft).toBe(3);
+    });
+  });
+
+  describe('abandonGame', () => {
+    it('returns to the menu and stops the countdown so lives stop draining', () => {
+      vi.stubGlobal('window', {});
+      store.getState().startGame();
+      store.getState().abandonGame();
+      expect(store.getState().phase).toBe('menu');
+      vi.advanceTimersByTime(60_000);
+      expect(store.getState().lives).toBe(3);
+      expect(store.getState().phase).toBe('menu');
+    });
+
+    it('clears pending feedback so the next game is not locked', () => {
+      store.getState().startGame();
+      store.getState().handleTap(store.getState().question.target);
+      store.getState().abandonGame();
       expect(store.getState().feedback).toBeNull();
     });
   });

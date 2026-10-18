@@ -3,7 +3,7 @@ import type { TzaddikStory } from '../types';
 export const CHOFETZ_CHAIM_STORY: TzaddikStory = {
   id: 'chofetz-chaim',
   name: 'החפץ חיים',
-  years: 'תקנ"ח – תרצ"ג (1838–1933)',
+  years: 'תקצ"ח – תרצ"ג (1838–1933)',
   emoji: '🕊️',
   color: 'from-green-500 to-teal-600',
   bgGradient: 'from-green-50 to-teal-100',

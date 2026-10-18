@@ -53,7 +53,7 @@ export const createDropSlice: StateCreator<PuzzleStore, [], [], DropSlice> = (se
     }
 
     const correctPieces = newPlacedPieces.filter(p => p?.isCorrect).length;
-    set({ score: calculateFinalScore(correctPieces, difficulty, timer) });
+    set({ score: calculateFinalScore(correctPieces, timer) });
 
     if (correctPieces === difficulty) {
       set({ isCompleted: true });

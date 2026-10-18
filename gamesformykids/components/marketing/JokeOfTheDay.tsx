@@ -3,25 +3,27 @@
 import { useState, useCallback } from 'react';
 import { JOKES } from '@/lib/constants/jokes';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
-
-function getTodayJoke() {
-  const dayIndex = Math.floor(Date.now() / 86_400_000);
-  return JOKES[dayIndex % JOKES.length] ?? JOKES[0]!;
-}
+import { useItemOfTheDay } from '@/hooks/shared/marketing/useItemOfTheDay';
+import DayCardPlaceholder from './DayCardPlaceholder';
 
 export default function JokeOfTheDay() {
-  const joke = getTodayJoke();
+  const joke = useItemOfTheDay(JOKES);
   const [revealed, setRevealed] = useState(false);
 
   const reveal = useCallback(() => {
+    if (!joke) return;
     setRevealed(true);
     speakHebrew(joke.punchline);
-  }, [joke.punchline]);
+  }, [joke]);
 
-  function shareWhatsApp() {
+  if (!joke) {
+    return <DayCardPlaceholder gradient="from-yellow-400 to-amber-500" label="😂 בדיחה של היום" />;
+  }
+
+  const shareWhatsApp = () => {
     const text = `😂 בדיחה של היום!\n${joke.setup}\n👉 ${joke.punchline}\nעוד בדיחות: https://gamesformykids.co.il`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-  }
+  };
 
   return (
     <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">

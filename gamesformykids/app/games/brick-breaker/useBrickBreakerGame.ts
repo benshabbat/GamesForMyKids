@@ -21,7 +21,7 @@ export { W, H } from './brickBreakerConstants';
  */
 const _nextLevelRef: { current: ((level: number) => void) | null } = { current: null };
 
-const _useBrickBreaker = createCanvasArcadeHook({
+const useBrickBreakerBase = createCanvasArcadeHook({
   gameType: 'brick-breaker',
   width: W,
   height: H,
@@ -101,7 +101,7 @@ const _useBrickBreaker = createCanvasArcadeHook({
 });
 
 export function useBrickBreakerGame() {
-  const { st, canvasRef, handlers } = _useBrickBreaker();
+  const { st, canvasRef, handlers } = useBrickBreakerBase();
 
 
   const startGame = useCallback((level = 1) => {
@@ -122,7 +122,7 @@ export function useBrickBreakerGame() {
   // progression. Clean up on unmount so a stale callback is never called.
   useEffect(() => {
     _nextLevelRef.current = startGame;
-    return () => { _nextLevelRef.current = null; };
+    return () => { if (_nextLevelRef.current === startGame) _nextLevelRef.current = null; };
   }, [startGame]);
 
   const handleClick = useCallback(() => {

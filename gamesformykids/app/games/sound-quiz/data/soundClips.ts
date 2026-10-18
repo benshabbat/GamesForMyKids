@@ -19,7 +19,7 @@ export const SOUND_CLIPS: SoundClip[] = [
   { id: 'a7',  name: 'כבש',     emoji: '🐑', soundText: 'מֵה מֵה',           category: 'animals' },
   { id: 'a8',  name: 'נחש',     emoji: '🐍', soundText: 'שששששש',            category: 'animals' },
   { id: 'a9',  name: 'ציפור',   emoji: '🐦', soundText: 'צ\'יק צ\'יק',      category: 'animals' },
-  { id: 'a10', name: 'פרא',     emoji: '🐴', soundText: 'אִיִיִי',           category: 'animals' },
+  { id: 'a10', name: 'סוס',     emoji: '🐴', soundText: 'אִיִיִי',           category: 'animals' },
   { id: 'a11', name: 'קוף',     emoji: '🐒', soundText: 'אוּ אוּ אָה',       category: 'animals' },
   { id: 'a12', name: 'אריה',    emoji: '🦁', soundText: 'רּוּוּאר',          category: 'animals' },
 
@@ -29,11 +29,11 @@ export const SOUND_CLIPS: SoundClip[] = [
   { id: 'i3',  name: 'גיטרה',   emoji: '🎸', soundText: 'לָה לָה לָה',       category: 'instruments' },
   { id: 'i4',  name: 'פסנתר',   emoji: '🎹', soundText: 'דִינג דִינג דִינג', category: 'instruments' },
   { id: 'i5',  name: 'כינור',   emoji: '🎻', soundText: 'לִי לִי לִי',       category: 'instruments' },
-  { id: 'i6',  name: 'מפוחית',  emoji: '🪗', soundText: 'וּאָה וּאָה',        category: 'instruments' },
-  { id: 'i7',  name: 'פלוט',    emoji: '🪈', soundText: 'פְרִי פְרִי פְרִי', category: 'instruments' },
-  { id: 'i8',  name: 'מרמבה',   emoji: '🎵', soundText: 'בּוּם בּוּם טִינג', category: 'instruments' },
+  { id: 'i6',  name: 'מפוחית',  emoji: '🎵', soundText: 'וּאָה וּאָה',        category: 'instruments' },
+  { id: 'i7',  name: 'חליל',    emoji: '🪈', soundText: 'פְרִי פְרִי פְרִי', category: 'instruments' },
+  { id: 'i8',  name: 'מרימבה',  emoji: '🎶', soundText: 'בּוּם בּוּם טִינג', category: 'instruments' },
   { id: 'i9',  name: 'מצילות',  emoji: '🔔', soundText: 'טִינג טִינג',        category: 'instruments' },
-  { id: 'i10', name: 'אקורדיון', emoji: '🎶', soundText: 'לָה לָה לָלָה',     category: 'instruments' },
+  { id: 'i10', name: 'אקורדיון', emoji: '🪗', soundText: 'לָה לָה לָלָה',     category: 'instruments' },
 
   // ── טבע ────────────────────────────────────────────────────────────────────
   { id: 'n1',  name: 'גשם',     emoji: '🌧️', soundText: 'טִיף טִיף טִיף',   category: 'nature' },
@@ -54,7 +54,7 @@ export const SOUND_CLIPS: SoundClip[] = [
   { id: 'h4',  name: 'שואב אבק',emoji: '🧹', soundText: 'ווּּוּוּ ווּּוּוּ',     category: 'household' },
   { id: 'h5',  name: 'מקלדת',   emoji: '⌨️', soundText: 'טַק טַק טַק',         category: 'household' },
   { id: 'h6',  name: 'כיריים',  emoji: '🍳', soundText: 'שִׁיש שִׁיש שִׁיש',    category: 'household' },
-  { id: 'h7',  name: 'חשמלית',  emoji: '🔔', soundText: 'דִינג דוֹנג',           category: 'household' },
+  { id: 'h7',  name: 'חשמלית',  emoji: '🚋', soundText: 'דִינג דוֹנג',           category: 'household' },
   { id: 'h8',  name: 'מיקסר',   emoji: '🥣', soundText: 'וּוּוּוּוּ',             category: 'household' },
   { id: 'h9',  name: 'מקלחת',   emoji: '🚿', soundText: 'שׁ שׁ שׁ שׁ',           category: 'household' },
   { id: 'h10', name: 'מכונת כביסה', emoji: '🫧', soundText: 'גּוּרגּוּר שְׁ שְׁ', category: 'household' },

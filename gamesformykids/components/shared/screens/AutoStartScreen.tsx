@@ -10,6 +10,7 @@ import RealPhotoToggleButton from '../buttons/RealPhotoToggleButton';
 import PrintWorksheetButton from '../buttons/PrintWorksheetButton';
 import { REAL_PHOTO_CARD_MAP } from '../GameCardMap';
 import { useSpeedBurstStore } from '@/lib/stores/speedBurstStore';
+import { getStartScreenTone } from './startScreenTone';
 
 export default function AutoStartScreen() {
   const { config, speakItemName, gameType, items, startGame, lastMistakeItems, startMistakeReview } = useUniversalGame();
@@ -31,6 +32,8 @@ export default function AutoStartScreen() {
       </div>
     );
   }
+
+  const tone = getStartScreenTone(config.colors?.background);
 
   if (inStudy) {
     return (
@@ -72,7 +75,7 @@ export default function AutoStartScreen() {
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-[background-color,border-color,box-shadow,color] border-2 ${
               studyMode
                 ? 'bg-amber-400 border-amber-500 text-amber-900 shadow-md'
-                : 'bg-white/30 border-white/50 text-white hover:bg-white/40'
+                : tone.chip
             }`}
             aria-pressed={studyMode}
           >
@@ -83,7 +86,7 @@ export default function AutoStartScreen() {
             className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition-[background-color,border-color,box-shadow,color] border-2 ${
               speedEnabled
                 ? 'bg-yellow-400 border-yellow-500 text-yellow-900 shadow-md'
-                : 'bg-white/30 border-white/50 text-white hover:bg-white/40'
+                : tone.chip
             }`}
             aria-pressed={speedEnabled}
             title="מצב מהירות — 60 שניות לענות על כמה שיותר שאלות"
@@ -91,7 +94,7 @@ export default function AutoStartScreen() {
             ⚡ {speedEnabled ? 'מהיר ✓' : 'מהיר'}
           </button>
           {gameType && gameType in REAL_PHOTO_CARD_MAP && <RealPhotoToggleButton />}
-          <PrintWorksheetButton items={items as BaseGameItem[]} title={config.title ?? gameType ?? ''} />
+          <PrintWorksheetButton items={items as BaseGameItem[]} title={config.title ?? gameType ?? ''} colorClassName={tone.chip} />
           {lastMistakeItems.length >= 2 && (
             <button
               onClick={() => startMistakeReview()}

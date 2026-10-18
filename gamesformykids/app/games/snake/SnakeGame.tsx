@@ -7,6 +7,15 @@ import SnakeGameOverOverlay from './components/SnakeGameOverOverlay';
 import { CanvasDPadControls } from '@/components/game/shared/CanvasDPadControls';
 import CanvasGameShell from '@/components/game/canvas/CanvasGameShell';
 
+// Square board: as wide as W, but never taller than 60vh or wider than the screen.
+// Sized in CSS (not by the DPR code) so a hi-DPI backing store doesn't change the layout size.
+const BOARD_STYLE: React.CSSProperties = {
+  width: `min(${W}px, 60vh)`,
+  maxWidth: '100%',
+  height: 'auto',
+  aspectRatio: '1 / 1',
+};
+
 export default function SnakeGame() {
   const { canvasRef, startGame, handleTouchStart, handleTouchEnd, controlDir, phase, score, level, best } = useSnakeGame();
 
@@ -15,7 +24,7 @@ export default function SnakeGame() {
       canvasRef={canvasRef} width={W} height={H}
       className="min-h-screen bg-gradient-to-br from-green-900 to-emerald-950 flex flex-col items-center justify-center p-4 select-none"
       canvasClassName="rounded-2xl shadow-2xl border-4 border-green-700"
-      canvasStyle={{ maxHeight: '60vh', width: 'auto' }}
+      canvasStyle={BOARD_STYLE}
       canvasProps={{ onTouchStart: handleTouchStart, onTouchEnd: handleTouchEnd }}
       hud={phase === 'playing' && (
         <CanvasScoreBar

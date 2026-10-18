@@ -71,6 +71,7 @@ export default function MemoryStartScreen() {
             value={p1}
             onChange={(e) => setP1(e.target.value)}
             placeholder="שם שחקן 1"
+            aria-label="שם שחקן 1"
             maxLength={20}
             className="w-full border border-purple-200 rounded-xl px-3 py-2 text-sm text-right focus:outline-none focus:ring-2 focus:ring-purple-400"
           />
@@ -79,6 +80,7 @@ export default function MemoryStartScreen() {
             value={p2}
             onChange={(e) => setP2(e.target.value)}
             placeholder="שם שחקן 2"
+            aria-label="שם שחקן 2"
             maxLength={20}
             className="w-full border border-pink-200 rounded-xl px-3 py-2 text-sm text-right focus:outline-none focus:ring-2 focus:ring-pink-400"
           />

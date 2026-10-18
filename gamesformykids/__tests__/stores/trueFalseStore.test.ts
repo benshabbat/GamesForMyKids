@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it, vi, afterEach } from 'vitest';
 import { useTrueFalseStore, FACTS, TIME_PER_Q } from '@/app/games/true-false/trueFalseStore';
+import { useGameDifficulty } from '@/lib/stores/gameDifficultyStore';
 
 const store = useTrueFalseStore;
 
@@ -14,6 +15,8 @@ beforeEach(() => {
 
 afterEach(() => {
   vi.useRealTimers();
+  vi.unstubAllGlobals();
+  useGameDifficulty.setState({ difficulty: 'medium' });
 });
 
 describe('trueFalseStore', () => {
@@ -112,6 +115,38 @@ describe('trueFalseStore', () => {
       vi.advanceTimersByTime(800);
       expect(store.getState().idx).toBe(1);
       expect(store.getState().feedback).toBeNull();
+    });
+  });
+
+  describe('difficulty', () => {
+    it('starts with the easy time and lives', () => {
+      useGameDifficulty.setState({ difficulty: 'easy' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(10);
+      expect(store.getState().lives).toBe(5);
+    });
+
+    it('keeps the difficulty time on later questions (not the medium default)', () => {
+      useGameDifficulty.setState({ difficulty: 'hard' });
+      store.getState().startGame();
+      expect(store.getState().timeLeft).toBe(4);
+      const { deck, idx } = store.getState();
+      store.getState().answer(deck[idx]!.answer);
+      vi.advanceTimersByTime(800);
+      expect(store.getState().feedback).toBeNull();
+      expect(store.getState().timeLeft).toBe(4);
+    });
+  });
+
+  describe('abandonGame', () => {
+    it('returns to the menu and stops the countdown so lives stop draining', () => {
+      vi.stubGlobal('window', {});
+      store.getState().startGame();
+      store.getState().abandonGame();
+      expect(store.getState().phase).toBe('menu');
+      vi.advanceTimersByTime(60_000);
+      expect(store.getState().lives).toBe(3);
+      expect(store.getState().phase).toBe('menu');
     });
   });
 });

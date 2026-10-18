@@ -68,6 +68,7 @@ export function useAchievements(gameType?: string) {
       if (existing) return existing;
 
       const data = await insertAchievement(user.id, achievement);
+      if (!data) return null; // unique violation: unlocked concurrently elsewhere
       prependAchievement(data);
       return data;
     } catch (err) {

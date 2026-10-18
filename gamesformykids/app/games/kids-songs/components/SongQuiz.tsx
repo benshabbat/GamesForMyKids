@@ -1,6 +1,7 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
 import type { SongData, ComprehensionQuestion } from '../data/songs';
+import { shuffleOptions } from '@/lib/quiz/shuffleOptions';
 
 interface Props {
   song: SongData;
@@ -10,6 +11,12 @@ interface Props {
 }
 
 export default function SongQuiz({ song, question, questionNum, onAnswer }: Props) {
+  // Shuffled once per question (the parent keys this component by question) so the right
+  // answer is not always the first button. `selected` / `correctIndex` are display positions;
+  // onAnswer still receives the index into the original options.
+  const [{ options, correctIndex, order }] = useState(() =>
+    shuffleOptions(question.options, question.correctIndex),
+  );
   const [selected, setSelected] = useState<number | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const submitTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
@@ -18,7 +25,7 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
   const handleSubmit = () => {
     if (selected === null) return;
     setSubmitted(true);
-    submitTimerRef.current = setTimeout(() => onAnswer(selected), 1500);
+    submitTimerRef.current = setTimeout(() => onAnswer(order[selected]!), 1500);
   };
 
   return (
@@ -33,7 +40,7 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
         <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
           <p className="text-xl font-bold text-center text-purple-800 mb-6">{question.question}</p>
           <div className="grid grid-cols-2 gap-3">
-            {question.options.map((option, idx) => {
+            {options.map((option, idx) => {
               let cls =
                 'p-4 rounded-xl border-2 font-semibold text-center transition-colors text-base cursor-pointer ';
               if (!submitted) {
@@ -42,9 +49,9 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
                     ? 'border-purple-500 bg-purple-100 text-purple-800'
                     : 'border-gray-200 bg-white text-gray-700 hover:border-purple-300 hover:bg-purple-50';
               } else {
-                if (idx === question.correctIndex) {
+                if (idx === correctIndex) {
                   cls += 'border-green-500 bg-green-100 text-green-800';
-                } else if (idx === selected && idx !== question.correctIndex) {
+                } else if (idx === selected && idx !== correctIndex) {
                   cls += 'border-red-400 bg-red-100 text-red-700';
                 } else {
                   cls += 'border-gray-100 bg-white text-gray-400';
@@ -74,12 +81,12 @@ export default function SongQuiz({ song, question, questionNum, onAnswer }: Prop
         ) : (
           <div
             className={`text-center text-2xl font-bold ${
-              selected === question.correctIndex ? 'text-green-600' : 'text-red-500'
+              selected === correctIndex ? 'text-green-600' : 'text-red-500'
             }`}
           >
-            {selected === question.correctIndex
+            {selected === correctIndex
               ? '✅ כל הכבוד!'
-              : `❌ הנכון: ${question.options[question.correctIndex]}`}
+              : `❌ הנכון: ${options[correctIndex]}`}
           </div>
         )}
       </div>

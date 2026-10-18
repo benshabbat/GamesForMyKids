@@ -27,6 +27,20 @@ const eslintConfig = [
       ],
     },
   },
+  {
+    // React Compiler only treats `use*` functions as hooks. A hook factory result bound to
+    // any other name (e.g. `const _useStore = createShallowHook(...)`) gets memoized like a
+    // plain call, so its hooks are skipped on re-render and React crashes on load.
+    rules: {
+      "no-restricted-syntax": [
+        "error",
+        {
+          selector: "VariableDeclarator[init.callee.name=/^create\\w*Hook$/]:not([id.name=/^use[A-Z0-9]/])",
+          message: "Name hook factory results use* (e.g. useChessStore) — React Compiler only treats use* calls as hooks.",
+        },
+      ],
+    },
+  },
 ];
 
 export default eslintConfig;

@@ -6,7 +6,7 @@ import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 export function useIsraelMap() {
   const {
     phase, current, foundIds, score, total, lastResult,
-    startGame, checkTap, nextLocation, resetGame,
+    startGame, checkTap, markFound, markMissed, nextLocation, resetGame,
   } = useMapStore();
 
   const [feedback, setFeedback] = useState<string | null>(null);
@@ -23,12 +23,7 @@ export function useIsraelMap() {
     const hit = checkTap(svgX, svgY);
 
     if (hit) {
-      useMapStore.setState((s) => ({
-        score: s.score + 1,
-        total: s.total + 1,
-        foundIds: [...s.foundIds, current.id],
-        lastResult: 'correct',
-      }));
+      markFound();
       setFeedback('correct');
       speakHebrew(`נָכוֹן! ${current.fact}`);
       feedbackTimerRef.current = setTimeout(() => {
@@ -36,7 +31,7 @@ export function useIsraelMap() {
         nextLocation();
       }, 2500);
     } else {
-      useMapStore.setState((s) => ({ total: s.total + 1, lastResult: 'wrong' }));
+      markMissed();
       setFeedback('wrong');
       speakHebrew(`נַסֵּה שׁוּב — לְחַץ עַל ${current.name}`);
       feedbackTimerRef.current = setTimeout(() => {
@@ -44,11 +39,19 @@ export function useIsraelMap() {
         useMapStore.setState({ lastResult: null });
       }, 1200);
     }
-  }, [current, lastResult, checkTap, nextLocation]);
+  }, [current, lastResult, checkTap, markFound, markMissed, nextLocation]);
 
   useEffect(() => () => {
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
   }, []);
 
-  return { phase, current, foundIds, score, total, lastResult, feedback, startGame, handleTap, resetGame };
+  // Leaving mid-feedback must cancel the pending nextLocation(): after a reset the queue is
+  // empty, so it would jump from the menu straight to the result screen.
+  const handleReset = useCallback(() => {
+    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
+    setFeedback(null);
+    resetGame();
+  }, [resetGame]);
+
+  return { phase, current, foundIds, score, total, lastResult, feedback, startGame, handleTap, resetGame: handleReset };
 }

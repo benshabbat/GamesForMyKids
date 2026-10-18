@@ -30,11 +30,13 @@ export function useChessAI() {
 
       const move = bestComputerMove(s.board, s.castling, s.enPassant);
       if (!move) {
-        const phrase = isInCheck(s.board, 'b') ? 'שחמט! ניצחת!' : 'פאט!';
+        const mated = isInCheck(s.board, 'b');
         useChessStore.setState({
-          phase: 'checkmate',
-          playerScore: s.playerScore + (isInCheck(s.board, 'b') ? 1 : 0),
-          message: `🏆 ${phrase}`,
+          phase: mated ? 'checkmate' : 'stalemate',
+          // On checkmate `turn` marks the winner (the side that delivered mate)
+          turn: 'w',
+          playerScore: s.playerScore + (mated ? 1 : 0),
+          message: mated ? '🏆 שחמט! ניצחת!' : '🤝 פאט! המשחק נגמר בתיקו',
         });
         return;
       }
@@ -44,13 +46,14 @@ export function useChessAI() {
       const playerMoves = getAllValidMoves(nb, 'w', nc, nep);
 
       if (playerMoves.length === 0) {
-        const phrase = isInCheck(nb, 'w') ? 'שחמט' : 'פאט';
+        const mated = isInCheck(nb, 'w');
         const record = buildRecord(move, pieceMoved, 'b', captured, false, Math.floor(s.moveHistory.length / 2) + 1);
         useChessStore.setState({
           board: nb, castling: nc, enPassant: nep, lastMove: move,
-          phase: 'checkmate',
-          computerScore: s.computerScore + (isInCheck(nb, 'w') ? 1 : 0),
-          message: `😢 ${phrase}! המחשב ניצח.`,
+          // `turn` stays 'b' on checkmate (the computer delivered mate); no check means stalemate: a draw
+          phase: mated ? 'checkmate' : 'stalemate',
+          computerScore: s.computerScore + (mated ? 1 : 0),
+          message: mated ? '😢 שחמט! המחשב ניצח.' : '🤝 פאט! המשחק נגמר בתיקו',
           capturedByComputer: captured ? [...s.capturedByComputer, captured] : s.capturedByComputer,
           moveHistory: [...s.moveHistory, record],
         });

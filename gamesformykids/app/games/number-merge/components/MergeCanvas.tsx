@@ -4,7 +4,7 @@ import { useNumberMergeStore, type Ball } from '../numberMergeStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 import { useCanvasLoop } from '@/hooks/canvas/useCanvasLoop';
 import { CANVAS_W, CANVAS_H, WALL_LEFT, WALL_RIGHT, HEBREW_NUMBERS } from '../numberMergeCanvasConfig';
-import { stepPhysics } from '../numberMergePhysics';
+import { stepPhysics, hasOverflow } from '../numberMergePhysics';
 import { renderFrame } from '../numberMergeRenderer';
 
 export default function MergeCanvas() {
@@ -41,9 +41,8 @@ export default function MergeCanvas() {
       triggerMergeFlash(m.x, m.y, m.value);
     }
 
-    // Check overflow (ball reaches top)
-    const overflow = newBalls.some(b => b.y - b.radius <= 10 && Math.abs(b.vy) < 0.5);
-    if (overflow) {
+    // Check overflow (a settled ball reaches the top)
+    if (hasOverflow(newBalls)) {
       endGame();
       return;
     }

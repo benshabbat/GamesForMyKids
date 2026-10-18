@@ -3,6 +3,7 @@ import { useEffect, useRef } from 'react';
 import { createShallowHook } from '@/lib/stores/utils/sliceUtils';
 import { useWhackAMoleStore, GAME_DURATION, MOLES, BAD } from './whackAMoleStore';
 import { useGameCompletion } from '@/hooks/shared/progress/useGameCompletion';
+import { usePhaseGameCompletion } from '@/hooks/shared/progress/usePhaseGameCompletion';
 import { getRandomItem } from '@/lib/utils';
 
 export type { HoleState } from './whackAMoleStore';
@@ -10,29 +11,19 @@ export { GAME_DURATION } from './whackAMoleStore';
 
 const GRID = 9;
 
-const _useStore = createShallowHook(useWhackAMoleStore);
+const useStoreBase = createShallowHook(useWhackAMoleStore);
 
 export function useWhackAMoleGame() {
-  const state    = _useStore();
+  const state    = useStoreBase();
   const store    = useWhackAMoleStore;
   const { saveGameResultRef } = useGameCompletion('whack-a-mole');
-  const startTimeRef   = useRef<number>(0);
   const spawnRef       = useRef<ReturnType<typeof setTimeout> | null>(null);
   const moleTimersRef  = useRef<(ReturnType<typeof setTimeout> | null)[]>(Array(GRID).fill(null));
 
-  // Record start time when game begins
-  useEffect(() => {
-    if (state.phase === 'playing') startTimeRef.current = Date.now();
-  }, [state.phase]);
-
-  // Persist result when game ends
-  useEffect(() => {
-    if (state.phase === 'result') {
-      const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-      saveGameResultRef.current({ score: state.score, level: 1, durationSeconds });
-    }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state.phase]);
+  // Save once, on the playing → result transition. Tracking the transition (rather than
+  // "phase === 'result'") matters because the result screen also calls this hook: it mounts
+  // already in 'result' and must not save a second, start-time-less result.
+  usePhaseGameCompletion(state.phase, saveGameResultRef, () => ({ score: state.score, level: 1 }), ['result']);
 
   // Mole spawner — runs while phase === 'playing'
   useEffect(() => {
@@ -77,6 +68,12 @@ export function useWhackAMoleGame() {
 
   // Wrap whack to cancel auto-hide timer + schedule clear after hit/miss animation
   const whack = (idx: number) => {
+    // Only a live mole/bomb can be whacked. Tapping an empty hole (or one still showing the
+    // previous hit/miss) is a no-op — it must not schedule the clearHole below, which would
+    // erase a mole that spawns in that hole before the timer fires.
+    const target = store.getState().holes[idx];
+    if (store.getState().phase !== 'playing' || (target !== 'mole' && target !== 'bad')) return;
+
     if (moleTimersRef.current[idx]) {
       clearTimeout(moleTimersRef.current[idx]!);
       moleTimersRef.current[idx] = null;

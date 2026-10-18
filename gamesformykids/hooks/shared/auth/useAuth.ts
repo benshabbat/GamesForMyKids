@@ -7,7 +7,7 @@
 import { useCallback } from 'react'
 import type { User, Session } from '@supabase/supabase-js'
 import { supabase, isSupabaseConfigured } from '@/lib/supabase/client'
-import { useAuthStore } from '@/lib/stores/authStore'
+import { useAuthStore, signOutIntentionally } from '@/lib/stores/authStore'
 
 interface AuthHookReturn {
   user: User | null
@@ -30,7 +30,7 @@ export function useAuth(): AuthHookReturn {
   const isGuest = useAuthStore((s) => s.isGuest)
 
   const signOut = useCallback(async () => {
-    if (isSupabaseConfigured) await supabase.auth.signOut().catch(() => {})
+    await signOutIntentionally()
     localStorage.removeItem('guestMode')
     useAuthStore.getState().setAuthState({ user: null, session: null, isGuest: false, loading: false })
   }, [])
@@ -74,7 +74,9 @@ export function useAuth(): AuthHookReturn {
       const { error } = await supabase.auth.signUp({
         email,
         password,
-        options: { data: { name: name || '' } },
+        // handle_new_user() copies raw_user_meta_data->>'full_name' into profiles
+        // (and UserProfile reads user_metadata.full_name); keep `name` for compatibility.
+        options: { data: { name: name || '', full_name: name?.trim() || null } },
       })
       return error ? { error: error.message } : {}
     } catch {

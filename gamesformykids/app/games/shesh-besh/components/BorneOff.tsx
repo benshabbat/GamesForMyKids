@@ -45,7 +45,7 @@ export function BorneOff({ playerCount, compCount, onBearOff, isBearOffTarget, p
       <button
         ref={playerRef}
         onClick={onBearOff}
-        aria-label="bear off"
+        aria-label={`הוצאת כלים — ${playerCount} מתוך ${TOTAL}${isBearOffTarget ? ', אפשר להוציא לכאן' : ''}`}
         className={[
           'relative z-10 flex flex-col items-center gap-1.5 rounded-xl px-1 py-1.5 w-full transition duration-200',
           isBearOffTarget ? 'bg-emerald-500/25 ring-2 ring-emerald-400/80 scale-105' : '',

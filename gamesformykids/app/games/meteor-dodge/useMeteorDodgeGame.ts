@@ -6,6 +6,7 @@ import { useMeteorDodgeStore } from './meteorDodgeStore';
 import { createCanvasArcadeHook } from '@/hooks/canvas';
 import { useHeldKeyControls } from '@/hooks/shared/game-controls';
 import { getRandomItem } from '@/lib/utils';
+import { STAR_BONUS, distanceScore, totalScore } from './meteorDodgeScoring';
 
 export const W = 360;
 export const H = 560;
@@ -20,7 +21,7 @@ interface StarPick { id: number; x: number; y: number; vy: number; emoji: string
 
 let uid = 0;
 
-const _useMeteorDodge = createCanvasArcadeHook({
+const useMeteorDodgeBase = createCanvasArcadeHook({
   gameType: 'meteor-dodge',
   width: W,
   height: H,
@@ -28,7 +29,7 @@ const _useMeteorDodge = createCanvasArcadeHook({
     phase: 'menu' as Phase,
     playerX: W / 2,
     meteors: [] as Meteor[], stars: [] as StarPick[],
-    score: 0, best: 0, frame: 0, nextMeteor: 50, nextStar: 120,
+    score: 0, bonus: 0, best: 0, frame: 0, nextMeteor: 50, nextStar: 120,
     bgStars: Array.from({ length: 50 }, () => ({ x: Math.random() * W, y: Math.random() * H, r: 0.5 + Math.random() * 1.5, twinkle: Math.random() * Math.PI * 2 })),
     invincible: 0, startTime: 0,
   }),
@@ -36,15 +37,17 @@ const _useMeteorDodge = createCanvasArcadeHook({
   draw: (ctx, s, _dt, saveRef) => {
     if (s.phase === 'playing') {
       s.frame++;
-      s.score = Math.floor(s.frame / 4);
+      const distance = distanceScore(s.frame);
+      s.score = totalScore(s.frame, s.bonus);
       if (s.invincible > 0) s.invincible--;
 
-      const difficulty = 1 + Math.floor(s.score / 100) * 0.3;
+      // Difficulty follows survival time only — collecting stars must not make the game harder.
+      const difficulty = 1 + Math.floor(distance / 100) * 0.3;
       s.nextMeteor--;
       if (s.nextMeteor <= 0) {
         const r = 14 + Math.random() * 20;
         s.meteors.push({ id: uid++, x: r + Math.random() * (W - r * 2), y: -r, r, speed: (1.8 + Math.random() * 2) * difficulty, emoji: getRandomItem(METEOR_EMOJIS)!, spin: (Math.random() - 0.5) * 0.1, angle: 0 });
-        s.nextMeteor = Math.max(15, Math.floor((50 - s.score / 20)));
+        s.nextMeteor = Math.max(15, Math.floor((50 - distance / 20)));
       }
       s.nextStar--;
       if (s.nextStar <= 0) {
@@ -59,7 +62,7 @@ const _useMeteorDodge = createCanvasArcadeHook({
 
       s.stars = s.stars.filter(st2 => {
         const dx = st2.x - s.playerX, dy = st2.y - PLAYER_Y;
-        if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.score += 50; useMeteorDodgeStore.getState().setScore(s.score); return false; }
+        if (Math.sqrt(dx * dx + dy * dy) < PLAYER_R + 16) { s.bonus += STAR_BONUS; s.score = totalScore(s.frame, s.bonus); useMeteorDodgeStore.getState().setScore(s.score); return false; }
         return true;
       });
 
@@ -118,14 +121,14 @@ const _useMeteorDodge = createCanvasArcadeHook({
 });
 
 export function useMeteorDodgeGame() {
-  const { st, canvasRef, handlers } = _useMeteorDodge();
+  const { st, canvasRef, handlers } = useMeteorDodgeBase();
 
 
 
   const startGame = () => {
     const s = st.current;
     s.phase = 'playing'; s.playerX = W / 2; s.meteors = []; s.stars = [];
-    s.score = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
+    s.score = 0; s.bonus = 0; s.frame = 0; s.nextMeteor = 50; s.nextStar = 120; s.invincible = 0;
     s.startTime = Date.now();
     useMeteorDodgeStore.getState().startPlaying();
   };

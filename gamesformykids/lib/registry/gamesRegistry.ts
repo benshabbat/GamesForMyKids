@@ -3,14 +3,14 @@ import { createElement } from "react";
 import type { GameRegistration } from "@/lib/types/games/base";
 export type { GameRegistration };
 import { GAMES_REGISTRY } from "./gamesRegistryData";
-import { applyGameOverrides, getGameOverridesCache } from "./gameOverrides";
+import { applyGameOverrides, getGameOverridesCache, type GameOverridesMap } from "./gameOverrides";
 
 // פונקציות עזר לעבודה עם המשחקים
 export class GamesRegistry {
   // קבלת כל הרישומים המקוריים (מסונן/ממוין לפי game_overrides)
-  static getAllGameRegistrations(): GameRegistration[] {
+  static getAllGameRegistrations(overrides: GameOverridesMap = getGameOverridesCache()): GameRegistration[] {
     const sorted = [...GAMES_REGISTRY].sort((a, b) => a.order - b.order);
-    return applyGameOverrides(sorted, getGameOverridesCache());
+    return applyGameOverrides(sorted, overrides);
   }
 
   // קבלת כל המשחקים ממוינים לפי סדר

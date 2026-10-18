@@ -28,7 +28,9 @@ export function usePhaseGameCompletion(
     const curr = phase;
     prevPhaseRef.current = curr;
 
-    if (curr === 'playing' && prev !== 'playing') {
+    // Also start the clock when mounted already in 'playing' (no transition to observe) —
+    // otherwise startTimeRef stays 0 and the saved duration is ~Date.now()/1000 seconds.
+    if (curr === 'playing' && (prev !== 'playing' || startTimeRef.current === 0)) {
       startTimeRef.current = Date.now();
     } else if (prev === 'playing' && completionPhases.includes(curr)) {
       const elapsed = Math.round((Date.now() - startTimeRef.current) / 1000);

@@ -15,7 +15,9 @@ export function useSnakeDraw(st: MutableRefObject<SnakeRefs>) {
   const dprRef = useRef<number | null>(null);
 
   const canvasRef = useCanvasLoop((ctx) => {
-    // Apply DPR on first frame; use setTransform every frame so scale is always correct
+    // Apply DPR on first frame; use setTransform every frame so scale is always correct.
+    // Only the backing-store size changes here — the displayed size is owned by the
+    // canvas's CSS in SnakeGame, so the board can shrink to fit narrow phones.
     if (dprRef.current === null) {
       const dpr = window.devicePixelRatio || 1;
       dprRef.current = dpr;
@@ -23,8 +25,6 @@ export function useSnakeDraw(st: MutableRefObject<SnakeRefs>) {
         const c = ctx.canvas;
         c.width  = COLS * CELL * dpr;
         c.height = ROWS * CELL * dpr;
-        c.style.width  = `${COLS * CELL}px`;
-        c.style.height = `${ROWS * CELL}px`;
       }
     }
     ctx.setTransform(dprRef.current, 0, 0, dprRef.current, 0, 0);

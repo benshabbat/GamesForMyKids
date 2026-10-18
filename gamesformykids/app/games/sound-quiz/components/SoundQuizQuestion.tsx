@@ -32,8 +32,8 @@ export default function SoundQuizQuestion({ current, choicesRevealed, onPlaySoun
       </div>
 
       <div className="bg-white rounded-3xl shadow-xl p-6 w-full max-w-sm flex flex-col items-center gap-4">
-        {/* Mystery card */}
-        <div className="text-7xl">{choicesRevealed ? current.clip.emoji : '❓'}</div>
+        {/* Mystery card — keep ❓ until answered, the emoji would give the answer away */}
+        <div className="text-7xl">{selected !== null ? current.clip.emoji : '❓'}</div>
         <p className="text-gray-500 text-sm">{choicesRevealed ? 'בחר את מקור הצליל:' : 'לחץ כדי לשמוע את הצליל'}</p>
 
         {/* Sound button */}

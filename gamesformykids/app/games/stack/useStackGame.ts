@@ -17,7 +17,7 @@ const TARGET_TOP = 90;
 import type { PhaseDead as Phase } from '@/lib/types';
 interface Block { x: number; y: number; w: number; color: string; }
 
-const _useStack = createCanvasArcadeHook({
+const useStackBase = createCanvasArcadeHook({
   gameType: 'stack',
   width: W,
   height: H,
@@ -85,7 +85,7 @@ const _useStack = createCanvasArcadeHook({
 });
 
 export function useStackGame() {
-  const { st, canvasRef, saveGameResultRef } = _useStack();
+  const { st, canvasRef, saveGameResultRef } = useStackBase();
 
 
   const startGame = () => {

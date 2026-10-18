@@ -15,7 +15,8 @@ export default function DinoRunnerGame() {
       className="min-h-screen bg-gradient-to-br from-orange-100 to-amber-200 flex flex-col items-center justify-center p-4 select-none"
       canvasClassName="rounded-3xl shadow-2xl cursor-pointer border-4 border-amber-300"
       canvasStyle={{ maxWidth: '100%' }}
-      canvasProps={{ onClick: handleTap, onTouchStart: handleTap }}
+      // Pointer events only: touchstart + the synthesized click would fire the tap twice.
+      canvasProps={{ onPointerDown: handleTap }}
       hud={phase === 'playing' && (
         <CanvasScoreBar
           stats={[

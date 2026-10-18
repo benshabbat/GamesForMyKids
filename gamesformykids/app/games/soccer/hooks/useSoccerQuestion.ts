@@ -2,9 +2,14 @@
 
 import { useShallow } from 'zustand/react/shallow';
 import { useQuizGameStore } from '@/lib/stores/quizGameStore';
-import { useSoccerGame } from '@/lib/quiz/useSoccerGame';
+import type { SoccerQuestion } from '../data/soccer';
 
-export function useSoccerQuestion() {
+/**
+ * Store-derived state for the question screen. The current question is passed in by the
+ * top-level quiz session (SoccerQuestion) — calling useSoccerGame() here would create a
+ * separate, empty session per component.
+ */
+export function useSoccerQuestion(currentQuestion: SoccerQuestion | null = null) {
   const { index, total, score, selected, isCorrect } = useQuizGameStore(
     useShallow((s) => ({
       index:     s.index,
@@ -15,8 +20,6 @@ export function useSoccerQuestion() {
     })),
   );
   const nextQuestion = useQuizGameStore((s) => s.nextQuestion);
-
-  const { current: currentQuestion, showGoal, selectAnswer } = useSoccerGame();
 
   const isAnswered = selected !== null;
   const progressPct = total > 0 ? ((index + 1) / total) * 100 : 0;
@@ -41,12 +44,10 @@ export function useSoccerQuestion() {
     selected,
     isCorrect,
     isAnswered,
-    showGoal,
     currentQuestion,
     progressPct,
     nextLabel,
     answerClass,
-    selectAnswer,
     nextQuestion,
   };
 }

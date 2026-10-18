@@ -50,10 +50,11 @@ export default function SettingsPanel() {
         
         {/* Size Control */}
         <div className="bg-white/10 rounded-xl p-2 md:p-3">
-          <label className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
+          <label htmlFor="building-new-shape-size" className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
             גודל צורות חדשות: {selectedSize.toFixed(1)}x
           </label>
           <input
+            id="building-new-shape-size"
             type="range"
             min="0.5"
             max="2"
@@ -71,13 +72,14 @@ export default function SettingsPanel() {
         {/* Selected Block Size Control */}
         {selectedBlock && (
           <div className="bg-orange-500/20 rounded-xl p-2 md:p-3 border-2 border-orange-400">
-            <label className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
+            <label htmlFor="building-selected-shape-size" className="text-white font-bold text-xs md:text-sm block mb-1 md:mb-2 text-center">
               גודל צורה נבחרת: {selectedBlock.size.toFixed(1)}x
             </label>
             <div className="text-center text-xs text-white/80 mb-1 md:mb-2">
               {selectedBlock.shape} {selectedBlock.color}
             </div>
             <input
+              id="building-selected-shape-size"
               type="range"
               min="0.5"
               max="3"

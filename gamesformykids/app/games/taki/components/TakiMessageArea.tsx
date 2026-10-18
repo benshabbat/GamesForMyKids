@@ -1,9 +1,10 @@
 'use client';
 
-import { useTakiGame } from '../useTakiGame';
+import { useTakiStore } from '../takiGameStore';
 
 export default function TakiMessageArea() {
-  const { message, playerHand } = useTakiGame();
+  const message    = useTakiStore((s) => s.message);
+  const playerHand = useTakiStore((s) => s.playerHand);
 
   return (
     <div className="text-center px-4">

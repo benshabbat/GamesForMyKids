@@ -17,7 +17,7 @@ export { W, H } from './spaceDefenderConstants';
 
 let uid = 0;
 
-const _useSpaceDefender = createCanvasArcadeHook({
+const useSpaceDefenderBase = createCanvasArcadeHook({
   gameType: 'space-defender',
   width: W,
   height: H,
@@ -81,7 +81,7 @@ const _useSpaceDefender = createCanvasArcadeHook({
 });
 
 export function useSpaceDefenderGame() {
-  const { st, canvasRef } = _useSpaceDefender();
+  const { st, canvasRef } = useSpaceDefenderBase();
 
 
   const shoot = useCallback(() => {
@@ -147,6 +147,10 @@ export function useSpaceDefenderGame() {
     }, 16);
     return () => clearInterval(moveInterval);
   }, [st]);
+
+  // The store outlives this component (client-side navigation) but `st` restarts at
+  // 'menu' on every mount — reset the store when leaving so the two agree.
+  useEffect(() => () => { useSpaceDefenderStore.setState({ phase: 'menu' }); }, []);
 
   const { phase, best, score, lives, timeLeft } = useSpaceDefenderStore(useShallow(s => ({ phase: s.phase, best: s.best, score: s.score, lives: s.lives, timeLeft: s.timeLeft })));
 

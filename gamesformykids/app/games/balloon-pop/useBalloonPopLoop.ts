@@ -149,6 +149,10 @@ export function useBalloonPopLoop() {
       unsubscribe();
       unsubPop();
       clearTimers();
+      // The store outlives this component (client-side navigation). If the player leaves
+      // mid-game the phase would stay 'playing' on return, but the loop above only starts
+      // on a transition *into* 'playing' — a frozen board with no menu. Reset instead.
+      useBalloonPopStore.getState().resetToMenu();
     };
   }, []);
 }

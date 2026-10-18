@@ -1,9 +1,13 @@
 'use client';
 
-import { useTakiGame } from '../useTakiGame';
+import { useTakiStore } from '../takiGameStore';
 
 export default function TakiActionButtons() {
-  const { currentTurn, inTakiSequence, needsColorChoice, deck, drawCard, closeTaki } = useTakiGame();
+  const currentTurn      = useTakiStore((s) => s.currentTurn);
+  const inTakiSequence   = useTakiStore((s) => s.inTakiSequence);
+  const needsColorChoice = useTakiStore((s) => s.needsColorChoice);
+  const drawCard         = useTakiStore((s) => s.drawCard);
+  const closeTaki        = useTakiStore((s) => s.closeTaki);
 
   if (currentTurn !== 'player') return null;
 
@@ -20,8 +24,7 @@ export default function TakiActionButtons() {
       {!inTakiSequence && !needsColorChoice && (
         <button
           onClick={drawCard}
-          disabled={deck.length === 0}
-          className="bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold px-4 py-2 rounded-xl shadow text-sm transition-transform hover:scale-105 active:scale-95"
+          className="bg-indigo-600 hover:bg-indigo-500 text-white font-bold px-4 py-2 rounded-xl shadow text-sm transition-transform hover:scale-105 active:scale-95"
         >
           🂠 משוך קלף
         </button>

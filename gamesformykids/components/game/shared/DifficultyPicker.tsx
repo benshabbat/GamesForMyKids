@@ -27,12 +27,12 @@ const LEVELS: { value: DifficultyLevel; label: string; ariaLabel: string; active
   },
 ];
 
-export function DifficultyPicker() {
+export function DifficultyPicker({ labelClassName = 'text-gray-500' }: { labelClassName?: string }) {
   const { difficulty, setDifficulty } = useGameDifficulty();
 
   return (
     <div className="flex flex-col items-center gap-2 my-3" role="group" aria-label="רמת קושי">
-      <p className="text-sm text-gray-500 font-medium">רמת קושי</p>
+      <p className={`text-sm font-medium ${labelClassName}`}>רמת קושי</p>
       <div className="flex gap-2">
         {LEVELS.map(({ value, label, ariaLabel, active, inactive }) => (
           <button

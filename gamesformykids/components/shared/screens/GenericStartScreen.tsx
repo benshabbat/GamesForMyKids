@@ -8,6 +8,7 @@ import { ComponentTypes } from "@/lib/types";
 import { useUniversalGame } from "@/hooks/shared/game-state/useUniversalGame";
 import { useGameStore } from "@/lib/stores/gameStore";
 import { DifficultyPicker } from "@/components/game/shared/DifficultyPicker";
+import { getStartScreenTone } from "./startScreenTone";
 
 type GenericStartScreenProps<T> = ComponentTypes.GenericStartScreenProps<T>;
 
@@ -43,16 +44,17 @@ export default function GenericStartScreen<T>({
 
   const resolvedTitle          = title               ?? config?.title          ?? "";
   const resolvedSubTitle       = subTitle            ?? config?.subTitle        ?? "";
-  const resolvedTextHeader     = textColorHeader      ?? "text-purple-800";
-  const resolvedTextSubHeader  = textColorSubHeader   ?? "text-purple-600";
+  const resolvedBackground     = backgroundStyle      ?? config?.colors?.background;
+  const tone                   = getStartScreenTone(resolvedBackground);
+  const resolvedTextHeader     = textColorHeader      ?? tone.header;
+  const resolvedTextSubHeader  = textColorSubHeader   ?? tone.subHeader;
   const resolvedSteps          = gameSteps            ?? (config?.steps ? [...config.steps] : []);
   const resolvedOnStart        = customOnStart        ?? startGame;
-  const resolvedFromColor      = buttonFromColor      ?? config?.colors?.button?.from ?? "blue-400";
-  const resolvedToColor        = buttonToColor        ?? config?.colors?.button?.to   ?? "blue-600";
-  const resolvedBackground     = backgroundStyle      ?? config?.colors?.background;
+  const resolvedFromColor      = buttonFromColor      ?? config?.colors?.button?.from;
+  const resolvedToColor        = buttonToColor        ?? config?.colors?.button?.to;
   const resolvedItemsTitle     = itemsTitle           ?? config?.itemsTitle;
   const resolvedItemsDesc      = itemsDescription     ?? config?.itemsDescription;
-  const resolvedItemsDescColor = itemsDescriptionColor ?? config?.colors?.itemsDescription ?? "text-gray-100";
+  const resolvedItemsDescColor = itemsDescriptionColor ?? tone.body;
   const resolvedItemsGridClass = itemsGridClass       ?? config?.grid?.className ?? "grid grid-cols-3 md:grid-cols-4 gap-4 max-w-4xl mx-auto";
   const resolvedItems          = (items               ?? hookItems) as T[];
 
@@ -79,7 +81,7 @@ export default function GenericStartScreen<T>({
         />
 
         {/* בחירת רמת קושי */}
-        <DifficultyPicker />
+        <DifficultyPicker labelClassName={tone.muted} />
 
         {/* כפתור התחלה */}
         <SimpleGameStartButton
@@ -90,20 +92,20 @@ export default function GenericStartScreen<T>({
 
         {/* שיא אישי */}
         {prevBest > 0 && (
-          <p className="text-white/80 text-base mt-3 font-medium">
+          <p className={`${tone.muted} text-base mt-3 font-medium`}>
             🏆 השיא שלך: {prevBest} — נסה לשבור אותו!
           </p>
         )}
 
         {/* כפתור בדיקת שמע */}
-        {showAudioCheck && <ButtonCheckAudio />}
+        {showAudioCheck && <ButtonCheckAudio hintClassName={tone.muted} />}
 
         {/* פקדים נוספים (למשל כפתור לימוד קודם) */}
         {extraControls}
 
         {/* דוגמת פריטים */}
         <div className="mt-12">
-          <h3 className="text-2xl font-bold text-white mb-6">
+          <h3 className={`text-2xl font-bold ${tone.heading} mb-6`}>
             {resolvedItemsTitle}
           </h3>
 

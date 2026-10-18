@@ -2,6 +2,7 @@
 
 import { useAuth } from '@/hooks/shared/auth/useAuth';
 import Link from 'next/link';
+import { ROUTES } from '@/lib/constants/routes';
 import { DashboardHeader } from './components/DashboardHeader';
 import { ActivitySummaryCard } from './components/ActivitySummaryCard';
 import { WeeklyInsightCard } from './components/WeeklyInsightCard';
@@ -31,7 +32,7 @@ export default function DashboardClient() {
           <h2 className="text-xl font-bold text-gray-800 mb-2">נדרשת התחברות</h2>
           <p className="text-gray-500 text-sm mb-6">התחבר כדי לצפות בלוח ההורים</p>
           <Link
-            href="/auth"
+            href={ROUTES.AUTH.LOGIN}
             className="inline-block bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-6 rounded-xl transition-colors"
           >
             התחברות

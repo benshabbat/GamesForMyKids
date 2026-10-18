@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
 
 type DiceType = 'numbers' | 'letters' | 'colors' | 'animals';
@@ -43,12 +43,17 @@ export default function DiceClient() {
   const [count, setCount] = useState(1);
   const [results, setResults] = useState<number[]>([]);
   const [rolling, setRolling] = useState(false);
+  const rollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Leaving mid-roll must not let the pending roll finish and speak the result on another page.
+  useEffect(() => () => { if (rollTimerRef.current) clearTimeout(rollTimerRef.current); }, []);
 
   const roll = useCallback(() => {
     if (rolling) return;
     setRolling(true);
 
-    setTimeout(() => {
+    rollTimerRef.current = setTimeout(() => {
+      rollTimerRef.current = null;
       const dice = DICE_TYPES[activeType];
       const newResults = Array.from({ length: count }, () => getRandom(dice.faces.length));
       setResults(newResults);
@@ -83,7 +88,9 @@ export default function DiceClient() {
           <button
             key={key}
             onClick={() => { setActiveType(key); setResults([]); }}
-            className={`px-4 py-2 rounded-2xl font-bold text-sm transition-[transform,background-color] active:scale-95 ${
+            // The roll result is computed for the type/count at roll time — don't change them mid-roll.
+            disabled={rolling}
+            className={`px-4 py-2 rounded-2xl font-bold text-sm transition-[transform,background-color] active:scale-95 disabled:opacity-50 ${
               activeType === key
                 ? 'bg-white text-pink-600 shadow-lg'
                 : 'bg-white/20 text-white hover:bg-white/30'
@@ -101,7 +108,8 @@ export default function DiceClient() {
           <button
             key={n}
             onClick={() => { setCount(n); setResults([]); }}
-            className={`w-10 h-10 rounded-xl font-black text-lg transition-[transform,background-color] active:scale-95 ${
+            disabled={rolling}
+            className={`w-10 h-10 rounded-xl font-black text-lg transition-[transform,background-color] active:scale-95 disabled:opacity-50 ${
               count === n ? 'bg-white text-pink-600 shadow-md' : 'bg-white/20 text-white hover:bg-white/30'
             }`}
           >

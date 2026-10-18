@@ -4,28 +4,23 @@ import { useEffect, useRef } from "react";
 import { useMemoryStore } from "./stores/useMemoryStore";
 import { MEMORY_GAME_CONSTANTS } from "@/lib/constants";
 import { playMemorySuccessSound } from "@/lib/utils/game/gameUtils";
-import { useGameCompletion } from "@/hooks/shared/progress/useGameCompletion";
-import { useAuth } from "@/hooks/shared/auth/useAuth";
 
 export interface UseMemoryGameContentReturn {
   phase: import('./stores/memoryStoreTypes').MemoryPhase;
 }
 
 /**
- * לוגיקת עדכון ניקוד, רמה וזמן משחק בסיום.
- * מכיל גם את ה-side-effects של הטיימר.
+ * ה-side-effects של המשחק: טיימר, סיום זמן, בדיקת התאמות וצליל הצלחה.
  * מחזיר רק את הערכים שה-UI צריך לצרוך.
+ * שמירת תוצאת הניצחון נעשית פעם אחת ב-GameWinMessage.
  */
 export function useMemoryGameContent(): UseMemoryGameContentReturn {
   const {
     phase,
-    gameStats,
-    timer,
-    difficulty,
     isGamePaused,
     timeLeft,
     flippedCards,
-    lastMatchWasSuccess,
+    matchedPairs,
     incrementTimer,
     decrementTimeLeft,
     setPhase,
@@ -66,11 +61,17 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flippedCards.length, resolveMatch]);
 
-  // Play success sound when a match is confirmed — audio stays out of the store
+  // Play success sound when a match is confirmed — audio stays out of the store.
+  // Keyed on the matched-pair count (which grows on every match and resets with the
+  // game) so back-to-back matches each get a sound.
+  const matchedCount = matchedPairs.length;
+  const prevMatchedCountRef = useRef(matchedCount);
   useEffect(() => {
-    if (!lastMatchWasSuccess) return;
-    playMemorySuccessSound(audioContextRef.current);
-  }, [lastMatchWasSuccess]);
+    if (matchedCount > prevMatchedCountRef.current) {
+      playMemorySuccessSound(audioContextRef.current);
+    }
+    prevMatchedCountRef.current = matchedCount;
+  }, [matchedCount]);
 
   // ── Timer ────────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -88,29 +89,6 @@ export function useMemoryGameContent(): UseMemoryGameContentReturn {
       setPhase('timeout');
     }
   }, [timeLeft, phase, setPhase]);
-
-  const { user } = useAuth();
-  const { saveGameResultRef } = useGameCompletion("memory");
-
-  useEffect(() => {
-    if (phase !== 'won' || !user || gameStats.score <= 0) return;
-
-    const levelMap: Record<string, number> = { EASY: 1, MEDIUM: 2, HARD: 3 };
-    const currentLevel = levelMap[difficulty] ?? 1;
-
-    saveGameResultRef.current({
-      score: gameStats.score,
-      level: currentLevel,
-      durationSeconds: timer,
-    });
-  }, [
-    phase,
-    user,
-    gameStats.score,
-    timer,
-    difficulty,
-    saveGameResultRef,
-  ]);
 
   return { phase };
 }

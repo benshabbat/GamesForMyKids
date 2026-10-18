@@ -20,6 +20,9 @@ interface SimonState {
   sequence:    ButtonId[];
 }
 
+/** Outcome of judging one tap — see `registerTap`. */
+export type TapResult = 'ignored' | 'wrong' | 'correct' | 'round-complete';
+
 interface SimonActions {
   setPhase:      (phase: Phase) => void;
   setActiveColor: (color: ButtonId | null) => void;
@@ -28,6 +31,14 @@ interface SimonActions {
   setRoundScore: (score: number) => void;
   setSequence:   (seq: ButtonId[]) => void;
   initGame:      () => void;
+  /**
+   * Judge one player tap against the sequence. Taps outside the 'input' phase are ignored.
+   * - wrong: phase -> 'dead', best/roundScore updated.
+   * - round-complete: the sequence grows by one colour and the phase flips to 'showing'
+   *   immediately, so a tap during the pause before the replay can't be judged against
+   *   the colour the player hasn't been shown yet.
+   */
+  registerTap:   (id: ButtonId) => TapResult;
 }
 
 const INITIAL: SimonState = {
@@ -39,7 +50,7 @@ const INITIAL: SimonState = {
   sequence: [],
 };
 
-export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonStore', 'simon-best', (set) => ({
+export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonStore', 'simon-best', (set, get) => ({
   ...INITIAL,
   setPhase:       (phase) => set({ phase }, false, 'simon/setPhase'),
   setActiveColor: (color) => set({ activeColor: color }, false, 'simon/setActiveColor'),
@@ -51,6 +62,33 @@ export const useSimonStore = makePersistStore<SimonState & SimonActions>('SimonS
   initGame: () => {
     const first = getRandomItem([...BUTTONS]).id;
     const seq: ButtonId[] = [first];
-    set({ ...INITIAL, sequence: seq, roundScore: 0 }, false, 'simon/initGame');
+    // Reset the run but keep `best` — it's the persisted high score, not per-game state.
+    const { best: _best, ...freshRun } = INITIAL;
+    set({ ...freshRun, sequence: seq, roundScore: 0 }, false, 'simon/initGame');
+  },
+
+  registerTap: (id) => {
+    const { phase, playerIdx, sequence, best } = get();
+    if (phase !== 'input') return 'ignored';
+
+    if (id !== sequence[playerIdx]) {
+      const score = sequence.length - 1;
+      set({ phase: 'dead', roundScore: score, best: Math.max(best, score) }, false, 'simon/wrongTap');
+      return 'wrong';
+    }
+
+    const next = playerIdx + 1;
+    if (next < sequence.length) {
+      set({ playerIdx: next }, false, 'simon/correctTap');
+      return 'correct';
+    }
+
+    set({
+      phase: 'showing',
+      playerIdx: 0,
+      roundScore: sequence.length,
+      sequence: [...sequence, getRandomItem([...BUTTONS]).id],
+    }, false, 'simon/roundComplete');
+    return 'round-complete';
   },
 }), { partialize: (s) => ({ best: s.best }) });

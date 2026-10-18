@@ -1,9 +1,9 @@
 "use client";
 
-import { useDrawingGame } from '../hooks/useDrawingGame';
+import { useDrawingStore } from '../store/drawingStore';
 
 export default function DrawingHeader() {
-  const { isMobileDevice } = useDrawingGame();
+  const isMobileDevice = useDrawingStore((s) => s.isMobileDevice);
 
   return (
     <div className="text-center mb-6">

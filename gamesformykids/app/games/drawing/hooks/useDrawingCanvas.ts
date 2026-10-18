@@ -9,6 +9,7 @@
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useDrawingStore } from '../store/drawingStore';
+import { clientToCanvasPoint } from './canvasPoint';
 
 export interface DrawingState {
   isDrawing: boolean;
@@ -24,23 +25,29 @@ export const useDrawingCanvas = () => {
   const ctxRef   = useRef<CanvasRenderingContext2D | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
 
-  // Apply DPR scaling on mount so strokes are crisp on retina/hi-DPI screens
+  // Logical drawing size (the width/height attributes React renders) and the bitmap size we last
+  // produced from it by applying the DPR. Whenever React changes the attributes (e.g. the touch
+  // layout switches 800x600 -> 600x400 after mount) the bitmap is reset, so the DPR scaling is
+  // re-applied; the CSS size is left to the stylesheet so the aspect ratio never gets distorted.
+  const logicalSizeRef = useRef({ width: 0, height: 0 });
+  const bitmapSizeRef  = useRef({ width: 0, height: 0 });
+
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
+    ctxRef.current = ctx;
+    if (canvas.width === bitmapSizeRef.current.width && canvas.height === bitmapSizeRef.current.height) return;
     const dpr = window.devicePixelRatio || 1;
-    if (dpr === 1) { ctxRef.current = ctx; return; }
     const logicalW = canvas.width;
     const logicalH = canvas.height;
-    canvas.width  = logicalW * dpr;
-    canvas.height = logicalH * dpr;
-    canvas.style.width  = `${logicalW}px`;
-    canvas.style.height = `${logicalH}px`;
-    ctx.scale(dpr, dpr);
-    ctxRef.current = ctx;
-  }, []);
+    logicalSizeRef.current = { width: logicalW, height: logicalH };
+    canvas.width  = Math.round(logicalW * dpr);
+    canvas.height = Math.round(logicalH * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    bitmapSizeRef.current = { width: canvas.width, height: canvas.height };
+  });
 
   const colors = [
     '#000000', '#FF0000', '#00FF00', '#0000FF', 
@@ -76,10 +83,16 @@ export const useDrawingCanvas = () => {
       clientY = e.clientY;
     }
 
-    const x = clientX - rect.left;
-    const y = clientY - rect.top;
+    const logical = logicalSizeRef.current.width > 0
+      ? logicalSizeRef.current
+      : { width: canvas.width, height: canvas.height };
 
-    return { x, y };
+    return clientToCanvasPoint(
+      { x: clientX, y: clientY },
+      rect,
+      { x: canvas.clientLeft, y: canvas.clientTop },
+      logical,
+    );
   };
 
   // מחיל על ה-ctx את מצב המכחול/מחק הנוכחי מהסטור
@@ -144,8 +157,10 @@ export const useDrawingCanvas = () => {
     const canvas = canvasRef.current;
     const ctx = ctxRef.current;
     if (canvas && ctx) {
-      const dpr = window.devicePixelRatio || 1;
-      ctx.clearRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+      ctx.save();
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      ctx.restore();
     }
   }, []);
 

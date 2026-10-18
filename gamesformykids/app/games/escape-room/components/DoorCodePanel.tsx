@@ -12,7 +12,8 @@ export default function DoorCodePanel({ revealedDigits, puzzleCount }: Props) {
   return (
     <div className="flex flex-col items-center gap-2 bg-white/90 rounded-2xl shadow-lg px-4 py-3 border-2 border-amber-300">
       <p className="text-xs font-bold text-amber-700" dir="rtl">קוד הדלת</p>
-      <div className="flex gap-2 dir-ltr">
+      {/* A door code reads left-to-right like any number, so the first digit sits on the left */}
+      <div className="flex gap-2" dir="ltr">
         {slots.map((digit, i) => (
           <div
             key={i}

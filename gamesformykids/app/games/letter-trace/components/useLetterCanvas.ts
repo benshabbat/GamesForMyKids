@@ -2,6 +2,7 @@
 
 import { useRef, useEffect, useState, useCallback } from 'react';
 import type { HebrewLetterPath } from '@/lib/constants/gameData/hebrewLetterPaths';
+import { advanceWaypoints, isAttemptComplete, toCanvasPx } from './letterTraceLogic';
 
 interface UseLetterCanvasParams {
   letter: HebrewLetterPath;
@@ -17,17 +18,15 @@ function flattenStrokes(strokes: Array<Array<[number, number]>>): Array<[number,
   return strokes.flatMap((s) => s);
 }
 
-function toCanvasPx(norm: [number, number], size: number): [number, number] {
-  return [norm[0] * size / 100, norm[1] * size / 100];
-}
-
 export function useLetterCanvas({ letter, difficulty, onComplete }: UseLetterCanvasParams) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawing = useRef(false);
-  const drawnPoints = useRef<Array<[number, number]>>([]);
+  const drawnPoints = useRef<Array<[number, number]>>([]); // the stroke being drawn
+  const finishedStrokes = useRef<Array<Array<[number, number]>>>([]); // strokes already lifted
   const capturedCount = useRef(0);
   const totalWaypoints = useRef(0);
   const [done, setDone] = useState(false);
+  const [hasDrawn, setHasDrawn] = useState(false);
   const [accuracy, setAccuracy] = useState(0);
 
   // Flatten all waypoints into a single ordered list for capture tracking
@@ -35,11 +34,14 @@ export function useLetterCanvas({ letter, difficulty, onComplete }: UseLetterCan
   const nextWaypointIdx = useRef(0);
 
   function resetState() {
+    isDrawing.current = false;
     drawnPoints.current = [];
+    finishedStrokes.current = [];
     capturedCount.current = 0;
     nextWaypointIdx.current = 0;
     totalWaypoints.current = allWaypoints.length;
     setDone(false);
+    setHasDrawn(false);
     setAccuracy(0);
   }
 
@@ -116,21 +118,22 @@ export function useLetterCanvas({ letter, difficulty, onComplete }: UseLetterCan
       ctx.fill();
     });
 
-    // Draw user path
-    const points = drawnPoints.current;
-    if (points.length < 2) return;
-    ctx.beginPath();
+    // Draw user path (every finished stroke plus the one in progress)
     ctx.strokeStyle = '#3b82f6';
     ctx.lineWidth = 8;
     ctx.lineCap = 'round';
     ctx.lineJoin = 'round';
-    const [fx, fy] = points[0]!;
-    ctx.moveTo(fx, fy);
-    for (let i = 1; i < points.length; i++) {
-      const [x, y] = points[i]!;
-      ctx.lineTo(x, y);
+    for (const points of [...finishedStrokes.current, drawnPoints.current]) {
+      if (points.length < 2) continue;
+      ctx.beginPath();
+      const [fx, fy] = points[0]!;
+      ctx.moveTo(fx, fy);
+      for (let i = 1; i < points.length; i++) {
+        const [x, y] = points[i]!;
+        ctx.lineTo(x, y);
+      }
+      ctx.stroke();
     }
-    ctx.stroke();
   }
 
   function getCanvasPos(e: React.PointerEvent<HTMLCanvasElement>): [number, number] {
@@ -143,17 +146,16 @@ export function useLetterCanvas({ letter, difficulty, onComplete }: UseLetterCan
 
   function checkWaypointCapture(pos: [number, number]) {
     const size = canvasRef.current?.width ?? CANVAS_SIZE;
-    while (nextWaypointIdx.current < allWaypoints.length) {
-      const wp = allWaypoints[nextWaypointIdx.current]!;
-      const [wpx, wpy] = toCanvasPx(wp, size);
-      const dist = Math.hypot(pos[0] - wpx, pos[1] - wpy);
-      if (dist <= WAYPOINT_RADIUS * 1.5) {
-        capturedCount.current += 1;
-        nextWaypointIdx.current += 1;
-      } else {
-        break;
-      }
-    }
+    const next = advanceWaypoints(allWaypoints, nextWaypointIdx.current, pos, size, WAYPOINT_RADIUS * 1.5);
+    capturedCount.current += next - nextWaypointIdx.current;
+    nextWaypointIdx.current = next;
+  }
+
+  function finalizeAttempt() {
+    const acc = capturedCount.current / Math.max(totalWaypoints.current, 1);
+    setAccuracy(acc);
+    setDone(true);
+    onComplete(acc);
   }
 
   const handlePointerDown = useCallback((e: React.PointerEvent<HTMLCanvasElement>) => {
@@ -176,22 +178,46 @@ export function useLetterCanvas({ letter, difficulty, onComplete }: UseLetterCan
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, letter, difficulty]);
 
+  // Lifting the finger ends a stroke; the attempt only ends once every waypoint is covered or the
+  // child has drawn as many strokes as the letter has (or presses "done" — see finish()).
   const handlePointerUp = useCallback(() => {
     if (!isDrawing.current) return;
     isDrawing.current = false;
-    if (drawnPoints.current.length < 5) return; // too short — ignore accidental taps
-    const acc = capturedCount.current / Math.max(totalWaypoints.current, 1);
-    setAccuracy(acc);
-    setDone(true);
-    onComplete(acc);
-  }, [onComplete]);
+    if (drawnPoints.current.length < 5) { // too short — ignore accidental taps
+      drawnPoints.current = [];
+      drawUserPath();
+      return;
+    }
+    finishedStrokes.current.push(drawnPoints.current);
+    drawnPoints.current = [];
+    setHasDrawn(true);
+    if (isAttemptComplete(finishedStrokes.current.length, letter.strokes.length, capturedCount.current, totalWaypoints.current)) {
+      finalizeAttempt();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onComplete, letter, difficulty]);
+
+  // Ends the attempt early with whatever has been traced so far
+  function finish() {
+    if (done || !hasDrawn) return;
+    finalizeAttempt();
+  }
+
+  // Wipes the canvas and starts the letter over
+  function retry() {
+    resetState();
+    drawBackground();
+  }
 
   return {
     canvasRef,
     done,
+    hasDrawn,
     accuracy,
     handlePointerDown,
     handlePointerMove,
     handlePointerUp,
+    finish,
+    retry,
   };
 }

@@ -8,6 +8,7 @@ export function SettingSelect({ label, description, value, options, onChange, di
         <p className="text-sm text-gray-600">{description}</p>
       </div>
       <select
+        aria-label={label}
         value={value}
         onChange={(e) => onChange(e.target.value)}
         disabled={disabled}

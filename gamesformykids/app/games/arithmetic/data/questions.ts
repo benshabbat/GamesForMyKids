@@ -38,8 +38,11 @@ export interface ArithmeticQuestion {
 
 function unique(correct: number, count: number, near: number): number[] {
   const set = new Set<number>([correct]);
+  // The spread must leave room for count - 1 distractors even when `correct` is 0 (only
+  // 1..spread qualify above it); a narrower spread made `n - n` questions loop forever.
+  const spread = Math.max(count - 1, Math.floor(near * 0.3));
   while (set.size < count) {
-    const delta = rand(-Math.max(2, Math.floor(near * 0.3)), Math.max(2, Math.floor(near * 0.3)));
+    const delta = rand(-spread, spread);
     const candidate = correct + delta;
     if (candidate !== correct && candidate >= 0) set.add(candidate);
   }

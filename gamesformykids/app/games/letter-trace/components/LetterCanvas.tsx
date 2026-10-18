@@ -10,7 +10,7 @@ interface Props {
 }
 
 export default function LetterCanvas({ letter, difficulty, onComplete }: Props) {
-  const { canvasRef, done, accuracy, handlePointerDown, handlePointerMove, handlePointerUp } =
+  const { canvasRef, done, hasDrawn, accuracy, handlePointerDown, handlePointerMove, handlePointerUp, finish, retry } =
     useLetterCanvas({ letter, difficulty, onComplete });
 
   return (
@@ -34,6 +34,20 @@ export default function LetterCanvas({ letter, difficulty, onComplete }: Props) 
         }`}>
           {accuracy >= SUCCESS_THRESHOLD ? '✅ יפה מאוד!' : '💪 נסה שוב!'}
           {' '}{Math.round(accuracy * 100)}%
+        </div>
+      )}
+      {(hasDrawn || done) && (
+        <div className="flex gap-2">
+          {!done && (
+            <button onClick={finish} className="px-4 py-2 rounded-full bg-green-500 hover:bg-green-600 active:scale-95 text-white font-bold transition-all">
+              ✅ סיימתי
+            </button>
+          )}
+          {(!done || accuracy < SUCCESS_THRESHOLD) && (
+            <button onClick={retry} className="px-4 py-2 rounded-full bg-orange-100 hover:bg-orange-200 active:scale-95 text-orange-700 font-bold transition-all">
+              🔄 נסה שוב
+            </button>
+          )}
         </div>
       )}
     </div>

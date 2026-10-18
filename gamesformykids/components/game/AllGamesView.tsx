@@ -5,6 +5,7 @@ import GameCard from "./GameCard";
 import { GameCardSkeletonGrid } from "./GameCardSkeleton";
 import { GamesRegistry, GameRegistration } from "@/lib/registry/gamesRegistry";
 import { useGridFillers } from "@/hooks";
+import { useGameOverrides } from "@/hooks/shared/app/useGameOverrides";
 
 interface Props {
   games?: GameRegistration[];
@@ -12,7 +13,8 @@ interface Props {
 }
 
 export default function AllGamesView({ games: gamesProp, isFiltered = false }: Props) {
-  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(), []);
+  const gameOverrides = useGameOverrides();
+  const allGameRegistrations = useMemo(() => GamesRegistry.getAllGameRegistrations(gameOverrides), [gameOverrides]);
   const games = gamesProp ?? allGameRegistrations;
   const fillerCount = useGridFillers(games.length);
   const [hydrated, setHydrated] = useState(false);

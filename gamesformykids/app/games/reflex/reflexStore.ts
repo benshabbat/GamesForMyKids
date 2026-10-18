@@ -17,6 +17,8 @@ interface ReflexState {
 
 interface ReflexActions {
   startGame:    () => void;
+  /** Player left the page: stop the countdown (it is module-level) and go back to the menu. */
+  abandonGame:  () => void;
   hitTarget:    (id: number) => void;
   addTarget:    (target: Target) => void;
   expireTarget: (id: number) => void;
@@ -44,6 +46,11 @@ export const useReflexStore = makeStore<ReflexState & ReflexActions>(
         timer.stop();
         set({ ...INITIAL, phase: 'playing' }, false, 'reflex/startGame');
         timer.start();
+      },
+
+      abandonGame: () => {
+        timer.stop();
+        set({ ...INITIAL }, false, 'reflex/abandonGame');
       },
 
       hitTarget: (id: number) => {

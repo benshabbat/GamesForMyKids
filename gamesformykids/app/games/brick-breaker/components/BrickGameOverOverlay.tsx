@@ -1,6 +1,7 @@
 'use client';
 
-import { useBrickBreakerGame } from '../useBrickBreakerGame';
+import { useShallow } from 'zustand/react/shallow';
+import { useBrickBreakerStore } from '../brickBreakerStore';
 import CanvasGameOverOverlay from '@/components/game/shared/CanvasGameOverOverlay';
 
 interface Props {
@@ -8,7 +9,9 @@ interface Props {
 }
 
 export default function BrickGameOverOverlay({ onRestart }: Props) {
-  const { phase, score, best } = useBrickBreakerGame();
+  // Read the store directly: calling useBrickBreakerGame() here would spin up a second
+  // game instance (own state, own Space listener, own _nextLevelRef registration).
+  const { phase, score, best } = useBrickBreakerStore(useShallow(s => ({ phase: s.phase, score: s.score, best: s.best })));
   return (
     <CanvasGameOverOverlay
       emoji={phase === 'won' ? '🏆' : '💔'}

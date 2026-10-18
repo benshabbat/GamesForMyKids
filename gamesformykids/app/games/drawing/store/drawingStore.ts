@@ -13,6 +13,7 @@ interface DrawingStore {
   isGameStarted: boolean;
   timeRemaining: number;
   isTimerRunning: boolean;
+  isMobileDevice: boolean;
 
   // Canvas ops (registered by useDrawingCanvas)
   clearCanvas: () => void;
@@ -32,6 +33,7 @@ interface DrawingStore {
   setIsGameStarted: (started: boolean) => void;
   setTimeRemaining: (time: number) => void;
   setIsTimerRunning: (running: boolean) => void;
+  setIsMobileDevice: (mobile: boolean) => void;
   startGame: (timeLimit?: number) => void;
   stopGame: (defaultTimeLimit?: number) => void;
 }
@@ -47,6 +49,7 @@ export const useDrawingStore = makeStore<DrawingStore>('DrawingStore', (set) => 
   isGameStarted: false,
   timeRemaining: 300,
   isTimerRunning: false,
+  isMobileDevice: false,
 
   // Canvas ops (registered by useDrawingCanvas on mount)
   clearCanvas: () => {},
@@ -66,6 +69,7 @@ export const useDrawingStore = makeStore<DrawingStore>('DrawingStore', (set) => 
   setIsGameStarted: (started) => set({ isGameStarted: started }),
   setTimeRemaining: (time) => set({ timeRemaining: time }),
   setIsTimerRunning: (running) => set({ isTimerRunning: running }),
+  setIsMobileDevice: (mobile) => set({ isMobileDevice: mobile }),
   startGame: (timeLimit) =>
     set((state) => ({
       isGameStarted: true,

@@ -1,10 +1,13 @@
 'use client';
 import GameResultCard from '@/components/game/shared/GameResultCard';
 import { StatCell, StatGrid } from '@/components/game/shared/StatGrid';
-import { useNumberBubblesGame } from '../useNumberBubblesGame';
+import { useNumberBubblesStore } from '../numberBubblesStore';
 
 export default function NumberBubblesResultScreen() {
-  const { level, elapsed, nextLevel, startGame } = useNumberBubblesGame();
+  const level     = useNumberBubblesStore((s) => s.level);
+  const elapsed   = useNumberBubblesStore((s) => s.elapsed);
+  const nextLevel = useNumberBubblesStore((s) => s.nextLevel);
+  const startGame = useNumberBubblesStore((s) => s.startGame);
 
   return (
     <GameResultCard

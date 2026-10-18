@@ -3,11 +3,12 @@ import { useState, useEffect } from 'react';
 import { GAME_ITEMS_MAP } from '@/lib/constants/gameItemsMap';
 import { speak } from '@/lib/utils/speech/speaker';
 import type { BaseGameItem } from '@/lib/types/core/base';
+import { getLocalDateKey, getLocalDayIndex } from '@/lib/utils/engagement/localDate';
 
 const STORAGE_KEY = 'votd_last_shown';
 
 function getTodayKey(): string {
-  return new Date().toISOString().slice(0, 10);
+  return getLocalDateKey();
 }
 
 function pickWordOfTheDay(): BaseGameItem | null {
@@ -25,7 +26,7 @@ function pickWordOfTheDay(): BaseGameItem | null {
   }
 
   if (allItems.length === 0) return null;
-  const dayIndex = Math.floor(Date.now() / 86_400_000);
+  const dayIndex = getLocalDayIndex();
   return allItems[dayIndex % allItems.length] ?? null;
 }
 

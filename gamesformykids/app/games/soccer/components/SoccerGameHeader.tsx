@@ -1,10 +1,11 @@
 'use client';
 
 import { useSoccerQuestion } from '../hooks/useSoccerQuestion';
+import type { SoccerQuestion } from '../data/soccer';
 import { CATEGORY_ICONS } from './SoccerShared';
 
-export default function SoccerGameHeader() {
-  const { score, currentQuestion } = useSoccerQuestion();
+export default function SoccerGameHeader({ current }: { current: SoccerQuestion }) {
+  const { score, currentQuestion } = useSoccerQuestion(current);
   if (!currentQuestion) return null;
 
   return (

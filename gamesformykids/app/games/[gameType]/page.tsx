@@ -9,6 +9,7 @@ import { resolveGameType, isSupportedGame, buildStaticParams } from './gamePageU
 import CustomGameRenderer from './CustomGameRenderer';
 import { loadGameItems } from '@/lib/constants/gameItemsLoader';
 import RelatedGames from '@/components/game/RelatedGames';
+import HiddenGameGuard from '@/components/game/HiddenGameGuard';
 
 const QRButton = dynamic(() => import('@/components/game/QRButton'));
 
@@ -46,7 +47,9 @@ export default async function UniversalGamePage({ params }: PageProps) {
     return (
       <>
         {jsonLdScript}
-        <CustomGameRenderer gameType={actualGameType} />
+        <HiddenGameGuard gameId={actualGameType}>
+          <CustomGameRenderer gameType={actualGameType} />
+        </HiddenGameGuard>
         <RelatedGames gameType={actualGameType} />
         <QRButton gameType={actualGameType} />
       </>
@@ -58,11 +61,13 @@ export default async function UniversalGamePage({ params }: PageProps) {
   return (
     <>
       {jsonLdScript}
-      <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
-        <GameLogicSync />
-        <GameEngagementSync />
-        <UltimateGamePage />
-      </GameTypeProvider>
+      <HiddenGameGuard gameId={actualGameType}>
+        <GameTypeProvider initialGameType={actualGameType} initialGameItems={gameItems}>
+          <GameLogicSync />
+          <GameEngagementSync />
+          <UltimateGamePage />
+        </GameTypeProvider>
+      </HiddenGameGuard>
       <RelatedGames gameType={actualGameType} />
       <QRButton gameType={actualGameType} />
     </>

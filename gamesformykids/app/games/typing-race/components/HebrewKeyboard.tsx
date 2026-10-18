@@ -1,6 +1,6 @@
 'use client';
 
-const ROWS = [
+export const HEBREW_KEYBOARD_ROWS = [
   ['ק', 'ר', 'א', 'ט', 'ו', 'ן', 'ם', 'פ'],
   ['ש', 'ד', 'ג', 'כ', 'ע', 'י', 'ח', 'ל', 'ך', 'ף'],
   ['ז', 'ס', 'ב', 'ה', 'נ', 'מ', 'צ', 'ת', 'ץ'],
@@ -14,7 +14,7 @@ interface Props {
 export default function HebrewKeyboard({ onKey, targetLetter }: Props) {
   return (
     <div dir="rtl" className="mt-4 flex flex-col gap-1.5 items-center select-none">
-      {ROWS.map((row, rowIdx) => (
+      {HEBREW_KEYBOARD_ROWS.map((row, rowIdx) => (
         <div key={rowIdx} className="flex gap-1.5 justify-center flex-wrap">
           {row.map((letter) => {
             const isTarget = letter === targetLetter;

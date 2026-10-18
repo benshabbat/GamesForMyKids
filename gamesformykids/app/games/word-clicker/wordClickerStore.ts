@@ -102,7 +102,10 @@ export const useWordClickerStore = create<WordClickerState & WordClickerActions>
   },
 
   tapLetter: (id: string) => {
-    const { words, wordIndex, currentLetterIndex, floatingLetters, score } = get();
+    const { words, wordIndex, currentLetterIndex, floatingLetters, score, wordComplete } = get();
+    // The finished word stays on screen for a pause before nextWord(); taps during it must be
+    // ignored, otherwise re-tapping the last letter completes (and scores) the word again.
+    if (wordComplete) return;
     const word = words[wordIndex];
     if (!word) return;
     const expectedLetter = word[currentLetterIndex];

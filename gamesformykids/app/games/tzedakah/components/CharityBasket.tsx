@@ -1,9 +1,12 @@
 'use client';
-import { useCharityCoinGame } from '../useCharityCoinGame';
+import { useTzedakahStore } from '../tzedakahStore';
 
 export default function CharityBasket() {
-  const { basketX, basketWidth, basketHeight, gameStarted, isMobile } =
-    useCharityCoinGame();
+  const basketX      = useTzedakahStore((s) => s.basketX);
+  const basketWidth  = useTzedakahStore((s) => s.basketWidth);
+  const basketHeight = useTzedakahStore((s) => s.basketHeight);
+  const gameStarted  = useTzedakahStore((s) => s.gameStarted);
+  const isMobile     = useTzedakahStore((s) => s.isMobile);
 
   return (
     <div

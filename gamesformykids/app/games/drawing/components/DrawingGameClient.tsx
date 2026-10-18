@@ -2,6 +2,7 @@
 
 import styles from '../drawing.module.css';
 import { useDrawingStore } from '../store/drawingStore';
+import { useDrawingGame } from '../hooks/useDrawingGame';
 import DrawingStartScreen from './DrawingStartScreen';
 import DrawingHeader from './DrawingHeader';
 import DrawingColorPalette from './DrawingColorPalette';
@@ -10,7 +11,8 @@ import DrawingCanvas from './DrawingCanvas';
 import DrawingActions from './DrawingActions';
 
 export default function DrawingGameClient() {
-  const { isGameStarted } = useDrawingStore();
+  useDrawingGame();
+  const isGameStarted = useDrawingStore((s) => s.isGameStarted);
 
   if (!isGameStarted) {
     return <DrawingStartScreen />;

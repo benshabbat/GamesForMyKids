@@ -17,15 +17,17 @@ export interface GameSettings {
   theme: string;
 }
 
+// Installs the countdown interval and the resize listener — call it from DrawingGameClient only.
+// Other components read the store (isMobileDevice included), otherwise every instance would run
+// its own countdown and the clock would tick once per mounted component per second.
 export const useDrawingGame = () => {
-  const [isMobileDevice, setIsMobileDevice] = useState(false);
   const [gameSettings, setGameSettings] = useState<GameSettings>({
     difficulty: 'easy',
     timeLimit: 300,
     theme: 'free-draw'
   });
 
-  const { isGameStarted, timeRemaining, isTimerRunning, setTimeRemaining, setIsTimerRunning, startGame: storeStartGame, stopGame: storeStopGame } = useDrawingStore();
+  const { isGameStarted, isMobileDevice, timeRemaining, isTimerRunning, setTimeRemaining, setIsTimerRunning, setIsMobileDevice, startGame: storeStartGame, stopGame: storeStopGame } = useDrawingStore();
 
   // זיהוי מכשיר נייד
   useEffect(() => {
@@ -37,7 +39,7 @@ export const useDrawingGame = () => {
     window.addEventListener('resize', checkMobile);
     
     return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  }, [setIsMobileDevice]);
 
   // סיום משחק
   const handleGameEnd = useCallback(() => {

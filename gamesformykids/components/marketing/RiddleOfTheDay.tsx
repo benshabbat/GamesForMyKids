@@ -3,25 +3,27 @@
 import { useState, useCallback } from 'react';
 import { RIDDLES } from '@/lib/quiz/data/riddles';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
-
-function getTodayRiddle() {
-  const dayIndex = Math.floor(Date.now() / 86_400_000);
-  return RIDDLES[dayIndex % RIDDLES.length] ?? RIDDLES[0]!;
-}
+import { useItemOfTheDay } from '@/hooks/shared/marketing/useItemOfTheDay';
+import DayCardPlaceholder from './DayCardPlaceholder';
 
 export default function RiddleOfTheDay() {
-  const riddle = getTodayRiddle();
+  const riddle = useItemOfTheDay(RIDDLES);
   const [revealed, setRevealed] = useState(false);
 
   const reveal = useCallback(() => {
+    if (!riddle) return;
     setRevealed(true);
     speakHebrew(riddle.answer);
-  }, [riddle.answer]);
+  }, [riddle]);
 
-  function shareWhatsApp() {
+  if (!riddle) {
+    return <DayCardPlaceholder gradient="from-violet-500 to-purple-600" label="🤔 חידה של היום" />;
+  }
+
+  const shareWhatsApp = () => {
     const text = `🤔 חידה של היום!\n${riddle.riddle}\n👉 התשובה: ${riddle.answer}\nעוד חידות: https://gamesformykids.co.il/games/riddles`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-  }
+  };
 
   return (
     <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">

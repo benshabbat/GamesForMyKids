@@ -62,15 +62,18 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
   const startTimeRef = useRef(0);
 
   // Save score to Supabase on unmount (user navigates away from the game).
+  // Read saveGameResultRef.current at cleanup time (like useBaseGame) so we call the latest
+  // version — auth may finish loading after this effect mounted, and a copy captured at
+  // setup would still have user === null and silently skip the save.
   useEffect(() => {
-    // Capture ref value at effect setup time so the cleanup closure doesn't
-    // read a potentially-changed ref (satisfies react-hooks/exhaustive-deps).
-    const save = saveGameResultRef.current;
     return () => {
       const { score, level } = useGameProgressStore.getState();
-      if (score > 0) {
+      // startTimeRef is 0 until startGame() ran: a score left in the shared progress store by
+      // another game must not be saved here (duration would be ~Date.now()/1000 seconds).
+      if (score > 0 && startTimeRef.current > 0) {
         const durationSeconds = Math.round((Date.now() - startTimeRef.current) / 1000);
-        save({ score, level, durationSeconds });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        saveGameResultRef.current({ score, level, durationSeconds });
       }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -131,13 +134,15 @@ export function useNumericQuizRuntime<TChallenge extends { answer: number }>(
     if (selectedNumber === gameState.currentChallenge.answer) {
       playSound(audioContext);
 
-      // Capture level before any awaits to avoid stale closure issues.
-      const level = gameState.level;
-      const nextChallenge = generateChallenge(level);
-      const nextOptions = generateOptions(nextChallenge.answer, level);
-
       const onComplete = async () => {
-        setGameState(prev => ({ ...prev, currentChallenge: nextChallenge, options: nextOptions }));
+        // handleCorrectGameAnswer has just raised the level in the progress store (where the
+        // level is tracked), so read it here: generating the next challenge from the stale
+        // local gameState.level would keep the game at level 1 forever.
+        const level = useGameProgressStore.getState().level;
+        const nextChallenge = generateChallenge(level);
+        const nextOptions = generateOptions(nextChallenge.answer, level);
+
+        setGameState(prev => ({ ...prev, level, currentChallenge: nextChallenge, options: nextOptions }));
         useGameSessionStore.getState().setChallengeAndOptions(
           toChallengeItem(nextChallenge),
           nextOptions.map(toOptionItem),

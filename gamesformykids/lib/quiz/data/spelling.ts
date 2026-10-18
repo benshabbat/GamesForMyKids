@@ -10,7 +10,7 @@ export type SpellingWord = {
 export const SPELLING_WORDS: SpellingWord[] = [
   { id: 1,  word: 'שמש',       emoji: '☀️', hint: 'מאירה ביום',               wrong: ['שמס', 'שמאש', 'שמסש'] },
   { id: 2,  word: 'ירח',       emoji: '🌙', hint: 'מאיר בלילה',              wrong: ['ירחה', 'יריח', 'יראח'] },
-  { id: 3,  word: 'כוכב',      emoji: '⭐', hint: 'נוצץ בשמים',              wrong: ['כוכוב', 'כוב', 'כוכוב'] },
+  { id: 3,  word: 'כוכב',      emoji: '⭐', hint: 'נוצץ בשמים',              wrong: ['כוכוב', 'כוב', 'כוכאב'] },
   { id: 4,  word: 'מים',       emoji: '💧', hint: 'שותים אותם',              wrong: ['מיים', 'מאים', 'מיאם'] },
   { id: 5,  word: 'תפוח',      emoji: '🍎', hint: 'פרי אדום',                wrong: ['תפואח', 'תפוש', 'תפוחח'] },
   { id: 6,  word: 'ספר',       emoji: '📚', hint: 'קוראים אותו',             wrong: ['ספור', 'ספרר', 'סיפר'] },
@@ -23,7 +23,7 @@ export const SPELLING_WORDS: SpellingWord[] = [
   { id: 13, word: 'דג',        emoji: '🐟', hint: 'שוחה בים',               wrong: ['דאג', 'דוג', 'דגג'] },
   { id: 14, word: 'כלב',       emoji: '🐕', hint: 'חיית מחמד',              wrong: ['קלב', 'כלוב', 'כלבב'] },
   { id: 15, word: 'תות',       emoji: '🍓', hint: 'פרי אדום וקטן',          wrong: ['תואת', 'תוותת', 'תוות'] },
-  { id: 16, word: 'שוקולד',    emoji: '🍫', hint: 'ממתק מתוק',              wrong: ['שוקולוד', 'שוקולט', 'שוקולוד'] },
+  { id: 16, word: 'שוקולד',    emoji: '🍫', hint: 'ממתק מתוק',              wrong: ['שוקולוד', 'שוקולט', 'שוקולאד'] },
   { id: 17, word: 'אגרוף',     emoji: '✊', hint: 'יד סגורה',               wrong: ['אגרופ', 'אגגרוף', 'אגריף'] },
   { id: 18, word: 'חברים',     emoji: '👫', hint: 'משחקים ביחד',            wrong: ['חברייים', 'חיברים', 'חברמים'] },
   { id: 19, word: 'גשר',       emoji: '🌉', hint: 'עוברים מעליו',           wrong: ['גישר', 'גשרר', 'גשור'] },

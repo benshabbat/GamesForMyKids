@@ -23,13 +23,11 @@ export default function SudokuBoard({
 
   return (
     <div
+      // LTR so the grid flows left-to-right — box-boundary borders are computed for
+      // left-to-right column indices.
       dir="ltr"
       className="grid bg-gray-700 rounded-xl p-1 select-none shadow-lg"
-      // globals.css forces `direction: rtl` on every element (`* { direction: rtl }`),
-      // which overrides the `dir="ltr"` attribute's implicit direction — without this
-      // inline override the grid flows right-to-left and box-boundary borders (computed
-      // for left-to-right column indices) land on the wrong side of each box.
-      style={{ gridTemplateColumns: `repeat(${size}, ${cellSize})`, direction: 'ltr' }}
+      style={{ gridTemplateColumns: `repeat(${size}, ${cellSize})` }}
     >
       {puzzle.map((row, r) =>
         row.map((value, c) => {

@@ -75,6 +75,7 @@ export function ColoringGeneratedPanel() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           placeholder="מה תרצו לצייר? למשל: דינוזאור אוכל פיצה"
+          aria-label="מה תרצו לצייר?"
           rows={2}
           maxLength={200}
           className="flex-1 border-2 border-purple-200 rounded-xl p-2 text-sm resize-none focus:outline-none focus:border-purple-400"

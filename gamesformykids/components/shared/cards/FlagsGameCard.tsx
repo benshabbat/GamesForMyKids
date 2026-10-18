@@ -54,7 +54,7 @@ export default function FlagsGameCard({ item, onClick, isSelected }: GameItemCar
       <div className="relative flex-1 w-full flex items-center justify-center overflow-hidden rounded-xl">
         <Image
           src={flagUrl}
-          alt={item.english || item.name}
+          alt={`דגל ${item.hebrew || item.name}`}
           fill
           sizes="(max-width: 768px) 33vw, 160px"
           className="object-cover rounded-xl"

@@ -6,6 +6,10 @@ export const WALL_RIGHT = CANVAS_W - 10;
 export const GRAVITY = 0.4;
 export const DAMPING = 0.55;
 export const FRICTION = 0.85;
+/** A ball whose top edge is above this line has reached the top of the board. */
+export const OVERFLOW_LINE_Y = 10;
+/** Ticks (60 per second) a ball must exist before it can count towards overflow, so a ball that was just dropped at the top is not "stuck there". */
+export const OVERFLOW_SETTLE_TICKS = 30;
 
 export const NUMBER_COLORS: Record<number, string> = {
   1:  '#FF6B6B',

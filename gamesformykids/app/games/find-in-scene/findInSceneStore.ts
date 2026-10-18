@@ -30,7 +30,6 @@ function buildTargetIds(scene: Scene, prompt: ScenePrompt): Set<string> {
   return new Set(
     scene.objects
       .filter(o => o.category === prompt.category)
-      .slice(0, prompt.count)
       .map(o => o.id)
   );
 }

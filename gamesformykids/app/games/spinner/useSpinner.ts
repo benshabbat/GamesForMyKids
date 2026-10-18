@@ -2,6 +2,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSpinnerStore } from './spinnerStore';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
+import { finalRotationFor } from './spinnerMath';
 
 export const WHEEL_COLORS = [
   '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4',
@@ -40,15 +41,9 @@ export function useSpinner() {
     setIsSpinning(true);
 
     const n = segments.length;
-    const segAngle = 360 / n;
     const winIndex = Math.floor(Math.random() * n);
-
-    // We want: finalRotation % 360 === (winIndex + 0.5) * segAngle
-    const targetAngle = (winIndex + 0.5) * segAngle;
-    const currentMod = rotationRef.current % 360;
-    const delta = (targetAngle - currentMod + 360) % 360;
-    const fullSpins = (5 + Math.floor(Math.random() * 4)) * 360;
-    const finalRotation = rotationRef.current + fullSpins + delta;
+    const fullSpins = 5 + Math.floor(Math.random() * 4);
+    const finalRotation = finalRotationFor(rotationRef.current, winIndex, n, fullSpins);
 
     const startTime = performance.now();
     const duration = 3800;

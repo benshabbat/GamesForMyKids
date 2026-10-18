@@ -36,12 +36,18 @@ export const TIME_PER_Q = 5;
 
 const DIFFICULTY_TIME_CT = { easy: 8, medium: TIME_PER_Q, hard: 3 } as const;
 
+/** Seconds allowed per question at the current difficulty — use as the denominator of the time bar. */
+export const getTimePerQ = () => DIFFICULTY_TIME_CT[useGameDifficulty.getState().difficulty];
+const getInitialLives = () => DEFAULT_DIFFICULTY_LIVES[useGameDifficulty.getState().difficulty];
+
 interface ColorTapState extends LivesGameState {
   question: Question;
 }
 
 interface ColorTapActions {
   startGame: () => void;
+  /** Player left the page mid-game: stop the timers and go back to the menu. */
+  abandonGame: () => void;
   handleTap: (color: ColorItem) => void;
 }
 
@@ -52,7 +58,7 @@ export const useColorTapStore = makePersistStore<ColorTapState & ColorTapActions
   'color-tap-best',
   (set, get) => {
     const timer = setupLivesTimer({
-      name: 'ColorTapStore', timePerQ: TIME_PER_Q, feedbackMs: 700, initialLives: 3,
+      name: 'ColorTapStore', timePerQ: getTimePerQ, feedbackMs: 700, initialLives: getInitialLives,
       set, get,
       getNextUpdates: () => ({ question: makeQuestion() }),
     });
@@ -61,9 +67,12 @@ export const useColorTapStore = makePersistStore<ColorTapState & ColorTapActions
       ...INITIAL,
 
       startGame: () => {
-        const diff = useGameDifficulty.getState().difficulty;
         timer.startGame(() => ({ question: makeQuestion() }));
-        set({ lives: DEFAULT_DIFFICULTY_LIVES[diff], timeLeft: DIFFICULTY_TIME_CT[diff] });
+      },
+
+      abandonGame: () => {
+        timer.stop();
+        set({ phase: 'menu', feedback: null }, false, 'ColorTapStore/abandonGame');
       },
 
       handleTap: (color: ColorItem) => {

@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/supabase/requireAdmin';
+import { fetchAllRows } from '@/lib/supabase/fetchAllRows';
 import { GAMES_REGISTRY } from '@/lib/registry/gamesRegistryData';
 import type { GameOverrideStatus } from '@/lib/registry/gameOverrides';
 import { GamesTable, type AdminGameRow } from './GamesTable';
@@ -12,16 +13,18 @@ export const metadata: Metadata = {
 export default async function AdminGamesPage() {
   const { supabase } = await requireAdmin();
 
-  const [{ data: overrides }, { data: progress }] = await Promise.all([
+  const [{ data: overrides }, progress] = await Promise.all([
     supabase.from('game_overrides').select('game_id, status'),
-    supabase.from('game_progress').select('game_type'),
+    fetchAllRows((from, to) =>
+      supabase.from('game_progress').select('game_type').order('id').range(from, to)
+    ),
   ]);
 
   const overrideMap = new Map<string, GameOverrideStatus>(
     (overrides ?? []).map((o) => [o.game_id, o.status as GameOverrideStatus])
   );
   const playCounts = new Map<string, number>();
-  for (const p of progress ?? []) {
+  for (const p of progress) {
     playCounts.set(p.game_type, (playCounts.get(p.game_type) ?? 0) + 1);
   }
 

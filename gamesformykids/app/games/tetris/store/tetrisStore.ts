@@ -109,14 +109,22 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
     set({ board: merged, clearingRows: linesToClear, currentPiece: null });
 
     setTimeout(() => {
-      // Bail out if the game was reset/left mid-animation.
-      if (get().phase !== 'playing' || get().clearingRows.length === 0) return;
-
-      const clearedBoard = removeLines(merged, linesToClear);
-      const newScore = score + linesToClear.length * 100 * level;
-      const newLevel = Math.floor(newScore / 1000) + 1;
-      advanceToNextPiece(clearedBoard, newScore, newLevel, linesCleared + linesToClear.length);
+      // While paused the clear stays frozen; togglePause finishes it on resume.
+      if (get().phase !== 'playing') return;
+      completeLineClear(linesToClear);
     }, LINE_CLEAR_ANIMATION_MS);
+  }
+
+  // Removes the flashing `rows` from the (already merged) board and advances.
+  // Ignores stale calls — the game was reset, or this clear already finished.
+  function completeLineClear(rows: number[]) {
+    const { board, clearingRows, score, level, linesCleared } = get();
+    if (clearingRows !== rows) return;
+
+    const clearedBoard = removeLines(board, rows);
+    const newScore = score + rows.length * 100 * level;
+    const newLevel = Math.floor(newScore / 1000) + 1;
+    advanceToNextPiece(clearedBoard, newScore, newLevel, linesCleared + rows.length);
   }
 
   function advanceToNextPiece(board: Board, score: number, level: number, linesCleared: number) {
@@ -196,9 +204,15 @@ export const useTetrisStore = makeStore<TetrisGameState & TetrisActions>('Tetris
     },
 
     togglePause: () => {
-      const { phase } = get();
-      if (phase === 'playing') set({ phase: 'paused' });
-      else if (phase === 'paused') set({ phase: 'playing' });
+      const { phase, clearingRows } = get();
+      if (phase === 'playing') {
+        set({ phase: 'paused' });
+      } else if (phase === 'paused') {
+        set({ phase: 'playing' });
+        // A line clear interrupted by the pause would otherwise never finish
+        // (no current piece, so nothing moves) and the game would freeze.
+        if (clearingRows.length > 0) completeLineClear(clearingRows);
+      }
     },
 
     goToStartScreen: () => set({ phase: 'menu' }),

@@ -2,23 +2,24 @@
 
 import { FACTS } from '@/lib/constants/facts';
 import { speakHebrew } from '@/lib/utils/speech/speaker';
-
-function getTodayFact() {
-  const dayIndex = Math.floor(Date.now() / 86_400_000);
-  return FACTS[dayIndex % FACTS.length] ?? FACTS[0]!;
-}
+import { useItemOfTheDay } from '@/hooks/shared/marketing/useItemOfTheDay';
+import DayCardPlaceholder from './DayCardPlaceholder';
 
 export default function FactOfTheDay() {
-  const fact = getTodayFact();
+  const fact = useItemOfTheDay(FACTS);
 
-  function handleTTS() {
-    speakHebrew(fact.he);
+  if (!fact) {
+    return <DayCardPlaceholder gradient="from-sky-400 to-indigo-500" label="💡 ידעת?" actionHeight="h-7" />;
   }
 
-  function shareWhatsApp() {
+  const handleTTS = () => {
+    speakHebrew(fact.he);
+  };
+
+  const shareWhatsApp = () => {
     const text = `💡 ידעת? ${fact.emoji}\n${fact.he}\nעוד עובדות מדהימות: https://gamesformykids.co.il`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank', 'noopener,noreferrer');
-  }
+  };
 
   return (
     <div dir="rtl" className="max-w-6xl mx-auto px-4 mt-3">

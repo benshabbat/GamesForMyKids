@@ -1,10 +1,13 @@
 'use client';
-import { useState, useCallback, useRef } from 'react';
+import { useState, useCallback, useRef, useMemo, useEffect } from 'react';
 import { RIDDLES_PRO, type RiddlePro } from './data/riddles-pro';
 import { speakHebrew } from '@/lib/utils/speech/enhancedSpeechUtils';
 import { shuffle } from '@/lib/utils';
+import { useQuizSession } from './useQuizSession';
+import { useQuizGameStore } from '@/lib/stores/quizGameStore';
 
 const SESSION_SIZE = 10;
+const ADVANCE_DELAY_MS = 1800;
 
 export type RiddlesProPhase = 'menu' | 'playing' | 'result';
 
@@ -36,47 +39,48 @@ function makeChoices(riddle: RiddlePro): string[] {
 }
 
 export function useRiddlesProGame(): RiddlesProState {
-  const [phase, setPhase] = useState<RiddlesProPhase>('menu');
-  const [current, setCurrent] = useState<RiddlePro | null>(null);
-  const [choices, setChoices] = useState<string[]>([]);
+  // The shared quiz session drives the phase and the question list: QuizGameShell and
+  // QuizResultScreen read the global quiz store, so the game has to run through it.
+  const { phase, current, begin, answer } = useQuizSession<RiddlePro>('riddles-pro');
+  const index = useQuizGameStore((s) => s.index);
+
   const [cluesRevealed, setCluesRevealed] = useState(0);
   const [answersShown, setAnswersShown] = useState(false);
   const [score, setScore] = useState(0);
-  const [questionNumber, setQuestionNumber] = useState(0);
   const [lastPoints, setLastPoints] = useState<number | null>(null);
   const [lastCorrect, setLastCorrect] = useState<boolean | null>(null);
 
-  const sessionRef = useRef<RiddlePro[]>([]);
-  const sessionIdxRef = useRef(0);
   const cluesRef = useRef(0);
+  const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const loadNext = useCallback(() => {
-    const idx = sessionIdxRef.current;
-    const session = sessionRef.current;
-    if (idx >= session.length) {
-      setPhase('result');
-      return;
-    }
-    const riddle = session[idx];
-    if (!riddle) { setPhase('result'); return; }
-    setCurrent(riddle);
-    setChoices(makeChoices(riddle));
+  const choices = useMemo(() => (current ? makeChoices(current) : []), [current]);
+
+  const resetRiddle = useCallback(() => {
     setCluesRevealed(0);
     setAnswersShown(false);
     cluesRef.current = 0;
     setLastPoints(null);
     setLastCorrect(null);
-    setQuestionNumber(idx + 1);
-    speakHebrew(riddle.riddle);
   }, []);
 
+  const clearAdvanceTimer = useCallback(() => {
+    if (advanceTimerRef.current) { clearTimeout(advanceTimerRef.current); advanceTimerRef.current = null; }
+  }, []);
+
+  // Read each riddle aloud when it appears
+  useEffect(() => {
+    if (phase === 'playing' && current) speakHebrew(current.riddle);
+  }, [phase, current]);
+
+  // Don't move on (or speak) after the player has left the page
+  useEffect(() => clearAdvanceTimer, [clearAdvanceTimer]);
+
   const startGame = useCallback(() => {
-    sessionRef.current = pickSession();
-    sessionIdxRef.current = 0;
+    clearAdvanceTimer();
     setScore(0);
-    setPhase('playing');
-    loadNext();
-  }, [loadNext]);
+    resetRiddle();
+    begin(pickSession());
+  }, [begin, clearAdvanceTimer, resetRiddle]);
 
   const revealClue = useCallback(() => {
     const next = cluesRef.current + 1;
@@ -90,7 +94,7 @@ export function useRiddlesProGame(): RiddlesProState {
   }, []);
 
   const selectAnswer = useCallback((choice: string) => {
-    if (!current) return;
+    if (!current || advanceTimerRef.current) return;
     const isCorrect = choice === current.answer;
     const points = isCorrect ? Math.max(1, 3 - cluesRef.current) : 0;
     setLastCorrect(isCorrect);
@@ -101,18 +105,23 @@ export function useRiddlesProGame(): RiddlesProState {
     } else {
       speakHebrew(`לֹא נָכוֹן — הַתְּשׁוּבָה הִיא ${current.answer}`);
     }
-    sessionIdxRef.current += 1;
-    setTimeout(loadNext, 1800);
-  }, [current, loadNext]);
+    answer(choice, isCorrect);
+    advanceTimerRef.current = setTimeout(() => {
+      advanceTimerRef.current = null;
+      resetRiddle();
+      useQuizGameStore.getState().nextQuestion();
+    }, ADVANCE_DELAY_MS);
+  }, [current, answer, resetRiddle]);
 
   const restart = useCallback(() => {
-    setPhase('menu');
-    setCurrent(null);
-  }, []);
+    clearAdvanceTimer();
+    resetRiddle();
+    useQuizGameStore.getState().goToMenu();
+  }, [clearAdvanceTimer, resetRiddle]);
 
   return {
     phase, current, choices, cluesRevealed, answersShown,
-    score, questionNumber, total: SESSION_SIZE, lastPoints, lastCorrect,
+    score, questionNumber: index + 1, total: SESSION_SIZE, lastPoints, lastCorrect,
     startGame, revealClue, showAnswers, selectAnswer, restart,
   };
 }
